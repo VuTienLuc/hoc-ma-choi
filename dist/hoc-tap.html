@@ -504,7 +504,8 @@ const Account = (() => {
       if(!lop){ say('Em chọn lớp trước nhé.','note'); return; }
       btn.disabled = true; btn.textContent = 'Đang đăng nhập…';
       try{
-        const r = await api({action:'login', lop, user:u, pass:p});
+        const ua = navigator.userAgent, device = /iPad|Macintosh/.test(ua) && 'ontouchend' in document ? 'iPad' : /iPhone/.test(ua) ? 'iPhone' : /Android/.test(ua) ? (/Mobile/.test(ua) ? 'Điện thoại Android' : 'Máy tính bảng Android') : /Windows/.test(ua) ? 'Máy tính Windows' : /Mac/.test(ua) ? 'Máy Mac' : 'Khác';
+        const r = await api({action:'login', lop, user:u, pass:p, device});
         if(!r.ok){ say(esc(r.msg || 'Sai tài khoản hoặc mật khẩu.')); return; }
         user = {token:r.token, name:r.name, lop:r.lop, user:r.user};
         LS.set('hoctap:session', user); LS.set('hoctap:lastLop', lop);
