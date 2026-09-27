@@ -9,7 +9,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 - Học sinh chọn lớp → chọn bài → chọn mức (1 Làm quen · 2 Luyện tập · 3 Thử thách) → làm một bộ 6 câu xếp từ dễ đến khó.
 - Câu hỏi **sinh ngẫu nhiên bằng code**, không lưu sẵn. Mỗi lần bấm "Làm bộ mới" sẽ ra câu khác.
 - Chấm: sai lần 1 → hiện gợi ý; sai lần 2 → hiện lời giải và khoá câu. Đúng lần đầu được 1 điểm, đúng lần hai được ½ điểm. Hết bộ thì cho 1–3 sao, lưu trong localStorage.
-- Hiện có: **Toán 4 – Kết nối tri thức (29 bài)**, **Toán 9 (chương I–II, 8 bài)**, **Toán 10 (chương I, 3 bài)**, **Toán 11 (chương I, 5 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
+- Hiện có: **Toán 4 – Kết nối tri thức (29 bài)**, **Toán 9 (chương I–IV, 16 bài)**, **Toán 10 (chương I, 3 bài)**, **Toán 11 (chương I, 5 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
 
 ## 2. Cấu trúc và vai trò từng file
 
@@ -19,7 +19,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `data/<mã-lớp>.js` | **Toàn bộ nội dung một lớp**: chủ đề, bài, các dạng bài | Hầu hết mọi việc về nội dung |
 | `data/_mau-lop-moi.js` | File mẫu có chú thích, chứa ví dụ Lớp 3 chạy được | Chép ra khi tạo lớp mới |
 | `assets/js/core.js` | Tiện ích (`R`, `pick`, `fmt`, `F`, `gcd`, `lcm`, `roman`…), bộ dựng câu `QB`/`QC`/`QCmp`, sổ đăng ký `App.addGrade` | Khi cần thêm hàm tiện ích |
-| `assets/js/figures.js` | Hàm vẽ SVG: `protractorSVG`, `angleSVG`, `fracSVG`, `barSVG`, `rectSVG`, `shapeSVG` | Khi cần loại hình mới |
+| `assets/js/figures.js` | Hàm vẽ SVG: `protractorSVG`, `angleSVG`, `fracSVG`, `barSVG`, `rectSVG`, `shapeSVG`, `rtTriSVG` (tam giác vuông có nhãn cạnh, cung góc) | Khi cần loại hình mới |
 | `assets/js/generators.js` | Dạng bài **dùng chung cho nhiều lớp**: `gPlace`, `gValue`, `gCompose`, `gCmp`, `gRound`, `gAddSub`, `gFindX`, `gConv` (+ `MASS`, `AREA`), `gReadProt`, `gRotate`, `gAngType`, `gAngDeg`, `gAngWhich` | Khi một dạng bài dùng được cho ≥2 lớp |
 | `assets/js/math.js` + `assets/vendor/mathjax/` | Cấu hình MathJax 3.2.2 (bản đặt sẵn trong dự án, chạy không cần mạng) và tự vẽ lại công thức mỗi khi nội dung đổi | Hầu như không sửa |
 | `assets/js/account.js` | **Đăng nhập theo lớp** (Google Sheets qua Apps Script, bật khi `CONFIG.sheetAPI` khác rỗng) và **thú cưng tiến hoá** 5 cấp theo tổng sao của khối (`Pet`). Tiến độ lưu riêng từng học sinh (`hoctap:u:<lớp>|<tk>:…`) | Khi đổi đăng nhập/thú cưng |
@@ -64,7 +64,8 @@ Trường chung cho mọi câu: `text` (đề, được dùng HTML), `fig` (SVG,
 Cách viết `ans` cho ô trống:
 - số: `ans:[1250]`, chấm đúng dù học sinh gõ "1 250" hay "1250";
 - chấp nhận nhiều cách viết: `ans:[['XX', 20]]`;
-- phân số: `{frac:[3,4], mode:'exact'|'eq'|'simplest'}`.
+- phân số: `{frac:[3,4], mode:'exact'|'eq'|'simplest'}`;
+- số thập phân: `ans:[0.6]` nhận cả “0,6” và “0.6”; kết quả làm tròn nên cho đề sẵn giá trị gần đúng (vd. `sin 40° ≈ 0,64`) và chấp nhận thêm kết quả bấm máy trực tiếp: `ans:[[7.7, 7.6]]`.
 
 Token có thể nằm trong markup. Ví dụ `<span class="fr"><span>[_]</span><span>12</span></span>` hỏi riêng tử số.
 

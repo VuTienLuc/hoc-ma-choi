@@ -399,6 +399,25 @@ function barSVG(labels,vals,step,unit){
   labels.forEach((l,i)=>{const x=x0+gap*i+(gap-bw)/2,h=vals[i]*sc;s+=`<rect class="sv-bar" x="${x}" y="${y0-h}" width="${bw}" height="${h}" rx="3"/><text class="sv-txt" x="${x+bw/2}" y="${y0+24}" font-size="15" text-anchor="middle">${l}</text>`});
   s+=`<line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${y0}" x2="${W-10}" y2="${y0}"/><line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${top-6}" x2="${x0}" y2="${y0}"/><text class="sv-muted" x="${x0-44}" y="${top-8}" font-size="12">(${unit})</text></svg>`;return s;
 }
+/* Tam giác vuông tại n[0]: n[0] góc dưới trái, n[1] ở trên, n[2] bên phải.
+   w = độ dài cạnh n[0]n[2] (nằm ngang), h = độ dài cạnh n[0]n[1] (thẳng đứng) – chỉ dùng để vẽ đúng tỉ lệ.
+   ab, ac, bc: nhãn cạnh; aB, aC: nhãn góc tại n[1], n[2] (true = chỉ vẽ cung, không ghi chữ). */
+function rtTriSVG(o={}){
+  const n=o.n||['A','B','C'], ratio=Math.max(.4,Math.min(2.6,(o.w||4)/(o.h||3)));
+  let w,h; if(ratio>230/150){w=230;h=230/ratio}else{h=150;w=150*ratio}
+  const Ax=Math.max(78,(340-w)/2), Ay=182, By=Ay-h, Cx=Ax+w, t=Math.atan2(h,w)*180/Math.PI;
+  const T=(x,y,s,a='middle',fs=16)=>`<text class="sv-txt" x="${x}" y="${y}" font-size="${fs}" text-anchor="${a}">${s}</text>`;
+  const arc=(cx,cy,a1,a2,lab,anc)=>{const r=26,[x1,y1]=P(cx,cy,r,a1),[x2,y2]=P(cx,cy,r,a2),[lx,ly]=P(cx,cy,r+14,(a1+a2)/2);
+    return `<path class="sv-tick" stroke-width="2.5" fill="none" d="M${x1} ${y1} A${r} ${r} 0 0 0 ${x2} ${y2}"/>`+(lab&&lab!==true?T(lx+(anc==='start'?2:-2),ly+(anc==='start'?10:0),lab,anc,14):'')};
+  let s=`<svg viewBox="0 0 340 226" role="img" aria-label="Tam giác ${n.join('')} vuông tại ${n[0]}">`;
+  s+=`<path class="sv-ink" stroke-width="3" stroke-linejoin="round" d="M${Ax} ${Ay} L${Ax} ${By} L${Cx} ${Ay} Z"/><path class="sv-ink" stroke-width="2" d="M${Ax} ${Ay-14} h14 v14"/>`;
+  if(o.aC!=null)s+=arc(Cx,Ay,180-t,180,o.aC,'end');
+  if(o.aB!=null)s+=arc(Ax,By,270,360-t,o.aB,'start');
+  if(o.ab)s+=T(Ax-10,(Ay+By)/2+5,o.ab,'end');
+  if(o.ac)s+=T((Ax+Cx)/2,Ay+26,o.ac);
+  if(o.bc){const L=Math.hypot(w,h);s+=T((Ax+Cx)/2+h/L*14,(Ay+By)/2-w/L*14,o.bc,'start')}
+  return s+T(Ax-16,Ay+20,n[0],'middle',19)+T(Ax,By-10,n[1],'middle',19)+T(Cx+16,Ay+6,n[2],'middle',19)+'</svg>';
+}
 function rectSVG(){return `<svg viewBox="0 0 320 200" role="img" aria-label="Hình chữ nhật ABCD"><rect class="sv-ink" stroke-width="3" x="50" y="40" width="220" height="120"/>
  <path class="sv-ink" stroke-width="2" d="M50 56 h16 v-16 M254 40 v16 h16 M270 144 h-16 v16 M66 160 v-16 h-16"/>
  <text class="sv-txt" x="30" y="36" font-size="19">A</text><text class="sv-txt" x="276" y="36" font-size="19">B</text><text class="sv-txt" x="276" y="182" font-size="19">C</text><text class="sv-txt" x="28" y="182" font-size="19">D</text></svg>`}
@@ -863,6 +882,8 @@ lesson(12,'nhan-chia-ps','Phép nhân, phép chia phân số. Tìm phân số c�
    DỮ LIỆU LỚP 9 – Toán, Kết nối tri thức
    Chương I.  Phương trình và hệ hai phương trình bậc nhất hai ẩn (Bài 1–3)
    Chương II. Phương trình và bất phương trình bậc nhất một ẩn (Bài 4–6)
+   Chương III. Căn bậc hai và căn bậc ba (Bài 7–10)
+   Chương IV. Hệ thức lượng trong tam giác vuông (Bài 11–12)
    Mỗi dạng bài: lv => câu hỏi. Luôn chọn NGHIỆM trước rồi mới dựng đề.
    Công thức viết LaTeX: tm() trong dòng, td() riêng dòng, tb() đáp án đậm (xem core.js).
    ===================================================================== */
@@ -872,6 +893,8 @@ const G = App.addGrade({
   topics: [
     {id:1, hk:1, name:'Phương trình và hệ hai phương trình bậc nhất hai ẩn'},
     {id:2, hk:1, name:'Phương trình và bất phương trình bậc nhất một ẩn'},
+    {id:3, hk:1, name:'Căn bậc hai và căn bậc ba'},
+    {id:4, hk:1, name:'Hệ thức lượng trong tam giác vuông'},
   ],
 });
 const lesson = G.lesson;
@@ -1371,6 +1394,470 @@ lesson(2,'pt-quy-ve-bac-nhat','Bài 4. Phương trình quy về phương trình 
 lesson(2,'bat-dang-thuc','Bài 5. Bất đẳng thức và tính chất','Diễn đạt bằng lời; tính chất liên hệ với phép cộng, phép nhân; tính chất bắc cầu.',[g5a,g5b,g5c,g5d]);
 lesson(2,'bat-phuong-trinh','Bài 6. Bất phương trình bậc nhất một ẩn','Nhận biết, kiểm tra nghiệm, giải BPT; nghiệm nguyên; bài toán thực tế.',[g6a,g6b,g6c,g6d,g6e]);
 lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: phương trình tích, chứa ẩn ở mẫu, bất đẳng thức, bất phương trình.',[g4a,g4c,g5b,g6c,g6d,g6e]);
+
+/* =====================================================================
+   CHƯƠNG III – BÀI 7. Căn bậc hai và căn thức bậc hai
+   ===================================================================== */
+const SQF = [2,3,5,6,7,10,11,13,14,15];                 // số không có ước chính phương > 1
+const sq = n => `\\sqrt{${n}}`;
+const cb = n => `\\sqrt[3]{${n}}`;
+const rt = (k,b) => b===1 ? String(k) : k===1 ? sq(b) : k===-1 ? `-${sq(b)}` : `${k}${sq(b)}`;   // k√b
+const isSq = n => n>=0 && Number.isInteger(Math.sqrt(n));
+const opT = (a,b) => a<b ? '\\lt' : a>b ? '\\gt' : '=';
+const eqB = (lhs, unit='') => `<span class="eq">${tm(lhs+' =')} [_]${unit}</span>`;
+const R1 = x => Math.round((x+1e-9)*10)/10;              // làm tròn đến hàng phần mười
+const ansR = (a,b) => [R1(a)===R1(b) ? R1(a) : [R1(a),R1(b)]];   // chấp nhận cả kết quả bấm máy trực tiếp
+const pickBy = (good, pool, n=3) => {                    // chọn n phương án sai có GIÁ TRỊ khác đáp án
+  const out=[], seen=new Set([good.s]);
+  for(const o of shuffle(pool)) if(out.length<n && !seen.has(o.s) && Math.abs(o.v-good.v)>1e-9){ seen.add(o.s); out.push(o); }
+  return out; };
+
+const g7a = lv => {   // căn bậc hai, căn bậc hai số học
+  if(lv===1){ const n=R(2,15), N=n*n;
+    return QB({text:`Tính ${tm(sq(N))}.`, tpl:eqB(sq(N)), ans:[n],
+      hint:`${tm(sq('a'))} là số <b>không âm</b> mà bình phương của nó bằng ${tm('a')}. Tìm số không âm có bình phương bằng ${tm(N)}.`,
+      sol:`Vì ${tm(`${n} \\ge 0`)} và ${tm(`${n}^2 = ${N}`)} nên ${tm(sq(N)+' =')} ${tb(n)}.`}); }
+  if(lv===2){
+    if(Math.random()<.5){ let k; do{k=R(2,19)}while(k===10); const v=k/10, N=+(v*v).toFixed(4);
+      return QB({text:`Tính ${tm(sq(tdec(N)))}.`, tpl:eqB(sq(tdec(N))), ans:[v],
+        hint:`Tìm số thập phân không âm mà bình phương lên bằng ${tm(tdec(N))}. Chú ý số chữ số sau dấu phẩy.`,
+        sol:`Vì ${tm(`${tdec(v)}^2 = ${tdec(N)}`)} nên ${tm(sq(tdec(N))+' =')} ${tb(tdec(v))}.`}); }
+    let p,q; do{p=R(1,12);q=R(2,15)}while(gcd(p,q)!==1);
+    const e=sq(tf(p*p,q*q));
+    return QB({text:`Tính ${tm(e)}.`, tpl:`<span class="eq">${tm(e+' =')} [F]</span>`, ans:[{frac:[p,q],mode:'eq'}],
+      hint:`Khai căn tử và mẫu: ${tm('\\sqrt{\\dfrac{a}{b}} = \\dfrac{\\sqrt{a}}{\\sqrt{b}}')} (${tm('a \\ge 0,\\ b \\gt 0')}).`,
+      sol:`${tm(`${e} = ${tf(sq(p*p),sq(q*q))} = `)}${tb(tf(p,q))}.`}); }
+  const n=R(2,15), N=n*n, all=Math.random()<.5;
+  const A=`${n} \\text{ và } {-${n}}`, B=String(n), C=`-${n}`, D=`${sq(n)} \\text{ và } {-${sq(n)}}`;
+  return QC({text:all?`Các <b>căn bậc hai</b> của ${tm(N)} là`:`<b>Căn bậc hai số học</b> của ${tm(N)} là`, opts:[A,B,C,D].map(tm), ans:tm(all?A:B), keepOrder:true,
+    hint:`Số dương ${tm('a')} có <b>hai</b> căn bậc hai là ${tm(sq('a'))} và ${tm('-'+sq('a'))}. Căn bậc hai số học chỉ là số <b>không âm</b> ${tm(sq('a'))}.`,
+    sol:`Vì ${tm(`${n}^2 = (-${n})^2 = ${N}`)} nên ${N} có hai căn bậc hai là ${tm(`${n}`)} và ${tm(`-${n}`)}; căn bậc hai số học của ${N} là ${tm(`${sq(N)} = ${n}`)}. Đáp án: ${tb(all?A:B)}.`});
+};
+const g7b = lv => {   // so sánh căn bậc hai
+  const put = (l,r,vl,vr,hint,why) => { const sw=Math.random()<.5; const [L,Rr,a,b]=sw?[r,l,vr,vl]:[l,r,vl,vr];
+    return QCmp('So sánh hai số:', tm(L), tm(Rr), a, b, {hint, sol:`${why(sw)} Vậy ${tb(`${L} ${opT(a,b)} ${Rr}`)}.`}); };
+  if(lv===1){ let a,b; do{a=R(2,60);b=R(2,60)}while(a===b);
+    return put(sq(a),sq(b),a,b,`Với ${tm('a, b \\ge 0')}: ${tm('a \\lt b \\Leftrightarrow \\sqrt{a} \\lt \\sqrt{b}')}. So sánh hai số dưới dấu căn.`,
+      ()=>`Vì ${tm(`${a} ${opT(a,b)} ${b}`)} nên ${tm(`${sq(a)} ${opT(a,b)} ${sq(b)}`)}.`); }
+  if(lv===2){ const n=R(2,12); let a; do{a=n*n+sR(1,Math.min(4,n))}while(isSq(a)||a<2);
+    return put(String(n),sq(a),n*n,a,`Viết số nguyên dưới dạng căn bậc hai: ${tm('n = \\sqrt{n^2}')} (${tm('n \\ge 0')}), rồi so sánh hai số dưới dấu căn.`,
+      ()=>`Ta có ${tm(`${n} = ${sq(n*n)}`)}. Vì ${tm(`${n*n} ${opT(n*n,a)} ${a}`)} nên ${tm(`${n} ${opT(n*n,a)} ${sq(a)}`)}.`); }
+  let k; do{k=R(11,39)}while(k%10===0); const v=k/10, V=+(v*v).toFixed(4); let a; do{a=Math.round(V)+pick([-1,0,1])}while(a<2||isSq(a));
+  return put(tdec(v),sq(a),V,a,'Hai số đều dương: so sánh bình phương của chúng.',
+    ()=>`Ta có ${tm(`${tdec(v)}^2 = ${tdec(V)}`)} và ${tm(`(${sq(a)})^2 = ${a}`)}. Vì ${tm(`${tdec(V)} ${opT(V,a)} ${a}`)} và hai số đều dương nên ${tm(`${tdec(v)} ${opT(V,a)} ${sq(a)}`)}.`);
+};
+const g7c = lv => {   // điều kiện xác định của căn thức bậc hai
+  const S=(o,v)=>`x ${o} ${v}`; let e, good, opts, sol, hint=`${tm('\\sqrt{A}')} xác định khi ${tm('A \\ge 0')}.`;
+  if(lv===1){ const a=R(1,4), r=sR(1,9), A=poly([a,X],[-a*r,'']); e=sq(A);
+    good=S('\\ge',r); opts=[good,S('\\le',r),S('\\gt',r),S('\\ge',-r)];
+    sol=`${tm(e)} xác định khi ${tm(`${A} \\ge 0${EQ}${a===1?'':`${poly([a,X])} \\ge ${a*r}${EQ}`}x \\ge ${r}`)}.`; }
+  else if(lv===2){ const a=-R(1,5), b=R(1,12), A=poly([b,''],[a,X]), th=frac(b,-a); e=sq(A);
+    good=S('\\le',th); opts=[good,S('\\ge',th),S('\\lt',th),S('\\le',frac(-b,-a))];
+    hint+=' Khi chia hai vế cho số âm, nhớ <b>đổi chiều</b>.';
+    sol=`${tm(e)} xác định khi ${tm(`${A} \\ge 0${EQ}${poly([a,X])} \\ge ${-b}${EQ}x \\le ${th}`)} (chia cho số âm, đổi chiều).`; }
+  else { const a=sR(1,4), r=R(-6,6), c=R(1,9), A=poly([a,X],[-a*r,'']); e=sq(tf(c,A));
+    const o=a>0?'\\gt':'\\lt'; good=S(o,r); opts=[S('\\gt',r),S('\\ge',r),S('\\lt',r),S('\\le',r)];
+    hint+=` Ngoài ra <b>mẫu phải khác 0</b>. Vì tử ${tm(c)} dương nên phân thức không âm khi mẫu ${tm('\\gt 0')}.`;
+    sol=`Cần ${tm(`${tf(c,A)} \\ge 0`)} và mẫu khác 0. Vì ${tm(`${c} \\gt 0`)} nên ${tm(`${A} \\gt 0${EQ}${poly([a,X])} \\gt ${a*r}${EQ}x ${o} ${r}`)}${a<0?' (chia cho số âm, đổi chiều)':''}.`; }
+  return QC({text:`Căn thức ${tm(e)} xác định khi`, opts:opts.map(tm), ans:tm(good), hint, sol:sol+` Đáp án: ${tb(good)}.`});
+};
+const g7d = lv => {   // hằng đẳng thức √(A²) = |A|
+  const HD=`${tm('\\sqrt{A^2} = |A|')}: bằng ${tm('A')} nếu ${tm('A \\ge 0')}, bằng ${tm('-A')} nếu ${tm('A \\lt 0')}.`;
+  if(lv===1){ if(Math.random()<.5){ const n=R(2,30), e=`\\sqrt{(-${n})^2}`;
+      return QB({text:`Tính ${tm(e)}.`, tpl:eqB(e), ans:[n], hint:HD, sol:`${tm(`${e} = |-${n}| = `)}${tb(n)}.`}); }
+    let p,q; do{p=R(1,12);q=R(1,15)}while(p>=q); const e=`\\sqrt{(${p} - ${q})^2}`;
+    return QB({text:`Tính ${tm(e)}.`, tpl:eqB(e), ans:[q-p], hint:HD, sol:`${tm(`${e} = |${p} - ${q}| = |${p-q}| = `)}${tb(q-p)}.`}); }
+  if(lv===2){ const a=R(2,7); let b; do{b=a*a+sR(1,a+2)}while(b<2||isSq(b));
+    const e=`\\sqrt{(${a} - ${sq(b)})^2}`, big=a*a>b, good=big?`${a} - ${sq(b)}`:`${sq(b)} - ${a}`;
+    return QC({text:`Rút gọn ${tm(e)}.`, opts:[`${a} - ${sq(b)}`,`${sq(b)} - ${a}`,`${a} + ${sq(b)}`,`-${a} - ${sq(b)}`].map(tm), ans:tm(good),
+      hint:HD+` Hãy so sánh ${tm(a)} với ${tm(sq(b))} để biết dấu của ${tm(`${a} - ${sq(b)}`)}.`,
+      sol:`Ta có ${tm(`${a} = ${sq(a*a)}`)} và ${tm(`${a*a} ${opT(a*a,b)} ${b}`)} nên ${tm(`${a} - ${sq(b)} ${big?'\\gt':'\\lt'} 0`)}. Do đó ${tm(`${e} = |${a} - ${sq(b)}| = `)}${tb(good)}.`}); }
+  const k=sR(1,9), lt=Math.random()<.5, e=`\\sqrt{${poly([1,X2],[-2*k,X],[k*k,''])}} + x`;
+  const good=lt?String(k):poly([2,X],[-k,'']);
+  return QC({text:`Rút gọn biểu thức ${tm(`A = ${e}`)} với ${tm(`x ${lt?'\\lt':'\\ge'} ${k}`)}.`,
+    opts:[String(k),poly([2,X],[-k,'']),String(-k),poly([-2,X],[k,''])].map(tm), ans:tm(good),
+    hint:`Viết biểu thức dưới dấu căn thành bình phương của một hiệu, rồi dùng ${HD}`,
+    sol:`${tm(`${poly([1,X2],[-2*k,X],[k*k,''])} = ${fac(1,-k)}^2`)} nên ${tm(`A = |${poly([1,X],[-k,''])}| + x`)}. Với ${tm(`x ${lt?'\\lt':'\\ge'} ${k}`)}: ${tm(lt?`A = ${poly([-1,X],[k,''])} + x`:`A = ${poly([1,X],[-k,''])} + x`)} ${tm('=')} ${tb(good)}.`});
+};
+
+/* =====================================================================
+   BÀI 8. Khai căn bậc hai với phép nhân và phép chia
+   ===================================================================== */
+const g8a = lv => {   // √a·√b = √(ab)
+  if(lv<3){ const s=pick(lv===1?[2,3,5]:[3,5,6,7,10,11]), M=lv===1?4:6; let p,q; do{p=R(1,M);q=R(1,M)}while(p===1&&q===1);
+    const a=s*p*p, b=s*q*q, e=`${sq(a)}\\cdot${sq(b)}`;
+    return QB({text:`Tính ${tm(e)}.`, tpl:eqB(e), ans:[s*p*q],
+      hint:`Dùng ${tm('\\sqrt{a}\\cdot\\sqrt{b} = \\sqrt{a\\cdot b}')} (${tm('a, b \\ge 0')}), rồi khai căn số chính phương.`,
+      sol:`${tm(`${e} = \\sqrt{${a}\\cdot ${b}} = ${sq(a*b)} = `)}${tb(s*p*q)}.`}); }
+  const s=pick([2,3,5,6,7]); let p,q; do{p=R(1,5);q=R(1,5)}while(p===q); const pl=Math.random()<.5, v=s*(pl?p+q:p-q);
+  const e=`(${sq(s*p*p)} ${pl?'+':'-'} ${sq(s*q*q)})\\cdot${sq(s)}`;
+  return QB({text:`Tính ${tm(e)}.`, tpl:eqB(e), ans:[v],
+    hint:`Nhân ${tm(sq(s))} vào từng số hạng trong ngoặc, dùng ${tm('\\sqrt{a}\\cdot\\sqrt{b} = \\sqrt{ab}')}.`,
+    sol:`${tm(`${e} = ${sq(s*p*p*s)} ${pl?'+':'-'} ${sq(s*q*q*s)} = ${s*p} ${pl?'+':'-'} ${s*q} = `)}${tb(v)}.`});
+};
+const g8b = lv => {   // √a : √b = √(a/b)
+  if(lv===1){ let b; do{b=R(2,12)}while(isSq(b)); const n=R(2,7), a=b*n*n, e=tf(sq(a),sq(b));
+    return QB({text:`Tính ${tm(e)}.`, tpl:eqB(e), ans:[n],
+      hint:`Dùng ${tm('\\dfrac{\\sqrt{a}}{\\sqrt{b}} = \\sqrt{\\dfrac{a}{b}}')} (${tm('a \\ge 0,\\ b \\gt 0')}).`,
+      sol:`${tm(`${e} = ${sq(tf(a,b))} = ${sq(n*n)} = `)}${tb(n)}.`}); }
+  let p,q;
+  if(lv===2){ do{p=R(1,15);q=R(2,20)}while(gcd(p,q)!==1);
+    const e=sq(tf(p*p,q*q));
+    return QB({text:`Tính ${tm(e)}.`, tpl:`<span class="eq">${tm(e+' =')} [F]</span>`, ans:[{frac:[p,q],mode:'eq'}],
+      hint:`Khai căn tử và khai căn mẫu: ${tm('\\sqrt{\\dfrac{a}{b}} = \\dfrac{\\sqrt{a}}{\\sqrt{b}}')}.`,
+      sol:`${tm(`${e} = ${tf(sq(p*p),sq(q*q))} = `)}${tb(tf(p,q))}.`}); }
+  do{q=R(2,9);p=R(q+1,3*q)}while(gcd(p,q)!==1);
+  const P=p*p, Q=q*q, w=Math.floor(P/Q), r=P%Q, e=sq(`${w}${tf(r,Q)}`);
+  return QB({text:`Tính ${tm(e)} (viết kết quả dưới dạng phân số).`, tpl:`<span class="eq">${tm(e+' =')} [F]</span>`, ans:[{frac:[p,q],mode:'eq'}],
+    hint:'Đổi hỗn số thành phân số trước, rồi khai căn tử và mẫu.',
+    sol:`${tm(`${e} = ${sq(tf(P,Q))} = ${tf(sq(P),sq(Q))} = `)}${tb(tf(p,q))}.`});
+};
+const g8c = lv => {   // rút gọn biểu thức chứa chữ
+  if(lv===1){ const s=pick([2,3,5,6,7]), u=R(1,3), v=R(1,3), k=s*u*u, m=s*v*v, n=s*u*v, e=`${sq(k+'a')}\\cdot${sq(m+'a')}`;
+    return QC({text:`Rút gọn ${tm(e)} với ${tm('a \\ge 0')}.`, opts:[`${n}a`,`${n}a^2`,`${n*n}a`,`${n}${sq('a')}`].map(tm), ans:tm(`${n}a`),
+      hint:`Gộp thành một căn: ${tm('\\sqrt{A}\\cdot\\sqrt{B} = \\sqrt{AB}')}, rồi dùng ${tm('\\sqrt{a^2} = a')} khi ${tm('a \\ge 0')}.`,
+      sol:`${tm(`${e} = \\sqrt{${k*m}a^2} = ${n}|a| = `)}${tb(`${n}a`)} (vì ${tm('a \\ge 0')}).`}); }
+  if(lv===2){ const m=pick([2,3,5,6,7]), n=R(2,6), k=m*n*n, e=tf(sq(k+'a^3'),sq(m+'a'));
+    return QC({text:`Rút gọn ${tm(e)} với ${tm('a \\gt 0')}.`, opts:[`${n}a`,`${n}a^2`,`${n*n}a`,`${n}${sq('a')}`].map(tm), ans:tm(`${n}a`),
+      hint:`Gộp thành một căn: ${tm('\\dfrac{\\sqrt{A}}{\\sqrt{B}} = \\sqrt{\\dfrac{A}{B}}')}, rút gọn phân thức dưới dấu căn rồi khai căn.`,
+      sol:`${tm(`${e} = \\sqrt{${tf(k+'a^3',m+'a')}} = \\sqrt{${n*n}a^2} = ${n}|a| = `)}${tb(`${n}a`)} (vì ${tm('a \\gt 0')}).`}); }
+  const s=pick([2,3,5,6,7]), u=R(1,3), v=R(1,3), k=s*u*u, m=s*v*v, n=s*u*v, e=`${sq(k+'a^2')}\\cdot${sq(m)}`;
+  return QC({text:`Rút gọn ${tm(e)} với ${tm('a \\lt 0')}.`, opts:[`-${n}a`,`${n}a`,`-${n}a^2`,`${n}a^2`].map(tm), ans:tm(`-${n}a`),
+    hint:`Gộp thành một căn rồi dùng ${tm('\\sqrt{a^2} = |a|')}. Chú ý ${tm('a \\lt 0')} thì ${tm('|a| = -a')}.`,
+    sol:`${tm(`${e} = \\sqrt{${k*m}a^2} = ${n}|a| = `)}${tb(`-${n}a`)} (vì ${tm('a \\lt 0')}).`});
+};
+
+/* =====================================================================
+   BÀI 9. Biến đổi đơn giản và rút gọn biểu thức chứa căn thức bậc hai
+   ===================================================================== */
+const AB2 = `<span class="eq">${tm('a =')} [_]${tm(';\\quad b =')} [_]</span>`;
+const g9a = lv => {   // đưa thừa số ra ngoài dấu căn
+  if(lv<3){ const k=lv===1?R(2,4):R(3,10), b=lv===1?pick([2,3,5]):pick(SQF), N=k*k*b;
+    return QB({text:`Đưa thừa số ra ngoài dấu căn: viết ${tm(sq(N))} dưới dạng ${tm('a\\sqrt{b}')} với ${tm('a, b')} là số tự nhiên và ${tm('b')} nhỏ nhất có thể.`,
+      tpl:AB2, ans:[k,b],
+      hint:`Tách số dưới dấu căn thành tích của một số chính phương lớn nhất với một số khác, rồi dùng ${tm('\\sqrt{A^2B} = |A|\\sqrt{B}')}.`,
+      sol:`${tm(`${sq(N)} = \\sqrt{${k*k}\\cdot ${b}} = ${rt(k,b)}`)}. Vậy ${tb(`a = ${k}`)}, ${tb(`b = ${b}`)}.`}); }
+  const k=R(2,6), b=pick([2,3,5,6,7]), neg=Math.random()<.5, e=sq(`${k*k*b}x^2`), good=`${neg?'-':''}${k}x${sq(b)}`;
+  return QC({text:`Đưa thừa số ra ngoài dấu căn: ${tm(e)} với ${tm(`x ${neg?'\\lt':'\\ge'} 0`)}.`,
+    opts:[`${k}x${sq(b)}`,`-${k}x${sq(b)}`,`${k}x^2${sq(b)}`,`${k*k}x${sq(b)}`].map(tm), ans:tm(good),
+    hint:`${tm('\\sqrt{A^2B} = |A|\\sqrt{B}')}. Xét dấu của ${tm('x')} để bỏ dấu giá trị tuyệt đối.`,
+    sol:`${tm(`${e} = \\sqrt{(${k}x)^2\\cdot ${b}} = |${k}x|${sq(b)}`)}. Vì ${tm(`x ${neg?'\\lt':'\\ge'} 0`)} nên ${tm(`|${k}x| = ${neg?'-':''}${k}x`)}. Kết quả: ${tb(good)}.`});
+};
+const g9b = lv => {   // đưa thừa số vào trong dấu căn
+  if(lv<3){ const neg=lv===2, k=lv===1?R(2,6):R(2,9), b=lv===1?pick([2,3,5,6,7]):pick(SQF), a=k*k*b, e=`${neg?'-':''}${k}${sq(b)} = ${neg?'-':''}${sq('a')}`;
+    return QB({text:`Đưa thừa số vào trong dấu căn: ${tm(e)}. Tìm ${tm('a')}.`, tpl:blank('a'), ans:[a],
+      hint:`Với ${tm('A \\ge 0')}: ${tm('A\\sqrt{B} = \\sqrt{A^2B}')}.`+(neg?` Dấu “${tm('-')}” giữ ở ngoài: ${tm('-A\\sqrt{B} = -\\sqrt{A^2B}')}.`:''),
+      sol:`${tm(`${neg?'-':''}${k}${sq(b)} = ${neg?'-':''}\\sqrt{${k}^2\\cdot ${b}} = ${neg?'-':''}${sq(a)}`)}. Vậy ${tb(`a = ${a}`)}.`}); }
+  let m,n,a,b; do{m=R(2,6);n=R(2,6);a=pick([2,3,5,6,7]);b=pick([2,3,5,6,7])}while(a===b||m*m*a===n*n*b||Math.abs(m*m*a-n*n*b)>24);
+  const L=rt(m,a), Rr=rt(n,b), sw=Math.random()<.5, [l,r,vl,vr]=sw?[Rr,L,n*n*b,m*m*a]:[L,Rr,m*m*a,n*n*b];
+  return QCmp('So sánh hai số:', tm(l), tm(r), vl, vr, {hint:'Đưa thừa số vào trong dấu căn ở cả hai số, rồi so sánh hai số dưới dấu căn.',
+    sol:`${tm(`${L} = ${sq(m*m*a)}`)}; ${tm(`${Rr} = ${sq(n*n*b)}`)}. So sánh ${tm(m*m*a)} và ${tm(n*n*b)}: ${tb(`${l} ${opT(vl,vr)} ${r}`)}.`});
+};
+const g9c = lv => {   // cộng, trừ căn thức đồng dạng
+  let b,T,m; do{ b=pick(lv===1?[2,3,5]:[2,3,5,6,7]); const cnt=lv===1?2:3;
+    T=[...Array(cnt)].map((_,i)=>({k:R(1,lv===1?4:5), c:lv===3?R(1,3):1, s:i&&Math.random()<.5?-1:1}));
+    m=T.reduce((t,x)=>t+x.s*x.c*x.k,0);
+  }while(m===0||T.every(t=>t.k===1)||new Set(T.map(t=>t.k)).size<T.length);
+  const term=(t,i,f)=>(i?(t.s<0?' - ':' + '):(t.s<0?'-':''))+f(t);
+  const E=T.map((t,i)=>term(t,i,x=>(x.c>1?x.c:'')+sq(x.k*x.k*b))).join('');
+  const E2=T.map((t,i)=>term(t,i,x=>rt(x.c*x.k,b))).join('');
+  return QB({text:`Rút gọn biểu thức ${td(`E = ${E}`)}`, tpl:`<span class="eq">${tm('E =')} [_] ${tm(sq(b))}</span>`, ans:[m],
+    hint:`Đưa thừa số ra ngoài dấu căn ở từng số hạng để được các căn đồng dạng ${tm(sq(b))}, rồi cộng trừ các hệ số.`,
+    sol:`${tm(`E = ${E2} = `)}${tb(rt(m,b))}.`});
+};
+const g9d = lv => {   // trục căn thức ở mẫu
+  const mul=(t,e)=>t===1?e:t===-1?`-(${e})`:`${t}(${e})`, cs=c=>c===1?'':c===-1?'-':c, fr=(c,d)=>c<0?`-${tf(-c,d)}`:tf(c,d);
+  if(lv===1){ const a=R(1,12), b=pick([2,3,5,6,7,10,11]), g=gcd(a,b), A=a/g, B=b/g, e=tf(a,sq(b)), v=a/Math.sqrt(b);
+    const good={s:B===1?rt(A,b):tf(`${A===1?'':A}${sq(b)}`,B), v};
+    const pool=[{s:`${a}${sq(b)}`,v:a*Math.sqrt(b)},{s:tf(sq(b),a),v:Math.sqrt(b)/a},{s:tf(`${a}${sq(b)}`,b*b),v:a*Math.sqrt(b)/b/b},{s:tf(a,b),v:a/b},{s:tf(sq(b),b),v:1/Math.sqrt(b)}];
+    return QC({text:`Trục căn thức ở mẫu: ${tm(e)} bằng`, opts:[good,...pickBy(good,pool)].map(o=>tm(o.s)), ans:tm(good.s),
+      hint:`Nhân cả tử và mẫu với ${tm(sq(b))}: ${tm('\\dfrac{A}{\\sqrt{B}} = \\dfrac{A\\sqrt{B}}{B}')}. Rút gọn nếu được.`,
+      sol:`${tm(`${e} = ${tf(`${a}${sq(b)}`,`${sq(b)}\\cdot${sq(b)}`)} = ${tf(`${a}${sq(b)}`,b)} = `)}${tb(good.s)}.`}); }
+  if(lv===2){ let n,a,d; do{n=R(1,4);a=R(2,30);d=a-n*n}while(isSq(a)||d===0||Math.abs(d)>6);
+    const t=sR(1,3), c=t*d, minus=Math.random()<.5, den=`${sq(a)} ${minus?'-':'+'} ${n}`, conj=`${sq(a)} ${minus?'+':'-'} ${n}`, r=Math.sqrt(a);
+    const good={s:mul(t,conj), v:c/(minus?r-n:r+n)};
+    const pool=[{s:mul(t,den),v:t*(minus?r-n:r+n)},{s:mul(-t,conj),v:-t*(minus?r+n:r-n)},{s:mul(-t,den),v:-t*(minus?r-n:r+n)},{s:tf(`${cs(c)}(${conj})`,a+n*n),v:c*(minus?r+n:r-n)/(a+n*n)}];
+    return QC({text:`Trục căn thức ở mẫu: ${tm(fr(c,den))} bằng`, opts:[good,...pickBy(good,pool)].map(o=>tm(o.s)), ans:tm(good.s),
+      hint:`Nhân cả tử và mẫu với biểu thức liên hợp của mẫu ${tm(`(${conj})`)}, dùng ${tm('(A - B)(A + B) = A^2 - B^2')}.`,
+      sol:`${tm(`${fr(c,den)} = ${tf(`${cs(c)}(${conj})`,`(${den})(${conj})`)} = ${tf(`${cs(c)}(${conj})`,`${a} - ${n*n}`)} = ${tf(`${cs(c)}(${conj})`,d<0?`(${d})`:d)} = `)}${tb(good.s)}.`}); }
+  let a,b,d; do{b=R(2,20);d=sR(1,3);a=b+d}while(isSq(a)||isSq(b)||a<2);
+  const t=R(1,3), c=t*d, minus=Math.random()<.5, den=`${sq(a)} ${minus?'-':'+'} ${sq(b)}`, conj=`${sq(a)} ${minus?'+':'-'} ${sq(b)}`, x=Math.sqrt(a), y=Math.sqrt(b);
+  const good={s:mul(t,conj), v:c/(minus?x-y:x+y)};
+  const pool=[{s:mul(t,den),v:t*(minus?x-y:x+y)},{s:mul(-t,conj),v:-t*(minus?x+y:x-y)},{s:mul(-t,den),v:-t*(minus?x-y:x+y)},{s:tf(`${Math.abs(c)===1?(c<0?'-':''):c}(${conj})`,a+b),v:c*(minus?x+y:x-y)/(a+b)}];
+  return QC({text:`Trục căn thức ở mẫu: ${tm(fr(c,den))} bằng`, opts:[good,...pickBy(good,pool)].map(o=>tm(o.s)), ans:tm(good.s),
+    hint:`Nhân cả tử và mẫu với biểu thức liên hợp ${tm(`(${conj})`)}; mẫu trở thành ${tm('(\\sqrt{A})^2 - (\\sqrt{B})^2 = A - B')}.`,
+    sol:`${tm(`${fr(c,den)} = ${tf(`${cs(c)}(${conj})`,`${a} - ${b}`)} = ${tf(`${cs(c)}(${conj})`,d<0?`(${d})`:d)} = `)}${tb(good.s)}.`});
+};
+const g9e = lv => {   // rút gọn biểu thức chứa căn, tính giá trị
+  const sx=sq('x');
+  if(lv===1){ const k=R(1,9), e=tf(`x - ${k*k}`,`${sx} - ${k}`), good=`${sx} + ${k}`;
+    return QC({text:`Rút gọn ${tm(e)} với ${tm(`x \\ge 0,\\ x \\ne ${k*k}`)}.`, opts:[good,`${sx} - ${k}`,`x + ${k}`,`${sx} + ${k*k}`].map(tm), ans:tm(good),
+      hint:`Với ${tm('x \\ge 0')} ta có ${tm('x = (\\sqrt{x})^2')}. Phân tích tử thành hiệu hai bình phương rồi rút gọn.`,
+      sol:`${tm(`x - ${k*k} = (${sx} - ${k})(${sx} + ${k})`)} nên ${tm(`${e} = `)}${tb(good)}.`}); }
+  if(lv===2){ const k=R(1,9);
+    if(Math.random()<.5){ const pl=Math.random()<.5, e=tf(`x ${pl?'+':'-'} ${k===1?'':k}${sx}`,sx), good=`${sx} ${pl?'+':'-'} ${k}`;
+      return QC({text:`Rút gọn ${tm(e)} với ${tm('x \\gt 0')}.`, opts:[good,`${sx} ${pl?'-':'+'} ${k}`,`x ${pl?'+':'-'} ${k}`,`${pl?'':'-'}${k}${sx}`].map(tm), ans:tm(good),
+        hint:`Viết ${tm('x = \\sqrt{x}\\cdot\\sqrt{x}')}, đặt nhân tử chung ${tm(sx)} ở tử rồi rút gọn.`,
+        sol:`${tm(`${e} = ${tf(`${sx}(${sx} ${pl?'+':'-'} ${k})`,sx)} = `)}${tb(good)}.`}); }
+    const e=tf(`x - ${2*k}${sx} + ${k*k}`,`${sx} - ${k}`), good=`${sx} - ${k}`;
+    return QC({text:`Rút gọn ${tm(e)} với ${tm(`x \\ge 0,\\ x \\ne ${k*k}`)}.`, opts:[good,`${sx} + ${k}`,`x - ${k}`,`(${sx} - ${k})^2`].map(tm), ans:tm(good),
+      hint:`Tử là bình phương của một hiệu: ${tm('A^2 - 2AB + B^2 = (A - B)^2')} với ${tm('A = \\sqrt{x}')}.`,
+      sol:`${tm(`x - ${2*k}${sx} + ${k*k} = (${sx} - ${k})^2`)} nên ${tm(`${e} = `)}${tb(good)}.`}); }
+  let k,m; do{k=R(1,4);m=R(k+1,9)}while(m===k);
+  const A=`${tf(`${sx} + ${k}`,`${sx} - ${k}`)} - ${tf(`${sx} - ${k}`,`${sx} + ${k}`)}`, p=4*k*m, q=m*m-k*k;
+  return QB({text:`Cho biểu thức ${td(`A = ${A}`)}với ${tm(`x \\ge 0,\\ x \\ne ${k*k}`)}. Rút gọn ${tm('A')} rồi tính giá trị của ${tm('A')} khi ${tm(`x = ${m*m}`)}.`,
+    tpl:`<span class="eq">${tm('A =')} [F]</span>`, ans:[{frac:[p,q],mode:'eq'}],
+    hint:`Quy đồng với mẫu chung ${tm(`(${sx} - ${k})(${sx} + ${k}) = x - ${k*k}`)}, khai triển tử rồi rút gọn. Sau đó thay ${tm(`\\sqrt{x} = \\sqrt{${m*m}}`)}.`,
+    sol:`${tm(`A = ${tf(`(${sx} + ${k})^2 - (${sx} - ${k})^2`,`x - ${k*k}`)} = ${tf(`${4*k}${sx}`,`x - ${k*k}`)}`)}. Khi ${tm(`x = ${m*m}`)} thì ${tm(`\\sqrt{x} = ${m}`)}: ${tm(`A = ${tf(`${4*k}\\cdot ${m}`,`${m*m} - ${k*k}`)} = `)}${tb(tfrac(p,q))}.`});
+};
+
+/* =====================================================================
+   BÀI 10. Căn bậc ba và căn thức bậc ba
+   ===================================================================== */
+const g10a = lv => {   // tính căn bậc ba
+  if(lv===1){ const n=R(2,10), e=cb(n**3);
+    return QB({text:`Tính ${tm(e)}.`, tpl:eqB(e), ans:[n], hint:`${tm(cb('a'))} là số ${tm('x')} sao cho ${tm('x^3 = a')}.`,
+      sol:`Vì ${tm(`${n}^3 = ${n**3}`)} nên ${tm(e+' =')} ${tb(n)}.`}); }
+  if(lv===2){ if(Math.random()<.5){ const n=R(2,10), e=cb(-(n**3));
+      return QB({text:`Tính ${tm(e)}.`, tpl:eqB(e), ans:[-n], hint:`Số âm cũng có căn bậc ba (là một số âm). Tìm ${tm('x')} sao cho ${tm(`x^3 = ${-(n**3)}`)}.`,
+        sol:`Vì ${tm(`(-${n})^3 = ${-(n**3)}`)} nên ${tm(e+' =')} ${tb(-n)}.`}); }
+    const k=R(1,9), sgn=pick([1,-1]), v=sgn*k/10, N=+(v**3).toFixed(4), e=cb(tdec(N));
+    return QB({text:`Tính ${tm(e)}.`, tpl:eqB(e), ans:[v], hint:`Tìm số thập phân ${tm('x')} sao cho ${tm(`x^3 = ${tdec(N)}`)}. Chú ý số chữ số sau dấu phẩy.`,
+      sol:`Vì ${tm(`${v<0?`(${tdec(v)})`:tdec(v)}^3 = ${tdec(N)}`)} nên ${tm(e+' =')} ${tb(tdec(v))}.`}); }
+  let T,val; do{ T=[...Array(3)].map((_,i)=>({c:R(1,3),n:R(-5,5)||2,s:i&&Math.random()<.5?-1:1})); val=T.reduce((t,x)=>t+x.s*x.c*x.n,0); }while(new Set(T.map(t=>t.n)).size<3);
+  const term=(t,i,f)=>(i?(t.s<0?' - ':' + '):(t.s<0?'-':''))+f(t);
+  const E=T.map((t,i)=>term(t,i,x=>(x.c>1?x.c:'')+cb(x.n**3))).join(''), E2=T.map((t,i)=>term(t,i,x=>(x.c>1?`${x.c}\\cdot`:'')+tp(x.n))).join('');
+  return QB({text:`Tính giá trị biểu thức ${td(`E = ${E}`)}`, tpl:eqB('E'), ans:[val], hint:'Tính từng căn bậc ba trước (chú ý căn bậc ba của số âm là số âm), rồi thực hiện phép tính.',
+    sol:`${tm(`E = ${E2} = `)}${tb(val)}.`});
+};
+const g10b = lv => {   // so sánh căn bậc ba
+  const put=(l,r,vl,vr,hint,why)=>{const sw=Math.random()<.5,[L,Rr,a,b]=sw?[r,l,vr,vl]:[l,r,vl,vr];
+    return QCmp('So sánh hai số:', tm(L), tm(Rr), a, b, {hint, sol:`${why} Vậy ${tb(`${L} ${opT(a,b)} ${Rr}`)}.`})};
+  const H=`${tm('a \\lt b \\Leftrightarrow \\sqrt[3]{a} \\lt \\sqrt[3]{b}')} (đúng với mọi số ${tm('a, b')}, kể cả số âm).`;
+  if(lv===1){ const n=R(2,6); let a; do{a=n**3+sR(1,6)}while(a<2);
+    return put(String(n),cb(a),n**3,a,`Viết ${tm(n)} dưới dạng căn bậc ba: ${tm(`${n} = ${cb('\\ldots')}`)}. `+H, `Ta có ${tm(`${n} = ${cb(n**3)}`)} và ${tm(`${n**3} ${opT(n**3,a)} ${a}`)}.`); }
+  if(lv===2){ let a,b; do{a=R(-60,60);b=R(-60,60)}while(a===b||!a||!b);
+    return put(cb(a),cb(b),a,b,H,`Vì ${tm(`${a} ${opT(a,b)} ${b}`)} nên ${tm(`${cb(a)} ${opT(a,b)} ${cb(b)}`)}.`); }
+  const k=R(2,4), a=R(2,6), A=k**3*a; let b; do{b=A+sR(1,8)}while(b<2);
+  return put(`${k}${cb(a)}`,cb(b),A,b,`Đưa thừa số vào trong dấu căn bậc ba: ${tm('A\\sqrt[3]{B} = \\sqrt[3]{A^3B}')}. `+H,
+    `Ta có ${tm(`${k}${cb(a)} = \\sqrt[3]{${k}^3\\cdot ${a}} = ${cb(A)}`)}; so sánh ${tm(A)} với ${tm(b)}.`);
+};
+const g10c = lv => {   // giải phương trình chứa căn bậc ba
+  if(lv===1){ const c=sR(1,5), x=c**3, e=`${cb('x')} = ${c}`;
+    return QB({text:`Tìm ${tm('x')}, biết ${td(e)}`, tpl:blank('x'), ans:[x], hint:`Lập phương hai vế: ${tm('\\sqrt[3]{x} = c \\Leftrightarrow x = c^3')}.`,
+      sol:`${tm(`${e}${EQ}x = ${tp(c)}^3`)}, nên ${tb(`x = ${x}`)}.`}); }
+  if(lv===2){ const b=sR(1,20), c=R(-4,4), x=c**3-b, A=poly([1,X],[b,'']), e=`${cb(A)} = ${c}`;
+    return QB({text:`Giải phương trình ${td(e)}`, tpl:blank('x'), ans:[x], hint:'Lập phương hai vế để bỏ căn bậc ba, rồi giải phương trình bậc nhất.',
+      sol:`${tm(`${e}${EQ}${A} = ${tp(c)}^3 = ${c**3}${EQ}x = ${x}`)}. Nghiệm: ${tb(`x = ${x}`)}.`}); }
+  let x,a,c,b; do{x=R(-10,10);a=R(2,5);c=R(-4,4);b=c**3-a*x}while(!b);
+  const A=poly([a,X],[b,'']), e=`${cb(A)} = ${c}`;
+  return QB({text:`Giải phương trình ${td(e)}`, tpl:blank('x'), ans:[x], hint:'Lập phương hai vế để bỏ căn bậc ba, rồi giải phương trình bậc nhất.',
+    sol:`${tm(`${e}${EQ}${A} = ${c**3}${EQ}${poly([a,X])} = ${c**3-b}${EQ}x = ${x}`)}. Nghiệm: ${tb(`x = ${x}`)}.`});
+};
+const g10d = lv => {   // rút gọn căn thức bậc ba
+  const uq=a=>[...new Set(a)];
+  if(lv===1){ const k=R(2,5), s=pick([1,-1]), good=`${s<0?'-':''}${k}x`, e=cb(`${s*k**3}x^3`);
+    return QC({text:`Rút gọn ${tm(e)}.`, opts:[`${k}x`,`-${k}x`,`${k**3}x`,`${k}x^3`].map(tm), ans:tm(good),
+      hint:`${tm('\\sqrt[3]{A^3} = A')} với mọi ${tm('A')}. Viết biểu thức dưới dấu căn thành lập phương của một biểu thức.`,
+      sol:`${tm(`${s*k**3}x^3 = (${s<0?'-':''}${k}x)^3`)} nên ${tm(`${e} = `)}${tb(good)}.`}); }
+  if(lv===2){ const k=sR(1,4), A=poly([1,'x^3'],[3*k,X2],[3*k*k,X],[k**3,'']), good=poly([1,X],[k,'']);
+    const opts=uq([good,poly([1,X],[-k,'']),poly([1,X],[3*k,'']),poly([1,X],[k**3,'']),poly([-1,X],[k,''])]).slice(0,4);
+    return QC({text:`Rút gọn ${tm(cb(A))}.`, opts:opts.map(tm), ans:tm(good),
+      hint:`Biểu thức dưới dấu căn có dạng ${tm('A^3 + 3A^2B + 3AB^2 + B^3 = (A + B)^3')}.`,
+      sol:`${tm(`${A} = ${fac(1,k)}^3`)} nên ${tm(`${cb(A)} = `)}${tb(good)}.`}); }
+  let k,m; do{k=R(2,4);m=R(2,6)}while(k===m);
+  const e=`${cb(`${k**3}x^3`)} - ${sq(`${m*m}x^2`)}`, good=poly([k+m,X]);
+  const opts=uq([good,poly([k-m,X]),poly([-(k+m),X]),poly([m-k,X])]);
+  return QC({text:`Rút gọn ${tm(e)} với ${tm('x \\lt 0')}.`, opts:opts.map(tm), ans:tm(good),
+    hint:`${tm('\\sqrt[3]{A^3} = A')} với mọi ${tm('A')}; còn ${tm('\\sqrt{A^2} = |A|')}. Chú ý ${tm('x \\lt 0')}.`,
+    sol:`${tm(`${cb(`${k**3}x^3`)} = ${k}x`)}; ${tm(`${sq(`${m*m}x^2`)} = ${m}|x| = -${m}x`)} (vì ${tm('x \\lt 0')}). Vậy ${tm(`${e} = ${k}x + ${m}x = `)}${tb(good)}.`});
+};
+
+lesson(3,'can-bac-hai','Bài 7. Căn bậc hai và căn thức bậc hai','Căn bậc hai, căn bậc hai số học; so sánh; điều kiện xác định; hằng đẳng thức √(A²) = |A|.',[g7a,g7b,g7c,g7d]);
+lesson(3,'khai-can-nhan-chia','Bài 8. Khai căn bậc hai với phép nhân và phép chia','Khai căn một tích, một thương; nhân, chia các căn bậc hai; rút gọn biểu thức chứa chữ.',[g8a,g8b,g8c]);
+lesson(3,'bien-doi-can-thuc','Bài 9. Biến đổi đơn giản và rút gọn biểu thức chứa căn thức bậc hai','Đưa thừa số ra ngoài, vào trong dấu căn; căn đồng dạng; trục căn thức ở mẫu; rút gọn.',[g9a,g9b,g9c,g9d,g9e]);
+lesson(3,'can-bac-ba','Bài 10. Căn bậc ba và căn thức bậc ba','Tính căn bậc ba; so sánh; giải phương trình chứa căn bậc ba; rút gọn.',[g10a,g10b,g10c,g10d]);
+lesson(3,'on-tap-c3','Ôn tập chương III','Tổng hợp: so sánh căn, khai căn thương, biến đổi, trục căn thức, căn bậc ba.',[g7b,g8b,g9a,g9c,g9d,g10c]);
+
+/* =====================================================================
+   CHƯƠNG IV – BÀI 11. Tỉ số lượng giác của góc nhọn
+   Tam giác vuông tại N[0]; góc nhọn N[1] (trên), N[2] (phải) – hình vẽ bằng rtTriSVG (figures.js).
+   ===================================================================== */
+const NAMESETS = [['A','B','C'],['M','N','P'],['D','E','F'],['H','I','K'],['A','D','E']];
+const TRIPLES = [[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29],[9,40,41],[6,8,10],[9,12,15]];
+const DEG = d => `${d}^\\circ`;
+const FN = ['sin','cos','tan','cot'];
+const OTHER = {sin:'cos',cos:'sin',tan:'cot',cot:'tan'};
+const DEF = `${tm('\\sin = \\dfrac{\\text{đối}}{\\text{huyền}}')}, ${tm('\\cos = \\dfrac{\\text{kề}}{\\text{huyền}}')}, ${tm('\\tan = \\dfrac{\\text{đối}}{\\text{kề}}')}, ${tm('\\cot = \\dfrac{\\text{kề}}{\\text{đối}}')}`;
+// Thông tin các cạnh đối với góc nhọn V (V = 1 hoặc 2 là chỉ số đỉnh trong N)
+const sides = (N,V) => { const hyp=N[1]+N[2], leg1=N[0]+N[1], leg2=N[0]+N[2];   // leg1 thẳng đứng, leg2 nằm ngang
+  return V===1 ? {opp:leg2, adj:leg1, hyp} : {opp:leg1, adj:leg2, hyp}; };
+const ratio = (f,s) => ({sin:[s.opp,s.hyp],cos:[s.adj,s.hyp],tan:[s.opp,s.adj],cot:[s.adj,s.opp]})[f];
+const tri = lv => { const t=pick(lv===1?[[3,4,5],[6,8,10],[5,12,13]]:TRIPLES), k=lv===1?R(1,2):1, sw=Math.random()<.5;
+  return {v:t[sw?0:1]*k, h:t[sw?1:0]*k, c:t[2]*k}; };   // v: cạnh đứng N0N1, h: cạnh ngang N0N2, c: huyền
+const g11a = lv => {   // nhận biết tỉ số lượng giác
+  const N=lv===3?pick(NAMESETS):NAMESETS[0], V=pick([1,2]), f=pick(FN), s=sides(N,V), name=N.join('');
+  let opts, good, fig, t;
+  if(lv===2){ t=tri(2); const len={[N[0]+N[1]]:t.v,[N[0]+N[2]]:t.h,[N[1]+N[2]]:t.c};
+    const val=f=>{const [a,b]=ratio(f,s);return tfrac(len[a],len[b])};
+    opts=FN.map(val); good=val(f);
+    fig=rtTriSVG({n:N,w:t.h,h:t.v,ab:t.v,ac:t.h,bc:t.c,[V===1?'aB':'aC']:true}); }
+  else { opts=FN.map(g=>{const [a,b]=ratio(g,s);return tf(a,b)}); const [a,b]=ratio(f,s); good=tf(a,b);
+    fig=rtTriSVG({n:N,[V===1?'aB':'aC']:true}); }
+  const ang=`\\${f} ${N[V]}`;
+  return QC({text:`Cho tam giác ${tm(name)} vuông tại ${tm(N[0])} (hình bên). Khi đó ${tm(ang)} bằng`, fig, opts:opts.map(tm), ans:tm(good), keepOrder:lv===1,
+    hint:`Xác định cạnh đối, cạnh kề của góc ${tm(N[V])} và cạnh huyền. Nhớ: ${DEF}.`,
+    sol:`Với góc ${tm(N[V])}: cạnh đối là ${tm(s.opp)}, cạnh kề là ${tm(s.adj)}, cạnh huyền là ${tm(s.hyp)}. Vậy ${lv===2?tm(`${ang} = ${tf(...ratio(f,s))} =`):tm(ang+' =')} ${tb(good)}.`});
+};
+const g11b = lv => {   // tính tỉ số lượng giác
+  if(lv<3){ const N=NAMESETS[0], V=pick([1,2]), f=pick(FN), s=sides(N,V), t=tri(lv), len={AB:t.v,AC:t.h,BC:t.c};
+    let hide=null; const [a,b]=ratio(f,s); if(lv===2) hide=pick([a,b]);
+    const lab=k=>k===hide?'?':len[k], known=Object.keys(len).filter(k=>k!==hide);
+    const fig=rtTriSVG({n:N,w:t.h,h:t.v,ab:lab('AB'),ac:lab('AC'),bc:lab('BC'),[V===1?'aB':'aC']:true});
+    const given=known.map(k=>tm(`${k} = ${len[k]}`)).join(', ');
+    let py='';
+    if(hide) py = hide==='BC' ? `Theo định lí Pythagore: ${tm(`BC = \\sqrt{AB^2 + AC^2} = \\sqrt{${t.v*t.v} + ${t.h*t.h}} = ${t.c}`)}. `
+      : `Theo định lí Pythagore: ${tm(`${hide} = \\sqrt{BC^2 - ${known.find(k=>k!=='BC')}^2} = \\sqrt{${t.c*t.c} - ${(hide==='AB'?t.h:t.v)**2}} = ${len[hide]}`)}. `;
+    return QB({text:`Cho tam giác ${tm('ABC')} vuông tại ${tm('A')} có ${given} (cùng đơn vị độ dài). Tính ${tm(`\\${f} ${N[V]}`)}.`, fig,
+      tpl:`<span class="eq">${tm(`\\${f} ${N[V]} =`)} [F]</span>`, ans:[{frac:[len[a],len[b]],mode:'eq'}],
+      hint:(hide?'Dùng định lí Pythagore để tính cạnh còn thiếu trước. ':'')+`Xác định cạnh đối, kề, huyền của góc ${tm(N[V])}; ${DEF}.`,
+      sol:`${py}${tm(`\\${f} ${N[V]} = ${tf(a,b)} = ${tf(len[a],len[b])}`)} ${tm('=')} ${tb(tfrac(len[a],len[b]))}.`}); }
+  const [p,q,h]=pick(TRIPLES.slice(0,6)), sw=Math.random()<.5, o=sw?p:q, a=sw?q:p;   // o: đối, a: kề, h: huyền
+  const V={sin:[o,h],cos:[a,h],tan:[o,a],cot:[a,o]}, f1=pick(['sin','cos','tan']), f2=pick(FN.filter(g=>g!==f1));
+  const [n1,d1]=V[f1], [n2,d2]=V[f2];
+  const known = f1==='sin'?`cạnh đối ${tm(o+'k')}, cạnh huyền ${tm(h+'k')}`:f1==='cos'?`cạnh kề ${tm(a+'k')}, cạnh huyền ${tm(h+'k')}`:`cạnh đối ${tm(o+'k')}, cạnh kề ${tm(a+'k')}`;
+  const third = f1==='sin'?`cạnh kề ${tm(`\\sqrt{${h}^2 - ${o}^2}\\,k = ${a}k`)}`:f1==='cos'?`cạnh đối ${tm(`\\sqrt{${h}^2 - ${a}^2}\\,k = ${o}k`)}`:`cạnh huyền ${tm(`\\sqrt{${o}^2 + ${a}^2}\\,k = ${h}k`)}`;
+  return QB({text:`Cho ${tm('\\alpha')} là góc nhọn và ${tm(`\\${f1}\\alpha = ${tf(n1,d1)}`)}. Tính ${tm(`\\${f2}\\alpha`)}.`,
+    tpl:`<span class="eq">${tm(`\\${f2}\\alpha =`)} [F]</span>`, ans:[{frac:[n2,d2],mode:'eq'}],
+    hint:`Vẽ một tam giác vuông có góc nhọn ${tm('\\alpha')} với hai cạnh tỉ lệ theo ${tm(`\\${f1}\\alpha`)}, dùng định lí Pythagore tính cạnh thứ ba rồi lập tỉ số cần tìm.`,
+    sol:`Xét tam giác vuông có góc nhọn ${tm('\\alpha')} với ${known} (${tm('k \\gt 0')}). Theo định lí Pythagore, ${third}. Vậy ${tm(`\\${f2}\\alpha = ${tf(n2+'k',d2+'k')} =`)} ${tb(tf(n2,d2))}.`});
+};
+const g11c = lv => {   // tỉ số lượng giác của hai góc phụ nhau
+  const HP=`Hai góc phụ nhau (tổng bằng ${tm(DEG(90))}): sin góc này bằng cos góc kia, tan góc này bằng cot góc kia.`;
+  let a; do{a=R(10,80)}while(a===45);
+  if(lv===1){ const f=pick(FN), g=OTHER[f];
+    return QB({text:'Điền số thích hợp vào ô trống:', tpl:`<span class="eq">${tm(`\\${f} ${DEG(a)} = \\${g}`)} [_]°</span>`, ans:[90-a], hint:HP,
+      sol:`Vì ${tm(`${DEG(a)} + ${DEG(90-a)} = ${DEG(90)}`)} nên ${tm(`\\${f} ${DEG(a)} = \\${g} ${DEG(90-a)}`)}. Số cần điền: ${tb(90-a)}.`}); }
+  if(lv===2){ const b=90-a, T=[`\\sin ${DEG(a)} = \\cos ${DEG(b)}`,`\\tan ${DEG(a)} = \\cot ${DEG(b)}`,`\\cos ${DEG(a)} = \\sin ${DEG(b)}`,`\\cot ${DEG(a)} = \\tan ${DEG(b)}`];
+    const Fz=[`\\sin ${DEG(a)} = \\sin ${DEG(b)}`,`\\sin ${DEG(a)} = \\cos ${DEG(a)}`,`\\tan ${DEG(a)} = \\tan ${DEG(b)}`,`\\cos ${DEG(a)} = \\cos ${DEG(b)}`,`\\tan ${DEG(a)} = \\cot ${DEG(a)}`,`\\cot ${DEG(a)} = \\cot ${DEG(b)}`];
+    const good=pick(T);
+    return QC({text:'Khẳng định nào sau đây <b>đúng</b>?', opts:[good,...shuffle(Fz).slice(0,3)].map(tm), ans:tm(good), hint:HP,
+      sol:`${tm(`${DEG(a)} + ${DEG(b)} = ${DEG(90)}`)} nên ${tb(good)}. Các khẳng định còn lại chỉ đúng khi góc bằng ${tm(DEG(45))}.`}); }
+  let c,d; do{c=R(10,80);d=R(10,80)}while(c===45||d===45||c===a||d===a||c===d);
+  const k=[R(1,4),R(1,4),R(1,4)], s=[1,pick([1,-1]),pick([1,-1])], v=k[0]*s[0]+k[1]*s[1]+k[2]*s[2];
+  const K=(i,e,wrap)=>(i?(s[i]<0?' - ':' + '):'')+(k[i]>1?(wrap?`${k[i]}\\cdot`:`${k[i]}`):'')+e;
+  const T1=tf(`\\sin ${DEG(a)}`,`\\cos ${DEG(90-a)}`), T2=`\\tan ${DEG(c)}\\cdot\\tan ${DEG(90-c)}`, T3=tf(`\\cot ${DEG(d)}`,`\\tan ${DEG(90-d)}`);
+  const E=K(0,T1,true)+K(1,T2,true)+K(2,T3,true);
+  return QB({text:`Tính giá trị biểu thức (không dùng máy tính): ${td(`E = ${E}`)}`, tpl:eqB('E'), ans:[v],
+    hint:HP+` Ngoài ra ${tm('\\tan\\alpha\\cdot\\cot\\alpha = 1')}.`,
+    sol:`${tm(`\\cos ${DEG(90-a)} = \\sin ${DEG(a)}`)} nên ${tm(`${T1} = 1`)}; ${tm(`\\tan ${DEG(90-c)} = \\cot ${DEG(c)}`)} nên ${tm(`${T2} = 1`)}; ${tm(`\\tan ${DEG(90-d)} = \\cot ${DEG(d)}`)} nên ${tm(`${T3} = 1`)}. Vậy ${tm(`E = ${k[0]}${s[1]<0?' - ':' + '}${k[1]}${s[2]<0?' - ':' + '}${k[2]} =`)} ${tb(v)}.`});
+};
+const SV = {sin:{30:tf(1,2),45:tf(sq(2),2),60:tf(sq(3),2)}, cos:{30:tf(sq(3),2),45:tf(sq(2),2),60:tf(1,2)},
+            tan:{30:tf(sq(3),3),45:'1',60:sq(3)}, cot:{30:sq(3),45:'1',60:tf(sq(3),3)}};
+const SVPOOL = [tf(1,2),tf(sq(2),2),tf(sq(3),2),'1',sq(3),tf(sq(3),3)];
+const SVTERMS = [['2\\sin 30^\\circ',`2\\cdot${tf(1,2)}`,1],['2\\cos 60^\\circ',`2\\cdot${tf(1,2)}`,1],['\\tan 45^\\circ','1',1],['\\cot 45^\\circ','1',1],
+  ['4\\sin^2 60^\\circ',`4\\cdot\\left(${tf(sq(3),2)}\\right)^2`,3],['4\\cos^2 30^\\circ',`4\\cdot\\left(${tf(sq(3),2)}\\right)^2`,3],
+  ['2\\sin^2 45^\\circ',`2\\cdot\\left(${tf(sq(2),2)}\\right)^2`,1],['\\tan^2 60^\\circ',`(${sq(3)})^2`,3],['3\\tan^2 30^\\circ',`3\\cdot\\left(${tf(sq(3),3)}\\right)^2`,1],
+  ['\\cot^2 30^\\circ',`(${sq(3)})^2`,3],[`${sq(3)}\\tan 60^\\circ`,`${sq(3)}\\cdot${sq(3)}`,3],[`${sq(2)}\\cos 45^\\circ`,`${sq(2)}\\cdot${tf(sq(2),2)}`,1],['6\\sin 30^\\circ',`6\\cdot${tf(1,2)}`,3]];
+const g11d = lv => {   // tỉ số lượng giác của góc đặc biệt
+  const HT=`Nhớ bảng giá trị: ${tm(`\\sin 30^\\circ = \\cos 60^\\circ = ${tf(1,2)}`)}, ${tm(`\\sin 45^\\circ = \\cos 45^\\circ = ${tf(sq(2),2)}`)}, ${tm(`\\sin 60^\\circ = \\cos 30^\\circ = ${tf(sq(3),2)}`)}; ${tm('\\tan = \\dfrac{\\sin}{\\cos}')}, ${tm('\\cot = \\dfrac{\\cos}{\\sin}')}.`;
+  const f=pick(FN), t=pick([30,45,60]), good=SV[f][t];
+  if(lv===1) return QC({text:`${tm(`\\${f} ${DEG(t)}`)} bằng`, opts:[good,...shuffle(SVPOOL.filter(x=>x!==good)).slice(0,3)].map(tm), ans:tm(good), hint:HT,
+    sol:`Theo bảng giá trị lượng giác của các góc đặc biệt: ${tm(`\\${f} ${DEG(t)} =`)} ${tb(good)}.`});
+  if(lv===2) return QB({text:`Tìm góc nhọn ${tm('\\alpha')}, biết ${tm(`\\${f}\\alpha = ${good}`)}.`, tpl:`<span class="eq">${tm('\\alpha =')} [_]°</span>`, ans:[t], hint:HT,
+    sol:`Vì ${tm(`\\${f} ${DEG(t)} = ${good}`)} nên ${tb(`\\alpha = ${DEG(t)}`)}.`});
+  let T; do{T=shuffle(SVTERMS).slice(0,3)}while(new Set(T.map(x=>x[1])).size<3);
+  const s=[1,pick([1,-1]),pick([1,-1])], v=T.reduce((a,x,i)=>a+s[i]*x[2],0);
+  const J=f=>T.map((x,i)=>(i?(s[i]<0?' - ':' + '):'')+f(x)).join('');
+  return QB({text:`Tính giá trị biểu thức (không dùng máy tính): ${td(`E = ${J(x=>x[0])}`)}`, tpl:eqB('E'), ans:[v], hint:HT,
+    sol:`${tm(`E = ${J(x=>x[1])} = ${J(x=>x[2])} =`)} ${tb(v)}.`});
+};
+
+/* =====================================================================
+   BÀI 12. Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng
+   ===================================================================== */
+const TR = `${tm('\\text{cạnh góc vuông} = \\text{huyền}\\cdot\\sin(\\text{góc đối}) = \\text{huyền}\\cdot\\cos(\\text{góc kề})')}; ${tm('\\text{cạnh góc vuông} = \\text{cạnh kia}\\cdot\\tan(\\text{góc đối}) = \\text{cạnh kia}\\cdot\\cot(\\text{góc kề})')}`;
+const g12a = lv => {   // chọn hệ thức đúng
+  const N=lv===3?pick(NAMESETS):NAMESETS[0], V=lv===3?pick([1,2]):1, W=3-V, s=sides(N,V);   // hỏi cạnh s.opp (đối diện góc V)
+  const L=s.opp, H=s.hyp, O=s.adj, P=N[V], Q=N[W], eq=r=>`${L} = ${r}`;
+  const T={hs:`${H}\\cdot\\sin ${P}`, hc:`${H}\\cdot\\cos ${Q}`, ot:`${O}\\cdot\\tan ${P}`, oc:`${O}\\cdot\\cot ${Q}`};
+  const Fz={hc2:`${H}\\cdot\\cos ${P}`, hs2:`${H}\\cdot\\sin ${Q}`, ot2:`${O}\\cdot\\tan ${Q}`, oc2:`${O}\\cdot\\cot ${P}`, ht:`${H}\\cdot\\tan ${P}`, os:`${O}\\cdot\\sin ${P}`};
+  let good, bad;
+  if(lv===1){ good=pick([T.hs,T.hc]); bad=[Fz.hc2,Fz.hs2,Fz.ht]; }
+  else if(lv===2){ good=pick([T.ot,T.oc]); bad=[Fz.ot2,Fz.oc2,Fz.os]; }
+  else { good=pick(Object.values(T)); bad=shuffle(Object.values(Fz)).slice(0,3); }
+  return QC({text:`Cho tam giác ${tm(N.join(''))} vuông tại ${tm(N[0])} (hình bên). Khẳng định nào sau đây <b>đúng</b>?`, fig:rtTriSVG({n:N}),
+    opts:[good,...bad].map(r=>tm(eq(r))), ans:tm(eq(good)), hint:TR,
+    sol:`Cạnh ${tm(L)} đối diện góc ${tm(P)}, kề góc ${tm(Q)}. Do đó ${tm(`${L} = ${T.hs} = ${T.hc}`)} và ${tm(`${L} = ${T.ot} = ${T.oc}`)}. Đáp án: ${tb(eq(good))}.`});
+};
+const g12b = lv => {   // tính cạnh với góc đặc biệt
+  const k=R(2,12), fg=(b,o)=>rtTriSVG({n:['A','B','C'],w:Math.tan(b*Math.PI/180),h:1,aB:`${b}°`,...o});
+  const U='&nbsp;cm';
+  if(lv===1){ const b=pick([30,60]), a=2*k, leg=b===30?'AC':'AB', f=b===30?'\\sin':'\\cos';
+    return QB({text:`Cho tam giác ${tm('ABC')} vuông tại ${tm('A')} có ${tm(`BC = ${a}`)} cm và ${tm(`\\widehat{B} = ${DEG(b)}`)}. Tính độ dài cạnh ${tm(leg)}.`,
+      fig:fg(b,{bc:`${a} cm`,[leg==='AC'?'ac':'ab']:'?'}), tpl:eqB(leg,U), ans:[k], hint:TR,
+      sol:`${tm(`${leg} = BC\\cdot${f} B = ${a}\\cdot${f} ${DEG(b)} = ${a}\\cdot${tf(1,2)} = ${k}`)}. Vậy ${tb(`${leg} = ${k}\\text{ cm}`)}.`}); }
+  if(lv===2){ const c=pick(['ac60','bc60','bc45']);
+    if(c==='ac60') return QB({text:`Cho tam giác ${tm('ABC')} vuông tại ${tm('A')} có ${tm(`AB = ${k}`)} cm và ${tm(`\\widehat{B} = ${DEG(60)}`)}. Tính ${tm('AC')}.`,
+      fig:fg(60,{ab:`${k} cm`,ac:'?'}), tpl:`<span class="eq">${tm('AC =')} [_] ${tm(sq(3))} cm</span>`, ans:[k], hint:TR,
+      sol:`${tm(`AC = AB\\cdot\\tan B = ${k}\\cdot\\tan ${DEG(60)} = ${k}${sq(3)}`)}. Vậy ${tb(`AC = ${k}${sq(3)}\\text{ cm}`)}.`});
+    const b=c==='bc60'?60:45;
+    return QB({text:`Cho tam giác ${tm('ABC')} vuông tại ${tm('A')} có ${tm(`AB = ${k}`)} cm và ${tm(`\\widehat{B} = ${DEG(b)}`)}. Tính ${tm('BC')}.`,
+      fig:fg(b,{ab:`${k} cm`,bc:'?'}), tpl:b===60?eqB('BC',U):`<span class="eq">${tm('BC =')} [_] ${tm(sq(2))} cm</span>`, ans:[b===60?2*k:k],
+      hint:`${tm('AB = BC\\cdot\\cos B')}, suy ra ${tm('BC = \\dfrac{AB}{\\cos B}')}.`,
+      sol:b===60?`${tm(`BC = ${tf('AB','\\cos B')} = ${tf(k,`\\cos ${DEG(60)}`)} = ${tf(k,tf(1,2))} = ${2*k}`)}. Vậy ${tb(`BC = ${2*k}\\text{ cm}`)}.`
+        :`${tm(`BC = ${tf('AB','\\cos B')} = ${tf(k,tf(sq(2),2))} = ${tf(2*k,sq(2))} = ${k}${sq(2)}`)}. Vậy ${tb(`BC = ${k}${sq(2)}\\text{ cm}`)}.`}); }
+  return QB({text:`Giải tam giác vuông: tam giác ${tm('ABC')} vuông tại ${tm('A')} có ${tm(`AC = ${k}`)} cm và ${tm(`\\widehat{B} = ${DEG(30)}`)}. Tính ${tm('BC')} và ${tm('AB')}.`,
+    fig:fg(30,{ac:`${k} cm`,bc:'?',ab:'?'}), tpl:`<span class="eq">${tm('BC =')} [_] cm</span><br><span class="eq">${tm('AB =')} [_] ${tm(sq(3))} cm</span>`, ans:[2*k,k],
+    hint:`${tm('AC = BC\\cdot\\sin B')} cho ta ${tm('BC')}; ${tm('AC = AB\\cdot\\tan B')} cho ta ${tm('AB')}.`,
+    sol:`${tm(`BC = ${tf('AC','\\sin B')} = ${tf(k,tf(1,2))} = ${2*k}`)}; ${tm(`AB = ${tf('AC','\\tan B')} = ${tf(k,tf(sq(3),3))} = ${tf(3*k,sq(3))} = ${k}${sq(3)}`)}. Vậy ${tb(`BC = ${2*k}\\text{ cm}`)}, ${tb(`AB = ${k}${sq(3)}\\text{ cm}`)}.`});
+};
+const trig = (f,d) => Math[f==='cot'?'tan':f](d*Math.PI/180)**(f==='cot'?-1:1);
+const r2 = x => Math.round(x*100)/100;
+const g12c = lv => {   // giải tam giác vuông (dùng giá trị gần đúng cho sẵn)
+  let b; do{b=R(20,70)}while(b===30||b===45||b===60);
+  const fg=o=>rtTriSVG({n:['A','B','C'],w:Math.tan(b*Math.PI/180),h:1,aB:`${b}°`,...o});
+  if(lv===1) return QB({text:`Cho tam giác ${tm('ABC')} vuông tại ${tm('A')} có ${tm(`\\widehat{B} = ${DEG(b)}`)}. Tính số đo góc ${tm('C')}.`, fig:fg({aC:'?'}),
+    tpl:`<span class="eq">${tm('\\widehat{C} =')} [_]°</span>`, ans:[90-b], hint:`Trong tam giác vuông, hai góc nhọn phụ nhau: ${tm(`\\widehat{B} + \\widehat{C} = ${DEG(90)}`)}.`,
+    sol:`${tm(`\\widehat{C} = ${DEG(90)} - ${DEG(b)} = ${DEG(90-b)}`)}. Vậy ${tb(`\\widehat{C} = ${DEG(90-b)}`)}.`});
+  if(lv===2){ const a=R(5,30), f=pick(['sin','cos']), leg=f==='sin'?'AC':'AB', v=r2(trig(f,b)), res=a*v;
+    return QB({text:`Cho tam giác ${tm('ABC')} vuông tại ${tm('A')} có ${tm(`BC = ${a}`)} cm, ${tm(`\\widehat{B} = ${DEG(b)}`)}. Biết ${tm(`\\${f} ${DEG(b)} \\approx ${tdec(v)}`)}. Tính ${tm(leg)} (làm tròn đến hàng phần mười).`,
+      fig:fg({bc:`${a} cm`,[leg==='AC'?'ac':'ab']:'?'}), tpl:eqB(leg,'&nbsp;cm'), ans:ansR(res,a*trig(f,b)), hint:TR,
+      sol:`${tm(`${leg} = BC\\cdot\\${f} B \\approx ${a}\\cdot ${tdec(v)} = ${tdec(res)}`)}. Vậy ${tb(`${leg} \\approx ${tdec(R1(res))}\\text{ cm}`)}.`}); }
+  const c=R(4,20), t=r2(trig('tan',b)), co=r2(trig('cos',b)), ac=c*t, bc=c/co;
+  return QB({text:`Cho tam giác ${tm('ABC')} vuông tại ${tm('A')} có ${tm(`AB = ${c}`)} cm, ${tm(`\\widehat{B} = ${DEG(b)}`)}. Biết ${tm(`\\tan ${DEG(b)} \\approx ${tdec(t)}`)}, ${tm(`\\cos ${DEG(b)} \\approx ${tdec(co)}`)}. Tính ${tm('AC')} và ${tm('BC')} (làm tròn đến hàng phần mười).`,
+    fig:fg({ab:`${c} cm`,ac:'?',bc:'?'}), tpl:`<span class="eq">${tm('AC \\approx')} [_] cm</span><br><span class="eq">${tm('BC \\approx')} [_] cm</span>`,
+    ans:[...ansR(ac,c*trig('tan',b)),...ansR(bc,c/trig('cos',b))],
+    hint:`${tm('AC = AB\\cdot\\tan B')}; ${tm('AB = BC\\cdot\\cos B')} nên ${tm('BC = \\dfrac{AB}{\\cos B}')}.`,
+    sol:`${tm(`AC = AB\\cdot\\tan B \\approx ${c}\\cdot ${tdec(t)} = ${tdec(ac)}`)}; ${tm(`BC = ${tf('AB','\\cos B')} \\approx ${tf(c,tdec(co))} \\approx ${tdec(Math.round(bc*1000)/1000)}`)}. Vậy ${tb(`AC \\approx ${tdec(R1(ac))}\\text{ cm}`)}, ${tb(`BC \\approx ${tdec(R1(bc))}\\text{ cm}`)}.`});
+};
+const g12d = lv => {   // bài toán thực tế
+  if(lv===1){ if(Math.random()<.5){ const L=R(4,9), v=L/2;
+      return QB({text:`Một chiếc thang dài <b>${L} m</b> dựa vào tường, thang tạo với mặt đất một góc ${tm(DEG(60))}. Hỏi chân thang cách chân tường bao nhiêu mét?`,
+        fig:rtTriSVG({n:['A','B','C'],w:.5,h:.866,bc:`${L} m`,ac:'?',aC:'60°'}), tpl:'[_] m', ans:[v],
+        hint:`Thang, tường và mặt đất tạo thành tam giác vuông tại chân tường ${tm('A')}. Khoảng cách cần tìm là cạnh kề với góc ${tm(DEG(60))}.`,
+        sol:`${tm(`AC = BC\\cdot\\cos C = ${L}\\cdot\\cos ${DEG(60)} = ${L}\\cdot${tf(1,2)} = ${tdec(v)}`)}. Chân thang cách tường ${tb(`${tdec(v)}\\text{ m}`)}.`}); }
+    const s=R(5,20);
+    return QB({text:`Bóng của một cây trên mặt đất dài <b>${s} m</b>, tia nắng mặt trời tạo với mặt đất một góc ${tm(DEG(45))}. Tính chiều cao của cây.`,
+      fig:rtTriSVG({n:['A','B','C'],w:1,h:1,ac:`${s} m`,ab:'?',aC:'45°'}), tpl:'[_] m', ans:[s],
+      hint:`Cây (${tm('AB')}), bóng (${tm('AC')}) và tia nắng tạo thành tam giác vuông tại gốc cây ${tm('A')}. Dùng ${tm('AB = AC\\cdot\\tan C')}.`,
+      sol:`${tm(`AB = AC\\cdot\\tan C = ${s}\\cdot\\tan ${DEG(45)} = ${s}\\cdot 1 = ${s}`)}. Cây cao ${tb(`${s}\\text{ m}`)}.`}); }
+  let al; do{al=R(25,65)}while(al===45);
+  if(lv===2){ const s=R(6,25), t=r2(trig('tan',al)), h=s*t, obj=pick(['một cột cờ','một toà nhà','một cây thông']);
+    return QB({text:`Bóng của ${obj} trên mặt đất dài <b>${s} m</b>, tia nắng tạo với mặt đất góc ${tm(DEG(al))}. Biết ${tm(`\\tan ${DEG(al)} \\approx ${tdec(t)}`)}. Tính chiều cao của ${obj.replace('một ','')} (làm tròn đến hàng phần mười).`,
+      fig:rtTriSVG({n:['A','B','C'],w:1,h:trig('tan',al),ac:`${s} m`,ab:'?',aC:`${al}°`}), tpl:'[_] m', ans:ansR(h,s*trig('tan',al)),
+      hint:`Chiều cao ${tm('AB')}, bóng ${tm('AC')} và tia nắng tạo thành tam giác vuông tại ${tm('A')}. Chiều cao là cạnh đối, bóng là cạnh kề của góc ${tm(DEG(al))}.`,
+      sol:`${tm(`AB = AC\\cdot\\tan C \\approx ${s}\\cdot ${tdec(t)} = ${tdec(h)}`)}. Chiều cao khoảng ${tb(`${tdec(R1(h))}\\text{ m}`)}.`}); }
+  const L=R(30,80), hh=pick([1,1.2,1.5]), sv=r2(trig('sin',al)), H=L*sv+hh, nm=pick(NAMES);
+  return QB({text:`${nm} thả diều với sợi dây dài <b>${L} m</b> (coi như căng thẳng), dây tạo với phương nằm ngang góc ${tm(DEG(al))}. Tay ${nm} cầm dây ở độ cao ${tm(tdec(hh))} m so với mặt đất. Biết ${tm(`\\sin ${DEG(al)} \\approx ${tdec(sv)}`)}. Hỏi diều bay cao bao nhiêu mét so với mặt đất (làm tròn đến hàng phần mười)?`,
+    fig:rtTriSVG({n:['A','B','C'],w:trig('cos',al),h:trig('sin',al),bc:`${L} m`,ab:'?',aC:`${al}°`}), tpl:'[_] m', ans:ansR(H,L*trig('sin',al)+hh),
+    hint:`Gọi ${tm('C')} là tay cầm dây, ${tm('B')} là diều, ${tm('A')} là hình chiếu của ${tm('B')} trên đường nằm ngang qua ${tm('C')}. Tính ${tm('AB')} trong tam giác vuông rồi cộng thêm độ cao của tay.`,
+    sol:`${tm(`AB = BC\\cdot\\sin C \\approx ${L}\\cdot ${tdec(sv)} = ${tdec(L*sv)}`)}. Độ cao của diều: ${tm(`${tdec(L*sv)} + ${tdec(hh)} = ${tdec(H)}`)}, khoảng ${tb(`${tdec(R1(H))}\\text{ m}`)}.`});
+};
+
+lesson(4,'ti-so-luong-giac','Bài 11. Tỉ số lượng giác của góc nhọn','Định nghĩa sin, cos, tan, cot; tính tỉ số; hai góc phụ nhau; giá trị của góc đặc biệt.',[g11a,g11b,g11c,g11d]);
+lesson(4,'he-thuc-canh-goc','Bài 12. Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng','Hệ thức cạnh – góc; tính cạnh, giải tam giác vuông; bài toán thực tế.',[g12a,g12b,g12c,g12d]);
+lesson(4,'on-tap-c4','Ôn tập chương IV','Tổng hợp: tỉ số lượng giác, góc phụ nhau, góc đặc biệt, giải tam giác vuông, ứng dụng.',[g11b,g11c,g11d,g12b,g12c,g12d]);
 })();
 
 </script>
@@ -1957,7 +2444,8 @@ let S={grade:null,lesson:null,lv:1,qs:[]};
 const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}};
 const PRAISE=['Giỏi quá!','Chính xác!','Tuyệt vời!','Đúng rồi, con làm tốt lắm!','Xuất sắc!'];
 const norm=s=>String(s).replace(/[\s .]/g,'').replace(',','.').toUpperCase();
-const numEq=(s,v)=>s!==''&&!isNaN(+norm(s))&&+norm(s)===v;
+// Đáp án thập phân: nhận cả "0,6" và "0.6" (bàn phím iPad tiếng Anh dùng dấu chấm); với đáp án nguyên, dấu chấm vẫn là dấu tách nghìn.
+const numEq=(s,v)=>{if(s==='')return false;if(!isNaN(+norm(s))&&+norm(s)===v)return true;const t=String(s).trim().replace(/\s/g,'');return !Number.isInteger(v)&&/^-?\d+\.\d+$/.test(t)&&+t===v};
 function matchOne(s,spec){if(Array.isArray(spec))return spec.some(x=>matchOne(s,x));if(typeof spec==='number')return numEq(s,spec);return norm(s)===norm(spec)}
 function matchFrac(n,d,spec){n=+norm(n);d=+norm(d);if(!d||isNaN(n)||isNaN(d))return false;const[N,D]=spec.frac;if(spec.mode==='exact')return n===N&&d===D;const eq=n*D===N*d;return spec.mode==='simplest'?eq&&gcd(n,d)===1:eq}
 

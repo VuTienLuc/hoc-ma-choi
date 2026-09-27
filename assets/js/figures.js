@@ -34,6 +34,25 @@ function barSVG(labels,vals,step,unit){
   labels.forEach((l,i)=>{const x=x0+gap*i+(gap-bw)/2,h=vals[i]*sc;s+=`<rect class="sv-bar" x="${x}" y="${y0-h}" width="${bw}" height="${h}" rx="3"/><text class="sv-txt" x="${x+bw/2}" y="${y0+24}" font-size="15" text-anchor="middle">${l}</text>`});
   s+=`<line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${y0}" x2="${W-10}" y2="${y0}"/><line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${top-6}" x2="${x0}" y2="${y0}"/><text class="sv-muted" x="${x0-44}" y="${top-8}" font-size="12">(${unit})</text></svg>`;return s;
 }
+/* Tam giác vuông tại n[0]: n[0] góc dưới trái, n[1] ở trên, n[2] bên phải.
+   w = độ dài cạnh n[0]n[2] (nằm ngang), h = độ dài cạnh n[0]n[1] (thẳng đứng) – chỉ dùng để vẽ đúng tỉ lệ.
+   ab, ac, bc: nhãn cạnh; aB, aC: nhãn góc tại n[1], n[2] (true = chỉ vẽ cung, không ghi chữ). */
+function rtTriSVG(o={}){
+  const n=o.n||['A','B','C'], ratio=Math.max(.4,Math.min(2.6,(o.w||4)/(o.h||3)));
+  let w,h; if(ratio>230/150){w=230;h=230/ratio}else{h=150;w=150*ratio}
+  const Ax=Math.max(78,(340-w)/2), Ay=182, By=Ay-h, Cx=Ax+w, t=Math.atan2(h,w)*180/Math.PI;
+  const T=(x,y,s,a='middle',fs=16)=>`<text class="sv-txt" x="${x}" y="${y}" font-size="${fs}" text-anchor="${a}">${s}</text>`;
+  const arc=(cx,cy,a1,a2,lab,anc)=>{const r=26,[x1,y1]=P(cx,cy,r,a1),[x2,y2]=P(cx,cy,r,a2),[lx,ly]=P(cx,cy,r+14,(a1+a2)/2);
+    return `<path class="sv-tick" stroke-width="2.5" fill="none" d="M${x1} ${y1} A${r} ${r} 0 0 0 ${x2} ${y2}"/>`+(lab&&lab!==true?T(lx+(anc==='start'?2:-2),ly+(anc==='start'?10:0),lab,anc,14):'')};
+  let s=`<svg viewBox="0 0 340 226" role="img" aria-label="Tam giác ${n.join('')} vuông tại ${n[0]}">`;
+  s+=`<path class="sv-ink" stroke-width="3" stroke-linejoin="round" d="M${Ax} ${Ay} L${Ax} ${By} L${Cx} ${Ay} Z"/><path class="sv-ink" stroke-width="2" d="M${Ax} ${Ay-14} h14 v14"/>`;
+  if(o.aC!=null)s+=arc(Cx,Ay,180-t,180,o.aC,'end');
+  if(o.aB!=null)s+=arc(Ax,By,270,360-t,o.aB,'start');
+  if(o.ab)s+=T(Ax-10,(Ay+By)/2+5,o.ab,'end');
+  if(o.ac)s+=T((Ax+Cx)/2,Ay+26,o.ac);
+  if(o.bc){const L=Math.hypot(w,h);s+=T((Ax+Cx)/2+h/L*14,(Ay+By)/2-w/L*14,o.bc,'start')}
+  return s+T(Ax-16,Ay+20,n[0],'middle',19)+T(Ax,By-10,n[1],'middle',19)+T(Cx+16,Ay+6,n[2],'middle',19)+'</svg>';
+}
 function rectSVG(){return `<svg viewBox="0 0 320 200" role="img" aria-label="Hình chữ nhật ABCD"><rect class="sv-ink" stroke-width="3" x="50" y="40" width="220" height="120"/>
  <path class="sv-ink" stroke-width="2" d="M50 56 h16 v-16 M254 40 v16 h16 M270 144 h-16 v16 M66 160 v-16 h-16"/>
  <text class="sv-txt" x="30" y="36" font-size="19">A</text><text class="sv-txt" x="276" y="36" font-size="19">B</text><text class="sv-txt" x="276" y="182" font-size="19">C</text><text class="sv-txt" x="28" y="182" font-size="19">D</text></svg>`}
