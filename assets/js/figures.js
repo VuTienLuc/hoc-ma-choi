@@ -53,6 +53,35 @@ function rtTriSVG(o={}){
   if(o.bc){const L=Math.hypot(w,h);s+=T((Ax+Cx)/2+h/L*14,(Ay+By)/2-w/L*14,o.bc,'start')}
   return s+T(Ax-16,Ay+20,n[0],'middle',19)+T(Ax,By-10,n[1],'middle',19)+T(Cx+16,Ay+6,n[2],'middle',19)+'</svg>';
 }
+/* Mặt phẳng toạ độ Oxy có đường thẳng và phần bị gạch (KNTT: miền nghiệm là phần KHÔNG bị gạch).
+   o.x=[xmin,xmax], o.y=[ymin,ymax] (số nguyên, chứa 0)
+   o.lines=[[a,b,c,dashed,label]]  vẽ đường ax+by=c (dashed: bờ không thuộc miền nghiệm)
+   o.hatch=[[a,b,c]]               gạch phần ax+by > c
+   o.pts=[[x,y,label]]             chấm điểm có tên                                               */
+let _hatchN=0;
+function planeSVG(o={}){
+  const [x0,x1]=o.x||[-1,6],[y0,y1]=o.y||[-1,6],u=Math.min(320/(x1-x0),320/(y1-y0)),W=(x1-x0)*u+40,H=(y1-y0)*u+40;
+  const X=x=>20+(x-x0)*u, Y=y=>20+(y1-y)*u, id='hx'+(++_hatchN), st=(x1-x0)>14||(y1-y0)>14?2:1;
+  const rect=[[x0,y0],[x1,y0],[x1,y1],[x0,y1]];
+  const clip=(poly,a,b,c)=>{const out=[],f=p=>a*p[0]+b*p[1]-c;for(let i=0;i<poly.length;i++){const P=poly[i],Q=poly[(i+1)%poly.length],fp=f(P),fq=f(Q);
+    if(fp>=0)out.push(P);if((fp>=0)!==(fq>=0)){const t=fp/(fp-fq);out.push([P[0]+t*(Q[0]-P[0]),P[1]+t*(Q[1]-P[1])])}}return out};
+  const seg=(a,b,c)=>{const pts=[];const add=(x,y)=>{if(x>=x0-1e-9&&x<=x1+1e-9&&y>=y0-1e-9&&y<=y1+1e-9&&!pts.some(p=>Math.hypot(p[0]-x,p[1]-y)<1e-6))pts.push([x,y])};
+    if(b){add(x0,(c-a*x0)/b);add(x1,(c-a*x1)/b)} if(a){add((c-b*y0)/a,y0);add((c-b*y1)/a,y1)} return pts.slice(0,2)};
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mặt phẳng toạ độ Oxy" style="max-height:380px"><defs><pattern id="${id}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" class="sv-hatch"/></pattern></defs>`;
+  for(let x=x0;x<=x1;x++)s+=`<line class="sv-grid" x1="${X(x)}" y1="${Y(y0)}" x2="${X(x)}" y2="${Y(y1)}"/>`;
+  for(let y=y0;y<=y1;y++)s+=`<line class="sv-grid" x1="${X(x0)}" y1="${Y(y)}" x2="${X(x1)}" y2="${Y(y)}"/>`;
+  (o.hatch||[]).forEach(([a,b,c])=>{const P=clip(rect,a,b,c);if(P.length>2){const d=P.map(p=>`${X(p[0])},${Y(p[1])}`).join(' ');s+=`<polygon class="sv-excl" points="${d}"/><polygon points="${d}" fill="url(#${id})" stroke="none"/>`}});
+  s+=`<line class="sv-axis" x1="${X(x0)}" y1="${Y(0)}" x2="${X(x1)+12}" y2="${Y(0)}"/><line class="sv-axis" x1="${X(0)}" y1="${Y(y0)}" x2="${X(0)}" y2="${Y(y1)-12}"/>`;
+  s+=`<path class="sv-axis" fill="none" d="M${X(x1)+5} ${Y(0)-5} L${X(x1)+12} ${Y(0)} L${X(x1)+5} ${Y(0)+5} M${X(0)-5} ${Y(y1)-5} L${X(0)} ${Y(y1)-12} L${X(0)+5} ${Y(y1)-5}"/>`;
+  s+=`<text class="sv-txt" x="${X(x1)+6}" y="${Y(0)+20}" font-size="15">x</text><text class="sv-txt" x="${X(0)+8}" y="${Y(y1)-6}" font-size="15">y</text><text class="sv-muted" x="${X(0)-5}" y="${Y(0)+15}" font-size="12" text-anchor="end">O</text>`;
+  for(let x=x0;x<=x1;x++)if(x&&x%st===0)s+=`<text class="sv-muted" x="${X(x)}" y="${Y(0)+15}" font-size="11" text-anchor="middle">${x}</text>`;
+  for(let y=y0;y<=y1;y++)if(y&&y%st===0)s+=`<text class="sv-muted" x="${X(0)-5}" y="${Y(y)+4}" font-size="11" text-anchor="end">${y}</text>`;
+  (o.lines||[]).forEach(([a,b,c,dash,lab])=>{const P=seg(a,b,c);if(P.length<2)return;
+    s+=`<line class="sv-ink" stroke-width="2.6" ${dash?'stroke-dasharray="8 6"':''} x1="${X(P[0][0])}" y1="${Y(P[0][1])}" x2="${X(P[1][0])}" y2="${Y(P[1][1])}"/>`;
+    if(lab){const q=P[0][1]>P[1][1]?P[0]:P[1];s+=`<text class="sv-txt" x="${Math.min(X(q[0])+6,W-18)}" y="${Math.max(Y(q[1])+14,14)}" font-size="14">${lab}</text>`}});
+  (o.pts||[]).forEach(([x,y,l])=>{s+=`<circle class="sv-dot" cx="${X(x)}" cy="${Y(y)}" r="4.5"/>`+(l?`<text class="sv-txt" x="${X(x)+7}" y="${Y(y)-7}" font-size="14">${l}</text>`:'')});
+  return s+'</svg>';
+}
 function rectSVG(){return `<svg viewBox="0 0 320 200" role="img" aria-label="Hình chữ nhật ABCD"><rect class="sv-ink" stroke-width="3" x="50" y="40" width="220" height="120"/>
  <path class="sv-ink" stroke-width="2" d="M50 56 h16 v-16 M254 40 v16 h16 M270 144 h-16 v16 M66 160 v-16 h-16"/>
  <text class="sv-txt" x="30" y="36" font-size="19">A</text><text class="sv-txt" x="276" y="36" font-size="19">B</text><text class="sv-txt" x="276" y="182" font-size="19">C</text><text class="sv-txt" x="28" y="182" font-size="19">D</text></svg>`}

@@ -156,6 +156,9 @@ h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
 .sv-ray.mov{stroke:var(--primary)}
 .sv-handle{fill:var(--primary);stroke:var(--surface);stroke-width:3;cursor:grab}
 .sv-dot{fill:var(--star)}
+.sv-axis{stroke:var(--ink);stroke-width:2}
+.sv-hatch{stroke:var(--muted);stroke-width:1.6}
+.sv-excl{fill:var(--muted);fill-opacity:.12;stroke:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:600px){.levels{grid-template-columns:1fr}.answer{font-size:21px}.card{padding:16px}}
 
