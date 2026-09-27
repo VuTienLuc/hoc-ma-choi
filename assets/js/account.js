@@ -53,9 +53,21 @@ const Account = (() => {
   function logout(){ LS.del('hoctap:session'); user = null; location.hash = '#/'; location.reload(); }
   const toastSafe = m => { try{ toast(m) }catch(e){} };
 
+  /* ---- Chỉ hiện đúng khối của lớp: "10A12" → lop10, "9A" → lop9 ----
+     Lớp không có số (vd "GV") hoặc khối chưa có nội dung → hiện mọi khối. Tắt bằng CONFIG.lockGrade = false. */
+  const gradeOfClass = lop => { const m = String(lop || '').match(/\d{1,2}/); return m ? 'lop' + (+m[0]) : null; };
+  function restrict(){
+    if(!user || CONFIG.lockGrade === false) return;
+    const id = gradeOfClass(user.lop), g = id && App.grades.find(x => x.id === id);
+    if(!g) return;
+    App.grades = [g]; CONFIG.upcoming = [];
+    const h = location.hash.match(/^#\/([\w-]+)/);
+    if(!h || h[1] !== g.id) location.replace('#/' + g.id);
+  }
+
   /* ---- Màn hình đăng nhập ---- */
   function gate(start){
-    if(!API() || user){ start(); flush(); return; }
+    if(!API() || user){ restrict(); start(); flush(); return; }
     const app = document.getElementById('app');
     app.innerHTML = `<div class="login card">
       <h1>Chào em! 👋</h1><p class="lead">Chọn lớp rồi đăng nhập bằng tài khoản thầy cô đã phát.</p>
@@ -88,7 +100,7 @@ const Account = (() => {
         if(P()){ Play.reset(); Play.adopt(r.play); }
         Object.entries(r.progress || {}).forEach(([k,v]) => { const key = 'hoctap:'+k; if((+v||0) > (store.get(key)||0)) store.set(key, +v); });
         App.grades.forEach(g => store.set(`hoctap:petseen:${g.id}`, Pet.stage(g)));   // không bật màn tiến hoá khi vừa đăng nhập
-        start();
+        restrict(); start();
       }catch(err){ say('Không kết nối được máy chủ. Em thử lại sau ít phút nhé.'); }
       finally{ btn.disabled = false; btn.textContent = 'Đăng nhập'; }
     };
@@ -121,7 +133,7 @@ const Account = (() => {
     }
   }
   addEventListener('online', flush);
-  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank };
+  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, gradeOfClass };
 })();
 
 /* =====================================================================

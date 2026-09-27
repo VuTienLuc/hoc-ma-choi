@@ -16,6 +16,10 @@ const CONFIG = {
   // Cách tạo: xem tools/apps-script/HUONG-DAN.md
   sheetAPI: 'https://script.google.com/macros/s/AKfycbyg7aav_7X5eOZKHWS9TMNqyUwTKEQ6hyiDbdJag-ojacN0ky4JUXtYjAgLw88BzB7D/exec',
 
+  // Khi đăng nhập, học sinh chỉ thấy bộ đề của khối mình, nhận theo SỐ ĐẦU trong tên lớp:
+  // "10A12" → Lớp 10, "9A" → Lớp 9. Lớp không có số (vd "GV") thấy tất cả. Đặt false để tắt.
+  lockGrade: true,
+
   // ÂM THANH khi chấm (thử lần lượt từng nguồn; muốn tắt hẳn thì để []).
   // Nên chép file mp3 vào assets/sounds/ để chạy cả khi không có mạng.
   sounds: {

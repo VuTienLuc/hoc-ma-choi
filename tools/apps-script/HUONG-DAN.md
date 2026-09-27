@@ -48,6 +48,9 @@ Mẹo: ở trang KetQua hoặc DangNhap, bật *Dữ liệu → Tạo bộ lọc
 
 Lưu ý: bộ câu nào học sinh **làm dở rồi bỏ ngang** thì không được ghi. Chỉ bộ làm xong mới có kết quả.
 
+## Học sinh chỉ thấy bộ đề của khối mình
+Web đọc **số đầu tiên trong tên lớp**: lớp `10A12`, `10A1` → chỉ thấy **Lớp 10**; `9A` → **Lớp 9**; `11B3` → **Lớp 11**. Vì vậy thầy/cô đặt tên lớp trên trang HocSinh bắt đầu bằng số khối. Tài khoản có tên lớp không chứa số (ví dụ `GV`) sẽ thấy mọi khối – dùng để thầy/cô kiểm tra. Khối chưa có nội dung trên web thì học sinh tạm thấy mọi khối. Muốn tắt tính năng này: trong `config.js` đặt `lockGrade: false`.
+
 ## Nhà thú cưng và bảng xếp hạng lớp
 - Học sinh làm đúng được **xu 🪙**, xong mỗi bộ được **hạt 🍖** (mỗi ⭐ = 1 hạt) để cho thú cưng ăn, mua mũ, kính, nơ, nền phòng; mỗi ngày có 3 nhiệm vụ và có 14 huy hiệu để sưu tầm.
 - Thú cưng đói và buồn dần nếu em nhiều ngày không học (không bao giờ chết); học mỗi ngày để giữ **chuỗi ngày 🔥**.
