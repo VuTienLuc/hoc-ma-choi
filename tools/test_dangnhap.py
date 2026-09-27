@@ -30,7 +30,7 @@ async def main():
     errs=[]; pg.on('pageerror',lambda e: errs.append(str(e)))
     await pg.route(API, handle)
     async def cfg(route):
-        t=(ROOT/'config.js').read_text().replace("sheetAPI: ''",f"sheetAPI: '{API}'"); await route.fulfill(body=t, content_type='application/javascript')
+        import re as _re; t=_re.sub(r"sheetAPI:\s*'[^']*'", f"sheetAPI: '{API}'", (ROOT/'config.js').read_text()); await route.fulfill(body=t, content_type='application/javascript')
     await pg.route('**/config.js', cfg)
     await pg.goto(BASE); await pg.wait_for_timeout(800)
     await pg.screenshot(path='/tmp/hoctap-e1-login.png')

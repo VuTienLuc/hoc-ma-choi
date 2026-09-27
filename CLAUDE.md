@@ -9,7 +9,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 - Học sinh chọn lớp → chọn bài → chọn mức (1 Làm quen · 2 Luyện tập · 3 Thử thách) → làm một bộ 6 câu xếp từ dễ đến khó.
 - Câu hỏi **sinh ngẫu nhiên bằng code**, không lưu sẵn. Mỗi lần bấm "Làm bộ mới" sẽ ra câu khác.
 - Chấm: sai lần 1 → hiện gợi ý; sai lần 2 → hiện lời giải và khoá câu. Đúng lần đầu được 1 điểm, đúng lần hai được ½ điểm. Hết bộ thì cho 1–3 sao, lưu trong localStorage.
-- Hiện có: **Toán 4 – Kết nối tri thức (29 bài)**, **Toán 9 (chương I–II, 8 bài)**, **Toán 10 (chương I, 3 bài)**, **Toán 11 (chương I, 5 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`; hệ phương trình hiển thị bằng class `.sys`, dòng công thức bằng `.mx` (trong style.css). Mục tiêu là thêm dần các lớp và môn khác.
+- Hiện có: **Toán 4 – Kết nối tri thức (29 bài)**, **Toán 9 (chương I–II, 8 bài)**, **Toán 10 (chương I, 3 bài)**, **Toán 11 (chương I, 5 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
 
 ## 2. Cấu trúc và vai trò từng file
 
@@ -21,6 +21,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `assets/js/core.js` | Tiện ích (`R`, `pick`, `fmt`, `F`, `gcd`, `lcm`, `roman`…), bộ dựng câu `QB`/`QC`/`QCmp`, sổ đăng ký `App.addGrade` | Khi cần thêm hàm tiện ích |
 | `assets/js/figures.js` | Hàm vẽ SVG: `protractorSVG`, `angleSVG`, `fracSVG`, `barSVG`, `rectSVG`, `shapeSVG` | Khi cần loại hình mới |
 | `assets/js/generators.js` | Dạng bài **dùng chung cho nhiều lớp**: `gPlace`, `gValue`, `gCompose`, `gCmp`, `gRound`, `gAddSub`, `gFindX`, `gConv` (+ `MASS`, `AREA`), `gReadProt`, `gRotate`, `gAngType`, `gAngDeg`, `gAngWhich` | Khi một dạng bài dùng được cho ≥2 lớp |
+| `assets/js/math.js` + `assets/vendor/mathjax/` | Cấu hình MathJax 3.2.2 (bản đặt sẵn trong dự án, chạy không cần mạng) và tự vẽ lại công thức mỗi khi nội dung đổi | Hầu như không sửa |
 | `assets/js/account.js` | **Đăng nhập theo lớp** (Google Sheets qua Apps Script, bật khi `CONFIG.sheetAPI` khác rỗng) và **thú cưng tiến hoá** 5 cấp theo tổng sao của khối (`Pet`). Tiến độ lưu riêng từng học sinh (`hoctap:u:<lớp>|<tk>:…`) | Khi đổi đăng nhập/thú cưng |
 | `tools/apps-script/` | `Code.gs` (máy chủ trên Google Sheets: HocSinh, TongHop, KetQua, DangNhap, TienDo; menu 🐣 và hẹn giờ 30 phút cập nhật TongHop), `HUONG-DAN.md`, `mau-danh-sach-hoc-sinh.xlsx` | Khi đổi cách lưu kết quả |
 | `assets/js/engine.js` | Hiển thị, chấm, sao, điều hướng hash, nạp `data/*.js` | **Hạn chế sửa**. Chỉ sửa khi thêm loại câu hỏi mới hoặc tính năng mới |
@@ -28,8 +29,8 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `tools/test.py` | Kiểm thử tự động: làm hết mọi câu và báo câu nào bị chấm sai | Chạy sau **mọi** thay đổi |
 | `tools/build.py` | Gộp cả thư mục thành `dist/hoc-tap.html` (một file) | Trước khi gửi hoặc publish |
 
-Thứ tự nạp: `config.js → core.js → figures.js → generators.js → account.js → engine.js`. Engine gọi `hook('picker'|'home'|'lesson'|'done', …)` → `Account.on(...)`, và `Account.gate(start)` khi khởi động (hiện màn đăng nhập nếu cần). Sau đó engine tự nạp `data/<mã>.js` theo `CONFIG.grades`.
-Dùng **script thường (không phải ES module), không build tool, không framework, không thư viện ngoài** (chỉ có Google Fonts). Nhờ vậy mở trực tiếp file `index.html` trên máy vẫn chạy.
+Thứ tự nạp: `config.js → core.js → figures.js → generators.js → math.js → vendor/mathjax/tex-chtml.js (async) → account.js → engine.js`. Engine gọi `hook('picker'|'home'|'lesson'|'done', …)` → `Account.on(...)`, và `Account.gate(start)` khi khởi động (hiện màn đăng nhập nếu cần). Sau đó engine tự nạp `data/<mã>.js` theo `CONFIG.grades`.
+Dùng **script thường (không phải ES module), không build tool, không framework, không thư viện ngoài** (chỉ có Google Fonts và MathJax đặt sẵn trong `assets/vendor/`). Bản gộp `dist/hoc-tap.html` lấy MathJax từ CDN jsDelivr. Nhờ vậy mở trực tiếp file `index.html` trên máy vẫn chạy.
 
 ## 3. Hợp đồng dữ liệu (phải tuân theo đúng)
 
@@ -73,10 +74,29 @@ Token có thể nằm trong markup. Ví dụ `<span class="fr"><span>[_]</span><
 2. Không để kết quả âm, số có chữ số 0 đứng đầu, phép chia không hết (trừ khi đề hỏi phép chia có dư), hoặc hai phương án trắc nghiệm cùng đúng.
 3. Khi hỏi "chữ số X ở hàng nào", chữ số X chỉ được xuất hiện đúng một lần trong số.
 4. `hint` chỉ nói **cách làm**, không lộ đáp án. `sol` trình bày ngắn gọn các bước và **in đậm đáp án** bằng `<b>…</b>`.
-5. Văn phong gửi học sinh nhỏ: gọi học sinh là "con", câu ngắn, ấm áp, không chê. Số viết có khoảng cách hàng nghìn bằng `fmt()`, phân số hiển thị bằng `F(a,b)`.
+5. Văn phong gửi học sinh nhỏ: gọi học sinh là "con" (tiểu học) hoặc "em" (THCS, THPT), câu ngắn, ấm áp, không chê. Số viết có khoảng cách hàng nghìn bằng `fmt()`. Tiểu học: phân số bằng `F(a,b)`; lớp 6 trở lên: LaTeX theo mục 4b.
 6. Mức 1, 2, 3 khác nhau thật sự: độ lớn của số, số bước tính, có bẫy hay không.
 7. Bám **mục lục SGK** của bộ sách đã chọn. Nếu không chắc tên hoặc số bài, hãy nói rõ để giáo viên đối chiếu, không bịa số bài.
 8. Không chép tên, logo, ảnh hoặc thương hiệu của trang web người khác, kể cả khi người dùng gửi ảnh mẫu. Chỉ học bố cục.
+
+## 4b. Công thức toán (lớp 6 trở lên) – LaTeX + MathJax
+Dùng các hàm trong `core.js`, **không** dùng `<i>x</i>`, `F(a,b)`, `x²` như lớp 4:
+| Hàm | Kết quả | Ví dụ |
+|---|---|---|
+| `tm(s)` | công thức trong dòng `\( … \)` | ``text:`Tìm ${tm('x')} biết ${tm('2x+1=5')}` `` |
+| `td(s)` | công thức riêng một dòng `\[ … \]` (đề chính, hệ phương trình) | ``text:`Giải phương trình ${td(pt)}` `` |
+| `tb(s)` | đáp án in đậm, tô màu trong lời giải | ``sol:`… Vậy ${tb('x = 3')}.` `` |
+| `tpoly([2,'x'],[-3,'y'],[5,''])` | `2x - 3y + 5` (bỏ hệ số 1, bỏ hạng tử 0) | |
+| `tfrac(p,q)`, `tf(a,b)` | phân số rút gọn / `\dfrac{a}{b}` | |
+| `tsys(['x+y=3','x-y=1'], true)` | hệ `\begin{cases}` có nhãn (1), (2) | |
+| `tp(n)`, `tdec(1.25)` | `(-3)` khi nhân; `1{,}25` | |
+
+Quy tắc:
+- Viết `\lt`, `\gt`, `\le`, `\ge`, `\ne` – **không** gõ `<`, `>` trần trong công thức (trình duyệt sẽ hiểu nhầm là thẻ HTML).
+- Chữ tiếng Việt trong công thức: `\text{ hoặc }`. Số âm đứng sau `;` hoặc `(` trong tập hợp/khoảng/cặp số: bọc `{-4}` để không bị giãn thành “− 4”.
+- `opts` của câu trắc nghiệm: `.map(tm)`; `ans` phải là đúng chuỗi đã bọc: `ans: tm(good)`.
+- **Ô trống `[_]`/`[F]` phải nằm ngoài công thức**: `` tpl:`${tm('x =')} [_]` ``.
+- Kiểm tra: ngoài `test.py`, mở vài bài trong trình duyệt (qua máy chủ http) và xác nhận không còn `mjx-merror` hay chữ `\(` sót lại.
 
 ## 5. Quy trình chuẩn khi nhận việc
 
@@ -90,6 +110,7 @@ python3 tools/test.py        # phải in "KẾT QUẢ: ĐẠT ✓"   (tham số 
 python3 tools/build.py       # tạo dist/hoc-tap.html
 python3 tools/test_dangnhap.py  # nếu sửa account.js: thử đăng nhập + thú cưng với máy chủ giả lập
 node tools/test_appscript.js    # nếu sửa tools/apps-script/Code.gs
+python3 tools/test_congthuc.py  # nếu sửa nội dung lớp 6+ (LaTeX): không còn công thức lỗi
 ```
 Khi có thể, chụp màn hình ở kích thước iPad dọc 820×1180 và ngang 1180×820 để kiểm tra: chữ không đè lên hình, không có cuộn ngang, hình không quá to.
 

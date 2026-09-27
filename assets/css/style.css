@@ -241,3 +241,13 @@ h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
 @keyframes flash{to{opacity:0;transform:scale(1.4);filter:brightness(3)}}
 @keyframes pop{from{transform:scale(.3);opacity:0}}
 @media (prefers-reduced-motion:reduce){.pet *,.evolve-stage,.pet-card .pet-stage{animation:none!important}}
+
+/* ---------- Công thức MathJax ---------- */
+mjx-container{color:inherit}
+mjx-container[jax="CHTML"][display="true"]{margin:.35em 0 !important;text-align:left !important}
+.mxd{display:block;margin:6px 0;overflow-x:auto;overflow-y:hidden;max-width:100%;font-size:21px}
+.qtext mjx-container{font-size:105%}
+.answer mjx-container{font-size:92%}
+.choice mjx-container{font-size:100%}
+b.ans mjx-container,b.ans{color:var(--primary)}
+.fb mjx-container[display="true"]{margin:.2em 0 !important}

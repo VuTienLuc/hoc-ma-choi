@@ -33,3 +33,22 @@ const QB=o=>({kind:'blanks',...o});
 // Chọn đáp án: opts chứa ans; mặc định trộn thứ tự.
 const QC=o=>{const opts=[...new Set(o.opts)];const arr=o.keepOrder?opts:shuffle(opts);return {kind:'choice',...o,opts:arr,correct:arr.indexOf(o.ans)}};
 const QCmp=(text,left,right,a,b,extra={})=>QC({text,expr:`<span class="big">${left} <span style="color:var(--primary)">?</span> ${right}</span>`,opts:['<','>','='],ans:cmp(a,b),keepOrder:true,compact:true,...extra});
+
+/* ---------- Công thức toán bằng LaTeX (MathJax vẽ) – dùng cho lớp 6 trở lên ----------
+   tm('x^2+1')  → công thức trong dòng  \( … \)
+   td('…')      → công thức đứng riêng một dòng \[ … \]
+   tb('5')      → đáp án in đậm trong lời giải
+   tpoly([2,'x'],[-3,'y'],[5,''])  → "2x-3y+5" (bỏ hệ số 1, bỏ hạng tử 0)
+   tfrac(-6,4) → "-\dfrac{3}{2}" (tự rút gọn)   tf(a,b) → \dfrac{a}{b}
+   tsys(['x+y=3','x-y=1'], true) → hệ có nhãn (1), (2)
+   Ô trống [_] phải nằm NGOÀI công thức: `${tm('x=')}[_]`                                     */
+const tm = s => `\\(${s}\\)`;
+const td = s => `<span class="mxd">\\[${s}\\]</span>`;
+const tb = s => `<b class="ans">\\(\\mathbf{${s}}\\)</b>`;
+const tp = n => n < 0 ? `(${n})` : String(n);
+function tpoly(...ts){ let s=''; for(const [c,v] of ts){ if(!c) continue; const a=Math.abs(c), body=v?(a===1?'':a)+v:String(a);
+  s += s ? (c<0?' - ':' + ')+body : (c<0?'-':'')+body; } return s || '0'; }
+const tf = (a,b) => `\\dfrac{${a}}{${b}}`;
+const tfrac = (p,q) => { if(q<0){p=-p;q=-q} const g=gcd(p,q)||1; p/=g; q/=g; return q===1 ? String(p) : (p<0?'-':'')+tf(Math.abs(p),q); };
+const tsys = (rows, lab) => `\\begin{cases}${rows.map((r,i)=>lab?`${r} & (${i+1})`:r).join(' \\\\ ')}\\end{cases}`;
+const tdec = n => String(+n.toFixed(4)).replace('.', '{,}');
