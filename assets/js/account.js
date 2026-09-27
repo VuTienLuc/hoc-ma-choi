@@ -100,7 +100,7 @@ const Account = (() => {
       Pet.bindCard();
     }
     if(ev === 'lesson'){
-      const tb = $('#app .toolbar #themeBtn'); if(tb){ const s = gradeStars(a); tb.insertAdjacentHTML('beforebegin', `<a class="pet-mini" href="#/${a.id}" title="Thú cưng của em">${Pet.svg(a, Pet.stage(a))}<b>${s}⭐</b></a>`); }
+      const tb = $('#app .toolbar .tbtns') || $('#app .toolbar #themeBtn'); if(tb){ const s = gradeStars(a); tb.insertAdjacentHTML('beforebegin', `<a class="pet-mini" href="#/${a.id}" title="Thú cưng của em">${Pet.svg(a, Pet.stage(a))}<b>${s}⭐</b></a>`); }
     }
     if(ev === 'done'){
       const {g, l, lv, st, pts, n} = a;

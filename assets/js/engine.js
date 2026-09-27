@@ -44,8 +44,9 @@ function renderHome(){
   app.innerHTML=h+foot();hook('home',g);
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }
-function themeBtn(){return `<button class="theme-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">◐</button>`}
-function bindTheme(){const b=$('#themeBtn');if(b)b.onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=nx;store.set('hoctap:theme',nx)}}
+const hasSound=()=>typeof Sound!=='undefined';
+function themeBtn(){return `<span class="tbtns">${hasSound()?`<button class="theme-btn" id="soundBtn" aria-label="Bật/tắt âm thanh">${Sound.on?'🔊':'🔇'}</button>`:''}<button class="theme-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">◐</button></span>`}
+function bindTheme(){const sb=$('#soundBtn');if(sb)sb.onclick=()=>{sb.textContent=Sound.toggle()?'🔊':'🔇'};const b=$('#themeBtn');if(b)b.onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=nx;store.set('hoctap:theme',nx)}}
 
 function renderLesson(){
   const g=S.grade,l=S.lesson,t=g.topics.find(x=>x.id===l.t)||{id:l.t,name:''},idx=g.lessons.indexOf(l),next=g.lessons[idx+1],home=`#/${g.id}`;
@@ -111,6 +112,7 @@ function check(el,q){
   else if(q.kind==='rotate')ok=q.val===q.target;
   else if(q.kind==='shade'){if(!q.on.length)empty=true;else ok=q.on.length*q.den===q.num*q.n}
   if(empty){fb(el,'note','Con chưa làm xong',q.kind==='choice'?'Hãy chọn một đáp án trước nhé.':q.kind==='shade'?'Hãy chạm vào hình để tô màu.':'Con điền đủ các ô trống nhé.');return}
+  if(hasSound())Sound.play(ok?'ok':'bad');
   if(ok){q.status='ok';q.pts=q.tries===0?1:.5;fb(el,'ok',pick(PRAISE),q.tries?`<div>${q.sol}</div>`:'');lockCard(el,q)}
   else{q.tries++;if(q.tries===1)fb(el,'hint','Chưa đúng rồi, thử lại nhé!',`<div>💡 Gợi ý: ${q.hint}</div>`);else{q.status='fail';q.pts=0;fb(el,'sol','Mình cùng xem lời giải nhé',`<div>${q.sol}</div>`);lockCard(el,q)}}
   updateProgress();

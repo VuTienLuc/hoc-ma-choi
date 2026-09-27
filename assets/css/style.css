@@ -251,3 +251,6 @@ mjx-container[jax="CHTML"][display="true"]{margin:.35em 0 !important;text-align:
 .choice mjx-container{font-size:100%}
 b.ans mjx-container,b.ans{color:var(--primary)}
 .fb mjx-container[display="true"]{margin:.2em 0 !important}
+
+/* Nút âm thanh + đổi giao diện */
+.tbtns{display:inline-flex;gap:8px;align-items:center}

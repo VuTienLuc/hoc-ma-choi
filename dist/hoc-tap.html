@@ -269,6 +269,9 @@ mjx-container[jax="CHTML"][display="true"]{margin:.35em 0 !important;text-align:
 b.ans mjx-container,b.ans{color:var(--primary)}
 .fb mjx-container[display="true"]{margin:.2em 0 !important}
 
+/* Nút âm thanh + đổi giao diện */
+.tbtns{display:inline-flex;gap:8px;align-items:center}
+
 </style>
 </head>
 <body>
@@ -299,6 +302,13 @@ const CONFIG = {
   // Để trống '' thì không cần đăng nhập (thú cưng vẫn chạy, tiến độ lưu trên máy).
   // Cách tạo: xem tools/apps-script/HUONG-DAN.md
   sheetAPI: 'https://script.google.com/macros/s/AKfycbyg7aav_7X5eOZKHWS9TMNqyUwTKEQ6hyiDbdJag-ojacN0ky4JUXtYjAgLw88BzB7D/exec',
+
+  // ÂM THANH khi chấm (thử lần lượt từng nguồn; muốn tắt hẳn thì để []).
+  // Nên chép file mp3 vào assets/sounds/ để chạy cả khi không có mạng.
+  sounds: {
+    ok:  ['assets/sounds/dung.mp3', 'https://files.catbox.moe/841969.mp3'],   // chọn đúng
+    bad: ['assets/sounds/sai.mp3',  'https://files.catbox.moe/05culf.mp3'],   // chọn sai
+  },
 
   // Các lớp hiển thị "Sắp có" trên trang chọn lớp (để trống [] nếu không muốn hiện)
   upcoming: ['Lớp 3', 'Lớp 5'],
@@ -526,6 +536,33 @@ const MathTS = (() => {
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" async id="MathJax-script"></script>
+<script>/* assets/js/sound.js */
+/* =====================================================================
+   SOUND – âm thanh khi chấm: đúng → CONFIG.sounds.ok, sai → CONFIG.sounds.bad.
+   Mỗi loại là danh sách nguồn, thử lần lượt (file trong dự án trước, link ngoài sau).
+   Học sinh bật/tắt bằng nút 🔊 cạnh nút đổi giao diện; lựa chọn lưu trên máy.
+   ===================================================================== */
+const Sound = (() => {
+  const SRC = (typeof CONFIG !== 'undefined' && CONFIG.sounds) || {};
+  let on = store.get('hoctap:sound'); if (on === null) on = true;
+  const cache = {};
+  function get(k) {
+    if (cache[k]) return cache[k];
+    const list = [].concat(SRC[k] || []); if (!list.length) return null;
+    let i = 0; const a = new Audio(); a.preload = 'auto';
+    a.addEventListener('error', () => { if (++i < list.length) { a.src = list[i]; a.load(); } });
+    a.src = list[0]; return (cache[k] = a);
+  }
+  function play(k) {
+    if (!on) return;
+    try { const a = get(k); if (!a) return; a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+  }
+  function toggle() { on = !on; store.set('hoctap:sound', on); if (on) play('ok'); return on; }
+  try { get('ok'); get('bad'); } catch (e) {}
+  return { play, toggle, get on() { return on; } };
+})();
+
+</script>
 <script>/* assets/js/account.js */
 /* =====================================================================
    ACCOUNT – Đăng nhập theo lớp (Google Sheets) và thú cưng tiến hoá.
@@ -629,7 +666,7 @@ const Account = (() => {
       Pet.bindCard();
     }
     if(ev === 'lesson'){
-      const tb = $('#app .toolbar #themeBtn'); if(tb){ const s = gradeStars(a); tb.insertAdjacentHTML('beforebegin', `<a class="pet-mini" href="#/${a.id}" title="Thú cưng của em">${Pet.svg(a, Pet.stage(a))}<b>${s}⭐</b></a>`); }
+      const tb = $('#app .toolbar .tbtns') || $('#app .toolbar #themeBtn'); if(tb){ const s = gradeStars(a); tb.insertAdjacentHTML('beforebegin', `<a class="pet-mini" href="#/${a.id}" title="Thú cưng của em">${Pet.svg(a, Pet.stage(a))}<b>${s}⭐</b></a>`); }
     }
     if(ev === 'done'){
       const {g, l, lv, st, pts, n} = a;
@@ -2480,8 +2517,9 @@ function renderHome(){
   app.innerHTML=h+foot();hook('home',g);
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }
-function themeBtn(){return `<button class="theme-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">◐</button>`}
-function bindTheme(){const b=$('#themeBtn');if(b)b.onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=nx;store.set('hoctap:theme',nx)}}
+const hasSound=()=>typeof Sound!=='undefined';
+function themeBtn(){return `<span class="tbtns">${hasSound()?`<button class="theme-btn" id="soundBtn" aria-label="Bật/tắt âm thanh">${Sound.on?'🔊':'🔇'}</button>`:''}<button class="theme-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">◐</button></span>`}
+function bindTheme(){const sb=$('#soundBtn');if(sb)sb.onclick=()=>{sb.textContent=Sound.toggle()?'🔊':'🔇'};const b=$('#themeBtn');if(b)b.onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=nx;store.set('hoctap:theme',nx)}}
 
 function renderLesson(){
   const g=S.grade,l=S.lesson,t=g.topics.find(x=>x.id===l.t)||{id:l.t,name:''},idx=g.lessons.indexOf(l),next=g.lessons[idx+1],home=`#/${g.id}`;
@@ -2547,6 +2585,7 @@ function check(el,q){
   else if(q.kind==='rotate')ok=q.val===q.target;
   else if(q.kind==='shade'){if(!q.on.length)empty=true;else ok=q.on.length*q.den===q.num*q.n}
   if(empty){fb(el,'note','Con chưa làm xong',q.kind==='choice'?'Hãy chọn một đáp án trước nhé.':q.kind==='shade'?'Hãy chạm vào hình để tô màu.':'Con điền đủ các ô trống nhé.');return}
+  if(hasSound())Sound.play(ok?'ok':'bad');
   if(ok){q.status='ok';q.pts=q.tries===0?1:.5;fb(el,'ok',pick(PRAISE),q.tries?`<div>${q.sol}</div>`:'');lockCard(el,q)}
   else{q.tries++;if(q.tries===1)fb(el,'hint','Chưa đúng rồi, thử lại nhé!',`<div>💡 Gợi ý: ${q.hint}</div>`);else{q.status='fail';q.pts=0;fb(el,'sol','Mình cùng xem lời giải nhé',`<div>${q.sol}</div>`);lockCard(el,q)}}
   updateProgress();
