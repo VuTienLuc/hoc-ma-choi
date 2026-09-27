@@ -24,17 +24,23 @@
   --sp1:4px; --sp2:8px; --sp3:16px; --sp4:24px; --sp5:40px;
   --f-body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif; --f-head:"Baloo 2","Be Vietnam Pro",system-ui,sans-serif;
   --shadow:6px 6px 0 var(--line); --shadow-sm:3px 3px 0 var(--line);
+  --pet-ink:#14213d; --pet-white:#ffffff; --pet-egg:#fff6df; --pet-spot:#f4c86a; --pet-belly:#fff4e6; --pet-cheek:#ff9fb2; --pet-crown:#f6c032; --pet-gem:#e2466b; --pet-horn:#ffd66b; --pet-shadow:#14213d22;
+  --pet-meo:#ffb56b; --pet-rong:#7fd4a4; --pet-cu:#b39ddb; --pet-tho:#f7c6d9; --pet-wing:#ffd9a0;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0e1524; --dot:#1f2b44; --surface:#16213a; --ink:#e8eefa; --muted:#a7b3cc; --line:#7f96c4;
   --primary:#6b9bff; --primary-ink:#0e1524; --primary-soft:#1f3160;
   --ok:#5fd394; --ok-soft:#153526; --warn:#f3c95a; --warn-soft:#3a2f10; --bad:#ff8a8a; --bad-soft:#3d1a1d; --shade:#6b9bff;
+  --pet-ink:#0e1524; --pet-white:#ffffff; --pet-egg:#f3ead2; --pet-spot:#d9a94a; --pet-belly:#fbeedd; --pet-cheek:#ff8fa6; --pet-crown:#f6c032; --pet-gem:#ff6b8e; --pet-horn:#ffd66b; --pet-shadow:#00000055;
+  --pet-meo:#f5a55a; --pet-rong:#6cc795; --pet-cu:#a28ad4; --pet-tho:#eeb3cb; --pet-wing:#f3c98c;
   color-scheme:dark;}}
 :root[data-theme="dark"]{
   --bg:#0e1524; --dot:#1f2b44; --surface:#16213a; --ink:#e8eefa; --muted:#a7b3cc; --line:#7f96c4;
   --primary:#6b9bff; --primary-ink:#0e1524; --primary-soft:#1f3160;
   --ok:#5fd394; --ok-soft:#153526; --warn:#f3c95a; --warn-soft:#3a2f10; --bad:#ff8a8a; --bad-soft:#3d1a1d; --shade:#6b9bff;
+  --pet-ink:#0e1524; --pet-white:#ffffff; --pet-egg:#f3ead2; --pet-spot:#d9a94a; --pet-belly:#fbeedd; --pet-cheek:#ff8fa6; --pet-crown:#f6c032; --pet-gem:#ff6b8e; --pet-horn:#ffd66b; --pet-shadow:#00000055;
+  --pet-meo:#f5a55a; --pet-rong:#6cc795; --pet-cu:#a28ad4; --pet-tho:#eeb3cb; --pet-wing:#f3c98c;
   color-scheme:dark;}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -185,6 +191,74 @@ h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
 .choice .sys{margin:0}
 .fb .sys{font-size:1em}
 
+/* ---------- Đăng nhập ---------- */
+.login{max-width:520px;margin:18px auto 0}
+.login h1{margin-top:0}
+.login form{display:grid;gap:14px}
+.login label{display:grid;gap:6px;font-weight:700;font-size:17px}
+.login select,.login input{min-height:52px;border:2.5px solid var(--line);border-radius:var(--r-md);background:var(--surface);color:var(--ink);font:600 19px/1.2 var(--f-body);padding:0 14px}
+.login select:focus,.login input:focus{outline:none;border-color:var(--primary);box-shadow:3px 3px 0 var(--primary)}
+.btn.big{min-height:56px;font-size:20px;justify-content:center}
+.userbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 0;padding:6px 14px;border:2px dashed var(--line);border-radius:var(--r-pill);background:var(--surface);font-size:16px}
+
+/* ---------- Thú cưng ---------- */
+.pet{display:block;width:100%;height:100%;overflow:visible}
+.pet .pet-body{fill:var(--pb);stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet.sp-meo{--pb:var(--pet-meo)} .pet.sp-rong{--pb:var(--pet-rong)} .pet.sp-cu{--pb:var(--pet-cu)} .pet.sp-tho{--pb:var(--pet-tho)}
+.pet .pet-belly{fill:var(--pet-belly)}
+.pet .pet-egg{fill:var(--pet-egg);stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-spot{fill:var(--pet-spot)}
+.pet .pet-crack{fill:none;stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-eye{fill:var(--pet-ink)} .pet .pet-shine{fill:var(--pet-white)}
+.pet .pet-cheek{fill:var(--pet-cheek);opacity:.75}
+.pet .pet-mouth{fill:none;stroke:var(--pet-ink);stroke-width:2;stroke-linecap:round}
+.pet .pet-beak{fill:var(--pet-horn);stroke:var(--pet-ink);stroke-width:1.5;stroke-linejoin:round}
+.pet .pet-horn{fill:var(--pet-horn);stroke:var(--pet-ink);stroke-width:2;stroke-linejoin:round}
+.pet .pet-wing{fill:var(--pet-wing);stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-tail{fill:none;stroke:var(--pet-ink);stroke-width:9;stroke-linecap:round}
+.pet.sp-meo .pet-tail{stroke:var(--pet-meo)}
+.pet .pet-crown{fill:var(--pet-crown);stroke:var(--pet-ink);stroke-width:2;stroke-linejoin:round}
+.pet .pet-gem{fill:var(--pet-gem)}
+.pet .pet-spark{fill:var(--pet-crown);animation:twinkle 1.6s ease-in-out infinite}
+.pet .pet-spark.s2{animation-delay:.5s} .pet .pet-spark.s3{animation-delay:1s}
+.pet .pet-shadow{fill:var(--pet-shadow)}
+.pet .pet-float,.pet .pet-wobble{transform-box:fill-box;transform-origin:50% 100%}
+.pet.big .pet-float{animation:bob 2.4s ease-in-out infinite}
+.pet.big .pet-wobble{animation:wobble 1.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+@keyframes wobble{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(-7deg)}80%{transform:rotate(6deg)}90%{transform:rotate(-3deg)}}
+@keyframes twinkle{50%{opacity:.2;transform:scale(.7)}}
+.pet-card{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center;margin:4px 0 18px}
+.pet-card .pet-stage{width:150px;height:150px;cursor:pointer}
+.pet-card .pet-stage.boing{animation:boing .5s ease-out}
+@keyframes boing{30%{transform:scale(1.12,.9)}60%{transform:scale(.95,1.06)}}
+.pet-info small{font:700 13px/1 var(--f-body);letter-spacing:1.2px;text-transform:uppercase;color:var(--primary)}
+.pet-info h2{margin:6px 0 10px;font:800 28px/1.1 var(--f-head)}
+.pet-info p{margin:10px 0 8px;font-size:17px}
+.pet-info .bar{height:14px}
+.pet-steps{display:flex;gap:6px}
+.pet-steps span{width:40px;height:40px;opacity:.28;filter:grayscale(1)}
+.pet-steps span.on{opacity:1;filter:none}
+@media (max-width:560px){.pet-card{grid-template-columns:1fr;justify-items:center;text-align:center}.pet-steps{justify-content:center}}
+.tile-pet{position:absolute;right:12px;top:10px;width:56px;height:56px}
+.tile.grade{position:relative}
+.pet-mini{margin-left:auto;display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:var(--ink);font-size:16px;min-height:44px}
+.pet-mini svg{width:40px;height:40px}
+.toolbar{flex-wrap:wrap}
+/* Màn tiến hoá */
+.evolve{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,var(--ink) 55%,transparent);animation:fadein .25s}
+.evolve-card{max-width:420px;width:100%;text-align:center}
+.evolve-card h2{font:800 28px/1.15 var(--f-head);margin:6px 0}
+.evolve-stage{width:200px;height:200px;margin:0 auto}
+.evolve-stage.shake{animation:shake .18s linear infinite}
+.evolve-stage.flash{animation:flash .35s ease-in forwards}
+.evolve-stage.pop{animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes fadein{from{opacity:0}}
+@keyframes shake{25%{transform:translateX(-4px) rotate(-3deg)}75%{transform:translateX(4px) rotate(3deg)}}
+@keyframes flash{to{opacity:0;transform:scale(1.4);filter:brightness(3)}}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pet *,.evolve-stage,.pet-card .pet-stage{animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -196,7 +270,7 @@ h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
 <main class="wrap" id="app" aria-live="polite"></main>
 <div class="toast" id="toast" role="status"></div>
 
-<!-- Thứ tự nạp: cấu hình → lõi → hình vẽ → dạng bài dùng chung → engine (engine tự nạp data/<lớp>.js) -->
+<!-- Thứ tự nạp: cấu hình → lõi → hình vẽ → dạng bài dùng chung → tài khoản & thú cưng → engine (engine tự nạp data/<lớp>.js) -->
 <script>/* config.js */
 /* =====================================================================
    CẤU HÌNH CHUNG – thầy/cô chỉ cần sửa file này khi thêm lớp mới
@@ -210,6 +284,11 @@ const CONFIG = {
   // Danh sách lớp đang có: mỗi mục ứng với một file data/<mã>.js
   // Thêm lớp mới: tạo data/lop5.js (chép từ data/_mau-lop-moi.js) rồi thêm 'lop5' vào đây.
   grades:   ['lop4', 'lop9', 'lop10', 'lop11'],
+
+  // ĐĂNG NHẬP THEO LỚP (tuỳ chọn): dán địa chỉ Web App của Google Apps Script vào đây.
+  // Để trống '' thì không cần đăng nhập (thú cưng vẫn chạy, tiến độ lưu trên máy).
+  // Cách tạo: xem tools/apps-script/HUONG-DAN.md
+  sheetAPI: '',
 
   // Các lớp hiển thị "Sắp có" trên trang chọn lớp (để trống [] nếu không muốn hiện)
   upcoming: ['Lớp 3', 'Lớp 5'],
@@ -347,6 +426,214 @@ function gConv(U,wordCtx){ // U: [{n,f}] từ bé đến lớn
     return wordCtx(lv);}}
 const MASS=[{n:'kg',f:1},{n:'yến',f:10},{n:'tạ',f:100},{n:'tấn',f:1000}];
 const AREA=[{n:'mm²',f:1},{n:'cm²',f:100},{n:'dm²',f:1e4},{n:'m²',f:1e6}];
+
+</script>
+<script>/* assets/js/account.js */
+/* =====================================================================
+   ACCOUNT – Đăng nhập theo lớp (Google Sheets) và thú cưng tiến hoá.
+   - Nếu CONFIG.sheetAPI để trống: không cần đăng nhập, thú cưng vẫn chạy (lưu trên máy).
+   - Nếu có sheetAPI: học sinh chọn lớp + tài khoản + mật khẩu; tiến độ lưu theo từng em
+     trên máy và gửi về Google Sheet của giáo viên (xem tools/apps-script/).
+   Nạp SAU generators.js và TRƯỚC engine.js. Engine gọi Account.on(sự kiện, …).
+   ===================================================================== */
+const Account = (() => {
+  const API = () => String(CONFIG.sheetAPI || '').trim();
+  const LS = {
+    get(k){ try{ return JSON.parse(localStorage.getItem(k)) }catch(e){ return null } },
+    set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)) }catch(e){} },
+    del(k){ try{ localStorage.removeItem(k) }catch(e){} },
+  };
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let user = API() ? LS.get('hoctap:session') : null;          // {token, name, lop, user}
+
+  /* ---- Mỗi học sinh một “ngăn” lưu riêng trên cùng một máy ---- */
+  const rawGet = store.get.bind(store), rawSet = store.set.bind(store);
+  const SKIP = new Set(['hoctap:theme','hoctap:session','hoctap:queue']);
+  const ns = k => (user && k.startsWith('hoctap:') && !SKIP.has(k)) ? `hoctap:u:${user.lop}|${user.user}:${k.slice(7)}` : k;
+  store.get = k => rawGet(ns(k));
+  store.set = (k,v) => rawSet(ns(k), v);
+
+  /* ---- Gọi Apps Script (POST text/plain để không cần preflight CORS) ---- */
+  async function api(body){
+    const r = await fetch(API(), { method:'POST', body: JSON.stringify(body), redirect:'follow' });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  }
+  const queue = () => LS.get('hoctap:queue') || [];
+  async function flush(){
+    if(!API() || !navigator.onLine) return;
+    let q = queue(); if(!q.length) return;
+    const rest = [];
+    for(const item of q){ try{ const r = await api(item); if(!r.ok && r.code !== 'auth') rest.push(item); }catch(e){ rest.push(item) } }
+    LS.set('hoctap:queue', rest);
+  }
+  function send(body){
+    if(!API() || !user) return;
+    const item = {...body, action:'save', token:user.token};
+    api(item).then(r => { if(!r.ok){ if(r.code==='auth') expired(); else LS.set('hoctap:queue', [...queue(), item]); } else flush(); })
+             .catch(() => LS.set('hoctap:queue', [...queue(), item]));
+  }
+  function expired(){ toastSafe('Phiên đăng nhập đã hết hạn, em đăng nhập lại nhé.'); setTimeout(logout, 1500); }
+  function logout(){ LS.del('hoctap:session'); user = null; location.hash = '#/'; location.reload(); }
+  const toastSafe = m => { try{ toast(m) }catch(e){} };
+
+  /* ---- Màn hình đăng nhập ---- */
+  function gate(start){
+    if(!API() || user){ start(); flush(); return; }
+    const app = document.getElementById('app');
+    app.innerHTML = `<div class="login card">
+      <h1>Chào em! 👋</h1><p class="lead">Chọn lớp rồi đăng nhập bằng tài khoản thầy cô đã phát.</p>
+      <form id="lgForm" autocomplete="off">
+        <label>Lớp<select id="lgLop" required><option value="">Đang tải danh sách lớp…</option></select></label>
+        <label>Tài khoản<input id="lgUser" required autocapitalize="none" spellcheck="false" inputmode="text"></label>
+        <label>Mật khẩu<input id="lgPass" type="password" required></label>
+        <div class="fb" id="lgMsg"></div>
+        <button class="btn primary big" id="lgBtn" type="submit">Đăng nhập</button>
+      </form></div><p class="foot">${esc(CONFIG.author)}</p>`;
+    const sel = $('#lgLop'), msg = $('#lgMsg'), btn = $('#lgBtn');
+    const say = (t, type='sol') => { msg.className = `fb show ${type}`; msg.innerHTML = t; };
+    const loadClasses = () => api({action:'classes'}).then(r => {
+      if(!r.ok) throw new Error(r.msg);
+      sel.innerHTML = `<option value="">— Chọn lớp —</option>` + r.classes.map(c => `<option>${esc(c)}</option>`).join('');
+      const last = LS.get('hoctap:lastLop'); if(last && r.classes.includes(last)) sel.value = last;
+    }).catch(() => { sel.innerHTML = `<option value="">Không tải được</option>`; say('Không kết nối được máy chủ. Em kiểm tra mạng rồi bấm <b>Thử lại</b>. <button type="button" class="btn small" id="lgRetry">Thử lại</button>'); $('#lgRetry').onclick = () => { msg.className='fb'; loadClasses(); }; });
+    loadClasses();
+    $('#lgForm').onsubmit = async e => {
+      e.preventDefault();
+      const lop = sel.value, u = $('#lgUser').value.trim(), p = $('#lgPass').value;
+      if(!lop){ say('Em chọn lớp trước nhé.','note'); return; }
+      btn.disabled = true; btn.textContent = 'Đang đăng nhập…';
+      try{
+        const r = await api({action:'login', lop, user:u, pass:p});
+        if(!r.ok){ say(esc(r.msg || 'Sai tài khoản hoặc mật khẩu.')); return; }
+        user = {token:r.token, name:r.name, lop:r.lop, user:r.user};
+        LS.set('hoctap:session', user); LS.set('hoctap:lastLop', lop);
+        Object.entries(r.progress || {}).forEach(([k,v]) => { const key = 'hoctap:'+k; if((+v||0) > (store.get(key)||0)) store.set(key, +v); });
+        App.grades.forEach(g => store.set(`hoctap:petseen:${g.id}`, Pet.stage(g)));   // không bật màn tiến hoá khi vừa đăng nhập
+        start();
+      }catch(err){ say('Không kết nối được máy chủ. Em thử lại sau ít phút nhé.'); }
+      finally{ btn.disabled = false; btn.textContent = 'Đăng nhập'; }
+    };
+  }
+  const userBar = () => user ? `<div class="userbar"><span>👋 <b>${esc(user.name)}</b> · ${esc(user.lop)}</span><button class="linkbtn" data-logout>Đăng xuất</button></div>` : '';
+  const bindLogout = () => $$('[data-logout]').forEach(b => b.onclick = () => { if(queue().length) flush(); logout(); });
+
+  /* ---- Sự kiện từ engine ---- */
+  function on(ev, a, b){
+    if(ev === 'picker'){
+      $('#app').insertAdjacentHTML('afterbegin', userBar()); bindLogout();
+      App.grades.forEach(g => { const t = $(`.tile.grade[href="#/${g.id}"]`); if(t) t.insertAdjacentHTML('beforeend', `<span class="tile-pet">${Pet.svg(g, Pet.stage(g))}</span>`); });
+    }
+    if(ev === 'home'){
+      $('#app').insertAdjacentHTML('afterbegin', userBar()); bindLogout();
+      const lead = $('#app .lead'); if(lead) lead.insertAdjacentHTML('afterend', Pet.card(a));
+      Pet.bindCard();
+    }
+    if(ev === 'lesson'){
+      const tb = $('#app .toolbar #themeBtn'); if(tb){ const s = gradeStars(a); tb.insertAdjacentHTML('beforebegin', `<a class="pet-mini" href="#/${a.id}" title="Thú cưng của em">${Pet.svg(a, Pet.stage(a))}<b>${s}⭐</b></a>`); }
+    }
+    if(ev === 'done'){
+      const {g, l, lv, st, pts, n} = a;
+      Pet.check(g);
+      send({ key:`${g.id}:${l.id}:${lv}`, stars: store.get(`hoctap:${g.id}:${l.id}:${lv}`) || 0, setStars: st, score: pts, total: n,
+             grade: g.name, lesson: l.name, level: lv, gradeStars: gradeStars(g), pet: Pet.name(g, Pet.stage(g)), summary: Pet.summary() });
+    }
+  }
+  addEventListener('online', flush);
+  return { gate, on, get user(){ return user }, logout, flush };
+})();
+
+/* =====================================================================
+   PET – thú cưng 5 cấp cho mỗi khối lớp, vẽ bằng SVG (màu lấy từ biến CSS).
+   ===================================================================== */
+const Pet = (() => {
+  const SPECIES = { lop4:['meo','Mèo Mây'], lop9:['rong','Rồng Lửa'], lop10:['cu','Cú Tí Hon'], lop11:['tho','Thỏ Bông'] };
+  const ORDER = ['meo','rong','cu','tho'], NAMES = {meo:'Mèo Mây', rong:'Rồng Lửa', cu:'Cú Tí Hon', tho:'Thỏ Bông'};
+  const sp = g => SPECIES[g.id] ? SPECIES[g.id][0] : ORDER[Math.max(0, App.grades.indexOf(g)) % 4];
+  const nm = g => NAMES[sp(g)];
+  const STAGE = ['Quả trứng bí ẩn', 'Trứng sắp nở', 'Bé {n}', '{n}', '{n} Vương'];
+  const MSG = ['', 'Quả trứng đang rung rinh… sắp nở rồi!', 'Trứng đã nở! Chào bé {n}!', '{n} đã lớn phổng phao rồi!', '{n} đã đội vương miện! Em thật xuất sắc! 👑'];
+  function thresholds(g){ const M = g.lessons.length * 9, t = [0, 3, Math.max(6, Math.ceil(.15*M)), Math.ceil(.4*M), Math.ceil(.75*M)];
+    for(let i = 2; i < 5; i++) if(t[i] <= t[i-1]) t[i] = t[i-1] + 2; return t; }
+  const stage = g => { const s = gradeStars(g), t = thresholds(g); let k = 0; t.forEach((v,i) => { if(s >= v) k = i }); return k; };
+  const name = (g, k) => STAGE[k].replace('{n}', nm(g));
+
+  /* ---- Vẽ ---- */
+  function svg(g, k, cls=''){
+    const s = sp(g), W = 120;
+    const egg = (crack) => `<ellipse class="pet-shadow" cx="60" cy="110" rx="30" ry="5"/>
+      <g class="${crack?'pet-wobble':'pet-float'}"><path class="pet-egg" d="M60 18 C 86 18 96 58 96 76 C 96 98 80 108 60 108 C 40 108 24 98 24 76 C 24 58 34 18 60 18 Z"/>
+      <circle class="pet-spot" cx="46" cy="52" r="7"/><circle class="pet-spot" cx="72" cy="42" r="5"/><circle class="pet-spot" cx="74" cy="80" r="8"/><circle class="pet-spot" cx="42" cy="88" r="4"/>
+      ${crack?`<path class="pet-crack" d="M30 66 L40 58 L48 68 L57 57 L66 69 L75 58 L84 67 L90 62"/>
+      <ellipse class="pet-eye" cx="50" cy="50" rx="3.5" ry="4.5"/><ellipse class="pet-eye" cx="68" cy="50" rx="3.5" ry="4.5"/>`:''}</g>`;
+    if(k <= 1) return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img">${egg(k===1)}</svg>`;
+    const grown = k >= 3, r = grown ? 34 : 27, cx = 60, cy = grown ? 70 : 76;
+    const P = (x,y) => `${(cx + x*r).toFixed(1)} ${(cy + y*r).toFixed(1)}`;
+    let back = '', front = '';
+    if(s === 'meo'){ front += `<path class="pet-body" d="M${P(-.85,-.45)} L${P(-.6,-1.2)} L${P(-.15,-.9)} Z"/><path class="pet-body" d="M${P(.85,-.45)} L${P(.6,-1.2)} L${P(.15,-.9)} Z"/>
+        <path class="pet-belly" d="M${P(-.66,-.62)} L${P(-.57,-.98)} L${P(-.35,-.83)} Z"/><path class="pet-belly" d="M${P(.66,-.62)} L${P(.57,-.98)} L${P(.35,-.83)} Z"/>`;
+      if(grown) back += `<path class="pet-tail" d="M${P(.8,.5)} C ${P(1.5,.5)} ${P(1.5,-.4)} ${P(1.15,-.55)}"/>`; }
+    if(s === 'rong'){ front += `<path class="pet-horn" d="M${P(-.55,-.8)} L${P(-.45,-1.25)} L${P(-.25,-.92)} Z"/><path class="pet-horn" d="M${P(.55,-.8)} L${P(.45,-1.25)} L${P(.25,-.92)} Z"/>`;
+      if(grown) back += `<path class="pet-wing" d="M${P(-.8,-.1)} L${P(-1.55,-.75)} L${P(-1.35,-.05)} L${P(-1.6,.25)} L${P(-.85,.35)} Z"/><path class="pet-wing" d="M${P(.8,-.1)} L${P(1.55,-.75)} L${P(1.35,-.05)} L${P(1.6,.25)} L${P(.85,.35)} Z"/>`; }
+    if(s === 'cu'){ front += `<path class="pet-body" d="M${P(-.9,-.4)} L${P(-.75,-1.15)} L${P(-.3,-.9)} Z"/><path class="pet-body" d="M${P(.9,-.4)} L${P(.75,-1.15)} L${P(.3,-.9)} Z"/>`;
+      if(grown) back += `<ellipse class="pet-wing" cx="${cx - r*.95}" cy="${cy + r*.2}" rx="${r*.32}" ry="${r*.6}"/><ellipse class="pet-wing" cx="${cx + r*.95}" cy="${cy + r*.2}" rx="${r*.32}" ry="${r*.6}"/>`; }
+    if(s === 'tho'){ const L = grown ? 1.35 : .95;
+      back += `<ellipse class="pet-body" cx="${cx - r*.4}" cy="${cy - r*(.55+L/2)}" rx="${r*.2}" ry="${r*L/2+4}" transform="rotate(-10 ${cx - r*.4} ${cy - r*.8})"/><ellipse class="pet-body" cx="${cx + r*.4}" cy="${cy - r*(.55+L/2)}" rx="${r*.2}" ry="${r*L/2+4}" transform="rotate(10 ${cx + r*.4} ${cy - r*.8})"/>
+        <ellipse class="pet-belly" cx="${cx - r*.4}" cy="${cy - r*(.55+L/2)}" rx="${r*.09}" ry="${r*L/2-2}" transform="rotate(-10 ${cx - r*.4} ${cy - r*.8})"/><ellipse class="pet-belly" cx="${cx + r*.4}" cy="${cy - r*(.55+L/2)}" rx="${r*.09}" ry="${r*L/2-2}" transform="rotate(10 ${cx + r*.4} ${cy - r*.8})"/>`; }
+    const face = s === 'cu'
+      ? `<circle class="pet-belly" cx="${cx - r*.36}" cy="${cy - r*.12}" r="${r*.28}"/><circle class="pet-belly" cx="${cx + r*.36}" cy="${cy - r*.12}" r="${r*.28}"/><path class="pet-beak" d="M${P(-.1,.12)} L${P(.1,.12)} L${P(0,.32)} Z"/>`
+      : `<path class="pet-mouth" d="M${P(-.14,.2)} Q ${P(-.07,.32)} ${P(0,.2)} Q ${P(.07,.32)} ${P(.14,.2)}"/>`;
+    const eyes = `<ellipse class="pet-eye" cx="${cx - r*.36}" cy="${cy - r*.12}" rx="${r*.12}" ry="${r*.15}"/><ellipse class="pet-eye" cx="${cx + r*.36}" cy="${cy - r*.12}" rx="${r*.12}" ry="${r*.15}"/>
+      <circle class="pet-shine" cx="${cx - r*.32}" cy="${cy - r*.18}" r="${r*.045}"/><circle class="pet-shine" cx="${cx + r*.4}" cy="${cy - r*.18}" r="${r*.045}"/>
+      <ellipse class="pet-cheek" cx="${cx - r*.62}" cy="${cy + r*.12}" rx="${r*.13}" ry="${r*.08}"/><ellipse class="pet-cheek" cx="${cx + r*.62}" cy="${cy + r*.12}" rx="${r*.13}" ry="${r*.08}"/>`;
+    const body = `<ellipse class="pet-body" cx="${cx}" cy="${cy}" rx="${r}" ry="${r*.95}"/><ellipse class="pet-belly" cx="${cx}" cy="${cy + r*.42}" rx="${r*.5}" ry="${r*.38}"/>`;
+    const feet = grown ? `<ellipse class="pet-body" cx="${cx - r*.45}" cy="${cy + r*.95}" rx="${r*.24}" ry="${r*.13}"/><ellipse class="pet-body" cx="${cx + r*.45}" cy="${cy + r*.95}" rx="${r*.24}" ry="${r*.13}"/>` : '';
+    const shell = grown ? '' : `<path class="pet-egg" d="M26 90 L34 82 L42 90 L51 81 L60 90 L69 81 L78 90 L86 82 L94 90 C 94 104 80 110 60 110 C 40 110 26 104 26 90 Z"/>`;
+    const crown = k === 4 ? `<path class="pet-crown" d="M${P(-.42,-.82)} L${P(-.45,-1.3)} L${P(-.2,-1.06)} L${P(0,-1.42)} L${P(.2,-1.06)} L${P(.45,-1.3)} L${P(.42,-.82)} Z"/><circle class="pet-gem" cx="${cx}" cy="${cy - r*1.0}" r="${r*.07}"/>` : '';
+    const spark = k === 4 ? `<path class="pet-spark" d="M16 30 l3 -8 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 Z"/><path class="pet-spark s2" d="M98 20 l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 Z"/><path class="pet-spark s3" d="M104 86 l2 -5 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 Z"/>` : '';
+    return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img"><ellipse class="pet-shadow" cx="60" cy="112" rx="${grown?34:30}" ry="5"/>${spark}
+      <g class="pet-float">${back}${body}${feet}${front}${eyes}${face}${crown}</g>${shell}</svg>`;
+  }
+
+  /* ---- Thẻ thú cưng trên trang khối lớp ---- */
+  function card(g){
+    const s = gradeStars(g), k = stage(g), t = thresholds(g), next = t[k+1];
+    const pct = next ? Math.round((s - t[k]) / (next - t[k]) * 100) : 100;
+    return `<section class="pet-card card" aria-label="Thú cưng của em">
+      <div class="pet-stage">${svg(g, k, 'big')}</div>
+      <div class="pet-info"><small>Thú cưng ${g.name} · Cấp ${k+1}/5</small><h2>${name(g,k)}</h2>
+        <div class="bar"><i style="width:${pct}%"></i></div>
+        <p>${next ? `Em có <b>${s} ⭐</b>. Còn <b>${next - s} ⭐</b> nữa để tiến hoá!` : `Em có <b>${s} ⭐</b>. Thú cưng đã đạt cấp cao nhất! 👑`}</p>
+        <div class="pet-steps">${[0,1,2,3,4].map(i => `<span class="${i<=k?'on':''}" title="${name(g,i)}">${svg(g, i)}</span>`).join('')}</div>
+      </div></section>`;
+  }
+  function bindCard(){ const c = $('.pet-card .pet-stage'); if(c) c.onclick = () => { c.classList.remove('boing'); void c.offsetWidth; c.classList.add('boing'); }; }
+
+  /* ---- Tiến hoá ---- */
+  function check(g){
+    const k = stage(g), key = `hoctap:petseen:${g.id}`, seen = store.get(key);
+    if(seen == null){ store.set(key, k); if(k === 0) return; }
+    if(seen != null && k <= seen) return;
+    store.set(key, k); show(g, seen == null ? Math.max(0, k-1) : seen, k);
+  }
+  function show(g, from, to){
+    const old = document.getElementById('evolve'); if(old) old.remove();
+    const el = document.createElement('div'); el.id = 'evolve'; el.className = 'evolve'; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true');
+    el.innerHTML = `<div class="evolve-card card"><div class="evolve-stage">${svg(g, from, 'big')}</div>
+      <h2>Ơ kìa… có điều kì diệu!</h2><p class="lead">&nbsp;</p><button class="btn primary" data-close>Tuyệt vời!</button></div>`;
+    document.body.appendChild(el);
+    const st = el.querySelector('.evolve-stage'), h = el.querySelector('h2'), p = el.querySelector('p');
+    st.classList.add('shake');
+    setTimeout(() => { st.classList.remove('shake'); st.classList.add('flash');
+      setTimeout(() => { st.innerHTML = svg(g, to, 'big'); st.classList.remove('flash'); st.classList.add('pop');
+        h.textContent = `${name(g, to)}`; p.textContent = MSG[to].replace(/\{n\}/g, nm(g)); }, 350); }, 1100);
+    const close = () => el.remove();
+    el.querySelector('[data-close]').onclick = close; el.addEventListener('click', e => { if(e.target === el) close(); });
+    el.querySelector('[data-close]').focus();
+  }
+  const summary = () => App.grades.map(g => `${g.name}: ${gradeStars(g)}⭐ – ${name(g, stage(g))}`).join(' | ');
+  return { svg, card, bindCard, check, show, stage, name, summary, thresholds };
+})();
 
 </script>
 <script>/* data/lop4.js */
@@ -1572,6 +1859,8 @@ lesson(1,'on-tap-c1','Ôn tập chương I','Tổng hợp giá trị lượng gi
    ===================================================================== */
 const LEVELS=[{n:'Mức 1',d:'Làm quen'},{n:'Mức 2',d:'Luyện tập'},{n:'Mức 3',d:'Thử thách'}];
 let S={grade:null,lesson:null,lv:1,qs:[]};
+// Móc nối cho account.js (đăng nhập, thú cưng). Không có Account thì bỏ qua.
+const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}};
 const PRAISE=['Giỏi quá!','Chính xác!','Tuyệt vời!','Đúng rồi, con làm tốt lắm!','Xuất sắc!'];
 const norm=s=>String(s).replace(/[\s .]/g,'').replace(',','.').toUpperCase();
 const numEq=(s,v)=>s!==''&&!isNaN(+norm(s))&&+norm(s)===v;
@@ -1595,7 +1884,7 @@ function renderPicker(){
   <h1>Con đang học lớp mấy?</h1><p class="lead">Chọn lớp để bắt đầu luyện tập theo từng bài.</p><div class="grid">`;
   App.grades.forEach(g=>{h+=`<a class="tile grade" href="#/${g.id}"><b class="gname">${g.name}</b><span>${g.subject} · ${g.book}</span><span class="meta"><span>${g.lessons.length} bài</span><span class="stars">⭐ ${gradeStars(g)}</span></span></a>`});
   (CONFIG.upcoming||[]).forEach(n=>{h+=`<div class="tile grade soon" aria-disabled="true"><b class="gname">${n}</b><span>Sắp có</span></div>`});
-  app.innerHTML=h+`</div>`+foot();bindTheme();
+  app.innerHTML=h+`</div>`+foot();bindTheme();hook('picker');
 }
 function renderHome(){
   const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g);
@@ -1606,7 +1895,7 @@ function renderHome(){
   ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}`;
   g.topics.filter(t=>hks.length<2||t.hk===hk).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id);if(!ls.length)return;
     h+=`<section class="topic"><h2><small>Chủ đề ${t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}</div></section>`});
-  app.innerHTML=h+foot();
+  app.innerHTML=h+foot();hook('home',g);
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }
 function themeBtn(){return `<button class="theme-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">◐</button>`}
@@ -1625,7 +1914,7 @@ function renderLesson(){
   $$('.lvl').forEach(b=>b.onclick=()=>{location.hash=lessonHref(l,+b.dataset.lv)});
   $('#newSet').onclick=$('#newSet2').onclick=()=>{genSet();renderQs();scrollTo({top:$('#qs').offsetTop-120,behavior:'smooth'})};
   $('#resetSet').onclick=()=>{S.qs.forEach(q=>{q.tries=0;q.status='open';q.user=null;q.pts=0;if(q.kind==='shade')q.on=[];if(q.kind==='rotate')q.val=q.target===90?40:90;delete q.sel});updateProgress._t=null;renderQs();toast('Đã xoá, con làm lại nhé!')};
-  renderQs();
+  renderQs();hook('lesson',g,l);
 }
 function renderQs(){const box=$('#qs');box.innerHTML='';S.qs.forEach((q,i)=>box.appendChild(cardEl(q,i)));updateProgress()}
 
@@ -1693,7 +1982,7 @@ function updateProgress(){const n=S.qs.length,done=S.qs.filter(q=>q.status!=='op
    <div class="row" style="justify-content:center;margin-top:14px">${S.lv<3&&st>=2?`<button class="btn primary" id="upLv">Lên ${LEVELS[S.lv].n} →</button>`:''}<button class="btn" id="again">↻ Làm bộ mới</button></div></div>`;
   $('#again').onclick=()=>{genSet();renderQs();scrollTo({top:$('#qs').offsetTop-120,behavior:'smooth'})};const up=$('#upLv');if(up)up.onclick=()=>location.hash=lessonHref(S.lesson,S.lv+1);
   $$('.lvl .stars').forEach((s,i)=>s.outerHTML=starsHTML(store.get(bestKey(S.lesson.id,i+1))||0));
-  if(!updateProgress._t||updateProgress._t!==S.qs)toast(`Hoàn thành! ${'⭐'.repeat(st)||'💪'}`);updateProgress._t=S.qs;
+  if(!updateProgress._t||updateProgress._t!==S.qs){toast(`Hoàn thành! ${'⭐'.repeat(st)||'💪'}`);hook('done',{g:S.grade,l:S.lesson,lv:S.lv,st,pts,n})}updateProgress._t=S.qs;
 }
 const fmtPts=p=>Number.isInteger(p)?p:String(p).replace('.',',');
 let tT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),1800)}
@@ -1714,7 +2003,7 @@ function loadGrades(ids,done){const need=ids.filter(id=>!App.grades.some(g=>g.id
   const next=()=>{if(i>=need.length)return done();const id=need[i++],sc=document.createElement('script');sc.src=`data/${id}.js`;sc.onload=next;
     sc.onerror=()=>{app.insertAdjacentHTML('beforeend',`<div class="fb show sol"><b class="t">Không tải được data/${id}.js</b>Kiểm tra lại tên file trong config.js.</div>`);next()};document.body.appendChild(sc)};next()}
 (function init(){const th=store.get('hoctap:theme');if(th)document.documentElement.dataset.theme=th;$('#author').textContent=CONFIG.author;$('#brand').innerHTML=CONFIG.brandHTML||CONFIG.siteName;
-  loadGrades(CONFIG.grades,()=>{App.grades.sort((a,b)=>CONFIG.grades.indexOf(a.id)-CONFIG.grades.indexOf(b.id));addEventListener('hashchange',route);route()})})();
+  loadGrades(CONFIG.grades,()=>{App.grades.sort((a,b)=>CONFIG.grades.indexOf(a.id)-CONFIG.grades.indexOf(b.id));const start=()=>{addEventListener('hashchange',route);route()};typeof Account!=='undefined'&&Account.gate?Account.gate(start):start()})})();
 
 </script>
 </body>

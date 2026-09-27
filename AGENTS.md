@@ -21,12 +21,14 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `assets/js/core.js` | Tiện ích (`R`, `pick`, `fmt`, `F`, `gcd`, `lcm`, `roman`…), bộ dựng câu `QB`/`QC`/`QCmp`, sổ đăng ký `App.addGrade` | Khi cần thêm hàm tiện ích |
 | `assets/js/figures.js` | Hàm vẽ SVG: `protractorSVG`, `angleSVG`, `fracSVG`, `barSVG`, `rectSVG`, `shapeSVG` | Khi cần loại hình mới |
 | `assets/js/generators.js` | Dạng bài **dùng chung cho nhiều lớp**: `gPlace`, `gValue`, `gCompose`, `gCmp`, `gRound`, `gAddSub`, `gFindX`, `gConv` (+ `MASS`, `AREA`), `gReadProt`, `gRotate`, `gAngType`, `gAngDeg`, `gAngWhich` | Khi một dạng bài dùng được cho ≥2 lớp |
+| `assets/js/account.js` | **Đăng nhập theo lớp** (Google Sheets qua Apps Script, bật khi `CONFIG.sheetAPI` khác rỗng) và **thú cưng tiến hoá** 5 cấp theo tổng sao của khối (`Pet`). Tiến độ lưu riêng từng học sinh (`hoctap:u:<lớp>|<tk>:…`) | Khi đổi đăng nhập/thú cưng |
+| `tools/apps-script/` | `Code.gs` (máy chủ trên Google Sheets), `HUONG-DAN.md`, `mau-danh-sach-hoc-sinh.xlsx` | Khi đổi cách lưu kết quả |
 | `assets/js/engine.js` | Hiển thị, chấm, sao, điều hướng hash, nạp `data/*.js` | **Hạn chế sửa**. Chỉ sửa khi thêm loại câu hỏi mới hoặc tính năng mới |
 | `assets/css/style.css` | Giao diện "vở ô chấm", token màu, chế độ tối, bố cục iPad | Khi đổi giao diện |
 | `tools/test.py` | Kiểm thử tự động: làm hết mọi câu và báo câu nào bị chấm sai | Chạy sau **mọi** thay đổi |
 | `tools/build.py` | Gộp cả thư mục thành `dist/hoc-tap.html` (một file) | Trước khi gửi hoặc publish |
 
-Thứ tự nạp: `config.js → core.js → figures.js → generators.js → engine.js`. Sau đó engine tự nạp `data/<mã>.js` theo `CONFIG.grades`.
+Thứ tự nạp: `config.js → core.js → figures.js → generators.js → account.js → engine.js`. Engine gọi `hook('picker'|'home'|'lesson'|'done', …)` → `Account.on(...)`, và `Account.gate(start)` khi khởi động (hiện màn đăng nhập nếu cần). Sau đó engine tự nạp `data/<mã>.js` theo `CONFIG.grades`.
 Dùng **script thường (không phải ES module), không build tool, không framework, không thư viện ngoài** (chỉ có Google Fonts). Nhờ vậy mở trực tiếp file `index.html` trên máy vẫn chạy.
 
 ## 3. Hợp đồng dữ liệu (phải tuân theo đúng)
@@ -86,6 +88,7 @@ Token có thể nằm trong markup. Ví dụ `<span class="fr"><span>[_]</span><
 ```bash
 python3 tools/test.py        # phải in "KẾT QUẢ: ĐẠT ✓"   (tham số tuỳ chọn: số vòng/bài, mặc định 10)
 python3 tools/build.py       # tạo dist/hoc-tap.html
+python3 tools/test_dangnhap.py  # nếu sửa account.js: thử đăng nhập + thú cưng với máy chủ giả lập
 ```
 Khi có thể, chụp màn hình ở kích thước iPad dọc 820×1180 và ngang 1180×820 để kiểm tra: chữ không đè lên hình, không có cuộn ngang, hình không quá to.
 

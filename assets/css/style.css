@@ -7,17 +7,23 @@
   --sp1:4px; --sp2:8px; --sp3:16px; --sp4:24px; --sp5:40px;
   --f-body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif; --f-head:"Baloo 2","Be Vietnam Pro",system-ui,sans-serif;
   --shadow:6px 6px 0 var(--line); --shadow-sm:3px 3px 0 var(--line);
+  --pet-ink:#14213d; --pet-white:#ffffff; --pet-egg:#fff6df; --pet-spot:#f4c86a; --pet-belly:#fff4e6; --pet-cheek:#ff9fb2; --pet-crown:#f6c032; --pet-gem:#e2466b; --pet-horn:#ffd66b; --pet-shadow:#14213d22;
+  --pet-meo:#ffb56b; --pet-rong:#7fd4a4; --pet-cu:#b39ddb; --pet-tho:#f7c6d9; --pet-wing:#ffd9a0;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0e1524; --dot:#1f2b44; --surface:#16213a; --ink:#e8eefa; --muted:#a7b3cc; --line:#7f96c4;
   --primary:#6b9bff; --primary-ink:#0e1524; --primary-soft:#1f3160;
   --ok:#5fd394; --ok-soft:#153526; --warn:#f3c95a; --warn-soft:#3a2f10; --bad:#ff8a8a; --bad-soft:#3d1a1d; --shade:#6b9bff;
+  --pet-ink:#0e1524; --pet-white:#ffffff; --pet-egg:#f3ead2; --pet-spot:#d9a94a; --pet-belly:#fbeedd; --pet-cheek:#ff8fa6; --pet-crown:#f6c032; --pet-gem:#ff6b8e; --pet-horn:#ffd66b; --pet-shadow:#00000055;
+  --pet-meo:#f5a55a; --pet-rong:#6cc795; --pet-cu:#a28ad4; --pet-tho:#eeb3cb; --pet-wing:#f3c98c;
   color-scheme:dark;}}
 :root[data-theme="dark"]{
   --bg:#0e1524; --dot:#1f2b44; --surface:#16213a; --ink:#e8eefa; --muted:#a7b3cc; --line:#7f96c4;
   --primary:#6b9bff; --primary-ink:#0e1524; --primary-soft:#1f3160;
   --ok:#5fd394; --ok-soft:#153526; --warn:#f3c95a; --warn-soft:#3a2f10; --bad:#ff8a8a; --bad-soft:#3d1a1d; --shade:#6b9bff;
+  --pet-ink:#0e1524; --pet-white:#ffffff; --pet-egg:#f3ead2; --pet-spot:#d9a94a; --pet-belly:#fbeedd; --pet-cheek:#ff8fa6; --pet-crown:#f6c032; --pet-gem:#ff6b8e; --pet-horn:#ffd66b; --pet-shadow:#00000055;
+  --pet-meo:#f5a55a; --pet-rong:#6cc795; --pet-cu:#a28ad4; --pet-tho:#eeb3cb; --pet-wing:#f3c98c;
   color-scheme:dark;}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -167,3 +173,71 @@ h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
 .sys small{color:var(--muted);font-size:.7em;margin-left:6px}
 .choice .sys{margin:0}
 .fb .sys{font-size:1em}
+
+/* ---------- Đăng nhập ---------- */
+.login{max-width:520px;margin:18px auto 0}
+.login h1{margin-top:0}
+.login form{display:grid;gap:14px}
+.login label{display:grid;gap:6px;font-weight:700;font-size:17px}
+.login select,.login input{min-height:52px;border:2.5px solid var(--line);border-radius:var(--r-md);background:var(--surface);color:var(--ink);font:600 19px/1.2 var(--f-body);padding:0 14px}
+.login select:focus,.login input:focus{outline:none;border-color:var(--primary);box-shadow:3px 3px 0 var(--primary)}
+.btn.big{min-height:56px;font-size:20px;justify-content:center}
+.userbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 0;padding:6px 14px;border:2px dashed var(--line);border-radius:var(--r-pill);background:var(--surface);font-size:16px}
+
+/* ---------- Thú cưng ---------- */
+.pet{display:block;width:100%;height:100%;overflow:visible}
+.pet .pet-body{fill:var(--pb);stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet.sp-meo{--pb:var(--pet-meo)} .pet.sp-rong{--pb:var(--pet-rong)} .pet.sp-cu{--pb:var(--pet-cu)} .pet.sp-tho{--pb:var(--pet-tho)}
+.pet .pet-belly{fill:var(--pet-belly)}
+.pet .pet-egg{fill:var(--pet-egg);stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-spot{fill:var(--pet-spot)}
+.pet .pet-crack{fill:none;stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-eye{fill:var(--pet-ink)} .pet .pet-shine{fill:var(--pet-white)}
+.pet .pet-cheek{fill:var(--pet-cheek);opacity:.75}
+.pet .pet-mouth{fill:none;stroke:var(--pet-ink);stroke-width:2;stroke-linecap:round}
+.pet .pet-beak{fill:var(--pet-horn);stroke:var(--pet-ink);stroke-width:1.5;stroke-linejoin:round}
+.pet .pet-horn{fill:var(--pet-horn);stroke:var(--pet-ink);stroke-width:2;stroke-linejoin:round}
+.pet .pet-wing{fill:var(--pet-wing);stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-tail{fill:none;stroke:var(--pet-ink);stroke-width:9;stroke-linecap:round}
+.pet.sp-meo .pet-tail{stroke:var(--pet-meo)}
+.pet .pet-crown{fill:var(--pet-crown);stroke:var(--pet-ink);stroke-width:2;stroke-linejoin:round}
+.pet .pet-gem{fill:var(--pet-gem)}
+.pet .pet-spark{fill:var(--pet-crown);animation:twinkle 1.6s ease-in-out infinite}
+.pet .pet-spark.s2{animation-delay:.5s} .pet .pet-spark.s3{animation-delay:1s}
+.pet .pet-shadow{fill:var(--pet-shadow)}
+.pet .pet-float,.pet .pet-wobble{transform-box:fill-box;transform-origin:50% 100%}
+.pet.big .pet-float{animation:bob 2.4s ease-in-out infinite}
+.pet.big .pet-wobble{animation:wobble 1.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+@keyframes wobble{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(-7deg)}80%{transform:rotate(6deg)}90%{transform:rotate(-3deg)}}
+@keyframes twinkle{50%{opacity:.2;transform:scale(.7)}}
+.pet-card{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center;margin:4px 0 18px}
+.pet-card .pet-stage{width:150px;height:150px;cursor:pointer}
+.pet-card .pet-stage.boing{animation:boing .5s ease-out}
+@keyframes boing{30%{transform:scale(1.12,.9)}60%{transform:scale(.95,1.06)}}
+.pet-info small{font:700 13px/1 var(--f-body);letter-spacing:1.2px;text-transform:uppercase;color:var(--primary)}
+.pet-info h2{margin:6px 0 10px;font:800 28px/1.1 var(--f-head)}
+.pet-info p{margin:10px 0 8px;font-size:17px}
+.pet-info .bar{height:14px}
+.pet-steps{display:flex;gap:6px}
+.pet-steps span{width:40px;height:40px;opacity:.28;filter:grayscale(1)}
+.pet-steps span.on{opacity:1;filter:none}
+@media (max-width:560px){.pet-card{grid-template-columns:1fr;justify-items:center;text-align:center}.pet-steps{justify-content:center}}
+.tile-pet{position:absolute;right:12px;top:10px;width:56px;height:56px}
+.tile.grade{position:relative}
+.pet-mini{margin-left:auto;display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:var(--ink);font-size:16px;min-height:44px}
+.pet-mini svg{width:40px;height:40px}
+.toolbar{flex-wrap:wrap}
+/* Màn tiến hoá */
+.evolve{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,var(--ink) 55%,transparent);animation:fadein .25s}
+.evolve-card{max-width:420px;width:100%;text-align:center}
+.evolve-card h2{font:800 28px/1.15 var(--f-head);margin:6px 0}
+.evolve-stage{width:200px;height:200px;margin:0 auto}
+.evolve-stage.shake{animation:shake .18s linear infinite}
+.evolve-stage.flash{animation:flash .35s ease-in forwards}
+.evolve-stage.pop{animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes fadein{from{opacity:0}}
+@keyframes shake{25%{transform:translateX(-4px) rotate(-3deg)}75%{transform:translateX(4px) rotate(3deg)}}
+@keyframes flash{to{opacity:0;transform:scale(1.4);filter:brightness(3)}}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pet *,.evolve-stage,.pet-card .pet-stage{animation:none!important}}

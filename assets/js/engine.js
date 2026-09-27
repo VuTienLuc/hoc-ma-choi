@@ -4,6 +4,8 @@
    ===================================================================== */
 const LEVELS=[{n:'Mức 1',d:'Làm quen'},{n:'Mức 2',d:'Luyện tập'},{n:'Mức 3',d:'Thử thách'}];
 let S={grade:null,lesson:null,lv:1,qs:[]};
+// Móc nối cho account.js (đăng nhập, thú cưng). Không có Account thì bỏ qua.
+const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}};
 const PRAISE=['Giỏi quá!','Chính xác!','Tuyệt vời!','Đúng rồi, con làm tốt lắm!','Xuất sắc!'];
 const norm=s=>String(s).replace(/[\s .]/g,'').replace(',','.').toUpperCase();
 const numEq=(s,v)=>s!==''&&!isNaN(+norm(s))&&+norm(s)===v;
@@ -27,7 +29,7 @@ function renderPicker(){
   <h1>Con đang học lớp mấy?</h1><p class="lead">Chọn lớp để bắt đầu luyện tập theo từng bài.</p><div class="grid">`;
   App.grades.forEach(g=>{h+=`<a class="tile grade" href="#/${g.id}"><b class="gname">${g.name}</b><span>${g.subject} · ${g.book}</span><span class="meta"><span>${g.lessons.length} bài</span><span class="stars">⭐ ${gradeStars(g)}</span></span></a>`});
   (CONFIG.upcoming||[]).forEach(n=>{h+=`<div class="tile grade soon" aria-disabled="true"><b class="gname">${n}</b><span>Sắp có</span></div>`});
-  app.innerHTML=h+`</div>`+foot();bindTheme();
+  app.innerHTML=h+`</div>`+foot();bindTheme();hook('picker');
 }
 function renderHome(){
   const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g);
@@ -38,7 +40,7 @@ function renderHome(){
   ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}`;
   g.topics.filter(t=>hks.length<2||t.hk===hk).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id);if(!ls.length)return;
     h+=`<section class="topic"><h2><small>Chủ đề ${t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}</div></section>`});
-  app.innerHTML=h+foot();
+  app.innerHTML=h+foot();hook('home',g);
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }
 function themeBtn(){return `<button class="theme-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">◐</button>`}
@@ -57,7 +59,7 @@ function renderLesson(){
   $$('.lvl').forEach(b=>b.onclick=()=>{location.hash=lessonHref(l,+b.dataset.lv)});
   $('#newSet').onclick=$('#newSet2').onclick=()=>{genSet();renderQs();scrollTo({top:$('#qs').offsetTop-120,behavior:'smooth'})};
   $('#resetSet').onclick=()=>{S.qs.forEach(q=>{q.tries=0;q.status='open';q.user=null;q.pts=0;if(q.kind==='shade')q.on=[];if(q.kind==='rotate')q.val=q.target===90?40:90;delete q.sel});updateProgress._t=null;renderQs();toast('Đã xoá, con làm lại nhé!')};
-  renderQs();
+  renderQs();hook('lesson',g,l);
 }
 function renderQs(){const box=$('#qs');box.innerHTML='';S.qs.forEach((q,i)=>box.appendChild(cardEl(q,i)));updateProgress()}
 
@@ -125,7 +127,7 @@ function updateProgress(){const n=S.qs.length,done=S.qs.filter(q=>q.status!=='op
    <div class="row" style="justify-content:center;margin-top:14px">${S.lv<3&&st>=2?`<button class="btn primary" id="upLv">Lên ${LEVELS[S.lv].n} →</button>`:''}<button class="btn" id="again">↻ Làm bộ mới</button></div></div>`;
   $('#again').onclick=()=>{genSet();renderQs();scrollTo({top:$('#qs').offsetTop-120,behavior:'smooth'})};const up=$('#upLv');if(up)up.onclick=()=>location.hash=lessonHref(S.lesson,S.lv+1);
   $$('.lvl .stars').forEach((s,i)=>s.outerHTML=starsHTML(store.get(bestKey(S.lesson.id,i+1))||0));
-  if(!updateProgress._t||updateProgress._t!==S.qs)toast(`Hoàn thành! ${'⭐'.repeat(st)||'💪'}`);updateProgress._t=S.qs;
+  if(!updateProgress._t||updateProgress._t!==S.qs){toast(`Hoàn thành! ${'⭐'.repeat(st)||'💪'}`);hook('done',{g:S.grade,l:S.lesson,lv:S.lv,st,pts,n})}updateProgress._t=S.qs;
 }
 const fmtPts=p=>Number.isInteger(p)?p:String(p).replace('.',',');
 let tT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),1800)}
@@ -146,4 +148,4 @@ function loadGrades(ids,done){const need=ids.filter(id=>!App.grades.some(g=>g.id
   const next=()=>{if(i>=need.length)return done();const id=need[i++],sc=document.createElement('script');sc.src=`data/${id}.js`;sc.onload=next;
     sc.onerror=()=>{app.insertAdjacentHTML('beforeend',`<div class="fb show sol"><b class="t">Không tải được data/${id}.js</b>Kiểm tra lại tên file trong config.js.</div>`);next()};document.body.appendChild(sc)};next()}
 (function init(){const th=store.get('hoctap:theme');if(th)document.documentElement.dataset.theme=th;$('#author').textContent=CONFIG.author;$('#brand').innerHTML=CONFIG.brandHTML||CONFIG.siteName;
-  loadGrades(CONFIG.grades,()=>{App.grades.sort((a,b)=>CONFIG.grades.indexOf(a.id)-CONFIG.grades.indexOf(b.id));addEventListener('hashchange',route);route()})})();
+  loadGrades(CONFIG.grades,()=>{App.grades.sort((a,b)=>CONFIG.grades.indexOf(a.id)-CONFIG.grades.indexOf(b.id));const start=()=>{addEventListener('hashchange',route);route()};typeof Account!=='undefined'&&Account.gate?Account.gate(start):start()})})();
