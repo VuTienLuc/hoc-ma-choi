@@ -1,0 +1,1160 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Học mà chơi – Bài tập củng cố theo bài</title>
+<meta name="description" content="Bài tập củng cố theo từng bài cho học sinh tiểu học: câu hỏi sinh ngẫu nhiên, gợi ý khi sai, lời giải chi tiết, tối ưu cho iPad.">
+<meta property="og:title" content="Học mà chơi – Bài tập củng cố theo bài">
+<meta property="og:description" content="Luyện tập theo từng bài, 3 mức độ, có gợi ý và lời giải.">
+<meta name="theme-color" content="#14213d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Học mà chơi">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f6fb; --dot:#cfd9e8; --surface:#ffffff; --ink:#14213d; --muted:#556079; --line:#14213d;
+  --primary:#2f6fe4; --primary-ink:#ffffff; --primary-soft:#e2ebfd;
+  --ok:#17804a; --ok-soft:#e1f5e9; --warn:#8a5a00; --warn-soft:#fff3cf; --bad:#c23636; --bad-soft:#fde7e7;
+  --s-blue:#a9c4ec; --s-pink:#efb2c9; --s-yellow:#f4d57a; --shade:#5b8def; --star:#f2b01e;
+  --r-lg:22px; --r-md:14px; --r-pill:999px;
+  --sp1:4px; --sp2:8px; --sp3:16px; --sp4:24px; --sp5:40px;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,sans-serif; --f-head:"Baloo 2","Be Vietnam Pro",system-ui,sans-serif;
+  --shadow:6px 6px 0 var(--line); --shadow-sm:3px 3px 0 var(--line);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1524; --dot:#1f2b44; --surface:#16213a; --ink:#e8eefa; --muted:#a7b3cc; --line:#7f96c4;
+  --primary:#6b9bff; --primary-ink:#0e1524; --primary-soft:#1f3160;
+  --ok:#5fd394; --ok-soft:#153526; --warn:#f3c95a; --warn-soft:#3a2f10; --bad:#ff8a8a; --bad-soft:#3d1a1d; --shade:#6b9bff;
+  color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0e1524; --dot:#1f2b44; --surface:#16213a; --ink:#e8eefa; --muted:#a7b3cc; --line:#7f96c4;
+  --primary:#6b9bff; --primary-ink:#0e1524; --primary-soft:#1f3160;
+  --ok:#5fd394; --ok-soft:#153526; --warn:#f3c95a; --warn-soft:#3a2f10; --bad:#ff8a8a; --bad-soft:#3d1a1d; --shade:#6b9bff;
+  color-scheme:dark;}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);background-image:radial-gradient(var(--dot) 1.3px,transparent 1.4px);background-size:22px 22px;
+  color:var(--ink);font:500 18px/1.55 var(--f-body);-webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:100vh}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--primary);outline-offset:3px;border-radius:8px}
+.wrap{max-width:920px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left)) 60px max(16px,env(safe-area-inset-right))}
+
+/* Header */
+.top{background:color-mix(in srgb,var(--s-blue) 45%,var(--surface));text-align:center;padding:calc(18px + env(safe-area-inset-top)) 16px 16px;position:relative}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:7px;background:linear-gradient(90deg,var(--s-blue) 0 25%,var(--s-pink) 25% 75%,var(--s-yellow) 75%)}
+.brand{font:800 clamp(30px,5vw,42px)/1.1 var(--f-head);margin:0;color:var(--ink);letter-spacing:.3px}
+.brand span{color:var(--primary)}
+.sub{margin:6px 0 10px;font:700 13px/1.3 var(--f-body);letter-spacing:2.5px;text-transform:uppercase;color:var(--primary)}
+.author{font-size:14px;color:var(--muted)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0 8px;flex-wrap:wrap}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-weight:700;text-decoration:none;min-height:44px;font-size:18px}
+.back:hover{text-decoration:underline}
+
+/* Pills & buttons */
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--bg);border-radius:var(--r-pill);padding:8px 18px;font:700 14px/1.2 var(--f-body);letter-spacing:.4px;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:10px 22px;border-radius:var(--r-pill);border:2.5px solid var(--line);background:var(--surface);
+  font-weight:700;font-size:17px;box-shadow:var(--shadow-sm);transition:transform .12s ease-out,box-shadow .12s ease-out}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.small{min-height:44px;padding:6px 16px;font-size:15px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.theme-btn{width:48px;height:48px;border-radius:50%;border:2.5px solid var(--line);background:var(--surface);box-shadow:var(--shadow-sm);font-size:20px}
+
+/* Home */
+h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
+.lead{color:var(--muted);margin:0 0 18px;font-size:18px}
+.stat{display:inline-flex;gap:8px;align-items:center;background:var(--surface);border:2.5px solid var(--line);border-radius:var(--r-pill);padding:8px 16px;font-weight:700;box-shadow:var(--shadow-sm)}
+.tabs{display:inline-flex;border:2.5px solid var(--line);border-radius:var(--r-pill);background:var(--surface);padding:4px;gap:4px;box-shadow:var(--shadow-sm)}
+.tabs button{border:0;background:transparent;border-radius:var(--r-pill);min-height:44px;padding:6px 20px;font-weight:700}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.topic{margin:28px 0 0}
+.topic h2{font:800 23px/1.25 var(--f-head);margin:0 0 12px;display:flex;gap:10px;align-items:baseline}
+.topic h2 small{font:700 13px/1 var(--f-body);letter-spacing:1.5px;color:var(--primary);text-transform:uppercase;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.tile{display:flex;flex-direction:column;justify-content:space-between;gap:10px;text-align:left;background:var(--surface);border:2.5px solid var(--line);border-radius:var(--r-md);
+  padding:14px 16px;box-shadow:var(--shadow-sm);text-decoration:none;color:var(--ink);min-height:92px;transition:transform .12s ease-out,box-shadow .12s ease-out}
+.tile:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--line)}
+.tile:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+.tile b{font-size:17px;line-height:1.35}
+.tile .meta{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted)}
+.stars{letter-spacing:1px;color:var(--star);font-size:16px}
+.stars .off{color:var(--dot)}
+
+/* Lesson */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.lvl{border:2.5px solid var(--line);background:var(--surface);border-radius:var(--r-md);padding:10px 12px;text-align:left;min-height:64px;box-shadow:var(--shadow-sm)}
+.lvl b{display:block;font:800 18px/1.2 var(--f-head)}
+.lvl span{font-size:14px;color:var(--muted)}
+.lvl[aria-pressed="true"]{background:var(--primary);border-color:var(--line);color:var(--primary-ink)}
+.lvl[aria-pressed="true"] span{color:var(--primary-ink);opacity:.9}
+.progress{position:sticky;top:0;z-index:5;margin:6px -4px 16px;padding:10px 4px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.bar{height:14px;border:2.5px solid var(--line);border-radius:var(--r-pill);background:var(--surface);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--shade));transition:width .25s ease-out}
+.progress .txt{display:flex;justify-content:space-between;font-size:15px;font-weight:600;color:var(--muted);margin-top:6px}
+
+.card{background:var(--surface);border:2.5px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:20px 22px 22px;margin:0 0 26px;transition:border-color .2s}
+.card.ok{border-color:var(--ok);box-shadow:6px 6px 0 var(--ok)}
+.card.fail{border-color:var(--bad);box-shadow:6px 6px 0 var(--bad)}
+.qhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{background:var(--primary);color:var(--primary-ink);border-radius:var(--r-pill);padding:3px 14px;font-weight:700;font-size:15px}
+.chip{background:var(--primary-soft);color:var(--ink);border-radius:var(--r-pill);padding:3px 12px;font-weight:600;font-size:14px}
+.qhead .spacer{flex:1}
+.linkbtn{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:15px;min-height:44px;padding:0 4px}
+.qtext{font-weight:600;font-size:20px;margin:12px 0 8px}
+.qbody{display:grid;gap:14px;align-items:center}
+@media (min-width:900px){.qbody.has-fig{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}}
+.fig{display:flex;justify-content:center}
+.fig svg{width:100%;max-width:380px;max-height:280px;height:auto;overflow:visible}
+.answer{font-size:24px;font-weight:600;line-height:2.2}
+.answer .eq{white-space:nowrap}
+.blank{width:5.2ch;min-width:64px;height:52px;border:0;border-bottom:3px dashed var(--primary);background:var(--primary-soft);border-radius:10px 10px 0 0;text-align:center;
+  font:700 24px/1 var(--f-body);padding:0 6px;margin:0 4px;vertical-align:middle;-moz-appearance:textfield}
+.blank.wide{width:8.5ch}
+.blank:focus{outline:none;border-bottom-style:solid;background:color-mix(in srgb,var(--primary-soft) 70%,var(--surface))}
+.blank.wrong{border-bottom-color:var(--bad);background:var(--bad-soft)}
+.blank.right{border-bottom-color:var(--ok);background:var(--ok-soft)}
+.blank:disabled{opacity:1;-webkit-text-fill-color:var(--ink)}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;margin:0 3px;font-weight:700}
+.fr>span:first-child{border-bottom:2.5px solid currentColor;padding:0 4px}
+.fr>span{padding:0 4px}
+.fbar{display:block;width:100%;min-width:60px;height:3px;background:var(--ink);border-radius:2px}
+.fr .blank{height:44px;width:3.6ch;min-width:54px;margin:3px 0;font-size:22px}
+.big{font-size:28px;font-weight:700}
+.choices{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+.choice{min-height:56px;min-width:64px;padding:10px 20px;border:2.5px solid var(--line);border-radius:var(--r-md);background:var(--surface);font-weight:700;font-size:19px;box-shadow:var(--shadow-sm);text-align:left}
+.choices.compact .choice{min-width:76px;font-size:28px;text-align:center;padding:6px 10px}
+.choice[aria-pressed="true"]{background:var(--primary-soft);border-color:var(--primary);box-shadow:3px 3px 0 var(--primary)}
+.choice.right{background:var(--ok-soft);border-color:var(--ok);box-shadow:3px 3px 0 var(--ok)}
+.choice.wrong{background:var(--bad-soft);border-color:var(--bad);box-shadow:3px 3px 0 var(--bad)}
+.choice:disabled{cursor:default}
+.ctrls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.fb{margin-top:14px;border-radius:var(--r-md);padding:12px 16px;font-size:17px;display:none;border:2px solid transparent}
+.fb.show{display:block;animation:pop .2s ease-out}
+.fb.ok{background:var(--ok-soft);border-color:var(--ok)}
+.fb.hint{background:var(--warn-soft);border-color:var(--warn)}
+.fb.sol{background:var(--bad-soft);border-color:var(--bad)}
+.fb.note{background:var(--primary-soft);border-color:var(--primary)}
+.fb b.t{display:block;font:800 19px/1.3 var(--f-head);margin-bottom:2px}
+.fb.ok b.t{color:var(--ok)} .fb.hint b.t{color:var(--warn)} .fb.sol b.t{color:var(--bad)}
+@keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:none;opacity:1}}
+.summary{text-align:center}
+.summary .stars{font-size:46px;letter-spacing:6px}
+.summary h3{font:800 28px/1.2 var(--f-head);margin:6px 0}
+.foot{text-align:center;color:var(--muted);font-size:14px;margin-top:30px;letter-spacing:1px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(30px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:var(--r-pill);font-weight:700;transition:.2s ease-out;pointer-events:none;z-index:20}
+.toast.show{opacity:1;transform:translateX(-50%)}
+
+/* SVG */
+.sv-ink{stroke:var(--ink);fill:none}
+.sv-txt{fill:var(--ink);font-family:var(--f-body);font-weight:700}
+.sv-muted{fill:var(--muted);font-family:var(--f-body)}
+.sv-prot{fill:color-mix(in srgb,var(--primary-soft) 60%,transparent);stroke:var(--primary);stroke-width:1.5}
+.sv-tick{stroke:var(--primary)}
+.sv-part{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
+.sv-part.on{fill:var(--shade)}
+.interactive .sv-part{cursor:pointer}
+.sv-bar{fill:var(--shade);stroke:var(--ink);stroke-width:2}
+.sv-grid{stroke:var(--dot);stroke-width:1.5}
+.sv-ray{stroke:var(--ink);stroke-width:4;stroke-linecap:round}
+.sv-ray.mov{stroke:var(--primary)}
+.sv-handle{fill:var(--primary);stroke:var(--surface);stroke-width:3;cursor:grab}
+.sv-dot{fill:var(--star)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:600px){.levels{grid-template-columns:1fr}.answer{font-size:21px}.card{padding:16px}}
+
+/* Chọn lớp */
+.tile.grade{min-height:150px;gap:6px}
+.tile.grade .gname{font:800 34px/1.1 var(--f-head);color:var(--primary)}
+.tile.grade.soon{opacity:.55;box-shadow:none;border-style:dashed}
+.tile.grade.soon:hover{transform:none}
+
+/* ---------- Biểu thức THCS: hệ phương trình, dòng công thức (Lớp 9+) ---------- */
+.mx{display:block;margin:10px 0 4px;font-size:22px;font-weight:600;overflow-x:auto;white-space:nowrap}
+.sys{display:inline-grid;grid-template-columns:auto auto;align-items:center;vertical-align:middle;margin:4px 6px;line-height:1.5;white-space:nowrap;text-align:left}
+.sys::before{content:'{';grid-row:1 / 3;font-size:2.7em;font-weight:300;line-height:1;margin-right:2px;transform:scaleX(.65);transform-origin:right}
+.sys>span{grid-column:2;display:block}
+.sys small{color:var(--muted);font-size:.7em;margin-left:6px}
+.choice .sys{margin:0}
+.fb .sys{font-size:1em}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <p class="brand" id="brand">Học mà <span>chơi</span></p>
+  <p class="sub">— Bài tập củng cố theo bài —</p>
+  <div class="author" id="author"></div>
+</header>
+<main class="wrap" id="app" aria-live="polite"></main>
+<div class="toast" id="toast" role="status"></div>
+
+<!-- Thứ tự nạp: cấu hình → lõi → hình vẽ → dạng bài dùng chung → engine (engine tự nạp data/<lớp>.js) -->
+<script>/* config.js */
+/* =====================================================================
+   CẤU HÌNH CHUNG – thầy/cô chỉ cần sửa file này khi thêm lớp mới
+   ===================================================================== */
+const CONFIG = {
+  siteName: 'Học mà chơi',
+  brandHTML: 'Học mà <span>chơi</span>',           // chữ lớn trên đầu trang
+  author:   'Soạn bởi thầy Vũ Tiến Lực · Bài tập củng cố theo bài',
+  setSize:  6,                                     // số câu mỗi bộ
+
+  // Danh sách lớp đang có: mỗi mục ứng với một file data/<mã>.js
+  // Thêm lớp mới: tạo data/lop5.js (chép từ data/_mau-lop-moi.js) rồi thêm 'lop5' vào đây.
+  grades:   ['lop4', 'lop9'],
+
+  // Các lớp hiển thị "Sắp có" trên trang chọn lớp (để trống [] nếu không muốn hiện)
+  upcoming: ['Lớp 3', 'Lớp 5'],
+};
+
+</script>
+<script>/* assets/js/core.js */
+/* =====================================================================
+   CORE – hàm tiện ích, bộ dựng câu hỏi (QB, QC, QCmp) và sổ đăng ký lớp.
+   ===================================================================== */
+const App={grades:[],
+  // Mỗi file data/<lớp>.js gọi App.addGrade({...}) một lần rồi dùng G.lesson(...) để thêm bài.
+  addGrade(cfg){const g={subject:'Toán',book:'',topics:[],...cfg,lessons:[]};
+    g.lesson=(t,id,name,desc,gens)=>{if(g.lessons.some(l=>l.id===id))console.warn('Trùng mã bài',g.id,id);g.lessons.push({t,id,name,desc,gens})};
+    App.grades=App.grades.filter(x=>x.id!==g.id);App.grades.push(g);return g}};
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+const lcm=(a,b)=>a/gcd(a,b)*b;
+const fmt=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+const F=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const Fs=(n,d)=>{const g=gcd(n,d);return F(n/g,d/g)};
+const NAMES=['An','Bình','Mai','Nam','Lan','Minh','Hoa','Khôi','Ngọc','Phúc','Hà','Tùng'];
+const WORD=['không','một','hai','ba','bốn','năm','sáu','bảy','tám','chín','mười'];
+const HANG=['đơn vị','chục','trăm','nghìn','chục nghìn','trăm nghìn','triệu','chục triệu','trăm triệu'];
+const LOP=i=>i<3?'đơn vị':i<6?'nghìn':'triệu';
+const digitsOf=n=>String(n).split('').reverse().map(Number);
+const randDigits=len=>{let s=String(R(1,9));for(let i=1;i<len;i++)s+=R(0,9);return +s};
+const uniqPos=n=>{const d=digitsOf(n),c={};d.forEach(x=>c[x]=(c[x]||0)+1);return d.map((_,i)=>i).filter(i=>c[d[i]]===1&&d[i]!==0)};
+const cmp=(a,b)=>a<b?'<':a>b?'>':'=';
+const joinVa=a=>a.length>1?a.slice(0,-1).join(', ')+' và '+a[a.length-1]:a[0];
+const roman=n=>{const m=[[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];let s='';for(const[v,r]of m)while(n>=v){s+=r;n-=v}return s};
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- Bộ dựng câu hỏi ---------- */
+// Điền ô trống: tpl dùng [_] (ô số/chữ) và [F] (ô phân số). ans khớp theo thứ tự.
+const QB=o=>({kind:'blanks',...o});
+// Chọn đáp án: opts chứa ans; mặc định trộn thứ tự.
+const QC=o=>{const opts=[...new Set(o.opts)];const arr=o.keepOrder?opts:shuffle(opts);return {kind:'choice',...o,opts:arr,correct:arr.indexOf(o.ans)}};
+const QCmp=(text,left,right,a,b,extra={})=>QC({text,expr:`<span class="big">${left} <span style="color:var(--primary)">?</span> ${right}</span>`,opts:['<','>','='],ans:cmp(a,b),keepOrder:true,compact:true,...extra});
+
+</script>
+<script>/* assets/js/figures.js */
+/* ---------- Hình SVG ---------- */
+const P=(cx,cy,r,deg)=>[cx+r*Math.cos(deg*Math.PI/180),cy-r*Math.sin(deg*Math.PI/180)];
+function protractorSVG(theta,{interactive=false}={}){
+  const cx=170,cy=178,r=140;let s=`<svg viewBox="-12 0 364 205" role="img" aria-label="Thước đo góc và góc AOB" class="${interactive?'rot':''}">`;
+  s+=`<path class="sv-prot" d="M${cx-r} ${cy} A${r} ${r} 0 0 1 ${cx+r} ${cy} Z"/>`;
+  for(let d=0;d<=180;d+=5){const L=d%10?7:13;const[a,b]=P(cx,cy,r,d),[c,e]=P(cx,cy,r-L,d);s+=`<line class="sv-tick" x1="${a}" y1="${b}" x2="${c}" y2="${e}" stroke-width="${d%10?1.2:2}"/>`;
+    if(d%10===0){const[x,y]=P(cx,cy,r-25,d);s+=`<text class="sv-muted" x="${x}" y="${y+4-(d===0||d===180?12:0)}" font-size="10.5" text-anchor="middle">${d}</text>`}}
+  const[ax,ay]=P(cx,cy,158,0),[bx,by]=P(cx,cy,158,theta);
+  s+=`<line class="sv-ray" x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}"/>`;
+  s+=`<line class="sv-ray ${interactive?'mov':''}" data-ray x1="${cx}" y1="${cy}" x2="${bx}" y2="${by}"/>`;
+  if(interactive)s+=`<circle class="sv-handle" data-handle cx="${bx}" cy="${by}" r="16"/>`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="5" class="sv-dot"/><text class="sv-txt" x="${cx-6}" y="${cy+22}" font-size="17">O</text><text class="sv-txt" x="${ax-4}" y="${ay+22}" font-size="17">A</text>`;
+  const[lx,ly]=P(cx,cy,176,theta);s+=`<text class="sv-txt" data-lb x="${lx-6}" y="${ly+6}" font-size="17">B</text></svg>`;return s;
+}
+function angleSVG(theta){
+  const rot=theta>=170?0:R(-12,12),cx=theta>100?150:90,cy=theta>150?120:165,L=120;
+  const[ax,ay]=P(cx,cy,L,rot),[bx,by]=P(cx,cy,L,rot+theta);
+  let mark;if(theta===90){const[p1x,p1y]=P(cx,cy,20,rot),[p3x,p3y]=P(cx,cy,20,rot+90),[p2x,p2y]=P(cx,cy,20*Math.SQRT2,rot+45);mark=`<path class="sv-ink" stroke-width="2.5" d="M${p1x} ${p1y} L${p2x} ${p2y} L${p3x} ${p3y}"/>`}
+  else{const[s1,s2]=P(cx,cy,28,rot),[e1,e2]=P(cx,cy,28,rot+theta);mark=`<path class="sv-ink" stroke-width="2.5" d="M${s1} ${s2} A28 28 0 0 0 ${e1} ${e2}"/>`}
+  return `<svg viewBox="0 0 300 200" role="img" aria-label="Hình một góc"><line class="sv-ray" x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}"/><line class="sv-ray" x1="${cx}" y1="${cy}" x2="${bx}" y2="${by}"/>${mark}<circle cx="${cx}" cy="${cy}" r="5" class="sv-dot"/></svg>`;
+}
+function fracSVG(n,k,shape,interactive){
+  let s=`<svg viewBox="0 0 320 ${shape==='circle'?240:(n>6&&n%2===0?200:130)}" role="img" aria-label="Hình chia thành ${n} phần bằng nhau" class="${interactive?'interactive':''}">`;
+  if(shape==='circle'){const cx=160,cy=120,r=100;for(let i=0;i<n;i++){const a1=-90+360*i/n,a2=-90+360*(i+1)/n;const x1=cx+r*Math.cos(a1*Math.PI/180),y1=cy+r*Math.sin(a1*Math.PI/180),x2=cx+r*Math.cos(a2*Math.PI/180),y2=cy+r*Math.sin(a2*Math.PI/180);
+    s+=`<path class="sv-part ${i<k?'on':''}" data-i="${i}" d="M${cx} ${cy} L${x1} ${y1} A${r} ${r} 0 0 1 ${x2} ${y2} Z"/>`}}
+  else{const rows=n>6&&n%2===0?2:1,cols=n/rows,w=Math.min(60,300/cols),h=rows===2?85:100,x0=(320-w*cols)/2;let i=0;
+    for(let rr=0;rr<rows;rr++)for(let c=0;c<cols;c++,i++)s+=`<rect class="sv-part ${i<k?'on':''}" data-i="${i}" x="${x0+c*w}" y="${14+rr*h}" width="${w}" height="${h}"/>`}
+  return s+'</svg>';
+}
+function barSVG(labels,vals,step,unit){
+  const W=440,H=260,x0=52,y0=215,top=20,max=Math.ceil(Math.max(...vals)/step)*step+step,sc=(y0-top)/max,bw=46,gap=(W-x0-20)/labels.length;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Biểu đồ cột">`;
+  for(let v=0;v<=max;v+=step){const y=y0-v*sc;s+=`<line class="sv-grid" x1="${x0}" y1="${y}" x2="${W-10}" y2="${y}"/><text class="sv-muted" x="${x0-8}" y="${y+5}" font-size="13" text-anchor="end">${v}</text>`}
+  labels.forEach((l,i)=>{const x=x0+gap*i+(gap-bw)/2,h=vals[i]*sc;s+=`<rect class="sv-bar" x="${x}" y="${y0-h}" width="${bw}" height="${h}" rx="3"/><text class="sv-txt" x="${x+bw/2}" y="${y0+24}" font-size="15" text-anchor="middle">${l}</text>`});
+  s+=`<line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${y0}" x2="${W-10}" y2="${y0}"/><line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${top-6}" x2="${x0}" y2="${y0}"/><text class="sv-muted" x="${x0-44}" y="${top-8}" font-size="12">(${unit})</text></svg>`;return s;
+}
+function rectSVG(){return `<svg viewBox="0 0 320 200" role="img" aria-label="Hình chữ nhật ABCD"><rect class="sv-ink" stroke-width="3" x="50" y="40" width="220" height="120"/>
+ <path class="sv-ink" stroke-width="2" d="M50 56 h16 v-16 M254 40 v16 h16 M270 144 h-16 v16 M66 160 v-16 h-16"/>
+ <text class="sv-txt" x="30" y="36" font-size="19">A</text><text class="sv-txt" x="276" y="36" font-size="19">B</text><text class="sv-txt" x="276" y="182" font-size="19">C</text><text class="sv-txt" x="28" y="182" font-size="19">D</text></svg>`}
+function shapeSVG(kind){const pts={'Hình bình hành':'60,160 110,50 290,50 240,160','Hình thoi':'160,20 250,100 160,180 70,100','Hình chữ nhật':'50,50 270,50 270,150 50,150','Hình vuông':'95,35 225,35 225,165 95,165'}[kind];
+ return `<svg viewBox="0 0 320 200" role="img" aria-label="Một hình tứ giác"><polygon class="sv-ink" stroke-width="3.5" points="${pts}" style="fill:var(--primary-soft)"/></svg>`}
+
+</script>
+<script>/* assets/js/generators.js */
+/* ---------- Bộ sinh câu hỏi dùng chung ---------- */
+function gPlace(len,withLop){return()=>{let n,pos;do{n=randDigits(len);pos=uniqPos(n)}while(!pos.length);const p=pick(pos),d=digitsOf(n)[p];
+  const lab=i=>'Hàng '+HANG[i]+(withLop?', lớp '+LOP(i):'');const others=shuffle([...Array(len).keys()].filter(i=>i!==p)).slice(0,3);
+  return QC({text:`Trong số <b>${fmt(n)}</b>, chữ số <b>${d}</b> thuộc hàng nào${withLop?', lớp nào':''}?`,opts:[lab(p),...others.map(lab)],ans:lab(p),
+   hint:`Đếm từ phải sang trái: đơn vị, chục, trăm, nghìn, chục nghìn, trăm nghìn, triệu…${withLop?' Cứ 3 hàng tạo thành một lớp.':''}`,
+   sol:`Chữ số ${d} đứng ở vị trí thứ ${p+1} tính từ phải sang, nên thuộc <b>${lab(p).toLowerCase()}</b>.`})}}
+function gValue(len){return()=>{let n,pos;do{n=randDigits(len);pos=uniqPos(n).filter(i=>i>0)}while(!pos.length);const p=pick(pos),d=digitsOf(n)[p],v=d*10**p;
+  return QB({text:`Giá trị của chữ số <b>${d}</b> trong số <b>${fmt(n)}</b> là:`,tpl:'[_]',ans:[v],wide:true,hint:`Chữ số ${d} ở hàng ${HANG[p]}, nên giá trị là ${d} × ${fmt(10**p)}.`,sol:`Chữ số ${d} ở hàng ${HANG[p]} → giá trị là <b>${fmt(v)}</b>.`})}}
+function gCompose(len){return lv=>{const d=[];for(let i=0;i<len;i++)d.push(i===len-1?R(1,9):(lv>=2&&Math.random()<.35?0:R(1,9)));const n=d.reduce((s,x,i)=>s+x*10**i,0);
+  const parts=[];for(let i=len-1;i>=0;i--)if(d[i])parts.push(`${d[i]} ${HANG[i]}`);
+  return QB({text:`Số gồm ${joinVa(parts)} viết là:`,tpl:'[_]',ans:[n],wide:true,hint:`Viết lần lượt từng chữ số từ hàng cao nhất (${HANG[len-1]}) xuống hàng đơn vị. Hàng nào không có thì viết chữ số 0.`,sol:`Số cần viết là <b>${fmt(n)}</b>.`})}}
+function gCmp(len){return lv=>{const a=randDigits(len);let b;
+  if(Math.random()<.12)b=a;else{do{const p=lv===1?len-1-R(0,1):R(0,Math.max(1,len-3));b=a+(Math.random()<.5?1:-1)*R(1,9)*10**p}while(String(b).length!==len||b===a)}
+  return QCmp('Chọn dấu thích hợp:',fmt(a),fmt(b),a,b,{hint:len===String(b).length?'Hai số có cùng số chữ số: so sánh từng cặp chữ số từ trái sang phải.':'Số nào có nhiều chữ số hơn thì lớn hơn.',sol:`${fmt(a)} <b>${cmp(a,b)}</b> ${fmt(b)}.`})}}
+function gRound(len,pChoices){return()=>{const p=pick(pChoices),n=randDigits(len),r=Math.round(n/10**p)*10**p,dd=digitsOf(n)[p-1];
+  return QB({text:`Làm tròn số <b>${fmt(n)}</b> đến hàng <b>${HANG[p]}</b> ta được:`,tpl:'[_]',ans:[r],wide:true,hint:`Nhìn chữ số hàng ${HANG[p-1]} (là ${dd}): bé hơn 5 thì làm tròn xuống, từ 5 trở lên thì làm tròn lên.`,sol:`Chữ số hàng ${HANG[p-1]} là ${dd} ${dd<5?'< 5 → làm tròn xuống':'≥ 5 → làm tròn lên'}: <b>${fmt(r)}</b>.`})}}
+function gAddSub(len){return lv=>{const L=lv===1?len-1:len;const add=Math.random()<.5;let a=randDigits(L),b=randDigits(L-(lv===3?0:1));if(!add&&b>a)[a,b]=[b,a];const r=add?a+b:a-b;
+  return QB({text:'Tính:',tpl:`<span class="eq">${fmt(a)} ${add?'+':'−'} ${fmt(b)} = [_]</span>`,ans:[r],wide:true,hint:`Đặt tính thẳng cột, ${add?'cộng':'trừ'} từ phải sang trái, nhớ ${add?'1 sang hàng bên trái':'1 vào hàng bên trái khi mượn'}.`,sol:`${fmt(a)} ${add?'+':'−'} ${fmt(b)} = <b>${fmt(r)}</b>.`})}}
+function gFindX(len){return lv=>{const t=pick(lv===1?[0,1]:[0,1,2]);const x=randDigits(len-1),a=randDigits(len-1);let tpl,b,sol;
+  if(t===0){b=x+a;tpl=`[_] + ${fmt(a)} = ${fmt(b)}`;sol=`Số hạng chưa biết = tổng − số hạng đã biết = ${fmt(b)} − ${fmt(a)} = <b>${fmt(x)}</b>.`}
+  else if(t===1){b=x;const y=x+a;tpl=`[_] − ${fmt(a)} = ${fmt(b)}`;sol=`Số bị trừ = hiệu + số trừ = ${fmt(b)} + ${fmt(a)} = <b>${fmt(y)}</b>.`;return QB({text:'Tìm số thích hợp điền vào ô trống:',tpl:`<span class="eq">${tpl}</span>`,ans:[y],wide:true,hint:'Muốn tìm số bị trừ, lấy hiệu cộng với số trừ.',sol})}
+  else{const big=x+a;tpl=`${fmt(big)} − [_] = ${fmt(a)}`;sol=`Số trừ = số bị trừ − hiệu = ${fmt(big)} − ${fmt(a)} = <b>${fmt(x)}</b>.`}
+  return QB({text:'Tìm số thích hợp điền vào ô trống:',tpl:`<span class="eq">${tpl}</span>`,ans:[x],wide:true,hint:t===0?'Muốn tìm số hạng chưa biết, lấy tổng trừ đi số hạng đã biết.':'Muốn tìm số trừ, lấy số bị trừ trừ đi hiệu.',sol})}}
+
+/* Góc */
+const angCat=t=>t<90?'Góc nhọn':t===90?'Góc vuông':t<180?'Góc tù':'Góc bẹt';
+const ANG_OPTS=['Góc nhọn','Góc vuông','Góc tù','Góc bẹt'];
+const angHint='Góc nhọn bé hơn góc vuông (dưới 90°); góc tù lớn hơn góc vuông (từ 90° đến 180°); góc bẹt bằng 180° (hai cạnh thẳng hàng).';
+function randAngle(step){let t;do{t=R(1,Math.floor(180/step)-1)*step}while(t===90&&Math.random()<.5);return t}
+const gReadProt=lv=>{const t=randAngle(lv===1?10:5);return QB({text:'Dùng thước đo góc: góc đỉnh O, cạnh OA, OB có số đo là bao nhiêu?',fig:protractorSVG(t),tpl:'Góc AOB = [_]°',ans:[t],hint:'Tâm thước trùng đỉnh O, cạnh OA đi qua vạch 0. Đọc số ở vạch mà cạnh OB đi qua.',sol:`Cạnh OB đi qua vạch <b>${t}</b>, nên góc AOB = <b>${t}°</b>.`})};
+const gRotate=lv=>{const t=randAngle(lv===1?10:5);return {kind:'rotate',text:`Kéo (hoặc bấm nút) xoay cạnh OB để góc AOB bằng <b>${t}°</b>.`,target:t,val:90===t?40:90,step:5,hint:'Cạnh OA nằm ở vạch 0. Hãy đưa cạnh OB tới đúng vạch ghi số đo cần tìm.',sol:`Cạnh OB phải đi qua vạch <b>${t}</b> của thước.`}};
+const gAngType=()=>{const t=pick([R(3,8)*10,90,R(10,17)*10,180,R(2,17)*5]);return QC({text:'Góc trong hình là góc gì?',fig:angleSVG(t),opts:ANG_OPTS,ans:angCat(t),keepOrder:true,hint:angHint+' Dùng ê-ke để kiểm tra.',sol:`Đó là <b>${angCat(t).toLowerCase()}</b>.`})};
+const gAngDeg=()=>{const t=pick([R(2,17)*5,R(19,35)*5,90,180]);return QC({text:`Góc có số đo <b>${t}°</b> là:`,opts:ANG_OPTS,ans:angCat(t),keepOrder:true,hint:angHint,sol:`${t}° ${t<90?'< 90°':t===90?'= 90°':t<180?'lớn hơn 90° và bé hơn 180°':'= 180°'} → <b>${angCat(t).toLowerCase()}</b>.`})};
+const gAngWhich=()=>{const cat=pick(['Góc nhọn','Góc tù']);const good=cat==='Góc nhọn'?R(2,17)*5:R(19,35)*5;const bad=shuffle(cat==='Góc nhọn'?[90,180,R(19,35)*5,R(19,35)*5]:[90,180,R(2,17)*5,R(2,17)*5]).slice(0,3);
+  return QC({text:`Trong các góc có số đo dưới đây, góc nào là <b>${cat.toLowerCase()}</b>?`,opts:[good,...bad].map(x=>x+'°'),ans:good+'°',hint:angHint,sol:`Góc <b>${good}°</b> là ${cat.toLowerCase()}.`})};
+
+/* Đơn vị đo */
+function gConv(U,wordCtx){ // U: [{n,f}] từ bé đến lớn
+  const pair=maxR=>{let i,j;do{i=R(0,U.length-2);j=R(i+1,U.length-1)}while(U[j].f/U[i].f>maxR);return[U[i],U[j]]};
+  return lv=>{const t=lv===1?0:lv===2?pick([1,2]):pick([2,3,4]);
+    if(t===0){const[s,b]=pair(1000),k=R(2,9);return QB({text:'Điền số thích hợp:',tpl:`${k} ${b.n} = [_] ${s.n}`,ans:[k*b.f/s.f],hint:`1 ${b.n} = ${fmt(b.f/s.f)} ${s.n}.`,sol:`${k} ${b.n} = ${k} × ${fmt(b.f/s.f)} = <b>${fmt(k*b.f/s.f)}</b> ${s.n}.`})}
+    if(t===1){const[s,b]=pair(1000),q=b.f/s.f,k=R(2,9),m=R(1,q-1),v=k*q+m;return QB({text:'Điền số thích hợp:',tpl:`${k} ${b.n} ${m} ${s.n} = [_] ${s.n}`,ans:[v],wide:true,hint:`Đổi ${k} ${b.n} ra ${s.n} trước (1 ${b.n} = ${fmt(q)} ${s.n}), rồi cộng thêm ${m} ${s.n}.`,sol:`${k} ${b.n} = ${fmt(k*q)} ${s.n}; ${fmt(k*q)} + ${m} = <b>${fmt(v)}</b> ${s.n}.`})}
+    if(t===2){const[s,b]=pair(1000),q=b.f/s.f,k=R(2,40);return QB({text:'Điền số thích hợp:',tpl:`${fmt(k*q)} ${s.n} = [_] ${b.n}`,ans:[k],hint:`${fmt(q)} ${s.n} = 1 ${b.n}. Lấy ${fmt(k*q)} chia cho ${fmt(q)}.`,sol:`${fmt(k*q)} : ${fmt(q)} = <b>${k}</b> → ${fmt(k*q)} ${s.n} = ${k} ${b.n}.`})}
+    if(t===3){const[s,b]=pair(1000),q=b.f/s.f,k=R(2,9),m=R(1,q-1),v=k*q+m;const other=v+pick([-1,1])*R(1,3)*(q>=100?q/10:1)*(Math.random()<.3?0:1);
+      return QCmp('Chọn dấu thích hợp:',`${k} ${b.n} ${m} ${s.n}`,`${fmt(other)} ${s.n}`,v,other,{hint:`Đổi về cùng đơn vị ${s.n} rồi so sánh.`,sol:`${k} ${b.n} ${m} ${s.n} = ${fmt(v)} ${s.n}, nên chọn dấu <b>${cmp(v,other)}</b>.`})}
+    return wordCtx(lv);}}
+const MASS=[{n:'kg',f:1},{n:'yến',f:10},{n:'tạ',f:100},{n:'tấn',f:1000}];
+const AREA=[{n:'mm²',f:1},{n:'cm²',f:100},{n:'dm²',f:1e4},{n:'m²',f:1e6}];
+
+</script>
+<script>/* data/lop4.js */
+/* =====================================================================
+   DỮ LIỆU LỚP 4 – Toán, Kết nối tri thức
+   Mỗi bài: G.lesson(mãChủĐề, 'ma-bai', 'Tên bài', 'Mô tả ngắn', [các dạng bài])
+   Mỗi dạng bài là một hàm lv => câu hỏi (lv = 1, 2, 3). Xem README.md.
+   ===================================================================== */
+(() => {
+const G = App.addGrade({
+  id: 'lop4', name: 'Lớp 4', subject: 'Toán', book: 'Kết nối tri thức',
+  topics: [
+    {id:1,hk:1,name:'Ôn tập và bổ sung'},{id:2,hk:1,name:'Góc và đơn vị đo góc'},{id:3,hk:1,name:'Số có nhiều chữ số'},
+    {id:4,hk:1,name:'Một số đơn vị đo đại lượng'},{id:5,hk:1,name:'Phép cộng và phép trừ'},{id:6,hk:1,name:'Đường thẳng vuông góc. Đường thẳng song song'},
+    {id:8,hk:2,name:'Phép nhân và phép chia'},{id:9,hk:2,name:'Làm quen với yếu tố thống kê, xác suất'},{id:10,hk:2,name:'Phân số'},
+    {id:11,hk:2,name:'Phép cộng, phép trừ phân số'},{id:12,hk:2,name:'Phép nhân, phép chia phân số'}]
+});
+const lesson = G.lesson;
+
+/* Bài toán lời văn riêng của lớp 4 */
+const massWord=()=>{const T=R(3,9),d=R(11,T*10-5);return QB({text:`Một xe tải chở <b>${T} tấn</b> gạo. Người ta đã dỡ xuống <b>${d} tạ</b>. Hỏi trên xe còn lại bao nhiêu tạ gạo?`,tpl:'[_] tạ',ans:[T*10-d],hint:`Đổi ${T} tấn ra tạ (1 tấn = 10 tạ) rồi trừ.`,sol:`${T} tấn = ${T*10} tạ. Còn lại: ${T*10} − ${d} = <b>${T*10-d} tạ</b>.`})};
+const areaWord=()=>{const a=R(3,9),b=R(2,a-1);return QB({text:`Một tấm kính hình chữ nhật có chiều dài <b>${a} dm</b>, chiều rộng <b>${b} dm</b>. Diện tích tấm kính là bao nhiêu xăng-ti-mét vuông?`,tpl:'[_] cm²',ans:[a*b*100],wide:true,hint:'Tính diện tích theo dm² (dài × rộng), rồi đổi: 1 dm² = 100 cm².',sol:`${a} × ${b} = ${a*b} dm² = <b>${fmt(a*b*100)} cm²</b>.`})};
+
+/* CĐ1 */
+lesson(1,'on-so','Ôn tập các số đến 100 000','Hàng, giá trị chữ số, viết số, so sánh và làm tròn số có năm chữ số.',[gPlace(5,false),gCompose(5),gCmp(5),gRound(5,[3,4]),gValue(5)]);
+lesson(1,'on-phep-tinh','Ôn tập các phép tính trong phạm vi 100 000','Cộng, trừ, nhân, chia và tìm thành phần chưa biết.',[gAddSub(5),lv=>{const b=R(2,9),q=lv===1?R(100,999):R(1000,9999);const mul=Math.random()<.5;
+  return mul?QB({text:'Tính:',tpl:`<span class="eq">${fmt(q)} × ${b} = [_]</span>`,ans:[q*b],wide:true,hint:'Nhân lần lượt từ phải sang trái, nhớ sang hàng bên trái.',sol:`${fmt(q)} × ${b} = <b>${fmt(q*b)}</b>.`}):
+  QB({text:'Tính:',tpl:`<span class="eq">${fmt(q*b)} : ${b} = [_]</span>`,ans:[q],wide:true,hint:'Chia lần lượt từ trái sang phải.',sol:`${fmt(q*b)} : ${b} = <b>${fmt(q)}</b>.`})},gFindX(5)]);
+lesson(1,'chan-le','Số chẵn, số lẻ','Nhận biết số chẵn, số lẻ; đếm và lập số chẵn, lẻ.',[lv=>{const even=Math.random()<.5,len=lv+1;const mk=e=>{let n;do{n=randDigits(len)}while((n%2===0)!==e);return n};const good=mk(even);const opts=[good,mk(!even),mk(!even),mk(!even)].map(fmt);
+  return QC({text:`Số nào dưới đây là <b>số ${even?'chẵn':'lẻ'}</b>?`,opts,ans:fmt(good),hint:'Số chẵn có chữ số hàng đơn vị là 0, 2, 4, 6, 8. Số lẻ có chữ số hàng đơn vị là 1, 3, 5, 7, 9.',sol:`${fmt(good)} có chữ số tận cùng là ${good%10} nên là số <b>${even?'chẵn':'lẻ'}</b>.`})},
+ lv=>{const even=Math.random()<.5,a=R(10,60),b=a+R(8,lv*15+10);const f=[...Array(b-a+1)].map((_,i)=>a+i).filter(x=>(x%2===0)===even);
+  return QB({text:`Có bao nhiêu <b>số ${even?'chẵn':'lẻ'}</b> từ ${a} đến ${b}?`,tpl:'[_] số',ans:[f.length],hint:`Số ${even?'chẵn':'lẻ'} đầu tiên là ${f[0]}, cuối cùng là ${f[f.length-1]}. Hai số ${even?'chẵn':'lẻ'} liên tiếp hơn kém nhau 2 đơn vị.`,sol:`(${f[f.length-1]} − ${f[0]}) : 2 + 1 = <b>${f.length}</b> số.`})},
+ lv=>{let ds;do{ds=shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,4)}while(!ds.some(d=>d%2===0)||!ds.some(d=>d%2));const want=pick(['lớn nhất','bé nhất']),even=lv<3||Math.random()<.5;
+  const perms=[];const go=(p,r)=>{if(!r.length){if(p[0]!==0)perms.push(+p.join(''));return}r.forEach((x,i)=>go([...p,x],r.filter((_,j)=>j!==i)))};go([],ds);
+  const ok=perms.filter(n=>(n%2===0)===even).sort((a,b)=>a-b);const ans=want==='lớn nhất'?ok[ok.length-1]:ok[0];
+  return QB({text:`Từ bốn chữ số <b>${ds.join(', ')}</b>, viết số ${even?'chẵn':'lẻ'} <b>${want}</b> có bốn chữ số khác nhau.`,tpl:'[_]',ans:[ans],wide:true,hint:`Chữ số hàng đơn vị phải là chữ số ${even?'chẵn':'lẻ'}. Các hàng cao được xếp chữ số ${want==='lớn nhất'?'lớn':'bé'} trước (chữ số 0 không đứng đầu).`,sol:`Số cần tìm là <b>${fmt(ans)}</b>.`})}]);
+lesson(1,'bieu-thuc-chu','Biểu thức chứa chữ','Tính giá trị biểu thức chứa một, hai, ba chữ.',[
+ lv=>{const a=R(100,900),k=R(100,900),op=pick(['+','−','×']);let v,e;if(op==='+'){v=a+k;e=`a + ${k}`}else if(op==='−'){const A=a+k;return QB({text:`Tính giá trị của biểu thức <b>a − ${k}</b> với a = ${A}.`,tpl:'[_]',ans:[A-k],wide:true,hint:'Thay chữ a bằng số rồi tính.',sol:`${A} − ${k} = <b>${A-k}</b>.`})}else{const b=R(2,9);v=a*b;e=`a × ${b}`;return QB({text:`Tính giá trị của biểu thức <b>${e}</b> với a = ${a}.`,tpl:'[_]',ans:[v],wide:true,hint:'Thay chữ a bằng số rồi tính.',sol:`${a} × ${b} = <b>${fmt(v)}</b>.`})}
+  return QB({text:`Tính giá trị của biểu thức <b>${e}</b> với a = ${a}.`,tpl:'[_]',ans:[v],wide:true,hint:'Thay chữ a bằng số rồi tính.',sol:`${a} + ${k} = <b>${fmt(v)}</b>.`})},
+ lv=>{const a=R(10,60),b=R(2,9),c=R(5,a);const f=pick([0,1]);if(f===0){const v=a*b-c;return QB({text:`Tính giá trị của biểu thức <b>a × b − c</b> với a = ${a}, b = ${b}, c = ${c}.`,tpl:'[_]',ans:[v],hint:'Thay số rồi thực hiện phép nhân trước, phép trừ sau.',sol:`${a} × ${b} − ${c} = ${a*b} − ${c} = <b>${v}</b>.`})}
+  const v=(a+c)*b;return QB({text:`Tính giá trị của biểu thức <b>(a + b) × c</b> với a = ${a}, b = ${c}, c = ${b}.`,tpl:'[_]',ans:[v],hint:'Tính trong ngoặc trước.',sol:`(${a} + ${c}) × ${b} = ${a+c} × ${b} = <b>${v}</b>.`})},
+ lv=>{if(lv<3||Math.random()<.4){const a=R(12,95);return QB({text:`Chu vi hình vuông cạnh a được tính theo công thức <b>P = a × 4</b>. Tính chu vi hình vuông có cạnh a = ${a} cm.`,tpl:'P = [_] cm',ans:[a*4],hint:'Thay a bằng số đo cạnh.',sol:`P = ${a} × 4 = <b>${a*4} cm</b>.`})}
+  const a=R(20,90),b=R(10,a-1);return QB({text:`Chu vi hình chữ nhật: <b>P = (a + b) × 2</b>. Tính P với a = ${a} m, b = ${b} m.`,tpl:'P = [_] m',ans:[(a+b)*2],hint:'Tính tổng chiều dài và chiều rộng trước, rồi nhân 2.',sol:`P = (${a} + ${b}) × 2 = ${a+b} × 2 = <b>${(a+b)*2} m</b>.`})}]);
+lesson(1,'ba-buoc','Giải bài toán có ba bước tính','Bài toán lời văn cần hai đến ba bước tính.',[
+ ()=>{const k=R(3,6),per=R(12,36),sold=R(10,k*per-10);return QB({text:`Một cửa hàng có <b>${k} thùng</b> nước, mỗi thùng <b>${per} chai</b>. Cửa hàng đã bán <b>${sold} chai</b>. Hỏi cửa hàng còn lại bao nhiêu chai nước?`,tpl:'[_] chai',ans:[k*per-sold],hint:'Bước 1: tìm số chai lúc đầu (nhân). Bước 2: trừ số chai đã bán.',sol:`Lúc đầu: ${k} × ${per} = ${k*per} chai. Còn lại: ${k*per} − ${sold} = <b>${k*per-sold} chai</b>.`})},
+ ()=>{const a=R(28,36),m=R(2,5),l=R(1,4),b=a+m,c=b-l;return QB({text:`Lớp 4A có <b>${a}</b> học sinh. Lớp 4B nhiều hơn lớp 4A <b>${m}</b> học sinh. Lớp 4C ít hơn lớp 4B <b>${l}</b> học sinh. Hỏi cả ba lớp có bao nhiêu học sinh?`,tpl:'[_] học sinh',ans:[a+b+c],hint:'Tìm số học sinh lớp 4B, rồi lớp 4C, sau đó cộng cả ba lớp.',sol:`4B: ${a} + ${m} = ${b}. 4C: ${b} − ${l} = ${c}. Cả ba lớp: ${a} + ${b} + ${c} = <b>${a+b+c} học sinh</b>.`})},
+ ()=>{const ka=R(2,4),pa=R(3,6)*5000,kb=R(1,3),pb=R(4,8)*5000,tot=ka*pa+kb*pb,pay=Math.ceil((tot+1)/50000)*50000;return QB({text:`Mẹ mua <b>${ka} kg</b> táo, giá ${fmt(pa)} đồng/kg và <b>${kb} kg</b> cam, giá ${fmt(pb)} đồng/kg. Mẹ đưa cô bán hàng <b>${fmt(pay)} đồng</b>. Cô bán hàng trả lại mẹ bao nhiêu tiền?`,tpl:'[_] đồng',ans:[pay-tot],wide:true,hint:'Tính tiền táo, tiền cam, cộng lại, rồi lấy số tiền mẹ đưa trừ đi.',sol:`Táo: ${fmt(ka*pa)} đ; cam: ${fmt(kb*pb)} đ; tổng ${fmt(tot)} đ. Trả lại: ${fmt(pay)} − ${fmt(tot)} = <b>${fmt(pay-tot)} đồng</b>.`})}]);
+
+/* CĐ2 */
+lesson(2,'do-goc','Đo góc, đơn vị đo góc','Đọc số đo góc trên thước đo góc; xoay cạnh để tạo góc cho trước.',[gReadProt,gRotate,gReadProt,gRotate]);
+lesson(2,'loai-goc','Góc nhọn, góc tù, góc bẹt','Nhận biết góc nhọn, góc vuông, góc tù, góc bẹt.',[gAngType,gAngDeg,gAngWhich]);
+
+/* CĐ3 */
+lesson(3,'hang-lop','Hàng và lớp','Hàng, lớp và giá trị của chữ số trong số có nhiều chữ số.',[gPlace(7,true),gValue(8),lv=>{const n=randDigits(8);const cls=pick([['triệu',6],['nghìn',3],['đơn vị',0]]);const v=Math.floor(n/10**cls[1])%1000;const s=cls[0]==='triệu'?String(v):String(v).padStart(3,'0');
+  return QB({text:`Lớp <b>${cls[0]}</b> của số <b>${fmt(n)}</b> gồm các chữ số nào? (viết liền nhau)`,tpl:'[_]',ans:[s],hint:'Tách số thành từng nhóm 3 chữ số từ phải sang trái: lớp đơn vị, lớp nghìn, lớp triệu.',sol:`Lớp ${cls[0]} gồm các chữ số <b>${s}</b>.`})},gCompose(8)]);
+lesson(3,'lam-tron','Làm tròn số đến hàng trăm nghìn','Làm tròn số đến hàng chục nghìn, trăm nghìn.',[gRound(6,[5]),gRound(7,[4,5]),gRound(8,[5])]);
+lesson(3,'so-sanh','So sánh các số có nhiều chữ số','So sánh, tìm số lớn nhất – bé nhất, sắp xếp thứ tự.',[gCmp(6),gCmp(8),lv=>{const want=pick(['lớn nhất','bé nhất']),base=randDigits(7);const ns=[...new Set([base,base+R(1,9)*1000,base-R(1,9)*10000,base+R(1,9)*100000*(Math.random()<.5?1:-1)].filter(x=>String(x).length===7))];while(ns.length<4)ns.push(base+R(1,999));
+  const u=[...new Set(ns)].slice(0,4);const ans=want==='lớn nhất'?Math.max(...u):Math.min(...u);return QC({text:`Số nào <b>${want}</b>?`,opts:u.map(fmt),ans:fmt(ans),hint:'Các số đều có bảy chữ số: so sánh từng cặp chữ số từ trái sang phải.',sol:`Số ${want} là <b>${fmt(ans)}</b>.`})},
+ ()=>{const b=randDigits(6);const u=[...new Set([b,b+R(1,9)*10,b-R(1,9)*1000,b+R(1,9)*1000])].slice(0,4);while(u.length<4)u.push(b+R(1,99));const asc=u.slice().sort((x,y)=>x-y);const right=asc.map(fmt).join(' ; ');const wrongs=[shuffle(asc),shuffle(asc),asc.slice().reverse()].map(a=>a.map(fmt).join(' ; ')).filter(s=>s!==right);
+  return QC({text:'Dãy nào được sắp xếp theo thứ tự <b>từ bé đến lớn</b>?',opts:[right,...wrongs].slice(0,4),ans:right,hint:'Tìm số bé nhất trước, rồi lần lượt các số lớn hơn.',sol:`Thứ tự từ bé đến lớn: <b>${right}</b>.`})}]);
+lesson(3,'day-so','Làm quen với dãy số tự nhiên','Số liền trước, liền sau; quy luật dãy số; đếm số tự nhiên.',[()=>{const n=randDigits(R(5,7));const after=Math.random()<.5;return QB({text:`Số liền ${after?'sau':'trước'} của <b>${fmt(n)}</b> là:`,tpl:'[_]',ans:[after?n+1:n-1],wide:true,hint:`Số liền ${after?'sau hơn':'trước kém'} số đã cho 1 đơn vị.`,sol:`${fmt(n)} ${after?'+':'−'} 1 = <b>${fmt(after?n+1:n-1)}</b>.`})},
+ lv=>{const d=pick(lv===1?[2,5,10]:[3,4,25,50,100]),a=R(1,40)*(lv===1?d:1),s=[0,1,2,3].map(i=>a+i*d);return QB({text:'Viết số tiếp theo của dãy số:',tpl:`${s.map(fmt).join(';  ')};  [_]`,ans:[a+4*d],hint:'Tìm xem hai số liên tiếp hơn kém nhau bao nhiêu.',sol:`Mỗi số hơn số liền trước ${d} đơn vị: ${fmt(s[3])} + ${d} = <b>${fmt(a+4*d)}</b>.`})},
+ lv=>{const a=R(10,200),b=a+R(20,lv*200);return QB({text:`Có bao nhiêu số tự nhiên từ ${a} đến ${b}?`,tpl:'[_] số',ans:[b-a+1],hint:'Số các số tự nhiên liên tiếp = số cuối − số đầu + 1.',sol:`${b} − ${a} + 1 = <b>${b-a+1}</b> số.`})}]);
+
+/* CĐ4 */
+lesson(4,'yen-ta-tan','Yến, tạ, tấn','Đổi đơn vị đo khối lượng; so sánh; bài toán thực tế.',[gConv(MASS,massWord)]);
+lesson(4,'dien-tich','Đề-xi-mét vuông, mét vuông, mi-li-mét vuông','Đổi đơn vị đo diện tích; tính diện tích hình chữ nhật.',[gConv(AREA,areaWord)]);
+lesson(4,'giay-the-ki','Giây, thế kỉ','Đổi phút – giây, năm – thế kỉ; xác định thế kỉ.',[lv=>{if(lv===1){const k=R(2,9);return QB({text:'Điền số thích hợp:',tpl:`${k} phút = [_] giây`,ans:[k*60],hint:'1 phút = 60 giây.',sol:`${k} × 60 = <b>${k*60}</b> giây.`})}
+  if(lv===2){const k=R(1,5),s=R(5,55);return QB({text:'Điền số thích hợp:',tpl:`${k} phút ${s} giây = [_] giây`,ans:[k*60+s],hint:'Đổi số phút ra giây rồi cộng thêm số giây.',sol:`${k*60} + ${s} = <b>${k*60+s}</b> giây.`})}
+  const d=pick([2,3,4,5,6]);return QB({text:'Điền số thích hợp:',tpl:`${F(1,d)} phút = [_] giây`,ans:[60/d],hint:`Lấy 60 giây chia cho ${d}.`,sol:`60 : ${d} = <b>${60/d}</b> giây.`})},
+ ()=>{const y=R(1000,2099);const c=Math.floor((y-1)/100)+1;return QB({text:`Năm <b>${y}</b> thuộc thế kỉ nào? (viết bằng chữ số La Mã)`,tpl:'Thế kỉ [_]',ans:[[roman(c),c]],hint:`Thế kỉ ${roman(c)} bắt đầu từ năm ${(c-1)*100+1} đến năm ${c*100}.`,sol:`Năm ${y} thuộc thế kỉ <b>${roman(c)}</b> (thế kỉ ${c}).`})},
+ ()=>{const c=R(10,21),st=Math.random()<.5;return QB({text:`Thế kỉ <b>${roman(c)}</b> ${st?'bắt đầu':'kết thúc'} vào năm nào?`,tpl:'Năm [_]',ans:[st?(c-1)*100+1:c*100],hint:'Mỗi thế kỉ có 100 năm. Thế kỉ I từ năm 1 đến năm 100.',sol:`Thế kỉ ${roman(c)}: từ năm ${(c-1)*100+1} đến năm ${c*100}. Đáp án: <b>${st?(c-1)*100+1:c*100}</b>.`})}]);
+
+/* CĐ5 */
+lesson(5,'cong-tru','Phép cộng, phép trừ các số có nhiều chữ số','Cộng, trừ số có nhiều chữ số; tìm thành phần chưa biết.',[gAddSub(6),gAddSub(7),gFindX(6)]);
+lesson(5,'tinh-chat-cong','Tính chất giao hoán và kết hợp của phép cộng','Vận dụng tính chất để tính thuận tiện.',[()=>{const a=R(100,999),b=R(100,999);return QB({text:'Điền số thích hợp:',tpl:`<span class="eq">${a} + ${b} = ${b} + [_]</span>`,ans:[a],hint:'Khi đổi chỗ các số hạng trong một tổng thì tổng không thay đổi.',sol:`${a} + ${b} = ${b} + <b>${a}</b>.`})},
+ ()=>{const a=R(1,9)*100+R(1,99),c=Math.ceil(a/100)*100+R(1,5)*100-a,b=R(100,899);return QB({text:'Tính bằng cách thuận tiện:',tpl:`<span class="eq">${a} + ${b} + ${c} = [_]</span>`,ans:[a+b+c],wide:true,hint:`Nhóm ${a} với ${c} được số tròn trăm.`,sol:`(${a} + ${c}) + ${b} = ${a+c} + ${b} = <b>${fmt(a+b+c)}</b>.`})},
+ ()=>{const a=R(1000,9000),b=R(100,900),c=R(100,900);return QB({text:'Điền số thích hợp:',tpl:`<span class="eq">(${a} + ${b}) + ${c} = ${a} + ([_] + ${c})</span>`,ans:[b],hint:'Tính chất kết hợp: (a + b) + c = a + (b + c).',sol:`Số cần điền là <b>${b}</b>.`})}]);
+lesson(5,'tong-hieu','Tìm hai số biết tổng và hiệu','Tìm số lớn, số bé khi biết tổng và hiệu.',[lv=>{const s=R(10,lv*200),h=R(2,Math.max(4,s))*2;const big=s+h,S=big+s;return QB({text:`Tổng hai số là <b>${S}</b>, hiệu hai số là <b>${h}</b>. Tìm hai số đó.`,tpl:'Số lớn: [_] &nbsp; Số bé: [_]',ans:[big,s],hint:'Số lớn = (Tổng + Hiệu) : 2; Số bé = (Tổng − Hiệu) : 2.',sol:`Số lớn = (${S} + ${h}) : 2 = <b>${big}</b>; số bé = ${S} − ${big} = <b>${s}</b>.`})},
+ ()=>{const c=R(6,12),h=R(24,32),d=c+h;return QB({text:`Tổng số tuổi của bố và con là <b>${c+d}</b> tuổi. Bố hơn con <b>${h}</b> tuổi. Hỏi con bao nhiêu tuổi?`,tpl:'[_] tuổi',ans:[c],hint:'Tuổi con là số bé: (Tổng − Hiệu) : 2.',sol:`Tuổi con: (${c+d} − ${h}) : 2 = <b>${c} tuổi</b>.`})},
+ ()=>{const b=R(80,200),h=R(10,60),a=b+h;return QB({text:`Hai lớp 4A và 4B trồng được <b>${a+b}</b> cây. Lớp 4A trồng nhiều hơn lớp 4B <b>${h}</b> cây. Mỗi lớp trồng được bao nhiêu cây?`,tpl:'4A: [_] cây &nbsp; 4B: [_] cây',ans:[a,b],hint:'Lớp 4A là số lớn, lớp 4B là số bé.',sol:`4A: (${a+b} + ${h}) : 2 = <b>${a}</b> cây; 4B: ${a+b} − ${a} = <b>${b}</b> cây.`})}]);
+
+/* CĐ6 */
+lesson(6,'vuong-song-song','Hai đường thẳng vuông góc, song song. Hình bình hành, hình thoi','Nhận biết cặp cạnh vuông góc, song song; nhận dạng hình.',[()=>{const q=pick([['AB','DC'],['AD','BC'],['BC','AD'],['DC','AB']]);return QC({text:`Trong hình chữ nhật ABCD, cạnh nào <b>song song</b> với cạnh ${q[0]}?`,fig:rectSVG(),opts:[q[1],...['AB','BC','DC','AD'].filter(x=>x!==q[0]&&x!==q[1])],ans:q[1],hint:'Hai cạnh đối diện của hình chữ nhật song song với nhau.',sol:`Cạnh <b>${q[1]}</b> song song với cạnh ${q[0]}.`})},
+ ()=>{const q=pick([['AB','AD và BC'],['DC','AD và BC'],['AD','AB và DC'],['BC','AB và DC']]);return QC({text:`Trong hình chữ nhật ABCD, cạnh ${q[0]} <b>vuông góc</b> với những cạnh nào?`,fig:rectSVG(),opts:['AD và BC','AB và DC',q[0]==='AB'||q[0]==='DC'?'AD và DC':'AB và BC'],ans:q[1],hint:'Hai cạnh chung một đỉnh của hình chữ nhật thì vuông góc với nhau.',sol:`Cạnh ${q[0]} vuông góc với <b>${q[1]}</b>.`})},
+ ()=>{const k=pick(['Hình bình hành','Hình thoi','Hình chữ nhật','Hình vuông']);return QC({text:'Hình bên là hình gì?',fig:shapeSVG(k),opts:['Hình bình hành','Hình thoi','Hình chữ nhật','Hình vuông'],ans:k,keepOrder:true,hint:'Hình bình hành: hai cặp cạnh đối song song và bằng nhau. Hình thoi: thêm bốn cạnh bằng nhau. Hình chữ nhật có 4 góc vuông.',sol:`Đó là <b>${k.toLowerCase()}</b>.`})}]);
+
+/* CĐ8 */
+lesson(8,'nhan-chia-1','Nhân, chia với số có một chữ số','Nhân, chia số có nhiều chữ số với số có một chữ số.',[lv=>{const a=randDigits(lv+3),b=R(2,9);return QB({text:'Tính:',tpl:`<span class="eq">${fmt(a)} × ${b} = [_]</span>`,ans:[a*b],wide:true,hint:'Nhân từ phải sang trái, nhớ sang hàng bên trái.',sol:`${fmt(a)} × ${b} = <b>${fmt(a*b)}</b>.`})},
+ lv=>{const b=R(2,9),q=randDigits(lv+2);return QB({text:'Tính:',tpl:`<span class="eq">${fmt(q*b)} : ${b} = [_]</span>`,ans:[q],wide:true,hint:'Chia từ trái sang phải; mỗi lần chia: chia – nhân – trừ – hạ.',sol:`${fmt(q*b)} : ${b} = <b>${fmt(q)}</b>.`})},
+ lv=>{const b=R(3,9),q=randDigits(lv+1),r=R(1,b-1),a=q*b+r;return QB({text:'Thực hiện phép chia có dư:',tpl:`<span class="eq">${fmt(a)} : ${b} = [_] (dư [_])</span>`,ans:[q,r],hint:'Số dư luôn bé hơn số chia.',sol:`${fmt(a)} = ${fmt(q)} × ${b} + ${r} → thương <b>${fmt(q)}</b>, dư <b>${r}</b>.`})}]);
+lesson(8,'nhan-10','Nhân, chia với 10, 100, 1 000, …','Nhân, chia nhẩm với 10, 100, 1 000.',[()=>{const k=pick([10,100,1000]),n=R(12,999);return QB({text:'Tính nhẩm:',tpl:`<span class="eq">${n} × ${fmt(k)} = [_]</span>`,ans:[n*k],wide:true,hint:`Nhân với ${fmt(k)}: viết thêm ${String(k).length-1} chữ số 0 vào bên phải.`,sol:`${n} × ${fmt(k)} = <b>${fmt(n*k)}</b>.`})},
+ ()=>{const k=pick([10,100,1000]),n=R(12,999);return QB({text:'Tính nhẩm:',tpl:`<span class="eq">${fmt(n*k)} : ${fmt(k)} = [_]</span>`,ans:[n],hint:`Chia cho ${fmt(k)}: bỏ bớt ${String(k).length-1} chữ số 0 ở bên phải.`,sol:`${fmt(n*k)} : ${fmt(k)} = <b>${n}</b>.`})},
+ ()=>{const k=pick([10,100,1000]),n=R(12,99);return QB({text:'Điền số thích hợp:',tpl:`<span class="eq">[_] × ${fmt(k)} = ${fmt(n*k)}</span>`,ans:[n],hint:`Lấy ${fmt(n*k)} chia cho ${fmt(k)}.`,sol:`Số cần điền là <b>${n}</b>.`})}]);
+lesson(8,'tinh-chat-nhan','Tính chất của phép nhân','Giao hoán, kết hợp, nhân một số với một tổng – tính thuận tiện.',[()=>{const p=pick([[25,4],[5,2],[50,2],[125,8],[20,5]]),m=R(3,19);return QB({text:'Tính bằng cách thuận tiện:',tpl:`<span class="eq">${p[0]} × ${m} × ${p[1]} = [_]</span>`,ans:[p[0]*p[1]*m],wide:true,hint:`Nhóm ${p[0]} × ${p[1]} = ${p[0]*p[1]} trước.`,sol:`${p[0]} × ${p[1]} × ${m} = ${p[0]*p[1]} × ${m} = <b>${fmt(p[0]*p[1]*m)}</b>.`})},
+ ()=>{const a=R(12,99),b=R(11,89),c=100-b;return QB({text:'Tính bằng cách thuận tiện:',tpl:`<span class="eq">${a} × ${b} + ${a} × ${c} = [_]</span>`,ans:[a*100],wide:true,hint:'Một số nhân với một tổng: a × b + a × c = a × (b + c).',sol:`${a} × (${b} + ${c}) = ${a} × 100 = <b>${fmt(a*100)}</b>.`})},
+ ()=>{const a=R(12,99),k=pick([9,99,11,101]);const v=a*k;const s=k===9?`${a} × 10 − ${a}`:k===99?`${a} × 100 − ${a}`:k===11?`${a} × 10 + ${a}`:`${a} × 100 + ${a}`;return QB({text:'Tính bằng cách thuận tiện:',tpl:`<span class="eq">${a} × ${k} = [_]</span>`,ans:[v],wide:true,hint:`Viết ${k} thành ${k===9?'10 − 1':k===99?'100 − 1':k===11?'10 + 1':'100 + 1'}.`,sol:`${s} = <b>${fmt(v)}</b>.`})}]);
+lesson(8,'nhan-chia-2','Nhân, chia với số có hai chữ số','Nhân, chia với số có hai chữ số; bài toán thực tế.',[lv=>{const a=randDigits(lv+1),b=R(11,99);return QB({text:'Tính:',tpl:`<span class="eq">${fmt(a)} × ${b} = [_]</span>`,ans:[a*b],wide:true,hint:`Nhân ${fmt(a)} với ${b%10} và với ${Math.floor(b/10)} chục, rồi cộng hai tích riêng (tích riêng thứ hai lùi sang trái một cột).`,sol:`${fmt(a)} × ${b} = <b>${fmt(a*b)}</b>.`})},
+ lv=>{const b=R(12,68),q=lv===1?R(2,9):R(11,lv===2?99:300);return QB({text:'Tính:',tpl:`<span class="eq">${fmt(q*b)} : ${b} = [_]</span>`,ans:[q],hint:`Ước lượng thương: làm tròn ${b} thành ${Math.round(b/10)*10} để nhẩm.`,sol:`${fmt(q*b)} : ${b} = <b>${q}</b> (thử lại: ${q} × ${b} = ${fmt(q*b)}).`})},
+ ()=>{const per=R(24,48),k=R(12,35);return QB({text:`Mỗi hộp có <b>${per}</b> cái bút. Hỏi <b>${k}</b> hộp như thế có bao nhiêu cái bút?`,tpl:'[_] cái bút',ans:[per*k],hint:'Lấy số bút mỗi hộp nhân với số hộp.',sol:`${per} × ${k} = <b>${per*k}</b> cái bút.`})}]);
+lesson(8,'tbc','Tìm số trung bình cộng','Tính trung bình cộng; bài toán thực tế.',[lv=>{const n=lv===1?2:pick([3,4]),avg=R(20,lv*60+20);let v;do{v=[...Array(n-1)].map(()=>avg+R(-15,15));v.push(avg*n-v.reduce((a,b)=>a+b,0))}while(v[n-1]<=0);
+  return QB({text:`Tìm số trung bình cộng của các số: <b>${v.join('; ')}</b>.`,tpl:'[_]',ans:[avg],hint:`Tính tổng các số rồi chia cho ${n} (số các số hạng).`,sol:`(${v.join(' + ')}) : ${n} = ${avg*n} : ${n} = <b>${avg}</b>.`})},
+ ()=>{const avg=R(30,60),n=pick([3,4]);let v;do{v=[...Array(n-1)].map(()=>avg+R(-12,12));v.push(avg*n-v.reduce((a,b)=>a+b,0))}while(v[n-1]<=0);const names=shuffle(NAMES).slice(0,n);
+  return QB({text:`${joinVa(names)} lần lượt gấp được ${v.join(', ')} ngôi sao. Hỏi trung bình mỗi bạn gấp được bao nhiêu ngôi sao?`,tpl:'[_] ngôi sao',ans:[avg],hint:`Tổng số ngôi sao chia cho ${n} bạn.`,sol:`(${v.join(' + ')}) : ${n} = <b>${avg}</b> ngôi sao.`})},
+ ()=>{const avg=R(20,80),y=R(10,2*avg-5);return QB({text:`Trung bình cộng của hai số là <b>${avg}</b>. Một số là <b>${y}</b>. Tìm số kia.`,tpl:'[_]',ans:[2*avg-y],hint:'Tổng hai số = trung bình cộng × 2.',sol:`Tổng: ${avg} × 2 = ${2*avg}. Số kia: ${2*avg} − ${y} = <b>${2*avg-y}</b>.`})}]);
+
+/* CĐ9 */
+function chartData(){const labels=['4A','4B','4C','4D'],step=pick([5,10]);let v;do{v=labels.map(()=>R(2,11)*step)}while(new Set(v).size<4);return{labels,v,step}}
+lesson(9,'bieu-do','Biểu đồ cột','Đọc và nhận xét số liệu trên biểu đồ cột.',[()=>{const{labels,v,step}=chartData(),i=R(0,3);return QB({text:`Biểu đồ cho biết số cây mỗi lớp đã trồng. Lớp <b>${labels[i]}</b> trồng được bao nhiêu cây?`,fig:barSVG(labels,v,step,'cây'),tpl:'[_] cây',ans:[v[i]],hint:'Dóng từ đỉnh cột sang trục số bên trái.',sol:`Cột ${labels[i]} cao tới vạch <b>${v[i]}</b>.`})},
+ ()=>{const{labels,v,step}=chartData(),most=Math.random()<.5,idx=v.indexOf(most?Math.max(...v):Math.min(...v));return QC({text:`Lớp nào trồng được <b>${most?'nhiều':'ít'} cây nhất</b>?`,fig:barSVG(labels,v,step,'cây'),opts:labels,ans:labels[idx],keepOrder:true,hint:`Tìm cột ${most?'cao':'thấp'} nhất.`,sol:`Cột ${labels[idx]} ${most?'cao':'thấp'} nhất (${v[idx]} cây).`})},
+ lv=>{const{labels,v,step}=chartData();if(lv<3||Math.random()<.5){const[i,j]=shuffle([0,1,2,3]);const[a,b]=v[i]>v[j]?[i,j]:[j,i];return QB({text:`Lớp ${labels[a]} trồng nhiều hơn lớp ${labels[b]} bao nhiêu cây?`,fig:barSVG(labels,v,step,'cây'),tpl:'[_] cây',ans:[v[a]-v[b]],hint:'Đọc số cây của hai lớp rồi lấy số lớn trừ số bé.',sol:`${v[a]} − ${v[b]} = <b>${v[a]-v[b]} cây</b>.`})}
+  const t=v.reduce((a,b)=>a+b,0);return QB({text:'Cả bốn lớp trồng được tất cả bao nhiêu cây?',fig:barSVG(labels,v,step,'cây'),tpl:'[_] cây',ans:[t],hint:'Đọc số cây của từng lớp rồi cộng lại.',sol:`${v.join(' + ')} = <b>${t} cây</b>.`})}]);
+
+/* CĐ10 */
+lesson(10,'khai-niem-ps','Khái niệm phân số','Đọc, viết phân số; phân số chỉ phần tô màu; phân số và phép chia.',[lv=>{const n=R(3,lv===1?6:lv===2?8:10),k=R(1,n-1),sh=n<=8&&Math.random()<.5?'circle':'rect';return QB({text:'Viết phân số chỉ phần đã tô màu của hình:',fig:fracSVG(n,k,sh),tpl:'[F]',ans:[{frac:[k,n],mode:'exact'}],hint:'Mẫu số là số phần bằng nhau của hình; tử số là số phần được tô màu.',sol:`Hình chia thành ${n} phần bằng nhau, tô ${k} phần: ${F(k,n)}.`})},
+ lv=>{const n=pick(lv===1?[4,5,6]:[6,8,10]);let k=R(1,n-1),dn=n,dk=k;if(lv===3){const g=pick([2,n/2].filter(x=>n%x===0&&x>1)),m=n/g;k=R(1,g-1)*m;dn=g;dk=k/m}
+  return {kind:'shade',text:`Chạm vào các phần để tô màu ${F(dk,dn)} hình.`,n,shape:n<=8&&Math.random()<.5?'circle':'rect',num:dk,den:dn,on:[],hint:lv===3?`Hình có ${n} phần. ${F(dk,dn)} = ${F(k,n)}.`:`Hình có ${n} phần bằng nhau, con cần tô ${k} phần.`,sol:`Tô <b>${k}</b> trong ${n} phần.`}},
+ ()=>{const d=R(2,10),n=R(1,10);return QB({text:`Viết phân số: <b>${WORD[n]} phần ${WORD[d]}</b>`,tpl:'[F]',ans:[{frac:[n,d],mode:'exact'}],hint:'Đọc tử số trước, rồi đọc "phần", rồi đọc mẫu số.',sol:`${F(n,d)}`})},
+ ()=>{const a=R(1,15),b=R(2,12);return QB({text:'Viết thương của phép chia dưới dạng phân số:',tpl:`<span class="eq">${a} : ${b} = [F]</span>`,ans:[{frac:[a,b],mode:'exact'}],hint:'Số bị chia là tử số, số chia là mẫu số.',sol:`${a} : ${b} = ${F(a,b)}.`})}]);
+lesson(10,'rut-gon','Tính chất cơ bản, rút gọn, quy đồng phân số','Phân số bằng nhau; rút gọn; quy đồng mẫu số.',[()=>{let a,b;do{b=R(2,9);a=R(1,b-1)}while(gcd(a,b)>1);const m=R(2,6);return QB({text:'Điền số thích hợp:',tpl:`<span class="eq">${F(a,b)} = <span class="fr"><span>[_]</span><span>${b*m}</span></span></span>`,ans:[a*m],hint:`${b} × ${m} = ${b*m}. Nhân cả tử và mẫu với cùng một số.`,sol:`${F(a,b)} = ${F(a+' × '+m,b+' × '+m)} = ${F(a*m,b*m)}.`})},
+ lv=>{let a,b;do{b=R(2,lv===1?6:10);a=R(1,b-1)}while(gcd(a,b)>1);const m=R(2,lv===1?5:9);return QB({text:`Rút gọn phân số ${F(a*m,b*m)} thành phân số tối giản:`,tpl:'[F]',ans:[{frac:[a,b],mode:'simplest'}],hint:`Chia cả tử và mẫu cho ${m} (hoặc chia nhiều lần cho 2, 3, 5…).`,sol:`${F(a*m,b*m)} = ${F(a,b)} (chia cả tử và mẫu cho ${m}).`})},
+ lv=>{let a,b,c,d;if(lv<3){b=R(2,5);d=b*R(2,4);}else{do{b=R(2,6);d=R(2,7)}while(gcd(b,d)>1||b===d)}do{a=R(1,b-1)}while(gcd(a,b)>1);do{c=R(1,d-1)}while(gcd(c,d)>1);const M=lcm(b,d);
+  return QB({text:`Quy đồng mẫu số hai phân số ${F(a,b)} và ${F(c,d)}:`,tpl:'[F] &nbsp;và&nbsp; [F]',ans:[{frac:[a,b],mode:'eq'},{frac:[c,d],mode:'eq'}],sameDen:true,hint:d%b===0?`${d} chia hết cho ${b}: giữ nguyên ${F(c,d)}, nhân cả tử và mẫu của ${F(a,b)} với ${d/b}.`:`Chọn mẫu số chung là ${b} × ${d} = ${b*d}.`,sol:`${F(a,b)} = ${F(a*M/b,M)}; ${F(c,d)} = ${F(c*M/d,M)}.`})}]);
+lesson(10,'so-sanh-ps','So sánh phân số','So sánh hai phân số; so sánh phân số với 1.',[()=>{const d=R(3,12);let a,b;do{a=R(1,d+3);b=R(1,d+3)}while(a===b);return QCmp('Chọn dấu thích hợp:',F(a,d),F(b,d),a,b,{hint:'Hai phân số cùng mẫu số: phân số nào có tử số lớn hơn thì lớn hơn.',sol:`${F(a,d)} <b>${cmp(a,b)}</b> ${F(b,d)}.`})},
+ ()=>{const n=R(1,8);let a,b;do{a=R(2,12);b=R(2,12)}while(a===b);return QCmp('Chọn dấu thích hợp:',F(n,a),F(n,b),n/a,n/b,{hint:'Hai phân số cùng tử số: phân số nào có mẫu số bé hơn thì lớn hơn.',sol:`${F(n,a)} <b>${cmp(n/a,n/b)}</b> ${F(n,b)}.`})},
+ lv=>{if(lv<3&&Math.random()<.5){const d=R(3,9),a=R(1,2*d);return QCmp('So sánh với 1:',F(a,d),'1',a/d,1,{hint:'Tử số bé hơn mẫu số thì phân số bé hơn 1; bằng thì bằng 1; lớn hơn thì lớn hơn 1.',sol:`${F(a,d)} <b>${cmp(a/d,1)}</b> 1.`})}
+  const b=R(2,5),m=R(2,4),d=b*m;let a=R(1,b-1),c;do{c=R(1,d-1)}while(false);return QCmp('Chọn dấu thích hợp:',F(a,b),F(c,d),a*m,c,{hint:`Quy đồng: ${F(a,b)} = ${F(a*m,d)} rồi so sánh.`,sol:`${F(a,b)} = ${F(a*m,d)} → ${F(a,b)} <b>${cmp(a*m,c)}</b> ${F(c,d)}.`})}]);
+
+/* CĐ11 */
+lesson(11,'cong-tru-ps','Phép cộng, phép trừ phân số','Cộng, trừ phân số cùng mẫu và khác mẫu (một mẫu chia hết cho mẫu kia).',[lv=>{const d=R(3,12),add=Math.random()<.5;let a=R(1,d),b=R(1,d);if(!add&&a<b)[a,b]=[b,a];if(!add&&a===b)a++;const r=add?a+b:a-b;
+  return QB({text:'Tính:',tpl:`<span class="eq">${F(a,d)} ${add?'+':'−'} ${F(b,d)} = [F]</span>`,ans:[{frac:[r,d],mode:'eq'}],hint:`Cùng mẫu số: ${add?'cộng':'trừ'} hai tử số và giữ nguyên mẫu số.`,sol:`${F(a,d)} ${add?'+':'−'} ${F(b,d)} = ${F(r,d)}${gcd(r,d)>1?' = '+Fs(r,d):''}.`})},
+ lv=>{const b=R(2,5),m=R(2,3),d=b*m,add=Math.random()<.5,a=R(1,b-1);const c=add?R(1,d-1):R(1,a*m-1),num=add?a*m+c:a*m-c,op=add?'+':'−';
+  return QB({text:'Tính:',tpl:`<span class="eq">${F(a,b)} ${op} ${F(c,d)} = [F]</span>`,ans:[{frac:[num,d],mode:'eq'}],hint:`Quy đồng: ${F(a,b)} = ${F(a*m,d)}, rồi ${op==='+'?'cộng':'trừ'} hai phân số cùng mẫu.`,sol:`${F(a*m,d)} ${op} ${F(c,d)} = ${F(num,d)}${gcd(num,d)>1?' = '+Fs(num,d):''}.`})},
+ ()=>{const w=R(1,3),d=R(2,9),a=R(1,d-1),add=Math.random()<.5;const num=add?w*d+a:w*d-a;return QB({text:'Tính:',tpl:`<span class="eq">${w} ${add?'+':'−'} ${F(a,d)} = [F]</span>`,ans:[{frac:[num,d],mode:'eq'}],hint:`Viết ${w} thành phân số có mẫu số ${d}: ${w} = ${F(w*d,d)}.`,sol:`${F(w*d,d)} ${add?'+':'−'} ${F(a,d)} = ${F(num,d)}.`})},
+ ()=>{const d=R(5,12),a=R(1,d-2),b=R(1,d-a-1);return QB({text:`Một bể nước, ngày thứ nhất dùng hết ${F(a,d)} bể, ngày thứ hai dùng hết ${F(b,d)} bể. Hỏi cả hai ngày dùng hết bao nhiêu phần bể nước?`,tpl:'[F] bể',ans:[{frac:[a+b,d],mode:'eq'}],hint:'Cộng hai phân số cùng mẫu số.',sol:`${F(a,d)} + ${F(b,d)} = ${F(a+b,d)} bể.`})}]);
+
+/* CĐ12 */
+lesson(12,'nhan-chia-ps','Phép nhân, phép chia phân số. Tìm phân số của một số','Nhân, chia phân số; tìm phân số của một số.',[()=>{const a=R(1,7),b=R(2,9),c=R(1,7),d=R(2,9);return QB({text:'Tính:',tpl:`<span class="eq">${F(a,b)} × ${F(c,d)} = [F]</span>`,ans:[{frac:[a*c,b*d],mode:'eq'}],hint:'Lấy tử số nhân tử số, mẫu số nhân mẫu số.',sol:`${F(a+' × '+c,b+' × '+d)} = ${F(a*c,b*d)}${gcd(a*c,b*d)>1?' = '+Fs(a*c,b*d):''}.`})},
+ ()=>{const a=R(1,7),b=R(2,9),c=R(1,7),d=R(2,9);return QB({text:'Tính:',tpl:`<span class="eq">${F(a,b)} : ${F(c,d)} = [F]</span>`,ans:[{frac:[a*d,b*c],mode:'eq'}],hint:`Chia cho một phân số = nhân với phân số đảo ngược: ${F(a,b)} × ${F(d,c)}.`,sol:`${F(a,b)} × ${F(d,c)} = ${F(a*d,b*c)}${gcd(a*d,b*c)>1?' = '+Fs(a*d,b*c):''}.`})},
+ ()=>{const d=R(2,9),a=R(1,d-1),n=d*R(2,12);return QB({text:`Tìm ${F(a,d)} của <b>${n}</b>.`,tpl:'[_]',ans:[n/d*a],hint:`Lấy ${n} nhân với ${F(a,d)} (hoặc chia ${n} cho ${d} rồi nhân ${a}).`,sol:`${n} × ${F(a,d)} = ${n} : ${d} × ${a} = <b>${n/d*a}</b>.`})},
+ ()=>{const d=pick([3,4,5,6]),a=R(1,d-1),n=d*R(5,9);return QB({text:`Lớp 4A có <b>${n}</b> học sinh, trong đó ${F(a,d)} số học sinh thích môn Toán. Hỏi lớp 4A có bao nhiêu học sinh thích môn Toán?`,tpl:'[_] học sinh',ans:[n/d*a],hint:`Tìm ${F(a,d)} của ${n}.`,sol:`${n} × ${F(a,d)} = <b>${n/d*a} học sinh</b>.`})}]);
+})();
+
+</script>
+<script>/* data/lop9.js */
+/* =====================================================================
+   DỮ LIỆU LỚP 9 – Toán, Kết nối tri thức
+   Chương I.  Phương trình và hệ hai phương trình bậc nhất hai ẩn (Bài 1–3)
+   Chương II. Phương trình và bất phương trình bậc nhất một ẩn (Bài 4–6)
+   Mỗi dạng bài: lv => câu hỏi. Luôn chọn NGHIỆM trước rồi mới dựng đề.
+   ===================================================================== */
+(() => {
+const G = App.addGrade({
+  id: 'lop9', name: 'Lớp 9', subject: 'Toán', book: 'Kết nối tri thức',
+  topics: [
+    {id:1, hk:1, name:'Phương trình và hệ hai phương trình bậc nhất hai ẩn'},
+    {id:2, hk:1, name:'Phương trình và bất phương trình bậc nhất một ẩn'},
+  ],
+});
+const lesson = G.lesson;
+
+/* ---------- Tiện ích hiển thị biểu thức đại số ---------- */
+const M = '−';
+const neg = n => n < 0 ? M + (-n) : String(n);             // −3 dùng dấu trừ chuẩn
+const par = n => n < 0 ? `(${neg(n)})` : String(n);         // (−3) khi nhân
+const V = s => `<i>${s}</i>`, X = V('x'), Y = V('y'), X2 = `${X}²`;
+const A_ = V('a'), B_ = V('b'), M_ = V('m');
+// poly([hệ số, biến], …): bỏ hệ số 1, bỏ hạng tử 0, nối dấu đúng
+function poly(...ts){let s='';for(const [c,v] of ts){if(!c)continue;const a=Math.abs(c),body=v?(a===1?'':a)+v:String(a);
+  s+=s?(c<0?` ${M} `:' + ')+body:(c<0?M:'')+body}return s||'0'}
+const eq2 = (a,b,c) => `${poly([a,X],[b,Y])} = ${neg(c)}`;
+const sys = (e1,e2,lab) => `<span class="sys"><span>${e1}${lab?' <small>(1)</small>':''}</span><span>${e2}${lab?' <small>(2)</small>':''}</span></span>`;
+const pr = (x,y) => `(${neg(x)}; ${neg(y)})`;
+const sR = (a,b) => pick([-1,1])*R(a,b);                    // số khác 0, có dấu ngẫu nhiên
+const frac = (p,q) => {if(q<0){p=-p;q=-q}const g=gcd(p,q)||1;p/=g;q/=g;return q===1?neg(p):(p<0?M:'')+F(Math.abs(p),q)};
+const dec = n => String(+n.toFixed(4)).replace('.',',');
+const subst = (a,b,x,y) => `${neg(a)}·${par(x)} ${b<0?M:'+'} ${Math.abs(b)}·${par(y)}`;
+const minus = (c,t) => t===0 ? neg(c) : `${neg(c)} ${t<0?'+':M} ${Math.abs(t)}`;   // c − t, bỏ “− 0”
+const det = (a1,b1,a2,b2) => a1*b2-a2*b1;
+const uniqBy = arr => {const seen=new Set();return arr.filter(p=>{const k=JSON.stringify(p);if(seen.has(k))return false;seen.add(k);return true})};
+const fac = (p,q) => q===0 ? poly([p,X]) : `(${poly([p,X],[q,''])})`;   // thừa số px + q
+const mulStr = c => c===1?'':c===-1?M:neg(c);
+const FLIP = {'<':'>','>':'<','≤':'≥','≥':'≤'};
+const TEST = (l,op,r) => op==='<'?l<r:op==='>'?l>r:op==='≤'?l<=r:l>=r;
+const ANS2 = `<span class="eq">(${X}; ${Y}) = ([_]; [_])</span>`;
+
+/* =====================================================================
+   CHƯƠNG I – BÀI 1. Khái niệm phương trình và hệ hai PT bậc nhất hai ẩn
+   ===================================================================== */
+const zeroX = (b,c) => `0${X} ${b<0?M:'+'} ${Math.abs(b)===1?'':Math.abs(b)}${Y} = ${neg(c)}`;
+const zeroY = (a,c) => `${poly([a,X])} + 0${Y} = ${neg(c)}`;
+const wrongPT = () => { const a=sR(1,6), b=sR(1,6), c=sR(1,9); return shuffle([
+  {s:`${poly([a,X2],[b,Y])} = ${neg(c)}`, why:'có x² (bậc hai)'},
+  {s:`${poly([a,X+Y],[b,X])} = ${neg(c)}`, why:'có tích xy'},
+  {s:`${poly([Math.sign(a),F(Math.abs(a),X)],[b,Y])} = ${neg(c)}`, why:'có ẩn ở mẫu'},
+  {s:`${poly([a,X],[b,`${Y}²`])} = ${neg(c)}`, why:'có y² (bậc hai)'},
+  {s:`0${X} + 0${Y} = ${neg(c)}`, why:'hai hệ số a, b đều bằng 0'},
+])};
+const g1a = lv => {
+  const a=sR(1,7), b=sR(1,7), c=sR(1,12);
+  const goods=[eq2(a,b,c), zeroX(sR(1,6),sR(1,9)), zeroY(sR(2,6),sR(1,9)), `${poly([1,F(1,2)+X],[-1,Y])} = ${neg(sR(1,9))}`];
+  const hint='Phương trình bậc nhất hai ẩn có dạng <i>ax</i> + <i>by</i> = <i>c</i>, trong đó <i>a</i> và <i>b</i> không đồng thời bằng 0. Ẩn không được nằm ở mẫu, không có x², y² hay tích xy.';
+  if(lv<3){
+    let W=wrongPT(); if(lv===1) W=W.filter(w=>!/0<i>x<\/i> \+ 0/.test(w.s));
+    const good=lv===1?goods[0]:pick(goods);
+    return QC({text:'Phương trình nào sau đây là <b>phương trình bậc nhất hai ẩn</b>?', opts:[good,...W.slice(0,3).map(w=>w.s)], ans:good, hint,
+      sol:`<b>${good}</b> có dạng <i>ax</i> + <i>by</i> = <i>c</i> với <i>a</i>, <i>b</i> không đồng thời bằng 0. Các phương trình còn lại có ẩn ở mẫu, có bậc hai hoặc có a = b = 0.`});
+  }
+  const w=pick(wrongPT());
+  return QC({text:'Phương trình nào sau đây <b>không phải</b> là phương trình bậc nhất hai ẩn?', opts:[w.s,...shuffle(goods).slice(0,3)], ans:w.s, hint,
+    sol:`<b>${w.s}</b> không phải phương trình bậc nhất hai ẩn vì ${w.why}. Chú ý: 0x + 3y = 5 vẫn là phương trình bậc nhất hai ẩn (chỉ cần a, b không đồng thời bằng 0).`});
+};
+const g1b = lv => {
+  const a=lv===1?R(1,5):sR(1,6), b=lv===1?R(1,5):sR(1,6), lo=lv===1?0:-6, hi=lv===1?5:6;
+  const x=R(lo,hi), y=R(lo,hi), c=a*x+b*y, ok=(p,q)=>a*p+b*q===c;
+  let W=uniqBy(shuffle([[y,x],[x,y+1],[x+1,y],[-x,y],[x,-y],[x-1,y+1],[x+1,y+1],[y,-x],[x+2,y-1]])).filter(([p,q])=>!ok(p,q)&&(lv>1||(p>=0&&q>=0)));
+  if(W.length<3) W=[[x+1,y],[x,y+1],[x+1,y+1]];
+  return QC({text:`Cặp số nào sau đây là nghiệm của phương trình <span class="mx">${eq2(a,b,c)}</span>`,
+    opts:[pr(x,y),...W.slice(0,3).map(([p,q])=>pr(p,q))], ans:pr(x,y),
+    hint:'Thay lần lượt <i>x</i>, <i>y</i> của từng cặp số vào vế trái. Cặp số nào làm vế trái bằng vế phải thì đó là nghiệm.',
+    sol:`Thay x = ${neg(x)}, y = ${neg(y)}: ${subst(a,b,x,y)} = ${neg(c)} (đúng). Vậy <b>${pr(x,y)}</b> là nghiệm.`});
+};
+const g1c = lv => {
+  if(lv<3){
+    const a=lv===1?R(1,5):sR(1,6), b=lv===1?R(1,5):sR(1,6), x=R(lv===1?0:-6,6), y=R(lv===1?0:-6,6), c=a*x+b*y;
+    const askY=lv===1||Math.random()<.5;
+    return askY
+      ? QB({text:`Tìm <i>y</i> để cặp số (${neg(x)}; <i>y</i>) là nghiệm của phương trình <span class="mx">${eq2(a,b,c)}</span>`, tpl:`<span class="eq">${Y} = [_]</span>`, ans:[y],
+          hint:`Thay x = ${neg(x)} vào phương trình rồi giải phương trình bậc nhất ẩn y.`,
+          sol:`Thay x = ${neg(x)}: ${neg(a)}·${par(x)} ${b<0?M:'+'} ${poly([Math.abs(b),Y])} = ${neg(c)} ⇒ ${poly([b,Y])} = ${neg(c-a*x)} ⇒ y = <b>${neg(y)}</b>.`})
+      : QB({text:`Tìm <i>x</i> để cặp số (<i>x</i>; ${neg(y)}) là nghiệm của phương trình <span class="mx">${eq2(a,b,c)}</span>`, tpl:`<span class="eq">${X} = [_]</span>`, ans:[x],
+          hint:`Thay y = ${neg(y)} vào phương trình rồi giải phương trình bậc nhất ẩn x.`,
+          sol:`Thay y = ${neg(y)}: ${poly([a,X])} ${b<0?M:'+'} ${Math.abs(b)}·${par(y)} = ${neg(c)} ⇒ ${poly([a,X])} = ${neg(c-b*y)} ⇒ x = <b>${neg(x)}</b>.`});
+  }
+  const A=sR(1,6), k=sR(1,5), m=A-k, b=sR(1,6), x=sR(1,5), y=R(-5,5), c=A*x+b*y;
+  const coef=`(${poly([1,M_],[k,''])})`;
+  return QB({text:`Tìm <i>m</i> để cặp số ${pr(x,y)} là nghiệm của phương trình <span class="mx">${coef}${X} ${b<0?M:'+'} ${Math.abs(b)===1?'':Math.abs(b)}${Y} = ${neg(c)}</span>`,
+    tpl:`<span class="eq">${M_} = [_]</span>`, ans:[m],
+    hint:'Thay x, y của cặp số vào phương trình, được một phương trình ẩn m. Giải phương trình đó.',
+    sol:`Thay x = ${neg(x)}, y = ${neg(y)}: ${coef}·${par(x)} ${b<0?M:'+'} ${Math.abs(b)}·${par(y)} = ${neg(c)} ⇒ ${coef}·${par(x)} = ${neg(A*x)} ⇒ ${poly([1,M_],[k,''])} = ${neg(A)} ⇒ m = <b>${neg(m)}</b>.`});
+};
+const pickSys = (lv, big) => { let a1,b1,a2,b2; const r=big||(lv===1?4:6);
+  do{ a1=lv===1?R(1,r):sR(1,r); b1=lv===1?R(1,r):sR(1,r); a2=sR(1,r); b2=sR(1,r); }while(det(a1,b1,a2,b2)===0);
+  return [a1,b1,a2,b2]; };
+const g1d = lv => {
+  const [a1,b1,a2,b2]=pickSys(lv), lo=lv===1?0:-5, x=R(lo,5), y=R(lo,5), c1=a1*x+b1*y, c2=a2*x+b2*y;
+  const both=(p,q)=>a1*p+b1*q===c1&&a2*p+b2*q===c2;
+  const g1=gcd(a1,b1), g2=gcd(a2,b2);
+  let W=uniqBy([[x+b1/g1,y-a1/g1],[x-b2/g2,y+a2/g2],[y,x],[x+1,y-1],[-x,-y],[x-b1/g1,y+a1/g1]]).filter(([p,q])=>!both(p,q));
+  return QC({text:`Cặp số nào sau đây là nghiệm của hệ phương trình <span class="mx">${sys(eq2(a1,b1,c1),eq2(a2,b2,c2))}</span>`,
+    opts:[pr(x,y),...W.slice(0,3).map(([p,q])=>pr(p,q))], ans:pr(x,y),
+    hint:'Nghiệm của hệ phải thoả mãn <b>cả hai</b> phương trình. Có cặp số chỉ đúng với một phương trình – hãy thử cả hai.',
+    sol:`Với ${pr(x,y)}: PT thứ nhất ${subst(a1,b1,x,y)} = ${neg(c1)} ✓; PT thứ hai ${subst(a2,b2,x,y)} = ${neg(c2)} ✓. Vậy nghiệm là <b>${pr(x,y)}</b>.`});
+};
+const g1e = lv => {
+  const x=sR(1,4), y=sR(1,5);
+  if(lv===1){ const a=sR(1,5), b1=sR(1,4), a2=sR(1,4), b2=sR(1,4), c1=a*x+b1*y, c2=a2*x+b2*y;
+    return QB({text:`Biết hệ phương trình <span class="mx">${sys(`${A_}${X} ${b1<0?M:'+'} ${Math.abs(b1)===1?'':Math.abs(b1)}${Y} = ${neg(c1)}`,eq2(a2,b2,c2))}</span> có nghiệm ${pr(x,y)}. Tìm <i>a</i>.`,
+      tpl:`<span class="eq">${A_} = [_]</span>`, ans:[a],
+      hint:'Thay x, y vào phương trình chứa a, được phương trình bậc nhất ẩn a.',
+      sol:`Thay vào PT thứ nhất: ${A_}·${par(x)} ${b1<0?M:'+'} ${Math.abs(b1)}·${par(y)} = ${neg(c1)} ⇒ ${poly([x,A_])} = ${neg(a*x)} ⇒ a = <b>${neg(a)}</b>.`}); }
+  const a=sR(1,5), b=sR(1,5), k1=lv===3?sR(1,3):0, k2=lv===3?sR(1,3):0, B1=sR(1,4), A2=sR(1,4);
+  const c1=(a+k1)*x+B1*y, c2=A2*x+(b+k2)*y;
+  const ca=k1?`(${poly([1,A_],[k1,''])})`:A_, cb=k2?`(${poly([1,B_],[k2,''])})`:B_;
+  return QB({text:`Biết hệ phương trình <span class="mx">${sys(`${ca}${X} ${B1<0?M:'+'} ${Math.abs(B1)===1?'':Math.abs(B1)}${Y} = ${neg(c1)}`,`${poly([A2,X])} + ${cb}${Y} = ${neg(c2)}`)}</span> có nghiệm ${pr(x,y)}. Tìm <i>a</i> và <i>b</i>.`,
+    tpl:`<span class="eq">${A_} = [_]; ${B_} = [_]</span>`, ans:[a,b],
+    hint:'Thay x, y vào từng phương trình: PT thứ nhất cho ta a, PT thứ hai cho ta b.',
+    sol:`PT thứ nhất: ${ca}·${par(x)} = ${minus(c1,B1*y)} = ${neg(c1-B1*y)} ⇒ ${k1?`${poly([1,A_],[k1,''])} = ${neg(a+k1)} ⇒ `:''}a = <b>${neg(a)}</b>.<br>PT thứ hai: ${cb}·${par(y)} = ${minus(c2,A2*x)} = ${neg(c2-A2*x)} ⇒ ${k2?`${poly([1,B_],[k2,''])} = ${neg(b+k2)} ⇒ `:''}b = <b>${neg(b)}</b>.`});
+};
+
+/* =====================================================================
+   BÀI 2. Giải hệ hai phương trình bậc nhất hai ẩn
+   ===================================================================== */
+const g2a = lv => {   // phương pháp thế
+  let x,y,a1,b1,a2,b2; const r=lv===1?4:6;
+  do{ x=R(-r,r); y=R(-r,r); a2=sR(1,5); b2=sR(1,5);
+    if(lv===2){a1=1;b1=sR(1,5)}else{a1=sR(1,lv===1?4:6);b1=lv===1?-1:pick([-1,1])}
+  }while(det(a1,b1,a2,b2)===0);
+  const c1=a1*x+b1*y, c2=a2*x+b2*y; let e1, sol;
+  if(lv===2){ // rút x = c1 − b1·y
+    e1=eq2(1,b1,c1); const ex=poly([-b1,Y],[c1,'']), B=b2-a2*b1;
+    sol=`Từ PT (1): x = ${ex}. Thế vào PT (2): ${mulStr(a2)}(${ex}) ${b2<0?M:'+'} ${poly([Math.abs(b2),Y])} = ${neg(c2)} ⇔ ${poly([B,Y])} = ${neg(c2-a2*c1)} ⇔ y = ${neg(y)}. Suy ra x = ${neg(x)}. Nghiệm của hệ: <b>${pr(x,y)}</b>.`;
+  } else {    // rút y = k·x + m
+    const k=-a1*b1, m=c1*b1, ey=poly([k,X],[m,'']), A=a2+b2*k;
+    e1=lv===1?`${Y} = ${ey}`:eq2(a1,b1,c1);
+    sol=`${lv===1?'PT (1) cho':'Từ PT (1):'} y = ${ey}. Thế vào PT (2): ${poly([a2,X])} ${b2<0?M:'+'} ${Math.abs(b2)===1?'':Math.abs(b2)}(${ey}) = ${neg(c2)} ⇔ ${poly([A,X])} = ${neg(c2-b2*m)} ⇔ x = ${neg(x)}. Suy ra y = ${neg(y)}. Nghiệm của hệ: <b>${pr(x,y)}</b>.`;
+  }
+  return QB({text:`Giải hệ phương trình bằng <b>phương pháp thế</b>: <span class="mx">${sys(e1,eq2(a2,b2,c2),true)}</span>`, tpl:ANS2, ans:[x,y],
+    hint:lv===2?'Từ PT (1) rút x theo y, thế vào PT (2) để được phương trình một ẩn y.':'Từ PT (1) rút y theo x, thế vào PT (2) để được phương trình một ẩn x.', sol});
+};
+const g2b = lv => {   // phương pháp cộng đại số
+  let x,y,a1,b1,a2,b2,elimY=Math.random()<.5; const r=lv===3?7:5;
+  do{ x=R(-6,6); y=R(-6,6); a1=sR(1,r); b1=sR(1,r);
+    if(lv===1){ if(elimY){b2=-b1;a2=sR(1,r)}else{a2=-a1;b2=sR(1,r)} }
+    else if(lv===2){ if(elimY){b2=b1;a2=sR(1,r)}else{a2=a1;b2=sR(1,r)} }
+    else { a2=sR(2,r); b2=sR(2,r); a1=sR(2,r); b1=sR(2,r); elimY=false; }
+  }while(det(a1,b1,a2,b2)===0 || (lv===3 && Math.abs(a1)===Math.abs(a2)));
+  const c1=a1*x+b1*y, c2=a2*x+b2*y; let sol;
+  const back = v => v==='x' ? `Thay x = ${neg(x)} vào PT (1): ${poly([b1,Y])} = ${minus(c1,a1*x)} ⇒ y = ${neg(y)}.`
+                           : `Thay y = ${neg(y)} vào PT (1): ${poly([a1,X])} = ${minus(c1,b1*y)} ⇒ x = ${neg(x)}.`;
+  if(lv<3){ const add=lv===1, s=add?1:-1;
+    sol = elimY
+      ? `${add?'Cộng':'Trừ'} vế theo vế hai phương trình: ${poly([a1+s*a2,X])} = ${neg(c1+s*c2)} ⇒ x = ${neg(x)}. ${back('x')}`
+      : `${add?'Cộng':'Trừ'} vế theo vế hai phương trình: ${poly([b1+s*b2,Y])} = ${neg(c1+s*c2)} ⇒ y = ${neg(y)}. ${back('y')}`;
+  } else { const L=lcm(Math.abs(a1),Math.abs(a2)), k1=L/a1, k2=L/a2;
+    sol=`Nhân hai vế PT (1) với ${neg(k1)} và PT (2) với ${neg(k2)}: ${sys(eq2(L,k1*b1,k1*c1),eq2(L,k2*b2,k2*c2))} Trừ vế theo vế: ${poly([k1*b1-k2*b2,Y])} = ${neg(k1*c1-k2*c2)} ⇒ y = ${neg(y)}. ${back('y')}`; }
+  return QB({text:`Giải hệ phương trình bằng <b>phương pháp cộng đại số</b>: <span class="mx">${sys(eq2(a1,b1,c1),eq2(a2,b2,c2),true)}</span>`, tpl:ANS2, ans:[x,y],
+    hint:lv===1?'Hai phương trình có một ẩn với hệ số đối nhau: cộng vế theo vế để khử ẩn đó.':lv===2?'Hai phương trình có một ẩn với hệ số bằng nhau: trừ vế theo vế để khử ẩn đó.':'Nhân mỗi phương trình với một số thích hợp để hệ số của x bằng nhau, rồi trừ vế theo vế.',
+    sol:sol+` Nghiệm của hệ: <b>${pr(x,y)}</b>.`});
+};
+const g2c = lv => {   // số nghiệm của hệ
+  const kind=pick(['one','none','many']); let a1,b1,c1,a2,b2,c2,sol;
+  if(kind==='one'){ let x,y; do{ [a1,b1,a2,b2]=pickSys(2); x=R(-5,5); y=R(-5,5); c1=a1*x+b1*y; c2=a2*x+b2*y }while(!c1||!c2);
+    sol=`Hai phương trình không tỉ lệ với nhau; giải hệ (thế hoặc cộng đại số) được đúng một nghiệm ${pr(x,y)}. Hệ <b>có nghiệm duy nhất</b>.`;
+  } else { let p,q,m1,m2,r1,r2;
+    do{ p=sR(1,5); q=sR(1,5); m1=lv===1?1:sR(1,3); m2=sR(2,4); r1=sR(1,6) }while(gcd(p,q)!==1||m1===m2);
+    r2=kind==='many'?r1:r1+sR(1,3); a1=m1*p; b1=m1*q; c1=m1*r1; a2=m2*p; b2=m2*q; c2=m2*r2;
+    const L=lcm(Math.abs(m1),Math.abs(m2)), k1=L/m1, k2=L/m2, d=L*(r1-r2);
+    sol=`${k1===1?'Giữ PT (1)':`Nhân hai vế PT (1) với ${neg(k1)}`}, ${k2===1?'giữ PT (2)':`nhân hai vế PT (2) với ${neg(k2)}`}: ${sys(eq2(L*p,L*q,L*r1),eq2(L*p,L*q,L*r2))} Trừ vế theo vế: 0x + 0y = ${neg(d)}. `+
+      (d===0?'Đẳng thức đúng với mọi x, y (hai phương trình thực chất là một). Hệ <b>vô số nghiệm</b>.':'Không có x, y nào thoả mãn. Hệ <b>vô nghiệm</b>.');
+  }
+  const e1=lv===3?`${poly([a1,X])} = ${poly([-b1,Y],[c1,''])}`:eq2(a1,b1,c1);
+  const ans={one:'Có nghiệm duy nhất',none:'Vô nghiệm',many:'Vô số nghiệm'}[kind];
+  return QC({text:`Hệ phương trình sau có bao nhiêu nghiệm? <span class="mx">${sys(e1,eq2(a2,b2,c2),true)}</span>`,
+    opts:['Có nghiệm duy nhất','Vô nghiệm','Vô số nghiệm'], ans, keepOrder:true,
+    hint:'Thử khử một ẩn. Nếu cả hai ẩn cùng mất và còn lại 0 = 0 thì hệ vô số nghiệm; còn lại 0 = số khác 0 thì hệ vô nghiệm; nếu tìm được giá trị cụ thể thì hệ có nghiệm duy nhất.'+(lv===3?' Nhớ chuyển PT (1) về dạng ax + by = c trước.':''),
+    sol:(lv===3?`PT (1) ⇔ ${eq2(a1,b1,c1)}. `:'')+sol});
+};
+const g2d = lv => {   // tìm hệ số
+  if(lv<3){ let a,b,x1,x2; do{ a=sR(1,5); b=R(-6,6); x1=lv===1?0:R(-4,4); x2=R(-4,4) }while(x1===x2||(lv===2&&(x1===0||x2===0)));
+    const y1=a*x1+b, y2=a*x2+b;
+    return QB({text:`Tìm <i>a</i>, <i>b</i> để đồ thị hàm số <i>y</i> = <i>ax</i> + <i>b</i> đi qua hai điểm A${pr(x1,y1)} và B${pr(x2,y2)}.`,
+      tpl:`<span class="eq">${A_} = [_]; ${B_} = [_]</span>`, ans:[a,b],
+      hint:'Thay toạ độ mỗi điểm vào y = ax + b, được hệ hai phương trình ẩn a, b. Trừ vế theo vế để khử b.',
+      sol:`Ta có hệ ${sys(`${poly([x1,A_],[1,B_])} = ${neg(y1)}`,`${poly([x2,A_],[1,B_])} = ${neg(y2)}`)} Trừ vế theo vế: ${poly([x1-x2,A_])} = ${neg(y1-y2)} ⇒ a = <b>${neg(a)}</b>; b = ${x1===0?'':minus(y1,a*x1)+' = '}<b>${neg(b)}</b>.`});
+  }
+  const a=sR(1,5), b=sR(1,5), x=sR(1,4), y=sR(1,4), c1=a*x+b*y, c2=b*x-a*y;
+  return QB({text:`Biết hệ phương trình <span class="mx">${sys(`${A_}${X} + ${B_}${Y} = ${neg(c1)}`,`${B_}${X} ${M} ${A_}${Y} = ${neg(c2)}`)}</span> có nghiệm ${pr(x,y)}. Tìm <i>a</i>, <i>b</i>.`,
+    tpl:`<span class="eq">${A_} = [_]; ${B_} = [_]</span>`, ans:[a,b],
+    hint:'Thay x, y vào cả hai phương trình, được một hệ mới với hai ẩn là a và b. Giải hệ đó.',
+    sol:`Thay x = ${neg(x)}, y = ${neg(y)}: ${sys(`${poly([x,A_],[y,B_])} = ${neg(c1)}`,`${poly([-y,A_],[x,B_])} = ${neg(c2)}`)} Giải hệ (ẩn a, b) được a = <b>${neg(a)}</b>, b = <b>${neg(b)}</b>.`});
+};
+
+/* =====================================================================
+   BÀI 3. Giải bài toán bằng cách lập hệ phương trình
+   Mỗi mẫu trả về: story, let (gọi ẩn), right (hệ đúng), wrong (3 hệ sai),
+   tpl/ans (câu hỏi điền số), solve (lời giải).
+   ===================================================================== */
+const S2 = (e1,e2) => sys(e1,e2);
+const P = {
+  gaCho(){ const x=R(8,30), y=R(4,20), N=x+y, C=2*x+4*y;
+    return {story:`Vừa gà vừa chó có tất cả <b>${N}</b> con, đếm được <b>${C}</b> chân.`, let:'Gọi x là số gà, y là số chó (x, y nguyên dương).',
+      right:S2(eq2(1,1,N),eq2(2,4,C)), wrong:[S2(eq2(1,1,N),eq2(4,2,C)),S2(eq2(1,1,C),eq2(2,4,N)),S2(eq2(1,1,N),eq2(1,2,C))],
+      ask:'Hỏi có bao nhiêu con gà, bao nhiêu con chó?', tpl:'Gà: [_] con; chó: [_] con', ans:[x,y],
+      hint:'Một PT cho tổng số con, một PT cho tổng số chân (gà 2 chân, chó 4 chân).',
+      solve:`Nhân PT thứ nhất với 2 rồi trừ vế theo vế: 2y = ${C-2*N} ⇒ y = ${y}; x = ${N} − ${y} = ${x}. Vậy có <b>${x} con gà</b> và <b>${y} con chó</b>.`}; },
+  haiSo(){ const y=R(5,40), k=R(2,6), x=k*y, S=x+y;
+    return {story:`Tổng của hai số là <b>${S}</b>. Số lớn gấp <b>${k}</b> lần số bé.`, let:'Gọi x là số lớn, y là số bé.',
+      right:S2(eq2(1,1,S),`${X} = ${k}${Y}`), wrong:[S2(eq2(1,1,S),`${Y} = ${k}${X}`),S2(eq2(1,-1,S),`${X} = ${k}${Y}`),S2(eq2(1,1,S),`${X} = ${Y} + ${k}`)],
+      ask:'Tìm hai số đó.', tpl:'Số lớn: [_]; số bé: [_]', ans:[x,y],
+      hint:'Một PT cho tổng, một PT cho quan hệ "gấp k lần": số lớn = k × số bé.',
+      solve:`Thế x = ${k}y vào PT thứ nhất: ${k+1}y = ${S} ⇒ y = ${y}; x = ${x}. Vậy số lớn là <b>${x}</b>, số bé là <b>${y}</b>.`}; },
+  muaHang(){ const it=pick([['quyển vở','cây bút',[6,8,10,12],[3,4,5,7],'quyển vở và cây bút'],['vé người lớn','vé trẻ em',[40,50,60],[20,25,30],'vé gồm vé người lớn và vé trẻ em'],['kg cam','kg táo',[25,30,35],[40,45,50],'kg cam và táo']]);
+    let p,q; do{p=pick(it[2]);q=pick(it[3])}while(p===q);
+    const x=R(2,12), y=R(2,12), n=x+y, T=p*x+q*y, nm=pick(NAMES);
+    return {story:`${nm} mua tổng cộng <b>${n}</b> ${it[4]}, hết <b>${fmt(T)} nghìn đồng</b>. Giá mỗi ${it[0]} là ${p} nghìn đồng, mỗi ${it[1]} là ${q} nghìn đồng.`,
+      let:`Gọi x là số ${it[0]}, y là số ${it[1]}.`,
+      right:S2(eq2(1,1,n),eq2(p,q,T)), wrong:[S2(eq2(1,1,n),eq2(q,p,T)),S2(eq2(1,1,T),eq2(p,q,n)),S2(eq2(1,-1,n),eq2(p,q,T))],
+      ask:`Hỏi ${nm} mua bao nhiêu ${it[0]} và bao nhiêu ${it[1]}?`, tpl:`[_] ${it[0]}; [_] ${it[1]}`, ans:[x,y],
+      hint:'Một PT cho tổng số lượng, một PT cho tổng số tiền (số lượng × đơn giá).',
+      solve:`Nhân PT thứ nhất với ${q} rồi lấy PT thứ hai trừ đi: ${poly([p-q,X])} = ${neg(T-q*n)} ⇒ x = ${x}; y = ${n} − ${x} = ${y}. Vậy <b>${x} ${it[0]}</b> và <b>${y} ${it[1]}</b>.`}; },
+  xuoiNguoc(){ const v=R(12,30), w=R(1,4), t1=R(2,4), t2=R(2,5), s1=t1*(v+w), s2=t2*(v-w);
+    return {story:`Một ca nô xuôi dòng trong <b>${t1} giờ</b> được <b>${s1} km</b> và ngược dòng trong <b>${t2} giờ</b> được <b>${s2} km</b>.`,
+      let:'Gọi x (km/h) là vận tốc ca nô khi nước yên lặng, y (km/h) là vận tốc dòng nước (x > y > 0).',
+      right:S2(`${t1}(${X} + ${Y}) = ${s1}`,`${t2}(${X} ${M} ${Y}) = ${s2}`),
+      wrong:[S2(`${t1}(${X} ${M} ${Y}) = ${s1}`,`${t2}(${X} + ${Y}) = ${s2}`),S2(`${t1}(${X} + ${Y}) = ${s2}`,`${t2}(${X} ${M} ${Y}) = ${s1}`),S2(`${X} + ${Y} = ${s1*t1}`,`${X} ${M} ${Y} = ${s2*t2}`)],
+      ask:'Tìm vận tốc của ca nô khi nước yên lặng và vận tốc dòng nước.', tpl:'Ca nô: [_] km/h; dòng nước: [_] km/h', ans:[v,w],
+      hint:'Vận tốc xuôi dòng = x + y; ngược dòng = x − y. Quãng đường = vận tốc × thời gian.',
+      solve:`Hệ ⇔ ${S2(`${X} + ${Y} = ${v+w}`,`${X} ${M} ${Y} = ${v-w}`)} Cộng vế theo vế: 2x = ${2*v} ⇒ x = ${v}; y = ${w}. Vận tốc ca nô <b>${v} km/h</b>, dòng nước <b>${w} km/h</b>.`}; },
+  phanTram(){ let a,b; do{a=pick([10,15,20,25]);b=pick([10,15,20,25])}while(a===b);
+    const x=20*R(5,20), y=20*R(5,20), N=x+y, E=a*x/100+b*y/100, Mx=N+E;
+    return {story:`Theo kế hoạch, hai tổ phải sản xuất <b>${N}</b> sản phẩm. Thực tế tổ I vượt mức <b>${a}%</b>, tổ II vượt mức <b>${b}%</b> nên cả hai tổ làm được <b>${Mx}</b> sản phẩm.`,
+      let:'Gọi x, y lần lượt là số sản phẩm tổ I, tổ II phải làm theo kế hoạch.',
+      right:S2(eq2(1,1,N),`${dec(1+a/100)}${X} + ${dec(1+b/100)}${Y} = ${Mx}`),
+      wrong:[S2(eq2(1,1,N),`${dec(a/100)}${X} + ${dec(b/100)}${Y} = ${Mx}`),S2(eq2(1,1,Mx),`${dec(1+a/100)}${X} + ${dec(1+b/100)}${Y} = ${N}`),S2(eq2(1,1,N),`${dec(1+b/100)}${X} + ${dec(1+a/100)}${Y} = ${Mx}`)],
+      ask:'Hỏi theo kế hoạch mỗi tổ phải làm bao nhiêu sản phẩm?', tpl:'Tổ I: [_] sản phẩm; tổ II: [_] sản phẩm', ans:[x,y],
+      hint:`Vượt mức ${a}% nghĩa là làm được (100% + ${a}%) = ${dec(1+a/100)} lần kế hoạch.`,
+      solve:`Lấy PT thứ hai trừ PT thứ nhất: ${dec(a/100)}x + ${dec(b/100)}y = ${E}. Kết hợp x + y = ${N} giải được x = ${x}, y = ${y}. Vậy tổ I: <b>${x}</b>, tổ II: <b>${y}</b> sản phẩm.`}; },
+};
+const POOL = {1:['gaCho','haiSo'], 2:['muaHang','gaCho','haiSo'], 3:['xuoiNguoc','phanTram']};
+const g3a = lv => { const t=P[pick(POOL[lv])]();
+  return QC({text:`${t.story} ${t.let}<br>Hệ phương trình nào mô tả đúng bài toán?`, opts:[t.right,...t.wrong], ans:t.right, hint:t.hint,
+    sol:`${t.let} ${t.hint} Hệ đúng là <b>${t.right}</b>`});
+};
+const g3b = lv => { const t=P[pick(POOL[lv])]();
+  return QB({text:`${t.story} ${t.ask}`, tpl:t.tpl, ans:t.ans, hint:t.hint+' Gọi hai ẩn, lập hệ rồi giải.',
+    sol:`${t.let} Ta có hệ ${t.right} ${t.solve}`});
+};
+const g3c = lv => {
+  const k=lv===1?'hcn1':lv===2?pick(['hcn2','tuoi']):pick(['so2','hcn3','tuoi']);
+  if(k.startsWith('hcn')){ let x,y; do{x=R(8,30);y=R(3,x-1)}while(x===y);
+    const Pc=2*(x+y), d=x-y;
+    if(k==='hcn1') return QB({text:`Một mảnh vườn hình chữ nhật có chu vi <b>${Pc} m</b>, chiều dài hơn chiều rộng <b>${d} m</b>. Tính chiều dài và chiều rộng.`,
+      tpl:'Dài: [_] m; rộng: [_] m', ans:[x,y], hint:'Gọi x là chiều dài, y là chiều rộng. Nửa chu vi = x + y; hiệu = x − y.',
+      sol:`Ta có hệ ${S2(`${X} + ${Y} = ${x+y}`,`${X} ${M} ${Y} = ${d}`)} ⇒ x = <b>${x}</b> m, y = <b>${y}</b> m.`});
+    if(k==='hcn2') return QB({text:`Một mảnh vườn hình chữ nhật có chu vi <b>${Pc} m</b>, chiều dài hơn chiều rộng <b>${d} m</b>. Tính diện tích mảnh vườn.`,
+      tpl:'[_] m²', ans:[x*y], wide:true, hint:'Lập hệ tìm chiều dài và chiều rộng trước, rồi mới tính diện tích.',
+      sol:`Gọi x, y là chiều dài, chiều rộng: ${S2(`${X} + ${Y} = ${x+y}`,`${X} ${M} ${Y} = ${d}`)} ⇒ x = ${x}, y = ${y}. Diện tích: ${x} × ${y} = <b>${fmt(x*y)} m²</b>.`});
+    const i=R(1,4), j=R(1,3), D=-j*x+i*y-i*j; if(D===0) return g3c(lv);
+    return QB({text:`Một mảnh vườn hình chữ nhật có chu vi <b>${Pc} m</b>. Nếu tăng chiều dài thêm ${i} m và giảm chiều rộng đi ${j} m thì diện tích ${D>0?'tăng':'giảm'} <b>${Math.abs(D)} m²</b>. Tính diện tích ban đầu của mảnh vườn.`,
+      tpl:'[_] m²', ans:[x*y], wide:true, hint:'Gọi x, y là chiều dài, chiều rộng. Viết (x + i)(y − j) = xy ± D rồi khai triển: các hạng tử xy triệt tiêu.',
+      sol:`Ta có x + y = ${x+y} và (x + ${i})(y − ${j}) = xy ${D>0?'+':M} ${Math.abs(D)} ⇔ ${poly([-j,X],[i,Y])} = ${neg(D+i*j)}. Giải hệ được x = ${x}, y = ${y}. Diện tích: <b>${fmt(x*y)} m²</b>.`});
+  }
+  if(k==='tuoi'){ let C,kk,n,Mm; do{C=R(5,15);kk=R(2,3);n=R(3,10);Mm=kk*(C+n)-n}while(Mm-C<20||Mm>55);
+    return QB({text:`Hiện nay tổng số tuổi của mẹ và con là <b>${Mm+C}</b>. Sau <b>${n}</b> năm nữa, tuổi mẹ gấp <b>${kk}</b> lần tuổi con. Tính tuổi mỗi người hiện nay.`,
+      tpl:'Mẹ: [_] tuổi; con: [_] tuổi', ans:[Mm,C], hint:`Gọi x, y là tuổi mẹ, tuổi con hiện nay. Sau ${n} năm, mỗi người thêm ${n} tuổi.`,
+      sol:`Ta có hệ ${S2(`${X} + ${Y} = ${Mm+C}`,`${X} + ${n} = ${kk}(${Y} + ${n})`)} ⇔ ${S2(`${X} + ${Y} = ${Mm+C}`,`${X} ${M} ${kk}${Y} = ${kk*n-n}`)} ⇒ y = ${C}, x = ${Mm}. Mẹ <b>${Mm} tuổi</b>, con <b>${C} tuổi</b>.`});
+  }
+  let a,b; do{a=R(1,9);b=R(1,9)}while(a===b);
+  const n=10*a+b, m=10*b+a, D=Math.abs(m-n);
+  return QB({text:`Tìm số tự nhiên có hai chữ số, biết tổng hai chữ số của nó bằng <b>${a+b}</b> và nếu đổi chỗ hai chữ số thì được số mới ${m>n?'lớn':'nhỏ'} hơn số ban đầu <b>${D}</b> đơn vị.`,
+    tpl:'Số cần tìm: [_]', ans:[n], hint:'Gọi chữ số hàng chục là x, hàng đơn vị là y: số đó bằng 10x + y, số đổi chỗ là 10y + x.',
+    sol:`Ta có hệ ${S2(`${X} + ${Y} = ${a+b}`,m>n?`(10${Y} + ${X}) ${M} (10${X} + ${Y}) = ${D}`:`(10${X} + ${Y}) ${M} (10${Y} + ${X}) = ${D}`)} ⇔ ${S2(`${X} + ${Y} = ${a+b}`,m>n?`${Y} ${M} ${X} = ${D/9}`:`${X} ${M} ${Y} = ${D/9}`)} ⇒ x = ${a}, y = ${b}. Số cần tìm là <b>${n}</b>.`});
+};
+
+lesson(1,'khai-niem-he','Bài 1. Khái niệm phương trình và hệ hai phương trình bậc nhất hai ẩn','Nhận biết PT bậc nhất hai ẩn; kiểm tra nghiệm của PT và của hệ; tìm tham số.',[g1a,g1b,g1c,g1d,g1e]);
+lesson(1,'giai-he','Bài 2. Giải hệ hai phương trình bậc nhất hai ẩn','Phương pháp thế, phương pháp cộng đại số; số nghiệm của hệ; tìm hệ số a, b.',[g2a,g2b,g2c,g2d]);
+lesson(1,'lap-he','Bài 3. Giải bài toán bằng cách lập hệ phương trình','Chọn hệ đúng cho bài toán; giải các bài toán thực tế bằng hệ phương trình.',[g3a,g3b,g3c]);
+lesson(1,'on-tap-c1','Ôn tập chương I','Tổng hợp: nghiệm của PT, giải hệ, số nghiệm và bài toán lập hệ.',[g1d,g2a,g2b,g2c,g3b,g3c]);
+
+/* =====================================================================
+   CHƯƠNG II – BÀI 4. Phương trình quy về phương trình bậc nhất một ẩn
+   ===================================================================== */
+const TPL2 = `<span class="eq">Nghiệm nhỏ: ${X} = [_]</span><br><span class="eq">Nghiệm lớn: ${X} = [_]</span>`;
+const g4a = lv => {   // phương trình tích
+  let r1,r2,pt,sol;
+  if(lv<3){ do{r1=R(-8,8);r2=R(-8,8)}while(r1===r2);
+    const p=lv===1?1:R(2,5), f1=fac(p,-p*r1), f2=fac(1,-r2), [A,B]=r1===0?[f1,f2]:r2===0?[f2,f1]:[f1,f2];
+    pt=`${A}${B} = 0`;
+    sol=`${pt} ⇔ ${poly([p,X],[-p*r1,''])} = 0 hoặc ${poly([1,X],[-r2,''])} = 0 ⇔ x = ${neg(r1)} hoặc x = ${neg(r2)}.`;
+  } else { const k=pick(['xx','chung','hdt']);
+    if(k==='xx'){ r1=0; r2=sR(1,9); pt=`${X2} = ${poly([r2,X])}`;
+      sol=`${pt} ⇔ ${poly([1,X2],[-r2,X])} = 0 ⇔ ${X}${fac(1,-r2)} = 0 ⇔ x = 0 hoặc x = ${neg(r2)}.`; }
+    else if(k==='chung'){ let a,b,c; do{a=R(-6,6);b=R(-6,6);c=sR(1,5)}while(c-b===a||b===0||a===-b); r1=a; r2=c-b;
+      pt=`${fac(1,-a)}${fac(1,b)} = ${mulStr(c)}${fac(1,-a)}`;
+      sol=`${pt} ⇔ ${fac(1,-a)}${fac(1,b)} ${c<0?'+':M} ${Math.abs(c)===1?'':Math.abs(c)}${fac(1,-a)} = 0 ⇔ ${fac(1,-a)}${fac(1,b-c)} = 0 ⇔ x = ${neg(a)} hoặc x = ${neg(c-b)}.<br><i>Chú ý: không chia hai vế cho ${fac(1,-a)} vì sẽ mất nghiệm.</i>`; }
+    else { const t=R(1,9); r1=-t; r2=t; pt=`${poly([1,X2],[-t*t,''])} = 0`;
+      sol=`${pt} ⇔ ${fac(1,-t)}${fac(1,t)} = 0 (hằng đẳng thức a² − b²) ⇔ x = ${t} hoặc x = ${M}${t}.`; }
+  }
+  const lo=Math.min(r1,r2), hi=Math.max(r1,r2);
+  return QB({text:`Giải phương trình <span class="mx">${pt}</span>`, tpl:TPL2, ans:[lo,hi],
+    hint:lv<3?'Tích bằng 0 khi một trong các thừa số bằng 0. Cho từng thừa số bằng 0 rồi giải.':'Chuyển hết sang vế trái, đặt nhân tử chung (hoặc dùng hằng đẳng thức) để đưa về phương trình tích.',
+    sol:`${sol} Nghiệm nhỏ <b>${neg(lo)}</b>, nghiệm lớn <b>${neg(hi)}</b>.`});
+};
+const ne = v => `${X} ≠ ${neg(v)}`;
+const g4b = lv => {   // điều kiện xác định
+  let pt, good, opts;
+  if(lv===1){ let p,a; do{p=sR(1,9);a=sR(1,9)}while(Math.abs(a)===Math.abs(p));
+    pt=`${F(poly([1,X],[a,'']),poly([1,X],[-p,'']))} = ${neg(sR(1,5))}`; good=ne(p); opts=[good,ne(-p),ne(a),ne(-a)];
+  } else if(lv===2){ let p,q; do{p=R(1,9);q=R(1,9)}while(p===q);
+    pt=`${F(neg(sR(1,5)),poly([1,X],[-p,'']))} + ${F(R(1,5),poly([1,X],[q,'']))} = ${neg(R(1,4))}`;
+    good=`${ne(p)} và ${ne(-q)}`; opts=[good,`${ne(-p)} và ${ne(q)}`,`${ne(p)} và ${ne(q)}`,`${ne(-p)} và ${ne(-q)}`];
+  } else { const p=sR(1,6), k=R(2,5);
+    pt=`${F(poly([1,X],[R(1,5),'']),poly([k,X],[-k*p,'']))} ${M} ${F(R(1,4),X)} = ${F(1,`${X}(${poly([1,X],[-p,''])})`)}`;
+    good=`${ne(p)} và ${ne(0)}`; opts=[good,`${ne(k*p)} và ${ne(0)}`,`${ne(-p)} và ${ne(0)}`,ne(p)];
+  }
+  return QC({text:`Điều kiện xác định của phương trình <span class="mx">${pt}</span> là`, opts, ans:good,
+    hint:'Điều kiện xác định: <b>mọi mẫu thức</b> phải khác 0. Cho từng mẫu khác 0 rồi tìm x.',
+    sol:`Các mẫu phải khác 0 nên ĐKXĐ là <b>${good}</b>.`});
+};
+const g4c = lv => {   // giải phương trình chứa ẩn ở mẫu
+  if(lv===1){ let x0,b,c,a; do{x0=R(-8,8);b=R(-6,6);c=pick([-3,-2,-1,2,3,4]);a=c*(x0-b)-x0}while(b===x0||a===0||b===0);
+    return QB({text:`Giải phương trình <span class="mx">${F(poly([1,X],[a,'']),poly([1,X],[-b,'']))} = ${neg(c)}</span>`, tpl:`<span class="eq">${X} = [_]</span>`, ans:[x0],
+      hint:'Tìm ĐKXĐ, nhân hai vế với mẫu để khử mẫu, giải phương trình bậc nhất rồi đối chiếu điều kiện.',
+      sol:`ĐKXĐ: x ≠ ${neg(b)}. Khử mẫu: ${poly([1,X],[a,''])} = ${mulStr(c)}${fac(1,-b)} ⇔ ${poly([1-c,X])} = ${neg(-c*b-a)} ⇔ x = ${neg(x0)} (thoả mãn ĐKXĐ). Nghiệm: x = <b>${neg(x0)}</b>.`});
+  }
+  if(lv===2){ let x0,p,q; do{x0=R(-4,8);p=x0-R(1,6);q=x0-R(1,6)}while(p===q||p===0||q===0);
+    const A=x0-p, B=x0-q;
+    return QB({text:`Giải phương trình <span class="mx">${F(A,poly([1,X],[-p,'']))} = ${F(B,poly([1,X],[-q,'']))}</span>`, tpl:`<span class="eq">${X} = [_]</span>`, ans:[x0],
+      hint:'ĐKXĐ: hai mẫu khác 0. Nhân chéo (hoặc quy đồng) để khử mẫu, giải rồi đối chiếu điều kiện.',
+      sol:`ĐKXĐ: x ≠ ${neg(p)}, x ≠ ${neg(q)}. Khử mẫu: ${mulStr(A)}${fac(1,-q)} = ${mulStr(B)}${fac(1,-p)} ⇔ ${poly([A-B,X])} = ${neg(A*q-B*p)} ⇔ x = ${neg(x0)} (thoả mãn). Nghiệm: x = <b>${neg(x0)}</b>.`});
+  }
+  let a,r,e,Q,p,T; do{a=sR(1,5);r=R(-6,6);e=pick([0,a]);Q=R(1,4);p=Q-e-r;T=Q*a-e*r}while(r===0||r===a||T===0);
+  const den2=`${X}(${poly([1,X],[-a,''])})`;
+  return QB({text:`Giải phương trình <span class="mx">${F(poly([1,X],[p,'']),poly([1,X],[-a,'']))} ${M} ${F(Q,X)} = ${T<0?M:''}${F(Math.abs(T),den2)}</span>`, tpl:`<span class="eq">${X} = [_]</span>`, ans:[r],
+    hint:`Tìm ĐKXĐ (mọi mẫu khác 0). Quy đồng với mẫu chung ${den2}, khử mẫu, đưa về phương trình tích. Nhớ loại giá trị không thoả mãn ĐKXĐ.`,
+    sol:`ĐKXĐ: x ≠ 0, x ≠ ${neg(a)}. Quy đồng và khử mẫu: ${p===0?X2:X+fac(1,p)} ${M} ${mulStr(Q)}${fac(1,-a)} = ${neg(T)} ⇔ ${poly([1,X2],[p-Q,X],[Q*a-T,''])} = 0 ⇔ ${e===0?X:fac(1,-e)}${fac(1,-r)} = 0 ⇔ x = ${neg(e)} (loại vì không thoả mãn ĐKXĐ) hoặc x = ${neg(r)} (nhận). Nghiệm: x = <b>${neg(r)}</b>.`});
+};
+
+/* =====================================================================
+   BÀI 5. Bất đẳng thức và tính chất
+   ===================================================================== */
+const g5a = lv => {   // diễn đạt bằng lời
+  const OPS=['≥','≤','>','<'];
+  if(lv===1){ const v=V(pick(['a','x','m','b'])), n=R(-9,15), [w,op]=pick([['không nhỏ hơn','≥'],['không lớn hơn','≤'],['nhỏ hơn','<'],['lớn hơn','>'],['không vượt quá','≤'],['không bé hơn','≥']]);
+    const S=o=>`${v} ${o} ${neg(n)}`;
+    return QC({text:`Khẳng định “${v} ${w} ${neg(n)}” được viết là:`, opts:OPS.map(S), ans:S(op),
+      hint:'“không nhỏ hơn” nghĩa là lớn hơn hoặc bằng (≥); “không lớn hơn”, “không vượt quá” nghĩa là nhỏ hơn hoặc bằng (≤).',
+      sol:`“${w}” ứng với dấu “${op}”: <b>${S(op)}</b>.`});
+  }
+  if(lv===2){ const c=pick([
+      ()=>{const n=pick([40,50,60,80]);return [`Biển báo giới hạn tốc độ <b>tối đa</b> ${n} km/h. Gọi <i>v</i> (km/h) là tốc độ cho phép của xe.`,'v','≤',n]},
+      ()=>{const n=pick([450,630,750,1000]);return [`Một thang máy chở được <b>tối đa</b> ${n} kg. Gọi <i>m</i> (kg) là khối lượng được phép chở.`,'m','≤',n]},
+      ()=>{const n=pick([20,25,30]);return [`Để vào vòng trong, đội cần ghi được <b>ít nhất</b> ${n} điểm. Gọi <i>s</i> là số điểm đội cần có.`,'s','≥',n]},
+      ()=>{const n=pick([4,5,8]);return [`Sữa chua cần bảo quản ở nhiệt độ <b>dưới</b> ${n} °C. Gọi <i>t</i> (°C) là nhiệt độ bảo quản.`,'t','<',n]},
+      ()=>{const n=pick([120,130,140]);return [`Trò chơi chỉ dành cho người cao <b>trên</b> ${n} cm. Gọi <i>h</i> (cm) là chiều cao người chơi.`,'h','>',n]},
+      ()=>{const n=pick([35,40,45]);return [`Mỗi lớp học có <b>không quá</b> ${n} học sinh. Gọi <i>n</i> là số học sinh của một lớp.`,'n','≤',n]},
+      ()=>{const n=pick([20,30,45]);return [`Mỗi ngày em đọc sách <b>không ít hơn</b> ${n} phút. Gọi <i>t</i> là số phút đọc sách.`,'t','≥',n]},
+    ])(); const [txt,v,op,n]=c, S=o=>`${V(v)} ${o} ${n}`;
+    return QC({text:`${txt} Bất đẳng thức nào diễn tả đúng?`, opts:OPS.map(S), ans:S(op),
+      hint:'“tối đa, không quá” → ≤ ; “ít nhất, không ít hơn” → ≥ ; “dưới” → < ; “trên” → >.', sol:`Ta viết <b>${S(op)}</b>.`});
+  }
+  const a=R(2,9), b=R(3,20), k=R(2,5), c=pick([
+    [`Tổng của ${X} và ${a} không nhỏ hơn ${b}`, `${X} + ${a}`, '≥', String(b)],
+    [`Hiệu của ${X} và ${a} nhỏ hơn ${b}`, `${X} ${M} ${a}`, '<', String(b)],
+    [`${k} lần ${X} không lớn hơn ${b}`, `${k}${X}`, '≤', String(b)],
+    [`${X} cộng ${a} thì lớn hơn ${k} lần ${X}`, `${X} + ${a}`, '>', `${k}${X}`],
+    [`Bình phương của ${X} luôn không âm`, X2, '≥', '0'],
+  ]); const S=o=>`${c[1]} ${o} ${c[3]}`;
+  return QC({text:`Viết bất đẳng thức diễn tả: “${c[0]}”.`, opts:OPS.map(S), ans:S(c[2]),
+    hint:'Viết biểu thức ở mỗi vế trước, rồi chọn dấu: không nhỏ hơn (≥), không lớn hơn (≤), nhỏ hơn (<), lớn hơn (>), không âm (≥ 0).',
+    sol:`Ta viết <b>${S(c[2])}</b>.`});
+};
+const g5b = lv => {   // so sánh nhờ tính chất
+  const rel=pick(['<','>']), s=rel==='<'?-1:1;
+  let k=lv===1?1:lv===2?-R(2,6):sR(2,6), c1=sR(1,9), c2=c1;
+  if(lv===1&&Math.random()<.5){ k=R(2,6); }
+  if(lv===3){ const dir=Math.sign(k*s); c2=c1-dir*R(1,5); } // chênh hằng số cùng chiều → vẫn so sánh được
+  const L=poly([k,A_],[c1,'']), Rr=poly([k,B_],[c2,'']), sgn=Math.sign(k*s), ansOp=sgn>0?'>':'<';
+  const step1=k===1?`Vì ${A_} ${rel} ${B_} nên cộng ${neg(c1)} vào hai vế giữ nguyên chiều`:`Vì ${A_} ${rel} ${B_} và ${neg(k)} ${k>0?'> 0':'< 0'} nên ${poly([k,A_])} ${k>0?rel:FLIP[rel]} ${poly([k,B_])}${k<0?' (nhân với số âm thì đổi chiều)':''}`;
+  const sol = c1===c2 ? `${step1} ⇒ ${L} <b>${ansOp}</b> ${Rr}.`
+    : `${step1} ⇒ ${L} ${ansOp} ${poly([k,B_],[c1,''])}. Mà ${poly([k,B_],[c1,''])} ${ansOp} ${Rr} (vì ${neg(c1)} ${ansOp} ${neg(c2)}). Theo tính chất bắc cầu: ${L} <b>${ansOp}</b> ${Rr}.`;
+  return QCmp(`Cho ${A_} ${rel} ${B_}. So sánh hai biểu thức:`, L, Rr, sgn, 0,
+    {hint:lv===1?'Cộng cùng một số vào hai vế thì giữ nguyên chiều; nhân với số dương cũng giữ nguyên chiều.':lv===2?'Nhân hai vế với một số âm thì bất đẳng thức <b>đổi chiều</b>.':'So sánh qua một biểu thức trung gian rồi dùng tính chất bắc cầu.', sol});
+};
+const g5c = lv => {   // khẳng định đúng
+  if(lv===3){ const k=sR(2,6), c=sR(1,9), op=pick(['<','>','≤','≥']), d=k>0?op:FLIP[op], S=o=>`${A_} ${o} ${B_}`;
+    return QC({text:`Cho ${poly([k,A_],[c,''])} ${op} ${poly([k,B_],[c,''])}. Khẳng định nào sau đây đúng?`, opts:['<','>','≤','≥'].map(S), ans:S(d),
+      hint:`Cộng ${neg(-c)} vào hai vế, rồi chia hai vế cho ${neg(k)}. Chia cho số âm thì đổi chiều.`,
+      sol:`Cộng ${neg(-c)} vào hai vế: ${poly([k,A_])} ${op} ${poly([k,B_])}. Chia hai vế cho ${neg(k)}${k<0?' (số âm, đổi chiều)':''}: <b>${S(d)}</b>.`}); }
+  const rel=pick(['<','>']);
+  const mk=()=>{const t=pick(lv===1?['add','sub','mul','mix']:['add','mul','neg','neg','mixneg']);const c=R(1,9);let k=R(2,6);
+    if(t==='add')return [`${A_} + ${c}`,`${B_} + ${c}`,rel];
+    if(t==='sub')return [`${A_} ${M} ${c}`,`${B_} ${M} ${c}`,rel];
+    if(t==='mul')return [`${k}${A_}`,`${k}${B_}`,rel];
+    if(t==='mix')return [poly([k,A_],[-c,'']),poly([k,B_],[-c,'']),rel];
+    if(t==='neg')return [poly([-k,A_]),poly([-k,B_]),FLIP[rel]];
+    return [poly([-k,A_],[c,'']),poly([-k,B_],[c,'']),FLIP[rel]];};
+  const items=[];const seen=new Set();while(items.length<4){const it=mk();if(!seen.has(it[0])){seen.add(it[0]);items.push(it)}}
+  const st=(it,right)=>`${it[0]} ${right?it[2]:FLIP[it[2]]} ${it[1]}`;
+  const good=st(items[0],true);
+  return QC({text:`Cho ${A_} ${rel} ${B_}. Khẳng định nào sau đây <b>đúng</b>?`, opts:[good,...items.slice(1).map(it=>st(it,false))], ans:good,
+    hint:'Cộng/trừ cùng một số hoặc nhân với số dương: giữ chiều. Nhân với số âm: đổi chiều.',
+    sol:`Khẳng định đúng: <b>${good}</b>. Các khẳng định còn lại đều viết sai chiều.`});
+};
+const g5d = lv => {   // điền số
+  if(lv<3){ const op=pick(['≥','≤']), m=R(-5,6), k=lv===1?R(2,6):-R(2,6), c=R(-9,9), v=k*m+c, op2=k>0?op:FLIP[op];
+    return QB({text:`Cho ${A_} ${op} ${neg(m)}. Điền số thích hợp vào ô trống:`, tpl:`<span class="eq">${poly([k,A_],[c,''])} ${op2} [_]</span>`, ans:[v],
+      hint:`Nhân hai vế của ${A_} ${op} ${neg(m)} với ${neg(k)}${k<0?' (nhớ đổi chiều)':''}, sau đó cộng ${neg(c)} vào hai vế.`,
+      sol:`${A_} ${op} ${neg(m)} ⇒ ${poly([k,A_])} ${op2} ${neg(k*m)} ⇒ ${poly([k,A_],[c,''])} ${op2} ${minus(k*m,-c)} = <b>${neg(v)}</b>.`}); }
+  const op=pick(['≥','≤']), m=R(-3,5), n=R(-3,5), p=R(2,5), q=R(2,5), v=p*m+q*n;
+  return QB({text:`Cho ${A_} ${op} ${neg(m)} và ${B_} ${op} ${neg(n)}. Điền số thích hợp:`, tpl:`<span class="eq">${p}${A_} + ${q}${B_} ${op} [_]</span>`, ans:[v],
+    hint:'Nhân mỗi bất đẳng thức với số dương thích hợp, rồi cộng vế theo vế hai bất đẳng thức cùng chiều.',
+    sol:`${p}${A_} ${op} ${neg(p*m)}; ${q}${B_} ${op} ${neg(q*n)}. Cộng vế theo vế: ${p}${A_} + ${q}${B_} ${op} <b>${neg(v)}</b>.`});
+};
+
+/* =====================================================================
+   BÀI 6. Bất phương trình bậc nhất một ẩn
+   ===================================================================== */
+const OP4=['<','>','≤','≥'];
+const g6a = lv => {   // nhận biết
+  const a=sR(1,7), b=sR(1,9), op=pick(OP4);
+  const goods=[`${poly([a,X],[b,''])} ${op} 0`, `${poly([1,F(1,2)+X],[-R(1,5),''])} ≤ 0`, `${poly([-1,X],[R(1,9),''])} > 0`, `${R(2,9)} ${M} ${poly([R(2,5),X])} ≥ 0`, `${poly([R(2,6),X])} < 0`];
+  const W=shuffle([
+    {s:`0${X} + ${R(1,9)} > 0`, why:'hệ số của x bằng 0'},
+    {s:`${poly([1,X2],[-R(1,9),''])} < 0`, why:'có x² (bậc hai)'},
+    {s:`${F(1,X)} + ${R(1,5)} ≥ 0`, why:'ẩn nằm ở mẫu'},
+    {s:`${X} + ${Y} > ${R(1,5)}`, why:'có hai ẩn'},
+  ]);
+  const hint='Bất phương trình bậc nhất một ẩn có dạng <i>ax</i> + <i>b</i> > 0 (hoặc <, ≤, ≥) với <b><i>a</i> ≠ 0</b>.';
+  if(lv<3){ const good=lv===1?goods[0]:pick(goods);
+    return QC({text:'Bất phương trình nào sau đây là <b>bất phương trình bậc nhất một ẩn</b>?', opts:[good,...W.slice(0,3).map(w=>w.s)], ans:good, hint,
+      sol:`<b>${good}</b> đưa được về dạng ax + b ${'>'} 0 (hoặc <, ≤, ≥) với a ≠ 0.`}); }
+  const w=W[0];
+  return QC({text:'Bất phương trình nào sau đây <b>không phải</b> là bất phương trình bậc nhất một ẩn?', opts:[w.s,...shuffle(goods).slice(0,3)], ans:w.s, hint,
+    sol:`<b>${w.s}</b> không phải BPT bậc nhất một ẩn vì ${w.why}.`});
+};
+// Dựng BPT: lhs(x) op rhs(x) với ngưỡng nguyên t.  Trả về {s, f(x) đúng/sai, t, op2 (dạng x op2 t), steps}
+const mkBPT = (lv, fracOK) => {
+  let a,b,c,d,op=pick(OP4),t,num,den;
+  do{ if(lv===1){a=R(2,6);c=0}else if(lv===2){a=-R(2,6);c=0}else{a=sR(1,7);c=sR(1,7)}
+    b=R(-9,9); t=R(-6,6);
+    if(fracOK&&lv>1){d=R(-12,12)} else d=(a-c)*t+b;   // (a−c)x op d−b
+    num=d-b; den=a-c;
+  }while(a===c||num===0);
+  const L=poly([a,X],[b,'']), Rr=c?poly([c,X],[d,'']):neg(d), A=a-c, op2=A>0?op:FLIP[op], th=frac(num,den);
+  const steps=`${c?`${poly([A,X])} ${op} ${neg(num)}`:(b?`${poly([a,X])} ${op} ${minus(d,b)} = ${neg(num)}`:`${poly([a,X])} ${op} ${neg(d)}`)} ⇔ ${X} ${op2} ${th}${A<0?' (chia cho số âm, đổi chiều)':''}`;
+  return {s:`${L} ${op} ${Rr}`, f:x=>TEST(a*x+b,op,c*x+d), op, op2, num, den, th, steps};
+};
+const g6b = lv => {   // số nào là nghiệm
+  const B=mkBPT(lv,false), t=Math.round(B.num/((B.den)));
+  const cand=shuffle([...Array(9)].map((_,i)=>t-4+i)), good=cand.find(B.f), bad=cand.filter(x=>!B.f(x)).slice(0,3);
+  return QC({text:`Số nào sau đây là nghiệm của bất phương trình <span class="mx">${B.s}</span>`, opts:[good,...bad].map(neg), ans:neg(good),
+    hint:'Thay từng số vào hai vế và kiểm tra khẳng định có đúng không. (Hoặc giải bất phương trình trước.)',
+    sol:`Giải: ${B.s} ⇔ ${B.steps}. Trong các số đã cho chỉ có <b>${neg(good)}</b> thoả mãn.`});
+};
+const g6c = lv => {   // giải BPT – chọn tập nghiệm
+  const B=mkBPT(lv,lv===3);
+  const S=(o,v)=>`${X} ${o} ${v}`, mth=frac(-B.num,B.den);
+  const opts=[S(B.op2,B.th),S(FLIP[B.op2],B.th),S(B.op2,mth),S(FLIP[B.op2],mth)];
+  return QC({text:`Nghiệm của bất phương trình <span class="mx">${B.s}</span> là`, opts, ans:opts[0],
+    hint:'Chuyển các hạng tử chứa x sang một vế, số sang vế kia (nhớ đổi dấu), rồi chia hai vế cho hệ số của x. Chia cho số âm phải <b>đổi chiều</b>.',
+    sol:`${B.s} ⇔ ${B.steps}. Vậy nghiệm là <b>${S(B.op2,B.th)}</b>.`});
+};
+const g6d = lv => {   // nghiệm nguyên lớn nhất / nhỏ nhất
+  let s,f,A,C,op,num; // dạng k(x − m) + n op px + q
+  do{ const k=lv===1?R(2,5):sR(1,5), m=R(-5,5), n=R(-9,9), p=lv===3?sR(1,4):0, q=R(-9,9); op=pick(OP4);
+    A=k-p; C=q+k*m-n; num=C;
+    const nS=n?` ${n<0?M:'+'} ${Math.abs(n)}`:'';
+    s=lv===1?`${poly([k,X],[-k*m+n,''])} ${op} ${neg(q)}`:`${mulStr(k)}${fac(1,-m)}${nS} ${op} ${p?poly([p,X],[q,'']):neg(q)}`;
+    f=x=>TEST(k*(x-m)+n,op,p*x+q);
+  }while(A===0||(lv===1&&(C%A!==0))||Math.abs(C/A)>12);
+  const op2=A>0?op:FLIP[op], big=op2==='<'||op2==='≤';
+  let ans=null; for(let x=-40;x<=40;x++) if(f(x)){ if(big) ans=x; else if(ans===null) ans=x; }
+  return QB({text:`Tìm số nguyên <i>x</i> <b>${big?'lớn nhất':'nhỏ nhất'}</b> thoả mãn <span class="mx">${s}</span>`, tpl:`<span class="eq">${X} = [_]</span>`, ans:[ans],
+    hint:`Giải bất phương trình để được dạng x ${op2} (một số), rồi chọn số nguyên ${big?'lớn nhất':'nhỏ nhất'} thoả mãn. Chú ý dấu ${/[≤≥]/.test(op2)?'có':'không có'} dấu bằng.`,
+    sol:`Biến đổi: ${poly([A,X])} ${op} ${neg(C)} ⇔ ${X} ${op2} ${frac(C,A)}${A<0?' (chia cho số âm, đổi chiều)':''}. Số nguyên ${big?'lớn nhất':'nhỏ nhất'} thoả mãn là <b>${neg(ans)}</b>.`});
+};
+const g6e = lv => {   // bài toán thực tế
+  const nm=pick(NAMES);
+  if(lv===1){ if(Math.random()<.5){ const p=pick([15,20,25,30]), q=pick([6,8,9,12]), Mo=pick([100,150,200,250]), ans=Math.floor((Mo-p)/q);
+      return QB({text:`${nm} có <b>${Mo} nghìn đồng</b>. ${nm} mua một hộp bút giá ${p} nghìn đồng, số tiền còn lại mua vở giá ${q} nghìn đồng một quyển. ${nm} mua được <b>nhiều nhất</b> bao nhiêu quyển vở?`,
+        tpl:'[_] quyển', ans:[ans], hint:'Gọi x là số quyển vở. Lập bất phương trình: tiền bút + tiền vở ≤ số tiền có. Giải rồi chọn số tự nhiên lớn nhất.',
+        sol:`${p} + ${q}x ≤ ${Mo} ⇔ x ≤ ${frac(Mo-p,q)}. Số tự nhiên lớn nhất là <b>${ans}</b> quyển.`}); }
+    const W=pick([450,630,750]), m=pick([60,65,70,75]), h=pick([40,45,50,55]), ans=Math.floor((W-m)/h);
+    return QB({text:`Một thang máy chở tối đa <b>${W} kg</b>. Một người nặng ${m} kg cần chở các thùng hàng, mỗi thùng nặng ${h} kg. Mỗi chuyến chở được <b>nhiều nhất</b> bao nhiêu thùng hàng (kể cả người đi cùng)?`,
+      tpl:'[_] thùng', ans:[ans], hint:'Gọi x là số thùng. Tổng khối lượng người và hàng phải ≤ tải trọng tối đa.',
+      sol:`${m} + ${h}x ≤ ${W} ⇔ x ≤ ${frac(W-m,h)}. Nhiều nhất <b>${ans}</b> thùng.`});
+  }
+  if(lv===2){ const O=pick([10,12,15]), r=pick([12,14,15,16]), Mo=pick([150,200,250,300]), ans=Math.floor((Mo-O)/r)+1;
+    return QB({text:`Giá cước một hãng taxi: km đầu tiên ${O} nghìn đồng, mỗi km tiếp theo ${r} nghìn đồng. ${nm} có <b>${Mo} nghìn đồng</b>. Hỏi ${nm} đi được <b>tối đa</b> bao nhiêu km (số nguyên)?`,
+      tpl:'[_] km', ans:[ans], hint:'Gọi x là số km (x ≥ 1). Số tiền phải trả: km đầu + (x − 1) km tiếp theo. Lập bất phương trình ≤ số tiền có.',
+      sol:`${O} + ${r}(x − 1) ≤ ${Mo} ⇔ ${r}x ≤ ${Mo-O+r} ⇔ x ≤ ${frac(Mo-O+r,r)}. Tối đa <b>${ans} km</b>.`});
+  }
+  let a,b,T,need; do{a=R(5,10);b=R(5,10);T=pick([7,7.5,8,8.5]);need=Math.ceil((4*T-a-b)/2)}while(need>10||need<1);
+  return QB({text:`Điểm trung bình môn của ${nm} tính theo công thức (bài 1 + bài 2 + 2 × bài 3) : 4. ${nm} đã có bài 1 được <b>${a}</b> điểm, bài 2 được <b>${b}</b> điểm. Bài 3 phải được <b>ít nhất</b> bao nhiêu điểm (số nguyên) để điểm trung bình không dưới ${dec(T)}?`,
+    tpl:'[_] điểm', ans:[need], hint:'Gọi x là điểm bài 3. Lập bất phương trình (a + b + 2x) : 4 ≥ T rồi giải, chọn số nguyên nhỏ nhất.',
+    sol:`(${a} + ${b} + 2x) : 4 ≥ ${dec(T)} ⇔ 2x ≥ ${dec(4*T-a-b)} ⇔ x ≥ ${dec((4*T-a-b)/2)}. Bài 3 cần ít nhất <b>${need}</b> điểm.`});
+};
+
+lesson(2,'pt-quy-ve-bac-nhat','Bài 4. Phương trình quy về phương trình bậc nhất một ẩn','Phương trình tích; điều kiện xác định và cách giải phương trình chứa ẩn ở mẫu.',[g4a,g4b,g4c]);
+lesson(2,'bat-dang-thuc','Bài 5. Bất đẳng thức và tính chất','Diễn đạt bằng lời; tính chất liên hệ với phép cộng, phép nhân; tính chất bắc cầu.',[g5a,g5b,g5c,g5d]);
+lesson(2,'bat-phuong-trinh','Bài 6. Bất phương trình bậc nhất một ẩn','Nhận biết, kiểm tra nghiệm, giải BPT; nghiệm nguyên; bài toán thực tế.',[g6a,g6b,g6c,g6d,g6e]);
+lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: phương trình tích, chứa ẩn ở mẫu, bất đẳng thức, bất phương trình.',[g4a,g4c,g5b,g6c,g6d,g6e]);
+})();
+
+</script>
+<script>/* assets/js/engine.js */
+/* =====================================================================
+   ENGINE – hiển thị, chấm bài, điều hướng. Dùng chung cho mọi lớp.
+   Thường không cần sửa file này khi thêm lớp/bài mới.
+   ===================================================================== */
+const LEVELS=[{n:'Mức 1',d:'Làm quen'},{n:'Mức 2',d:'Luyện tập'},{n:'Mức 3',d:'Thử thách'}];
+let S={grade:null,lesson:null,lv:1,qs:[]};
+const PRAISE=['Giỏi quá!','Chính xác!','Tuyệt vời!','Đúng rồi, con làm tốt lắm!','Xuất sắc!'];
+const norm=s=>String(s).replace(/[\s .]/g,'').replace(',','.').toUpperCase();
+const numEq=(s,v)=>s!==''&&!isNaN(+norm(s))&&+norm(s)===v;
+function matchOne(s,spec){if(Array.isArray(spec))return spec.some(x=>matchOne(s,x));if(typeof spec==='number')return numEq(s,spec);return norm(s)===norm(spec)}
+function matchFrac(n,d,spec){n=+norm(n);d=+norm(d);if(!d||isNaN(n)||isNaN(d))return false;const[N,D]=spec.frac;if(spec.mode==='exact')return n===N&&d===D;const eq=n*D===N*d;return spec.mode==='simplest'?eq&&gcd(n,d)===1:eq}
+
+function genSet(){const les=S.lesson,n=CONFIG.setSize,T=les.gens;S.qs=[];for(let i=0;i<n;i++){const gi=Math.min(T.length-1,Math.floor(i*T.length/n));S.qs.push(mkQ(gi))}}
+function mkQ(gi){let q,tries=0,seen=new Set(S.qs.map(x=>x.sig));do{q=S.lesson.gens[gi](S.lv);q.sig=(q.text||'')+(q.tpl||'')+(q.expr||'')+(q.target||'');tries++}while(seen.has(q.sig)&&tries<20);q.gi=gi;q.tries=0;q.status='open';return q}
+
+/* ---------- Render ---------- */
+const app=$('#app');
+function starsHTML(k,max=3){return `<span class="stars" aria-label="${k} trên ${max} sao">${'★'.repeat(k)}<span class="off">${'★'.repeat(max-k)}</span></span>`}
+const bestKey=(id,lv,g=S.grade)=>`hoctap:${g.id}:${id}:${lv}`;
+const lessonStars=(id,g=S.grade)=>[1,2,3].reduce((s,lv)=>s+(store.get(bestKey(id,lv,g))||0),0);
+const gradeStars=g=>g.lessons.reduce((s,l)=>s+lessonStars(l.id,g),0);
+const lessonHref=(l,lv)=>`#/${S.grade.id}/bai/${l.id}${lv?'/'+lv:''}`;
+const foot=()=>`<p class="foot">${CONFIG.author}</p>`;
+
+function renderPicker(){
+  let h=`<div class="toolbar"><span class="pill">${CONFIG.siteName}</span>${themeBtn()}</div>
+  <h1>Con đang học lớp mấy?</h1><p class="lead">Chọn lớp để bắt đầu luyện tập theo từng bài.</p><div class="grid">`;
+  App.grades.forEach(g=>{h+=`<a class="tile grade" href="#/${g.id}"><b class="gname">${g.name}</b><span>${g.subject} · ${g.book}</span><span class="meta"><span>${g.lessons.length} bài</span><span class="stars">⭐ ${gradeStars(g)}</span></span></a>`});
+  (CONFIG.upcoming||[]).forEach(n=>{h+=`<div class="tile grade soon" aria-disabled="true"><b class="gname">${n}</b><span>Sắp có</span></div>`});
+  app.innerHTML=h+`</div>`+foot();bindTheme();
+}
+function renderHome(){
+  const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g);
+  const hks=[...new Set(g.topics.map(t=>t.hk))];
+  let h=`<div class="toolbar">${App.grades.length>1||(CONFIG.upcoming||[]).length?`<a class="back" href="#/">← Chọn lớp</a>`:`<span class="pill">${g.name} · ${g.book}</span>`}<div class="row"><span class="stat">⭐ ${total} / ${g.lessons.length*9} sao</span>${themeBtn()}</div></div>
+  <span class="pill">${g.subject} ${g.name.replace('Lớp ','')} · ${g.book}</span>
+  <h1>Con muốn ôn bài nào hôm nay?</h1><p class="lead">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
+  ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}`;
+  g.topics.filter(t=>hks.length<2||t.hk===hk).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id);if(!ls.length)return;
+    h+=`<section class="topic"><h2><small>Chủ đề ${t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}</div></section>`});
+  app.innerHTML=h+foot();
+  $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
+}
+function themeBtn(){return `<button class="theme-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">◐</button>`}
+function bindTheme(){const b=$('#themeBtn');if(b)b.onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=nx;store.set('hoctap:theme',nx)}}
+
+function renderLesson(){
+  const g=S.grade,l=S.lesson,t=g.topics.find(x=>x.id===l.t)||{id:l.t,name:''},idx=g.lessons.indexOf(l),next=g.lessons[idx+1],home=`#/${g.id}`;
+  let h=`<div class="toolbar"><a class="back" href="${home}">← Các bài ${g.name}</a>${themeBtn()}</div>
+  <span class="pill">${g.name} · Chủ đề ${t.id} · ${t.name}</span><h1>${l.name}</h1><p class="lead">${l.desc}</p>
+  <div class="levels" role="group" aria-label="Chọn mức độ">${LEVELS.map((x,i)=>`<button class="lvl" data-lv="${i+1}" aria-pressed="${S.lv===i+1}"><b>${x.n}</b><span>${x.d} · ${starsHTML(store.get(bestKey(l.id,i+1))||0)}</span></button>`).join('')}</div>
+  <div class="row"><button class="btn" id="newSet">↻ Làm bộ mới</button><button class="btn" id="resetSet">Xoá để làm lại</button></div>
+  <div class="progress"><div class="bar"><i id="pbar"></i></div><div class="txt"><span id="ptxt"></span><span id="pscore"></span></div></div>
+  <div id="qs"></div><div id="sum"></div>
+  <div class="row" style="margin-top:8px"><button class="btn" id="newSet2">↻ Làm bộ mới</button><a class="btn primary" href="${home}">← Các bài ${g.name}</a>${next?`<a class="btn" href="${lessonHref(next)}">Bài tiếp theo →</a>`:''}</div>`+foot();
+  app.innerHTML=h;bindTheme();
+  $$('.lvl').forEach(b=>b.onclick=()=>{location.hash=lessonHref(l,+b.dataset.lv)});
+  $('#newSet').onclick=$('#newSet2').onclick=()=>{genSet();renderQs();scrollTo({top:$('#qs').offsetTop-120,behavior:'smooth'})};
+  $('#resetSet').onclick=()=>{S.qs.forEach(q=>{q.tries=0;q.status='open';q.user=null;q.pts=0;if(q.kind==='shade')q.on=[];if(q.kind==='rotate')q.val=q.target===90?40:90;delete q.sel});updateProgress._t=null;renderQs();toast('Đã xoá, con làm lại nhé!')};
+  renderQs();
+}
+function renderQs(){const box=$('#qs');box.innerHTML='';S.qs.forEach((q,i)=>box.appendChild(cardEl(q,i)));updateProgress()}
+
+function blanksHTML(q){let bi=0;return q.tpl.split(/(\[_\]|\[F\])/).map(p=>{if(p==='[_]'){const k=bi++;return `<input class="blank ${q.wide?'wide':''}" data-b="${k}" inputmode="${q.text&&/La Mã/.test(q.text)?'text':'decimal'}" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Ô trống ${k+1}">`}
+  if(p==='[F]'){const k=bi++;return `<span class="fr"><input class="blank" data-b="${k}" data-part="n" inputmode="numeric" autocomplete="off" aria-label="Tử số"><i class="fbar"></i><input class="blank" data-b="${k}" data-part="d" inputmode="numeric" autocomplete="off" aria-label="Mẫu số"></span>`}return p}).join('')}
+
+function cardEl(q,i){
+  const el=document.createElement('article');el.className='card';el.setAttribute('aria-labelledby',`qt${i}`);
+  const hasFig=!!(q.fig||q.kind==='rotate'||q.kind==='shade');
+  let ans='';
+  if(q.kind==='blanks')ans=`<div class="answer">${blanksHTML(q)}</div>`;
+  else if(q.kind==='choice')ans=`${q.expr?`<div class="answer" style="margin-bottom:8px">${q.expr}</div>`:''}<div class="choices ${q.compact?'compact':''}" role="group" aria-label="Các lựa chọn">${q.opts.map((o,k)=>`<button class="choice" data-c="${k}" aria-pressed="false">${o}</button>`).join('')}</div>`;
+  else if(q.kind==='rotate')ans=`<div class="ctrls">${[-10,-5,5,10].map(d=>`<button class="btn small" data-rot="${d}">${d>0?'+':'−'} ${Math.abs(d)}°</button>`).join('')}</div>`;
+  else if(q.kind==='shade')ans=`<div class="ctrls"><span style="font-size:17px;color:var(--muted)">Đã tô: <b data-cnt>0</b> phần</span></div>`;
+  const fig=q.kind==='rotate'?protractorSVG(q.val,{interactive:true}):q.kind==='shade'?fracSVG(q.n,0,q.shape,true):(q.fig||'');
+  el.innerHTML=`<div class="qhead"><span class="badge">Câu ${i+1}</span><span class="chip">${LEVELS[S.lv-1].n}</span><span class="spacer"></span><button class="linkbtn" data-swap>Đổi câu khác</button></div>
+   <p class="qtext" id="qt${i}">${q.text}</p>
+   <div class="qbody ${hasFig&&q.kind!=='rotate'&&q.kind!=='shade'?'has-fig':''}">${hasFig?`<div class="fig">${fig}</div>`:''}<div>${ans}</div></div>
+   <div class="actions"><button class="btn primary" data-check>Kiểm tra câu này</button></div><div class="fb" data-fb></div>`;
+  // restore state
+  if(q.kind==='blanks'&&q.user)$$('.blank',el).forEach((inp,k)=>inp.value=q.user[k]||'');
+  if(q.kind==='choice'&&q.sel!=null)$(`[data-c="${q.sel}"]`,el).setAttribute('aria-pressed','true');
+  if(q.kind==='shade'){q.on.forEach(k=>$(`[data-i="${k}"]`,el).classList.add('on'));$('[data-cnt]',el).textContent=q.on.length}
+  bindCard(el,q,i);if(q.status!=='open')lockCard(el,q,true);return el;
+}
+function setRot(el,q,deg){q.val=Math.max(0,Math.min(180,deg));const cx=170,cy=178,[bx,by]=P(cx,cy,158,q.val),[lx,ly]=P(cx,cy,176,q.val);const ray=$('[data-ray]',el),hd=$('[data-handle]',el),lb=$('[data-lb]',el);
+  ray.setAttribute('x2',bx);ray.setAttribute('y2',by);hd.setAttribute('cx',bx);hd.setAttribute('cy',by);lb.setAttribute('x',lx-6);lb.setAttribute('y',ly+6)}
+function bindCard(el,q,i){
+  $('[data-check]',el).onclick=()=>check(el,q);
+  $('[data-swap]',el).onclick=()=>{const nq=mkQ(q.gi);S.qs[i]=nq;el.replaceWith(cardEl(nq,i));updateProgress()};
+  $$('.blank',el).forEach(inp=>{inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check(el,q)}});inp.addEventListener('input',()=>{inp.classList.remove('wrong');q.user=$$('.blank',el).map(x=>x.value)})});
+  $$('[data-c]',el).forEach(b=>b.onclick=()=>{if(q.status!=='open')return;$$('[data-c]',el).forEach(x=>{x.setAttribute('aria-pressed','false');x.classList.remove('wrong')});b.setAttribute('aria-pressed','true');q.sel=+b.dataset.c});
+  if(q.kind==='rotate'){$$('[data-rot]',el).forEach(b=>b.onclick=()=>q.status==='open'&&setRot(el,q,q.val+ +b.dataset.rot));
+    const svg=$('svg',el);let drag=false;const ang=e=>{const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());let a=Math.atan2(178-p.y,p.x-170)*180/Math.PI;if(a<0)a=p.x>170?0:180;return Math.round(a/q.step)*q.step};
+    svg.style.touchAction='none';svg.addEventListener('pointerdown',e=>{if(q.status!=='open')return;drag=true;svg.setPointerCapture(e.pointerId);setRot(el,q,ang(e))});
+    svg.addEventListener('pointermove',e=>{if(drag)setRot(el,q,ang(e))});svg.addEventListener('pointerup',()=>drag=false);svg.addEventListener('pointercancel',()=>drag=false)}
+  if(q.kind==='shade')$$('.sv-part',el).forEach(p=>p.addEventListener('click',()=>{if(q.status!=='open')return;const k=+p.dataset.i;const j=q.on.indexOf(k);j<0?q.on.push(k):q.on.splice(j,1);p.classList.toggle('on');$('[data-cnt]',el).textContent=q.on.length}));
+}
+function fb(el,type,title,body){const f=$('[data-fb]',el);f.className=`fb show ${type}`;f.innerHTML=`<b class="t">${title}</b>${body||''}`}
+function check(el,q){
+  if(q.status!=='open')return;let ok=false,empty=false;
+  if(q.kind==='blanks'){const inputs=$$('.blank',el);q.user=inputs.map(x=>x.value);if(inputs.some(x=>x.value.trim()===''))empty=true;else{
+    const groups=[];inputs.forEach(x=>{const k=+x.dataset.b;(groups[k]=groups[k]||[]).push(x)});
+    const res=groups.map((g,k)=>{const spec=q.ans[k];return g.length===2?matchFrac(g[0].value,g[1].value,spec):matchOne(g[0].value,spec)});
+    if(q.sameDen&&res.every(Boolean)){const d=groups.map(g=>+norm(g[1].value));if(new Set(d).size>1)res.fill(false)}
+    ok=res.every(Boolean);groups.forEach((g,k)=>g.forEach(x=>x.classList.toggle('wrong',!res[k])))}}
+  else if(q.kind==='choice'){if(q.sel==null)empty=true;else{ok=q.sel===q.correct;if(!ok)$(`[data-c="${q.sel}"]`,el).classList.add('wrong')}}
+  else if(q.kind==='rotate')ok=q.val===q.target;
+  else if(q.kind==='shade'){if(!q.on.length)empty=true;else ok=q.on.length*q.den===q.num*q.n}
+  if(empty){fb(el,'note','Con chưa làm xong',q.kind==='choice'?'Hãy chọn một đáp án trước nhé.':q.kind==='shade'?'Hãy chạm vào hình để tô màu.':'Con điền đủ các ô trống nhé.');return}
+  if(ok){q.status='ok';q.pts=q.tries===0?1:.5;fb(el,'ok',pick(PRAISE),q.tries?`<div>${q.sol}</div>`:'');lockCard(el,q)}
+  else{q.tries++;if(q.tries===1)fb(el,'hint','Chưa đúng rồi, thử lại nhé!',`<div>💡 Gợi ý: ${q.hint}</div>`);else{q.status='fail';q.pts=0;fb(el,'sol','Mình cùng xem lời giải nhé',`<div>${q.sol}</div>`);lockCard(el,q)}}
+  updateProgress();
+}
+function lockCard(el,q,restore){el.classList.add(q.status==='ok'?'ok':'fail');$('[data-check]',el).disabled=true;$('[data-swap]',el).hidden=true;
+  $$('.blank',el).forEach(x=>{x.disabled=true;if(q.status==='ok')x.classList.add('right')});$$('[data-c],[data-rot]',el).forEach(b=>b.disabled=true);
+  if(q.kind==='choice'){$(`[data-c="${q.correct}"]`,el).classList.add('right')}
+  if(restore){q.status==='ok'?fb(el,'ok','Đúng rồi!',''):fb(el,'sol','Lời giải',`<div>${q.sol}</div>`)}}
+function updateProgress(){const n=S.qs.length,done=S.qs.filter(q=>q.status!=='open').length,pts=S.qs.reduce((s,q)=>s+(q.pts||0),0);
+  $('#pbar').style.width=(done/n*100)+'%';$('#ptxt').textContent=`Đã làm ${done}/${n} câu`;$('#pscore').textContent=`Điểm: ${fmtPts(pts)}/${n}`;
+  const sum=$('#sum');if(done<n){sum.innerHTML='';return}
+  const r=pts/n,st=r>=.9?3:r>=.7?2:r>=.4?1:0,k=bestKey(S.lesson.id,S.lv),prev=store.get(k)||0;if(st>prev)store.set(k,st);
+  const msg=st===3?'Con làm rất giỏi!':st===2?'Làm tốt lắm, cố thêm chút nữa nhé!':st===1?'Con đã cố gắng! Làm thêm bộ mới nhé.':'Không sao cả, mình luyện thêm nhé!';
+  sum.innerHTML=`<div class="card summary"><div>${starsHTML(st)}</div><h3>${msg}</h3><p class="lead" style="margin:0">Điểm của con: <b>${fmtPts(pts)}/${n}</b> (đúng ngay lần đầu được 1 điểm, đúng lần hai được ½ điểm).</p>
+   <div class="row" style="justify-content:center;margin-top:14px">${S.lv<3&&st>=2?`<button class="btn primary" id="upLv">Lên ${LEVELS[S.lv].n} →</button>`:''}<button class="btn" id="again">↻ Làm bộ mới</button></div></div>`;
+  $('#again').onclick=()=>{genSet();renderQs();scrollTo({top:$('#qs').offsetTop-120,behavior:'smooth'})};const up=$('#upLv');if(up)up.onclick=()=>location.hash=lessonHref(S.lesson,S.lv+1);
+  $$('.lvl .stars').forEach((s,i)=>s.outerHTML=starsHTML(store.get(bestKey(S.lesson.id,i+1))||0));
+  if(!updateProgress._t||updateProgress._t!==S.qs)toast(`Hoàn thành! ${'⭐'.repeat(st)||'💪'}`);updateProgress._t=S.qs;
+}
+const fmtPts=p=>Number.isInteger(p)?p:String(p).replace('.',',');
+let tT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),1800)}
+
+/* ---------- Điều hướng: #/  ·  #/lop4  ·  #/lop4/bai/ma-bai/2 ---------- */
+function route(){
+  const m=location.hash.match(/^#\/([\w-]+)(?:\/bai\/([\w-]+)(?:\/(\d))?)?/);
+  const g=m&&App.grades.find(x=>x.id===m[1]);
+  if(!g){ if(App.grades.length===1&&!(CONFIG.upcoming||[]).length){location.replace('#/'+App.grades[0].id);return}
+    S.grade=null;S.lesson=null;S.qs=[];document.title=CONFIG.siteName;renderPicker();scrollTo(0,0);return}
+  S.grade=g;
+  const l=m[2]&&g.lessons.find(x=>x.id===m[2]);
+  if(l){const lv=Math.min(3,Math.max(1,+(m[3]||1)));const changed=S.lesson!==l||S.lv!==lv;S.lesson=l;S.lv=lv;if(changed||!S.qs.length)genSet();renderLesson();document.title=`${l.name} – ${g.subject} ${g.name}`;scrollTo(0,0);return}
+  S.lesson=null;S.qs=[];document.title=`${g.subject} ${g.name} – ${CONFIG.siteName}`;renderHome();scrollTo(0,0)}
+
+/* Tải lần lượt các file data/<lớp>.js khai báo trong config.js (bản gộp một file thì đã có sẵn) */
+function loadGrades(ids,done){const need=ids.filter(id=>!App.grades.some(g=>g.id===id));let i=0;
+  const next=()=>{if(i>=need.length)return done();const id=need[i++],sc=document.createElement('script');sc.src=`data/${id}.js`;sc.onload=next;
+    sc.onerror=()=>{app.insertAdjacentHTML('beforeend',`<div class="fb show sol"><b class="t">Không tải được data/${id}.js</b>Kiểm tra lại tên file trong config.js.</div>`);next()};document.body.appendChild(sc)};next()}
+(function init(){const th=store.get('hoctap:theme');if(th)document.documentElement.dataset.theme=th;$('#author').textContent=CONFIG.author;$('#brand').innerHTML=CONFIG.brandHTML||CONFIG.siteName;
+  loadGrades(CONFIG.grades,()=>{App.grades.sort((a,b)=>CONFIG.grades.indexOf(a.id)-CONFIG.grades.indexOf(b.id));addEventListener('hashchange',route);route()})})();
+
+</script>
+</body>
+</html>
