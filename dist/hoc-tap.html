@@ -26,6 +26,8 @@
   --shadow:6px 6px 0 var(--line); --shadow-sm:3px 3px 0 var(--line);
   --pet-ink:#14213d; --pet-white:#ffffff; --pet-egg:#fff6df; --pet-spot:#f4c86a; --pet-belly:#fff4e6; --pet-cheek:#ff9fb2; --pet-crown:#f6c032; --pet-gem:#e2466b; --pet-horn:#ffd66b; --pet-shadow:#14213d22;
   --pet-meo:#ffb56b; --pet-rong:#7fd4a4; --pet-cu:#b39ddb; --pet-tho:#f7c6d9; --pet-wing:#ffd9a0;
+  --acc-red:#e5484d; --acc-blue:#3e7bfa; --acc-yellow:#ffcf40; --acc-pink:#ff7eb6; --acc-purple:#9b6cff; --acc-dark:#23283a; --acc-gold:#f2b01e; --acc-gold-dark:#b77d00; --acc-white:#ffffff;
+  --acc-sky:#d6ecff; --acc-grass:#8fd694; --acc-grass2:#6cc37a; --acc-sea:#5cb8ea; --acc-sand:#f5dfae; --acc-night:#1d2550; --acc-moon:#fff3c4; --acc-board:#2f5d50; --acc-wall:#fdf1dc; --acc-wood:#c99a6b; --acc-tear:#6cc3f0;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -34,6 +36,8 @@
   --ok:#5fd394; --ok-soft:#153526; --warn:#f3c95a; --warn-soft:#3a2f10; --bad:#ff8a8a; --bad-soft:#3d1a1d; --shade:#6b9bff;
   --pet-ink:#0e1524; --pet-white:#ffffff; --pet-egg:#f3ead2; --pet-spot:#d9a94a; --pet-belly:#fbeedd; --pet-cheek:#ff8fa6; --pet-crown:#f6c032; --pet-gem:#ff6b8e; --pet-horn:#ffd66b; --pet-shadow:#00000055;
   --pet-meo:#f5a55a; --pet-rong:#6cc795; --pet-cu:#a28ad4; --pet-tho:#eeb3cb; --pet-wing:#f3c98c;
+  --acc-red:#e5484d; --acc-blue:#5a8dff; --acc-yellow:#ffcf40; --acc-pink:#ff7eb6; --acc-purple:#a483ff; --acc-dark:#0b0f1c; --acc-gold:#f2b01e; --acc-gold-dark:#b77d00; --acc-white:#f4f6fb;
+  --acc-sky:#27406b; --acc-grass:#3f8f55; --acc-grass2:#347a47; --acc-sea:#2a6f9e; --acc-sand:#a88d5a; --acc-night:#0f1636; --acc-moon:#f6e7a8; --acc-board:#244a3f; --acc-wall:#3a3326; --acc-wood:#7a5a3c; --acc-tear:#7cc8f2;
   color-scheme:dark;}}
 :root[data-theme="dark"]{
   --bg:#0e1524; --dot:#1f2b44; --surface:#16213a; --ink:#e8eefa; --muted:#a7b3cc; --line:#7f96c4;
@@ -41,6 +45,8 @@
   --ok:#5fd394; --ok-soft:#153526; --warn:#f3c95a; --warn-soft:#3a2f10; --bad:#ff8a8a; --bad-soft:#3d1a1d; --shade:#6b9bff;
   --pet-ink:#0e1524; --pet-white:#ffffff; --pet-egg:#f3ead2; --pet-spot:#d9a94a; --pet-belly:#fbeedd; --pet-cheek:#ff8fa6; --pet-crown:#f6c032; --pet-gem:#ff6b8e; --pet-horn:#ffd66b; --pet-shadow:#00000055;
   --pet-meo:#f5a55a; --pet-rong:#6cc795; --pet-cu:#a28ad4; --pet-tho:#eeb3cb; --pet-wing:#f3c98c;
+  --acc-red:#e5484d; --acc-blue:#5a8dff; --acc-yellow:#ffcf40; --acc-pink:#ff7eb6; --acc-purple:#a483ff; --acc-dark:#0b0f1c; --acc-gold:#f2b01e; --acc-gold-dark:#b77d00; --acc-white:#f4f6fb;
+  --acc-sky:#27406b; --acc-grass:#3f8f55; --acc-grass2:#347a47; --acc-sea:#2a6f9e; --acc-sand:#a88d5a; --acc-night:#0f1636; --acc-moon:#f6e7a8; --acc-board:#244a3f; --acc-wall:#3a3326; --acc-wood:#7a5a3c; --acc-tear:#7cc8f2;
   color-scheme:dark;}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -274,6 +280,65 @@ b.ans mjx-container,b.ans{color:var(--primary)}
 
 /* Nút âm thanh + đổi giao diện */
 .tbtns{display:inline-flex;gap:8px;align-items:center}
+
+/* ===== Nhà thú cưng (play.js) ===== */
+.pet .acc-st{stroke:var(--pet-ink);stroke-width:1.6;stroke-linejoin:round}
+.pet .acc-red{fill:var(--acc-red)} .pet .acc-blue{fill:var(--acc-blue)} .pet .acc-yellow{fill:var(--acc-yellow)} .pet .acc-pink{fill:var(--acc-pink)}
+.pet .acc-purple{fill:var(--acc-purple)} .pet .acc-dark{fill:var(--acc-dark)} .pet .acc-gold{fill:var(--acc-gold)} .pet .acc-gold-dark{fill:var(--acc-gold-dark)} .pet .acc-white{fill:var(--acc-white)}
+.pet .acc-gold-line{fill:none;stroke:var(--acc-gold);stroke-width:2;stroke-linecap:round}
+.pet .acc-glass{fill:var(--acc-white);fill-opacity:.35} .pet .acc-line{fill:none;stroke:var(--pet-ink);stroke-width:2;stroke-linecap:round} .pet .acc-shine{fill:none;stroke:var(--acc-white);stroke-width:1.5;stroke-linecap:round}
+.pet .acc-sky{fill:var(--acc-sky)} .pet .acc-grass{fill:var(--acc-grass)} .pet .acc-grass2{fill:var(--acc-grass2)} .pet .acc-grass-dark{fill:var(--acc-grass2);opacity:.6} .pet .acc-sea{fill:var(--acc-sea)} .pet .acc-sand{fill:var(--acc-sand)}
+.pet .acc-foam{fill:none;stroke:var(--acc-white);stroke-width:2} .pet .acc-night{fill:var(--acc-night)} .pet .acc-moon{fill:var(--acc-moon)} .pet .acc-board{fill:var(--acc-board);stroke:var(--acc-wood);stroke-width:3}
+.pet .acc-wall{fill:var(--acc-wall)} .pet .acc-wood{fill:var(--acc-wood)} .pet .acc-chalk{fill:var(--acc-white);font-weight:700}
+.pet .pet-tear{fill:var(--acc-tear);stroke:var(--pet-ink);stroke-width:1}
+.pchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+.pchips span{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border:2px solid var(--line);border-radius:var(--r-pill);background:var(--bg);font-size:15px}
+.meters{display:grid;gap:8px;margin:10px 0}
+.meter{display:grid;grid-template-columns:96px 1fr 34px;gap:8px;align-items:center;font-size:15px;font-weight:600}
+.meter .bar{height:14px} .meter b{text-align:right;font-size:14px;color:var(--muted)}
+.meter .bar i{background:linear-gradient(90deg,var(--ok),var(--ok))} .meter.mid .bar i{background:var(--star)} .meter.low .bar i{background:var(--bad)}
+.mood{margin:6px 0 10px;font-size:16px;color:var(--muted)}
+.pet-info .row .btn{min-height:46px;padding:8px 16px;font-size:16px}
+.quests h3{margin:0 0 10px;font:800 21px/1.2 var(--f-head)}
+.quests ul,.qlist{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:10px}
+.quests li,.qlist li{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center}
+.quests li .bar,.qlist li .bar{height:10px;margin-top:5px;border-width:2px}
+.quests li small,.qlist li small{text-align:right;color:var(--muted);font-weight:700;line-height:1.3}
+.quests li.done b,.qlist li.done b{text-decoration:line-through;color:var(--muted)} .qi{font-size:22px}
+.coin-pop{position:absolute;right:18px;top:12px;font:800 20px/1 var(--f-head);color:var(--star);animation:coinup 1.3s ease-out forwards;pointer-events:none}
+@keyframes coinup{0%{opacity:0;transform:translateY(10px) scale(.8)}20%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-34px)}}
+#qs .card{position:relative}
+.mini-xu{font-size:15px;margin-left:6px}
+body.noscroll{overflow:hidden}
+.pethome{align-items:start;overflow:auto}
+.pethome .ph{position:relative;max-width:760px;width:100%;margin:8px auto;text-align:left}
+.ph-x{position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;border:2.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:18px;cursor:pointer}
+.ph-top{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;padding-right:44px}
+.ph-top small{font:700 13px/1 var(--f-body);letter-spacing:1.2px;text-transform:uppercase;color:var(--primary)}
+.ph-top h2{margin:6px 0 8px;font:800 26px/1.1 var(--f-head)}
+.ph-pet{width:150px;height:150px} .ph-pet.boing{animation:boing .5s ease-out}
+.ph-tabs{display:flex;gap:6px;overflow-x:auto;margin:14px -4px 12px;padding:4px}
+.ph-tabs button{flex:0 0 auto;min-height:46px;padding:6px 14px;border-radius:var(--r-pill);border:2.5px solid var(--line);background:var(--surface);color:var(--ink);font:700 15px/1 var(--f-body);cursor:pointer}
+.ph-tabs button[aria-selected="true"]{background:var(--primary);color:var(--primary-ink)}
+.ph-body h3{margin:16px 0 8px;font:800 19px/1.2 var(--f-head)}
+.care-btns .btn small{font-weight:500;opacity:.85}
+.tips{margin:14px 0 0;padding-left:20px;color:var(--muted);line-height:1.6}
+.note-line{color:var(--muted);margin:4px 0 10px}
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.item{display:grid;justify-items:center;gap:4px;padding:10px 8px;border:2.5px solid var(--line);border-radius:var(--r-md);background:var(--surface);color:var(--ink);font:600 14px/1.25 var(--f-body);cursor:pointer;text-align:center}
+.item svg{width:96px;height:96px} .item span{font-weight:800;color:var(--star)}
+.item.own span{color:var(--primary)} .item.on{background:var(--primary-soft);box-shadow:var(--shadow-sm)} .item.on span{color:var(--ok)}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stats span{padding:6px 12px;border:2px solid var(--line);border-radius:var(--r-md);background:var(--bg)}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.badge{display:grid;justify-items:center;text-align:center;gap:4px;padding:12px 8px;border:2.5px solid var(--line);border-radius:var(--r-md);background:var(--surface);opacity:.45;filter:grayscale(1)}
+.badge.got{opacity:1;filter:none;background:var(--warn-soft)} .badge .bi{font-size:36px} .badge small{color:var(--muted);line-height:1.35}
+.rank-sort{margin-bottom:8px}
+.rank{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rank li{display:grid;grid-template-columns:44px 48px 1fr auto;gap:10px;align-items:center;padding:6px 12px;border:2px solid var(--line);border-radius:var(--r-md);background:var(--surface)}
+.rank li.me{background:var(--primary-soft);box-shadow:var(--shadow-sm)} .rank .rk{font:800 20px/1 var(--f-head);text-align:center}
+.rank .rp svg{width:44px;height:44px} .rank .rv{font-weight:800}
+@media (max-width:560px){.ph-top{grid-template-columns:1fr;justify-items:center;text-align:center;padding-right:0}.pchips{justify-content:center}.meter{grid-template-columns:80px 1fr 30px}}
 
 </style>
 </head>
@@ -640,6 +705,13 @@ const Account = (() => {
     api(item).then(r => { if(!r.ok){ if(r.code==='auth') expired(); else LS.set('hoctap:queue', [...queue(), item]); } else flush(); })
              .catch(() => LS.set('hoctap:queue', [...queue(), item]));
   }
+  let playBusy = false;
+  function syncPlay(play){
+    if(!API() || !user || playBusy) return; playBusy = true;
+    api({action:'play', token:user.token, play}).then(r => { if(!r.ok && r.code==='auth') expired(); }).catch(() => {}).finally(() => playBusy = false);
+  }
+  const rank = () => api({action:'rank', token:user.token});
+  const P = () => typeof Play !== 'undefined';
   function expired(){ toastSafe('Phiên đăng nhập đã hết hạn, em đăng nhập lại nhé.'); setTimeout(logout, 1500); }
   function logout(){ LS.del('hoctap:session'); user = null; location.hash = '#/'; location.reload(); }
   const toastSafe = m => { try{ toast(m) }catch(e){} };
@@ -676,6 +748,7 @@ const Account = (() => {
         if(!r.ok){ say(esc(r.msg || 'Sai tài khoản hoặc mật khẩu.')); return; }
         user = {token:r.token, name:r.name, lop:r.lop, user:r.user};
         LS.set('hoctap:session', user); LS.set('hoctap:lastLop', lop);
+        if(P()){ Play.reset(); Play.adopt(r.play); }
         Object.entries(r.progress || {}).forEach(([k,v]) => { const key = 'hoctap:'+k; if((+v||0) > (store.get(key)||0)) store.set(key, +v); });
         App.grades.forEach(g => store.set(`hoctap:petseen:${g.id}`, Pet.stage(g)));   // không bật màn tiến hoá khi vừa đăng nhập
         start();
@@ -688,6 +761,7 @@ const Account = (() => {
 
   /* ---- Sự kiện từ engine ---- */
   function on(ev, a, b){
+    if(ev === 'answer'){ if(P()) Play.on('answer', a); return; }
     if(ev === 'picker'){
       $('#app').insertAdjacentHTML('afterbegin', userBar()); bindLogout();
       App.grades.forEach(g => { const t = $(`.tile.grade[href="#/${g.id}"]`); if(t) t.insertAdjacentHTML('beforeend', `<span class="tile-pet">${Pet.svg(g, Pet.stage(g))}</span>`); });
@@ -695,20 +769,22 @@ const Account = (() => {
     if(ev === 'home'){
       $('#app').insertAdjacentHTML('afterbegin', userBar()); bindLogout();
       const lead = $('#app .lead'); if(lead) lead.insertAdjacentHTML('afterend', Pet.card(a));
-      Pet.bindCard();
+      Pet.bindCard(); if(P()) Play.on('home', a);
     }
     if(ev === 'lesson'){
       const tb = $('#app .toolbar .tbtns') || $('#app .toolbar #themeBtn'); if(tb){ const s = gradeStars(a); tb.insertAdjacentHTML('beforebegin', `<a class="pet-mini" href="#/${a.id}" title="Thú cưng của em">${Pet.svg(a, Pet.stage(a))}<b>${s}⭐</b></a>`); }
+      if(P()) Play.on('lesson', a);
     }
     if(ev === 'done'){
       const {g, l, lv, st, pts, n} = a;
+      if(P()) Play.on('done', a);
       Pet.check(g);
       send({ key:`${g.id}:${l.id}:${lv}`, stars: store.get(`hoctap:${g.id}:${l.id}:${lv}`) || 0, setStars: st, score: pts, total: n,
-             grade: g.name, lesson: l.name, level: lv, gradeStars: gradeStars(g), pet: Pet.name(g, Pet.stage(g)), summary: Pet.summary() });
+             grade: g.name, lesson: l.name, level: lv, gradeStars: gradeStars(g), pet: Pet.name(g, Pet.stage(g)), summary: Pet.summary(), play: P() ? Play.snapshot() : '' });
     }
   }
   addEventListener('online', flush);
-  return { gate, on, get user(){ return user }, logout, flush };
+  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank };
 })();
 
 /* =====================================================================
@@ -727,14 +803,15 @@ const Pet = (() => {
   const name = (g, k) => STAGE[k].replace('{n}', nm(g));
 
   /* ---- Vẽ ---- */
-  function svg(g, k, cls=''){
-    const s = sp(g), W = 120;
+  function svg(g, k, cls='', opt){
+    const s = sp(g), W = 120, L = opt || (typeof Play !== 'undefined' ? Play.look() : {}), wear = L.wear || {}, mood = L.mood || 'vui';
+    const bg = wear.bg && typeof Play !== 'undefined' ? Play.bgSVG(wear.bg) : '';
     const egg = (crack) => `<ellipse class="pet-shadow" cx="60" cy="110" rx="30" ry="5"/>
       <g class="${crack?'pet-wobble':'pet-float'}"><path class="pet-egg" d="M60 18 C 86 18 96 58 96 76 C 96 98 80 108 60 108 C 40 108 24 98 24 76 C 24 58 34 18 60 18 Z"/>
       <circle class="pet-spot" cx="46" cy="52" r="7"/><circle class="pet-spot" cx="72" cy="42" r="5"/><circle class="pet-spot" cx="74" cy="80" r="8"/><circle class="pet-spot" cx="42" cy="88" r="4"/>
       ${crack?`<path class="pet-crack" d="M30 66 L40 58 L48 68 L57 57 L66 69 L75 58 L84 67 L90 62"/>
       <ellipse class="pet-eye" cx="50" cy="50" rx="3.5" ry="4.5"/><ellipse class="pet-eye" cx="68" cy="50" rx="3.5" ry="4.5"/>`:''}</g>`;
-    if(k <= 1) return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img">${egg(k===1)}</svg>`;
+    if(k <= 1) return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img">${bg}${egg(k===1)}</svg>`;
     const grown = k >= 3, r = grown ? 34 : 27, cx = 60, cy = grown ? 70 : 76;
     const P = (x,y) => `${(cx + x*r).toFixed(1)} ${(cy + y*r).toFixed(1)}`;
     let back = '', front = '';
@@ -750,17 +827,20 @@ const Pet = (() => {
         <ellipse class="pet-belly" cx="${cx - r*.4}" cy="${cy - r*(.55+L/2)}" rx="${r*.09}" ry="${r*L/2-2}" transform="rotate(-10 ${cx - r*.4} ${cy - r*.8})"/><ellipse class="pet-belly" cx="${cx + r*.4}" cy="${cy - r*(.55+L/2)}" rx="${r*.09}" ry="${r*L/2-2}" transform="rotate(10 ${cx + r*.4} ${cy - r*.8})"/>`; }
     const face = s === 'cu'
       ? `<circle class="pet-belly" cx="${cx - r*.36}" cy="${cy - r*.12}" r="${r*.28}"/><circle class="pet-belly" cx="${cx + r*.36}" cy="${cy - r*.12}" r="${r*.28}"/><path class="pet-beak" d="M${P(-.1,.12)} L${P(.1,.12)} L${P(0,.32)} Z"/>`
+      : mood === 'buon' ? `<path class="pet-mouth" d="M${P(-.14,.3)} Q ${P(0,.16)} ${P(.14,.3)}"/>`
       : `<path class="pet-mouth" d="M${P(-.14,.2)} Q ${P(-.07,.32)} ${P(0,.2)} Q ${P(.07,.32)} ${P(.14,.2)}"/>`;
+    const tear = mood === 'buon' ? `<path class="pet-tear" d="M${P(.44,.02)} q ${r*.07} ${r*.14} 0 ${r*.2} q ${-r*.07} ${-r*.06} 0 ${-r*.2} Z"/>` : '';
+    const acc = typeof Play !== 'undefined' ? Play.accSVG(wear, cx, cy, r) : '';
     const eyes = `<ellipse class="pet-eye" cx="${cx - r*.36}" cy="${cy - r*.12}" rx="${r*.12}" ry="${r*.15}"/><ellipse class="pet-eye" cx="${cx + r*.36}" cy="${cy - r*.12}" rx="${r*.12}" ry="${r*.15}"/>
       <circle class="pet-shine" cx="${cx - r*.32}" cy="${cy - r*.18}" r="${r*.045}"/><circle class="pet-shine" cx="${cx + r*.4}" cy="${cy - r*.18}" r="${r*.045}"/>
       <ellipse class="pet-cheek" cx="${cx - r*.62}" cy="${cy + r*.12}" rx="${r*.13}" ry="${r*.08}"/><ellipse class="pet-cheek" cx="${cx + r*.62}" cy="${cy + r*.12}" rx="${r*.13}" ry="${r*.08}"/>`;
     const body = `<ellipse class="pet-body" cx="${cx}" cy="${cy}" rx="${r}" ry="${r*.95}"/><ellipse class="pet-belly" cx="${cx}" cy="${cy + r*.42}" rx="${r*.5}" ry="${r*.38}"/>`;
     const feet = grown ? `<ellipse class="pet-body" cx="${cx - r*.45}" cy="${cy + r*.95}" rx="${r*.24}" ry="${r*.13}"/><ellipse class="pet-body" cx="${cx + r*.45}" cy="${cy + r*.95}" rx="${r*.24}" ry="${r*.13}"/>` : '';
     const shell = grown ? '' : `<path class="pet-egg" d="M26 90 L34 82 L42 90 L51 81 L60 90 L69 81 L78 90 L86 82 L94 90 C 94 104 80 110 60 110 C 40 110 26 104 26 90 Z"/>`;
-    const crown = k === 4 ? `<path class="pet-crown" d="M${P(-.42,-.82)} L${P(-.45,-1.3)} L${P(-.2,-1.06)} L${P(0,-1.42)} L${P(.2,-1.06)} L${P(.45,-1.3)} L${P(.42,-.82)} Z"/><circle class="pet-gem" cx="${cx}" cy="${cy - r*1.0}" r="${r*.07}"/>` : '';
+    const crown = k === 4 && !wear.hat ? `<path class="pet-crown" d="M${P(-.42,-.82)} L${P(-.45,-1.3)} L${P(-.2,-1.06)} L${P(0,-1.42)} L${P(.2,-1.06)} L${P(.45,-1.3)} L${P(.42,-.82)} Z"/><circle class="pet-gem" cx="${cx}" cy="${cy - r*1.0}" r="${r*.07}"/>` : '';
     const spark = k === 4 ? `<path class="pet-spark" d="M16 30 l3 -8 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 Z"/><path class="pet-spark s2" d="M98 20 l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 Z"/><path class="pet-spark s3" d="M104 86 l2 -5 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 Z"/>` : '';
-    return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img"><ellipse class="pet-shadow" cx="60" cy="112" rx="${grown?34:30}" ry="5"/>${spark}
-      <g class="pet-float">${back}${body}${feet}${front}${eyes}${face}${crown}</g>${shell}</svg>`;
+    return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img">${bg}<ellipse class="pet-shadow" cx="60" cy="112" rx="${grown?34:30}" ry="5"/>${spark}
+      <g class="pet-float">${back}${body}${feet}${front}${eyes}${face}${tear}${crown}${acc}</g>${shell}</svg>`;
   }
 
   /* ---- Thẻ thú cưng trên trang khối lớp ---- */
@@ -772,7 +852,7 @@ const Pet = (() => {
       <div class="pet-info"><small>Thú cưng ${g.name} · Cấp ${k+1}/5</small><h2>${name(g,k)}</h2>
         <div class="bar"><i style="width:${pct}%"></i></div>
         <p>${next ? `Em có <b>${s} ⭐</b>. Còn <b>${next - s} ⭐</b> nữa để tiến hoá!` : `Em có <b>${s} ⭐</b>. Thú cưng đã đạt cấp cao nhất! 👑`}</p>
-        <div class="pet-steps">${[0,1,2,3,4].map(i => `<span class="${i<=k?'on':''}" title="${name(g,i)}">${svg(g, i)}</span>`).join('')}</div>
+        <div class="pet-steps">${[0,1,2,3,4].map(i => `<span class="${i<=k?'on':''}" title="${name(g,i)}">${svg(g, i, '', {mood:'vui'})}</span>`).join('')}</div>
       </div></section>`;
   }
   function bindCard(){ const c = $('.pet-card .pet-stage'); if(c) c.onclick = () => { c.classList.remove('boing'); void c.offsetWidth; c.classList.add('boing'); }; }
@@ -801,6 +881,275 @@ const Pet = (() => {
   }
   const summary = () => App.grades.map(g => `${g.name}: ${gradeStars(g)}⭐ – ${name(g, stage(g))}`).join(' | ');
   return { svg, card, bindCard, check, show, stage, name, summary, thresholds };
+})();
+
+</script>
+<script>/* assets/js/play.js */
+/* =====================================================================
+   PLAY – "Nhà thú cưng": chăm sóc hằng ngày, cửa hàng phụ kiện, nhiệm vụ ngày,
+   huy hiệu và bảng xếp hạng lớp. Nạp SAU account.js, TRƯỚC engine.js.
+   - Làm đúng: +2 xu (đúng ngay lần đầu) / +1 xu (đúng lần hai). Xong một bộ: mỗi ⭐ = 1 hạt thức ăn.
+   - Thú cưng đói (no) và buồn (vui) dần theo thời gian nếu em không học; KHÔNG bao giờ chết.
+   - Trạng thái lưu trong store 'hoctap:play' (riêng từng học sinh) và đồng bộ lên Google Sheet.
+   ===================================================================== */
+const Play = (() => {
+  const KEY = 'hoctap:play';
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const pad = n => String(n).padStart(2,'0');
+  const today = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
+  const dayNum = s => s ? Math.round(new Date(s + 'T12:00:00').getTime() / 864e5) : -1e9;
+  const clamp = v => Math.max(0, Math.min(100, Math.round(v)));
+  const uid = () => (typeof Account !== 'undefined' && Account.user) ? `${Account.user.lop}|${Account.user.user}` : '';
+  const blankStats = () => ({correct:0, sets:0, three:0, run:0, bestRun:0, fed:0, played:0, bought:0});
+  const blank = () => ({v:1, ts:0, xu:0, xuTotal:0, food:3, no:80, vui:80, t:Date.now(), lastPlay:0,
+    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}});
+  let S = null, who = null;
+
+  /* ---------- Lưu / nạp ---------- */
+  function st(){
+    if(S && who === uid()) return S;
+    who = uid(); const d = store.get(KEY) || {};
+    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {};
+    tick(); rollQuests(); return S;
+  }
+  function tick(){   // đói, buồn dần theo thời gian; chuỗi ngày bị ngắt nếu bỏ quá 1 ngày
+    const now = Date.now(), days = Math.max(0, (now - (S.t || now)) / 864e5);
+    S.no = clamp(S.no - 22*days); S.vui = clamp(S.vui - 28*days); S.t = now;
+    if(S.last && dayNum(today()) - dayNum(S.last) > 1) S.streak = 0;
+  }
+  let syncT = null;
+  function save(sync){
+    S.ts = Date.now(); store.set(KEY, S);
+    if(sync && typeof Account !== 'undefined' && Account.syncPlay){ clearTimeout(syncT); syncT = setTimeout(() => Account.syncPlay(snapshot()), 3000); }
+  }
+  function snapshot(){ st(); const pets = {}; App.grades.forEach(g => pets[g.id] = Pet.stage(g)); return JSON.stringify({...S, pets}); }
+  function adopt(raw){   // nhận dữ liệu từ máy chủ khi đăng nhập (nếu mới hơn dữ liệu trên máy)
+    S = null; if(!raw) return; let d; try{ d = typeof raw === 'string' ? JSON.parse(raw) : raw; }catch(e){ return; }
+    const cur = store.get(KEY); if(cur && (cur.ts||0) >= (d.ts||0)) return;
+    delete d.pets; store.set(KEY, d); S = null;
+  }
+
+  /* ---------- Thông báo nối tiếp ---------- */
+  const Q = []; let busy = false;
+  function note(m){ Q.push(m); if(!busy) nextNote(); }
+  function nextNote(){ const m = Q.shift(); if(!m){ busy = false; return; } busy = true; try{ toast(m) }catch(e){} setTimeout(nextNote, 1700); }
+
+  /* ---------- Nhiệm vụ ngày ---------- */
+  const QUESTS = {
+    bo1:   {text:'Hoàn thành 1 bộ câu hỏi', n:1, xu:10, food:1},
+    bo3:   {text:'Hoàn thành 3 bộ câu hỏi', n:3, xu:25, food:2},
+    dung10:{text:'Trả lời đúng 10 câu', n:10, xu:15, food:1},
+    dung20:{text:'Trả lời đúng 20 câu', n:20, xu:25, food:1},
+    lien5: {text:'Đúng liền 5 câu ngay lần đầu', n:5, xu:20, food:1},
+    sao3:  {text:'Đạt ⭐⭐⭐ ở một bộ', n:1, xu:20, food:1},
+    muc2:  {text:'Làm xong một bộ ở Mức 2 hoặc Mức 3', n:1, xu:15, food:1},
+    moi:   {text:'Làm một bài em chưa làm bao giờ', n:1, xu:20, food:1},
+    an:    {text:'Cho thú cưng ăn 1 lần', n:1, xu:5, food:0},
+    choi:  {text:'Chơi với thú cưng 1 lần', n:1, xu:5, food:0},
+  };
+  function seeded(str){ let h = 2166136261; for(const c of str){ h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return () => { h += 0x6D2B79F5; let t = h; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function rollQuests(){
+    const d = today(); if(S.q.day === d) return;
+    const rnd = seeded(d + uid()), pk = a => a.splice(Math.floor(rnd()*a.length), 1)[0];
+    const setQ = ['bo1','bo1','bo3'], ansQ = ['dung10','dung20','lien5','sao3','muc2','moi'], care = ['an','choi'];
+    S.q = {day:d, list:[pk(setQ), pk(ansQ), rnd() < .5 ? pk(care) : pk(ansQ)].map(id => ({id, p:0, done:false}))};
+  }
+  function quest(id, add = 1, setTo){
+    for(const it of S.q.list){ if(it.id !== id || it.done) continue; const Qd = QUESTS[id];
+      it.p = setTo != null ? Math.max(it.p, setTo) : it.p + add;
+      if(it.p >= Qd.n){ it.p = Qd.n; it.done = true; S.qDone++; S.xu += Qd.xu; S.xuTotal += Qd.xu; S.food += Qd.food;
+        note(`🎯 Xong nhiệm vụ: ${Qd.text}! +${Qd.xu} 🪙${Qd.food?` +${Qd.food} 🍖`:''}`); } }
+  }
+
+  /* ---------- Huy hiệu ---------- */
+  const BADGES = [
+    ['buoc-dau','🌱','Bước đầu tiên','Hoàn thành bộ câu hỏi đầu tiên', s => s.st.sets >= 1],
+    ['ba-sao','⭐','Ba sao đầu tiên','Lần đầu đạt ⭐⭐⭐ một bộ', s => s.st.three >= 1],
+    ['sieu-sao','🌟','Siêu sao','Đạt ⭐⭐⭐ ở 10 bộ', s => s.st.three >= 10],
+    ['cham-chi','🔥','Chăm chỉ','Học 3 ngày liên tiếp', s => s.best >= 3],
+    ['ben-bi','💪','Bền bỉ','Học 7 ngày liên tiếp', s => s.best >= 7],
+    ['kien-tri','🏆','Kiên trì','Học 30 ngày liên tiếp', s => s.best >= 30],
+    ['tram-cau','💯','Trăm câu đúng','Trả lời đúng 100 câu', s => s.st.correct >= 100],
+    ['nghin-cau','🧠','Bộ óc vàng','Trả lời đúng 500 câu', s => s.st.correct >= 500],
+    ['lien-tay','⚡','Nhanh tay chắc chắn','Đúng liền 10 câu ngay lần đầu', s => s.st.bestRun >= 10],
+    ['dau-bep','🍖','Người nuôi tận tâm','Cho thú cưng ăn 20 lần', s => s.st.fed >= 20],
+    ['ban-than','🎾','Bạn thân','Chơi với thú cưng 20 lần', s => s.st.played >= 20],
+    ['thoi-trang','🎀','Nhà tạo mẫu','Mua 3 món phụ kiện', s => s.st.bought >= 3],
+    ['nhiem-vu','🎯','Hoàn thành nhiệm vụ','Xong 10 nhiệm vụ ngày', s => s.qDone >= 10],
+    ['vuong-mien','👑','Vương miện','Thú cưng một khối đạt cấp 5', () => App.grades.some(g => Pet.stage(g) === 4)],
+  ];
+  function checkBadges(){
+    for(const [id, ic, nm, , ok] of BADGES) if(!S.badges[id] && ok(S)){ S.badges[id] = today(); S.xu += 10; S.xuTotal += 10; note(`🏅 Huy hiệu mới: ${ic} ${nm}! +10 🪙`); }
+  }
+
+  /* ---------- Phụ kiện (vẽ SVG, màu lấy từ biến CSS acc-*) ---------- */
+  const ITEMS = [
+    {id:'mu-tiec',   slot:'hat',  name:'Mũ sinh nhật', price:30},
+    {id:'mu-len',    slot:'hat',  name:'Mũ len ấm áp', price:40},
+    {id:'no-hoa',    slot:'hat',  name:'Bông hoa xinh', price:25},
+    {id:'mu-tn',     slot:'hat',  name:'Mũ tốt nghiệp', price:80},
+    {id:'kinh-tron', slot:'eye',  name:'Kính tròn thông thái', price:35},
+    {id:'kinh-ram',  slot:'eye',  name:'Kính râm sành điệu', price:45},
+    {id:'kinh-tim',  slot:'eye',  name:'Kính trái tim', price:50},
+    {id:'no-co',     slot:'neck', name:'Nơ đỏ', price:20},
+    {id:'khan',      slot:'neck', name:'Khăn quàng xanh', price:30},
+    {id:'huy-chuong',slot:'neck', name:'Huy chương vàng', price:70},
+    {id:'nen-vuon',  slot:'bg',   name:'Khu vườn', price:50},
+    {id:'nen-bien',  slot:'bg',   name:'Bãi biển', price:60},
+    {id:'nen-dem',   slot:'bg',   name:'Bầu trời đêm', price:70},
+    {id:'nen-lop',   slot:'bg',   name:'Lớp học', price:60},
+  ];
+  const SLOT = {hat:'Mũ & hoa', eye:'Kính', neck:'Nơ & khăn', bg:'Phòng / nền'};
+  function bgSVG(id){
+    const box = inner => `<g class="acc-bg"><clipPath id="clip-${id}"><rect x="2" y="2" width="116" height="116" rx="18"/></clipPath><g clip-path="url(#clip-${id})">${inner}</g></g>`;
+    if(id === 'nen-vuon') return box(`<rect class="acc-sky" width="120" height="120"/><circle class="acc-yellow" cx="96" cy="24" r="11"/><ellipse class="acc-grass" cx="30" cy="118" rx="60" ry="26"/><ellipse class="acc-grass2" cx="100" cy="122" rx="55" ry="24"/><circle class="acc-pink" cx="18" cy="100" r="4"/><circle class="acc-yellow" cx="104" cy="104" r="3.5"/>`);
+    if(id === 'nen-bien') return box(`<rect class="acc-sky" width="120" height="120"/><rect class="acc-sea" y="70" width="120" height="30"/><path class="acc-foam" d="M0 72 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0"/><rect class="acc-sand" y="98" width="120" height="22"/><circle class="acc-yellow" cx="22" cy="24" r="10"/>`);
+    if(id === 'nen-dem') return box(`<rect class="acc-night" width="120" height="120"/><circle class="acc-moon" cx="94" cy="24" r="10"/><circle class="acc-night" cx="99" cy="20" r="9"/>${[[16,18],[40,10],[64,26],[22,50],[108,54],[80,44]].map(([x,y]) => `<path class="acc-yellow" d="M${x} ${y-4} l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 Z"/>`).join('')}<rect class="acc-grass-dark" y="104" width="120" height="16"/>`);
+    if(id === 'nen-lop') return box(`<rect class="acc-wall" width="120" height="120"/><rect class="acc-board" x="14" y="10" width="92" height="44" rx="4"/><text class="acc-chalk" x="60" y="40" text-anchor="middle" font-size="15" font-family="var(--f-head)">1 + 1 = 2</text><rect class="acc-wood" y="104" width="120" height="16"/>`);
+    return '';
+  }
+  function accSVG(w, cx, cy, r){
+    const top = cy - r*.95, P = (x,y) => `${(cx + x*r).toFixed(1)} ${(cy + y*r).toFixed(1)}`; let s = '';
+    const ey = cy - r*.12, ex = r*.36;
+    if(w.neck === 'no-co') s += `<path class="acc-red acc-st" d="M${cx} ${cy+r*.62} L${cx-r*.34} ${cy+r*.46} L${cx-r*.34} ${cy+r*.8} Z M${cx} ${cy+r*.62} L${cx+r*.34} ${cy+r*.46} L${cx+r*.34} ${cy+r*.8} Z"/><circle class="acc-red acc-st" cx="${cx}" cy="${cy+r*.62}" r="${r*.1}"/>`;
+    if(w.neck === 'khan') s += `<path class="acc-blue acc-st" d="M${P(-.78,.42)} Q ${P(0,.72)} ${P(.78,.42)} L${P(.74,.62)} Q ${P(0,.92)} ${P(-.74,.62)} Z"/><path class="acc-blue acc-st" d="M${P(.3,.7)} L${P(.52,1.08)} L${P(.24,1.1)} L${P(.12,.74)} Z"/>`;
+    if(w.neck === 'huy-chuong') s += `<path class="acc-red acc-st" d="M${P(-.3,.38)} L${P(0,.72)} L${P(.3,.38)} L${P(.16,.38)} L${P(0,.58)} L${P(-.16,.38)} Z"/><circle class="acc-gold acc-st" cx="${cx}" cy="${cy+r*.82}" r="${r*.17}"/><path class="acc-gold-dark" d="M${cx} ${cy+r*.72} l${r*.03} ${r*.07} ${r*.07} 0 -${r*.055} ${r*.045} ${r*.02} ${r*.075} -${r*.065} -${r*.045} -${r*.065} ${r*.045} ${r*.02} -${r*.075} -${r*.055} -${r*.045} ${r*.07} 0 Z"/>`;
+    if(w.eye === 'kinh-tron') s += `<circle class="acc-glass acc-st" cx="${cx-ex}" cy="${ey}" r="${r*.22}"/><circle class="acc-glass acc-st" cx="${cx+ex}" cy="${ey}" r="${r*.22}"/><path class="acc-line" d="M${cx-ex+r*.22} ${ey} Q ${cx} ${ey-r*.1} ${cx+ex-r*.22} ${ey}"/>`;
+    if(w.eye === 'kinh-ram') s += `<rect class="acc-dark acc-st" x="${cx-ex-r*.25}" y="${ey-r*.16}" width="${r*.5}" height="${r*.32}" rx="${r*.12}"/><rect class="acc-dark acc-st" x="${cx+ex-r*.25}" y="${ey-r*.16}" width="${r*.5}" height="${r*.32}" rx="${r*.12}"/><path class="acc-line" d="M${cx-ex+r*.25} ${ey-r*.04} L${cx+ex-r*.25} ${ey-r*.04}"/><path class="acc-shine" d="M${cx-ex-r*.14} ${ey-r*.06} l${r*.1} -${r*.06} M${cx+ex-r*.14} ${ey-r*.06} l${r*.1} -${r*.06}"/>`;
+    if(w.eye === 'kinh-tim'){ const H = x => `<path class="acc-pink acc-st" d="M${x} ${ey+r*.2} C ${x-r*.34} ${ey-r*.02} ${x-r*.2} ${ey-r*.3} ${x} ${ey-r*.12} C ${x+r*.2} ${ey-r*.3} ${x+r*.34} ${ey-r*.02} ${x} ${ey+r*.2} Z"/>`;
+      s += H(cx-ex) + H(cx+ex) + `<path class="acc-line" d="M${cx-ex+r*.2} ${ey-r*.08} L${cx+ex-r*.2} ${ey-r*.08}"/>`; }
+    if(w.hat === 'mu-tiec') s += `<path class="acc-purple acc-st" d="M${cx-r*.34} ${top+r*.14} L${cx} ${top-r*.72} L${cx+r*.34} ${top+r*.14} Z"/><path class="acc-yellow" d="M${cx-r*.2} ${top-r*.2} L${cx+r*.2} ${top-r*.2} L${cx+r*.26} ${top-r*.06} L${cx-r*.26} ${top-r*.06} Z"/><circle class="acc-pink acc-st" cx="${cx}" cy="${top-r*.76}" r="${r*.12}"/>`;
+    if(w.hat === 'mu-len') s += `<path class="acc-red acc-st" d="M${cx-r*.78} ${top+r*.36} C ${cx-r*.8} ${top-r*.42} ${cx+r*.8} ${top-r*.42} ${cx+r*.78} ${top+r*.36} Z"/><rect class="acc-white acc-st" x="${cx-r*.84}" y="${top+r*.22}" width="${r*1.68}" height="${r*.22}" rx="${r*.1}"/><circle class="acc-white acc-st" cx="${cx}" cy="${top-r*.3}" r="${r*.14}"/>`;
+    if(w.hat === 'no-hoa'){ const fx = cx + r*.5, fy = top + r*.2, pr = r*.12;
+      s += [0,72,144,216,288].map(a => `<circle class="acc-pink acc-st" cx="${fx + Math.cos(a*Math.PI/180)*pr*1.3}" cy="${fy + Math.sin(a*Math.PI/180)*pr*1.3}" r="${pr}"/>`).join('') + `<circle class="acc-yellow acc-st" cx="${fx}" cy="${fy}" r="${pr*.9}"/>`; }
+    if(w.hat === 'mu-tn') s += `<rect class="acc-dark acc-st" x="${cx-r*.36}" y="${top-r*.06}" width="${r*.72}" height="${r*.26}" rx="${r*.05}"/><path class="acc-dark acc-st" d="M${cx} ${top-r*.42} L${cx+r*.78} ${top-r*.18} L${cx} ${top+r*.06} L${cx-r*.78} ${top-r*.18} Z"/><path class="acc-gold-line" d="M${cx} ${top-r*.18} L${cx+r*.56} ${top-r*.06} L${cx+r*.56} ${top+r*.3}"/><circle class="acc-gold" cx="${cx+r*.56}" cy="${top+r*.34}" r="${r*.07}"/>`;
+    return s;
+  }
+  function look(){ const s = st(), m = Math.min(s.no, s.vui); return {wear:s.wear, mood: m >= 55 ? 'vui' : m >= 25 ? 'binh' : 'buon'}; }
+  const moodText = () => { const s = st();
+    if(s.no < 25) return 'Bé đói bụng lắm rồi… Em làm bài để có hạt cho bé ăn nhé! 🥺';
+    if(s.vui < 25) return 'Bé buồn vì nhớ em. Chơi với bé một chút nhé!';
+    if(s.no < 55) return 'Bé hơi đói rồi đấy.';
+    if(s.vui < 55) return 'Bé muốn được chơi cùng em.';
+    return 'Bé đang rất vui và no nê! 💖'; };
+
+  /* ---------- Hành động ---------- */
+  function feed(){ const s = st(); if(s.food < 1) return 'Hết hạt rồi! Em làm bài để có thêm hạt nhé (mỗi ⭐ = 1 hạt).';
+    if(s.no >= 100) return 'Bé no căng bụng rồi, lát nữa cho ăn tiếp nhé!';
+    s.food--; s.no = clamp(s.no + 25); s.vui = clamp(s.vui + 5); s.st.fed++; quest('an'); checkBadges(); save(true); return 'Măm măm… Ngon quá! 😋'; }
+  function playWith(){ const s = st(), wait = 20*60*1000 - (Date.now() - s.lastPlay);
+    if(s.no < 20) return 'Bé đói quá, không chơi nổi. Cho bé ăn trước nhé!';
+    if(wait > 0) return `Bé đang nghỉ mệt. ${Math.ceil(wait/60000)} phút nữa lại chơi tiếp nhé!`;
+    s.lastPlay = Date.now(); s.vui = clamp(s.vui + 25); s.no = clamp(s.no - 5); s.st.played++; quest('choi'); checkBadges(); save(true); return 'Vui quá! Bé nhảy tưng tưng! 🎉'; }
+  function buy(id){ const s = st(), it = ITEMS.find(i => i.id === id); if(!it || s.owned.includes(id)) return '';
+    if(s.xu < it.price) return `Em cần thêm ${it.price - s.xu} 🪙 nữa. Làm thêm bài nhé!`;
+    s.xu -= it.price; s.owned.push(id); s.wear[it.slot] = id; s.st.bought++; checkBadges(); save(true); return `Đã mua ${it.name}! 🎁`; }
+  function wear(id){ const s = st(), it = ITEMS.find(i => i.id === id); if(!it || !s.owned.includes(id)) return;
+    if(s.wear[it.slot] === id) delete s.wear[it.slot]; else s.wear[it.slot] = id; save(true); }
+
+  /* ---------- Sự kiện từ engine / account ---------- */
+  function on(ev, a){
+    const s = st();
+    if(ev === 'answer'){
+      if(a.ok){ const c = a.tries === 0 ? 2 : 1; s.xu += c; s.xuTotal += c; s.st.correct++;
+        s.st.run = a.tries === 0 ? s.st.run + 1 : 0; s.st.bestRun = Math.max(s.st.bestRun, s.st.run);
+        quest('dung10'); quest('dung20'); quest('lien5', 0, s.st.run);
+        if(a.el){ const b = document.createElement('span'); b.className = 'coin-pop'; b.textContent = `+${c} 🪙`; a.el.appendChild(b); setTimeout(() => b.remove(), 1400); }
+      } else if(a.tries === 1) s.st.run = 0;
+      checkBadges(); save(false); updateMini();
+    }
+    if(ev === 'done'){
+      const {g, l, lv, st: stars, pts} = a, food = pts > 0 ? Math.max(1, stars) : 0, bonus = stars === 3 ? 5 : 0;
+      s.food += food; s.xu += bonus; s.xuTotal += bonus; s.st.sets++; if(stars === 3) s.st.three++;
+      const d = today();
+      if(s.last !== d){ s.streak = dayNum(d) - dayNum(s.last) === 1 ? s.streak + 1 : 1; s.last = d; s.best = Math.max(s.best, s.streak);
+        if(s.streak > 1) note(`🔥 Chuỗi ${s.streak} ngày học liên tiếp! Giỏi quá!`); }
+      if(food) note(`🍖 +${food} hạt cho thú cưng${bonus ? ` · +${bonus} 🪙 thưởng 3 sao` : ''}`);
+      quest('bo1'); quest('bo3'); if(stars === 3) quest('sao3'); if(lv >= 2) quest('muc2');
+      const lk = `${g.id}:${l.id}`; if(!s.seen[lk]){ s.seen[lk] = 1; quest('moi'); }
+      checkBadges(); save(false); updateMini();
+    }
+    if(ev === 'home') decorateHome(a);
+    if(ev === 'lesson') updateMini();
+  }
+
+  /* ---------- Giao diện ---------- */
+  const meter = (ic, lab, v) => `<div class="meter ${v < 25 ? 'low' : v < 55 ? 'mid' : ''}"><span>${ic} ${lab}</span><div class="bar"><i style="width:${v}%"></i></div><b>${v}</b></div>`;
+  const chips = () => { const s = st(); return `<div class="pchips"><span title="Chuỗi ngày học liên tiếp">🔥 <b>${s.streak}</b> ngày</span><span title="Xu">🪙 <b>${s.xu}</b></span><span title="Hạt thức ăn">🍖 <b>${s.food}</b></span><span title="Huy hiệu">🏅 <b>${Object.keys(s.badges).length}</b></span></div>`; };
+  function questRows(){ const s = st(); return s.q.list.map(it => { const Qd = QUESTS[it.id];
+    return `<li class="${it.done?'done':''}"><span class="qi">${it.done?'✅':'🎯'}</span><div><b>${Qd.text}</b><div class="bar"><i style="width:${Math.round(it.p/Qd.n*100)}%"></i></div></div><small>${it.p}/${Qd.n}<br>+${Qd.xu} 🪙</small></li>`; }).join(''); }
+  function decorateHome(g){
+    const info = $('.pet-card .pet-info'); if(!info) return; const s = st();
+    info.insertAdjacentHTML('afterbegin', chips());
+    info.insertAdjacentHTML('beforeend', `<div class="meters">${meter('🍖','No',s.no)}${meter('💖','Vui',s.vui)}</div><p class="mood">${moodText()}</p>
+      <div class="row"><button class="btn primary" data-ph="care">🏠 Nhà thú cưng</button><button class="btn" data-ph="shop">🛍️ Cửa hàng</button>${Account.user?'<button class="btn" data-ph="rank">🏆 Xếp hạng lớp</button>':''}</div>`);
+    const card = $('.pet-card'); if(card) card.insertAdjacentHTML('afterend', `<section class="quests card"><h3>🎯 Nhiệm vụ hôm nay</h3><ul>${questRows()}</ul><button class="linkbtn" data-ph="badge">Xem huy hiệu (${Object.keys(s.badges).length}/${BADGES.length}) →</button></section>`);
+    $$('[data-ph]').forEach(b => b.onclick = () => open(g, b.dataset.ph));
+  }
+  function updateMini(){ const m = $('.pet-mini'); if(!m) return; let c = m.querySelector('.mini-xu');
+    if(!c){ m.insertAdjacentHTML('beforeend', '<b class="mini-xu"></b>'); c = m.querySelector('.mini-xu'); } c.textContent = `🪙 ${st().xu}`; }
+
+  let G = null, TAB = 'care', rankSort = 'stars', rankData = null;
+  function open(g, tab){
+    G = g; TAB = tab || 'care'; const old = $('#petHome'); if(old) old.remove();
+    const el = document.createElement('div'); el.id = 'petHome'; el.className = 'evolve pethome'; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true');
+    el.innerHTML = `<div class="ph card"><button class="ph-x" data-close aria-label="Đóng">✕</button><div class="ph-top" id="phTop"></div>
+      <div class="ph-tabs" role="tablist">${[['care','🏠 Chăm sóc'],['shop','🛍️ Cửa hàng'],['quest','🎯 Nhiệm vụ'],['badge','🏅 Huy hiệu'],['rank','🏆 Xếp hạng']].map(([k,t]) => `<button role="tab" data-tab="${k}">${t}</button>`).join('')}</div>
+      <div class="ph-body" id="phBody"></div></div>`;
+    document.body.appendChild(el); document.body.classList.add('noscroll');
+    const close = () => { el.remove(); document.body.classList.remove('noscroll'); if(location.hash === `#/${g.id}`) try{ renderHome() }catch(e){} };
+    el.querySelector('[data-close]').onclick = close; el.addEventListener('click', e => { if(e.target === el) close(); });
+    el.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { TAB = b.dataset.tab; draw(); });
+    draw();
+  }
+  function drawTop(msg){ const g = G, k = Pet.stage(g);
+    $('#phTop').innerHTML = `<div class="ph-pet" id="phPet">${Pet.svg(g, k, 'big')}</div><div><small>Thú cưng ${esc(g.name)} · Cấp ${k+1}/5</small><h2>${Pet.name(g,k)}</h2>${chips()}<p class="mood" id="phMsg">${msg || moodText()}</p></div>`; }
+  function jump(){ const p = $('#phPet'); if(p){ p.classList.remove('boing'); void p.offsetWidth; p.classList.add('boing'); } }
+  function draw(msg){
+    drawTop(msg); $$('#petHome [data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === TAB));
+    const s = st(), body = $('#phBody');
+    if(TAB === 'care'){
+      body.innerHTML = `<div class="meters">${meter('🍖','No bụng',s.no)}${meter('💖','Vui vẻ',s.vui)}</div>
+        <div class="row care-btns"><button class="btn primary big" data-act="feed">🍖 Cho ăn <small>(còn ${s.food} hạt)</small></button><button class="btn big" data-act="play">🎾 Chơi cùng bé</button></div>
+        <ul class="tips"><li>Làm đúng ngay lần đầu: <b>+2 🪙</b>; đúng lần hai: <b>+1 🪙</b>.</li><li>Xong một bộ: mỗi ⭐ được <b>1 hạt 🍖</b>; đạt ⭐⭐⭐ thưởng thêm <b>5 🪙</b>.</li>
+        <li>Mỗi ngày không học, bé sẽ đói và buồn dần – nhưng bé luôn chờ em quay lại. 💖</li><li>Học mỗi ngày để giữ chuỗi 🔥 (dài nhất của em: <b>${s.best}</b> ngày).</li></ul>`;
+      body.querySelector('[data-act="feed"]').onclick = () => { const m = feed(); draw(m); if(/Măm/.test(m)) jump(); };
+      body.querySelector('[data-act="play"]').onclick = () => { const m = playWith(); draw(m); if(/Vui quá/.test(m)) jump(); };
+    }
+    if(TAB === 'shop'){
+      const k = Math.max(2, Pet.stage(G));
+      body.innerHTML = `<p class="note-line">Em đang có <b>${s.xu} 🪙</b>. Chạm vào món đã mua để đeo/tháo.${Pet.stage(G) < 2 ? ' <i>(Trứng nở rồi mới đeo được mũ, kính, nơ; nền phòng thì dùng được ngay.)</i>' : ''}</p>` +
+        Object.entries(SLOT).map(([slot, t]) => `<h3>${t}</h3><div class="shop">${ITEMS.filter(i => i.slot === slot).map(i => { const own = s.owned.includes(i.id), on = s.wear[slot] === i.id;
+          return `<button class="item ${on?'on':''} ${own?'own':''}" data-item="${i.id}">${Pet.svg(G, k, '', {wear:{[slot]:i.id}, mood:'vui'})}<b>${i.name}</b><span>${on ? '✔ Đang dùng' : own ? 'Dùng' : `${i.price} 🪙`}</span></button>`; }).join('')}</div>`).join('');
+      body.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { const id = b.dataset.item;
+        if(s.owned.includes(id)){ wear(id); draw(); } else draw(buy(id)); });
+    }
+    if(TAB === 'quest'){
+      body.innerHTML = `<h3>Nhiệm vụ hôm nay</h3><ul class="qlist">${questRows()}</ul><p class="note-line">Mỗi ngày có 3 nhiệm vụ mới. Em đã hoàn thành <b>${s.qDone}</b> nhiệm vụ.</p>
+        <h3>Thành tích của em</h3><div class="stats"><span>✅ <b>${s.st.correct}</b> câu đúng</span><span>📚 <b>${s.st.sets}</b> bộ</span><span>⭐⭐⭐ <b>${s.st.three}</b> bộ</span><span>⚡ Đúng liền nhiều nhất <b>${s.st.bestRun}</b></span><span>🔥 Chuỗi dài nhất <b>${s.best}</b> ngày</span><span>🪙 Đã kiếm <b>${s.xuTotal}</b> xu</span></div>`;
+    }
+    if(TAB === 'badge'){
+      body.innerHTML = `<p class="note-line">Mỗi huy hiệu mới thưởng <b>10 🪙</b>. Em có <b>${Object.keys(s.badges).length}/${BADGES.length}</b>.</p><div class="badges">${BADGES.map(([id, ic, nm, desc]) => {
+        const got = s.badges[id]; return `<div class="badge ${got?'got':''}"><span class="bi">${ic}</span><b>${nm}</b><small>${desc}${got?`<br>✔ ${got.split('-').reverse().join('/')}`:''}</small></div>`; }).join('')}</div>`;
+    }
+    if(TAB === 'rank') drawRank(body);
+  }
+  async function drawRank(body){
+    if(!Account.user){ body.innerHTML = '<p class="note-line">Bảng xếp hạng lớp chỉ có khi em <b>đăng nhập</b> bằng tài khoản thầy cô phát.</p>'; return; }
+    const head = () => `<div class="row rank-sort">${[['stars','⭐ Tổng sao'],['streak','🔥 Chuỗi ngày'],['badges','🏅 Huy hiệu'],['xu','🪙 Xu đã kiếm']].map(([k,t]) => `<button class="btn small ${rankSort===k?'primary':''}" data-rs="${k}">${t}</button>`).join('')}</div>`;
+    const render = () => { const rows = rankData.slice().sort((a,b) => (b[rankSort]-a[rankSort]) || (b.stars-a.stars) || a.name.localeCompare(b.name,'vi'));
+      body.innerHTML = head() + `<p class="note-line">Lớp <b>${esc(Account.user.lop)}</b> · ${rows.length} bạn đã tham gia. Cố lên nhé! 💪</p><ol class="rank">${rows.map((r, i) => {
+        const k = Math.min(4, Math.max(0, r.pets && r.pets[G.id] != null ? r.pets[G.id] : 0));
+        return `<li class="${r.me?'me':''}"><span class="rk">${i<3?['🥇','🥈','🥉'][i]:i+1}</span><span class="rp">${Pet.svg(G, k, '', {wear:r.wear||{}, mood:'vui'})}</span><b>${esc(r.name)}${r.me?' (em)':''}</b><span class="rv">${{stars:'⭐',streak:'🔥',badges:'🏅',xu:'🪙'}[rankSort]} ${r[rankSort]}</span></li>`; }).join('')}</ol>`;
+      body.querySelectorAll('[data-rs]').forEach(b => b.onclick = () => { rankSort = b.dataset.rs; render(); }); };
+    if(rankData){ render(); }
+    else body.innerHTML = '<p class="note-line">Đang tải bảng xếp hạng…</p>';
+    try{ const r = await Account.rank(); if(!r.ok) throw new Error(r.msg); rankData = r.rows; if(TAB === 'rank') render(); setTimeout(() => rankData = null, 60000); }
+    catch(e){ if(!rankData) body.innerHTML = '<p class="note-line">Chưa tải được bảng xếp hạng. Em kiểm tra mạng rồi thử lại nhé. (Nếu vẫn lỗi: thầy cô cần cập nhật lại Apps Script.)</p>'; }
+  }
+
+  addEventListener('hashchange', () => { const m = $('#petHome'); if(m){ m.remove(); document.body.classList.remove('noscroll'); } });
+  return { on, look, bgSVG, accSVG, snapshot, adopt, open, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, feed, playWith, buy, wear };
 })();
 
 </script>
@@ -2827,6 +3176,7 @@ function check(el,q){
   if(hasSound())Sound.play(ok?'ok':'bad');
   if(ok){q.status='ok';q.pts=q.tries===0?1:.5;fb(el,'ok',pick(PRAISE),q.tries?`<div>${q.sol}</div>`:'');lockCard(el,q)}
   else{q.tries++;if(q.tries===1)fb(el,'hint','Chưa đúng rồi, thử lại nhé!',`<div>💡 Gợi ý: ${q.hint}</div>`);else{q.status='fail';q.pts=0;fb(el,'sol','Mình cùng xem lời giải nhé',`<div>${q.sol}</div>`);lockCard(el,q)}}
+  hook('answer',{ok,tries:q.tries,final:q.status!=='open',el});
   updateProgress();
 }
 function lockCard(el,q,restore){el.classList.add(q.status==='ok'?'ok':'fail');$('[data-check]',el).disabled=true;$('[data-swap]',el).hidden=true;

@@ -7,12 +7,13 @@
  *   KetQua   : nhật kí mỗi lần một em làm XONG một bộ câu hỏi
  *   DangNhap : nhật kí mỗi lần một em đăng nhập
  *   TienDo   : tiến độ + thú cưng mới nhất của từng em (máy dùng để đồng bộ)
+ *              + “Góc thú cưng” (xu, hạt, phụ kiện, nhiệm vụ, huy hiệu, chuỗi ngày) – dùng cho bảng xếp hạng lớp
  * Menu “🐣 Học mà chơi” trên thanh công cụ: Cập nhật bảng Tổng hợp.
  * Cách triển khai: xem HUONG-DAN.md.
  */
 const SHEET_HS = 'HocSinh', SHEET_TD = 'TienDo', SHEET_KQ = 'KetQua', SHEET_DN = 'DangNhap', SHEET_TH = 'TongHop';
 const H_HS = ['Lớp', 'Tài khoản', 'Họ tên', 'Mật khẩu'];
-const H_TD = ['Lớp', 'Tài khoản', 'Họ tên', 'Tổng sao', 'Thú cưng / sao từng khối', 'Lần cuối', 'Tiến độ (máy dùng)', 'Phiên (máy dùng)'];
+const H_TD = ['Lớp', 'Tài khoản', 'Họ tên', 'Tổng sao', 'Thú cưng / sao từng khối', 'Lần cuối', 'Tiến độ (máy dùng)', 'Phiên (máy dùng)', 'Góc thú cưng (máy dùng)'];
 const H_KQ = ['Thời gian', 'Lớp', 'Tài khoản', 'Họ tên', 'Khối', 'Bài', 'Mức', 'Điểm', 'Số câu', 'Sao bộ này', 'Sao cao nhất bài', 'Tổng sao khối', 'Thú cưng'];
 const H_DN = ['Thời gian', 'Lớp', 'Tài khoản', 'Họ tên', 'Thiết bị'];
 const MAX_SESSIONS = 5;       // số thiết bị được đăng nhập cùng lúc cho một em
@@ -25,6 +26,8 @@ function sheet_(name, headers) {
   if (!sh) {
     sh = ss.insertSheet(name);
     if (headers) { sh.appendRow(headers); sh.setFrozenRows(1); sh.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#dbe6fb'); }
+  } else if (headers && String(sh.getRange(1, headers.length).getValue()) === '') {
+    sh.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight('bold').setBackground('#dbe6fb');   // bảng cũ: bổ sung cột mới
   }
   return sh;
 }
@@ -66,6 +69,8 @@ function doPost(e) {
   try {
     if (b.action === 'login') return out_(login_(b));
     if (b.action === 'save') return out_(save_(b));
+    if (b.action === 'play') return out_(play_(b));
+    if (b.action === 'rank') return out_(rank_(b));
     return out_({ ok: false, msg: 'Yêu cầu không hợp lệ' });
   } finally { lock.releaseLock(); }
 }
@@ -74,7 +79,7 @@ function doPost(e) {
 function rowOf_(td, lop, user, name) {
   const v = td.getDataRange().getValues();
   for (let i = 1; i < v.length; i++) if (key_(v[i][0], v[i][1]) === key_(lop, user)) return i + 1;
-  td.appendRow([lop, user, name, 0, '', '', '{}', '']);
+  td.appendRow([lop, user, name, 0, '', '', '{}', '', '']);
   return td.getLastRow();
 }
 
@@ -91,14 +96,22 @@ function login_(b) {
   sheet_(SHEET_DN, H_DN).appendRow([new Date(), st.lop, st.user, st.name, norm_(b.device).slice(0, 60)]);
   let progress = {};
   try { progress = JSON.parse(td.getRange(r, 7).getValue() || '{}'); } catch (err) {}
-  return { ok: true, token, name: st.name, lop: st.lop, user: st.user, progress };
+  return { ok: true, token, name: st.name, lop: st.lop, user: st.user, progress, play: norm_(td.getRange(r, 9).getValue()) };
 }
 
+/** Số dòng (từ 1) trong TienDo ứng với phiên đăng nhập, -1 nếu không có. */
+function rowByToken_(v, token) {
+  token = norm_(token);
+  for (let i = 1; i < v.length; i++) if (token && norm_(v[i][7]).split(',').indexOf(token) >= 0) return i + 1;
+  return -1;
+}
+const AUTH_ = { ok: false, code: 'auth', msg: 'Phiên đăng nhập đã hết hạn' };
+const MAX_PLAY_ = 40000;
+
 function save_(b) {
-  const td = sheet_(SHEET_TD, H_TD), v = td.getDataRange().getValues(), token = norm_(b.token);
-  let r = -1;
-  for (let i = 1; i < v.length; i++) if (token && norm_(v[i][7]).split(',').indexOf(token) >= 0) { r = i + 1; break; }
-  if (r < 0) return { ok: false, code: 'auth', msg: 'Phiên đăng nhập đã hết hạn' };
+  const td = sheet_(SHEET_TD, H_TD), v = td.getDataRange().getValues(), r = rowByToken_(v, b.token);
+  if (r < 0) return AUTH_;
+  if (b.play) td.getRange(r, 9).setValue(String(b.play).slice(0, MAX_PLAY_));
   const row = v[r - 1];
   let progress = {};
   try { progress = JSON.parse(row[6] || '{}'); } catch (err) {}
@@ -109,6 +122,33 @@ function save_(b) {
   sheet_(SHEET_KQ, H_KQ).appendRow([new Date(), row[0], row[1], row[2], norm_(b.grade), norm_(b.lesson), Number(b.level) || '',
     Number(b.score) || 0, Number(b.total) || '', Number(b.setStars) || 0, Number(b.stars) || 0, Number(b.gradeStars) || 0, norm_(b.pet)]);
   return { ok: true };
+}
+
+/** Lưu “Góc thú cưng” (cho ăn, mua phụ kiện… không kèm bài làm). */
+function play_(b) {
+  const td = sheet_(SHEET_TD, H_TD), r = rowByToken_(td.getDataRange().getValues(), b.token);
+  if (r < 0) return AUTH_;
+  td.getRange(r, 9).setValue(String(b.play || '').slice(0, MAX_PLAY_));
+  return { ok: true };
+}
+
+/** Đọc phần công khai của “Góc thú cưng”. Chuỗi ngày chỉ tính khi lần học cuối là hôm nay hoặc hôm qua. */
+function pub_(raw) {
+  let p = {};
+  try { p = JSON.parse(raw || '{}') || {}; } catch (err) {}
+  const now = new Date(), d0 = Utilities.formatDate(now, TZ, 'yyyy-MM-dd'), d1 = Utilities.formatDate(new Date(now.getTime() - 864e5), TZ, 'yyyy-MM-dd');
+  const streak = (p.last === d0 || p.last === d1) ? (Number(p.streak) || 0) : 0;
+  return { streak, best: Number(p.best) || 0, badges: Object.keys(p.badges || {}).length, xu: Number(p.xuTotal) || 0, wear: p.wear || {}, pets: p.pets || {} };
+}
+
+/** Bảng xếp hạng: các bạn cùng lớp đã đăng nhập ít nhất một lần. */
+function rank_(b) {
+  const v = sheet_(SHEET_TD, H_TD).getDataRange().getValues(), r = rowByToken_(v, b.token);
+  if (r < 0) return AUTH_;
+  const lop = norm_(v[r - 1][0]);
+  const rows = v.slice(1).map((x, i) => ({ x, me: i + 2 === r })).filter(o => norm_(o.x[0]) === lop)
+    .map(o => Object.assign({ name: norm_(o.x[2]) || norm_(o.x[1]), stars: Number(o.x[3]) || 0, me: o.me }, pub_(o.x[8])));
+  return { ok: true, lop, rows };
 }
 
 /* =====================================================================
@@ -123,11 +163,11 @@ function capNhatTongHop() {
   const kq = sheet_(SHEET_KQ, H_KQ).getDataRange().getValues().slice(1);
   const td = sheet_(SHEET_TD, H_TD).getDataRange().getValues().slice(1);
   const A = {};
-  hs.forEach(s => A[key_(s.lop, s.user)] = { s, logins: 0, lastLogin: null, sets: 0, sumPct: 0, lastWork: null, stars: 0, pet: '' });
+  hs.forEach(s => A[key_(s.lop, s.user)] = { s, logins: 0, lastLogin: null, sets: 0, sumPct: 0, lastWork: null, stars: 0, pet: '', streak: 0, badges: 0 });
   const later = (a, b) => (!a || (b && b > a)) ? b : a;
   dn.forEach(r => { const a = A[key_(r[1], r[2])]; if (a) { a.logins++; a.lastLogin = later(a.lastLogin, r[0] instanceof Date ? r[0] : new Date(r[0])); } });
   kq.forEach(r => { const a = A[key_(r[1], r[2])]; if (!a) return; a.sets++; const n = Number(r[8]) || 6; a.sumPct += (Number(r[7]) || 0) / n; a.lastWork = later(a.lastWork, r[0] instanceof Date ? r[0] : new Date(r[0])); });
-  td.forEach(r => { const a = A[key_(r[0], r[1])]; if (a) { a.stars = Number(r[3]) || 0; a.pet = norm_(r[4]); } });
+  td.forEach(r => { const a = A[key_(r[0], r[1])]; if (a) { a.stars = Number(r[3]) || 0; a.pet = norm_(r[4]); const p = pub_(r[8]); a.streak = p.streak; a.badges = p.badges; } });
 
   const fmt = d => d ? Utilities.formatDate(d, TZ, 'dd/MM/yyyy HH:mm') : '';
   const status = a => {
@@ -141,21 +181,21 @@ function capNhatTongHop() {
   const lops = [...new Set(hs.map(s => s.lop))].sort(sortVi_);
   const rows = [], colors = [];
   // --- Phần 1: theo lớp
-  rows.push([`BẢNG TỔNG HỢP – cập nhật lúc ${fmt(now)}`, '', '', '', '', '', '', '', '', '', '']); colors.push('title');
-  rows.push(['Lớp', 'Sĩ số', 'Đã đăng nhập', 'Chưa đăng nhập', 'Đăng nhập nhưng chưa làm bài', 'Đã làm ≥ 1 bộ', `Quá ${DAYS_WARN} ngày chưa học`, 'Tổng số bộ đã làm', 'Điểm TB (%)', '', '']); colors.push('head');
+  rows.push([`BẢNG TỔNG HỢP – cập nhật lúc ${fmt(now)}`, '', '', '', '', '', '', '', '', '', '', '', '']); colors.push('title');
+  rows.push(['Lớp', 'Sĩ số', 'Đã đăng nhập', 'Chưa đăng nhập', 'Đăng nhập nhưng chưa làm bài', 'Đã làm ≥ 1 bộ', `Quá ${DAYS_WARN} ngày chưa học`, 'Tổng số bộ đã làm', 'Điểm TB (%)', '', '', '', '']); colors.push('head');
   lops.forEach(lop => {
     const L = hs.filter(s => s.lop === lop).map(s => A[key_(s.lop, s.user)]);
     const logged = L.filter(a => a.logins || a.lastWork).length, worked = L.filter(a => a.sets).length;
     const sets = L.reduce((t, a) => t + a.sets, 0), pct = L.reduce((t, a) => t + a.sumPct, 0);
     const idle = L.filter(a => status(a)[2] === 'idle').length, nowork = L.filter(a => status(a)[2] === 'nowork').length;
-    rows.push([lop, L.length, logged, L.length - logged, nowork, worked, idle, sets, sets ? Math.round(pct / sets * 100) : '', '', '']); colors.push('');
+    rows.push([lop, L.length, logged, L.length - logged, nowork, worked, idle, sets, sets ? Math.round(pct / sets * 100) : '', '', '', '', '']); colors.push('');
   });
-  rows.push(['', '', '', '', '', '', '', '', '', '', '']); colors.push('');
+  rows.push(['', '', '', '', '', '', '', '', '', '', '', '', '']); colors.push('');
   // --- Phần 2: từng học sinh
-  rows.push(['Lớp', 'Tài khoản', 'Họ tên', 'Tình trạng', 'Số lần đăng nhập', 'Đăng nhập gần nhất', 'Số bộ đã làm', 'Điểm TB (%)', 'Tổng sao', 'Làm bài gần nhất', 'Thú cưng / sao từng khối']); colors.push('head');
+  rows.push(['Lớp', 'Tài khoản', 'Họ tên', 'Tình trạng', 'Số lần đăng nhập', 'Đăng nhập gần nhất', 'Số bộ đã làm', 'Điểm TB (%)', 'Tổng sao', 'Làm bài gần nhất', 'Thú cưng / sao từng khối', 'Chuỗi ngày học 🔥', 'Huy hiệu 🏅']); colors.push('head');
   lops.forEach(lop => hs.filter(s => s.lop === lop).sort((x, y) => sortVi_(x.user, y.user)).forEach(s => {
     const a = A[key_(s.lop, s.user)], [st, c] = status(a);
-    rows.push([s.lop, s.user, s.name, st, a.logins, fmt(a.lastLogin), a.sets, a.sets ? Math.round(a.sumPct / a.sets * 100) : '', a.stars, fmt(a.lastWork), a.pet]);
+    rows.push([s.lop, s.user, s.name, st, a.logins, fmt(a.lastLogin), a.sets, a.sets ? Math.round(a.sumPct / a.sets * 100) : '', a.stars, fmt(a.lastWork), a.pet, a.streak, a.badges]);
     colors.push(c);
   }));
 

@@ -23,6 +23,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `assets/js/generators.js` | Dạng bài **dùng chung cho nhiều lớp**: `gPlace`, `gValue`, `gCompose`, `gCmp`, `gRound`, `gAddSub`, `gFindX`, `gConv` (+ `MASS`, `AREA`), `gReadProt`, `gRotate`, `gAngType`, `gAngDeg`, `gAngWhich` | Khi một dạng bài dùng được cho ≥2 lớp |
 | `assets/js/math.js` + `assets/vendor/mathjax/` | Cấu hình MathJax 3.2.2 (bản đặt sẵn trong dự án, chạy không cần mạng) và tự vẽ lại công thức mỗi khi nội dung đổi | Hầu như không sửa |
 | `assets/js/sound.js` | Âm thanh khi chấm (đúng/sai) lấy từ `CONFIG.sounds` (danh sách nguồn, thử lần lượt: `assets/sounds/*.mp3` rồi link ngoài); nút 🔊/🔇 bật tắt, lưu `hoctap:sound` | Khi đổi âm thanh: chỉ sửa `config.js` |
+| `assets/js/play.js` | **Nhà thú cưng**: xu (đúng lần đầu +2, lần hai +1), hạt (mỗi ⭐ = 1 hạt), no/vui giảm dần theo ngày (không bao giờ chết), chuỗi ngày 🔥, 3 nhiệm vụ ngày (`QUESTS`), 14 huy hiệu (`BADGES`), cửa hàng phụ kiện vẽ SVG (`ITEMS`, lớp màu `acc-*`), bảng xếp hạng lớp (action `rank`). Lưu `hoctap:play`, đồng bộ cột 9 của TienDo | Khi thêm phụ kiện, nhiệm vụ, huy hiệu |
 | `assets/js/account.js` | **Đăng nhập theo lớp** (Google Sheets qua Apps Script, bật khi `CONFIG.sheetAPI` khác rỗng) và **thú cưng tiến hoá** 5 cấp theo tổng sao của khối (`Pet`). Tiến độ lưu riêng từng học sinh (`hoctap:u:<lớp>|<tk>:…`) | Khi đổi đăng nhập/thú cưng |
 | `tools/apps-script/` | `Code.gs` (máy chủ trên Google Sheets: HocSinh, TongHop, KetQua, DangNhap, TienDo; menu 🐣 và hẹn giờ 30 phút cập nhật TongHop), `HUONG-DAN.md`, `mau-danh-sach-hoc-sinh.xlsx` | Khi đổi cách lưu kết quả |
 | `assets/js/engine.js` | Hiển thị, chấm, sao, điều hướng hash, nạp `data/*.js` | **Hạn chế sửa**. Chỉ sửa khi thêm loại câu hỏi mới hoặc tính năng mới |
@@ -30,7 +31,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `tools/test.py` | Kiểm thử tự động: làm hết mọi câu và báo câu nào bị chấm sai | Chạy sau **mọi** thay đổi |
 | `tools/build.py` | Gộp cả thư mục thành `dist/hoc-tap.html` (một file) | Trước khi gửi hoặc publish |
 
-Thứ tự nạp: `config.js → core.js → figures.js → generators.js → math.js → vendor/mathjax/tex-chtml.js (async) → sound.js → account.js → engine.js`. Engine gọi `hook('picker'|'home'|'lesson'|'done', …)` → `Account.on(...)`, và `Account.gate(start)` khi khởi động (hiện màn đăng nhập nếu cần). Sau đó engine tự nạp `data/<mã>.js` theo `CONFIG.grades`.
+Thứ tự nạp: `config.js → core.js → figures.js → generators.js → math.js → vendor/mathjax/tex-chtml.js (async) → sound.js → account.js → play.js → engine.js`. Engine gọi `hook('picker'|'home'|'lesson'|'answer'|'done', …)` → `Account.on(...)`, và `Account.gate(start)` khi khởi động (hiện màn đăng nhập nếu cần). Sau đó engine tự nạp `data/<mã>.js` theo `CONFIG.grades`.
 Dùng **script thường (không phải ES module), không build tool, không framework, không thư viện ngoài** (chỉ có Google Fonts và MathJax đặt sẵn trong `assets/vendor/`). Bản gộp `dist/hoc-tap.html` lấy MathJax từ CDN jsDelivr. Nhờ vậy mở trực tiếp file `index.html` trên máy vẫn chạy.
 
 ## 3. Hợp đồng dữ liệu (phải tuân theo đúng)
@@ -111,6 +112,7 @@ Quy tắc:
 python3 tools/test.py        # phải in "KẾT QUẢ: ĐẠT ✓"   (tham số tuỳ chọn: số vòng/bài, mặc định 10)
 python3 tools/build.py       # tạo dist/hoc-tap.html
 python3 tools/test_dangnhap.py  # nếu sửa account.js: thử đăng nhập + thú cưng với máy chủ giả lập
+python3 tools/test_thucung.py   # nếu sửa play.js: xu, hạt, cho ăn, cửa hàng, nhiệm vụ, huy hiệu, xếp hạng
 node tools/test_appscript.js    # nếu sửa tools/apps-script/Code.gs
 python3 tools/test_congthuc.py  # nếu sửa nội dung lớp 6+ (LaTeX): không còn công thức lỗi
 ```

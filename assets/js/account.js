@@ -42,6 +42,13 @@ const Account = (() => {
     api(item).then(r => { if(!r.ok){ if(r.code==='auth') expired(); else LS.set('hoctap:queue', [...queue(), item]); } else flush(); })
              .catch(() => LS.set('hoctap:queue', [...queue(), item]));
   }
+  let playBusy = false;
+  function syncPlay(play){
+    if(!API() || !user || playBusy) return; playBusy = true;
+    api({action:'play', token:user.token, play}).then(r => { if(!r.ok && r.code==='auth') expired(); }).catch(() => {}).finally(() => playBusy = false);
+  }
+  const rank = () => api({action:'rank', token:user.token});
+  const P = () => typeof Play !== 'undefined';
   function expired(){ toastSafe('Phiên đăng nhập đã hết hạn, em đăng nhập lại nhé.'); setTimeout(logout, 1500); }
   function logout(){ LS.del('hoctap:session'); user = null; location.hash = '#/'; location.reload(); }
   const toastSafe = m => { try{ toast(m) }catch(e){} };
@@ -78,6 +85,7 @@ const Account = (() => {
         if(!r.ok){ say(esc(r.msg || 'Sai tài khoản hoặc mật khẩu.')); return; }
         user = {token:r.token, name:r.name, lop:r.lop, user:r.user};
         LS.set('hoctap:session', user); LS.set('hoctap:lastLop', lop);
+        if(P()){ Play.reset(); Play.adopt(r.play); }
         Object.entries(r.progress || {}).forEach(([k,v]) => { const key = 'hoctap:'+k; if((+v||0) > (store.get(key)||0)) store.set(key, +v); });
         App.grades.forEach(g => store.set(`hoctap:petseen:${g.id}`, Pet.stage(g)));   // không bật màn tiến hoá khi vừa đăng nhập
         start();
@@ -90,6 +98,7 @@ const Account = (() => {
 
   /* ---- Sự kiện từ engine ---- */
   function on(ev, a, b){
+    if(ev === 'answer'){ if(P()) Play.on('answer', a); return; }
     if(ev === 'picker'){
       $('#app').insertAdjacentHTML('afterbegin', userBar()); bindLogout();
       App.grades.forEach(g => { const t = $(`.tile.grade[href="#/${g.id}"]`); if(t) t.insertAdjacentHTML('beforeend', `<span class="tile-pet">${Pet.svg(g, Pet.stage(g))}</span>`); });
@@ -97,20 +106,22 @@ const Account = (() => {
     if(ev === 'home'){
       $('#app').insertAdjacentHTML('afterbegin', userBar()); bindLogout();
       const lead = $('#app .lead'); if(lead) lead.insertAdjacentHTML('afterend', Pet.card(a));
-      Pet.bindCard();
+      Pet.bindCard(); if(P()) Play.on('home', a);
     }
     if(ev === 'lesson'){
       const tb = $('#app .toolbar .tbtns') || $('#app .toolbar #themeBtn'); if(tb){ const s = gradeStars(a); tb.insertAdjacentHTML('beforebegin', `<a class="pet-mini" href="#/${a.id}" title="Thú cưng của em">${Pet.svg(a, Pet.stage(a))}<b>${s}⭐</b></a>`); }
+      if(P()) Play.on('lesson', a);
     }
     if(ev === 'done'){
       const {g, l, lv, st, pts, n} = a;
+      if(P()) Play.on('done', a);
       Pet.check(g);
       send({ key:`${g.id}:${l.id}:${lv}`, stars: store.get(`hoctap:${g.id}:${l.id}:${lv}`) || 0, setStars: st, score: pts, total: n,
-             grade: g.name, lesson: l.name, level: lv, gradeStars: gradeStars(g), pet: Pet.name(g, Pet.stage(g)), summary: Pet.summary() });
+             grade: g.name, lesson: l.name, level: lv, gradeStars: gradeStars(g), pet: Pet.name(g, Pet.stage(g)), summary: Pet.summary(), play: P() ? Play.snapshot() : '' });
     }
   }
   addEventListener('online', flush);
-  return { gate, on, get user(){ return user }, logout, flush };
+  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank };
 })();
 
 /* =====================================================================
@@ -129,14 +140,15 @@ const Pet = (() => {
   const name = (g, k) => STAGE[k].replace('{n}', nm(g));
 
   /* ---- Vẽ ---- */
-  function svg(g, k, cls=''){
-    const s = sp(g), W = 120;
+  function svg(g, k, cls='', opt){
+    const s = sp(g), W = 120, L = opt || (typeof Play !== 'undefined' ? Play.look() : {}), wear = L.wear || {}, mood = L.mood || 'vui';
+    const bg = wear.bg && typeof Play !== 'undefined' ? Play.bgSVG(wear.bg) : '';
     const egg = (crack) => `<ellipse class="pet-shadow" cx="60" cy="110" rx="30" ry="5"/>
       <g class="${crack?'pet-wobble':'pet-float'}"><path class="pet-egg" d="M60 18 C 86 18 96 58 96 76 C 96 98 80 108 60 108 C 40 108 24 98 24 76 C 24 58 34 18 60 18 Z"/>
       <circle class="pet-spot" cx="46" cy="52" r="7"/><circle class="pet-spot" cx="72" cy="42" r="5"/><circle class="pet-spot" cx="74" cy="80" r="8"/><circle class="pet-spot" cx="42" cy="88" r="4"/>
       ${crack?`<path class="pet-crack" d="M30 66 L40 58 L48 68 L57 57 L66 69 L75 58 L84 67 L90 62"/>
       <ellipse class="pet-eye" cx="50" cy="50" rx="3.5" ry="4.5"/><ellipse class="pet-eye" cx="68" cy="50" rx="3.5" ry="4.5"/>`:''}</g>`;
-    if(k <= 1) return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img">${egg(k===1)}</svg>`;
+    if(k <= 1) return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img">${bg}${egg(k===1)}</svg>`;
     const grown = k >= 3, r = grown ? 34 : 27, cx = 60, cy = grown ? 70 : 76;
     const P = (x,y) => `${(cx + x*r).toFixed(1)} ${(cy + y*r).toFixed(1)}`;
     let back = '', front = '';
@@ -152,17 +164,20 @@ const Pet = (() => {
         <ellipse class="pet-belly" cx="${cx - r*.4}" cy="${cy - r*(.55+L/2)}" rx="${r*.09}" ry="${r*L/2-2}" transform="rotate(-10 ${cx - r*.4} ${cy - r*.8})"/><ellipse class="pet-belly" cx="${cx + r*.4}" cy="${cy - r*(.55+L/2)}" rx="${r*.09}" ry="${r*L/2-2}" transform="rotate(10 ${cx + r*.4} ${cy - r*.8})"/>`; }
     const face = s === 'cu'
       ? `<circle class="pet-belly" cx="${cx - r*.36}" cy="${cy - r*.12}" r="${r*.28}"/><circle class="pet-belly" cx="${cx + r*.36}" cy="${cy - r*.12}" r="${r*.28}"/><path class="pet-beak" d="M${P(-.1,.12)} L${P(.1,.12)} L${P(0,.32)} Z"/>`
+      : mood === 'buon' ? `<path class="pet-mouth" d="M${P(-.14,.3)} Q ${P(0,.16)} ${P(.14,.3)}"/>`
       : `<path class="pet-mouth" d="M${P(-.14,.2)} Q ${P(-.07,.32)} ${P(0,.2)} Q ${P(.07,.32)} ${P(.14,.2)}"/>`;
+    const tear = mood === 'buon' ? `<path class="pet-tear" d="M${P(.44,.02)} q ${r*.07} ${r*.14} 0 ${r*.2} q ${-r*.07} ${-r*.06} 0 ${-r*.2} Z"/>` : '';
+    const acc = typeof Play !== 'undefined' ? Play.accSVG(wear, cx, cy, r) : '';
     const eyes = `<ellipse class="pet-eye" cx="${cx - r*.36}" cy="${cy - r*.12}" rx="${r*.12}" ry="${r*.15}"/><ellipse class="pet-eye" cx="${cx + r*.36}" cy="${cy - r*.12}" rx="${r*.12}" ry="${r*.15}"/>
       <circle class="pet-shine" cx="${cx - r*.32}" cy="${cy - r*.18}" r="${r*.045}"/><circle class="pet-shine" cx="${cx + r*.4}" cy="${cy - r*.18}" r="${r*.045}"/>
       <ellipse class="pet-cheek" cx="${cx - r*.62}" cy="${cy + r*.12}" rx="${r*.13}" ry="${r*.08}"/><ellipse class="pet-cheek" cx="${cx + r*.62}" cy="${cy + r*.12}" rx="${r*.13}" ry="${r*.08}"/>`;
     const body = `<ellipse class="pet-body" cx="${cx}" cy="${cy}" rx="${r}" ry="${r*.95}"/><ellipse class="pet-belly" cx="${cx}" cy="${cy + r*.42}" rx="${r*.5}" ry="${r*.38}"/>`;
     const feet = grown ? `<ellipse class="pet-body" cx="${cx - r*.45}" cy="${cy + r*.95}" rx="${r*.24}" ry="${r*.13}"/><ellipse class="pet-body" cx="${cx + r*.45}" cy="${cy + r*.95}" rx="${r*.24}" ry="${r*.13}"/>` : '';
     const shell = grown ? '' : `<path class="pet-egg" d="M26 90 L34 82 L42 90 L51 81 L60 90 L69 81 L78 90 L86 82 L94 90 C 94 104 80 110 60 110 C 40 110 26 104 26 90 Z"/>`;
-    const crown = k === 4 ? `<path class="pet-crown" d="M${P(-.42,-.82)} L${P(-.45,-1.3)} L${P(-.2,-1.06)} L${P(0,-1.42)} L${P(.2,-1.06)} L${P(.45,-1.3)} L${P(.42,-.82)} Z"/><circle class="pet-gem" cx="${cx}" cy="${cy - r*1.0}" r="${r*.07}"/>` : '';
+    const crown = k === 4 && !wear.hat ? `<path class="pet-crown" d="M${P(-.42,-.82)} L${P(-.45,-1.3)} L${P(-.2,-1.06)} L${P(0,-1.42)} L${P(.2,-1.06)} L${P(.45,-1.3)} L${P(.42,-.82)} Z"/><circle class="pet-gem" cx="${cx}" cy="${cy - r*1.0}" r="${r*.07}"/>` : '';
     const spark = k === 4 ? `<path class="pet-spark" d="M16 30 l3 -8 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 Z"/><path class="pet-spark s2" d="M98 20 l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 Z"/><path class="pet-spark s3" d="M104 86 l2 -5 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 Z"/>` : '';
-    return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img"><ellipse class="pet-shadow" cx="60" cy="112" rx="${grown?34:30}" ry="5"/>${spark}
-      <g class="pet-float">${back}${body}${feet}${front}${eyes}${face}${crown}</g>${shell}</svg>`;
+    return `<svg class="pet sp-${s} ${cls}" viewBox="0 0 ${W} ${W}" aria-label="${name(g,k)}" role="img">${bg}<ellipse class="pet-shadow" cx="60" cy="112" rx="${grown?34:30}" ry="5"/>${spark}
+      <g class="pet-float">${back}${body}${feet}${front}${eyes}${face}${tear}${crown}${acc}</g>${shell}</svg>`;
   }
 
   /* ---- Thẻ thú cưng trên trang khối lớp ---- */
@@ -174,7 +189,7 @@ const Pet = (() => {
       <div class="pet-info"><small>Thú cưng ${g.name} · Cấp ${k+1}/5</small><h2>${name(g,k)}</h2>
         <div class="bar"><i style="width:${pct}%"></i></div>
         <p>${next ? `Em có <b>${s} ⭐</b>. Còn <b>${next - s} ⭐</b> nữa để tiến hoá!` : `Em có <b>${s} ⭐</b>. Thú cưng đã đạt cấp cao nhất! 👑`}</p>
-        <div class="pet-steps">${[0,1,2,3,4].map(i => `<span class="${i<=k?'on':''}" title="${name(g,i)}">${svg(g, i)}</span>`).join('')}</div>
+        <div class="pet-steps">${[0,1,2,3,4].map(i => `<span class="${i<=k?'on':''}" title="${name(g,i)}">${svg(g, i, '', {mood:'vui'})}</span>`).join('')}</div>
       </div></section>`;
   }
   function bindCard(){ const c = $('.pet-card .pet-stage'); if(c) c.onclick = () => { c.classList.remove('boing'); void c.offsetWidth; c.classList.add('boing'); }; }

@@ -48,6 +48,14 @@ Mẹo: ở trang KetQua hoặc DangNhap, bật *Dữ liệu → Tạo bộ lọc
 
 Lưu ý: bộ câu nào học sinh **làm dở rồi bỏ ngang** thì không được ghi. Chỉ bộ làm xong mới có kết quả.
 
+## Nhà thú cưng và bảng xếp hạng lớp
+- Học sinh làm đúng được **xu 🪙**, xong mỗi bộ được **hạt 🍖** (mỗi ⭐ = 1 hạt) để cho thú cưng ăn, mua mũ, kính, nơ, nền phòng; mỗi ngày có 3 nhiệm vụ và có 14 huy hiệu để sưu tầm.
+- Thú cưng đói và buồn dần nếu em nhiều ngày không học (không bao giờ chết); học mỗi ngày để giữ **chuỗi ngày 🔥**.
+- Dữ liệu này lưu ở cột **Góc thú cưng (máy dùng)** của trang TienDo – thầy/cô **không sửa tay** cột này.
+- Nút **🏆 Xếp hạng lớp** cho học sinh xem các bạn cùng lớp (đã đăng nhập ít nhất một lần) theo tổng sao, chuỗi ngày, huy hiệu, xu.
+- Trang **TongHop** có thêm cột *Chuỗi ngày học 🔥* và *Huy hiệu 🏅* của từng em.
+- **Khi cập nhật lên bản có Nhà thú cưng:** dán lại toàn bộ `Code.gs` mới rồi *Triển khai → Quản lý triển khai → ✏ → Phiên bản: Mới → Triển khai* (URL giữ nguyên). Chưa làm bước này thì mọi thứ vẫn chạy, chỉ riêng bảng xếp hạng báo “chưa tải được”.
+
 ## Câu hỏi thường gặp
 - **Thêm, sửa học sinh hoặc đổi mật khẩu:** sửa trực tiếp trên trang **HocSinh**, có hiệu lực ngay, không cần triển khai lại.
 - **Sửa mã `Code.gs`:** phải vào *Triển khai → Quản lý triển khai → ✏ → Phiên bản: Mới → Triển khai* thì mới có hiệu lực. Nếu tạo triển khai mới thì URL sẽ đổi.
