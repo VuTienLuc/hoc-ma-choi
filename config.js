@@ -14,7 +14,7 @@ const CONFIG = {
   // ĐĂNG NHẬP THEO LỚP (tuỳ chọn): dán địa chỉ Web App của Google Apps Script vào đây.
   // Để trống '' thì không cần đăng nhập (thú cưng vẫn chạy, tiến độ lưu trên máy).
   // Cách tạo: xem tools/apps-script/HUONG-DAN.md
-  sheetAPI: 'https://script.google.com/macros/s/AKfycbyg7aav_7X5eOZKHWS9TMNqyUwTKEQ6hyiDbdJag-ojacN0ky4JUXtYjAgLw88BzB7D/exec',
+  sheetAPI: 'https://script.google.com/macros/s/AKfycbyKZXuozVyGIgq_fgvYKfFBqLBirpnqzKgO_L60K6_Mn6ZBNh9KQNb7By8vJUgXtPkH/exec',
 
   // Khi đăng nhập, học sinh chỉ thấy bộ đề của khối mình, nhận theo SỐ ĐẦU trong tên lớp:
   // "10A12" → Lớp 10, "9A" → Lớp 9. Lớp không có số (vd "GV") thấy tất cả. Đặt false để tắt.
