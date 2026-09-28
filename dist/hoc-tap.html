@@ -2937,12 +2937,13 @@ lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: nghiệm và miền 
    Chương I. Hàm số lượng giác và phương trình lượng giác
    Bài 1 Giá trị lượng giác của góc lượng giác · Bài 2 Công thức lượng giác
    Bài 3 Hàm số lượng giác · Bài 4 Phương trình lượng giác cơ bản
+   Chương II. Dãy số. Cấp số cộng và cấp số nhân (Bài 5 · Bài 6 · Bài 7)
    Góc được tính bằng "đơn vị" U = 1/12 độ (π = 2160 U) để mọi phép chia đều chính xác.
    ===================================================================== */
 (() => {
 const G = App.addGrade({
   id: 'lop11', name: 'Lớp 11', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Hàm số lượng giác và phương trình lượng giác'} ],
+  topics: [ {id:1, hk:1, name:'Hàm số lượng giác và phương trình lượng giác'}, {id:2, hk:1, name:'Dãy số. Cấp số cộng và cấp số nhân'} ],
 });
 const lesson = G.lesson;
 
@@ -3236,6 +3237,256 @@ lesson(1,'cong-thuc-luong-giac','Bài 2. Công thức lượng giác','Công th�
 lesson(1,'ham-so-luong-giac','Bài 3. Hàm số lượng giác','Tập xác định; tính chẵn lẻ; chu kì tuần hoàn; giá trị lớn nhất, nhỏ nhất.',[g3a,g3b,g3c,g3d]);
 lesson(1,'pt-luong-giac-co-ban','Bài 4. Phương trình lượng giác cơ bản','Công thức nghiệm sin, cos, tan, cot; số nghiệm trên một đoạn; phương trình đưa về dạng cơ bản.',[g4a,g4b,g4c]);
 lesson(1,'on-tap-c1','Ôn tập chương I','Tổng hợp giá trị lượng giác, công thức, hàm số và phương trình lượng giác.',[g1d,g1e,g2a,g3d,g4a,g4b]);
+
+/* =====================================================================
+   CHƯƠNG II. DÃY SỐ. CẤP SỐ CỘNG VÀ CẤP SỐ NHÂN (Bài 5 · Bài 6 · Bài 7)
+   Viết trong một khối { } để tên hằng không trùng với chương I.
+   ===================================================================== */
+{
+const u = k => `u_{${k}}`;
+const blankU = k => `<span class="eq">${tm(`${u(k)} =`)} [_]</span>`;
+const blankV = v => `<span class="eq">${tm(`${v} =`)} [_]</span>`;
+const two = (a,b) => `<span class="eq">${tm(`${a} =`)} [_]${tm(`;\\quad ${b} =`)} [_]</span>`;
+const rat = (p,q) => tfrac(p,q);                                // phân số rút gọn (LaTeX)
+const lst = (a, more=true) => a.map(x => `{${x}}`).join(';\\ ') + (more ? ';\\ \\ldots' : '');
+const sgnT = (c, first) => first ? (c<0?'-':'') : (c<0?' - ':' + ');
+const nz = (a,b) => { let x; do{ x = R(a,b) }while(!x); return x; };
+const EQ2 = '\\;\\Leftrightarrow\\;', RA2 = '\\;\\Rightarrow\\;';
+
+/* ---------------- BÀI 5. DÃY SỐ ---------------- */
+// Công thức mẫu: s (LaTeX của u_n), f(n) → [tử, mẫu]
+const SEQ = {
+  '2n':            {f:n=>[2*n,1]},        '2n-1':          {f:n=>[2*n-1,1]},     '2n+1':          {f:n=>[2*n+1,1]},
+  '3n-2':          {f:n=>[3*n-2,1]},      '5-n':           {f:n=>[5-n,1]},        'n^2':           {f:n=>[n*n,1]},
+  'n^2+1':         {f:n=>[n*n+1,1]},      'n(n+1)':        {f:n=>[n*(n+1),1]},    '2^n':           {f:n=>[2**n,1]},
+  '2^{n-1}':       {f:n=>[2**(n-1),1]},   '3^{n-1}':       {f:n=>[3**(n-1),1]},   '(-1)^n':        {f:n=>[(-1)**n,1]},
+  '(-1)^{n+1}n':   {f:n=>[(-1)**(n+1)*n,1]}, '(-1)^n\\cdot 2n': {f:n=>[(-1)**n*2*n,1]},
+  '\\dfrac{1}{n}': {f:n=>[1,n]},          '\\dfrac{n}{n+1}': {f:n=>[n,n+1]},     '\\dfrac{n+1}{n}': {f:n=>[n+1,n]},
+  '\\dfrac{1}{2^n}': {f:n=>[1,2**n]},     '\\dfrac{(-1)^n}{n}': {f:n=>[(-1)**n,n]},
+};
+const termT = (k,n) => rat(...SEQ[k].f(n));
+const firstT = (k,m=5) => [...Array(m)].map((_,i) => termT(k,i+1));
+const g5a = lv => {   // tính số hạng
+  if(lv===1){ if(Math.random()<.5){ const a=nz(-5,6), b=R(-9,9), k=R(3,15), e=tpoly([a,'n'],[b,'']);
+      return QB({text:`Cho dãy số ${tm(`(u_n)`)} với ${tm(`u_n = ${e}`)}. Tính ${tm(u(k))}.`, tpl:blankU(k), ans:[a*k+b],
+        hint:`Thay ${tm(`n = ${k}`)} vào công thức của ${tm('u_n')}.`, sol:`${tm(`${u(k)} = ${a}\\cdot ${k} ${sgnT(b)}${Math.abs(b)} = `)}${tb(a*k+b)}.`.replace(' + 0 = ',' = ')}); }
+    const c=R(-9,9), k=R(3,12), e=`n^2 ${sgnT(c)}${Math.abs(c)}`.replace(/ \+ 0$/,'');
+    return QB({text:`Cho dãy số ${tm(`(u_n)`)} với ${tm(`u_n = ${c?e:'n^2'}`)}. Tính ${tm(u(k))}.`, tpl:blankU(k), ans:[k*k+c],
+      hint:`Thay ${tm(`n = ${k}`)} vào công thức của ${tm('u_n')}.`, sol:`${tm(`${u(k)} = ${k}^2${c?` ${sgnT(c)}${Math.abs(c)}`:''} = `)}${tb(k*k+c)}.`}); }
+  if(lv===2){ const t=R(1,3), k=R(2,9);
+    if(t===1){ let a,b,c,d; do{a=nz(-4,5);b=R(-6,6);c=R(1,4);d=R(0,6)}while(a*d===b*c); const p=a*k+b, q=c*k+d;
+      const e=tf(tpoly([a,'n'],[b,'']),tpoly([c,'n'],[d,'']));
+      return QB({text:`Cho dãy số ${tm(`(u_n)`)} với ${tm(`u_n = ${e}`)}. Tính ${tm(u(k))}.`, tpl:`<span class="eq">${tm(`${u(k)} =`)} [F]</span>`, ans:[{frac:[p,q],mode:'eq'}],
+        hint:`Thay ${tm(`n = ${k}`)} vào tử và mẫu rồi rút gọn.`, sol:`${tm(`${u(k)} = ${tf(`${a}\\cdot ${k} ${sgnT(b)}${Math.abs(b)}`,`${c}\\cdot ${k} ${sgnT(d)}${Math.abs(d)}`)} = ${tf(p,q)} = `)}${tb(rat(p,q))}.`}); }
+    if(t===2){ const a=R(1,4), b=R(-5,5), v=(-1)**k*(a*k+b), e=`(-1)^n(${tpoly([a,'n'],[b,''])})`;
+      return QB({text:`Cho dãy số ${tm(`(u_n)`)} với ${tm(`u_n = ${e}`)}. Tính ${tm(u(k))}.`, tpl:blankU(k), ans:[v],
+        hint:`${tm('(-1)^n')} bằng ${tm('1')} khi ${tm('n')} chẵn, bằng ${tm('-1')} khi ${tm('n')} lẻ.`, sol:`${tm(`${u(k)} = (-1)^{${k}}(${a}\\cdot ${k} ${sgnT(b)}${Math.abs(b)}) = ${(-1)**k}\\cdot ${a*k+b} = `)}${tb(v)}.`}); }
+    const c=R(1,5), kk=R(3,8), v=2**kk-c*kk, e=`2^n - ${c===1?'':c}n`;
+    return QB({text:`Cho dãy số ${tm(`(u_n)`)} với ${tm(`u_n = ${e}`)}. Tính ${tm(u(kk))}.`, tpl:blankU(kk), ans:[v],
+      hint:`Thay ${tm(`n = ${kk}`)}; nhớ ${tm(`2^{${kk}}`)} là tích của ${kk} thừa số 2.`, sol:`${tm(`${u(kk)} = 2^{${kk}} - ${c}\\cdot ${kk} = ${2**kk} - ${c*kk} = `)}${tb(v)}.`}); }
+  // Truy hồi
+  const a=R(-3,4), p=pick([2,3,-1,-2]), q=R(-4,4), K=p===-1?5:4, vals=[a]; for(let i=1;i<K;i++) vals.push(p*vals[i-1]+q);
+  const rec=`${p===-1?'-':p===1?'':p}u_n${q?` ${sgnT(q)}${Math.abs(q)}`:''}`;
+  return QB({text:`Cho dãy số ${tm('(u_n)')} xác định bởi ${td(`\\begin{cases}u_1 = ${a}\\\\ u_{n+1} = ${rec}\\ \\ (n \\ge 1)\\end{cases}`)}Tính ${tm(u(K))}.`, tpl:blankU(K), ans:[vals[K-1]],
+    hint:`Dãy cho bằng hệ thức truy hồi: tính lần lượt ${tm('u_2')} từ ${tm('u_1')}, rồi ${tm('u_3')} từ ${tm('u_2')}, …`,
+    sol:`${vals.slice(1).map((v,i)=>tm(`${u(i+2)} = ${p===-1?'-':p}${p===-1?`${tp(vals[i])}`:`\\cdot ${tp(vals[i])}`}${q?` ${sgnT(q)}${Math.abs(q)}`:''} = ${v}`)).join('; ')}. Vậy ${tb(`${u(K)} = ${vals[K-1]}`)}.`});
+};
+const g5b = lv => {   // tìm công thức số hạng tổng quát
+  const pools = {1:['2n','2n-1','2n+1','3n-2','5-n','n^2','n^2+1','n(n+1)'], 2:['2^n','2^{n-1}','3^{n-1}','(-1)^n','(-1)^{n+1}n','(-1)^n\\cdot 2n','2n','n^2','2n-1'],
+    3:['\\dfrac{1}{n}','\\dfrac{n}{n+1}','\\dfrac{n+1}{n}','\\dfrac{1}{2^n}','\\dfrac{(-1)^n}{n}','2^{n-1}','(-1)^n','n(n+1)']};
+  const P=pools[lv], good=pick(P), show=4, key=k=>firstT(k,show).join('|');
+  const others=shuffle(Object.keys(SEQ).filter(k=>k!==good&&key(k)!==key(good)))
+    .sort((x,y)=>(termT(y,1)===termT(good,1))-(termT(x,1)===termT(good,1))).slice(0,3);
+  return QC({text:`Dãy số ${tm(lst(firstT(good,show)))} có số hạng tổng quát là`, opts:[good,...others].map(k=>tm(`u_n = ${k}`)), ans:tm(`u_n = ${good}`),
+    hint:`Thay ${tm('n = 1, 2, 3, 4')} vào từng công thức và so với các số hạng đã cho. Chỉ khớp số hạng đầu thì chưa đủ!`,
+    sol:`Với ${tm(`u_n = ${good}`)}: ${firstT(good,show).map((t,i)=>tm(`${u(i+1)} = ${t}`)).join(', ')} – khớp cả ${show} số hạng. Đáp án: ${tb(`u_n = ${good}`)}.`});
+};
+const MONO = ['Dãy số tăng','Dãy số giảm','Dãy số không tăng, không giảm'];
+const g5c = lv => {   // tính tăng, giảm
+  let e, ans, sol; const t = lv===1 ? 'lin' : lv===2 ? pick(['frac','frac','pow']) : pick(['alt','quad','frac','pow','lin']);
+  if(t==='lin'){ const a=nz(-5,5), b=R(-9,9); e=tpoly([a,'n'],[b,'']); ans=a>0?0:1;
+    sol=`${tm(`u_{n+1} - u_n = ${a} ${a>0?'\\gt':'\\lt'} 0`)} với mọi ${tm('n')}.`; }
+  if(t==='frac'){ let p,q; do{p=R(-3,6);q=R(0,6)}while(p===q); e=tf(`n ${sgnT(p)}${Math.abs(p)}`.replace(' + 0',''),`n ${sgnT(q)}${Math.abs(q)}`.replace(' + 0','')); ans=q>p?0:1;
+    sol=`${tm(`u_n = 1 ${q>p?'-':'+'} ${tf(Math.abs(q-p),`n${q?` + ${q}`:''}`)}`)}. Khi ${tm('n')} tăng, ${tm(tf(Math.abs(q-p),`n${q?` + ${q}`:''}`))} giảm nên ${tm('u_n')} ${q>p?'tăng':'giảm'} (hoặc xét ${tm(`u_{n+1} - u_n = ${tf(q-p,`(n + ${q+1})(n${q?` + ${q}`:''})`)}`)}).`; }
+  if(t==='pow'){ const b=pick([2,3,5]), inv=Math.random()<.5; e=inv?tf(1,`${b}^n`):`${b}^n`; ans=inv?1:0;
+    sol=inv?`${tm(`${tf('u_{n+1}','u_n')} = ${tf(1,b)} \\lt 1`)} và ${tm('u_n \\gt 0')} nên ${tm('u_{n+1} \\lt u_n')}.`:`${tm(`${tf('u_{n+1}','u_n')} = ${b} \\gt 1`)} và ${tm('u_n \\gt 0')} nên ${tm('u_{n+1} \\gt u_n')}.`; }
+  if(t==='alt'){ const a=R(1,4); e=`(-1)^n\\cdot ${a===1?'':a}n`.replace('\\cdot n','n'); ans=2;
+    sol=`${tm(`u_1 = ${-a},\\ u_2 = ${2*a},\\ u_3 = ${-3*a}`)}: ${tm('u_1 \\lt u_2')} nhưng ${tm('u_2 \\gt u_3')}.`; }
+  if(t==='quad'){ const k=R(4,7); e=`n^2 - ${k}n`; ans=2;
+    sol=`${tm(`u_{n+1} - u_n = 2n + 1 - ${k} = 2n - ${k-1}`)}: âm khi ${tm('n = 1')} nhưng dương khi ${tm(`n \\ge ${Math.ceil(k/2)}`)}.`; }
+  return QC({text:`Dãy số ${tm(`(u_n)`)} với ${tm(`u_n = ${e}`)} là`, opts:MONO, ans:MONO[ans], keepOrder:true,
+    hint:`Xét dấu của ${tm('u_{n+1} - u_n')} (hoặc so sánh ${tm(tf('u_{n+1}','u_n'))} với 1 khi các số hạng dương). Luôn dương → tăng; luôn âm → giảm; đổi dấu → không tăng, không giảm.`,
+    sol:`${sol} Vậy đó là <b>${MONO[ans].toLowerCase()}</b>.`});
+};
+const BND = [
+  ['\\dfrac{1}{n}', true, `${tm('0 \\lt u_n \\le 1')}`], ['(-1)^n', true, `${tm('-1 \\le u_n \\le 1')}`], ['\\dfrac{n}{n+1}', true, `${tm('0 \\lt u_n \\lt 1')}`],
+  ['\\dfrac{2n+1}{n+2}', true, `${tm('1 \\le u_n \\lt 2')}`], ['\\sin n', true, `${tm('-1 \\le \\sin n \\le 1')}`], ['\\dfrac{(-1)^n}{n}', true, `${tm('-1 \\le u_n \\le \\tfrac{1}{2}')}`],
+  ['\\cos\\dfrac{n\\pi}{3}', true, `${tm('-1 \\le u_n \\le 1')}`], ['\\dfrac{1}{n^2+1}', true, `${tm('0 \\lt u_n \\le \\tfrac{1}{2}')}`],
+  ['n^2', false, 'u_n lớn tuỳ ý'], ['2^n', false, 'u_n lớn tuỳ ý'], ['3n - 1', false, 'u_n lớn tuỳ ý'], ['\\sqrt{n}', false, 'u_n lớn tuỳ ý'],
+  ['(-1)^n n', false, `${tm('|u_n| = n')} lớn tuỳ ý`], ['1 - n^2', false, 'u_n nhỏ tuỳ ý (không bị chặn dưới)'],
+];
+const g5d = lv => {   // dãy bị chặn
+  const want = lv===3 ? false : true, good = pick(BND.filter(b=>b[1]===want)), bad = shuffle(BND.filter(b=>b[1]!==want)).slice(0,3);
+  return QC({text:`Dãy số ${tm('(u_n)')} nào sau đây <b>${want?'bị chặn':'không bị chặn'}</b>?`, opts:[good,...bad].map(b=>tm(`u_n = ${b[0]}`)), ans:tm(`u_n = ${good[0]}`),
+    hint:`Dãy bị chặn khi có hai số ${tm('m, M')} sao cho ${tm('m \\le u_n \\le M')} với mọi ${tm('n')}. Thử xem ${tm('u_n')} có thể lớn (hoặc nhỏ) tuỳ ý không.`,
+    sol:want ? `${tm(`u_n = ${good[0]}`)} có ${good[2]} với mọi ${tm('n')} nên ${tb(`u_n = ${good[0]}`)} bị chặn; các dãy còn lại lớn (hoặc nhỏ) tuỳ ý.`
+             : `${tb(`u_n = ${good[0]}`)} không bị chặn vì ${good[2].startsWith('u_n')?tm('u_n')+good[2].slice(3):good[2]}; các dãy còn lại đều bị chặn.`});
+};
+
+/* ---------------- BÀI 6. CẤP SỐ CỘNG ---------------- */
+const CSC = 'Cấp số cộng: mỗi số hạng (từ số hạng thứ hai) bằng số hạng đứng ngay trước cộng với một số không đổi ' + tm('d') + ' (công sai).';
+const nearMiss = a => { const b=a.slice(), i=R(2,a.length-1); b[i]=b[i]+pick([-1,1]); return b; };
+const g6a = lv => {   // nhận biết cấp số cộng
+  if(lv<3){ const a=R(-5,9), d=lv===1?nz(1,5):nz(-6,6), good=[...Array(5)].map((_,i)=>a+i*d);
+    const q=pick([2,3]), a2=R(1,3), geo=[...Array(5)].map((_,i)=>a2*q**i);
+    const bads=[nearMiss(good), geo, [...Array(5)].map((_,i)=>(i+1)**2+a), [...Array(5)].map((_,i)=>(-1)**i*(a+i*Math.abs(d)))].filter(b=>b.join()!==good.join());
+    const W=shuffle(bads).slice(0,3);
+    return QC({text:'Dãy số nào sau đây là <b>cấp số cộng</b>?', opts:[good,...W].map(x=>tm(lst(x,false))), ans:tm(lst(good,false)), hint:CSC+' Tính hiệu hai số hạng liên tiếp.',
+      sol:`Hiệu hai số hạng liên tiếp luôn bằng ${tm(d)} nên ${tb(lst(good,false))} là cấp số cộng với công sai ${tm(`d = ${d}`)}.`}); }
+  const a=nz(-5,5), b=R(-9,9), goods=[tpoly([a,'n'],[b,'']), `${b} ${sgnT(-a)}${cf1(a)}n`, tf(tpoly([a,'n'],[b,'']),pick([2,3]))];
+  const good=pick(goods), W=shuffle(['n^2 + 1','2^n','\\dfrac{3}{n}','n^2 - n','3^n - 1','(-1)^n\\cdot n']).slice(0,3);
+  return QC({text:'Dãy số nào sau đây là <b>cấp số cộng</b>?', opts:[good,...W].map(x=>tm(`u_n = ${x}`)), ans:tm(`u_n = ${good}`),
+    hint:`Dãy ${tm('(u_n)')} là cấp số cộng khi ${tm('u_{n+1} - u_n')} là một hằng số (không phụ thuộc ${tm('n')}).`,
+    sol:`Với ${tm(`u_n = ${good}`)}, hiệu ${tm('u_{n+1} - u_n')} là hằng số nên đây là cấp số cộng: ${tb(`u_n = ${good}`)}. Các dãy khác có hiệu phụ thuộc ${tm('n')}.`});
+};
+const cf1 = c => Math.abs(c)===1 ? '' : Math.abs(c);
+const g6b = lv => {   // số hạng tổng quát u_n = u_1 + (n − 1)d
+  const F = `${tm('u_n = u_1 + (n - 1)d')}`;
+  if(lv===1){ const a=R(-10,10), d=nz(-5,6), k=R(5,20), v=a+(k-1)*d;
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`u_1 = ${a}`)} và công sai ${tm(`d = ${d}`)}. Tính ${tm(u(k))}.`, tpl:blankU(k), ans:[v], hint:`Dùng ${F}.`,
+      sol:`${tm(`${u(k)} = ${a} + (${k} - 1)\\cdot ${tp(d)} = ${a} ${sgnT((k-1)*d)}${Math.abs((k-1)*d)} = `)}${tb(v)}.`}); }
+  if(lv===2){ const a=R(-10,15), d=nz(-6,6), k=R(4,12), v=a+(k-1)*d;
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`u_1 = ${a}`)} và ${tm(`${u(k)} = ${v}`)}. Tìm công sai ${tm('d')}.`, tpl:blankV('d'), ans:[d],
+      hint:`Viết ${tm(u(k))} theo ${tm('u_1')} và ${tm('d')}: ${tm(`${u(k)} = u_1 + ${k-1}d`)}, rồi giải tìm ${tm('d')}.`,
+      sol:`${tm(`${v} = ${a} + ${k-1}d${EQ2}${k-1}d = ${v-a}${EQ2}d = `)}${tb(d)}.`}); }
+  let p,q; do{p=R(2,8);q=R(3,15)}while(q<=p); const a=R(-10,10), d=nz(-5,5), A=a+(p-1)*d, B=a+(q-1)*d;
+  return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`${u(p)} = ${A}`)} và ${tm(`${u(q)} = ${B}`)}. Tìm ${tm('u_1')} và công sai ${tm('d')}.`, tpl:two('u_1','d'), ans:[a,d],
+    hint:`Viết cả hai số hạng theo ${tm('u_1')} và ${tm('d')} rồi giải hệ hai phương trình bậc nhất.`,
+    sol:`${td(`\\begin{cases}u_1 + ${p-1}d = ${A}\\\\ u_1 + ${q-1}d = ${B}\\end{cases}`)}Trừ vế theo vế: ${tm(`${q-p}d = ${B-A}${RA2}d = ${d}`)}; ${tm(`u_1 = ${A} - ${p-1}\\cdot ${tp(d)} = ${a}`)}. Vậy ${tb(`u_1 = ${a}`)}, ${tb(`d = ${d}`)}.`});
+};
+const g6c = lv => {   // tổng n số hạng đầu
+  const F1=tm('S_n = \\dfrac{n(u_1 + u_n)}{2}'), F2=tm('S_n = \\dfrac{n[2u_1 + (n - 1)d]}{2}');
+  if(lv===1){ const a=R(-5,10), d=nz(-4,5), n=R(5,20), S=n*(2*a+(n-1)*d)/2;
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`u_1 = ${a}`)}, ${tm(`d = ${d}`)}. Tính tổng ${tm(`S_{${n}}`)} của ${n} số hạng đầu.`, tpl:blankV(`S_{${n}}`), ans:[S], wide:true, hint:`Dùng ${F2}.`,
+      sol:`${tm(`S_{${n}} = ${tf(`${n}[2\\cdot ${tp(a)} + ${n-1}\\cdot ${tp(d)}]`,2)} = ${tf(`${n}\\cdot ${2*a+(n-1)*d}`,2)} = `)}${tb(S)}.`}); }
+  if(lv===2){ const a=R(-10,20), d=nz(-5,6), n=R(8,30), L=a+(n-1)*d, S=n*(a+L)/2;
+    return QB({text:`Tính tổng ${tm(`S = ${a} ${sgnT(a+d)}${Math.abs(a+d)} ${sgnT(a+2*d)}${Math.abs(a+2*d)} + \\ldots ${sgnT(L)}${Math.abs(L)}`)}, biết các số hạng lập thành cấp số cộng và có ${n} số hạng.`.replace(`S = ${a} + -`,`S = ${a} - `),
+      tpl:blankV('S'), ans:[S], wide:true, hint:`Biết số hạng đầu, số hạng cuối và số số hạng: dùng ${F1}.`,
+      sol:`${tm(`S = ${tf(`${n}(${a} ${sgnT(L)}${Math.abs(L)})`,2)} = `)}${tb(S)}.`}); }
+  const a=R(1,9), d=R(2,6), n=R(8,25), L=a+(n-1)*d, S=n*(a+L)/2;
+  return QB({text:`Tính tổng ${td(`S = ${a} + ${a+d} + ${a+2*d} + \\ldots + ${L}`)}`, tpl:blankV('S'), ans:[S], wide:true,
+    hint:`Các số hạng lập thành cấp số cộng công sai ${tm(d)}. Tìm số số hạng ${tm('n')} từ ${tm(`u_n = ${L}`)}, rồi dùng ${F1}.`,
+    sol:`${tm(`u_1 = ${a},\\ d = ${d}`)}; ${tm(`${L} = ${a} + (n - 1)\\cdot ${d}${RA2}n = ${n}`)}. ${tm(`S = ${tf(`${n}(${a} + ${L})`,2)} = `)}${tb(S)}.`});
+};
+const g6d = lv => {   // bài toán thực tế
+  if(lv===1){ const a=R(12,25), d=R(2,4), n=R(8,20), L=a+(n-1)*d;
+    return QB({text:`Một hội trường có ${n} hàng ghế. Hàng đầu có <b>${a}</b> ghế, mỗi hàng sau nhiều hơn hàng trước <b>${d}</b> ghế. Hàng cuối cùng có bao nhiêu ghế?`, tpl:'[_] ghế', ans:[L],
+      hint:`Số ghế các hàng lập thành cấp số cộng ${tm(`u_1 = ${a},\\ d = ${d}`)}. Hàng cuối là ${tm(u(n))}.`,
+      sol:`${tm(`${u(n)} = ${a} + ${n-1}\\cdot ${d} = ${L}`)}. Hàng cuối có ${tb(L)} ghế.`}); }
+  if(lv===2){ const nm=pick(NAMES), a=pick([5,10,15,20]), d=pick([2,5,10]), n=R(10,26), S=n*(2*a+(n-1)*d)/2;
+    return QB({text:`${nm} bỏ ống tiết kiệm: tuần đầu ${a} nghìn đồng, mỗi tuần sau bỏ nhiều hơn tuần trước ${d} nghìn đồng. Sau ${n} tuần, ${nm} tiết kiệm được bao nhiêu?`, tpl:'[_] nghìn đồng', ans:[S], wide:true,
+      hint:`Số tiền mỗi tuần lập thành cấp số cộng; cần tính tổng ${n} số hạng đầu ${tm('S_n = \\dfrac{n[2u_1 + (n - 1)d]}{2}')}.`,
+      sol:`${tm(`S_{${n}} = ${tf(`${n}(2\\cdot ${a} + ${n-1}\\cdot ${d})`,2)} = ${S}`)}. Tiết kiệm được ${tb(fmt(S))} nghìn đồng.`}); }
+  const a=R(10,20), d=R(2,4); let n=R(8,18); const S=n*(2*a+(n-1)*d)/2;
+  return QB({text:`Một nhà hát có tất cả <b>${fmt(S)}</b> ghế, xếp thành các hàng: hàng đầu ${a} ghế, mỗi hàng sau nhiều hơn hàng trước ${d} ghế. Nhà hát có bao nhiêu hàng ghế?`, tpl:'[_] hàng', ans:[n],
+    hint:`Lập phương trình ${tm(`S_n = \\dfrac{n[2\\cdot ${a} + (n - 1)\\cdot ${d}]}{2} = ${S}`)} rồi tìm số nguyên dương ${tm('n')}.`,
+    sol:`${tm(`\\dfrac{n[${2*a} + ${d}(n - 1)]}{2} = ${S}${EQ2}${d}n^2 + ${2*a-d}n - ${2*S} = 0`)}, nghiệm nguyên dương ${tm(`n = ${n}`)}. Nhà hát có ${tb(n)} hàng ghế.`});
+};
+const g6e = lv => {   // ba số lập thành cấp số cộng
+  if(lv===1){ let a,b; do{a=R(-10,15);b=R(-10,25)}while((a+b)%2||a===b); const x=(a+b)/2;
+    return QB({text:`Tìm ${tm('x')} để ba số ${tm(`${a};\\ x;\\ ${b}`)} theo thứ tự lập thành cấp số cộng.`, tpl:blankV('x'), ans:[x],
+      hint:`Ba số ${tm('a, b, c')} lập thành cấp số cộng khi ${tm('a + c = 2b')} (số giữa là trung bình cộng hai số hai bên).`,
+      sol:`${tm(`2x = ${a} + ${tp(b)}${RA2}x = `)}${tb(x)}.`}); }
+  if(lv===2){ const x=R(-6,8), p=R(-5,5), q=R(-5,5), r=3*x+2*q-p, A=tpoly([1,'x'],[p,'']), B=tpoly([2,'x'],[q,''])
+    return QB({text:`Tìm ${tm('x')} để ba số ${tm(`${A};\\ ${B};\\ ${r}`)} theo thứ tự lập thành cấp số cộng.`, tpl:blankV('x'), ans:[x],
+      hint:`Dùng ${tm('a + c = 2b')}: tổng số đầu và số cuối bằng hai lần số giữa.`,
+      sol:`${tm(`(${A}) + ${tp(r)} = 2(${B})${EQ2}${tpoly([1,'x'],[p+r,''])} = ${tpoly([4,'x'],[2*q,''])}${EQ2}x = `)}${tb(x)}.`}); }
+  const b=R(2,9), d=R(1,6), S=3*b, P=(b-d)*b*(b+d);
+  return QB({text:`Ba số hạng liên tiếp của một cấp số cộng có tổng bằng <b>${S}</b> và tích bằng <b>${P}</b>. Tìm số lớn nhất trong ba số đó.`, tpl:'[_]', ans:[b+d],
+    hint:`Gọi ba số là ${tm('b - d,\\ b,\\ b + d')}. Tổng cho ta ${tm('b')}, tích cho ta ${tm('d^2')}.`,
+    sol:`${tm(`3b = ${S}${RA2}b = ${b}`)}; ${tm(`(${b} - d)\\cdot ${b}\\cdot(${b} + d) = ${P}${RA2}${b*b} - d^2 = ${P/b}${RA2}d = \\pm ${d}`)}. Ba số là ${tm(`${b-d};\\ ${b};\\ ${b+d}`)}, số lớn nhất là ${tb(b+d)}.`});
+};
+
+/* ---------------- BÀI 7. CẤP SỐ NHÂN ---------------- */
+const CSN = 'Cấp số nhân: mỗi số hạng (từ số hạng thứ hai) bằng số hạng đứng ngay trước nhân với một số không đổi ' + tm('q') + ' (công bội).';
+const g7a = lv => {   // nhận biết cấp số nhân
+  if(lv<3){ const q=lv===1?pick([2,3]):pick([-2,-3,2,3,'1/2']); let good;
+    if(q==='1/2'){ const a=pick([16,32,48,80]); good=[...Array(5)].map((_,i)=>rat(a,2**i)); }
+    else { const a=nz(-3,4); good=[...Array(5)].map((_,i)=>a*q**i); }
+    const a2=R(1,5), d=R(2,5), W=shuffle([
+      [...Array(5)].map((_,i)=>String(a2+i*d)), [...Array(5)].map((_,i)=>String(a2*2**i+(i===3?1:0))),
+      [...Array(5)].map((_,i)=>String((i+1)**2)), [...Array(5)].map((_,i)=>String(i%2?-(i+1):(i+1)))]).slice(0,3);
+    const qT = q==='1/2' ? tf(1,2) : q;
+    return QC({text:'Dãy số nào sau đây là <b>cấp số nhân</b>?', opts:[good.map(String),...W].map(x=>tm(lst(x,false))), ans:tm(lst(good.map(String),false)), hint:CSN+' Tính thương hai số hạng liên tiếp.',
+      sol:`Thương hai số hạng liên tiếp luôn bằng ${tm(qT)} nên ${tb(lst(good.map(String),false))} là cấp số nhân với công bội ${tm(`q = ${qT}`)}.`}); }
+  const c=pick([2,3,5]), b=pick([2,3,-2]), goods=[`${c}\\cdot ${b<0?`(${b})`:b}^n`, `${tf(`${b<0?`(${b})`:b}^n`,c)}`, `${b<0?`(${b})`:b}^{n+1}`];
+  const good=pick(goods), W=shuffle(['n\\cdot 2^n','2^n + 1','3n + 2','n^2','\\dfrac{n}{3^n}','2^n - n']).slice(0,3);
+  return QC({text:'Dãy số nào sau đây là <b>cấp số nhân</b>?', opts:[good,...W].map(x=>tm(`u_n = ${x}`)), ans:tm(`u_n = ${good}`),
+    hint:`Dãy ${tm('(u_n)')} (các số hạng khác 0) là cấp số nhân khi ${tm(tf('u_{n+1}','u_n'))} là một hằng số.`,
+    sol:`Với ${tm(`u_n = ${good}`)} ta có ${tm(`${tf('u_{n+1}','u_n')} = ${b}`)} (hằng số) nên đây là cấp số nhân: ${tb(`u_n = ${good}`)}.`});
+};
+const g7b = lv => {   // u_n = u_1·q^(n−1)
+  const F=tm('u_n = u_1\\cdot q^{n-1}');
+  if(lv===1){ const a=nz(-4,5), q=pick([2,3,-2,-3]), k=R(3,6), v=a*q**(k-1);
+    return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có ${tm(`u_1 = ${a}`)} và công bội ${tm(`q = ${q}`)}. Tính ${tm(u(k))}.`, tpl:blankU(k), ans:[v], wide:true, hint:`Dùng ${F}.`,
+      sol:`${tm(`${u(k)} = ${tp(a)}\\cdot ${tp(q)}^{${k-1}} = ${tp(a)}\\cdot ${tp(q**(k-1))} = `)}${tb(v)}.`}); }
+  if(lv===2){ const a=nz(-5,5), q=pick([2,3,-2,-3]), p=R(1,2), k=p+3, A=a*q**(p-1), B=a*q**(k-1);
+    return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có ${tm(`${u(p)} = ${A}`)} và ${tm(`${u(k)} = ${B}`)}. Tìm công bội ${tm('q')}.`, tpl:blankV('q'), ans:[q],
+      hint:`${tm(`${u(k)} = ${u(p)}\\cdot q^{${k-p}}`)}. Lập tỉ số ${tm(tf(u(k),u(p)))} rồi khai căn bậc ba.`,
+      sol:`${tm(`q^3 = ${tf(B,tp(A))} = ${q**3}${RA2}q = `)}${tb(q)}.`}); }
+  const a=R(1,5), q=pick([2,3]), A=a*q, B=a*q**3;
+  return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có các số hạng đều dương, ${tm(`u_2 = ${A}`)} và ${tm(`u_4 = ${B}`)}. Tìm ${tm('u_1')} và công bội ${tm('q')}.`, tpl:two('u_1','q'), ans:[a,q],
+    hint:`${tm('u_4 = u_2\\cdot q^2')}. Tìm ${tm('q^2')}, chọn ${tm('q \\gt 0')} (các số hạng dương), rồi ${tm('u_1 = \\dfrac{u_2}{q}')}.`,
+    sol:`${tm(`q^2 = ${tf(B,A)} = ${q*q}${RA2}q = ${q}`)} (vì các số hạng dương); ${tm(`u_1 = ${tf(A,q)} = ${a}`)}. Vậy ${tb(`u_1 = ${a}`)}, ${tb(`q = ${q}`)}.`});
+};
+const g7c = lv => {   // tổng n số hạng đầu
+  const F=tm('S_n = \\dfrac{u_1(1 - q^n)}{1 - q}');
+  if(lv===1){ const a=R(1,5), q=pick([2,3]), n=R(4,7), S=a*(q**n-1)/(q-1);
+    return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có ${tm(`u_1 = ${a}`)}, ${tm(`q = ${q}`)}. Tính tổng ${tm(`S_{${n}}`)} của ${n} số hạng đầu.`, tpl:blankV(`S_{${n}}`), ans:[S], wide:true, hint:`Dùng ${F} (với ${tm('q \\ne 1')}).`,
+      sol:`${tm(`S_{${n}} = ${tf(`${a}(1 - ${q}^{${n}})`,`1 - ${q}`)} = ${tf(`${a}(1 - ${q**n})`,1-q)} = `)}${tb(S)}.`}); }
+  if(lv===2){ if(Math.random()<.5){ const a=nz(-4,4), q=-2, n=R(4,7), S=a*(1-q**n)/(1-q);
+      return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có ${tm(`u_1 = ${a}`)}, ${tm('q = -2')}. Tính ${tm(`S_{${n}}`)}.`, tpl:blankV(`S_{${n}}`), ans:[S], wide:true, hint:`Dùng ${F}; chú ý ${tm(`(-2)^{${n}}`)} ${n%2?'âm':'dương'}.`,
+        sol:`${tm(`S_{${n}} = ${tf(`${tp(a)}(1 - (-2)^{${n}})`,'1 - (-2)')} = ${tf(`${tp(a)}(1 ${q**n<0?'+':'-'} ${Math.abs(q**n)})`,3)} = `)}${tb(S)}.`}); }
+    const n=R(4,6), t=R(1,3), a=t*2**(n-1), S=2*a-a/2**(n-1);
+    return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có ${tm(`u_1 = ${a}`)}, ${tm(`q = ${tf(1,2)}`)}. Tính ${tm(`S_{${n}}`)}.`, tpl:blankV(`S_{${n}}`), ans:[S], wide:true, hint:`Dùng ${F} với ${tm(`q = ${tf(1,2)}`)}.`,
+      sol:`${tm(`S_{${n}} = ${tf(`${a}\\left(1 - ${tf(1,2**n)}\\right)`,tf(1,2))} = ${2*a}\\cdot ${tf(2**n-1,2**n)} = `)}${tb(S)}.`}); }
+  const a=R(1,4), q=pick([2,3]), n=R(4,9), S=a*(q**n-1)/(q-1);
+  return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có ${tm(`u_1 = ${a}`)}, ${tm(`q = ${q}`)}. Biết tổng ${tm('n')} số hạng đầu ${tm(`S_n = ${S}`)}. Tìm ${tm('n')}.`, tpl:blankV('n'), ans:[n],
+    hint:`Lập phương trình ${tm(`\\dfrac{${a}(${q}^n - 1)}{${q} - 1} = ${S}`)}, tính ${tm(`${q}^n`)} rồi suy ra ${tm('n')}.`,
+    sol:`${tm(`${tf(`${a}(${q}^n - 1)`,q-1)} = ${S}${EQ2}${q}^n = ${q**n}${EQ2}n = `)}${tb(n)}.`});
+};
+const g7d = lv => {   // bài toán thực tế
+  if(lv===1){ const N=pick([100,200,500,1000]), k=pick([2,3]), h=R(3,6), v=N*k**h;
+    return QB({text:`Một mẻ vi khuẩn ban đầu có <b>${fmt(N)}</b> con, cứ sau mỗi giờ số vi khuẩn tăng gấp <b>${k}</b> lần. Hỏi sau <b>${h}</b> giờ có bao nhiêu con?`, tpl:'[_] con', ans:[v], wide:true,
+      hint:`Số vi khuẩn sau mỗi giờ lập thành cấp số nhân công bội ${tm(k)}: sau ${tm('h')} giờ có ${tm(`N\\cdot ${k}^h`)} con.`,
+      sol:`${tm(`${N}\\cdot ${k}^{${h}} = ${N}\\cdot ${k**h} = ${v}`)}. Có ${tb(fmt(v))} con.`}); }
+  if(lv===2){ const n=R(8,16), S=2**n-1;
+    return QB({text:`Một bàn cờ: ô thứ nhất đặt 1 hạt thóc, mỗi ô sau đặt gấp đôi ô trước. Tổng số hạt thóc ở <b>${n}</b> ô đầu tiên là bao nhiêu?`, tpl:'[_] hạt', ans:[S], wide:true,
+      hint:`Số hạt ở các ô lập thành cấp số nhân ${tm('u_1 = 1,\\ q = 2')}. Tính ${tm(`S_{${n}}`)}.`,
+      sol:`${tm(`S_{${n}} = ${tf(`1\\cdot(2^{${n}} - 1)`,'2 - 1')} = ${S}`)}. Tổng ${tb(fmt(S))} hạt.`}); }
+  const n=R(3,5), t=R(1,3), h=t*2**(n-1), D=h+2*(h-h/2**(n-1));
+  return QB({text:`Thả một quả bóng từ độ cao <b>${h} m</b>. Mỗi lần chạm đất, bóng nảy lên bằng <b>một nửa</b> độ cao lần rơi trước. Tính tổng quãng đường bóng đi được từ lúc thả đến khi chạm đất <b>lần thứ ${n}</b>.`, tpl:'[_] m', ans:[D],
+    hint:`Quãng đường = ${h} (lần rơi đầu) + 2 × (tổng các độ cao nảy lên trước lần chạm đất thứ ${n}). Các độ cao nảy lên lập thành cấp số nhân công bội ${tm(tf(1,2))}.`,
+    sol:`Các độ cao nảy: ${tm(lst([...Array(n-1)].map((_,i)=>rat(h,2**(i+1))),false))} (${n-1} số hạng, tổng ${tm(tdec(h-h/2**(n-1)))}). Quãng đường: ${tm(`${h} + 2\\cdot ${tdec(h-h/2**(n-1))} = ${tdec(D)}`)}, tức ${tb(`${tdec(D)}\\text{ m}`)}.`});
+};
+const g7e = lv => {   // ba số lập thành cấp số nhân
+  if(lv<3){ const x=R(2,9), a=pick([1,2,3,4].filter(d=>(x*x)%d===0)), b=x*x/a, pos=lv===1;
+    if(pos) return QB({text:`Tìm số <b>dương</b> ${tm('x')} để ba số ${tm(`${a};\\ x;\\ ${b}`)} theo thứ tự lập thành cấp số nhân.`, tpl:blankV('x'), ans:[x],
+      hint:`Ba số ${tm('a, b, c')} lập thành cấp số nhân khi ${tm('b^2 = ac')}.`, sol:`${tm(`x^2 = ${a}\\cdot ${b} = ${x*x}${RA2}x = ${x}`)} (vì ${tm('x \\gt 0')}). Đáp án: ${tb(x)}.`});
+    const good=`x = \\pm ${x}`;
+    return QC({text:`Ba số ${tm(`${a};\\ x;\\ ${b}`)} theo thứ tự lập thành cấp số nhân khi và chỉ khi`, opts:[good,`x = ${x}`,`x = ${(a+b)/2===Math.floor((a+b)/2)?(a+b)/2:x*x}`,`x = \\pm ${x*x}`].map(tm), ans:tm(good),
+      hint:`Dùng ${tm('b^2 = ac')}. Phương trình ${tm('x^2 = m')} (${tm('m \\gt 0')}) có <b>hai</b> nghiệm.`, sol:`${tm(`x^2 = ${a}\\cdot ${b} = ${x*x}${EQ2}`)}${tb(good)}.`}); }
+  const b=R(1,4), q=R(2,4), S=b*(1+q+q*q), P=(b*q)**3;
+  return QB({text:`Ba số hạng liên tiếp của một cấp số nhân có tổng bằng <b>${S}</b> và tích bằng <b>${P}</b>. Tìm số lớn nhất trong ba số đó.`, tpl:'[_]', ans:[b*q*q],
+    hint:`Gọi ba số là ${tm('\\dfrac{m}{q},\\ m,\\ mq')}. Tích bằng ${tm('m^3')} cho ta ${tm('m')}; tổng cho phương trình bậc hai ẩn ${tm('q')}.`,
+    sol:`${tm(`m^3 = ${P}${RA2}m = ${b*q}`)}; ${tm(`${tf(b*q,'q')} + ${b*q} + ${b*q}q = ${S}${EQ2}${b*q}q^2 - ${S-b*q}q + ${b*q} = 0${RA2}q = ${q}`)} hoặc ${tm(`q = ${tf(1,q)}`)}. Cả hai trường hợp đều cho ba số ${tm(`${b};\\ ${b*q};\\ ${b*q*q}`)}; số lớn nhất là ${tb(b*q*q)}.`});
+};
+
+lesson(2,'day-so','Bài 5. Dãy số','Tính số hạng (công thức, truy hồi); tìm số hạng tổng quát; dãy tăng, giảm; dãy bị chặn.',[g5a,g5b,g5c,g5d]);
+lesson(2,'cap-so-cong','Bài 6. Cấp số cộng','Nhận biết; số hạng tổng quát; tổng n số hạng đầu; ba số lập thành cấp số cộng; bài toán thực tế.',[g6a,g6b,g6c,g6e,g6d]);
+lesson(2,'cap-so-nhan','Bài 7. Cấp số nhân','Nhận biết; số hạng tổng quát; tổng n số hạng đầu; ba số lập thành cấp số nhân; bài toán thực tế.',[g7a,g7b,g7c,g7e,g7d]);
+lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp số cộng, cấp số nhân và bài toán thực tế.',[g5a,g5c,g6b,g6c,g7b,g7c]);
+}
 })();
 
 </script>

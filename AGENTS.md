@@ -9,7 +9,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 - Học sinh chọn lớp → chọn bài → chọn mức (1 Làm quen · 2 Luyện tập · 3 Thử thách) → làm một bộ 6 câu xếp từ dễ đến khó.
 - Câu hỏi **sinh ngẫu nhiên bằng code**, không lưu sẵn. Mỗi lần bấm "Làm bộ mới" sẽ ra câu khác.
 - Chấm: sai lần 1 → hiện gợi ý; sai lần 2 → hiện lời giải và khoá câu. Đúng lần đầu được 1 điểm, đúng lần hai được ½ điểm. Hết bộ thì cho 1–3 sao, lưu trong localStorage.
-- Hiện có: **Toán 4 – Kết nối tri thức (29 bài)**, **Toán 9 (chương I–IV, 16 bài)**, **Toán 10 (chương I–II, 6 bài)**, **Toán 11 (chương I, 5 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
+- Hiện có: **Toán 4 – Kết nối tri thức (29 bài)**, **Toán 9 (chương I–IV, 16 bài)**, **Toán 10 (chương I–II, 6 bài)**, **Toán 11 (chương I–II, 9 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
 
 ## 2. Cấu trúc và vai trò từng file
 
