@@ -93,6 +93,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `assets/css/style.css` | Giao diện "vở ô chấm", token màu, chế độ tối, bố cục iPad | Khi đổi giao diện |
 | `HUONG-DAN-CHATGPT.md` | Hướng dẫn cho thầy: dùng ChatGPT Codex/Project, *Lệnh khởi đầu* và các lệnh mẫu giao việc | Khi đổi quy trình làm việc với AI |
 | `tools/kiem-tra.js` | **Kiểm tra nhanh bằng Node** (không cần trình duyệt): cú pháp mọi tệp JS; sinh câu hỏi mọi dạng × 3 mức và soát hợp đồng dữ liệu, LaTeX, SVG; bài giảng, phiếu luyện tập 70/30; thẻ `<script>` | Chạy sau **mọi** thay đổi (mọi AI chạy được) |
+| `tools/dang-len-web.command` | **Nút “Đăng lên web” của thầy** (macOS, bấm đúp; có bản sao trên Desktop). Lần đầu tự biến thư mục `hoc-tap` trên máy thành bản sao git của kho. Mỗi lần: `git add -A` → `node tools/kiem-tra.js` (lỗi thì dừng, chép lỗi vào clipboard) → build → hỏi xác nhận → commit → `pull --rebase` → kiểm tra lại → push. Xung đột thì dừng, giữ nguyên tệp trên máy | Khi đổi quy trình đăng; AI **không** cần tự đẩy lên khi thầy dùng nút này |
 | `tools/test.py` | Kiểm thử tự động: làm hết mọi câu và báo câu nào bị chấm sai | Chạy sau **mọi** thay đổi |
 | `tools/build.py` | Gộp cả thư mục thành `dist/hoc-tap.html` (một file) | Trước khi gửi hoặc publish |
 

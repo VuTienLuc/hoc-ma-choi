@@ -29,6 +29,7 @@ Mọi quy tắc kỹ thuật cho AI nằm trong **`AGENTS.md`**. ChatGPT Codex t
    ```
    - Thấy `KẾT QUẢ: ĐẠT ✓` mới đưa lên GitHub.
    - Thấy dòng ✗ thì dán nguyên các dòng đó cho ChatGPT sửa tiếp.
+   - **Nhanh nhất:** bấm đúp nút **“Đăng Học mà chơi lên web”** trên Desktop (mục 4). Nút này tự kiểm tra rồi đăng luôn.
 
 ### Lệnh khởi đầu (dán vào Instructions của Project / Custom GPT)
 ```
@@ -95,3 +96,33 @@ Không phá các tính năng cũ (đăng nhập, thú cưng, trình chiếu, bà
   - Nếu có sửa: dán `Code.gs` mới vào Apps Script, rồi vào *Triển khai → Quản lý triển khai → ✏ → Phiên bản mới*. Làm như vậy thì link giữ nguyên.
 - Link Apps Script hiện dùng nằm ở `config.js` (`sheetAPI`). Đổi link thì chỉ sửa dòng đó.
 - Nhiều AI (Claude, ChatGPT) cùng làm trên một dự án: luôn kéo bản mới nhất từ GitHub trước khi giao việc, để tránh ghi đè lên nhau.
+  - Bấm nút ở mục 4 khi *không có gì mới* là máy tự lấy bản mới nhất về.
+
+---
+
+## 4. Nút “Đăng lên web” trên Desktop (bấm đúp là xong)
+
+Tệp **`Đăng Học mà chơi lên web.command`** nằm trên màn hình Desktop (bản gốc: `tools/dang-len-web.command`).
+Sau khi chép tệp ChatGPT làm vào thư mục `hoc-tap`, thầy **bấm đúp** tệp này. Cửa sổ Terminal mở ra và tự làm lần lượt:
+
+1. Liệt kê các tệp đã thay đổi.
+2. Chạy `node tools/kiem-tra.js`.
+   - **Có lỗi thì dừng, không đăng.** Các dòng lỗi được chép sẵn: thầy mở ChatGPT, dán (⌘V) và bảo nó sửa.
+3. Đóng gói lại `dist/hoc-tap.html`.
+4. Hỏi *“Đăng các thay đổi trên lên web?”*. Nhấn **Enter** là đồng ý.
+5. Hợp với bản mới nhất trên GitHub (phòng khi Claude vừa sửa chỗ khác), kiểm tra lại, rồi gửi lên.
+   - Vercel tự cập nhật web sau khoảng 1 phút.
+6. Nếu GitHub có người vừa sửa **đúng cùng dòng** thì dừng, không mất gì. Thầy nhờ Claude: *“Hợp bản trên máy với GitHub”*.
+
+### Lần đầu tiên (làm một lần)
+- **Nếu macOS chặn không cho mở:** chuột phải vào tệp → **Mở** → **Mở**.
+- **Nếu máy báo cần “Command Line Tools”:** bấm *Cài đặt*, chờ xong rồi bấm lại tệp.
+- **Nếu máy báo thiếu Node.js:** trang nodejs.org tự mở ra. Cài bản **LTS** rồi bấm lại tệp.
+- **Đăng nhập GitHub:** khi Terminal hỏi `Username` và `Password`:
+  1. Vào github.com → ảnh đại diện → **Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**.
+  2. Đặt tên “May Mac”, thời hạn 1 năm. Ở *Repository access*, chọn **Only select repositories** → `hoc-ma-choi`. Ở *Permissions → Contents*, chọn **Read and write**. Bấm **Generate token**.
+  3. Quay lại Terminal:
+     - `Username`: gõ `VuTienLuc`, rồi Enter.
+     - `Password`: **dán token** vừa tạo (chữ không hiện ra, cứ dán), rồi Enter.
+     - Máy Mac tự nhớ, các lần sau không hỏi nữa.
+  4. **Không gửi token này cho bất kỳ AI nào** (kể cả Claude, ChatGPT).
