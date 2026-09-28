@@ -10,7 +10,7 @@ const CONFIG = {
 
   // Danh sách lớp đang có: mỗi mục ứng với một file data/<mã>.js
   // Thêm lớp mới: tạo data/lop5.js (chép từ data/_mau-lop-moi.js) rồi thêm 'lop5' vào đây.
-  grades:   ['lop4', 'lop9', 'lop10', 'lop11'],
+  grades:   ['lop4', 'lop8', 'lop9', 'lop10', 'lop11'],
 
   // ĐĂNG NHẬP THEO LỚP (tuỳ chọn): dán địa chỉ Web App của Google Apps Script vào đây.
   // Để trống '' thì không cần đăng nhập (thú cưng vẫn chạy, tiến độ lưu trên máy).

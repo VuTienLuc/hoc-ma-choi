@@ -7,7 +7,7 @@ srv=socketserver.TCPServer(('127.0.0.1',0),H); PORT=srv.server_address[1]; threa
 BASE=f'http://127.0.0.1:{PORT}/index.html'; API='https://mock.example/exec'
 async def handle(route):
     b=json.loads(route.request.post_data or '{}'); a=b.get('action')
-    if a=='classes': body={'ok':True,'classes':['10A12','9A','GV']}
+    if a=='classes': body={'ok':True,'classes':['10A12','9A','8A3','GV']}
     elif a=='login': body={'ok':True,'token':'T','name':'Học sinh','lop':b['lop'],'user':b['user'],'progress':{}}
     else: body={'ok':True}
     await route.fulfill(status=200, content_type='application/json', body=json.dumps(body))
@@ -15,7 +15,7 @@ async def main():
   res=[]; ok=lambda n,c: res.append(bool(c)) or print(('✓ ' if c else '✗ ')+n)
   async with async_playwright() as p:
     br=await p.chromium.launch()
-    for lop, expect in [('10A12','lop10'),('9A','lop9'),('GV',None)]:
+    for lop, expect in [('10A12','lop10'),('9A','lop9'),('8A3','lop8'),('GV',None)]:
       pg=await br.new_page(viewport={'width':820,'height':1180}); errs=[]; pg.on('pageerror',lambda e: errs.append(str(e)))
       await pg.route(API, handle)
       async def cfg(route):

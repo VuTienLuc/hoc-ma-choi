@@ -141,7 +141,7 @@ const Account = (() => {
    PET – thú cưng 5 cấp cho mỗi khối lớp, vẽ bằng SVG (màu lấy từ biến CSS).
    ===================================================================== */
 const Pet = (() => {
-  const SPECIES = { lop4:['meo','Mèo Mây'], lop9:['rong','Rồng Lửa'], lop10:['cu','Cú Tí Hon'], lop11:['tho','Thỏ Bông'] };
+  const SPECIES = { lop4:['meo','Mèo Mây'], lop8:['cu','Cú Tí Hon'], lop9:['rong','Rồng Lửa'], lop10:['cu','Cú Tí Hon'], lop11:['tho','Thỏ Bông'] };
   const ORDER = ['meo','rong','cu','tho'], NAMES = {meo:'Mèo Mây', rong:'Rồng Lửa', cu:'Cú Tí Hon', tho:'Thỏ Bông'};
   const sp = g => SPECIES[g.id] ? SPECIES[g.id][0] : ORDER[Math.max(0, App.grades.indexOf(g)) % 4];
   const nm = g => NAMES[sp(g)];
