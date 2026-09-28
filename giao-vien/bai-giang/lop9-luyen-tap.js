@@ -1,4 +1,132 @@
 /* =====================================================================
+   PHIẾU LUYỆN TẬP LỚP 9 – Chương II (Bài 4–6, Ôn tập)
+   Mỗi phiếu: 10 bài = 7 cơ bản + 3 vận dụng; lời giải chia từng bước.
+   ===================================================================== */
+(() => {
+const m = tm;
+
+/* =====================================================================  BÀI 4  */
+Lecture.addPractice('lop9', 'bai-4', [
+ {dang:'Giải phương trình tích', items:[
+  {de:`Giải phương trình ${m('(x - 4)(2x - 3) = 0')}.`,
+   sol:[`Tích bằng không khi ${m('x - 4 = 0')} hoặc ${m('2x - 3 = 0')}.`], ans:`${tb('x = 4')} hoặc ${tb('x = \\dfrac{3}{2}')}.`, lines:3},
+  {de:`Giải phương trình ${m('x(3x - 12) = 0')}.`,
+   sol:[`${m('x = 0')} hoặc ${m('3x - 12 = 0')}.`], ans:`${tb('x = 0')} hoặc ${tb('x = 4')}.`, lines:3},
+  {de:`Giải phương trình ${m('(x - 5)(x + 2) = 3(x - 5)')}.`,
+   sol:[`Chuyển vế và đặt nhân tử chung: ${m('(x - 5)(x + 2 - 3) = 0')}.`, `${m('(x - 5)(x - 1) = 0')}.`], ans:`${tb('x = 5')} hoặc ${tb('x = 1')}.`},
+  {hard:true, de:`Giải phương trình ${m('(2x - 3)^2 = (2x - 3)(x + 4)')}.`,
+   sol:[`Chuyển vế, đặt nhân tử chung: ${m('(2x - 3)(2x - 3 - x - 4) = 0')}.`, `${m('(2x - 3)(x - 7) = 0')}. Không chia hai vế cho ${m('2x - 3')} vì có thể mất nghiệm.`], ans:`${tb('x = \\dfrac{3}{2}')} hoặc ${tb('x = 7')}.`},
+ ]},
+ {dang:'Tìm điều kiện xác định', items:[
+  {de:`Tìm điều kiện xác định của phương trình ${m('\\dfrac{1}{x - 3} + \\dfrac{2}{x + 4} = 1')}.`,
+   sol:[`Các mẫu khác không: ${m('x - 3 \\ne 0')} và ${m('x + 4 \\ne 0')}.`], ans:`${tb('x \\ne 3')} và ${tb('x \\ne -4')}.`, lines:3},
+  {de:`Tìm điều kiện xác định của phương trình ${m('\\dfrac{x + 1}{x(x - 2)} = \\dfrac{3}{x - 2}')}.`,
+   sol:[`${m('x(x - 2) \\ne 0')} và ${m('x - 2 \\ne 0')}.`], ans:`${tb('x \\ne 0')} và ${tb('x \\ne 2')}.`, lines:3},
+ ]},
+ {dang:'Giải phương trình chứa ẩn ở mẫu', items:[
+  {de:`Giải phương trình ${m('\\dfrac{3}{x - 2} = \\dfrac{5}{x + 2}')}.`,
+   sol:[`ĐKXĐ: ${m('x \\ne 2')} và ${m('x \\ne -2')}.`, `Khử mẫu: ${m('3(x + 2) = 5(x - 2) \\Leftrightarrow 2x = 16')}.`, `${m('x = 8')} thỏa mãn ĐKXĐ.`], ans:`${tb('x = 8')}.`},
+  {de:`Giải phương trình ${m('\\dfrac{x + 2}{x - 1} = 2')}.`,
+   sol:[`ĐKXĐ: ${m('x \\ne 1')}.`, `${m('x + 2 = 2(x - 1) \\Leftrightarrow x = 4')} (thỏa mãn).`], ans:`${tb('x = 4')}.`},
+  {hard:true, de:`Giải phương trình ${m('\\dfrac{x}{x - 2} - \\dfrac{3}{x + 2} = \\dfrac{6}{x^2 - 4}')}.`,
+   sol:[`ĐKXĐ: ${m('x \\ne 2')} và ${m('x \\ne -2')}; mẫu chung ${m('(x - 2)(x + 2)')}.`, `Khử mẫu: ${m('x(x + 2) - 3(x - 2) = 6')}.`, `${m('x^2 - x = 0 \\Leftrightarrow x(x - 1) = 0')}. Cả hai giá trị đều thỏa ĐKXĐ.`], ans:`${tb('x = 0')} hoặc ${tb('x = 1')}.`},
+  {hard:true, de:`Giải phương trình ${m('\\dfrac{x + 1}{x - 2} = \\dfrac{3}{x - 2}')}.`,
+   sol:[`ĐKXĐ: ${m('x \\ne 2')}.`, `Khử mẫu được ${m('x + 1 = 3 \\Leftrightarrow x = 2')}.`, `Giá trị ${m('x = 2')} không thỏa ĐKXĐ nên loại.`], ans:'Phương trình <b>vô nghiệm</b>.'},
+ ]},
+]);
+
+/* =====================================================================  BÀI 5  */
+Lecture.addPractice('lop9', 'bai-5', [
+ {dang:'Diễn đạt và nhận biết bất đẳng thức', items:[
+  {de:`Viết bằng kí hiệu: a) ${m('x')} không nhỏ hơn ${m('4')}; b) ${m('y')} nhỏ hơn ${m('9')}.`,
+   sol:[`“Không nhỏ hơn” gồm lớn hơn hoặc bằng; “nhỏ hơn” không gồm bằng.`], ans:`a) ${tb('x \\ge 4')}; b) ${tb('y \\lt 9')}.`, lines:2},
+  {de:`Một thang máy chở tổng khối lượng ${m('M')} (kg) không vượt quá ${m('600')} kg. Viết bất đẳng thức biểu thị giới hạn này.`,
+   sol:[`“Không vượt quá” nghĩa là nhỏ hơn hoặc bằng.`], ans:`${tb('M \\le 600')}.`, lines:2},
+  {de:`Cho ${m('a \\lt b')} và ${m('b \\le c')}. So sánh ${m('a')} với ${m('c')}.`,
+   sol:[`Nếu ${m('b = c')} thì ${m('a \\lt c')}; nếu ${m('b \\lt c')} thì dùng tính chất bắc cầu.`], ans:`${tb('a \\lt c')}.`, lines:3},
+ ]},
+ {dang:'Vận dụng tính chất cộng và nhân', items:[
+  {de:`Cho ${m('a \\lt b')}. So sánh ${m('4a + 3')} và ${m('4b + 3')}.`,
+   sol:[`Nhân hai vế với ${m('4 \\gt 0')}: ${m('4a \\lt 4b')}.`, `Cộng hai vế với ${m('3')}, giữ nguyên chiều.`], ans:`${tb('4a + 3 \\lt 4b + 3')}.`, lines:3},
+  {de:`Cho ${m('a \\le b')}. So sánh ${m('7 - 2a')} và ${m('7 - 2b')}.`,
+   sol:[`Nhân với ${m('-2')}, đổi chiều: ${m('-2a \\ge -2b')}.`, `Cộng hai vế với ${m('7')}.`], ans:`${tb('7 - 2a \\ge 7 - 2b')}.`, lines:3},
+  {de:`Cho ${m('a \\gt b')}. So sánh ${m('\\dfrac{a}{3} - 2')} và ${m('\\dfrac{b}{3} - 2')}.`,
+   sol:[`Chia cho ${m('3 \\gt 0')} rồi trừ ${m('2')} ở hai vế đều giữ chiều.`], ans:`${tb('\\dfrac{a}{3} - 2 \\gt \\dfrac{b}{3} - 2')}.`, lines:3},
+  {de:`Cho ${m('a \\ge 2')}. Chứng minh ${m('3a + 1 \\ge 7')}.`,
+   sol:[`${m('a \\ge 2 \\Rightarrow 3a \\ge 6')}.`, `Cộng ${m('1')} vào hai vế.`], ans:`${tb('3a + 1 \\ge 7')}.`, lines:3},
+  {hard:true, de:`Cho ${m('a \\lt b')}. Chứng minh ${m('5 - 3a \\gt 2 - 3b')}.`,
+   sol:[`Nhân với ${m('-3')}, đổi chiều: ${m('-3a \\gt -3b')}.`, `Suy ra ${m('5 - 3a \\gt 5 - 3b')}; lại có ${m('5 - 3b \\gt 2 - 3b')}.`, `Áp dụng tính chất bắc cầu.`], ans:`${tb('5 - 3a \\gt 2 - 3b')}.`},
+ ]},
+ {dang:'Chứng minh bất đẳng thức bằng bình phương', items:[
+  {hard:true, de:`Chứng minh ${m('x^2 + 9 \\ge 6x')} với mọi số thực ${m('x')}. Khi nào xảy ra dấu bằng?`,
+   sol:[`Xét hiệu: ${m('x^2 + 9 - 6x = (x - 3)^2 \\ge 0')}.`, `Dấu bằng khi ${m('x - 3 = 0')}.`], ans:`${tb('x^2 + 9 \\ge 6x')}; dấu bằng khi ${tb('x = 3')}.`},
+  {hard:true, de:`Chứng minh ${m('(a + b)^2 \\ge 4ab')} với mọi số thực ${m('a, b')}. Khi nào xảy ra dấu bằng?`,
+   sol:[`${m('(a + b)^2 - 4ab = a^2 - 2ab + b^2 = (a - b)^2 \\ge 0')}.`, `Dấu bằng khi ${m('a - b = 0')}.`], ans:`${tb('(a + b)^2 \\ge 4ab')}; dấu bằng khi ${tb('a = b')}.`},
+ ]},
+]);
+
+/* =====================================================================  BÀI 6  */
+Lecture.addPractice('lop9', 'bai-6', [
+ {dang:'Nhận biết bất phương trình, kiểm tra nghiệm', items:[
+  {de:`Bất phương trình nào là bậc nhất một ẩn: a) ${m('4x - 7 \\gt 0')}; b) ${m('0x + 2 \\le 0')}; c) ${m('x^2 - 4 \\lt 0')}; d) ${m('-2x + 1 \\ge 0')}?`,
+   sol:[`a), d) có dạng bậc nhất với hệ số của ${m('x')} khác không.`, `b) có hệ số bằng không; c) chứa ${m('x^2')}.`], ans:'<b>a) và d)</b>.', lines:3},
+  {de:`Trong các số ${m('0;\\ 2;\\ 3')}, số nào là nghiệm của ${m('3x - 6 \\gt 0')}?`,
+   sol:[`Thay lần lượt được ${m('-6 \\gt 0')} (sai), ${m('0 \\gt 0')} (sai), ${m('3 \\gt 0')} (đúng).`], ans:`Chỉ có ${tb('x = 3')}.`, lines:3},
+ ]},
+ {dang:'Giải bất phương trình', items:[
+  {de:`Giải bất phương trình ${m('4x - 12 \\ge 0')}.`,
+   sol:[`${m('4x \\ge 12')}. Chia cho ${m('4')} dương, giữ chiều.`], ans:`${tb('x \\ge 3')}.`, lines:3},
+  {de:`Giải bất phương trình ${m('9 - 3x \\lt 0')}.`,
+   sol:[`${m('-3x \\lt -9')}. Chia cho ${m('-3')}, đổi chiều.`], ans:`${tb('x \\gt 3')}.`, lines:3},
+  {de:`Giải bất phương trình ${m('2(x + 1) \\le 5x - 7')}.`,
+   sol:[`${m('2x + 2 \\le 5x - 7 \\Leftrightarrow -3x \\le -9')}.`, `Chia cho ${m('-3')}, đổi chiều.`], ans:`${tb('x \\ge 3')}.`, lines:3},
+  {de:`Giải bất phương trình ${m('\\dfrac{x - 1}{3} \\gt 2')}.`,
+   sol:[`Nhân với ${m('3')} dương: ${m('x - 1 \\gt 6')}.`], ans:`${tb('x \\gt 7')}.`, lines:3},
+  {hard:true, de:`Giải bất phương trình ${m('\\dfrac{3x - 2}{4} - \\dfrac{x + 1}{2} \\le 1')}.`,
+   sol:[`Nhân hai vế với ${m('4')} dương: ${m('3x - 2 - 2(x + 1) \\le 4')}.`, `${m('x - 4 \\le 4')}.`], ans:`${tb('x \\le 8')}.`},
+  {hard:true, de:`Tìm tất cả số nguyên dương ${m('x')} thỏa mãn ${m('5 - 2(x - 1) \\gt x - 5')}.`,
+   sol:[`${m('7 - 2x \\gt x - 5 \\Leftrightarrow -3x \\gt -12')}.`, `Chia cho ${m('-3')}, đổi chiều: ${m('x \\lt 4')}. Kết hợp ${m('x')} nguyên dương.`], ans:`${tb('x \\in \\{1;\\ 2;\\ 3\\}')}.`},
+ ]},
+ {dang:'Bài toán thực tế', items:[
+  {de:`Một xe chở hàng có tải trọng tối đa ${m('500')} kg. Xe đang chở ${m('180')} kg. Có thể xếp thêm nhiều nhất bao nhiêu thùng, mỗi thùng ${m('20')} kg?`,
+   sol:[`Gọi ${m('x')} là số thùng thêm, ${m('x')} nguyên không âm.`, `${m('180 + 20x \\le 500 \\Leftrightarrow x \\le 16')}.`], ans:`Nhiều nhất ${tb('16')} thùng.`},
+  {hard:true, de:`Lan có ${m('75')} nghìn đồng, cần ít nhất ${m('200')} nghìn đồng để mua sách. Mỗi tuần Lan tiết kiệm thêm ${m('18')} nghìn đồng. Sau ít nhất bao nhiêu tuần Lan đủ tiền?`,
+   sol:[`Gọi ${m('n')} là số tuần, ${m('n')} nguyên không âm.`, `${m('75 + 18n \\ge 200 \\Leftrightarrow n \\ge \\dfrac{125}{18}')}.`, `${m('n')} nhỏ nhất là ${m('7')}; khi đó có ${m('201')} nghìn đồng, còn sau ${m('6')} tuần chỉ có ${m('183')} nghìn đồng.`], ans:`Ít nhất ${tb('7')} tuần.`},
+ ]},
+]);
+
+/* =====================================================================  ÔN TẬP CHƯƠNG II  */
+Lecture.addPractice('lop9', 'on-tap-c2', [
+ {dang:'Phương trình tích và phương trình chứa ẩn ở mẫu', items:[
+  {de:`Giải phương trình ${m('(3x - 6)(x - 5) = 0')}.`,
+   sol:[`${m('3x - 6 = 0')} hoặc ${m('x - 5 = 0')}.`], ans:`${tb('x = 2')} hoặc ${tb('x = 5')}.`, lines:3},
+  {de:`Giải phương trình ${m('(x - 4)(x + 1) = 2(x - 4)')}.`,
+   sol:[`Chuyển vế, đặt nhân tử chung: ${m('(x - 4)(x - 1) = 0')}.`], ans:`${tb('x = 4')} hoặc ${tb('x = 1')}.`, lines:3},
+  {de:`Giải phương trình ${m('\\dfrac{2}{x - 1} = \\dfrac{4}{x + 1}')}.`,
+   sol:[`ĐKXĐ: ${m('x \\ne 1')} và ${m('x \\ne -1')}.`, `${m('2(x + 1) = 4(x - 1) \\Leftrightarrow x = 3')} (thỏa mãn).`], ans:`${tb('x = 3')}.`},
+  {hard:true, de:`Giải phương trình ${m('\\dfrac{x}{x - 3} - \\dfrac{4}{x + 3} = \\dfrac{12}{x^2 - 9}')}.`,
+   sol:[`ĐKXĐ: ${m('x \\ne 3')} và ${m('x \\ne -3')}.`, `Khử mẫu: ${m('x(x + 3) - 4(x - 3) = 12')}.`, `${m('x^2 - x = 0 \\Leftrightarrow x(x - 1) = 0')}. Cả hai giá trị đều thỏa ĐKXĐ.`], ans:`${tb('x = 0')} hoặc ${tb('x = 1')}.`},
+ ]},
+ {dang:'Bất đẳng thức và tính chất', items:[
+  {de:`Cho ${m('a \\gt b')}. So sánh ${m('2 - 5a')} và ${m('2 - 5b')}.`,
+   sol:[`Nhân với ${m('-5')}, đổi chiều: ${m('-5a \\lt -5b')}.`, `Cộng ${m('2')} vào hai vế.`], ans:`${tb('2 - 5a \\lt 2 - 5b')}.`, lines:3},
+  {de:`Cho ${m('a \\ge 3')}. Chứng minh ${m('2a - 1 \\ge 5')}.`,
+   sol:[`${m('a \\ge 3 \\Rightarrow 2a \\ge 6 \\Rightarrow 2a - 1 \\ge 5')}.`], ans:`${tb('2a - 1 \\ge 5')}.`, lines:3},
+  {hard:true, de:`Chứng minh ${m('x^2 + 4 \\ge 4x')} với mọi số thực ${m('x')}. Tìm giá trị nhỏ nhất của ${m('x^2 - 4x + 7')}.`,
+   sol:[`${m('x^2 + 4 - 4x = (x - 2)^2 \\ge 0')}, suy ra bất đẳng thức cần chứng minh.`, `${m('x^2 - 4x + 7 = (x - 2)^2 + 3 \\ge 3')}. Dấu bằng khi ${m('x = 2')}.`], ans:`Giá trị nhỏ nhất là ${tb('3')}, đạt tại ${tb('x = 2')}.`},
+ ]},
+ {dang:'Bất phương trình và ứng dụng', items:[
+  {de:`Giải bất phương trình ${m('7 - 2x \\ge 1')}.`,
+   sol:[`${m('-2x \\ge -6')}. Chia cho ${m('-2')}, đổi chiều.`], ans:`${tb('x \\le 3')}.`, lines:3},
+  {de:`Giải bất phương trình ${m('\\dfrac{2x + 1}{3} \\lt x - 1')}.`,
+   sol:[`Nhân hai vế với ${m('3')}: ${m('2x + 1 \\lt 3x - 3')}.`, `Chuyển vế: ${m('-x \\lt -4')}.`], ans:`${tb('x \\gt 4')}.`, lines:3},
+  {hard:true, de:`Một nhóm thuê sân với phí cố định ${m('40')} nghìn đồng và ${m('15')} nghìn đồng cho mỗi người. Nhóm có ${m('200')} nghìn đồng. Hỏi có thể có nhiều nhất bao nhiêu người tham gia?`,
+   sol:[`Gọi ${m('n')} là số người, ${m('n')} nguyên dương.`, `${m('40 + 15n \\le 200 \\Leftrightarrow n \\le \\dfrac{160}{15}')}.`, `Số nguyên lớn nhất phù hợp là ${m('10')}: phí ${m('190')} nghìn đồng; ${m('11')} người cần ${m('205')} nghìn đồng.`], ans:`Nhiều nhất ${tb('10')} người.`},
+ ]},
+]);
+})();
+
+/* =====================================================================
    PHIẾU LUYỆN TẬP LỚP 9 – Chương V. Đường tròn (Bài 13 – 17, Ôn tập)
    Lecture.addPractice(lớp, mã bài, [{dang, items:[{de, sol, ans, fig, hard}]}])
    Tỉ lệ 70% cơ bản – 30% vận dụng (hard:true, ★). Không nhắc lại lý thuyết. Hình: circleSVG.
