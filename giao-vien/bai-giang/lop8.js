@@ -215,3 +215,211 @@ Lecture.add({ grade:'lop8', gradeName:'Toán 8', chapter:'Chương II. Hằng đ
 ]},
 ]});
 })();
+
+/* =====================================================================
+   CHƯƠNG III. TỨ GIÁC (Bài 10 – Bài 14, Ôn tập). Hình vẽ có kí hiệu: geoSVG (figures.js).
+   Soạn tỉ mỉ cho học sinh yếu hình: mỗi định nghĩa/tính chất đều có hình, lời giải chia nhỏ từng bước, luôn ghi căn cứ.
+   ===================================================================== */
+(() => {
+const m = tm;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const S = t => `<p>${t}</p>`;
+const dg = x => `${x}^\\circ`, h = s => `\\widehat{${s}}`;
+const TITLE = (name, pts) => ({kind:'title', tag:'Toán 8 · Kết nối tri thức · Chương III', title:name, sub:'Mục tiêu bài học', points:pts});
+const HOME = n => box(`Về nhà: làm các bài tập cuối ${n} trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 8, ${n}.`);
+const Q4 = ['AB','BC','CD','DA'];
+/* ---------- Hình ---------- */
+const P_Q = {A:[1,3.2],B:[5.2,3.7],C:[6.2,0],D:[0,0]}, P_T = {A:[1.6,3],B:[5.4,3],C:[7,0],D:[0,0]}, P_PG = {A:[1.6,3],B:[6.8,3],C:[5.2,0],D:[0,0]};
+const P_R = {A:[0,3],B:[5.2,3],C:[5.2,0],D:[0,0]}, P_RH = {A:[0,2],B:[3,4],C:[6,2],D:[3,0]}, P_SQ = {A:[0,3.4],B:[3.4,3.4],C:[3.4,0],D:[0,0]};
+const RECT_R = ['DAB','ABC','BCD','CDA'];
+const F_quad = (o={}) => geoSVG({P:P_Q, S:Q4.concat(o.S || []), ...o, S:Q4.concat(o.S || [])});
+const F_trap = (o={}) => geoSVG({P:P_T, Pa:{AB:1,CD:1}, ...o, S:Q4.concat(o.S || [])});
+const F_iso = (o={}) => geoSVG({P:P_T, Pa:{AB:1,CD:1}, T:{AD:1,BC:1}, ...o, S:Q4.concat(o.S || [])});
+const F_pg = (o={}) => geoSVG({P:Object.assign({}, P_PG, o.extra || {}), Pa:{AB:1,CD:1,AD:2,BC:2}, ...o, S:Q4.concat(o.S || []), extra:undefined});
+const F_rect = (o={}) => geoSVG({P:Object.assign({}, P_R, o.extra || {}), R:RECT_R, ...o, S:Q4.concat(o.S || []), extra:undefined});
+const F_rho = (o={}) => geoSVG({P:Object.assign({O:[3,2]}, P_RH), T:{AB:1,BC:1,CD:1,DA:1}, ...o, S:Q4.concat(o.S || [['AC','dash'],['BD','dash']])});
+const F_sq = (o={}) => geoSVG({P:Object.assign({}, P_SQ, o.extra || {}), R:RECT_R, T:{AB:1,BC:1,CD:1,DA:1}, ...o, S:Q4.concat(o.S || []), extra:undefined});
+const F_kite = () => geoSVG({P:{A:[3,4.4],B:[5.6,2],C:[3,-1.2],D:[0.4,2]}, S:Q4.concat([['AC','dash']]), T:{AB:1,AD:1,CB:2,CD:2}, R:['DAB'], A:[['BCD','120°']]});
+const F_isoTri = () => geoSVG({P:{A:[3,5],B:[0,0],C:[6,0],D:[1.5,2.5],E:[4.5,2.5]}, S:['AB','AC','BC','DE'], T:{AD:1,AE:1}, Pa:{DE:1,BC:1}});
+const F_med = sq => geoSVG({P:sq ? {A:[0,0],B:[4,0],C:[0,4],M:[2,2],D:[4,4]} : {A:[0,0],B:[5.2,0],C:[0,3.4],M:[2.6,1.7],D:[5.2,3.4]}, S:['AB','AC','BC',['AD','dash'],'BD','CD'], R:['CAB'], T:{BM:1,MC:1,AM:2,MD:2}});
+const F_isoMed = () => geoSVG({P:{A:[3,4],B:[0,1],C:[6,1],M:[3,1],D:[3,-2]}, S:['AB','AC','BC',['AD','dash'],'BD','CD'], T:{AB:1,AC:1,BM:2,MC:2}});
+const F_pgMid = () => geoSVG({P:Object.assign({M:[4.2,3],N:[2.6,0]}, P_PG), S:Q4.concat(['AN','CM']), T:{AM:1,MB:1,DN:2,NC:2}, Pa:{AB:1,CD:1}});
+const F_review = () => geoSVG({P:{A:[0,0],B:[6,0],C:[0,4.5],M:[3,2.25],E:[3,0],F:[0,2.25]}, S:['AB','AC','BC',['ME','dash'],['MF','dash'],['AM','dash'],['EF','dash']], R:['CAB','MEB','MFC']});
+const REL = `<table class="lk-table lk-left"><tr><th>Hình</th><th>Định nghĩa</th><th>Đường chéo</th></tr>
+  <tr><td>Hình thang cân</td><td>Hình thang, hai góc kề một đáy bằng nhau</td><td>Bằng nhau</td></tr>
+  <tr><td>Hình bình hành</td><td>Các cạnh đối song song</td><td>Cắt nhau tại trung điểm mỗi đường</td></tr>
+  <tr><td>Hình chữ nhật</td><td>Bốn góc vuông</td><td>Bằng nhau, cắt nhau tại trung điểm</td></tr>
+  <tr><td>Hình thoi</td><td>Bốn cạnh bằng nhau</td><td>Vuông góc, cắt nhau tại trung điểm, là phân giác các góc</td></tr>
+  <tr><td>Hình vuông</td><td>Bốn góc vuông, bốn cạnh bằng nhau</td><td>Bằng nhau, vuông góc, cắt nhau tại trung điểm</td></tr></table>`;
+
+Lecture.add({ grade:'lop8', gradeName:'Toán 8', chapter:'Chương III. Tứ giác', lessons:[
+
+/* ---------------- BÀI 10 ---------------- */
+{ id:'bai-10', name:'Bài 10. Tứ giác', desc:'Các yếu tố của tứ giác; tổng các góc bằng 360°; góc ngoài.', slides:[
+  TITLE('Bài 10. Tứ giác', ['Nhận biết đỉnh, cạnh, góc, đường chéo; cạnh kề, cạnh đối của tứ giác.', 'Biết và vận dụng: tổng các góc của một tứ giác bằng 360°.', 'Tính góc ngoài của tứ giác.']),
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Tứ giác và các yếu tố', fig:F_quad({S:[['AC','dash'],['BD','dash']]}),
+   body: box(`Tứ giác ${m('ABCD')} gồm bốn đoạn ${m('AB, BC, CD, DA')}, trong đó không có hai đoạn nào cùng nằm trên một đường thẳng. (Ta chỉ xét tứ giác lồi.)`) +
+     `<ul><li><b>Đỉnh:</b> ${m('A, B, C, D')}; <b>cạnh:</b> ${m('AB, BC, CD, DA')}.</li><li><b>Hai cạnh kề</b> có chung một đỉnh (${m('AB')} và ${m('BC')}); <b>hai cạnh đối</b> không có đỉnh chung (${m('AB')} và ${m('CD')}).</li><li><b>Đường chéo</b> nối hai đỉnh đối nhau: ${m('AC, BD')}.</li><li><b>Góc:</b> ${m(`${h('A')}, ${h('B')}, ${h('C')}, ${h('D')}`)}; ${m(h('A'))} và ${m(h('C'))} là hai góc đối.</li></ul>`},
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Tổng các góc của một tứ giác', fig:F_quad({S:[['AC','dash']]}),
+   body: box(d360()) + S(`Vì sao? Đường chéo ${m('AC')} chia tứ giác thành hai tam giác ${m('ABC')} và ${m('ACD')}; mỗi tam giác có tổng ba góc ${m('180^\\circ')} ⇒ tổng các góc tứ giác ${m('= 2\\cdot 180^\\circ = 360^\\circ')}.`)},
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Góc ngoài của tứ giác', fig:geoSVG({P:{A:[1,3.2],B:[5.2,3.7],C:[6.2,0],D:[0,0],X:[-1.6,0]}, S:[...Q4,['DX','dash']], A:[['ADC','',1],['XDA','góc ngoài',2]]}),
+   body: box('Góc kề bù với một góc của tứ giác gọi là <b>góc ngoài</b> của tứ giác tại đỉnh đó.') + S(`Góc ngoài tại ${m('D')} ${m('= 180^\\circ - ' + h('D'))}.`) + S('Tổng bốn góc ngoài (mỗi đỉnh một góc) bằng ' + m('360^\\circ') + '.')},
+  {kind:'method', tag:'Dạng 1', title:'Nhận biết các yếu tố của tứ giác', steps:['Đọc tên tứ giác theo thứ tự các đỉnh (ví dụ MNPQ: M kề N và Q).', 'Cạnh đối: không chung đỉnh. Đường chéo: nối hai đỉnh không kề nhau.', 'Góc đối: ở hai đỉnh đối nhau.']},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho tứ giác ${m('MNPQ')}. Hãy kể tên: a) cạnh đối của ${m('MN')}; b) hai đường chéo; c) góc đối của ${m(h('M'))}; d) hai cạnh kề với ${m('MN')}.`,
+   fig:geoSVG({P:{M:[1,3.2],N:[5.2,3.7],P:[6.2,0],Q:[0,0]}, S:['MN','NP','PQ','QM',['MP','dash'],['NQ','dash']]}),
+   sol:[`a) Cạnh đối của ${m('MN')} là ${m('PQ')}.`, `b) Hai đường chéo: ${m('MP')} và ${m('NQ')}.`, `c) Góc đối của ${m(h('M'))} là ${m(h('P'))}.`, `d) Hai cạnh kề với ${m('MN')}: ${m('NP')} và ${m('QM')}.`]},
+  {kind:'method', tag:'Dạng 2', title:'Tính góc của tứ giác', steps:[`Viết: ${m(`${h('A')} + ${h('B')} + ${h('C')} + ${h('D')} = 360^\\circ`)}.`, 'Thay các góc đã biết; nếu có góc bằng nhau hoặc tỉ lệ thì đặt ẩn/đếm số phần.', 'Tính góc cần tìm và kiểm tra tổng bằng 360°.']},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Tứ giác ${m('ABCD')} có ${m(`${h('A')} = 80^\\circ,\\ ${h('B')} = 110^\\circ,\\ ${h('C')} = 70^\\circ`)}. Tính ${m(h('D'))}.`,
+   fig:F_quad({A:[['DAB','80°'],['ABC','110°'],['BCD','70°'],['CDA','?']]}),
+   sol:[`Tổng các góc: ${m(`${h('A')} + ${h('B')} + ${h('C')} + ${h('D')} = 360^\\circ`)}.`, `${m(`80^\\circ + 110^\\circ + 70^\\circ = 260^\\circ`)}.`, `${m(`${h('D')} = 360^\\circ - 260^\\circ`)}.`], ans:`${m(h('D') + ' =')} ${tb(dg(100))}.`},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Tứ giác ${m('ABCD')} có ${m(`${h('A')} = 100^\\circ,\\ ${h('B')} = 80^\\circ`)} và ${m(`${h('C')} = ${h('D')}`)}. Tính ${m(h('C'))}.`,
+   fig:F_quad({A:[['DAB','100°'],['ABC','80°'],['BCD','',2],['CDA','',2]]}),
+   sol:[`${m(`${h('C')} + ${h('D')} = 360^\\circ - 100^\\circ - 80^\\circ = 180^\\circ`)}.`, `Hai góc bằng nhau nên mỗi góc bằng ${m('180^\\circ : 2')}.`], ans:`${m(`${h('C')} = ${h('D')} =`)} ${tb(dg(90))}.`},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Các góc ${m(`${h('A')}, ${h('B')}, ${h('C')}, ${h('D')}`)} của tứ giác ${m('ABCD')} tỉ lệ với ${m('1 : 2 : 3 : 4')}. Tính các góc.`,
+   sol:[`Tổng số phần: ${m('1 + 2 + 3 + 4 = 10')}.`, `Một phần: ${m('360^\\circ : 10 = 36^\\circ')}.`, `${m(`${h('A')} = 36^\\circ,\\ ${h('B')} = 72^\\circ,\\ ${h('C')} = 108^\\circ,\\ ${h('D')} = 144^\\circ`)}.`], ans:`${tb('36^\\circ;\\ 72^\\circ;\\ 108^\\circ;\\ 144^\\circ')}.`},
+  {kind:'method', tag:'Dạng 3', title:'Góc ngoài; tứ giác có yếu tố bằng nhau', steps:[`Góc ngoài tại một đỉnh ${m('= 180^\\circ -')} góc trong tại đỉnh đó.`, 'Nếu tứ giác có các cạnh bằng nhau, hãy kẻ đường chéo để tạo hai tam giác bằng nhau rồi suy ra góc bằng nhau.']},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Tứ giác ${m('ABCD')} có ${m(`${h('A')} = 75^\\circ`)}. Tính góc ngoài tại đỉnh ${m('A')}.`, sol:[`Góc ngoài tại ${m('A')} kề bù với ${m(h('A'))}.`, `Góc ngoài tại ${m('A')} ${m('= 180^\\circ - 75^\\circ')}.`], ans:`${tb(dg(105))}.`},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Tứ giác ${m('ABCD')} có ${m('AB = AD')}, ${m('CB = CD')}, ${m(`${h('A')} = 90^\\circ`)}, ${m(`${h('C')} = 120^\\circ`)}. Tính ${m(h('B'))} và ${m(h('D'))}.`, fig:F_kite(),
+   sol:[`Xét ${m('\\triangle ABC')} và ${m('\\triangle ADC')}: ${m('AB = AD')}, ${m('CB = CD')}, ${m('AC')} chung ⇒ ${m('\\triangle ABC = \\triangle ADC')} (c.c.c) ⇒ ${m(`${h('B')} = ${h('D')}`)}.`, `${m(`${h('B')} + ${h('D')} = 360^\\circ - 90^\\circ - 120^\\circ = 150^\\circ`)}.`], ans:`${m(`${h('B')} = ${h('D')} =`)} ${tb(dg(75))}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Tứ giác ${m('ABCD')} có ${m(`${h('A')} = 65^\\circ,\\ ${h('B')} = 117^\\circ,\\ ${h('C')} = 71^\\circ`)}. Tính ${m(h('D'))} và góc ngoài tại ${m('D')}.`, sol:[`${m(`${h('D')} = 360^\\circ - (65^\\circ + 117^\\circ + 71^\\circ) = 107^\\circ`)}.`, `Góc ngoài tại ${m('D')}: ${m('180^\\circ - 107^\\circ = 73^\\circ')}.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Tứ giác có bốn góc bằng nhau thì mỗi góc bằng bao nhiêu độ?`, sol:[`Mỗi góc bằng ${m('360^\\circ : 4 = 90^\\circ')}.`]},
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ', body:`<ul><li>Tứ giác ${m('ABCD')}: cạnh kề – cạnh đối; đường chéo nối hai đỉnh đối nhau.</li><li>${d360()}</li><li>Góc ngoài ${m('= 180^\\circ -')} góc trong; tổng bốn góc ngoài bằng ${m('360^\\circ')}.</li></ul>` + HOME('Bài 10')},
+]},
+
+/* ---------------- BÀI 11 ---------------- */
+{ id:'bai-11', name:'Bài 11. Hình thang cân', desc:'Hình thang, hình thang vuông; hình thang cân: tính chất, dấu hiệu nhận biết.', slides:[
+  TITLE('Bài 11. Hình thang cân', ['Nhận biết hình thang, hình thang vuông, hình thang cân.', 'Vận dụng tính chất về góc, cạnh bên, đường chéo của hình thang cân.', 'Chứng minh một tứ giác là hình thang cân.']),
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Hình thang', fig:F_trap({S:[['AH','dash']], P:Object.assign({H:[1.6,0]}, P_T), R:['AHC'], A:[['CDA','',1],['DAB','',2]]}),
+   body: box(`<b>Hình thang</b> là tứ giác có hai cạnh đối song song. Hình thang ${m('ABCD')} (${m('AB \\parallel CD')}): ${m('AB, CD')} là hai <b>đáy</b>; ${m('AD, BC')} là hai <b>cạnh bên</b>; ${m('AH')} là <b>đường cao</b>.`) +
+     box(`Hai góc kề một cạnh bên bù nhau: ${m(`${h('A')} + ${h('D')} = 180^\\circ`)}, ${m(`${h('B')} + ${h('C')} = 180^\\circ`)} (hai góc trong cùng phía).`) + S('Hình thang có một góc vuông gọi là <b>hình thang vuông</b>.')},
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Hình thang cân và tính chất', fig:F_iso({S:[['AC','dash'],['BD','dash']], A:[['CDA','',1],['BCD','',1],['DAB','',2],['ABC','',2]]}),
+   body: box('<b>Hình thang cân</b> là hình thang có hai góc kề một đáy bằng nhau.') +
+     `<ul><li>Hai góc kề mỗi đáy bằng nhau: ${m(`${h('C')} = ${h('D')}`)}, ${m(`${h('A')} = ${h('B')}`)}.</li><li>Hai <b>cạnh bên bằng nhau</b>: ${m('AD = BC')}.</li><li>Hai <b>đường chéo bằng nhau</b>: ${m('AC = BD')}.</li></ul>`},
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Dấu hiệu nhận biết hình thang cân',
+   body:`<ol class="lk-steps"><li>Hình thang có hai góc kề một đáy bằng nhau là hình thang cân (định nghĩa).</li><li>Hình thang có hai đường chéo bằng nhau là hình thang cân.</li></ol>` +
+     note('Hình thang có hai cạnh bên bằng nhau <b>chưa chắc</b> là hình thang cân (hình bình hành cũng có hai cạnh bên bằng nhau).')},
+  {kind:'method', tag:'Dạng 1', title:'Tính góc của hình thang, hình thang cân', steps:[`Hình thang: hai góc kề một cạnh bên bù nhau (tổng ${m('180^\\circ')}).`, 'Hình thang cân: thêm “hai góc kề một đáy bằng nhau”.', 'Viết rõ căn cứ cho từng góc.']},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Hình thang ${m('ABCD')} (${m('AB \\parallel CD')}) có ${m(`${h('D')} = 70^\\circ`)}, ${m(`${h('B')} = 125^\\circ`)}. Tính ${m(h('A'))} và ${m(h('C'))}.`, fig:F_trap({A:[['CDA','70°'],['ABC','125°']]}),
+   sol:[`${m('AB \\parallel CD')} nên ${m(`${h('A')} + ${h('D')} = 180^\\circ`)} ⇒ ${m(`${h('A')} = 110^\\circ`)}.`, `Tương tự ${m(`${h('B')} + ${h('C')} = 180^\\circ`)} ⇒ ${m(`${h('C')} = 55^\\circ`)}.`], ans:`${tb(`${h('A')} = 110^\\circ;\\ ${h('C')} = 55^\\circ`)}.`},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Hình thang cân ${m('ABCD')} (${m('AB \\parallel CD')}) có ${m(`${h('D')} = 65^\\circ`)}. Tính các góc còn lại.`, fig:F_iso({A:[['CDA','65°']]}),
+   sol:[`Hai góc kề đáy ${m('CD')} bằng nhau: ${m(`${h('C')} = ${h('D')} = 65^\\circ`)}.`, `Hai góc kề cạnh bên ${m('AD')} bù nhau: ${m(`${h('A')} = 180^\\circ - 65^\\circ = 115^\\circ`)}.`, `Hai góc kề đáy ${m('AB')} bằng nhau: ${m(`${h('B')} = ${h('A')} = 115^\\circ`)}.`], ans:`${tb(`${h('C')} = 65^\\circ;\\ ${h('A')} = ${h('B')} = 115^\\circ`)}.`},
+  {kind:'method', tag:'Dạng 2', title:'Tính độ dài trong hình thang cân', steps:[`Dùng: cạnh bên bằng nhau, đường chéo bằng nhau.`, `Kẻ đường cao ${m('AH')}: ${m('DH = \\dfrac{CD - AB}{2}')} (đáy lớn trừ đáy nhỏ, chia 2).`, `Dùng Pythagore trong tam giác vuông ${m('AHD')}.`]},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Hình thang cân ${m('ABCD')} (${m('AB \\parallel CD')}) có ${m('AB = 6')} cm, ${m('CD = 14')} cm, ${m('AD = 5')} cm. Kẻ đường cao ${m('AH')}. Tính ${m('DH')}, ${m('AH')}.`,
+   fig:geoSVG({P:{A:[4,3],B:[10,3],C:[14,0],D:[0,0],H:[4,0]}, S:[...Q4,['AH','dash']], R:['AHC'], Pa:{AB:1,CD:1}, T:{AD:1,BC:1}, L:{AB:'6',CD:'14',AD:'5'}}),
+   sol:[`Kẻ thêm ${m('BK \\perp CD')}. Hai tam giác vuông ${m('AHD')} và ${m('BKC')} có ${m('AD = BC')}, ${m(`${h('D')} = ${h('C')}`)} nên bằng nhau ⇒ ${m('DH = CK')}; lại có ${m('HK = AB = 6')} cm (${m('ABKH')} có bốn góc vuông – sẽ học ở Bài 13).`, `${m('DH = \\dfrac{14 - 6}{2} = 4')} cm.`, `Tam giác ${m('AHD')} vuông tại ${m('H')}: ${m('AH = \\sqrt{5^2 - 4^2} = 3')} cm.`], ans:`${tb('DH = 4;\\ AH = 3')} (cm).`},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Hình thang cân ${m('ABCD')} có đường chéo ${m('AC = 9')} cm, đáy ${m('AB = 4')} cm, ${m('CD = 10')} cm, cạnh bên ${m('AD = 5')} cm. Tính ${m('BD')} và chu vi.`,
+   sol:[`Hai đường chéo bằng nhau: ${m('BD = AC = 9')} cm.`, `Hai cạnh bên bằng nhau: ${m('BC = AD = 5')} cm.`, `Chu vi: ${m('4 + 10 + 5 + 5 = 24')} cm.`], ans:`${tb('BD = 9')} cm; chu vi ${tb('24')} cm.`},
+  {kind:'method', tag:'Dạng 3', title:'Chứng minh một tứ giác là hình thang cân', steps:['Bước 1: chứng minh tứ giác là hình thang (có hai cạnh đối song song).', 'Bước 2: chứng minh hai góc kề một đáy bằng nhau HOẶC hai đường chéo bằng nhau.']},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Cho tam giác ${m('ABC')} cân tại ${m('A')}. Lấy ${m('D \\in AB,\\ E \\in AC')} sao cho ${m('AD = AE')}. Chứng minh ${m('BDEC')} là hình thang cân.`, fig:F_isoTri(),
+   sol:[`Tam giác ${m('ADE')} cân tại ${m('A')} ⇒ ${m(`${h('ADE')} = \\dfrac{180^\\circ - ${h('A')}}{2}`)}.`, `Tam giác ${m('ABC')} cân tại ${m('A')} ⇒ ${m(`${h('ABC')} = \\dfrac{180^\\circ - ${h('A')}}{2}`)}.`, `Suy ra ${m(`${h('ADE')} = ${h('ABC')}`)}, hai góc ở vị trí đồng vị ⇒ ${m('DE \\parallel BC')} ⇒ ${m('BDEC')} là hình thang.`, `Lại có ${m(`${h('B')} = ${h('C')}`)} (hai góc kề đáy ${m('BC')}).`], ans:`Vậy ${m('BDEC')} là <b>hình thang cân</b>.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Hình thang cân ${m('ABCD')} (${m('AB \\parallel CD')}) có ${m(`${h('A')} = 3\\,${h('D')}`)}. Tính các góc.`, sol:[`${m(`${h('A')} + ${h('D')} = 180^\\circ \\Rightarrow 4\\,${h('D')} = 180^\\circ \\Rightarrow ${h('D')} = 45^\\circ`)}.`, `${m(`${h('C')} = 45^\\circ,\\ ${h('A')} = ${h('B')} = 135^\\circ`)}.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Hình thang cân ${m('ABCD')} có ${m('AB = 4')}, ${m('CD = 16')}, ${m('AD = 10')} (cm). Tính đường cao.`, sol:[`${m('DH = (16 - 4) : 2 = 6')} cm.`, `${m('AH = \\sqrt{100 - 36} = 8')} cm.`]},
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ', body:`<ul><li>Hình thang: hai góc kề một cạnh bên bù nhau.</li><li>Hình thang cân: góc kề một đáy bằng nhau; cạnh bên bằng nhau; đường chéo bằng nhau.</li><li>Nhận biết: hình thang + (góc kề đáy bằng nhau hoặc đường chéo bằng nhau).</li></ul>` + HOME('Bài 11')},
+]},
+
+/* ---------------- BÀI 12 ---------------- */
+{ id:'bai-12', name:'Bài 12. Hình bình hành', desc:'Định nghĩa, tính chất về cạnh, góc, đường chéo; năm dấu hiệu nhận biết.', slides:[
+  TITLE('Bài 12. Hình bình hành', ['Nhận biết hình bình hành; vận dụng tính chất về cạnh, góc, đường chéo.', 'Dùng dấu hiệu nhận biết để chứng minh một tứ giác là hình bình hành.']),
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Hình bình hành và tính chất', fig:F_pg({extra:{O:[3.4,1.5]}, S:[['AC','dash'],['BD','dash']], T:{OA:1,OC:1,OB:2,OD:2}}),
+   body: box(`<b>Hình bình hành</b> là tứ giác có các cạnh đối song song: ${m('AB \\parallel CD,\\ AD \\parallel BC')}.`) +
+     `<ul><li>Các <b>cạnh đối bằng nhau</b>: ${m('AB = CD,\\ AD = BC')}.</li><li>Các <b>góc đối bằng nhau</b>: ${m(`${h('A')} = ${h('C')},\\ ${h('B')} = ${h('D')}`)}.</li><li>Hai <b>đường chéo cắt nhau tại trung điểm</b> mỗi đường: ${m('OA = OC,\\ OB = OD')}.</li></ul>`},
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Dấu hiệu nhận biết hình bình hành',
+   body:`<ol class="lk-steps"><li>Tứ giác có các cạnh đối song song.</li><li>Tứ giác có các cạnh đối bằng nhau.</li><li>Tứ giác có <b>hai cạnh đối song song và bằng nhau</b>.</li><li>Tứ giác có các góc đối bằng nhau.</li><li>Tứ giác có hai đường chéo cắt nhau tại trung điểm của mỗi đường.</li></ol>` + note('Dấu hiệu 3: phải là <b>cùng một cặp</b> cạnh đối vừa song song vừa bằng nhau.')},
+  {kind:'method', tag:'Dạng 1', title:'Tính cạnh, góc, đường chéo', steps:['Cạnh đối bằng nhau; góc đối bằng nhau.', `Hai góc kề một cạnh bù nhau (tổng ${m('180^\\circ')}).`, `Giao điểm ${m('O')} của hai đường chéo là trung điểm mỗi đường.`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Hình bình hành ${m('ABCD')} có ${m(`${h('A')} = 70^\\circ`)}. Tính các góc còn lại.`, fig:F_pg({A:[['DAB','70°']]}),
+   sol:[`Góc đối: ${m(`${h('C')} = ${h('A')} = 70^\\circ`)}.`, `Hai góc kề cạnh ${m('AB')} bù nhau: ${m(`${h('B')} = 180^\\circ - 70^\\circ = 110^\\circ`)}.`, `Góc đối: ${m(`${h('D')} = ${h('B')} = 110^\\circ`)}.`], ans:`${tb(`${h('B')} = ${h('D')} = 110^\\circ;\\ ${h('C')} = 70^\\circ`)}.`},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Hình bình hành ${m('ABCD')} có ${m('AB = 8')} cm, ${m('BC = 5')} cm, hai đường chéo cắt nhau tại ${m('O')} và ${m('OA = 3')} cm. Tính ${m('CD')}, ${m('AD')}, ${m('AC')} và chu vi.`,
+   fig:F_pg({extra:{O:[3.4,1.5]}, S:[['AC','dash'],['BD','dash']], L:{AB:'8 cm',BC:'5 cm'}, T:{OA:1,OC:1}}),
+   sol:[`Cạnh đối bằng nhau: ${m('CD = AB = 8')} cm; ${m('AD = BC = 5')} cm.`, `${m('O')} là trung điểm ${m('AC')}: ${m('AC = 2\\cdot OA = 6')} cm.`, `Chu vi: ${m('2(8 + 5) = 26')} cm.`], ans:`${tb('CD = 8;\\ AD = 5;\\ AC = 6')} (cm); chu vi ${tb('26')} cm.`},
+  {kind:'method', tag:'Dạng 2', title:'Chứng minh tứ giác là hình bình hành', steps:['Xác định dữ kiện đang có (song song? bằng nhau? trung điểm?).', 'Chọn dấu hiệu phù hợp nhất (hay dùng dấu hiệu 3 và 5).', 'Trình bày: “Tứ giác … có … nên là hình bình hành (dấu hiệu …)”.']},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Cho hình bình hành ${m('ABCD')}; ${m('M, N')} lần lượt là trung điểm của ${m('AB, CD')}. Chứng minh ${m('AMCN')} là hình bình hành.`, fig:F_pgMid(),
+   sol:[`${m('AB \\parallel CD')} ⇒ ${m('AM \\parallel NC')}.`, `${m('AB = CD')} ⇒ ${m('AM = \\dfrac{AB}{2} = \\dfrac{CD}{2} = NC')}.`, `Tứ giác ${m('AMCN')} có hai cạnh đối ${m('AM, NC')} song song và bằng nhau.`], ans:`Vậy ${m('AMCN')} là <b>hình bình hành</b> (dấu hiệu 3).`},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Cho tam giác ${m('ABC')}, ${m('M')} là trung điểm ${m('BC')}. Lấy ${m('D')} sao cho ${m('M')} là trung điểm của ${m('AD')}. Chứng minh ${m('ABDC')} là hình bình hành.`,
+   fig:geoSVG({P:{A:[1.5,3.6],B:[0,0],C:[6,0],M:[3,0],D:[4.5,-3.6]}, S:['AB','AC','BD','CD',['AD','dash'],'BC'], T:{BM:1,MC:1,AM:2,MD:2}}),
+   sol:[`Tứ giác ${m('ABDC')} có hai đường chéo ${m('AD')} và ${m('BC')}.`, `${m('M')} là trung điểm của ${m('BC')} và của ${m('AD')}.`], ans:`Hai đường chéo cắt nhau tại trung điểm mỗi đường ⇒ ${m('ABDC')} là <b>hình bình hành</b> (dấu hiệu 5).`},
+  {kind:'method', tag:'Dạng 3', title:'Tìm x', steps:['Chọn hai yếu tố bằng nhau (cạnh đối, góc đối) hoặc bù nhau (góc kề).', 'Lập phương trình theo x và giải.', 'Thay x để tính yếu tố cần tìm.']},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Hình bình hành ${m('ABCD')} có ${m('AB = 2x + 1')} (cm) và ${m('CD = x + 5')} (cm). Tìm ${m('x')} và ${m('AB')}.`,
+   sol:[`${m('AB = CD')} (cạnh đối) ⇒ ${m('2x + 1 = x + 5')}.`, `${m('x = 4')}.`, `${m('AB = 2\\cdot 4 + 1 = 9')} cm.`], ans:`${tb('x = 4;\\ AB = 9')} cm.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Hình bình hành ${m('ABCD')} có ${m(`${h('A')} - ${h('B')} = 40^\\circ`)}. Tính các góc.`, sol:[`${m(`${h('A')} + ${h('B')} = 180^\\circ`)} ⇒ ${m(`${h('A')} = 110^\\circ,\\ ${h('B')} = 70^\\circ`)}.`, `${m(`${h('C')} = 110^\\circ,\\ ${h('D')} = 70^\\circ`)}.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Tứ giác ${m('ABCD')} có ${m('AB = CD = 5')} cm và ${m('AD = BC = 3')} cm. Tứ giác đó là hình gì? Vì sao?`, sol:[`Các cạnh đối bằng nhau ⇒ hình bình hành (dấu hiệu 2).`]},
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ', body:`<ul><li>Tính chất: cạnh đối bằng nhau; góc đối bằng nhau; đường chéo cắt nhau tại trung điểm.</li><li>Năm dấu hiệu nhận biết (nhớ dấu hiệu 3 và 5).</li><li>Hai góc kề một cạnh bù nhau.</li></ul>` + HOME('Bài 12')},
+]},
+
+/* ---------------- BÀI 13 ---------------- */
+{ id:'bai-13', name:'Bài 13. Hình chữ nhật', desc:'Định nghĩa, tính chất đường chéo; dấu hiệu nhận biết; trung tuyến ứng với cạnh huyền.', slides:[
+  TITLE('Bài 13. Hình chữ nhật', ['Nhận biết hình chữ nhật; tính chất hai đường chéo.', 'Dùng dấu hiệu nhận biết để chứng minh hình chữ nhật.', 'Vận dụng vào tam giác vuông: trung tuyến ứng với cạnh huyền.']),
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Hình chữ nhật và tính chất', fig:F_rect({extra:{O:[2.6,1.5]}, S:[['AC','dash'],['BD','dash']], T:{OA:1,OB:1,OC:1,OD:1}}),
+   body: box('<b>Hình chữ nhật</b> là tứ giác có bốn góc vuông.') + S('Hình chữ nhật cũng là hình bình hành và hình thang cân, nên có đủ tính chất của hai hình đó.') +
+     box(`Hai đường chéo của hình chữ nhật <b>bằng nhau</b> và <b>cắt nhau tại trung điểm</b> mỗi đường: ${m('OA = OB = OC = OD')}.`)},
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Dấu hiệu nhận biết hình chữ nhật',
+   body:`<ol class="lk-steps"><li>Tứ giác có ba góc vuông.</li><li>Hình thang cân có một góc vuông.</li><li>Hình bình hành có một góc vuông.</li><li>Hình bình hành có hai đường chéo bằng nhau.</li></ol>` + note('Tứ giác có hai đường chéo bằng nhau <b>chưa chắc</b> là hình chữ nhật (có thể là hình thang cân).')},
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Áp dụng vào tam giác vuông', fig:F_med(false),
+   body: box('Trong tam giác vuông, đường trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền: ' + m('AM = \\dfrac{BC}{2}') + '.') + S(`Giải thích: lấy ${m('D')} đối xứng với ${m('A')} qua ${m('M')} thì ${m('ABDC')} là hình chữ nhật, nên ${m('AD = BC')}.`) +
+     S('Ngược lại: tam giác có đường trung tuyến ứng với một cạnh bằng nửa cạnh ấy thì là tam giác vuông.')},
+  {kind:'method', tag:'Dạng 1', title:'Tính độ dài', steps:[`Tam giác tạo bởi hai cạnh và đường chéo là tam giác vuông ⇒ dùng Pythagore: ${m('AC^2 = AB^2 + BC^2')}.`, `Hai đường chéo bằng nhau, ${m('O')} là trung điểm: ${m('OA = \\dfrac{AC}{2}')}.`, `Tam giác vuông: trung tuyến ứng cạnh huyền ${m('= \\dfrac{\\text{cạnh huyền}}{2}')}.`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Hình chữ nhật ${m('ABCD')} có ${m('AB = 8')} cm, ${m('BC = 6')} cm, hai đường chéo cắt nhau tại ${m('O')}. Tính ${m('AC')}, ${m('BD')}, ${m('OA')}.`,
+   fig:F_rect({extra:{O:[2.6,1.5]}, S:[['AC','dash'],['BD','dash']], L:{AB:'8 cm',BC:'6 cm'}}),
+   sol:[`Tam giác ${m('ABC')} vuông tại ${m('B')}: ${m('AC = \\sqrt{8^2 + 6^2} = \\sqrt{100} = 10')} cm.`, `Hai đường chéo bằng nhau: ${m('BD = AC = 10')} cm.`, `${m('O')} là trung điểm ${m('AC')}: ${m('OA = 5')} cm.`], ans:`${tb('AC = BD = 10;\\ OA = 5')} (cm).`},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Tam giác ${m('ABC')} vuông tại ${m('A')}, ${m('AB = 5')} cm, ${m('AC = 12')} cm, ${m('M')} là trung điểm ${m('BC')}. Tính ${m('AM')}.`,
+   fig:geoSVG({P:{A:[0,0],B:[5.2,0],C:[0,3.4],M:[2.6,1.7]}, S:['AB','AC','BC',['AM','dash']], R:['CAB'], T:{BM:1,MC:1}, L:{AB:'5',AC:'12'}}),
+   sol:[`${m('BC = \\sqrt{5^2 + 12^2} = 13')} cm.`, `${m('AM')} là trung tuyến ứng với cạnh huyền: ${m('AM = \\dfrac{BC}{2}')}.`], ans:`${tb('AM = 6{,}5')} cm.`},
+  {kind:'method', tag:'Dạng 2', title:'Chứng minh tứ giác là hình chữ nhật', steps:['Thường chứng minh trước là hình bình hành (hoặc hình thang cân).', 'Sau đó chỉ ra một góc vuông, hoặc hai đường chéo bằng nhau.', 'Hoặc chứng minh trực tiếp tứ giác có ba góc vuông.']},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Tam giác ${m('ABC')} vuông tại ${m('A')}, ${m('M')} là trung điểm ${m('BC')}. Lấy ${m('D')} đối xứng với ${m('A')} qua ${m('M')}. Chứng minh ${m('ABDC')} là hình chữ nhật.`, fig:F_med(false),
+   sol:[`${m('M')} là trung điểm của ${m('BC')} và ${m('AD')} ⇒ ${m('ABDC')} là hình bình hành (hai đường chéo cắt nhau tại trung điểm mỗi đường).`, `Hình bình hành ${m('ABDC')} có ${m(`${h('BAC')} = 90^\\circ`)}.`], ans:`Vậy ${m('ABDC')} là <b>hình chữ nhật</b> (hình bình hành có một góc vuông).`},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Tứ giác ${m('MNPQ')} có ${m(`${h('M')} = ${h('N')} = ${h('P')} = 90^\\circ`)}. Tứ giác đó là hình gì? Tính ${m(h('Q'))}.`,
+   sol:[`Tứ giác có ba góc vuông là hình chữ nhật.`, `${m(`${h('Q')} = 360^\\circ - 3\\cdot 90^\\circ = 90^\\circ`)}.`], ans:`Hình chữ nhật; ${m(h('Q') + ' =')} ${tb(dg(90))}.`},
+  {kind:'method', tag:'Dạng 3', title:'Bài toán thực tế', steps:['Muốn kiểm tra một khung có là hình chữ nhật: đo hai cặp cạnh đối (bằng nhau ⇒ hình bình hành).', 'Đo tiếp hai đường chéo: bằng nhau ⇒ hình chữ nhật.']},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Bác thợ mộc làm khung cửa có hai cặp cạnh đối lần lượt bằng ${m('2{,}1')} m và ${m('0{,}9')} m, hai đường chéo đo được đều bằng ${m('2{,}28')} m. Khung cửa có phải hình chữ nhật không?`,
+   sol:[`Các cạnh đối bằng nhau ⇒ khung là hình bình hành.`, `Hình bình hành có hai đường chéo bằng nhau ⇒ hình chữ nhật.`, `(Kiểm tra: ${m('\\sqrt{2{,}1^2 + 0{,}9^2} = \\sqrt{5{,}22} \\approx 2{,}28')} m.)`], ans:`Khung cửa <b>là hình chữ nhật</b>.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Hình chữ nhật có đường chéo ${m('13')} cm, một cạnh ${m('5')} cm. Tính cạnh còn lại và diện tích.`, sol:[`Cạnh còn lại ${m('= \\sqrt{169 - 25} = 12')} cm.`, `Diện tích ${m('5\\cdot 12 = 60')} cm².`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Tam giác ${m('ABC')} có trung tuyến ${m('AM = \\dfrac{BC}{2}')}. Tính ${m(h('BAC'))}.`, sol:[`Trung tuyến bằng nửa cạnh tương ứng ⇒ tam giác vuông tại ${m('A')}: ${m(`${h('BAC')} = 90^\\circ`)}.`]},
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ', body:`<ul><li>Hình chữ nhật: bốn góc vuông; hai đường chéo bằng nhau, cắt nhau tại trung điểm.</li><li>Nhận biết: ba góc vuông; hình bình hành (hoặc hình thang cân) có một góc vuông; hình bình hành có hai đường chéo bằng nhau.</li><li>Tam giác vuông: trung tuyến ứng cạnh huyền bằng nửa cạnh huyền.</li></ul>` + HOME('Bài 13')},
+]},
+
+/* ---------------- BÀI 14 ---------------- */
+{ id:'bai-14', name:'Bài 14. Hình thoi và hình vuông', desc:'Hình thoi: tính chất đường chéo, dấu hiệu; hình vuông: tính chất, dấu hiệu.', slides:[
+  TITLE('Bài 14. Hình thoi và hình vuông', ['Nhận biết hình thoi, hình vuông; vận dụng tính chất đường chéo.', 'Dùng dấu hiệu nhận biết để chứng minh hình thoi, hình vuông.']),
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Hình thoi và tính chất', fig:F_rho({R:['AOB'], A:[['BAC','',1],['CAD','',1]]}),
+   body: box('<b>Hình thoi</b> là tứ giác có bốn cạnh bằng nhau. Hình thoi cũng là hình bình hành.') +
+     `<ul><li>Hai đường chéo <b>vuông góc</b> với nhau.</li><li>Hai đường chéo là các <b>đường phân giác</b> của các góc của hình thoi (${m(`${h('BAC')} = ${h('CAD')}`)}).</li><li>Hai đường chéo cắt nhau tại trung điểm mỗi đường.</li></ul>`},
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Dấu hiệu nhận biết hình thoi',
+   body:`<ol class="lk-steps"><li>Tứ giác có bốn cạnh bằng nhau.</li><li>Hình bình hành có hai cạnh kề bằng nhau.</li><li>Hình bình hành có hai đường chéo vuông góc.</li><li>Hình bình hành có một đường chéo là đường phân giác của một góc.</li></ol>` + note('Tứ giác có hai đường chéo vuông góc <b>chưa chắc</b> là hình thoi.')},
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Hình vuông', fig:F_sq({extra:{O:[1.7,1.7]}, S:[['AC','dash'],['BD','dash']]}),
+   body: box('<b>Hình vuông</b> là tứ giác có bốn góc vuông và bốn cạnh bằng nhau. Hình vuông vừa là hình chữ nhật vừa là hình thoi.') +
+     S('Hai đường chéo: bằng nhau, vuông góc, cắt nhau tại trung điểm mỗi đường, là phân giác các góc.') +
+     S('<b>Dấu hiệu:</b> hình chữ nhật có hai cạnh kề bằng nhau / hai đường chéo vuông góc / một đường chéo là phân giác của một góc; hình thoi có một góc vuông / hai đường chéo bằng nhau.')},
+  {kind:'method', tag:'Dạng 1', title:'Tính toán trong hình thoi', steps:[`Gọi ${m('O')} là giao điểm hai đường chéo: ${m('OA = \\dfrac{AC}{2},\\ OB = \\dfrac{BD}{2}')}.`, `Tam giác ${m('OAB')} vuông tại ${m('O')} ⇒ ${m('AB^2 = OA^2 + OB^2')}.`, 'Góc: đường chéo là phân giác; hai góc kề một cạnh bù nhau.']},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Hình thoi ${m('ABCD')} có ${m('AC = 8')} cm, ${m('BD = 6')} cm. Tính cạnh và chu vi.`, fig:F_rho({R:['AOB'], L:{AB:'?'}}),
+   sol:[`${m('OA = 4')} cm, ${m('OB = 3')} cm; ${m('AC \\perp BD')}.`, `Tam giác ${m('OAB')} vuông tại ${m('O')}: ${m('AB = \\sqrt{4^2 + 3^2} = 5')} cm.`, `Chu vi ${m('= 4\\cdot 5')}.`], ans:`Cạnh ${tb('5')} cm; chu vi ${tb('20')} cm.`},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Hình thoi ${m('ABCD')} cạnh ${m('6')} cm có ${m(`${h('BAD')} = 60^\\circ`)}. Tính ${m('BD')} và ${m(h('ABC'))}.`, fig:F_rho({S:[['BD','dash']], A:[['BAD','60°']]}),
+   sol:[`Tam giác ${m('ABD')} có ${m('AB = AD')} và ${m(`${h('A')} = 60^\\circ`)} ⇒ tam giác đều ⇒ ${m('BD = AB = 6')} cm.`, `${m(`${h('ABC')} = 180^\\circ - 60^\\circ = 120^\\circ`)} (hai góc kề một cạnh bù nhau).`], ans:`${tb(`BD = 6`)} cm; ${m(h('ABC') + ' =')} ${tb(dg(120))}.`},
+  {kind:'method', tag:'Dạng 2', title:'Tính toán trong hình vuông', steps:[`Cạnh ${m('a')} ⇒ chu vi ${m('4a')}, diện tích ${m('a^2')}.`, `Đường chéo ${m('d = a\\sqrt{2}')} (Pythagore trong tam giác vuông cân).`, `Biết đường chéo ${m('d')} ⇒ diện tích ${m('S = \\dfrac{d^2}{2}')}.`]},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Hình vuông ${m('ABCD')} cạnh ${m('4')} cm. Tính đường chéo và diện tích.`, fig:F_sq({S:[['AC','dash']], L:{AB:'4 cm'}}),
+   sol:[`Tam giác ${m('ABC')} vuông cân tại ${m('B')}: ${m('AC^2 = 4^2 + 4^2 = 32')}.`, `${m('AC = \\sqrt{32} = 4\\sqrt{2}')} cm; diện tích ${m('4^2 = 16')} cm².`], ans:`${tb('AC = 4\\sqrt{2}')} cm; ${tb('S = 16')} cm².`},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Một hình vuông có đường chéo dài ${m('6')} cm. Tính diện tích.`, sol:[`Gọi cạnh là ${m('a')}: ${m('a^2 + a^2 = 6^2 \\Rightarrow 2a^2 = 36 \\Rightarrow a^2 = 18')}.`], ans:`${tb('S = 18')} cm².`},
+  {kind:'method', tag:'Dạng 3', title:'Chứng minh hình thoi, hình vuông', steps:['Chứng minh trước là hình bình hành (hoặc hình chữ nhật).', 'Hình thoi: thêm hai cạnh kề bằng nhau / hai đường chéo vuông góc.', 'Hình vuông: hình chữ nhật có hai cạnh kề bằng nhau, hoặc hình thoi có một góc vuông.']},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Tam giác ${m('ABC')} cân tại ${m('A')}, ${m('M')} là trung điểm ${m('BC')}. Lấy ${m('D')} đối xứng với ${m('A')} qua ${m('M')}. Chứng minh ${m('ABDC')} là hình thoi.`, fig:F_isoMed(),
+   sol:[`${m('M')} là trung điểm của ${m('BC')} và ${m('AD')} ⇒ ${m('ABDC')} là hình bình hành.`, `Hình bình hành ${m('ABDC')} có hai cạnh kề ${m('AB = AC')}.`], ans:`Vậy ${m('ABDC')} là <b>hình thoi</b>.`},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Tam giác ${m('ABC')} vuông cân tại ${m('A')}, ${m('M')} là trung điểm ${m('BC')}, ${m('D')} đối xứng với ${m('A')} qua ${m('M')}. Chứng minh ${m('ABDC')} là hình vuông.`, fig:F_med(true),
+   sol:[`Như ví dụ 3 bài 13: ${m('ABDC')} là hình chữ nhật (hình bình hành có ${m(`${h('A')} = 90^\\circ`)}).`, `Hình chữ nhật ${m('ABDC')} có hai cạnh kề ${m('AB = AC')}.`], ans:`Vậy ${m('ABDC')} là <b>hình vuông</b>.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Hình thoi có chu vi ${m('40')} cm và một đường chéo ${m('12')} cm. Tính đường chéo còn lại.`, sol:[`Cạnh ${m('= 10')} cm; nửa đường chéo đã biết ${m('= 6')} cm.`, `Nửa đường chéo còn lại ${m('= \\sqrt{100 - 36} = 8')} ⇒ đường chéo ${m('16')} cm.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Hình thoi ${m('ABCD')} có ${m(`${h('A')} = 90^\\circ`)}. Đó là hình gì?`, sol:[`Hình thoi có một góc vuông là hình vuông.`]},
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ', body:`<ul><li>Hình thoi: bốn cạnh bằng nhau; đường chéo vuông góc, là phân giác các góc.</li><li>Hình vuông = hình chữ nhật + hình thoi; đường chéo ${m('a\\sqrt{2}')}.</li><li>Nhận biết: xuất phát từ hình bình hành / hình chữ nhật / hình thoi rồi thêm điều kiện.</li></ul>` + HOME('Bài 14')},
+]},
+
+/* ---------------- ÔN TẬP ---------------- */
+{ id:'on-tap-c3', name:'Ôn tập chương III', desc:'Bảng hệ thống các tứ giác đặc biệt; ví dụ tổng hợp chứng minh và tính toán.', slides:[
+  {kind:'title', tag:'Toán 8 · Kết nối tri thức', title:'Ôn tập chương III', sub:'Tứ giác', points:['Hệ thống định nghĩa, tính chất, dấu hiệu các tứ giác đặc biệt.', 'Luyện chứng minh và tính toán tổng hợp.']},
+  {kind:'kt', tag:'Hệ thống kiến thức', title:'Các tứ giác đặc biệt', body:REL},
+  {kind:'kt', tag:'Hệ thống kiến thức', title:'Sơ đồ nhận biết', body:`<ul><li><b>Tứ giác</b> → (hai cạnh đối song song) → <b>hình thang</b> → (góc kề đáy bằng nhau / đường chéo bằng nhau) → <b>hình thang cân</b>.</li><li><b>Tứ giác</b> → (5 dấu hiệu) → <b>hình bình hành</b> → (1 góc vuông / đường chéo bằng nhau) → <b>hình chữ nhật</b>.</li><li><b>Hình bình hành</b> → (2 cạnh kề bằng nhau / đường chéo vuông góc / đường chéo là phân giác) → <b>hình thoi</b>.</li><li><b>Hình chữ nhật</b> + <b>hình thoi</b> → <b>hình vuông</b>.</li></ul>`},
+  {kind:'vd', tag:'Ví dụ tổng hợp', label:'Ví dụ 1', de:`Tam giác ${m('ABC')} vuông tại ${m('A')}, ${m('AB = 6')} cm, ${m('AC = 8')} cm, ${m('M')} là trung điểm ${m('BC')}. Gọi ${m('E, F')} lần lượt là chân đường vuông góc kẻ từ ${m('M')} đến ${m('AB, AC')}. a) Tứ giác ${m('AEMF')} là hình gì? b) Tính ${m('EF')}.`, fig:F_review(),
+   sol:[`a) Tứ giác ${m('AEMF')} có ${m(`${h('A')} = ${h('AEM')} = ${h('AFM')} = 90^\\circ`)} (ba góc vuông) ⇒ <b>hình chữ nhật</b>.`, `b) Hai đường chéo hình chữ nhật bằng nhau: ${m('EF = AM')}.`, `${m('BC = \\sqrt{36 + 64} = 10')} cm; ${m('AM = \\dfrac{BC}{2} = 5')} cm (trung tuyến ứng cạnh huyền).`], ans:`Hình chữ nhật; ${tb('EF = 5')} cm.`},
+  {kind:'vd', tag:'Ví dụ tổng hợp', label:'Ví dụ 2', de:`Ở ví dụ 1, nếu tam giác ${m('ABC')} vuông cân tại ${m('A')} thì tứ giác ${m('AEMF')} là hình gì? Vì sao?`,
+   sol:[`${m('M')} cách đều ${m('AB')} và ${m('AC')} (vì ${m('AM')} là phân giác góc ${m('A')} trong tam giác vuông cân) ⇒ ${m('ME = MF')}.`, `Hình chữ nhật ${m('AEMF')} có hai cạnh kề ${m('ME = MF')}.`], ans:`${m('AEMF')} là <b>hình vuông</b>.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Hình thang cân có hai đáy ${m('5')} cm, ${m('11')} cm, cạnh bên ${m('5')} cm. Tính đường cao.`, sol:[`${m('DH = (11 - 5) : 2 = 3')} cm; đường cao ${m('= \\sqrt{25 - 9} = 4')} cm.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Hình thoi có hai đường chéo ${m('10')} cm và ${m('24')} cm. Tính cạnh.`, sol:[`Nửa đường chéo: ${m('5')} và ${m('12')}; cạnh ${m('= \\sqrt{25 + 144} = 13')} cm.`]},
+  {kind:'sum', tag:'Tổng kết', title:'Chuẩn bị kiểm tra', body:`<ul><li>Vẽ hình to, rõ; đánh dấu kí hiệu cạnh bằng nhau, song song, góc vuông.</li><li>Chứng minh: nêu đủ dữ kiện rồi mới gọi tên dấu hiệu.</li><li>Tính toán: tìm tam giác vuông để dùng Pythagore.</li></ul>` + box('Luyện thêm: web <b>Học mà chơi</b> – Toán 8, Ôn tập chương III (3 mức độ).')},
+]},
+]});
+function d360(){ return m(`${h('A')} + ${h('B')} + ${h('C')} + ${h('D')} = 360^\\circ`); }
+})();

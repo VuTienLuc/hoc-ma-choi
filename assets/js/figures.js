@@ -175,3 +175,36 @@ function circleSVG(o={}){
     s+=`<circle class="sv-pt" cx="${X(p[0])}" cy="${Y(p[1])}" r="3.6"/>`+(p[2]?T(lx.toFixed(1),ly.toFixed(1),p[2]):'')});
   return s+'</svg>';
 }
+
+/* Hình phẳng có kí hiệu (Toán 8 chương III – tứ giác). Toạ độ thực, y hướng lên; tự co vừa khung.
+   o.P  {A:[x,y], …}                        các điểm (nhãn tự đặt ra phía ngoài hình)
+   o.S  ['AB','BC',['AC','dash'], …]         đoạn thẳng (mảng [tên,'dash'] = nét đứt)
+   o.L  {AB:'5 cm'}                          nhãn trên cạnh (phía ngoài)
+   o.T  {AB:1, CD:1, AD:2}                   số vạch đánh dấu các cạnh bằng nhau
+   o.Pa {AB:1, CD:1}                         số mũi tên chỉ các cạnh song song
+   o.A  [['DAB','70°',1]]                    cung góc tại đỉnh giữa (nhãn, số cung)
+   o.R  ['DAB']                              kí hiệu góc vuông tại đỉnh giữa
+   o.dot ['O']                               chỉ chấm điểm, không cần cạnh */
+function geoSVG(o={}){
+  const P=o.P||{},names=Object.keys(P),xs=names.map(n=>P[n][0]),ys=names.map(n=>P[n][1]);
+  let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);const pad=Math.max(x1-x0,y1-y0)*.16||1;x0-=pad;x1+=pad;y0-=pad;y1+=pad;
+  const u=Math.min(340/(x1-x0),250/(y1-y0)),W=(x1-x0)*u,H=(y1-y0)*u,X=p=>(p[0]-x0)*u,Y=p=>(y1-p[1])*u,S=n=>[X(P[n]),Y(P[n])];
+  const cx=xs.reduce((a,b)=>a+b,0)/xs.length,cy=ys.reduce((a,b)=>a+b,0)/ys.length,C=[X([cx,cy]),Y([cx,cy])];
+  const f=v=>v.toFixed(1),T=(x,y,s,fs=17,cls='sv-txt')=>`<text class="${cls}" x="${f(x)}" y="${f(y)}" font-size="${fs}" text-anchor="middle" dominant-baseline="middle">${s}</text>`;
+  const seg=nm=>{const a=S(nm[0]),b=S(nm[1]),dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,m=[(a[0]+b[0])/2,(a[1]+b[1])/2];let nx=-dy/L,ny=dx/L;
+    if((m[0]-C[0])*nx+(m[1]-C[1])*ny<0){nx=-nx;ny=-ny}return{a,b,m,ux:dx/L,uy:dy/L,nx,ny,L}};
+  let s=`<svg viewBox="0 0 ${f(W)} ${f(H)}" role="img" aria-label="Hình vẽ">`;
+  (o.S||[]).forEach(x=>{const nm=Array.isArray(x)?x[0]:x,d=Array.isArray(x)&&x[1]==='dash',g=seg(nm);s+=`<line class="sv-ink" stroke-width="2.4" ${d?'stroke-dasharray="7 5" ':''}x1="${f(g.a[0])}" y1="${f(g.a[1])}" x2="${f(g.b[0])}" y2="${f(g.b[1])}"/>`});
+  Object.entries(o.T||{}).forEach(([nm,k])=>{const g=seg(nm);for(let i=0;i<k;i++){const t=(i-(k-1)/2)*6,p=[g.m[0]+g.ux*t,g.m[1]+g.uy*t];s+=`<line class="sv-ink" stroke-width="2.2" x1="${f(p[0]-g.nx*7)}" y1="${f(p[1]-g.ny*7)}" x2="${f(p[0]+g.nx*7)}" y2="${f(p[1]+g.ny*7)}"/>`}});
+  Object.entries(o.Pa||{}).forEach(([nm,k])=>{const g=seg(nm);if(g.ux<-1e-6||(Math.abs(g.ux)<1e-6&&g.uy>0)){g.ux=-g.ux;g.uy=-g.uy}for(let i=0;i<k;i++){const t=(i-(k-1)/2)*8+((o.T||{})[nm]?16:0),p=[g.m[0]+g.ux*t,g.m[1]+g.uy*t];
+    s+=`<path class="sv-ink" stroke-width="2.2" d="M${f(p[0]-g.ux*7+g.nx*6)} ${f(p[1]-g.uy*7+g.ny*6)} L${f(p[0])} ${f(p[1])} L${f(p[0]-g.ux*7-g.nx*6)} ${f(p[1]-g.uy*7-g.ny*6)}"/>`}});
+  (o.A||[]).forEach(([t,lab,k=1])=>{const B=S(t[1]),a=S(t[0]),c=S(t[2]),a1=Math.atan2(a[1]-B[1],a[0]-B[0]),a2=Math.atan2(c[1]-B[1],c[0]-B[0]);let d=a2-a1;while(d<=-Math.PI)d+=2*Math.PI;while(d>Math.PI)d-=2*Math.PI;
+    for(let i=0;i<k;i++){const r=20+i*5,p=[B[0]+r*Math.cos(a1),B[1]+r*Math.sin(a1)],q=[B[0]+r*Math.cos(a1+d),B[1]+r*Math.sin(a1+d)];s+=`<path class="sv-ink" stroke-width="1.8" d="M${f(p[0])} ${f(p[1])} A${r} ${r} 0 0 ${d>0?1:0} ${f(q[0])} ${f(q[1])}"/>`}
+    if(lab){const m=a1+d/2,r=Math.abs(d)<.7?52:40;s+=T(B[0]+r*Math.cos(m),B[1]+r*Math.sin(m),lab,14,'sv-muted')}});
+  (o.R||[]).forEach(t=>{const B=S(t[1]),a=S(t[0]),c=S(t[2]),n=v=>{const L=Math.hypot(v[0],v[1])||1;return[v[0]/L*12,v[1]/L*12]},p=n([a[0]-B[0],a[1]-B[1]]),q=n([c[0]-B[0],c[1]-B[1]]);
+    s+=`<path class="sv-ink" stroke-width="1.6" d="M${f(B[0]+p[0])} ${f(B[1]+p[1])} L${f(B[0]+p[0]+q[0])} ${f(B[1]+p[1]+q[1])} L${f(B[0]+q[0])} ${f(B[1]+q[1])}"/>`});
+  Object.entries(o.L||{}).forEach(([nm,lab])=>{const g=seg(nm);s+=T(g.m[0]+g.nx*15,g.m[1]+g.ny*15,lab,15,'sv-muted')});
+  names.forEach(n=>{const p=S(n);let dx=p[0]-C[0],dy=p[1]-C[1];const L=Math.hypot(dx,dy);if(L<1){dx=.6;dy=.8}else{dx/=L;dy/=L}
+    s+=`<circle class="sv-pt" cx="${f(p[0])}" cy="${f(p[1])}" r="3.2"/>`+T(p[0]+dx*16,p[1]+dy*16,n.replace(/\d$/,'')+(/\d$/.test(n)?`<tspan font-size="11" dy="4">${n.slice(-1)}</tspan>`:''),17)});
+  return s+'</svg>';
+}
