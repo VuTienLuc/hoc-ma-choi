@@ -5,7 +5,7 @@
 const LEVELS=[{n:'Mức 1',d:'Làm quen'},{n:'Mức 2',d:'Luyện tập'},{n:'Mức 3',d:'Thử thách'}];
 let S={grade:null,lesson:null,lv:1,qs:[]};
 // Móc nối cho account.js (đăng nhập, thú cưng). Không có Account thì bỏ qua.
-const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}};
+const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}try{if(typeof Present!=='undefined')Present.on(n,...a)}catch(e){console.error(e)}};
 const PRAISE=['Giỏi quá!','Chính xác!','Tuyệt vời!','Đúng rồi, con làm tốt lắm!','Xuất sắc!'];
 const norm=s=>String(s).replace(/[\s .]/g,'').replace(',','.').toUpperCase();
 // Đáp án thập phân: nhận cả "0,6" và "0.6" (bàn phím iPad tiếng Anh dùng dấu chấm); với đáp án nguyên, dấu chấm vẫn là dấu tách nghìn.
