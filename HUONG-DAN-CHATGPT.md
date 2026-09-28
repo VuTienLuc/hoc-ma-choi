@@ -100,6 +100,14 @@ mỗi phiếu 10 bài (7 cơ bản, 3 vận dụng hard:true), xếp theo dạng
 Nhớ thêm thẻ <script> vào giao-vien/index.html (sau tệp bài giảng). Kiểm tra bằng node tools/kiem-tra.js.
 ```
 
+**Tạo đề kiểm tra (4 mã đề, đáp án riêng, in A4)**
+```
+Tạo đề kiểm tra CHƯƠNG … Toán LỚP trong giao-vien/bai-giang/lopN-kiem-tra.js theo đúng khuôn giao-vien/bai-giang/lop11-kiem-tra.js:
+Phần I 16 câu trắc nghiệm 1 đáp án (nhận biết), Phần II 4 câu đúng/sai (mỗi ý có bản đúng và bản sai), Phần III 2 bài tự luận vận dụng thực tế 2 điểm (mỗi mã đề một bộ số, hướng dẫn chấm 0,25 điểm/bước).
+Phương án đúng viết đầu tiên. Tổng 10 điểm. Thêm thẻ <script> vào giao-vien/index.html (sau tệp luyện tập của lớp).
+Tự giải lại mọi câu, chạy node tools/kiem-tra.js tới khi ĐẠT.
+```
+
 **Sửa một lỗi thầy thấy khi dùng**
 ```
 Trên web, bài … (lớp …, mức …) có lỗi: MÔ TẢ (ảnh chụp đính kèm).

@@ -125,6 +125,8 @@ T.Lecture = { add: b => BOOKS.push(b), addPractice: (grade, id, groups) => PRACT
 const gvHtml = fs.existsSync(path.join(ROOT, 'giao-vien/index.html')) ? rd('giao-vien/index.html') : '';
 const gvFiles = [...gvHtml.matchAll(/<script src="(bai-giang\/[^"]+\.js)"/g)].map(x => 'giao-vien/' + x[1]);
 fs.readdirSync(path.join(ROOT, 'giao-vien/bai-giang')).filter(f => f.endsWith('.js')).forEach(f => { if (!gvFiles.includes('giao-vien/bai-giang/' + f)) err('giao-vien/index.html', `chưa nạp tệp bai-giang/${f} (thêm thẻ <script>)`); });
+run(T, 'assets/js/kiemtra.js');
+if (/KiemTra\.add/.test(gvFiles.map(f => fs.existsSync(path.join(ROOT, f)) ? rd(f) : '').join('')) && !gvHtml.includes('src="../assets/js/kiemtra.js"')) err('giao-vien/index.html', 'có đề kiểm tra nhưng chưa nạp <script src="../assets/js/kiemtra.js">');
 gvFiles.forEach(f => run(T, f));
 const KINDS = ['title', 'kt', 'method', 'vd', 'lt', 'sum']; let nS = 0;
 BOOKS.forEach(b => {
@@ -147,6 +149,32 @@ PRACT.forEach(p => { const w0 = `luyện tập ${p.grade}/${p.id}`;
   items.forEach((x, i) => { const w = `${w0} bài ${i + 1}`; if (!x.de || !Array.isArray(x.sol) || !x.sol.length) err(w, 'cần de và sol:[…]'); if (x.draw && !x.fig) err(w, 'draw cần kèm fig (hình đáp án)');
     checkFig(w, x.fig); [x.de, x.ans, ...(x.sol || [])].forEach(t => checkTex(w, t)); }); });
 
+/* ---------- 3b. Đề kiểm tra (KiemTra.add) ---------- */
+let nKT = 0;
+const KT = vm.runInContext('typeof KiemTra !== "undefined" ? KiemTra : null', T);
+(KT ? KT.TESTS : []).forEach(t => { const w0 = `đề kiểm tra ${t.grade}/${t.id}`; nKT++;
+  ['grade', 'id', 'title', 'chapter', 'subject', 'time', 'school', 'year'].forEach(k => { if (!t[k]) err(w0, `thiếu trường ${k}`); });
+  if (!Array.isArray(t.codes) || !t.codes.length || new Set(t.codes).size !== t.codes.length) err(w0, 'codes phải là danh sách mã đề khác nhau');
+  if (!Array.isArray(t.bai) || !t.bai.length) err(w0, 'thiếu danh sách bai (dùng cho ma trận)');
+  const tot = t.mc.length * .25 + t.tf.length + t.essay.reduce((a, e) => a + e.pts, 0);
+  if (Math.abs(tot - 10) > 1e-9) err(w0, `tổng điểm = ${tot} (phải bằng 10: Phần I 0,25/câu, Phần II 1/câu, Phần III theo pts)`);
+  const orders = new Set();
+  (t.codes || []).forEach((code, ci) => { const w1 = `${w0} mã ${code}`; let v;
+    try { v = KT.build(t, ci); } catch (e) { return err(w1, 'lỗi khi trộn đề: ' + e.message); }
+    orders.add(v.mc.map(x => x.src).join(','));
+    v.mc.forEach((x, i) => { const w = `${w1} Phần I câu ${i + 1} (gốc ${x.src})`;
+      if (!x.q || !Array.isArray(x.opts) || x.opts.length !== 4) err(w, 'cần q và đúng 4 phương án'); else if (new Set(x.opts).size !== 4) err(w, 'có phương án trùng nhau');
+      if (!(x.bai >= 1 && x.bai <= (t.bai || []).length)) err(w, 'bai phải là số thứ tự bài trong t.bai');
+      [x.q, ...(x.opts || [])].forEach(s => checkTex(w, s)); });
+    const cnt = [0, 0, 0, 0]; v.mc.forEach(x => cnt[x.a]++); if (Math.max(...cnt) - Math.min(...cnt) > 1) err(w1, `đáp án Phần I lệch: A/B/C/D = ${cnt.join('/')}`);
+    v.tf.forEach((x, i) => { const w = `${w1} Phần II câu ${i + 1}`; if (!x.stem || x.items.length !== 4) err(w, 'cần stem và đúng 4 ý');
+      if (x.items.every(it => it.ok) || x.items.every(it => !it.ok)) err(w, 'mỗi câu phải có cả ý Đ và ý S'); checkTex(w, x.stem); x.items.forEach(it => checkTex(w, it.text)); });
+    v.essay.forEach((e, i) => { const w = `${w1} Phần III bài ${i + 1}`; if (!e.de || !Array.isArray(e.rows) || !e.rows.length) return err(w, 'make(ci) phải trả về {de, rows:[[nội dung, điểm], …]}');
+      const sp = e.rows.reduce((a, r) => a + r[1], 0); if (Math.abs(sp - e.pts) > 1e-9) err(w, `tổng điểm hướng dẫn chấm ${sp} ≠ pts ${e.pts}`); checkTex(w, e.de); e.rows.forEach(r => checkTex(w, r[0])); });
+    try { checkTex(`${w1} (bản in)`, KT.paper(t, ci)); } catch (e) { err(w1, 'lỗi khi dựng bản in: ' + e.message); } });
+  if ((t.codes || []).length > 1 && orders.size < t.codes.length) warn(w0, 'có hai mã đề trùng thứ tự câu Phần I');
+  try { checkTex(`${w0} (đáp án)`, KT.keyDoc(t)); } catch (e) { err(w0, 'lỗi khi dựng đáp án: ' + e.message); } });
+
 /* ---------- 4. Liên kết trang học sinh ---------- */
 const idx = rd('index.html');
 ['config.js', 'assets/js/core.js', 'assets/js/engine.js'].forEach(f => { if (!idx.includes(`src="${f}"`)) err('index.html', `thiếu <script src="${f}">`); });
@@ -165,7 +193,7 @@ if (process.env.BAN_DO) try {
 } catch (e) { console.log('  ⚠ không tạo được bản đồ: ' + e.message); }
 
 /* ---------- Báo cáo ---------- */
-console.log(`Tệp JS: ${jsFiles.length} · Câu hỏi đã sinh: ${nQ} (${REPS} lần/dạng/mức) · Trang bài giảng: ${nS} · Phiếu luyện tập: ${PRACT.length}`);
+console.log(`Tệp JS: ${jsFiles.length} · Câu hỏi đã sinh: ${nQ} (${REPS} lần/dạng/mức) · Trang bài giảng: ${nS} · Phiếu luyện tập: ${PRACT.length} · Đề kiểm tra: ${nKT}`);
 [...new Set(warns)].slice(0, 15).forEach(x => console.log('  ⚠ ' + x));
 [...new Set(errs)].slice(0, 40).forEach(x => console.log('  ✗ ' + x));
 if (errs.length > 40) console.log(`  … và ${errs.length - 40} lỗi khác`);
