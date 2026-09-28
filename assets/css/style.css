@@ -463,3 +463,7 @@ body.noscroll{overflow:hidden}
 .stp-sol{margin-top:4px;line-height:1.65}
 .pv-steps{margin:0;padding-left:1.1em;display:grid;gap:.25em;font-size:.72em;line-height:1.35} .pv-sa{color:var(--primary);font-weight:800}
 .card.is-steps .qbody.has-fig>.fig{align-self:start;position:sticky;top:96px}
+/* Phiếu luyện tập */
+.pr-legend{margin:5pt 0 0;font-size:10pt;text-align:center}
+.ws h3 small{font-weight:600;text-transform:none;letter-spacing:0}
+.ws .pr-dang{margin:8pt 0 2pt;font-style:italic}
