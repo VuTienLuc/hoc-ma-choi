@@ -378,6 +378,46 @@ body.noscroll{overflow:hidden}
 .pv-sp{flex:1}
 @media (max-width:700px){.pv-bar{flex-wrap:wrap}.pv-slide.has-fig .pv-main{flex-direction:column}.pv-fig{flex:0 0 40%}}
 
+/* ===== Bài giảng giáo viên (lecture.js) – dùng chung khung .pv của trình chiếu ===== */
+.lk-tile{cursor:default} .lk-tile .row{margin-top:4px}
+.lk-slide{gap:.35em}
+.lk-tag{align-self:flex-start;display:inline-block;padding:.12em .55em;border-radius:var(--r-pill);font:800 .5em/1.3 var(--f-body);letter-spacing:.08em;text-transform:uppercase;background:var(--primary);color:var(--primary-ink)}
+.lk-tag.kt{background:var(--ok)} .lk-tag.method{background:var(--star);color:var(--pv-ink)} .lk-tag.vd{background:var(--primary)} .lk-tag.lt{background:var(--bad)} .lk-tag.sum{background:var(--ok)}
+.lk-title{display:flex;flex-direction:column;gap:.3em}
+.lk-title h1{margin:0;font:800 1.55em/1.12 var(--f-head);color:var(--primary)}
+.lk-sub{margin:0;font-size:.8em;color:var(--muted)}
+.lk-goals{margin:.2em 0 0;padding-left:1.2em;line-height:1.35} .lk-goals li{margin:.12em 0}
+.lk-h{margin:0;font:800 1.1em/1.15 var(--f-head)}
+.lk-main{flex:1 1 0;min-height:0;display:flex;flex-direction:column;gap:.5em}
+.lk-main.has-fig{flex-direction:row;align-items:stretch}
+.lk-body{flex:1;min-width:0;line-height:1.32}
+.lk-fig{flex:0 0 40%;min-height:0;display:flex;align-items:center;justify-content:center}
+.lk-fig svg{width:100%;height:100%;max-height:100%!important}
+.lk-fig.off{visibility:hidden} .lk-page .lk-fig.off{visibility:visible}
+.lk-body p{margin:.15em 0 .3em}
+.lk-body ul,.lk-steps{margin:.15em 0;padding-left:1.25em} .lk-body li,.lk-steps li{margin:.12em 0}
+.lk-box{border-left:.18em solid var(--primary);background:var(--primary-soft);padding:.25em .5em;border-radius:.25em;margin:.25em 0}
+.lk-note{border-left:.18em solid var(--star);background:var(--warn-soft);padding:.25em .5em;border-radius:.25em;margin:.25em 0}
+.lk-de{font-weight:500;line-height:1.3} .lk-de>b:first-child{color:var(--primary)}
+.lk-sol{visibility:hidden;border:max(2px,.05em) solid var(--line);border-radius:.3em;padding:.15em .5em .3em}
+.lk-sol.open{visibility:visible}
+.lk-solh{font:800 .7em/1.6 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--ok)}
+.lk-solsteps{margin:0;padding-left:1.3em;line-height:1.32}
+.lk-solsteps li{visibility:hidden;margin:.08em 0} .lk-solsteps li.on{visibility:visible;animation:fadein .35s}
+.lk-ans{visibility:hidden;margin-top:.25em;padding:.15em .5em;border-radius:.25em;background:var(--ok-soft);font-weight:700} .lk-ans.on{visibility:visible}
+.lk-menu{position:absolute;right:12px;bottom:64px;max-width:min(560px,92vw);max-height:70vh;overflow:auto;background:var(--surface);border:2.5px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);padding:10px 14px;z-index:2}
+.lk-menu h3{margin:4px 0 8px;font:800 18px/1.2 var(--f-head)} .lk-menu ol{margin:0;padding-left:22px}
+.lk-menu button{display:block;width:100%;text-align:left;border:0;background:none;color:var(--ink);font:500 16px/1.3 var(--f-body);padding:6px 4px;border-radius:8px;cursor:pointer}
+.lk-menu button span{font-weight:800;color:var(--primary);font-size:13px;text-transform:uppercase} .lk-menu button.on{background:var(--primary-soft)}
+/* Xem trước / in */
+.lk-doc{display:grid;gap:14px} .lk-page{font-size:18px;position:relative}
+.lk-page .lk-sol,.lk-page .lk-solsteps li,.lk-page .lk-ans{visibility:visible}
+.lk-page .lk-main.has-fig{flex-direction:row} .lk-page .lk-fig{flex:0 0 36%} .lk-page .lk-fig svg{max-height:300px!important}
+.lk-page .lk-title h1{font-size:30px} .lk-page .lk-tag{font-size:12px}
+.lk-go{position:absolute;right:14px;top:8px}
+@media print{.top,.toolbar,.userbar,.lk-go,.foot,.pill{display:none!important}.lk-page{box-shadow:none;break-inside:avoid;border-width:1px}body{background:var(--pv-bg)}}
+@media (max-width:700px){.lk-main.has-fig{flex-direction:column}.lk-fig{flex:0 0 38%}}
+
 </style>
 </head>
 <body>
@@ -771,11 +811,11 @@ const Account = (() => {
   }
 
   /* ---- Màn hình đăng nhập ---- */
-  function gate(start){
+  function gate(start, opt={}){
     if(!API() || user){ restrict(); start(); flush(); return; }
     const app = document.getElementById('app');
     app.innerHTML = `<div class="login card">
-      <h1>Chào em! 👋</h1><p class="lead">Chọn lớp rồi đăng nhập bằng tài khoản thầy cô đã phát.</p>
+      <h1>${opt.title || 'Chào em! 👋'}</h1><p class="lead">${opt.lead || 'Chọn lớp rồi đăng nhập bằng tài khoản thầy cô đã phát.'}</p>
       <form id="lgForm" autocomplete="off">
         <label>Lớp<select id="lgLop" required><option value="">Đang tải danh sách lớp…</option></select></label>
         <label>Tài khoản<input id="lgUser" required autocapitalize="none" spellcheck="false" inputmode="text"></label>
@@ -810,7 +850,8 @@ const Account = (() => {
       finally{ btn.disabled = false; btn.textContent = 'Đăng nhập'; }
     };
   }
-  const userBar = () => user ? `<div class="userbar"><span>👋 <b>${esc(user.name)}</b> · ${esc(user.lop)}</span><button class="linkbtn" data-logout>Đăng xuất</button></div>` : '';
+  const isTeacher = () => !!user && !/\d/.test(user.lop);        // lớp không có chữ số (vd "GV") = giáo viên
+  const userBar = () => user ? `<div class="userbar"><span>👋 <b>${esc(user.name)}</b> · ${esc(user.lop)}</span>${isTeacher() && !/giao-vien/.test(location.pathname) ? '<a class="linkbtn" href="giao-vien/">📚 Bài giảng</a>' : ''}<button class="linkbtn" data-logout>Đăng xuất</button></div>` : '';
   const bindLogout = () => $$('[data-logout]').forEach(b => b.onclick = () => { if(queue().length) flush(); logout(); });
 
   /* ---- Sự kiện từ engine ---- */
@@ -838,7 +879,7 @@ const Account = (() => {
     }
   }
   addEventListener('online', flush);
-  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, gradeOfClass };
+  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, gradeOfClass, isTeacher, userBar, bindLogout };
 })();
 
 /* =====================================================================

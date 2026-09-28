@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bài giảng – Học mà chơi (giáo viên)</title>
+<meta name="robots" content="noindex, nofollow">
+<script>/* mở bằng /giao-vien (thiếu "/") thì thêm "/" để các đường dẫn tương đối đúng */ if(!/\/$|\.html$/.test(location.pathname)) location.replace(location.pathname + '/' + location.search + location.hash);</script>
+<meta name="theme-color" content="#14213d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="top">
+  <p class="brand" id="brand">Học mà <span>chơi</span></p>
+  <p class="sub">— Bài giảng dành cho giáo viên —</p>
+  <div class="author" id="author"></div>
+</header>
+<main class="wrap" id="app" aria-live="polite"></main>
+<div class="toast" id="toast" role="status"></div>
+
+<!-- Trang giáo viên: đăng nhập bằng tài khoản có tên lớp KHÔNG chứa chữ số (vd "GV") trên trang HocSinh.
+     Thứ tự nạp: cấu hình → lõi → hình vẽ → MathJax → đăng nhập → bộ trình chiếu bài giảng → nội dung từng lớp. -->
+<script src="../config.js"></script>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/figures.js"></script>
+<script src="../assets/js/math.js"></script>
+<script src="../assets/vendor/mathjax/tex-chtml.js" async id="MathJax-script"></script>
+<script src="../assets/js/account.js"></script>
+<script src="../assets/js/lecture.js"></script>
+<script src="bai-giang/lop10.js"></script>
+<script>
+let tT; function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(tT); tT = setTimeout(() => t.classList.remove('show'), 1800); }
+(function(){
+  const th = store.get('hoctap:theme'); if(th) document.documentElement.dataset.theme = th;
+  $('#author').textContent = CONFIG.author;
+  const denied = () => { $('#app').innerHTML = Account.userBar() + `<div class="login card"><h1>Khu vực dành cho giáo viên 🔒</h1>
+      <p class="lead">Tài khoản <b>${Account.user.name}</b> (lớp ${Account.user.lop}) là tài khoản học sinh nên không mở được bài giảng.</p>
+      <div class="row"><a class="btn primary" href="../">← Về trang học sinh</a></div></div>`; Account.bindLogout(); };
+  Account.gate(() => { if(CONFIG.sheetAPI && !Account.isTeacher()) denied(); else Lecture.home(); },
+    { title: 'Bài giảng – Giáo viên 🔒', lead: 'Đăng nhập bằng tài khoản giáo viên (lớp <b>GV</b> trên trang HocSinh của Google Sheet).' });
+})();
+</script>
+</body>
+</html>

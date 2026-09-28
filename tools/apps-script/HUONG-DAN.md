@@ -51,6 +51,12 @@ Lưu ý: bộ câu nào học sinh **làm dở rồi bỏ ngang** thì không đ
 ## Học sinh chỉ thấy bộ đề của khối mình
 Web đọc **số đầu tiên trong tên lớp**: lớp `10A12`, `10A1` → chỉ thấy **Lớp 10**; `9A` → **Lớp 9**; `11B3` → **Lớp 11**. Vì vậy thầy/cô đặt tên lớp trên trang HocSinh bắt đầu bằng số khối. Tài khoản có tên lớp không chứa số (ví dụ `GV`) sẽ thấy mọi khối – dùng để thầy/cô kiểm tra. Khối chưa có nội dung trên web thì học sinh tạm thấy mọi khối. Muốn tắt tính năng này: trong `config.js` đặt `lockGrade: false`.
 
+## Bài giảng trình chiếu (chỉ giáo viên)
+- Địa chỉ: `<link web>/giao-vien/` – học sinh không thấy liên kết này.
+- Thêm một dòng tài khoản giáo viên trên trang HocSinh với **Lớp = `GV`** (tên lớp không có chữ số), ví dụ: `GV | thaylu | Thầy Vũ Tiến Lực | matkhau`. Tài khoản học sinh (lớp có số như 10A12) sẽ bị chặn.
+- Đăng nhập bằng tài khoản GV trên trang học sinh sẽ thấy thêm liên kết **📚 Bài giảng**.
+- Lưu ý: web là trang tĩnh nên việc chặn nằm ở giao diện; người rành kĩ thuật biết đúng địa chỉ tệp vẫn có thể mở tệp nội dung. Nếu cần bảo mật tuyệt đối, có thể bật mật khẩu thư mục trên Vercel.
+
 ## Nhà thú cưng và bảng xếp hạng lớp
 - Học sinh làm đúng được **xu 🪙**, xong mỗi bộ được **hạt 🍖** (mỗi ⭐ = 1 hạt) để cho thú cưng ăn, mua mũ, kính, nơ, nền phòng; mỗi ngày có 3 nhiệm vụ và có 14 huy hiệu để sưu tầm.
 - Thú cưng đói và buồn dần nếu em nhiều ngày không học (không bao giờ chết); học mỗi ngày để giữ **chuỗi ngày 🔥**.

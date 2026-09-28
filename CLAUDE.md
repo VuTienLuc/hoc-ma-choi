@@ -25,6 +25,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `assets/js/sound.js` | Âm thanh khi chấm (đúng/sai) lấy từ `CONFIG.sounds` (danh sách nguồn, thử lần lượt: `assets/sounds/*.mp3` rồi link ngoài); nút 🔊/🔇 bật tắt, lưu `hoctap:sound` | Khi đổi âm thanh: chỉ sửa `config.js` |
 | `assets/js/play.js` | **Nhà thú cưng**: xu (đúng lần đầu +2, lần hai +1), hạt (mỗi ⭐ = 1 hạt), no/vui giảm dần theo ngày (không bao giờ chết), chuỗi ngày 🔥, 3 nhiệm vụ ngày (`QUESTS`), 14 huy hiệu (`BADGES`), cửa hàng phụ kiện vẽ SVG (`ITEMS`, lớp màu `acc-*`), bảng xếp hạng lớp (action `rank`). Lưu `hoctap:play`, đồng bộ cột 9 của TienDo | Khi thêm phụ kiện, nhiệm vụ, huy hiệu |
 | `assets/js/present.js` | **Trình chiếu** (nút 📽️ ở trang bài): mỗi câu một màn hình toàn màn hình, chữ tự co giãn vừa khung (`fit`), hình trái – phương án phải, nút Gợi ý/Đáp án/Bộ mới/nền tối; phím ← → G Enter T Esc. Bảng màu riêng `--pv-*` | Khi đổi giao diện trình chiếu |
+| `giao-vien/index.html` + `assets/js/lecture.js` + `giao-vien/bai-giang/<lớp>.js` | **Bài giảng trình chiếu cho GIÁO VIÊN** (không có liên kết cho học sinh; đăng nhập tài khoản lớp không có chữ số, vd `GV`). Mỗi bài: `{id,name,desc,slides:[…]}` với trang `kind`: `title` · `kt` (kiến thức trọng tâm, `body`, `fig`) · `method` (dạng bài, `steps`) · `vd`/`lt` (`label`, `de`, `sol:[bước…]`, `ans`, `fig`, `figAt` = hình hiện từ bước thứ mấy) · `sum`. Gọi `Lecture.add({grade, gradeName, chapter, lessons})`. Thêm lớp: tạo `giao-vien/bai-giang/lopN.js` và thêm thẻ `<script>` trong `giao-vien/index.html` | Khi soạn bài giảng |
 | `assets/js/account.js` | **Đăng nhập theo lớp** (Google Sheets qua Apps Script, bật khi `CONFIG.sheetAPI` khác rỗng) và **thú cưng tiến hoá** 5 cấp theo tổng sao của khối (`Pet`). Tiến độ lưu riêng từng học sinh (`hoctap:u:<lớp>|<tk>:…`). Đăng nhập xong chỉ hiện khối ứng với số đầu của tên lớp (`10A12` → `lop10`; `CONFIG.lockGrade`) | Khi đổi đăng nhập/thú cưng |
 | `tools/apps-script/` | `Code.gs` (máy chủ trên Google Sheets: HocSinh, TongHop, KetQua, DangNhap, TienDo; menu 🐣 và hẹn giờ 30 phút cập nhật TongHop), `HUONG-DAN.md`, `mau-danh-sach-hoc-sinh.xlsx` | Khi đổi cách lưu kết quả |
 | `assets/js/engine.js` | Hiển thị, chấm, sao, điều hướng hash, nạp `data/*.js` | **Hạn chế sửa**. Chỉ sửa khi thêm loại câu hỏi mới hoặc tính năng mới |
@@ -115,6 +116,7 @@ python3 tools/build.py       # tạo dist/hoc-tap.html
 python3 tools/test_dangnhap.py  # nếu sửa account.js: thử đăng nhập + thú cưng với máy chủ giả lập
 python3 tools/test_khoilop.py   # nếu sửa đăng nhập: lớp 10A12 chỉ thấy Lớp 10
 python3 tools/test_trinhchieu.py # nếu sửa present.js hoặc thêm bài: chiếu mọi câu, không tràn khung (chạy ~12 phút)
+python3 tools/test_baigiang.py   # nếu sửa bài giảng giáo viên: chặn học sinh, chiếu mọi trang không tràn
 python3 tools/test_thucung.py   # nếu sửa play.js: xu, hạt, cho ăn, cửa hàng, nhiệm vụ, huy hiệu, xếp hạng
 node tools/test_appscript.js    # nếu sửa tools/apps-script/Code.gs
 python3 tools/test_congthuc.py  # nếu sửa nội dung lớp 6+ (LaTeX): không còn công thức lỗi

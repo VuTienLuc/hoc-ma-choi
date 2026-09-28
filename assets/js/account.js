@@ -66,11 +66,11 @@ const Account = (() => {
   }
 
   /* ---- Màn hình đăng nhập ---- */
-  function gate(start){
+  function gate(start, opt={}){
     if(!API() || user){ restrict(); start(); flush(); return; }
     const app = document.getElementById('app');
     app.innerHTML = `<div class="login card">
-      <h1>Chào em! 👋</h1><p class="lead">Chọn lớp rồi đăng nhập bằng tài khoản thầy cô đã phát.</p>
+      <h1>${opt.title || 'Chào em! 👋'}</h1><p class="lead">${opt.lead || 'Chọn lớp rồi đăng nhập bằng tài khoản thầy cô đã phát.'}</p>
       <form id="lgForm" autocomplete="off">
         <label>Lớp<select id="lgLop" required><option value="">Đang tải danh sách lớp…</option></select></label>
         <label>Tài khoản<input id="lgUser" required autocapitalize="none" spellcheck="false" inputmode="text"></label>
@@ -105,7 +105,8 @@ const Account = (() => {
       finally{ btn.disabled = false; btn.textContent = 'Đăng nhập'; }
     };
   }
-  const userBar = () => user ? `<div class="userbar"><span>👋 <b>${esc(user.name)}</b> · ${esc(user.lop)}</span><button class="linkbtn" data-logout>Đăng xuất</button></div>` : '';
+  const isTeacher = () => !!user && !/\d/.test(user.lop);        // lớp không có chữ số (vd "GV") = giáo viên
+  const userBar = () => user ? `<div class="userbar"><span>👋 <b>${esc(user.name)}</b> · ${esc(user.lop)}</span>${isTeacher() && !/giao-vien/.test(location.pathname) ? '<a class="linkbtn" href="giao-vien/">📚 Bài giảng</a>' : ''}<button class="linkbtn" data-logout>Đăng xuất</button></div>` : '';
   const bindLogout = () => $$('[data-logout]').forEach(b => b.onclick = () => { if(queue().length) flush(); logout(); });
 
   /* ---- Sự kiện từ engine ---- */
@@ -133,7 +134,7 @@ const Account = (() => {
     }
   }
   addEventListener('online', flush);
-  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, gradeOfClass };
+  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, gradeOfClass, isTeacher, userBar, bindLogout };
 })();
 
 /* =====================================================================

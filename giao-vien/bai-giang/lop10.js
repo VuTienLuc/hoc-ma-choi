@@ -1,0 +1,236 @@
+/* =====================================================================
+   BÀI GIẢNG LỚP 10 – Toán, Kết nối tri thức (dành cho giáo viên trình chiếu)
+   Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn
+   Mỗi trang chiếu: {kind, tag, title|de, body|steps|sol, fig, figAt, ans}
+     kind: 'title' (mở bài) · 'kt' (kiến thức trọng tâm) · 'method' (phương pháp một dạng)
+           'vd' (ví dụ: đề + lời giải từng bước) · 'lt' (luyện tập) · 'sum' (tổng kết)
+     figAt: hình (thường là đáp án) chỉ hiện từ bước lời giải thứ figAt.
+   Công thức: tm() trong dòng, td() riêng dòng, tb() đáp án đậm (core.js).
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const sys = rows => tsys(rows);
+const P = (x,y) => `(${x};\\,${y})`;
+
+/* ---------- Hình ---------- */
+const F_2x_y = (sol=true) => planeSVG({x:[-1,5], y:[-1,5], lines:[[2,1,4,false,'d']], hatch:sol?[[2,1,4]]:[], pts:[[2,0,'A'],[0,4,'B']]});
+const F_x_2y = () => planeSVG({x:[-1,5], y:[-3,3], lines:[[1,-2,2,true,'d']], hatch:[[-1,2,-2]], pts:[[2,0,''],[0,-1,'']]});
+const F_y_2x = () => planeSVG({x:[-2,4], y:[-2,5], lines:[[2,-1,0,false,'d']], hatch:[[2,-1,0]], pts:[[1,2,''],[1,0,'M']]});
+const F_xy3  = () => planeSVG({x:[-1,5], y:[-1,5], lines:[[1,1,3,true,'d']], hatch:[[1,1,3]]});
+const F_sys = (lab=true) => planeSVG({x:[-1,9], y:[-1,11], lines:[[1,2,8,false,'d₁'],[2,1,10,false,'d₂']],
+  hatch:[[-1,0,0],[0,-1,0],[1,2,8],[2,1,10]], pts:lab?[[0,0,''],[5,0,'A'],[4,2,'B'],[0,4,'C']]:[]});
+const F_sysMin = () => planeSVG({x:[-1,10], y:[-1,11], lines:[[1,2,8,false,'d₁'],[2,1,10,false,'d₂']],
+  hatch:[[-1,0,0],[0,-1,0],[-1,-2,-8],[-2,-1,-10]], pts:[[8,0,'A'],[4,2,'B'],[0,10,'C']]});
+const F_tri = () => planeSVG({x:[-1,5], y:[-1,4], lines:[[3,4,12,false,'']], hatch:[[-1,0,0],[0,-1,0],[3,4,12]], pts:[[4,0,'A'],[0,3,'B']]});
+
+Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn', lessons:[
+
+/* =====================================================================
+   BÀI 3. BẤT PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN
+   ===================================================================== */
+{ id:'bai-3', name:'Bài 3. Bất phương trình bậc nhất hai ẩn', desc:'Khái niệm, nghiệm, miền nghiệm; 3 dạng bài với 6 ví dụ và 2 bài luyện tập.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương II', title:'Bài 3. Bất phương trình bậc nhất hai ẩn',
+   sub:'Mục tiêu bài học', points:[
+     'Nhận biết bất phương trình bậc nhất hai ẩn và nghiệm của nó.',
+     'Biểu diễn miền nghiệm của bất phương trình trên mặt phẳng toạ độ.',
+     'Vận dụng vào bài toán thực tế.']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Bất phương trình bậc nhất hai ẩn',
+   body: box(`Bất phương trình bậc nhất hai ẩn ${m('x, y')} có dạng ${d('ax + by \\lt c\\quad (ax + by \\gt c,\\ \\ ax + by \\le c,\\ \\ ax + by \\ge c)')}trong đó ${m('a, b, c')} là các số thực, ${m('a')} và ${m('b')} <b>không đồng thời bằng 0</b>.`) +
+     `<p>• Cặp số ${m(P('x_0','y_0'))} là <b>một nghiệm</b> nếu ${m('ax_0 + by_0 \\lt c')} là mệnh đề đúng.</p>
+      <p>• Ví dụ: ${m('2x - y \\le 3')} là bất phương trình bậc nhất hai ẩn; ${m(P(1,0))} là nghiệm vì ${m('2\\cdot 1 - 0 = 2 \\le 3')}.</p>` +
+     note('Bất phương trình bậc nhất hai ẩn luôn có <b>vô số nghiệm</b>.')},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Miền nghiệm', fig:F_2x_y(),
+   body:`<p>• Tập hợp các điểm ${m('M(x;\\,y)')} có toạ độ là nghiệm gọi là <b>miền nghiệm</b> của bất phương trình.</p>
+     <p>• Đường thẳng ${m('d: ax + by = c')} chia mặt phẳng thành <b>hai nửa mặt phẳng</b>; một nửa là miền nghiệm.</p>
+     <p>• Quy ước: <b>gạch bỏ</b> phần không phải miền nghiệm.</p>` +
+     box(`Dấu ${m('\\le,\\ \\ge')}: miền nghiệm <b>kể cả bờ</b> ${m('d')} (vẽ nét liền).<br>Dấu ${m('\\lt,\\ \\gt')}: <b>không kể bờ</b> (vẽ nét đứt).`)},
+
+  {kind:'method', tag:'Dạng 1', title:'Nhận biết bất phương trình bậc nhất hai ẩn. Kiểm tra nghiệm',
+   steps:[`Đưa bất phương trình về dạng ${m('ax + by \\lt c')} (hoặc ${m('\\gt, \\le, \\ge')}).`,
+     `Là bất phương trình bậc nhất hai ẩn khi: chỉ có ${m('x, y')} với số mũ 1 (không có ${m('x^2, y^2, xy')}, không có ẩn ở mẫu) và ${m('a, b')} không đồng thời bằng 0.`,
+     `Kiểm tra ${m(P('x_0','y_0'))}: thay vào bất phương trình; được mệnh đề <b>đúng</b> thì là nghiệm.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1',
+   de:`Trong các bất phương trình sau, bất phương trình nào là bất phương trình bậc nhất hai ẩn?<br>a) ${m('2x - 3y + 1 \\gt 0')}; &nbsp; b) ${m('x^2 + y \\le 4')}; &nbsp; c) ${m('3y - 5 \\ge 0')}; &nbsp; d) ${m('xy - x \\lt 2')}.`,
+   sol:[`a) ${m('2x - 3y \\gt -1')} có ${m('a = 2,\\ b = -3')} ⇒ <b>là</b> bất phương trình bậc nhất hai ẩn.`,
+     `b) Có ${m('x^2')} ⇒ <b>không phải</b>.`,
+     `c) ${m('0x + 3y \\ge 5')} có ${m('a = 0,\\ b = 3')} (không đồng thời bằng 0) ⇒ <b>là</b>.`,
+     `d) Có tích ${m('xy')} ⇒ <b>không phải</b>.`],
+   ans:`Kết luận: ${tb('\\text{a) và c)}')}.`},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2',
+   de:`Cho bất phương trình ${m('3x - 2y \\le 6')}. Trong các cặp số ${m(P(0,0))}, ${m(P(4,1))}, ${m(P(2,'-1'))}, cặp nào là nghiệm của bất phương trình?`,
+   sol:[`Với ${m(P(0,0))}: ${m('3\\cdot 0 - 2\\cdot 0 = 0 \\le 6')} <b>đúng</b> ⇒ là nghiệm.`,
+     `Với ${m(P(4,1))}: ${m('3\\cdot 4 - 2\\cdot 1 = 10 \\le 6')} <b>sai</b> ⇒ không là nghiệm.`,
+     `Với ${m(P(2,'-1'))}: ${m('3\\cdot 2 - 2\\cdot(-1) = 8 \\le 6')} <b>sai</b> ⇒ không là nghiệm.`],
+   ans:`Chỉ có ${tb(P(0,0))} là nghiệm.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Biểu diễn miền nghiệm của bất phương trình',
+   steps:[`<b>Bước 1.</b> Vẽ đường thẳng ${m('d: ax + by = c')} (lấy hai điểm, thường là giao với hai trục).`,
+     `<b>Bước 2.</b> Lấy điểm ${m('M(x_0;\\,y_0) \\notin d')} (thường là ${m('O(0;\\,0)')}), tính ${m('ax_0 + by_0')} rồi so sánh với ${m('c')}.`,
+     `<b>Bước 3.</b> Nếu thoả mãn: miền nghiệm là nửa mặt phẳng bờ ${m('d')} <b>chứa</b> ${m('M')}; nếu không: nửa mặt phẳng <b>không chứa</b> ${m('M')}. Gạch bỏ phần còn lại.`],
+   body: note(`Nếu ${m('d')} đi qua gốc ${m('O')} thì chọn điểm khác, chẳng hạn ${m('M(1;\\,0)')} hoặc ${m('M(0;\\,1)')}.`)},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Biểu diễn miền nghiệm của bất phương trình ${m('2x + y \\le 4')}.`, fig:F_2x_y(), figAt:3,
+   sol:[`Vẽ ${m('d: 2x + y = 4')} đi qua ${m('A(2;\\,0)')} và ${m('B(0;\\,4)')}; dấu ${m('\\le')} nên vẽ <b>nét liền</b>.`,
+     `Thay ${m('O(0;\\,0)')}: ${m('2\\cdot 0 + 0 = 0 \\le 4')} <b>đúng</b>.`,
+     `Miền nghiệm là nửa mặt phẳng bờ ${m('d')} <b>chứa</b> ${m('O')}, kể cả bờ ${m('d')} (phần không bị gạch).`]},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Biểu diễn miền nghiệm của bất phương trình ${m('x - 2y \\gt 2')}.`, fig:F_x_2y(), figAt:3,
+   sol:[`Vẽ ${m('d: x - 2y = 2')} đi qua ${m('(2;\\,0)')} và ${m('(0;\\,-1)')}; dấu ${m('\\gt')} nên vẽ <b>nét đứt</b>.`,
+     `Thay ${m('O(0;\\,0)')}: ${m('0 - 2\\cdot 0 = 0 \\gt 2')} <b>sai</b>.`,
+     `Miền nghiệm là nửa mặt phẳng bờ ${m('d')} <b>không chứa</b> ${m('O')}, không kể bờ ${m('d')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 2', label:'Ví dụ 5', de:`Biểu diễn miền nghiệm của bất phương trình ${m('y \\ge 2x')}.`, fig:F_y_2x(), figAt:3,
+   sol:[`Viết lại: ${m('-2x + y \\ge 0')}. Đường thẳng ${m('d: y = 2x')} đi qua ${m('O(0;\\,0)')} và ${m('(1;\\,2)')}; vẽ nét liền.`,
+     `${m('d')} đi qua ${m('O')} nên chọn ${m('M(1;\\,0)')}: ${m('-2\\cdot 1 + 0 = -2 \\ge 0')} <b>sai</b>.`,
+     `Miền nghiệm là nửa mặt phẳng bờ ${m('d')} <b>không chứa</b> ${m('M(1;\\,0)')}, kể cả bờ ${m('d')}.`]},
+
+  {kind:'method', tag:'Dạng 3', title:'Bài toán thực tế',
+   steps:[`Gọi ẩn ${m('x, y')} (nêu đơn vị và điều kiện, thường ${m('x \\ge 0,\\ y \\ge 0')}).`,
+     `Biểu diễn các đại lượng (tiền, khối lượng, thời gian…) theo ${m('x, y')}.`,
+     `Lập bất phương trình: “không quá, tối đa” → ${m('\\le')}; “ít nhất, tối thiểu” → ${m('\\ge')}.`,
+     `Trả lời câu hỏi (kiểm tra một phương án bằng cách thay số).`]},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6',
+   de:`Cô Lan có <b>300 nghìn đồng</b> để mua ${m('x')} kg cam (giá 30 nghìn đồng/kg) và ${m('y')} kg táo (giá 50 nghìn đồng/kg).<br>a) Viết bất phương trình mô tả điều kiện của ${m('x, y')}.<br>b) Cô Lan mua 5 kg cam và 3 kg táo được không? 6 kg cam và 3 kg táo thì sao?`,
+   sol:[`Số tiền mua cam là ${m('30x')}, mua táo là ${m('50y')} (nghìn đồng), với ${m('x \\ge 0,\\ y \\ge 0')}.`,
+     `a) Tổng số tiền không quá 300 nghìn: ${m('30x + 50y \\le 300 \\;\\Leftrightarrow\\; 3x + 5y \\le 30')}.`,
+     `b) ${m(P(5,3))}: ${m('3\\cdot 5 + 5\\cdot 3 = 30 \\le 30')} đúng ⇒ <b>mua được</b>.`,
+     `${m(P(6,3))}: ${m('3\\cdot 6 + 5\\cdot 3 = 33 \\le 30')} sai ⇒ <b>không đủ tiền</b>.`],
+   ans:`a) ${tb('3x + 5y \\le 30')}; b) 5 kg cam, 3 kg táo: được; 6 kg cam, 3 kg táo: không được.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cặp số ${m(P(-1,2))} có là nghiệm của bất phương trình ${m('x + 3y \\gt 4')} không?`,
+   sol:[`Thay ${m('x = -1,\\ y = 2')}: ${m('-1 + 3\\cdot 2 = 5 \\gt 4')} <b>đúng</b>.`], ans:`${tb(P(-1,2))} <b>là</b> nghiệm.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Biểu diễn miền nghiệm của bất phương trình ${m('x + y \\lt 3')}.`, fig:F_xy3(), figAt:3,
+   sol:[`Vẽ ${m('d: x + y = 3')} qua ${m('(3;\\,0)')}, ${m('(0;\\,3)')}; dấu ${m('\\lt')} nên vẽ nét đứt.`,
+     `Thay ${m('O')}: ${m('0 + 0 = 0 \\lt 3')} đúng.`,
+     `Miền nghiệm là nửa mặt phẳng bờ ${m('d')} chứa ${m('O')}, không kể bờ.`]},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>Dạng: ${m('ax + by \\lt c')} (hoặc ${m('\\gt, \\le, \\ge')}), ${m('a, b')} không đồng thời bằng 0.</li>
+     <li>Kiểm tra nghiệm: thay ${m('x_0, y_0')} → mệnh đề đúng.</li>
+     <li>Miền nghiệm: vẽ ${m('d')} → thử điểm ${m('O')} (hoặc điểm khác nếu ${m('d')} qua ${m('O')}) → gạch bỏ phần không thoả.</li>
+     <li>Có dấu “=” → kể cả bờ (nét liền); không có → không kể bờ (nét đứt).</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 3 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 3.')},
+]},
+
+/* =====================================================================
+   BÀI 4. HỆ BẤT PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN
+   ===================================================================== */
+{ id:'bai-4', name:'Bài 4. Hệ bất phương trình bậc nhất hai ẩn', desc:'Hệ và nghiệm; miền nghiệm; GTLN – GTNN của F = ax + by; bài toán tối ưu. 4 dạng, 4 ví dụ.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương II', title:'Bài 4. Hệ bất phương trình bậc nhất hai ẩn',
+   sub:'Mục tiêu bài học', points:[
+     'Nhận biết hệ bất phương trình bậc nhất hai ẩn và nghiệm của hệ.',
+     'Biểu diễn miền nghiệm của hệ trên mặt phẳng toạ độ.',
+     `Tìm giá trị lớn nhất, nhỏ nhất của ${m('F = ax + by')} trên miền đa giác.`,
+     'Giải bài toán tối ưu trong thực tế.']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Hệ bất phương trình bậc nhất hai ẩn',
+   body: box(`Hệ bất phương trình bậc nhất hai ẩn gồm <b>hai hay nhiều</b> bất phương trình bậc nhất hai ẩn. Ví dụ: ${d(sys(['x + y \\le 4','2x - y \\ge 0','x \\ge 0']))}`) +
+     `<p>• Cặp ${m(P('x_0','y_0'))} là <b>nghiệm của hệ</b> nếu nó là nghiệm của <b>tất cả</b> các bất phương trình trong hệ.</p>
+      <p>• <b>Miền nghiệm của hệ</b> là phần chung (giao) miền nghiệm của các bất phương trình.</p>`},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Biểu diễn miền nghiệm của hệ', fig:F_sys(false),
+   body:`<p>• Trên cùng một hệ trục, biểu diễn miền nghiệm của <b>từng</b> bất phương trình và <b>gạch bỏ</b> phần không thuộc miền nghiệm.</p>
+     <p>• Phần <b>không bị gạch</b> là miền nghiệm của hệ.</p>` +
+     note(`Với ${m('x \\ge 0')}: gạch bỏ bên trái trục ${m('Oy')}; với ${m('y \\ge 0')}: gạch bỏ phía dưới trục ${m('Ox')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:`Giá trị lớn nhất, nhỏ nhất của ${m('F = ax + by')}`,
+   body: box(`Nếu miền nghiệm của hệ là một <b>đa giác</b> thì ${m('F = ax + by')} đạt giá trị lớn nhất và giá trị nhỏ nhất tại <b>các đỉnh</b> của đa giác đó.`) +
+     `<ol class="lk-steps"><li>Xác định miền nghiệm và toạ độ các đỉnh (giao điểm của các đường thẳng).</li><li>Tính ${m('F')} tại từng đỉnh.</li><li>So sánh: số lớn nhất là ${m('F_{\\max}')}, số nhỏ nhất là ${m('F_{\\min}')}.</li></ol>`},
+
+  {kind:'method', tag:'Dạng 1', title:'Kiểm tra nghiệm của hệ',
+   steps:[`Thay ${m(P('x_0','y_0'))} vào <b>từng</b> bất phương trình của hệ.`,
+     `Nếu <b>tất cả</b> đều đúng ⇒ là nghiệm của hệ; chỉ cần <b>một</b> bất phương trình sai ⇒ không là nghiệm.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1',
+   de:`Cho hệ ${d(sys(['x + y \\le 4','2x - y \\ge 0','x \\ge 0']))}Các cặp số ${m(P(1,2))} và ${m(P(3,2))} có là nghiệm của hệ không?`,
+   sol:[`${m(P(1,2))}: ${m('1 + 2 = 3 \\le 4')} ✓; ${m('2\\cdot 1 - 2 = 0 \\ge 0')} ✓; ${m('1 \\ge 0')} ✓ ⇒ <b>là nghiệm</b> của hệ.`,
+     `${m(P(3,2))}: ${m('3 + 2 = 5 \\le 4')} ✗ (sai ngay bất phương trình thứ nhất) ⇒ <b>không là nghiệm</b>.`],
+   ans:`${tb(P(1,2))} là nghiệm; ${m(P(3,2))} không là nghiệm.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Biểu diễn miền nghiệm của hệ',
+   steps:[`Vẽ các đường thẳng bờ trên cùng một hệ trục.`,
+     `Với mỗi bất phương trình: thử điểm ${m('O')} (hoặc điểm khác), gạch bỏ nửa mặt phẳng <b>không</b> thoả mãn.`,
+     `Phần không bị gạch là miền nghiệm; tìm toạ độ các đỉnh bằng cách giải hệ hai phương trình đường thẳng.`]},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Biểu diễn miền nghiệm của hệ ${d(sys(['x \\ge 0','y \\ge 0','x + 2y \\le 8','2x + y \\le 10']))}`, fig:F_sys(), figAt:4,
+   sol:[`${m('x \\ge 0,\\ y \\ge 0')}: gạch bỏ phần bên trái ${m('Oy')} và phần phía dưới ${m('Ox')}.`,
+     `${m('d_1: x + 2y = 8')} qua ${m('(8;\\,0)')}, ${m('(0;\\,4)')}; thay ${m('O')}: ${m('0 \\le 8')} đúng ⇒ gạch bỏ nửa mặt phẳng không chứa ${m('O')}.`,
+     `${m('d_2: 2x + y = 10')} qua ${m('(5;\\,0)')}, ${m('(0;\\,10)')}; thay ${m('O')}: ${m('0 \\le 10')} đúng ⇒ gạch bỏ nửa mặt phẳng không chứa ${m('O')}.`,
+     `Miền nghiệm là tứ giác ${m('OABC')} (kể cả biên). Giao ${m('d_1, d_2')}: ${m(sys(['x + 2y = 8','2x + y = 10']))} ⇒ ${m('B(4;\\,2)')}.`],
+   ans:`Tứ giác ${tb('OABC')} với ${m('O(0;\\,0),\\ A(5;\\,0),\\ B(4;\\,2),\\ C(0;\\,4)')}.`},
+
+  {kind:'method', tag:'Dạng 3', title:`Tìm GTLN, GTNN của ${m('F = ax + by')}`,
+   steps:[`Biểu diễn miền nghiệm, xác định các đỉnh của đa giác.`, `Tính ${m('F')} tại từng đỉnh.`, `Kết luận giá trị lớn nhất, nhỏ nhất và điểm đạt được.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 3', label:'Ví dụ 3', de:`Tìm giá trị lớn nhất và nhỏ nhất của ${m('F = 3x + 2y')} trên miền nghiệm của hệ ở Ví dụ 2.`, fig:F_sys(),
+   sol:[`Miền nghiệm là tứ giác ${m('OABC')} với ${m('O(0;\\,0),\\ A(5;\\,0),\\ B(4;\\,2),\\ C(0;\\,4)')}.`,
+     `${m('F(O) = 0')}; ${m('F(A) = 3\\cdot 5 + 0 = 15')}; ${m('F(B) = 3\\cdot 4 + 2\\cdot 2 = 16')}; ${m('F(C) = 0 + 2\\cdot 4 = 8')}.`,
+     `So sánh các giá trị: lớn nhất là 16, nhỏ nhất là 0.`],
+   ans:`${tb('F_{\\max} = 16')} tại ${m(P(4,2))}; ${tb('F_{\\min} = 0')} tại ${m(P(0,0))}.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Bài toán tối ưu trong thực tế',
+   steps:[`Gọi ẩn ${m('x, y')} và nêu điều kiện.`, `Lập hệ bất phương trình từ các ràng buộc (thời gian, nguyên liệu, tiền…).`,
+     `Biểu diễn miền nghiệm, tìm các đỉnh.`, `Lập biểu thức ${m('F')} cần lớn nhất (lãi) hoặc nhỏ nhất (chi phí); tính tại các đỉnh và kết luận.`]},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 4', label:'Ví dụ 4', fig:F_sys(), figAt:3,
+   de:`Một xưởng làm hai loại sản phẩm I và II. Mỗi sản phẩm I cần 1 giờ trên máy A và 2 giờ trên máy B; mỗi sản phẩm II cần 2 giờ trên máy A và 1 giờ trên máy B. Mỗi ngày máy A làm tối đa 8 giờ, máy B tối đa 10 giờ. Lãi mỗi sản phẩm I là 3 triệu đồng, mỗi sản phẩm II là 2 triệu đồng. Mỗi ngày nên làm bao nhiêu sản phẩm mỗi loại để lãi nhiều nhất?`,
+   sol:[`Gọi ${m('x, y')} là số sản phẩm I, II làm mỗi ngày (${m('x \\ge 0,\\ y \\ge 0')}).`,
+     `Máy A: ${m('x + 2y \\le 8')}; máy B: ${m('2x + y \\le 10')}. Ta có hệ như Ví dụ 2.`,
+     `Miền nghiệm là tứ giác ${m('OABC')}: ${m('O(0;\\,0),\\ A(5;\\,0),\\ B(4;\\,2),\\ C(0;\\,4)')}.`,
+     `Tiền lãi ${m('F = 3x + 2y')} (triệu đồng): ${m('F(O) = 0,\\ F(A) = 15,\\ F(B) = 16,\\ F(C) = 8')}.`],
+   ans:`Làm <b>4 sản phẩm I</b> và <b>2 sản phẩm II</b>, lãi lớn nhất ${tb('16')} triệu đồng.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cặp số ${m(P(2,1))} có là nghiệm của hệ ${m(sys(['2x + y \\le 6','x - y \\ge 0']))} không?`,
+   sol:[`${m('2\\cdot 2 + 1 = 5 \\le 6')} ✓; ${m('2 - 1 = 1 \\ge 0')} ✓.`], ans:`${tb(P(2,1))} <b>là</b> nghiệm của hệ.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Miền nghiệm của một hệ là tam giác ${m('OAB')} với ${m('O(0;\\,0),\\ A(4;\\,0),\\ B(0;\\,3)')}. Tìm giá trị lớn nhất của ${m('F = x + 2y')}.`, fig:F_tri(),
+   sol:[`${m('F(O) = 0')}; ${m('F(A) = 4')}; ${m('F(B) = 0 + 2\\cdot 3 = 6')}.`], ans:`${tb('F_{\\max} = 6')} tại ${m('B(0;\\,3)')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>Nghiệm của hệ phải thoả mãn <b>tất cả</b> các bất phương trình.</li>
+     <li>Miền nghiệm của hệ: phần <b>không bị gạch</b> sau khi gạch bỏ miền không thoả của từng bất phương trình.</li>
+     <li>${m('F = ax + by')} đạt GTLN, GTNN tại <b>đỉnh</b> của miền đa giác.</li>
+     <li>Bài toán tối ưu: gọi ẩn → lập hệ → vẽ miền nghiệm → tìm đỉnh → tính ${m('F')} → kết luận.</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 4 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 4.')},
+]},
+
+/* =====================================================================
+   ÔN TẬP CHƯƠNG II
+   ===================================================================== */
+{ id:'on-tap-c2', name:'Ôn tập chương II', desc:'Sơ đồ kiến thức; bài toán chi phí nhỏ nhất (miền nghiệm không bị chặn); luyện tập tổng hợp.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức', title:'Ôn tập chương II',
+   sub:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn', points:['Hệ thống kiến thức của Bài 3 và Bài 4.','Luyện tập bài toán tối ưu: lãi lớn nhất, chi phí nhỏ nhất.']},
+
+  {kind:'sum', tag:'Hệ thống kiến thức', title:'Sơ đồ ghi nhớ',
+   body:`<ol class="lk-steps"><li><b>Bất phương trình bậc nhất hai ẩn</b> ${m('ax + by \\lt c')}: nghiệm là cặp ${m(P('x_0','y_0'))}; miền nghiệm là một nửa mặt phẳng bờ ${m('d: ax + by = c')}.</li>
+     <li><b>Biểu diễn miền nghiệm:</b> vẽ ${m('d')} → thử điểm ${m('O')} → gạch bỏ nửa không thoả (nét đứt khi dấu ${m('\\lt, \\gt')}).</li>
+     <li><b>Hệ bất phương trình:</b> miền nghiệm là giao các miền nghiệm (phần không bị gạch).</li>
+     <li><b>Tối ưu:</b> ${m('F = ax + by')} đạt GTLN, GTNN tại các đỉnh của miền nghiệm.</li></ol>`},
+
+  {kind:'vd', tag:'Ví dụ tổng hợp', label:'Ví dụ', fig:F_sysMin(), figAt:3,
+   de:`Mỗi gói thức ăn loại I chứa 1 đơn vị đạm và 2 đơn vị vitamin; mỗi gói loại II chứa 2 đơn vị đạm và 1 đơn vị vitamin. Mỗi ngày vật nuôi cần <b>ít nhất</b> 8 đơn vị đạm và 10 đơn vị vitamin. Giá gói I là 30 nghìn đồng, gói II là 20 nghìn đồng. Cần dùng bao nhiêu gói mỗi loại để chi phí thấp nhất?`,
+   sol:[`Gọi ${m('x, y')} là số gói loại I, II (${m('x \\ge 0,\\ y \\ge 0')}). Đạm: ${m('x + 2y \\ge 8')}; vitamin: ${m('2x + y \\ge 10')}.`,
+     `Chi phí ${m('F = 30x + 20y')} (nghìn đồng) cần <b>nhỏ nhất</b>.`,
+     `Miền nghiệm (không bị chặn) có các đỉnh ${m('A(8;\\,0),\\ B(4;\\,2),\\ C(0;\\,10)')}.`,
+     `${m('F(A) = 240')}; ${m('F(B) = 120 + 40 = 160')}; ${m('F(C) = 200')}. Nhỏ nhất tại ${m('B')}.`],
+   ans:`Dùng <b>4 gói loại I</b> và <b>2 gói loại II</b>, chi phí thấp nhất ${tb('160')} nghìn đồng.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Miền nghiệm của bất phương trình ${m('3x - y \\ge 3')} có chứa gốc ${m('O')} không? Có chứa điểm ${m('M(2;\\,1)')} không?`,
+   sol:[`${m('O')}: ${m('0 \\ge 3')} sai ⇒ <b>không chứa</b> ${m('O')}.`, `${m('M')}: ${m('3\\cdot 2 - 1 = 5 \\ge 3')} đúng ⇒ <b>chứa</b> ${m('M')}.`]},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Tìm giá trị nhỏ nhất của ${m('F = x - y')} trên miền nghiệm của hệ ở Ví dụ 2 của Bài 4 (tứ giác ${m('OABC')} với ${m('O(0;\\,0),\\ A(5;\\,0),\\ B(4;\\,2),\\ C(0;\\,4)')}).`, fig:F_sys(),
+   sol:[`${m('F(O) = 0')}; ${m('F(A) = 5')}; ${m('F(B) = 2')}; ${m('F(C) = -4')}.`], ans:`${tb('F_{\\min} = -4')} tại ${m('C(0;\\,4)')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Chuẩn bị kiểm tra',
+   body:`<ul><li>Luyện thành thạo 3 bước biểu diễn miền nghiệm.</li><li>Nhớ: nghiệm của hệ phải đúng với <b>mọi</b> bất phương trình.</li><li>Bài toán tối ưu: đọc kĩ “nhiều nhất / ít nhất”, lập đúng hệ, tìm đủ các đỉnh.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 10, Ôn tập chương II (3 mức độ).')},
+]},
+]});
+})();
