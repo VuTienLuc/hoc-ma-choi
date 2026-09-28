@@ -142,3 +142,36 @@ function segSVG(rows,o={}){
     s+=`<path class="sv-ink" stroke-width="2.5" d="M${bx-8} ${y1} Q${bx} ${y1} ${bx} ${y1+8} L${bx} ${m-6} L${bx+8} ${m} L${bx} ${m+6} L${bx} ${y2-8} Q${bx} ${y2} ${bx-8} ${y2}"/><text class="sv-txt" x="${bx+14}" y="${m+6}" font-size="17">${t}</text>`}
   return s+'</svg>';
 }
+
+/* Hình đường tròn (Toán 9 chương V). Toạ độ thực, trục y hướng lên; hình tự co vừa khung.
+   o.C: [{x,y,r,lab}]            đường tròn (lab: tên tâm → vẽ chấm tâm và nhãn)
+   o.P: [[x,y,'A',hướngĐộ?]]     điểm; nhãn đặt theo hướng (độ) hoặc tự đẩy ra xa tâm đường tròn đầu tiên
+   o.S: [[x1,y1,x2,y2,nétĐứt?,nhãn?,bên?]]  đoạn thẳng (nhãn ở giữa, bên = 1 | -1)
+   o.L: [[x1,y1,x2,y2,nhãn?]]    đường thẳng qua 2 điểm, kéo dài hết khung
+   o.sector {x,y,r,a1,a2} tô hình quạt (ngược chiều kim đồng hồ từ a1 đến a2) · o.ring {x,y,r1,r2} tô vành khuyên
+   o.arc {x,y,r,a1,a2} tô đậm cung · o.ang [[x,y,a1,a2,nhãn]] cung đánh dấu góc · o.right [[x,y,hướngĐộ]] kí hiệu góc vuông */
+function circleSVG(o={}){
+  const C=o.C||[],PT=o.P||[],SG=o.S||[],xs=[],ys=[];
+  C.forEach(c=>{xs.push(c.x-c.r,c.x+c.r);ys.push(c.y-c.r,c.y+c.r)});PT.forEach(p=>{xs.push(p[0]);ys.push(p[1])});SG.forEach(s=>{xs.push(s[0],s[2]);ys.push(s[1],s[3])});
+  let [x0,y0,x1,y1]=o.box||[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];const pad=Math.max(x1-x0,y1-y0)*.13||1;x0-=pad;x1+=pad;y0-=pad;y1+=pad;
+  const u=Math.min(330/(x1-x0),290/(y1-y0)),W=(x1-x0)*u,H=(y1-y0)*u,X=x=>((x-x0)*u).toFixed(1),Y=y=>((y1-y)*u).toFixed(1),rad=a=>a*Math.PI/180;
+  const pol=(x,y,r,a)=>[x+r*Math.cos(rad(a)),y+r*Math.sin(rad(a))],cx=C.length?C[0].x:(x0+x1)/2,cy=C.length?C[0].y:(y0+y1)/2;
+  const circ=(x,y,r)=>`M${X(x-r)} ${Y(y)} a${r*u} ${r*u} 0 1 0 ${2*r*u} 0 a${r*u} ${r*u} 0 1 0 ${-2*r*u} 0`;
+  const arcD=(x,y,r,a1,a2)=>{const d=((a2-a1)%360+360)%360,[p,q]=pol(x,y,r,a1),[s,t]=pol(x,y,r,a2);return `M${X(p)} ${Y(q)} A${r*u} ${r*u} 0 ${d>180?1:0} 0 ${X(s)} ${Y(t)}`};
+  const T=(x,y,s,fs=17,cls='sv-txt')=>`<text class="${cls}" x="${x}" y="${y}" font-size="${fs}" text-anchor="middle" dominant-baseline="middle">${s}</text>`;
+  let s=`<svg viewBox="0 0 ${W.toFixed(1)} ${H.toFixed(1)}" role="img" aria-label="Hình vẽ đường tròn">`;
+  if(o.ring){const g=o.ring;s+=`<path class="sv-fill" fill-rule="evenodd" d="${circ(g.x,g.y,g.r1)} ${circ(g.x,g.y,g.r2)}"/>`}
+  if(o.sector){const g=o.sector;s+=`<path class="sv-fill" d="M${X(g.x)} ${Y(g.y)} L${arcD(g.x,g.y,g.r,g.a1,g.a2).slice(1)} Z"/>`}
+  C.forEach(c=>{s+=`<circle class="sv-ink" stroke-width="2.5" cx="${X(c.x)}" cy="${Y(c.y)}" r="${(c.r*u).toFixed(1)}"/>`});
+  if(o.arc){const g=o.arc;s+=`<path class="sv-arc" d="${arcD(g.x,g.y,g.r,g.a1,g.a2)}"/>`}
+  (o.L||[]).forEach(l=>{const dx=l[2]-l[0],dy=l[3]-l[1],k=(x1-x0+y1-y0)*3/Math.hypot(dx,dy);s+=`<line class="sv-ink" stroke-width="2.2" x1="${X(l[0]-dx*k)}" y1="${Y(l[1]-dy*k)}" x2="${X(l[0]+dx*k)}" y2="${Y(l[1]+dy*k)}"/>`;
+    if(l[4]){const L=Math.hypot(dx,dy),e=[l[2]+dx/L*(x1-x0)*.12,l[3]+dy/L*(y1-y0)*.12];s+=T(+X(e[0])+12,+Y(e[1])-12,l[4],17,'sv-txt')}});
+  SG.forEach(g=>{s+=`<line class="sv-ink" stroke-width="2.2" ${g[4]?'stroke-dasharray="7 5" ':''}x1="${X(g[0])}" y1="${Y(g[1])}" x2="${X(g[2])}" y2="${Y(g[3])}"/>`;
+    if(g[5]){const mx=(+X(g[0])+ +X(g[2]))/2,my=(+Y(g[1])+ +Y(g[3]))/2,dx=+X(g[2])-X(g[0]),dy=+Y(g[3])-Y(g[1]),L=Math.hypot(dx,dy)||1,sd=g[6]||1;s+=T(mx-dy/L*15*sd,my+dx/L*15*sd,g[5],16,'sv-muted')}});
+  (o.ang||[]).forEach(a=>{const r=20/u;s+=`<path class="sv-ink" stroke-width="1.8" d="${arcD(a[0],a[1],r,a[2],a[3])}"/>`;if(a[4]){const[p,q]=pol(a[0],a[1],r*2,(a[2]+a[3])/2);s+=T(X(p),Y(q),a[4],15,'sv-muted')}});
+  (o.right||[]).forEach(a=>{const k=11/u,[p,q]=pol(a[0],a[1],k,a[2]),[p2,q2]=pol(a[0],a[1],k,a[2]+90),[m,n]=[p+p2-a[0],q+q2-a[1]];s+=`<path class="sv-ink" stroke-width="1.6" d="M${X(p)} ${Y(q)} L${X(m)} ${Y(n)} L${X(p2)} ${Y(q2)}"/>`});
+  C.forEach(c=>{if(c.lab){s+=`<circle class="sv-pt" cx="${X(c.x)}" cy="${Y(c.y)}" r="3.6"/>`+T(+X(c.x)+(c.lp||0),+Y(c.y)+14,c.lab)}});
+  PT.forEach(p=>{let a=p[3];if(a==null){a=Math.hypot(p[0]-cx,p[1]-cy)<1e-9?-60:Math.atan2(p[1]-cy,p[0]-cx)*180/Math.PI}const[lx,ly]=[+X(p[0])+15*Math.cos(rad(a)),+Y(p[1])-15*Math.sin(rad(a))];
+    s+=`<circle class="sv-pt" cx="${X(p[0])}" cy="${Y(p[1])}" r="3.6"/>`+(p[2]?T(lx.toFixed(1),ly.toFixed(1),p[2]):'')});
+  return s+'</svg>';
+}

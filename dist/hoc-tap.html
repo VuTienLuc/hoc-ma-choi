@@ -484,6 +484,11 @@ body.noscroll{overflow:hidden}
 .pr-legend{margin:5pt 0 0;font-size:10pt;text-align:center}
 .ws h3 small{font-weight:600;text-transform:none;letter-spacing:0}
 .ws .pr-dang{margin:8pt 0 2pt;font-style:italic}
+/* Hình đường tròn */
+.sv-fill{fill:var(--shade);fill-opacity:.35;stroke:none}
+.sv-arc{fill:none;stroke:var(--primary);stroke-width:5;stroke-linecap:round}
+.sv-pt{fill:var(--ink)}
+.ws .sv-fill{fill:var(--ws-muted);fill-opacity:.2}
 
 </style>
 </head>
@@ -738,6 +743,39 @@ function segSVG(rows,o={}){
     if(r.right)s+=`<text class="sv-txt" x="${x+8}" y="${y+17}" font-size="17">${r.right}</text>`});
   if(o.brace){const{from,to,t}=o.brace,y1=top+from*rh,y2=top+to*rh+bh,m=(y1+y2)/2;
     s+=`<path class="sv-ink" stroke-width="2.5" d="M${bx-8} ${y1} Q${bx} ${y1} ${bx} ${y1+8} L${bx} ${m-6} L${bx+8} ${m} L${bx} ${m+6} L${bx} ${y2-8} Q${bx} ${y2} ${bx-8} ${y2}"/><text class="sv-txt" x="${bx+14}" y="${m+6}" font-size="17">${t}</text>`}
+  return s+'</svg>';
+}
+
+/* Hình đường tròn (Toán 9 chương V). Toạ độ thực, trục y hướng lên; hình tự co vừa khung.
+   o.C: [{x,y,r,lab}]            đường tròn (lab: tên tâm → vẽ chấm tâm và nhãn)
+   o.P: [[x,y,'A',hướngĐộ?]]     điểm; nhãn đặt theo hướng (độ) hoặc tự đẩy ra xa tâm đường tròn đầu tiên
+   o.S: [[x1,y1,x2,y2,nétĐứt?,nhãn?,bên?]]  đoạn thẳng (nhãn ở giữa, bên = 1 | -1)
+   o.L: [[x1,y1,x2,y2,nhãn?]]    đường thẳng qua 2 điểm, kéo dài hết khung
+   o.sector {x,y,r,a1,a2} tô hình quạt (ngược chiều kim đồng hồ từ a1 đến a2) · o.ring {x,y,r1,r2} tô vành khuyên
+   o.arc {x,y,r,a1,a2} tô đậm cung · o.ang [[x,y,a1,a2,nhãn]] cung đánh dấu góc · o.right [[x,y,hướngĐộ]] kí hiệu góc vuông */
+function circleSVG(o={}){
+  const C=o.C||[],PT=o.P||[],SG=o.S||[],xs=[],ys=[];
+  C.forEach(c=>{xs.push(c.x-c.r,c.x+c.r);ys.push(c.y-c.r,c.y+c.r)});PT.forEach(p=>{xs.push(p[0]);ys.push(p[1])});SG.forEach(s=>{xs.push(s[0],s[2]);ys.push(s[1],s[3])});
+  let [x0,y0,x1,y1]=o.box||[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)];const pad=Math.max(x1-x0,y1-y0)*.13||1;x0-=pad;x1+=pad;y0-=pad;y1+=pad;
+  const u=Math.min(330/(x1-x0),290/(y1-y0)),W=(x1-x0)*u,H=(y1-y0)*u,X=x=>((x-x0)*u).toFixed(1),Y=y=>((y1-y)*u).toFixed(1),rad=a=>a*Math.PI/180;
+  const pol=(x,y,r,a)=>[x+r*Math.cos(rad(a)),y+r*Math.sin(rad(a))],cx=C.length?C[0].x:(x0+x1)/2,cy=C.length?C[0].y:(y0+y1)/2;
+  const circ=(x,y,r)=>`M${X(x-r)} ${Y(y)} a${r*u} ${r*u} 0 1 0 ${2*r*u} 0 a${r*u} ${r*u} 0 1 0 ${-2*r*u} 0`;
+  const arcD=(x,y,r,a1,a2)=>{const d=((a2-a1)%360+360)%360,[p,q]=pol(x,y,r,a1),[s,t]=pol(x,y,r,a2);return `M${X(p)} ${Y(q)} A${r*u} ${r*u} 0 ${d>180?1:0} 0 ${X(s)} ${Y(t)}`};
+  const T=(x,y,s,fs=17,cls='sv-txt')=>`<text class="${cls}" x="${x}" y="${y}" font-size="${fs}" text-anchor="middle" dominant-baseline="middle">${s}</text>`;
+  let s=`<svg viewBox="0 0 ${W.toFixed(1)} ${H.toFixed(1)}" role="img" aria-label="Hình vẽ đường tròn">`;
+  if(o.ring){const g=o.ring;s+=`<path class="sv-fill" fill-rule="evenodd" d="${circ(g.x,g.y,g.r1)} ${circ(g.x,g.y,g.r2)}"/>`}
+  if(o.sector){const g=o.sector;s+=`<path class="sv-fill" d="M${X(g.x)} ${Y(g.y)} L${arcD(g.x,g.y,g.r,g.a1,g.a2).slice(1)} Z"/>`}
+  C.forEach(c=>{s+=`<circle class="sv-ink" stroke-width="2.5" cx="${X(c.x)}" cy="${Y(c.y)}" r="${(c.r*u).toFixed(1)}"/>`});
+  if(o.arc){const g=o.arc;s+=`<path class="sv-arc" d="${arcD(g.x,g.y,g.r,g.a1,g.a2)}"/>`}
+  (o.L||[]).forEach(l=>{const dx=l[2]-l[0],dy=l[3]-l[1],k=(x1-x0+y1-y0)*3/Math.hypot(dx,dy);s+=`<line class="sv-ink" stroke-width="2.2" x1="${X(l[0]-dx*k)}" y1="${Y(l[1]-dy*k)}" x2="${X(l[0]+dx*k)}" y2="${Y(l[1]+dy*k)}"/>`;
+    if(l[4]){const L=Math.hypot(dx,dy),e=[l[2]+dx/L*(x1-x0)*.12,l[3]+dy/L*(y1-y0)*.12];s+=T(+X(e[0])+12,+Y(e[1])-12,l[4],17,'sv-txt')}});
+  SG.forEach(g=>{s+=`<line class="sv-ink" stroke-width="2.2" ${g[4]?'stroke-dasharray="7 5" ':''}x1="${X(g[0])}" y1="${Y(g[1])}" x2="${X(g[2])}" y2="${Y(g[3])}"/>`;
+    if(g[5]){const mx=(+X(g[0])+ +X(g[2]))/2,my=(+Y(g[1])+ +Y(g[3]))/2,dx=+X(g[2])-X(g[0]),dy=+Y(g[3])-Y(g[1]),L=Math.hypot(dx,dy)||1,sd=g[6]||1;s+=T(mx-dy/L*15*sd,my+dx/L*15*sd,g[5],16,'sv-muted')}});
+  (o.ang||[]).forEach(a=>{const r=20/u;s+=`<path class="sv-ink" stroke-width="1.8" d="${arcD(a[0],a[1],r,a[2],a[3])}"/>`;if(a[4]){const[p,q]=pol(a[0],a[1],r*2,(a[2]+a[3])/2);s+=T(X(p),Y(q),a[4],15,'sv-muted')}});
+  (o.right||[]).forEach(a=>{const k=11/u,[p,q]=pol(a[0],a[1],k,a[2]),[p2,q2]=pol(a[0],a[1],k,a[2]+90),[m,n]=[p+p2-a[0],q+q2-a[1]];s+=`<path class="sv-ink" stroke-width="1.6" d="M${X(p)} ${Y(q)} L${X(m)} ${Y(n)} L${X(p2)} ${Y(q2)}"/>`});
+  C.forEach(c=>{if(c.lab){s+=`<circle class="sv-pt" cx="${X(c.x)}" cy="${Y(c.y)}" r="3.6"/>`+T(+X(c.x)+(c.lp||0),+Y(c.y)+14,c.lab)}});
+  PT.forEach(p=>{let a=p[3];if(a==null){a=Math.hypot(p[0]-cx,p[1]-cy)<1e-9?-60:Math.atan2(p[1]-cy,p[0]-cx)*180/Math.PI}const[lx,ly]=[+X(p[0])+15*Math.cos(rad(a)),+Y(p[1])-15*Math.sin(rad(a))];
+    s+=`<circle class="sv-pt" cx="${X(p[0])}" cy="${Y(p[1])}" r="3.6"/>`+(p[2]?T(lx.toFixed(1),ly.toFixed(1),p[2]):'')});
   return s+'</svg>';
 }
 
@@ -1970,6 +2008,7 @@ lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: bảy hằng đẳng
    Chương II. Phương trình và bất phương trình bậc nhất một ẩn (Bài 4–6)
    Chương III. Căn bậc hai và căn bậc ba (Bài 7–10)
    Chương IV. Hệ thức lượng trong tam giác vuông (Bài 11–12)
+   Chương V.  Đường tròn (Bài 13–17)
    Mỗi dạng bài: lv => câu hỏi. Luôn chọn NGHIỆM trước rồi mới dựng đề.
    Công thức viết LaTeX: tm() trong dòng, td() riêng dòng, tb() đáp án đậm (xem core.js).
    ===================================================================== */
@@ -2944,6 +2983,242 @@ const g12d = lv => {   // bài toán thực tế
 lesson(4,'ti-so-luong-giac','Bài 11. Tỉ số lượng giác của góc nhọn','Định nghĩa sin, cos, tan, cot; tính tỉ số; hai góc phụ nhau; giá trị của góc đặc biệt.',[g11a,g11b,g11c,g11d]);
 lesson(4,'he-thuc-canh-goc','Bài 12. Một số hệ thức giữa cạnh, góc trong tam giác vuông và ứng dụng','Hệ thức cạnh – góc; tính cạnh, giải tam giác vuông; bài toán thực tế.',[g12a,g12b,g12c,g12d]);
 lesson(4,'on-tap-c4','Ôn tập chương IV','Tổng hợp: tỉ số lượng giác, góc phụ nhau, góc đặc biệt, giải tam giác vuông, ứng dụng.',[g11b,g11c,g11d,g12b,g12c,g12d]);
+
+/* =====================================================================
+   CHƯƠNG V – ĐƯỜNG TRÒN (Bài 13–17). Hình vẽ bằng circleSVG (figures.js).
+   Khối { } riêng để tên hằng không trùng các chương trên.
+   ===================================================================== */
+{
+const m = tm, dg = x => `${x}^\\circ`, hat = s => `\\widehat{${s}}`, arcS = s => `\\text{sđ}\\,\\overset{\\frown}{${s}}`;
+const cm = x => `${tdec(x)}\\text{ cm}`, sq = x => `\\sqrt{${x}}`;
+const at = (r, a) => [r*Math.cos(a*Math.PI/180), r*Math.sin(a*Math.PI/180)];
+const dirOf = (p, q) => Math.atan2(q[1]-p[1], q[0]-p[0])*180/Math.PI;
+const rightAt = (A, P, Q) => { const a1 = dirOf(A, P), a2 = dirOf(A, Q); return [A[0], A[1], Math.abs(((a2-a1+540)%360)-180-90) < 1 ? a1 : a2]; };   // kí hiệu vuông tại A giữa AP, AQ
+const POS = ['Nằm trong đường tròn', 'Nằm trên đường tròn', 'Nằm ngoài đường tròn'];
+const LINE = ['Cắt nhau (2 điểm chung)', 'Tiếp xúc (1 điểm chung)', 'Không giao nhau (0 điểm chung)'];
+const TWO = ['Cắt nhau', 'Tiếp xúc ngoài', 'Tiếp xúc trong', 'Ở ngoài nhau', 'Đựng nhau'];
+const TRIP = [[3,4,5],[6,8,10],[5,12,13],[8,15,17],[9,12,15],[7,24,25],[12,16,20]];
+const pos3 = (R, d) => d < R ? 0 : d === R ? 1 : 2;
+
+/* ---------- Bài 13. Mở đầu về đường tròn ---------- */
+const g13a = lv => {   // vị trí của điểm đối với đường tròn
+  const k = R(0,2);
+  if(lv === 3){ const t = pick(TRIP.slice(0,4)), sw = Math.random()<.5, a = (sw?t[0]:t[1])*pick([-1,1]), b = (sw?t[1]:t[0])*pick([-1,1]), c = t[2], Rr = c + [1,0,-1][k];
+    return QC({text:`Trong mặt phẳng tọa độ ${m('Oxy')}, cho đường tròn ${m(`(O;\\,${Rr})`)} với ${m('O')} là gốc tọa độ và điểm ${m(`M({${a}};\\,{${b}})`)}. Điểm ${m('M')}`, opts:POS, ans:POS[k], keepOrder:true,
+      hint:`Tính ${m('OM = \\sqrt{x_M^2 + y_M^2}')} rồi so sánh với bán kính.`, sol:`${m(`OM = \\sqrt{${a*a} + ${b*b}} = ${c}`)} ${m(['\\lt','=','\\gt'][k])} ${Rr} nên điểm ${m('M')} <b>${POS[k].toLowerCase()}</b>.`}); }
+  let Rr, d, show, showR;
+  if(lv === 1){ Rr = R(3,9); d = [R(1,Rr-1), Rr, Rr+R(1,5)][k]; show = cm(d); showR = cm(Rr); }
+  else { Rr = R(15,60); d = [Rr-R(2,12), Rr, Rr+R(2,12)][k]; showR = cm(Rr/10); show = `${d}\\text{ mm}`; }
+  return QC({text:`Cho đường tròn ${m(`(O;\\,${showR})`)} và điểm ${m('M')} với ${m(`OM = ${show}`)}. Điểm ${m('M')}`, opts:POS, ans:POS[k], keepOrder:true,
+    fig:lv===1 ? circleSVG({C:[{x:0,y:0,r:Rr,lab:'O'}], S:[[0,0,...at(Rr,-30),false,m(`R = ${Rr}`)]]}) : '',
+    hint:`So sánh ${m('OM')} với bán kính ${m('R')}${lv===2?' (đổi về cùng đơn vị)':''}: ${m('OM \\lt R')} thì nằm trong, ${m('OM = R')} thì nằm trên, ${m('OM \\gt R')} thì nằm ngoài.`,
+    sol:`${lv===2?`${m(`R = ${showR} = ${Rr}\\text{ mm}`)}; `:''}${m(`OM = ${lv===2?d+'\\text{ mm}':show}`)} ${m(['\\lt','=','\\gt'][k])} ${m('R')} nên điểm ${m('M')} <b>${POS[k].toLowerCase()}</b>.`});
+};
+const g13b = lv => {   // bán kính – đường kính
+  if(lv === 3){ const t = pick(TRIP), sw = Math.random()<.5, b = sw?t[0]:t[1], c = sw?t[1]:t[0], h = t[2];
+    return QB({text:`Cho tam giác ${m('ABC')} vuông tại ${m('A')} có ${m(`AB = ${b}`)} cm, ${m(`AC = ${c}`)} cm. Tính bán kính đường tròn đi qua ba điểm ${m('A, B, C')}.`, tpl:`${m('R =')} [_] cm`, ans:[h/2],
+      hint:`Trong tam giác vuông, trung điểm cạnh huyền cách đều ba đỉnh; bán kính bằng nửa cạnh huyền ${m('BC')}.`,
+      sol:`${m(`BC = \\sqrt{${b*b} + ${c*c}} = ${h}`)} cm. Tâm là trung điểm ${m('O')} của ${m('BC')}, nên ${m(`R = \\dfrac{BC}{2} =`)} ${tb(tdec(h/2))} cm.`,
+      fig:circleSVG({C:[{x:0,y:0,r:h/2,lab:'O'}], P:[[-h/2,0,'B'],[h/2,0,'C'],[(c*c-b*b)/(2*h), b*c/h,'A']], S:[[-h/2,0,h/2,0],[-h/2,0,(c*c-b*b)/(2*h),b*c/h],[h/2,0,(c*c-b*b)/(2*h),b*c/h]]})}); }
+  const toD = Math.random() < .5, Rr = lv===1 ? R(2,15) : R(3,30)/2;
+  if(lv === 2){ const AB = 2*Rr; return QB({text:`Cho ${m('AB')} là một đường kính của đường tròn ${m('(O)')}, ${m(`AB = ${cm(AB)}`)}. Điểm ${m('C')} thuộc đường tròn. Tính ${m('OC')}.`, tpl:`${m('OC =')} [_] cm`, ans:[Rr],
+    hint:'Tâm O là trung điểm của đường kính; mọi điểm trên đường tròn cách tâm một khoảng bằng bán kính.', sol:`${m(`OC = R = \\dfrac{AB}{2} =`)} ${tb(tdec(Rr))} cm.`}); }
+  return toD ? QB({text:`Đường tròn ${m(`(O;\\,${cm(Rr)})`)} có đường kính bằng bao nhiêu?`, tpl:'[_] cm', ans:[2*Rr], hint:'Đường kính bằng hai lần bán kính.', sol:`${m(`2R = 2\\cdot ${Rr} =`)} ${tb(2*Rr)} cm.`})
+             : QB({text:`Một đường tròn có đường kính ${m(cm(2*Rr))}. Bán kính của nó bằng bao nhiêu?`, tpl:'[_] cm', ans:[Rr], hint:'Bán kính bằng một nửa đường kính.', sol:`${m(`R = \\dfrac{${2*Rr}}{2} =`)} ${tb(Rr)} cm.`});
+};
+const g13c = lv => {   // tính đối xứng
+  if(lv === 1){ const q = pick([['Tâm đối xứng của đường tròn là', ['Tâm của đường tròn','Một điểm bất kì trên đường tròn','Một điểm bất kì','Đường tròn không có tâm đối xứng'], 'Đường tròn là hình có tâm đối xứng; tâm đối xứng chính là tâm của nó.'],
+      ['Đường tròn có bao nhiêu trục đối xứng?', ['Vô số','1','2','0'], 'Mỗi đường thẳng đi qua tâm (chứa một đường kính) đều là trục đối xứng, nên có vô số trục.'],
+      ['Trục đối xứng của đường tròn là', ['Mọi đường thẳng đi qua tâm','Mọi dây của đường tròn','Mọi tiếp tuyến của đường tròn','Chỉ một đường kính cố định'], 'Mọi đường thẳng đi qua tâm đều là trục đối xứng của đường tròn.']]);
+    return QC({text:q[0], opts:q[1], ans:q[1][0], hint:'Nhớ lại tính đối xứng của đường tròn: tâm đối xứng và trục đối xứng.', sol:`${q[2]} Đáp án: <b>${q[1][0]}</b>.`}); }
+  const a = sR(1,5), b = sR(1,5), t = pick([[3,4],[4,3],[0,5],[5,0],[6,8],[8,6]]).map(v => v*pick([-1,1])), x = a+t[0], y = b+t[1], r = Math.hypot(...t), xp = 2*a-x, yp = 2*b-y;
+  if(lv === 2) return QB({text:`Cho đường tròn tâm ${m(`I({${a}};\\,{${b}})`)} đi qua điểm ${m(`A({${x}};\\,{${y}})`)}. Tìm tọa độ điểm ${m("A'")} đối xứng với ${m('A')} qua tâm ${m('I')}.`, tpl:`${m("A'(")}[_]${m(';')} [_]${m(')')}`, ans:[xp, yp],
+    hint:`${m('I')} là trung điểm của ${m("AA'")}: ${m("x_{A'} = 2x_I - x_A,\\ y_{A'} = 2y_I - y_A")}.`, sol:`${m(`x_{A'} = 2\\cdot${tp(a)} - ${tp(x)} = ${xp}`)}, ${m(`y_{A'} = 2\\cdot${tp(b)} - ${tp(y)} = ${yp}`)}. Vậy ${tb(`A'({${xp}};\\,{${yp}})`)}. ${m("A'")} cũng thuộc đường tròn.`});
+  return QB({text:`Cho đường tròn tâm ${m(`I({${a}};\\,{${b}})`)} đi qua ${m(`A({${x}};\\,{${y}})`)}. Tính bán kính ${m('R')} và tìm điểm ${m("A'")} đối xứng với ${m('A')} qua ${m('I')}.`, tpl:`${m('R =')} [_] &nbsp; ${m("A'(")}[_]${m(';')} [_]${m(')')}`, ans:[r, xp, yp],
+    hint:`${m('R = IA = \\sqrt{(x_A - x_I)^2 + (y_A - y_I)^2}')}; ${m('I')} là trung điểm ${m("AA'")}.`, sol:`${m(`R = \\sqrt{${t[0]*t[0]} + ${t[1]*t[1]}} = ${r}`)}; ${m(`A'({${xp}};\\,{${yp}})`)}. Đáp án: ${tb(`R = ${r};\\ A'({${xp}};\\,{${yp}})`)}.`});
+};
+const g13d = lv => {   // điều kiện của R để M ở vị trí cho trước
+  const d = R(3,12), cases = lv===3 ? [['không nằm ngoài','R \\ge '+d],['không nằm trong','R \\le '+d]] : [['nằm trong','R \\gt '+d],['nằm trên','R = '+d],['nằm ngoài','R \\lt '+d]], c = pick(cases);
+  const opts = [`R \\gt ${d}`, `R \\lt ${d}`, `R = ${d}`, `R \\ge ${d}`, `R \\le ${d}`];
+  return QC({text:`Cho điểm ${m('M')} với ${m(`OM = ${d}`)} cm. Điểm ${m('M')} <b>${c[0]}</b> đường tròn ${m('(O;\\,R)')} khi và chỉ khi`, opts:(lv===3?opts:opts.slice(0,3)).map(x => m(x+'\\text{ cm}')), ans:m(c[1]+'\\text{ cm}'), keepOrder:true,
+    hint:`M nằm trong ⇔ ${m('OM \\lt R')}; nằm trên ⇔ ${m('OM = R')}; nằm ngoài ⇔ ${m('OM \\gt R')}.${lv===3?' “Không nằm ngoài” nghĩa là nằm trong hoặc nằm trên.':''}`,
+    sol:`M ${c[0]} đường tròn ⇔ ${tb(c[1]+'\\text{ cm}')}.`});
+};
+
+/* ---------- Bài 14. Cung và dây của một đường tròn ---------- */
+const figAOB = (al, labs=true) => { const a1 = 90 - al/2, a2 = 90 + al/2, A = at(4, a2), B = at(4, a1);
+  return circleSVG({C:[{x:0,y:0,r:4,lab:'O'}], P:[[...A,'A'],[...B,'B']], S:[[0,0,...A],[0,0,...B]], ang:[[0,0,a1,a2,labs?'':'']], arc:{x:0,y:0,r:4,a1,a2}}); };
+const g14a = lv => {   // góc ở tâm và số đo cung
+  if(lv === 3){ const x = R(10,80), al = 180-2*x;
+    return QB({text:`Cho ${m('A, B')} thuộc đường tròn ${m('(O)')} sao cho ${m(`${hat('OAB')} = ${dg(x)}`)}. Tính số đo cung nhỏ ${m('AB')} và cung lớn ${m('AB')}.`, tpl:`Cung nhỏ: [_]${m('^\\circ')} &nbsp; Cung lớn: [_]${m('^\\circ')}`, ans:[al, 360-al], fig:figAOB(al),
+      hint:`Tam giác ${m('OAB')} cân tại ${m('O')} nên tính được ${m(hat('AOB'))}; số đo cung nhỏ bằng góc ở tâm, cung lớn bằng ${m('360^\\circ')} trừ cung nhỏ.`,
+      sol:`${m(`${hat('AOB')} = 180^\\circ - 2\\cdot ${dg(x)} = ${dg(al)}`)}. Cung nhỏ: ${tb(dg(al))}; cung lớn: ${m(`360^\\circ - ${dg(al)} =`)} ${tb(dg(360-al))}.`}); }
+  const al = 5*R(4,34), big = lv === 2;
+  return QB({text:`Cho ${m('A, B')} thuộc đường tròn ${m('(O)')} với ${m(`${hat('AOB')} = ${dg(al)}`)}. Tính số đo cung ${big?'lớn':'nhỏ'} ${m('AB')}.`, tpl:`${m(arcS('AB')+' =')} [_]${m('^\\circ')}`, ans:[big?360-al:al], fig:figAOB(al),
+    hint:big?`Số đo cung lớn bằng ${m('360^\\circ')} trừ số đo cung nhỏ (cung nhỏ bằng góc ở tâm).`:'Số đo của cung nhỏ bằng số đo góc ở tâm chắn cung đó.',
+    sol:big?`Cung nhỏ ${m('AB')} có số đo ${m(dg(al))}, nên cung lớn có số đo ${m(`360^\\circ - ${dg(al)} =`)} ${tb(dg(360-al))}.`:`${m(`${arcS('AB')} = ${hat('AOB')} =`)} ${tb(dg(al))}.`});
+};
+const g14b = lv => {   // độ dài dây ↔ góc ở tâm
+  const all = [['R',60,'Tam giác OAB có OA = OB = AB = R nên là tam giác đều'],['2R',180,'AB = 2R nên AB là đường kính, A, O, B thẳng hàng'],['R\\sqrt{2}',90,'OA² + OB² = 2R² = AB² nên tam giác OAB vuông tại O (Pythagore đảo)'],['R\\sqrt{3}',120,'Gọi H là trung điểm AB thì OH ⊥ AB, sin AOH = AH : OA = √3 : 2 nên góc AOH = 60°']];
+  const c = pick(lv===1 ? all.slice(0,2) : all), Rr = R(2,9), AB = lv===3 ? (c[0]==='R'?String(Rr):c[0]==='2R'?String(2*Rr):c[0].replace('R', Rr)) : c[0];
+  return QC({text:`Dây ${m('AB')} của đường tròn ${m(lv===3?`(O;\\,${Rr}\\text{ cm})`:'(O;\\,R)')} có ${m(`AB = ${AB}${lv===3?'\\text{ cm}':''}`)}. Số đo góc ở tâm ${m(hat('AOB'))} là`, opts:[60,90,120,180].map(x => m(dg(x))), ans:m(dg(c[1])), keepOrder:true,
+    hint:'Xét tam giác OAB có OA = OB = R: so sánh AB với R để nhận dạng tam giác.', sol:`${c[2]}. Vậy ${m(hat('AOB')+' =')} ${tb(dg(c[1]))}.`});
+};
+const CH = [[5,3,4],[5,4,3],[10,6,8],[10,8,6],[13,5,12],[13,12,5],[17,8,15],[17,15,8],[25,7,24],[15,9,12],[15,12,9]];
+const g14c = lv => {   // khoảng cách từ tâm đến dây – độ dài dây
+  const [Rr, d, h] = pick(lv===1 ? CH.slice(0,6) : CH), s = 4/Rr, fig = circleSVG({C:[{x:0,y:0,r:Rr*s,lab:'O'}], P:[[-h*s,d*s,'A'],[h*s,d*s,'B'],[0,d*s,'H',90]], S:[[-h*s,d*s,h*s,d*s],[0,0,0,d*s,true],[0,0,-h*s,d*s]], right:[rightAt([0,d*s],[0,0],[h*s,d*s])]});
+  const base = `Cho đường tròn ${m('(O)')}, dây ${m('AB')}; ${m('H')} là trung điểm của ${m('AB')} (khi đó ${m('OH \\perp AB')}). `;
+  if(lv === 1) return QB({text:base + `Biết ${m(`R = ${Rr}`)} cm, ${m(`OH = ${d}`)} cm. Tính độ dài dây ${m('AB')}.`, tpl:`${m('AB =')} [_] cm`, ans:[2*h], fig,
+    hint:`Tam giác ${m('OHA')} vuông tại ${m('H')}: ${m('AH = \\sqrt{OA^2 - OH^2}')}, rồi ${m('AB = 2AH')}.`, sol:`${m(`AH = \\sqrt{${Rr}^2 - ${d}^2} = ${h}`)} cm, ${m(`AB = 2\\cdot ${h} =`)} ${tb(2*h)} cm.`});
+  if(lv === 2) return QB({text:base + `Biết ${m(`R = ${Rr}`)} cm, ${m(`AB = ${2*h}`)} cm. Tính khoảng cách ${m('OH')} từ tâm đến dây.`, tpl:`${m('OH =')} [_] cm`, ans:[d], fig,
+    hint:`${m('AH = AB : 2')}; tam giác ${m('OHA')} vuông tại ${m('H')} nên ${m('OH = \\sqrt{OA^2 - AH^2}')}.`, sol:`${m(`AH = ${h}`)} cm, ${m(`OH = \\sqrt{${Rr}^2 - ${h}^2} =`)} ${tb(d)} cm.`});
+  return QB({text:base + `Biết ${m(`AB = ${2*h}`)} cm và khoảng cách từ tâm đến dây là ${m(`OH = ${d}`)} cm. Tính bán kính.`, tpl:`${m('R =')} [_] cm`, ans:[Rr], fig,
+    hint:`${m('R = OA = \\sqrt{OH^2 + AH^2}')} với ${m('AH = AB : 2')}.`, sol:`${m(`R = \\sqrt{${d}^2 + ${h}^2} =`)} ${tb(Rr)} cm.`});
+};
+const g14d = lv => {
+  if(lv === 3){ const a = 5*R(4,16), b = 5*R(4,34-a/5);
+    return QB({text:`Trên đường tròn ${m('(O)')} lấy ba điểm ${m('A, B, C')} sao cho tia ${m('OB')} nằm giữa hai tia ${m('OA, OC')}, ${m(`${hat('AOB')} = ${dg(a)}`)}, ${m(`${hat('BOC')} = ${dg(b)}`)}. Tính số đo cung nhỏ ${m('AC')}.`, tpl:`[_]${m('^\\circ')}`, ans:[a+b],
+      hint:'Góc ở tâm AOC bằng tổng hai góc AOB và BOC (tia OB nằm giữa); số đo cung nhỏ bằng góc ở tâm.', sol:`${m(`${hat('AOC')} = ${dg(a)} + ${dg(b)} = ${dg(a+b)}`)} nên ${m(arcS('AC')+' =')} ${tb(dg(a+b))}.`}); }
+  const Rr = R(3,12);
+  if(lv === 1) return QC({text:`Dây lớn nhất của đường tròn ${m(`(O;\\,${Rr}\\text{ cm})`)} có độ dài bằng`, opts:[2*Rr, Rr, Rr+2, 4*Rr].map(x => `${x} cm`), ans:`${2*Rr} cm`,
+    hint:'Trong các dây của một đường tròn, dây lớn nhất là đường kính.', sol:`Dây lớn nhất là đường kính: ${m(`2R = 2\\cdot${Rr} =`)} ${tb(2*Rr)} cm.`});
+  const bad = 2*Rr + R(1,4), ok3 = [2*Rr, 2*Rr-1, Rr+1];
+  return QC({text:`Độ dài nào dưới đây <b>không thể</b> là độ dài một dây của đường tròn ${m(`(O;\\,${Rr}\\text{ cm})`)}?`, opts:[bad, ...ok3].map(x => `${x} cm`), ans:`${bad} cm`,
+    hint:'Mọi dây đều không lớn hơn đường kính 2R.', sol:`Đường kính bằng ${2*Rr} cm là dây lớn nhất, nên dây dài ${tb(bad)} cm là không thể.`});
+};
+
+/* ---------- Bài 15. Độ dài cung tròn. Hình quạt tròn, hình vành khuyên ---------- */
+const NS = [30,36,40,45,60,72,90,120,135,150];
+const arcPick = () => { const n = pick(NS), base = 180/gcd(180,n); let Rr; do{ Rr = base*R(1,6) }while(Rr > 30); return {n, Rr, k:Rr*n/180}; };
+const g15a = lv => {   // độ dài đường tròn, độ dài cung
+  if(lv === 1){ const Rr = R(2,20); return QB({text:`Tính độ dài ${m('C')} của đường tròn bán kính ${m(cm(Rr))} (kết quả viết theo ${m('\\pi')}).`, tpl:`${m('C =')} [_]${m('\\pi')} cm`, ans:[2*Rr],
+    hint:`${m('C = 2\\pi R')}.`, sol:`${m(`C = 2\\pi\\cdot ${Rr} =`)} ${tb(`${2*Rr}\\pi`)} cm.`}); }
+  const {n, Rr, k} = arcPick(), fig = circleSVG({C:[{x:0,y:0,r:3,lab:'O'}], S:[[0,0,...at(3,20)],[0,0,...at(3,20+n)]], arc:{x:0,y:0,r:3,a1:20,a2:20+n}, ang:[[0,0,20,20+n,m(dg(n))]]});
+  if(lv === 2) return QB({text:`Tính độ dài cung ${m(dg(n))} của đường tròn bán kính ${m(cm(Rr))} (theo ${m('\\pi')}).`, tpl:`${m('l =')} [_]${m('\\pi')} cm`, ans:[k], fig,
+    hint:`${m('l = \\dfrac{\\pi R n}{180}')}.`, sol:`${m(`l = \\dfrac{\\pi\\cdot ${Rr}\\cdot ${n}}{180} =`)} ${tb(`${k}\\pi`)} cm.`});
+  return QB({text:`Một cung tròn có số đo ${m(dg(n))} và độ dài ${m(`${k}\\pi`)} cm. Tính bán kính của đường tròn.`, tpl:`${m('R =')} [_] cm`, ans:[Rr], fig,
+    hint:`Từ ${m('l = \\dfrac{\\pi R n}{180}')} suy ra ${m('R = \\dfrac{180\\, l}{\\pi n}')}.`, sol:`${m(`R = \\dfrac{180\\cdot ${k}\\pi}{\\pi\\cdot ${n}} =`)} ${tb(Rr)} cm.`});
+};
+const g15b = lv => {   // diện tích hình quạt
+  if(lv === 3){ const l = R(3,20), Rr = 2*R(2,10); return QB({text:`Một hình quạt tròn bán kính ${m(cm(Rr))} có độ dài cung là ${m(cm(l))}. Tính diện tích hình quạt đó.`, tpl:'[_] cm²', ans:[l*Rr/2],
+    hint:`${m('S = \\dfrac{l R}{2}')}.`, sol:`${m(`S = \\dfrac{${l}\\cdot ${Rr}}{2} =`)} ${tb(l*Rr/2)} cm².`}); }
+  let n, Rr, k; do{ n = pick(lv===1 ? [90,180,60,120] : NS); Rr = R(2,lv===1?12:18); k = Rr*Rr*n/360; }while(!Number.isInteger(k));
+  return QB({text:`Tính diện tích hình quạt tròn bán kính ${m(cm(Rr))}, ứng với cung ${m(dg(n))} (theo ${m('\\pi')}).`, tpl:`${m('S =')} [_]${m('\\pi')} cm²`, ans:[k],
+    fig:circleSVG({C:[{x:0,y:0,r:3,lab:'O'}], sector:{x:0,y:0,r:3,a1:30,a2:30+n}, S:[[0,0,...at(3,30)],[0,0,...at(3,30+n)]], ang:[[0,0,30,30+n,m(dg(n))]]}),
+    hint:`${m('S_{quạt} = \\dfrac{\\pi R^2 n}{360}')}.`, sol:`${m(`S = \\dfrac{\\pi\\cdot ${Rr}^2\\cdot ${n}}{360} =`)} ${tb(`${k}\\pi`)} cm².`});
+};
+const g15c = lv => {   // hình vành khuyên
+  const r = R(1,9), Rr = r + R(1,8), k = Rr*Rr - r*r, fig = circleSVG({C:[{x:0,y:0,r:4,lab:'O'},{x:0,y:0,r:4*r/Rr}], ring:{x:0,y:0,r1:4,r2:4*r/Rr}, S:[[0,0,...at(4,20),false,'R'],[0,0,...at(4*r/Rr,200),false,'r']]});
+  if(lv === 3) return QB({text:`Hình vành khuyên giới hạn bởi hai đường tròn đồng tâm có diện tích ${m(`${k}\\pi`)} cm²; bán kính đường tròn lớn là ${m(cm(Rr))}. Tính bán kính đường tròn nhỏ.`, tpl:`${m('r =')} [_] cm`, ans:[r], fig,
+    hint:`${m('S = \\pi(R^2 - r^2)')} suy ra ${m('r^2 = R^2 - \\dfrac{S}{\\pi}')}.`, sol:`${m(`r^2 = ${Rr*Rr} - ${k} = ${r*r}`)} nên ${m('r =')} ${tb(r)} cm.`});
+  const dia = lv === 2;
+  return QB({text:`Tính diện tích hình vành khuyên giới hạn bởi hai đường tròn đồng tâm có ${dia?`đường kính ${m(cm(2*Rr))} và ${m(cm(2*r))}`:`bán kính ${m(cm(Rr))} và ${m(cm(r))}`} (theo ${m('\\pi')}).`, tpl:`${m('S =')} [_]${m('\\pi')} cm²`, ans:[k], fig,
+    hint:`${m('S = \\pi(R^2 - r^2)')}${dia?' – nhớ đổi đường kính ra bán kính':''}.`, sol:`${dia?`${m(`R = ${Rr},\\ r = ${r}`)}. `:''}${m(`S = \\pi(${Rr}^2 - ${r}^2) =`)} ${tb(`${k}\\pi`)} cm².`});
+};
+const g15d = lv => {   // bài toán thực tế, π ≈ 3,14
+  const r2 = v => Math.round(v*100)/100, r1 = v => Math.round(v*10)/10;
+  if(lv === 1){ const Rr = R(2,30), v = r2(6.28*Rr); return QB({text:`Một chiếc đĩa hình tròn bán kính ${m(cm(Rr))}. Tính chu vi của đĩa (lấy ${m('\\pi \\approx 3{,}14')}).`, tpl:'[_] cm', ans:[[v, r2(2*Math.PI*Rr), r1(2*Math.PI*Rr)]], wide:true,
+    hint:`${m('C = 2\\pi R')}.`, sol:`${m(`C \\approx 2\\cdot 3{,}14\\cdot ${Rr} =`)} ${tb(tdec(v))} cm.`}); }
+  if(lv === 2){ const D = 5*R(10,16), n = 10*R(2,50), v = r2(3.14*D*n/100); return QB({text:`Bánh xe đạp có đường kính ${m(cm(D))}. Khi bánh xe lăn được ${n} vòng thì xe đi được bao nhiêu mét (lấy ${m('\\pi \\approx 3{,}14')})?`, tpl:'[_] m', ans:[[v, r2(Math.PI*D*n/100), r1(Math.PI*D*n/100)]], wide:true,
+    hint:`Mỗi vòng xe đi được đúng chu vi bánh ${m('\\pi d')}; nhân với số vòng rồi đổi cm ra m.`, sol:`Mỗi vòng: ${m(`3{,}14\\cdot ${D} = ${tdec(3.14*D)}`)} cm. ${n} vòng: ${m(`${tdec(3.14*D)}\\cdot ${n} = ${tdec(r2(3.14*D*n))}`)} cm ${m('=')} ${tb(tdec(v))} m.`}); }
+  const r = R(4,12), t = pick([5,10,15,20,30,40,45]), v = r2(2*3.14*r*t/60);
+  return QB({text:`Kim phút của một đồng hồ dài ${m(cm(r))}. Trong ${t} phút, đầu kim phút đi được quãng đường bao nhiêu xăng-ti-mét (lấy ${m('\\pi \\approx 3{,}14')}, làm tròn đến hàng phần trăm)?`, tpl:'[_] cm', ans:[[v, r2(2*Math.PI*r*t/60)]],
+    hint:`Trong 60 phút kim quay một vòng (${m('360^\\circ')}), nên ${t} phút ứng với cung ${m(dg(6*t))}; dùng ${m('l = \\dfrac{\\pi R n}{180}')}.`,
+    sol:`Cung ${m(dg(6*t))}: ${m(`l \\approx \\dfrac{3{,}14\\cdot ${r}\\cdot ${6*t}}{180} \\approx`)} ${tb(tdec(v))} cm.`});
+};
+
+/* ---------- Bài 16. Vị trí tương đối của đường thẳng và đường tròn ---------- */
+const g16a = lv => {
+  const k = R(0,2);
+  if(lv === 3){ const a = sR(1,6), b = sR(1,6), ax = pick(['Ox','Oy']), d = Math.abs(ax==='Ox' ? b : a), Rr = d + [1,0,-1][k];
+    if(Rr < 1) return g16a(3);
+    return QC({text:`Trong mặt phẳng tọa độ, đường tròn tâm ${m(`I({${a}};\\,{${b}})`)} bán kính ${m(`R = ${Rr}`)} và trục ${m(ax)} có vị trí tương đối nào?`, opts:LINE, ans:LINE[k], keepOrder:true,
+      hint:`Khoảng cách từ ${m('I')} đến trục ${m(ax)} bằng ${ax==='Ox'?'|tung độ|':'|hoành độ|'} của ${m('I')}; so sánh với ${m('R')}.`, sol:`${m(`d = |${ax==='Ox'?b:a}| = ${d}`)} ${m(['\\lt','=','\\gt'][k])} ${m(`R = ${Rr}`)} nên <b>${LINE[k].toLowerCase()}</b>.`}); }
+  let Rr, d, sR_, sd;
+  if(lv === 1){ Rr = R(3,12); d = [R(1,Rr-1), Rr, Rr+R(1,6)][k]; sR_ = cm(Rr); sd = cm(d); }
+  else { Rr = R(15,80); d = [Rr-R(2,12), Rr, Rr+R(2,12)][k]; sR_ = cm(Rr/10); sd = `${d}\\text{ mm}`; }
+  return QC({text:`Cho đường tròn ${m(`(O;\\,${sR_})`)} và đường thẳng ${m('a')} cách tâm ${m('O')} một khoảng ${m(`d = ${sd}`)}. Vị trí tương đối của ${m('a')} và ${m('(O)')} là`, opts:LINE, ans:LINE[k], keepOrder:true,
+    hint:`${m('d \\lt R')}: cắt nhau; ${m('d = R')}: tiếp xúc; ${m('d \\gt R')}: không giao nhau${lv===2?' (đổi cùng đơn vị)':''}.`, sol:`${lv===2?`${m(`R = ${Rr}\\text{ mm}`)}; `:''}${m('d')} ${m(['\\lt','=','\\gt'][k])} ${m('R')} nên <b>${LINE[k].toLowerCase()}</b>.`});
+};
+const TAN = [[3,4,5],[5,12,13],[6,8,10],[8,15,17],[9,12,15],[7,24,25],[12,5,13],[4,3,5]];
+const figTan = (Rr, t, d) => { const s = 4/d, A = [Rr*Rr/d*s, Rr*t/d*s], M = [4,0], O = [0,0];
+  return circleSVG({C:[{x:0,y:0,r:Rr*s,lab:'O'}], P:[[...A,'A'],[...M,'M']], S:[[0,0,...A],[...A,...M],[0,0,...M,true]], right:[rightAt(A,O,M)]}); };
+const g16b = lv => {   // tiếp tuyến vuông góc bán kính – Pythagore
+  const [Rr, t, d] = pick(lv===1 ? TAN.slice(0,4) : TAN), fig = figTan(Rr, t, d), base = `Cho đường tròn ${m('(O;\\,R)')} và ${m('MA')} là tiếp tuyến tại ${m('A')} (${m('A')} là tiếp điểm). `;
+  if(lv === 1) return QB({text:base + `Biết ${m(`R = ${Rr}`)} cm, ${m(`OM = ${d}`)} cm. Tính ${m('MA')}.`, tpl:`${m('MA =')} [_] cm`, ans:[t], fig,
+    hint:`Tiếp tuyến vuông góc với bán kính tại tiếp điểm: tam giác ${m('OAM')} vuông tại ${m('A')}.`, sol:`${m(`MA = \\sqrt{OM^2 - OA^2} = \\sqrt{${d}^2 - ${Rr}^2} =`)} ${tb(t)} cm.`});
+  if(lv === 2) return QB({text:base + `Biết ${m(`R = ${Rr}`)} cm, ${m(`MA = ${t}`)} cm. Tính ${m('OM')}.`, tpl:`${m('OM =')} [_] cm`, ans:[d], fig,
+    hint:`${m('OA \\perp MA')} nên ${m('OM^2 = OA^2 + MA^2')}.`, sol:`${m(`OM = \\sqrt{${Rr}^2 + ${t}^2} =`)} ${tb(d)} cm.`});
+  return QB({text:base + `Biết ${m(`MA = ${t}`)} cm, ${m(`OM = ${d}`)} cm. Tính bán kính ${m('R')}.`, tpl:`${m('R =')} [_] cm`, ans:[Rr], fig,
+    hint:`Tam giác ${m('OAM')} vuông tại ${m('A')}: ${m('OA = \\sqrt{OM^2 - MA^2}')}.`, sol:`${m(`R = \\sqrt{${d}^2 - ${t}^2} =`)} ${tb(Rr)} cm.`});
+};
+const g16c = lv => {   // hai tiếp tuyến cắt nhau
+  const be = 2*R(15,75), hf = be/2, O = [0,0], M = [5,0], Rr = 5*Math.sin(hf*Math.PI/180), A = at(Rr, 90-hf), B = at(Rr, -(90-hf));
+  const fig = circleSVG({C:[{x:0,y:0,r:Rr,lab:'O'}], P:[[...A,'A'],[...B,'B'],[...M,'M']], S:[[...M,...A],[...M,...B],[0,0,...A],[0,0,...B],[0,0,...M,true]], right:[rightAt(A,O,M),rightAt(B,O,M)]});
+  const base = `Từ điểm ${m('M')} nằm ngoài đường tròn ${m('(O)')} kẻ hai tiếp tuyến ${m('MA, MB')} (${m('A, B')} là tiếp điểm). `;
+  if(lv === 1){ const x = R(3,20); return QB({text:base + `Biết ${m(`MA = ${x}`)} cm. Tính ${m('MB')}.`, tpl:`${m('MB =')} [_] cm`, ans:[x], fig,
+    hint:'Hai tiếp tuyến cắt nhau tại một điểm thì điểm đó cách đều hai tiếp điểm.', sol:`Theo tính chất hai tiếp tuyến cắt nhau: ${m('MB = MA =')} ${tb(x)} cm.`}); }
+  if(lv === 2) return QB({text:base + `Biết ${m(`${hat('AMB')} = ${dg(be)}`)}. Tính ${m(hat('AOB'))}.`, tpl:`${m(hat('AOB')+' =')} [_]${m('^\\circ')}`, ans:[180-be], fig,
+    hint:`Tứ giác ${m('OAMB')} có hai góc vuông tại ${m('A')} và ${m('B')}; tổng các góc của tứ giác bằng ${m('360^\\circ')}.`, sol:`${m(`${hat('AOB')} = 360^\\circ - 90^\\circ - 90^\\circ - ${dg(be)} =`)} ${tb(dg(180-be))}.`});
+  return QB({text:base + `Biết ${m(`${hat('AMB')} = ${dg(be)}`)}. Tính ${m(hat('AMO'))} và ${m(hat('AOM'))}.`, tpl:`${m(hat('AMO')+' =')} [_]${m('^\\circ')} &nbsp; ${m(hat('AOM')+' =')} [_]${m('^\\circ')}`, ans:[hf, 90-hf], fig,
+    hint:`${m('MO')} là tia phân giác của ${m(hat('AMB'))}; tam giác ${m('OAM')} vuông tại ${m('A')}.`, sol:`${m(`${hat('AMO')} = \\dfrac{${dg(be)}}{2} = ${dg(hf)}`)} nên ${m(hat('AMO'))} = ${tb(dg(hf))}; ${m(`${hat('AOM')} = 90^\\circ - ${dg(hf)} =`)} ${tb(dg(90-hf))}.`});
+};
+const g16d = lv => {
+  if(lv === 2){ const good = `${m('a')} đi qua ${m('A \\in (O)')} và ${m('a \\perp OA')} tại ${m('A')}`;
+    return QC({text:`Đường thẳng ${m('a')} là tiếp tuyến của đường tròn ${m('(O)')} tại ${m('A')} nếu`, opts:[good, `${m('a')} đi qua tâm ${m('O')} và điểm ${m('A')}`, `${m('a \\perp OA')} tại ${m('O')}`, `${m('a')} cắt ${m('(O)')} tại hai điểm ${m('A, B')}`], ans:good,
+      hint:'Dấu hiệu nhận biết tiếp tuyến: đi qua một điểm của đường tròn và vuông góc với bán kính đi qua điểm đó.', sol:`Đáp án: <b>${good}</b>.`}); }
+  if(lv === 3){ const d = R(3,12), c = pick([['cắt',`R \\gt ${d}`],['tiếp xúc với',`R = ${d}`],['không giao',`R \\lt ${d}`],['có điểm chung với',`R \\ge ${d}`]]);
+    return QC({text:`Đường thẳng ${m('a')} cách tâm ${m('O')} một khoảng ${m(`${d}`)} cm. Đường thẳng ${m('a')} <b>${c[0]}</b> đường tròn ${m('(O;\\,R)')} khi và chỉ khi`, opts:[`R \\gt ${d}`,`R = ${d}`,`R \\lt ${d}`,`R \\ge ${d}`,`R \\le ${d}`].map(x => m(x+'\\text{ cm}')), ans:m(c[1]+'\\text{ cm}'), keepOrder:true,
+      hint:'Cắt nhau ⇔ d < R; tiếp xúc ⇔ d = R; không giao nhau ⇔ d > R. “Có điểm chung” gồm cắt nhau hoặc tiếp xúc.', sol:`Đáp án: ${tb(c[1]+'\\text{ cm}')}.`}); }
+  const Rr = R(3,10), k = R(0,2), d = [R(1,Rr-1), Rr, Rr+R(1,5)][k];
+  return QB({text:`Đường thẳng ${m('a')} cách tâm của đường tròn ${m(`(O;\\,${Rr}\\text{ cm})`)} một khoảng ${m(cm(d))}. Đường thẳng ${m('a')} và đường tròn có bao nhiêu điểm chung?`, tpl:'[_] điểm chung', ans:[2-k],
+    hint:'So sánh khoảng cách d với bán kính R.', sol:`${m(`d = ${d}`)} ${m(['\\lt','=','\\gt'][k])} ${m(`R = ${Rr}`)} nên có ${tb(2-k)} điểm chung.`});
+};
+
+/* ---------- Bài 17. Vị trí tương đối của hai đường tròn ---------- */
+const twoCase = (lv, k) => { let Rr, r, d;
+  for(;;){ Rr = R(4,15); r = R(1,Rr-1); const s = Rr+r, t = Rr-r;
+    d = [R(t+1, s-1), s, t, s+R(1,8), R(0,t-1)][k]; if(d > t && k===0 && d < s) break; if(k!==0 && d >= 0) break; }
+  return {Rr, r, d}; };
+const g17a = lv => {
+  const k = pick(lv===1 ? [0,1,3] : lv===2 ? [0,1,2,3] : [0,1,2,3,4]); let {Rr, r, d} = twoCase(lv, k); if(k===4 && d===0) d = 1;
+  if(k===4 && d >= Rr-r) return g17a(lv);
+  return QC({text:`Cho hai đường tròn ${m(`(O;\\,${Rr}\\text{ cm})`)} và ${m(`(O';\\,${r}\\text{ cm})`)} với ${m(`OO' = ${d}`)} cm. Vị trí tương đối của hai đường tròn là`, opts:TWO.slice(0, lv===1?4:5), ans:TWO[k], keepOrder:true,
+    hint:`So sánh ${m("d = OO'")} với ${m('R + r')} và ${m('R - r')}.`,
+    sol:`${m(`R + r = ${Rr+r},\\ R - r = ${Rr-r}`)}; ${m(`d = ${d}`)} ${['nằm giữa R − r và R + r','= R + r','= R − r','> R + r','< R − r'][k]} nên hai đường tròn <b>${TWO[k].toLowerCase()}</b>.`});
+};
+const g17b = lv => {
+  const k = pick([0,1,2,3,4].slice(0, lv===1?4:5)); let {Rr, r, d} = twoCase(lv, k); if(k===4 && (d===0 || d >= Rr-r)) return g17b(lv);
+  const n = [2,1,1,0,0][k];
+  return QB({text:`Hai đường tròn ${m(`(O;\\,${Rr}\\text{ cm})`)} và ${m(`(O';\\,${r}\\text{ cm})`)} có ${m(`OO' = ${d}`)} cm. Hai đường tròn có bao nhiêu điểm chung?`, tpl:'[_] điểm chung', ans:[n],
+    hint:'Cắt nhau: 2 điểm chung; tiếp xúc (ngoài hoặc trong): 1 điểm chung; ở ngoài nhau hoặc đựng nhau: không có điểm chung.', sol:`Hai đường tròn ${TWO[k].toLowerCase()} nên có ${tb(n)} điểm chung.`});
+};
+const g17c = lv => {
+  const Rr = R(4,15), r = R(1,Rr-1), ext = lv===1 || Math.random() < .5;
+  if(lv === 3){ const d = ext ? Rr + r : Rr - r;
+    return QB({text:`Đường tròn ${m(`(O;\\,${Rr}\\text{ cm})`)} và đường tròn ${m(`(O';\\,r)`)} với ${m('r \\lt '+Rr)} cm, ${m(`OO' = ${d}`)} cm, <b>tiếp xúc ${ext?'ngoài':'trong'}</b> với nhau. Tính ${m('r')}.`, tpl:`${m('r =')} [_] cm`, ans:[r],
+      hint:`Tiếp xúc ngoài: ${m("OO' = R + r")}; tiếp xúc trong: ${m("OO' = R - r")}.`, sol:`${ext?m(`r = OO' - R = ${d} - ${Rr}`):m(`r = R - OO' = ${Rr} - ${d}`)} ${m('=')} ${tb(r)} cm.`}); }
+  return QB({text:`Hai đường tròn ${m(`(O;\\,${Rr}\\text{ cm})`)} và ${m(`(O';\\,${r}\\text{ cm})`)} tiếp xúc ${ext?'ngoài':'trong'}. Tính độ dài đoạn nối tâm ${m("OO'")}.`, tpl:`${m("OO' =")} [_] cm`, ans:[ext?Rr+r:Rr-r],
+    fig:ext ? circleSVG({C:[{x:0,y:0,r:Rr,lab:'O'},{x:Rr+r,y:0,r:r,lab:"O'"}], P:[[Rr,0,'A',60]], S:[[0,0,Rr+r,0,true]]}) : circleSVG({C:[{x:0,y:0,r:Rr,lab:'O'},{x:Rr-r,y:0,r:r,lab:"O'"}], P:[[Rr,0,'A',0]], S:[[0,0,Rr-r,0,true]]}),
+    hint:`Tiếp xúc ngoài: ${m("OO' = R + r")}; tiếp xúc trong: ${m("OO' = R - r")}.`, sol:`${m(`OO' = ${Rr} ${ext?'+':'-'} ${r} =`)} ${tb(ext?Rr+r:Rr-r)} cm.`});
+};
+const g17d = lv => {
+  const Rr = R(4,15), r = R(1,Rr-1);
+  if(lv === 3){ const d = R(Rr-r+1, Rr+r-1), xs = []; for(let x = d-Rr+1; x < d+Rr; x++) if(x >= 1 && x < Rr && Math.abs(Rr-x) < d && d < Rr+x) xs.push(x);
+    return QB({text:`Cho ${m(`(O;\\,${Rr}\\text{ cm})`)} và ${m("(O';\\,r)")} với ${m(`OO' = ${d}`)} cm, ${m('r')} là số nguyên, ${m(`r \\lt ${Rr}`)}. Có bao nhiêu giá trị của ${m('r')} để hai đường tròn cắt nhau?`, tpl:'[_] giá trị', ans:[xs.length],
+      hint:`Cắt nhau ⇔ ${m("R - r \\lt OO' \\lt R + r")}; giải ra điều kiện của ${m('r')}.`, sol:`${m(`${Rr} - r \\lt ${d} \\lt ${Rr} + r \\Leftrightarrow r \\gt ${Rr-d}`)}${Rr-d<0?` (luôn đúng)`:''} và ${m(`r \\gt ${d-Rr}`)}; kết hợp ${m(`1 \\le r \\lt ${Rr}`)} được ${m(`r \\in \\{${xs.join(';\\,')}\\}`)}: ${tb(xs.length)} giá trị.`}); }
+  return QB({text:`Hai đường tròn ${m(`(O;\\,${Rr}\\text{ cm})`)} và ${m(`(O';\\,${r}\\text{ cm})`)} cắt nhau. Độ dài ${m("OO'")} thỏa mãn`, tpl:`[_] ${m("\\lt OO' \\lt")} [_] (cm)`, ans:[Rr-r, Rr+r],
+    hint:`Hai đường tròn cắt nhau ⇔ ${m("R - r \\lt OO' \\lt R + r")}.`, sol:`${tb(Rr-r)} ${m("\\lt OO' \\lt")} ${tb(Rr+r)}.`});
+};
+
+G.topics.push({id:5, hk:1, name:'Đường tròn'});
+lesson(5,'mo-dau-duong-tron','Bài 13. Mở đầu về đường tròn','Vị trí của điểm đối với đường tròn; bán kính, đường kính; tính đối xứng của đường tròn.',[g13b,g13a,g13d,g13c]);
+lesson(5,'cung-va-day','Bài 14. Cung và dây của một đường tròn','Dây và đường kính; khoảng cách từ tâm đến dây; góc ở tâm, số đo cung.',[g14d,g14a,g14b,g14c]);
+lesson(5,'do-dai-cung-quat','Bài 15. Độ dài của cung tròn. Diện tích hình quạt tròn và hình vành khuyên','Độ dài đường tròn, cung tròn; diện tích hình quạt, hình vành khuyên; bài toán thực tế.',[g15a,g15b,g15c,g15d]);
+lesson(5,'duong-thang-duong-tron','Bài 16. Vị trí tương đối của đường thẳng và đường tròn','So sánh d và R; tiếp tuyến vuông góc với bán kính; hai tiếp tuyến cắt nhau.',[g16d,g16a,g16b,g16c]);
+lesson(5,'hai-duong-tron','Bài 17. Vị trí tương đối của hai đường tròn','Cắt nhau, tiếp xúc, không giao nhau; số điểm chung; đoạn nối tâm.',[g17b,g17a,g17c,g17d]);
+lesson(5,'on-tap-c5','Ôn tập chương V','Tổng hợp: vị trí điểm, dây cung, độ dài cung – diện tích quạt, tiếp tuyến, hai đường tròn.',[g13a,g14c,g15b,g15c,g16b,g17a]);
+}
 })();
 
 </script>
