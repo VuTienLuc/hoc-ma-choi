@@ -1,10 +1,10 @@
 """Kiểm thử trang BÀI GIẢNG giáo viên (giao-vien/): tài khoản học sinh bị chặn, tài khoản GV vào được;
 chiếu mọi trang của mọi bài ở 1280×720 và 1024×768 (hiện hết lời giải) – chữ không tràn, không lỗi công thức.
-Chạy: python3 tools/test_baigiang.py   (ảnh mẫu: /tmp/baigiang-*.png)"""
+Chạy: python3 tools/test_baigiang.py [lop8]   (tham số: chỉ chiếu bài giảng của một lớp; ảnh mẫu: /tmp/baigiang-*.png)"""
 import threading, http.server, functools, socketserver, asyncio, pathlib, json, re, sys
 from playwright.async_api import async_playwright
 ROOT=pathlib.Path(__file__).resolve().parent.parent
-H=functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT)); H.log_message=lambda *a:None
+H=functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT)); http.server.SimpleHTTPRequestHandler.log_message=lambda *a:None
 srv=socketserver.TCPServer(('127.0.0.1',0),H); PORT=srv.server_address[1]; threading.Thread(target=srv.serve_forever,daemon=True).start()
 API='https://mock.example/exec'; BASE=f'http://127.0.0.1:{PORT}/giao-vien/index.html'
 async def handle(route):
@@ -30,11 +30,22 @@ async def main():
     bad=[]; tot=0
     for w,h in [(1280,720),(1024,768)]:
       pg=await page(w,h); await login(pg,'GV')
-      n=await pg.locator('[data-play]').count()
-      if w==1280: ok(f'Tài khoản GV vào được, có {n} bài giảng', n>=3); await pg.screenshot(path='/tmp/baigiang-0-home.png')
-      for i in range(n):
-        await pg.locator('[data-play]').nth(i).click(); await pg.wait_for_timeout(500)
-        cnt=await pg.evaluate("Lecture.BOOKS.flatMap(b=>b.lessons)[%d].slides.length"%i)
+      tiles=await pg.eval_on_selector_all('a.tile.grade','els=>els.map(e=>e.getAttribute("href").slice(2))')
+      if w==1280:
+        ok(f'Tài khoản GV vào được, chọn lớp: {", ".join(tiles)}', len(tiles)>=2 and await pg.locator('[data-play]').count()==0); await pg.screenshot(path='/tmp/baigiang-0-home.png')
+        await pg.click('a.tile.grade[href="#/lop8"]'); await pg.wait_for_timeout(500)
+        ids=await pg.eval_on_selector_all('[data-play]','els=>els.map(e=>e.dataset.play)')
+        gs=await pg.evaluate("[...new Set(%s.map(k=>Lecture.BOOKS[k.split(':')[0]].grade))]"%json.dumps(ids))
+        ok(f'Bấm Lớp 8 → chỉ hiện {len(ids)} bài giảng lớp 8', ids and gs==['lop8']); await pg.screenshot(path='/tmp/baigiang-0-lop8.png', full_page=True)
+      plays=[]
+      for gid in tiles:
+        if len(sys.argv)>1 and gid not in sys.argv[1:]: continue
+        await pg.goto(BASE+'#/'+gid); await pg.wait_for_timeout(500)
+        plays+= [(gid,x) for x in await pg.eval_on_selector_all('[data-play]','els=>els.map(e=>e.dataset.play)')]
+      for i,(gid,key) in enumerate(plays):
+        if not pg.url.endswith('#/'+gid): await pg.goto(BASE+'#/'+gid); await pg.wait_for_timeout(500)
+        await pg.click(f'[data-play="{key}"]'); await pg.wait_for_timeout(500)
+        cnt=await pg.evaluate("(([b,l])=>Lecture.BOOKS[b].lessons[l].slides.length)(%s)"%json.dumps(key.split(':')))
         for k in range(cnt):
           await pg.keyboard.press('Enter'); await pg.wait_for_timeout(650)
           r=await pg.evaluate("""(()=>{const s=document.getElementById('lkSlide');const over=s.scrollHeight>s.clientHeight+1||[s,...s.querySelectorAll('.lk-de,.lk-body,.lk-h,.lk-title')].some(x=>x.scrollWidth>x.clientWidth+1);
@@ -50,6 +61,7 @@ async def main():
         await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)
       # từng bước: bấm → hiện dần lời giải
       if w==1280:
+        await pg.goto(BASE+'#/lop10'); await pg.wait_for_timeout(500)
         await pg.locator('[data-play]').nth(0).click(); await pg.wait_for_timeout(400)
         for _ in range(4): await pg.keyboard.press('ArrowRight'); await pg.wait_for_timeout(100)
         s1=await pg.evaluate("[document.querySelectorAll('#lkSlide .lk-solsteps li.on').length, document.getElementById('lkPos').textContent]")
