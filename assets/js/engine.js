@@ -60,7 +60,7 @@ function renderLesson(){
   app.innerHTML=h;bindTheme();
   $$('.lvl').forEach(b=>b.onclick=()=>{location.hash=lessonHref(l,+b.dataset.lv)});
   $('#newSet').onclick=$('#newSet2').onclick=()=>{genSet();renderQs();scrollTo({top:$('#qs').offsetTop-120,behavior:'smooth'})};
-  $('#resetSet').onclick=()=>{S.qs.forEach(q=>{q.tries=0;q.status='open';q.user=null;q.pts=0;if(q.kind==='shade')q.on=[];if(q.kind==='rotate')q.val=q.target===90?40:90;delete q.sel});updateProgress._t=null;renderQs();toast('Đã xoá, con làm lại nhé!')};
+  $('#resetSet').onclick=()=>{S.qs.forEach(q=>{q.tries=0;q.status='open';q.user=null;q.pts=0;if(q.kind==='shade')q.on=[];if(q.kind==='rotate')q.val=q.target===90?40:90;delete q.sel;if(q.kind==='steps')stepsReset(q)});updateProgress._t=null;renderQs();toast('Đã xoá, con làm lại nhé!')};
   renderQs();hook('lesson',g,l);
 }
 function renderQs(){const box=$('#qs');box.innerHTML='';S.qs.forEach((q,i)=>box.appendChild(cardEl(q,i)));updateProgress()}
@@ -69,23 +69,24 @@ function blanksHTML(q){let bi=0;return q.tpl.split(/(\[_\]|\[F\])/).map(p=>{if(p
   if(p==='[F]'){const k=bi++;return `<span class="fr"><input class="blank" data-b="${k}" data-part="n" inputmode="numeric" autocomplete="off" aria-label="Tử số"><i class="fbar"></i><input class="blank" data-b="${k}" data-part="d" inputmode="numeric" autocomplete="off" aria-label="Mẫu số"></span>`}return p}).join('')}
 
 function cardEl(q,i){
-  const el=document.createElement('article');el.className='card';el.setAttribute('aria-labelledby',`qt${i}`);
+  const el=document.createElement('article');el.className='card'+(q.kind==='steps'?' is-steps':'');el.setAttribute('aria-labelledby',`qt${i}`);
   const hasFig=!!(q.fig||q.kind==='rotate'||q.kind==='shade');
   let ans='';
   if(q.kind==='blanks')ans=`<div class="answer">${blanksHTML(q)}</div>`;
   else if(q.kind==='choice')ans=`${q.expr?`<div class="answer" style="margin-bottom:8px">${q.expr}</div>`:''}<div class="choices ${q.compact?'compact':''}" role="group" aria-label="Các lựa chọn">${q.opts.map((o,k)=>`<button class="choice" data-c="${k}" aria-pressed="false">${o}</button>`).join('')}</div>`;
   else if(q.kind==='rotate')ans=`<div class="ctrls">${[-10,-5,5,10].map(d=>`<button class="btn small" data-rot="${d}">${d>0?'+':'−'} ${Math.abs(d)}°</button>`).join('')}</div>`;
+  else if(q.kind==='steps')ans=`<div data-steps>${stepsHTML(q)}</div>`;
   else if(q.kind==='shade')ans=`<div class="ctrls"><span style="font-size:17px;color:var(--muted)">Đã tô: <b data-cnt>0</b> phần</span></div>`;
   const fig=q.kind==='rotate'?protractorSVG(q.val,{interactive:true}):q.kind==='shade'?fracSVG(q.n,0,q.shape,true):(q.fig||'');
   el.innerHTML=`<div class="qhead"><span class="badge">Câu ${i+1}</span><span class="chip">${LEVELS[S.lv-1].n}</span><span class="spacer"></span><button class="linkbtn" data-swap>Đổi câu khác</button></div>
    <p class="qtext" id="qt${i}">${q.text}</p>
    <div class="qbody ${hasFig&&q.kind!=='rotate'&&q.kind!=='shade'?'has-fig':''}">${hasFig?`<div class="fig">${fig}</div>`:''}<div>${ans}</div></div>
-   <div class="actions"><button class="btn primary" data-check>Kiểm tra câu này</button></div><div class="fb" data-fb></div>`;
+   <div class="actions"><button class="btn primary" data-check>${q.kind==='steps'?'Kiểm tra bước này':'Kiểm tra câu này'}</button></div><div class="fb" data-fb></div>`;
   // restore state
   if(q.kind==='blanks'&&q.user)$$('.blank',el).forEach((inp,k)=>inp.value=q.user[k]||'');
   if(q.kind==='choice'&&q.sel!=null)$(`[data-c="${q.sel}"]`,el).setAttribute('aria-pressed','true');
   if(q.kind==='shade'){q.on.forEach(k=>$(`[data-i="${k}"]`,el).classList.add('on'));$('[data-cnt]',el).textContent=q.on.length}
-  bindCard(el,q,i);if(q.status!=='open')lockCard(el,q,true);return el;
+  bindCard(el,q,i);if(q.kind==='steps')bindSteps(el,q);if(q.status!=='open')lockCard(el,q,true);return el;
 }
 function setRot(el,q,deg){q.val=Math.max(0,Math.min(180,deg));const cx=170,cy=178,[bx,by]=P(cx,cy,158,q.val),[lx,ly]=P(cx,cy,176,q.val);const ray=$('[data-ray]',el),hd=$('[data-handle]',el),lb=$('[data-lb]',el);
   ray.setAttribute('x2',bx);ray.setAttribute('y2',by);hd.setAttribute('cx',bx);hd.setAttribute('cy',by);lb.setAttribute('x',lx-6);lb.setAttribute('y',ly+6)}
@@ -102,7 +103,7 @@ function bindCard(el,q,i){
 }
 function fb(el,type,title,body){const f=$('[data-fb]',el);f.className=`fb show ${type}`;f.innerHTML=`<b class="t">${title}</b>${body||''}`}
 function check(el,q){
-  if(q.status!=='open')return;let ok=false,empty=false;
+  if(q.status!=='open')return;if(q.kind==='steps')return stepCheck(el,q);let ok=false,empty=false;
   if(q.kind==='blanks'){const inputs=$$('.blank',el);q.user=inputs.map(x=>x.value);if(inputs.some(x=>x.value.trim()===''))empty=true;else{
     const groups=[];inputs.forEach(x=>{const k=+x.dataset.b;(groups[k]=groups[k]||[]).push(x)});
     const res=groups.map((g,k)=>{const spec=q.ans[k];return g.length===2?matchFrac(g[0].value,g[1].value,spec):matchOne(g[0].value,spec)});
@@ -119,9 +120,43 @@ function check(el,q){
   updateProgress();
 }
 function lockCard(el,q,restore){el.classList.add(q.status==='ok'?'ok':'fail');$('[data-check]',el).disabled=true;$('[data-swap]',el).hidden=true;
-  $$('.blank',el).forEach(x=>{x.disabled=true;if(q.status==='ok')x.classList.add('right')});$$('[data-c],[data-rot]',el).forEach(b=>b.disabled=true);
+  $$('.blank',el).forEach(x=>{x.disabled=true;if(q.status==='ok')x.classList.add('right')});$$('[data-c],[data-rot],[data-sc],[data-guide]',el).forEach(b=>b.disabled=true);
   if(q.kind==='choice'){$(`[data-c="${q.correct}"]`,el).classList.add('right')}
   if(restore){q.status==='ok'?fb(el,'ok','Đúng rồi!',''):fb(el,'sol','Lời giải',`<div>${q.sol}</div>`)}}
+/* ---------- Bài toán nhiều bước (kind 'steps', dựng bằng QS trong core.js) ----------
+   Mỗi lần chỉ mở một bước. Sai lần 1 → gợi ý của bước; sai lần 2 → hiện đáp án bước đó rồi làm tiếp.
+   Điểm: không sai bước nào = 1; có sai nhưng tự sửa được (hoặc mức 3 phải nhờ "làm từng bước") = ½; phải xem đáp án một bước = 0. */
+const STEP_ICON={'Hiểu đề':'🔎','Tóm tắt':'📝','Kế hoạch':'🧭','Giải':'✏️','Thử lại':'✅','Đáp số':'🎯'};
+const STEP_PRAISE=['Đúng rồi!','Chuẩn!','Tốt lắm!','Giỏi quá!'];
+const stepVal=a=>{const v=Array.isArray(a)?a[0]:a;return typeof v==='number'?fmt(v):v};
+function stepFill(s){let b=0;return s.tpl.split(/(\[_\])/).map(p=>p==='[_]'?`<b class="stp-v">${stepVal(s.ans[b++])}</b>`:p).join('')}
+function stepAnsText(s){return s.kind==='choice'?s.opts[s.correct]:stepFill(s)}
+function stepsHTML(q){const last=q.steps.length-1;let h='<ol class="stp">';
+  q.steps.forEach((s,k)=>{if(q.guided?k>q.cur&&!q.done[k]:k!==last)return;const st=q.done[k],act=!st&&q.status==='open';
+    const ctl=st?`<div class="${s.kind==='choice'?'stp-done':'answer stp-done'}">${stepAnsText(s)}</div>`:s.kind==='choice'?`<div class="choices" role="group">${s.opts.map((o,j)=>`<button class="choice" data-sc="${j}" aria-pressed="${q.sel===j}">${o}</button>`).join('')}</div>`:`<div class="answer">${blanksHTML(s)}</div>`;
+    h+=`<li class="stp-i${st?' is-'+st:''}${act?' is-cur':''}" data-s="${k}"><div class="stp-h"><span class="stp-tag">${q.guided?`Bước ${k+1} · `:''}${STEP_ICON[s.tag]||''} ${s.tag}</span>${st==='ok'?'<span class="stp-mark ok">✓</span>':st==='shown'?'<span class="stp-mark">đã xem đáp án</span>':''}</div><p class="stp-ask">${s.ask}</p>${ctl}</li>`});
+  h+='</ol>';if(!q.guided&&q.status==='open')h+=`<button class="btn small stp-guide" data-guide>🧭 Cần gợi ý? Làm theo từng bước</button>`;return h}
+function drawSteps(el,q){$('[data-steps]',el).innerHTML=stepsHTML(q);bindSteps(el,q);const c=$('.stp-i.is-cur .blank',el);if(c&&q.cur>0)try{c.focus({preventScroll:true})}catch(e){}}
+function bindSteps(el,q){
+  $$('[data-sc]',el).forEach(b=>b.onclick=()=>{if(q.status!=='open')return;$$('[data-sc]',el).forEach(x=>{x.setAttribute('aria-pressed','false');x.classList.remove('wrong')});b.setAttribute('aria-pressed','true');q.sel=+b.dataset.sc});
+  $$('[data-steps] .blank',el).forEach(inp=>{inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check(el,q)}});inp.addEventListener('input',()=>inp.classList.remove('wrong'))});
+  const g=$('[data-guide]',el);if(g)g.onclick=()=>{q.guided=true;q.usedGuide=true;q.cur=0;q.sel=null;drawSteps(el,q);fb(el,'note','Mình cùng làm từng bước nhé','Làm xong các bước, con sẽ được ½ điểm.')}}
+function stepCheck(el,q){
+  const last=q.steps.length-1,k=q.guided?q.cur:last,s=q.steps[k],li=$(`[data-s="${k}"]`,el);let ok;
+  if(s.kind==='choice'){if(q.sel==null){fb(el,'note','Con chưa chọn','Hãy chọn một đáp án cho bước này nhé.');return}ok=q.sel===s.correct;if(!ok)$(`[data-sc="${q.sel}"]`,li).classList.add('wrong')}
+  else{const ins=$$('.blank',li);if(ins.some(x=>!x.value.trim())){fb(el,'note','Con chưa làm xong','Con điền đủ các ô của bước này nhé.');return}
+    const res=ins.map((x,j)=>matchOne(x.value,s.ans[j]));ins.forEach((x,j)=>x.classList.toggle('wrong',!res[j]));ok=res.every(Boolean)}
+  if(hasSound())Sound.play(ok?'ok':'bad');
+  if(ok){q.done[k]='ok';q.sel=null;if(!q.guided||k===last)return stepFinish(el,q);q.cur++;drawSteps(el,q);fb(el,'ok',pick(STEP_PRAISE),'Con làm tiếp bước sau nhé.');return}
+  q.errs++;q.st[k]=(q.st[k]||0)+1;
+  if(!q.guided){q.guided=true;q.cur=0;q.sel=null;drawSteps(el,q);fb(el,'hint','Chưa đúng rồi. Mình cùng làm từng bước nhé!','Con làm lần lượt các bước bên dưới.');return}
+  if(q.st[k]===1){fb(el,'hint','Chưa đúng, con thử lại nhé!',`<div>💡 Gợi ý: ${s.hint||q.hint}</div>`);return}
+  q.done[k]='shown';q.sel=null;if(k===last)return stepFinish(el,q);
+  q.cur++;drawSteps(el,q);fb(el,'sol','Mình xem đáp án bước này nhé',`<div>Đáp án: ${stepAnsText(s)}</div><div>Con làm tiếp bước sau.</div>`)}
+function stepFinish(el,q){const shown=q.done.includes('shown');
+  q.status=shown?'fail':'ok';q.pts=shown?0:q.errs===0&&!q.usedGuide?1:.5;q.tries=q.pts===1?0:1;drawSteps(el,q);
+  if(shown)fb(el,'sol','Mình cùng xem bài giải nhé',`<div class="stp-sol">${q.sol}</div>`);else fb(el,'ok',pick(PRAISE),`<div class="stp-sol">${q.sol}</div>`);
+  lockCard(el,q);hook('answer',{ok:!shown,tries:q.tries,final:true,el});updateProgress()}
 function updateProgress(){const n=S.qs.length,done=S.qs.filter(q=>q.status!=='open').length,pts=S.qs.reduce((s,q)=>s+(q.pts||0),0);
   $('#pbar').style.width=(done/n*100)+'%';$('#ptxt').textContent=`Đã làm ${done}/${n} câu`;$('#pscore').textContent=`Điểm: ${fmtPts(pts)}/${n}`;
   const sum=$('#sum');if(done<n){sum.innerHTML='';return}

@@ -136,4 +136,105 @@ lesson(12,'nhan-chia-ps','Phép nhân, phép chia phân số. Tìm phân số c�
  ()=>{const a=R(1,7),b=R(2,9),c=R(1,7),d=R(2,9);return QB({text:'Tính:',tpl:`<span class="eq">${F(a,b)} : ${F(c,d)} = [F]</span>`,ans:[{frac:[a*d,b*c],mode:'eq'}],hint:`Chia cho một phân số = nhân với phân số đảo ngược: ${F(a,b)} × ${F(d,c)}.`,sol:`${F(a,b)} × ${F(d,c)} = ${F(a*d,b*c)}${gcd(a*d,b*c)>1?' = '+Fs(a*d,b*c):''}.`})},
  ()=>{const d=R(2,9),a=R(1,d-1),n=d*R(2,12);return QB({text:`Tìm ${F(a,d)} của <b>${n}</b>.`,tpl:'[_]',ans:[n/d*a],hint:`Lấy ${n} nhân với ${F(a,d)} (hoặc chia ${n} cho ${d} rồi nhân ${a}).`,sol:`${n} × ${F(a,d)} = ${n} : ${d} × ${a} = <b>${n/d*a}</b>.`})},
  ()=>{const d=pick([3,4,5,6]),a=R(1,d-1),n=d*R(5,9);return QB({text:`Lớp 4A có <b>${n}</b> học sinh, trong đó ${F(a,d)} số học sinh thích môn Toán. Hỏi lớp 4A có bao nhiêu học sinh thích môn Toán?`,tpl:'[_] học sinh',ans:[n/d*a],hint:`Tìm ${F(a,d)} của ${n}.`,sol:`${n} × ${F(a,d)} = <b>${n/d*a} học sinh</b>.`})}]);
+
+/* =====================================================================
+   🧠 GIẢI TOÁN TỪNG BƯỚC – bài toán có lời văn nhiều bước (QS, xem CLAUDE.md)
+   Mức 1: đủ 4 khâu Hiểu đề → Tóm tắt → Kế hoạch → Giải (+ Thử lại).
+   Mức 2: bớt khung, có bẫy câu chữ (“ít hơn”), tự sắp thứ tự các bước.
+   Mức 3: chỉ có đề và ô đáp số; bấm “Làm theo từng bước” nếu cần (tối đa ½ điểm).
+   ===================================================================== */
+const BG=(...l)=>`<div>${l.join('<br>')}</div>`;           // trình bày bài giải kiểu tiểu học
+const U_CTX=[{o:'thùng',n:'quyển vở',u:'quyển',sell:true},{o:'hộp',n:'cái bút chì',u:'cái',sell:true},{o:'bao',n:'ki-lô-gam gạo',u:'kg',sell:true},{o:'can',n:'lít nước mắm',u:'l',sell:true},{o:'xe',n:'học sinh',u:'học sinh',verb:'chở'}];
+const vb=c=>c.verb||'chứa';
+const unitRow=(k,lab,right)=>({label:lab,parts:[...Array(k)].map(()=>({v:1})),right});
+
+/* Rút về đơn vị (2–3 bước) */
+const gUnit=lv=>{const c=lv===3?pick(U_CTX.filter(x=>x.sell)):pick(U_CTX),n=R(3,lv===1?6:8),u=lv===1?R(4,12):R(12,48);let m;do{m=R(2,9)}while(m===n);const a=u*n;
+  const fig=segSVG([unitRow(n,`${n} ${c.o}`,`${a} ${c.u}`),unitRow(m,`${m} ${c.o}`,`? ${c.u}`)],{labelW:88});
+  if(lv===1)return QS({text:`Có <b>${n} ${c.o}</b> như nhau ${vb(c)} tất cả <b>${a} ${c.n}</b>. Hỏi <b>${m} ${c.o}</b> như thế ${vb(c)} bao nhiêu ${c.n}?`,fig,
+    hint:'Tìm số của 1 phần trước (phép chia), rồi tìm số của nhiều phần (phép nhân).',
+    sol:BG(`Số ${c.n} trong 1 ${c.o} là:`,`${a} : ${n} = ${u} (${c.u})`,`Số ${c.n} trong ${m} ${c.o} là:`,`${u} × ${m} = ${u*m} (${c.u})`,`Đáp số: <b>${u*m} ${c.n}</b>.`),
+    steps:[{tag:'Hiểu đề',ask:'Bài toán hỏi gì?',opts:[`Số ${c.n} trong ${m} ${c.o}`,`Số ${c.n} trong 1 ${c.o}`,`Số ${c.n} trong ${n} ${c.o}`,`Có tất cả bao nhiêu ${c.o}`],ans:`Số ${c.n} trong ${m} ${c.o}`,hint:'Đọc câu cuối của đề, câu bắt đầu bằng chữ “Hỏi”.'},
+      {tag:'Tóm tắt',ask:'Nhìn sơ đồ, điền số vào tóm tắt:',tpl:`[_] ${c.o}: [_] ${c.u}<br>[_] ${c.o}: ? ${c.u}`,ans:[n,a,m],hint:'Tìm trong đề: số ' + c.o + ' lúc đầu, số ' + c.u + ' của chúng và số ' + c.o + ' cần hỏi.'},
+      {tag:'Kế hoạch',ask:`Muốn biết ${m} ${c.o} ${vb(c)} bao nhiêu, trước hết con cần tìm gì?`,opts:[`Số ${c.n} trong 1 ${c.o}`,`Tổng số ${c.o}: ${n} + ${m}`,`Hiệu số ${c.o}: ${Math.max(n,m)} − ${Math.min(n,m)}`,`Số ${c.n} trong ${n+m} ${c.o}`],ans:`Số ${c.n} trong 1 ${c.o}`,hint:'Các '+c.o+' như nhau: biết 1 '+c.o+' thì tính được bao nhiêu '+c.o+' cũng được.'},
+      {tag:'Giải',ask:`Số ${c.n} trong 1 ${c.o} là:`,tpl:`${a} : ${n} = [_] (${c.u})`,ans:[u],hint:`Chia đều ${a} ${c.u} cho ${n} ${c.o}.`},
+      {tag:'Giải',ask:`Số ${c.n} trong ${m} ${c.o} là:`,tpl:`[_] × ${m} = [_] (${c.u})`,ans:[u,u*m],hint:`Lấy số ${c.u} trong 1 ${c.o} nhân với ${m}.`}]});
+  if(lv===2){const b=u*m;return QS({text:`Có <b>${a} ${c.n}</b> được xếp đều vào <b>${n} ${c.o}</b>. Hỏi có <b>${b} ${c.n}</b> thì xếp được bao nhiêu ${c.o} như thế?`,
+    fig:segSVG([unitRow(n,`${n} ${c.o}`,`${a} ${c.u}`),{label:`? ${c.o}`,parts:[{v:m,t:''}],right:`${b} ${c.u}`}],{labelW:88}),
+    hint:'Tìm số trong 1 '+c.o+' trước, rồi xem '+b+' '+c.u+' chia được thành mấy phần như thế.',
+    sol:BG(`Số ${c.n} trong 1 ${c.o} là:`,`${a} : ${n} = ${u} (${c.u})`,`Số ${c.o} xếp được là:`,`${b} : ${u} = ${m} (${c.o})`,`Đáp số: <b>${m} ${c.o}</b>.`),
+    steps:[{tag:'Kế hoạch',ask:'Chọn cách giải đúng:',opts:[`① ${a} : ${n} (số ${c.u} trong 1 ${c.o}) → ② ${b} : kết quả ①`,`① ${a} : ${n} → ② kết quả ① × ${b}`,`① ${b} : ${n} → ② kết quả ① × ${a}`,`① ${a} + ${b} → ② kết quả ① : ${n}`],ans:`① ${a} : ${n} (số ${c.u} trong 1 ${c.o}) → ② ${b} : kết quả ①`,hint:'Đây là bài toán rút về đơn vị, nhưng câu hỏi là “bao nhiêu '+c.o+'” nên bước 2 là phép chia.'},
+      {tag:'Giải',ask:`Số ${c.n} trong 1 ${c.o} là:`,tpl:`${a} : ${n} = [_] (${c.u})`,ans:[u],hint:`Chia ${a} cho ${n}.`},
+      {tag:'Giải',ask:`Số ${c.o} xếp được là:`,tpl:`${b} : [_] = [_] (${c.o})`,ans:[u,m],hint:`Chia ${b} cho số ${c.u} trong 1 ${c.o}.`},
+      {tag:'Thử lại',ask:'Thử lại bằng phép nhân:',tpl:`[_] × ${u} = [_]`,ans:[m,b],hint:`Lấy số ${c.o} vừa tìm nhân với ${u}; kết quả phải bằng ${b}.`}]})}
+  const p=pick([2000,3000,5000,6000,8000,10000,12000,15000]),tot=u*m*p;
+  return QS({direct:true,text:`Có <b>${n} ${c.o}</b> như nhau ${vb(c)} tất cả <b>${a} ${c.n}</b>. Mỗi ${c.u} giá <b>${fmt(p)} đồng</b>. Hỏi mua <b>${m} ${c.o}</b> như thế thì phải trả bao nhiêu tiền?`,fig,
+    hint:'Tìm số '+c.u+' trong 1 '+c.o+', rồi trong '+m+' '+c.o+', sau cùng nhân với giá tiền.',
+    sol:BG(`Số ${c.n} trong 1 ${c.o} là: ${a} : ${n} = ${u} (${c.u})`,`Số ${c.n} trong ${m} ${c.o} là: ${u} × ${m} = ${u*m} (${c.u})`,`Số tiền phải trả là: ${fmt(p)} × ${u*m} = ${fmt(tot)} (đồng)`,`Đáp số: <b>${fmt(tot)} đồng</b>.`),
+    steps:[{tag:'Kế hoạch',ask:'Bài này cần ba bước. Chọn thứ tự đúng:',opts:[`① Tìm số ${c.u} trong 1 ${c.o} → ② Tìm số ${c.u} trong ${m} ${c.o} → ③ Tính số tiền`,`① Tìm số ${c.u} trong ${m} ${c.o} → ② Tìm số ${c.u} trong 1 ${c.o} → ③ Tính số tiền`,`① Tính ${n} + ${m} → ② Nhân với giá tiền`,`① Tìm số ${c.u} trong 1 ${c.o} → ② Nhân với giá tiền → ③ Chia cho ${m}`],ans:`① Tìm số ${c.u} trong 1 ${c.o} → ② Tìm số ${c.u} trong ${m} ${c.o} → ③ Tính số tiền`,hint:'Muốn tính tiền phải biết mua bao nhiêu '+c.u+'; muốn biết điều đó phải biết 1 '+c.o+' có bao nhiêu '+c.u+'.'},
+      {tag:'Giải',ask:`Số ${c.n} trong 1 ${c.o} là:`,tpl:`${a} : ${n} = [_] (${c.u})`,ans:[u],hint:`Chia ${a} cho ${n}.`},
+      {tag:'Giải',ask:`Số ${c.n} trong ${m} ${c.o} là:`,tpl:`[_] × ${m} = [_] (${c.u})`,ans:[u,u*m],hint:`Nhân số ${c.u} trong 1 ${c.o} với ${m}.`},
+      {tag:'Đáp số',ask:'Số tiền phải trả là:',tpl:'[_] đồng',ans:[tot],wide:true,hint:`Lấy giá 1 ${c.u} (${fmt(p)} đồng) nhân với số ${c.u} cần mua.`}]});
+};
+
+/* Ba bước tính: so sánh hơn – kém rồi tính tổng */
+const B_CTX=[{who:['Lớp 4A','Lớp 4B','Lớp 4C'],u:'học sinh',has:'có',q:'cả ba lớp có bao nhiêu học sinh'},{who:['Thứ Hai','Thứ Ba','Thứ Tư'],u:'quyển sách',has:'thư viện cho mượn',q:'cả ba ngày thư viện cho mượn bao nhiêu quyển sách'},{who:['Tổ Một','Tổ Hai','Tổ Ba'],u:'cây',has:'trồng được',q:'cả ba tổ trồng được bao nhiêu cây'}];
+const gThree=lv=>{const c=pick(B_CTX),[X,Y,Z]=c.who,a=lv===1?R(25,40):R(120,480),mm=lv===1?R(2,8):R(12,60),l=lv===1?R(1,mm+3):R(5,mm+30),b=a+mm,cc=b-l,T=a+b+cc;
+  const lc=w=>w[0].toLowerCase()+w.slice(1),vr=w=>w.length<5?w:w.replace(/^(Lớp|Tổ|Thứ) /,'');
+  const text=`${X} ${c.has} <b>${a} ${c.u}</b>. ${Y} nhiều hơn ${lc(X)} <b>${mm} ${c.u}</b>. ${Z} ít hơn ${lc(Y)} <b>${l} ${c.u}</b>. Hỏi ${c.q}?`;
+  const sh=v=>Math.max(v,a*.18),fig=segSVG([{label:vr(X),parts:[{v:a}]},{label:vr(Y),parts:[{v:a},{v:sh(mm),on:true,t:`+${mm}`}]},{label:vr(Z),parts:[{v:b-sh(l)},{v:sh(l),cut:true,t:`−${l}`}]}],{labelW:70,brace:{from:0,to:2,t:'?'}});
+  const sol=BG(`${Y} ${c.has}: ${a} + ${mm} = ${b} (${c.u})`,`${Z} ${c.has}: ${b} − ${l} = ${cc} (${c.u})`,`Cả ba: ${a} + ${b} + ${cc} = ${T} (${c.u})`,`Đáp số: <b>${T} ${c.u}</b>.`);
+  const plan={tag:'Kế hoạch',ask:'Chọn thứ tự các bước giải:',opts:[`① Tìm ${lc(Y)} → ② Tìm ${lc(Z)} → ③ Cộng cả ba`,`① Tìm ${lc(Z)} → ② Tìm ${lc(Y)} → ③ Cộng cả ba`,`① Tính ${a} + ${mm} + ${l} → ② Nhân với 3`,`① Tìm ${lc(Y)} → ② Cộng cả ba → ③ Tìm ${lc(Z)}`],ans:`① Tìm ${lc(Y)} → ② Tìm ${lc(Z)} → ③ Cộng cả ba`,hint:`${Z} được so sánh với ${lc(Y)}, nên phải biết ${lc(Y)} trước.`};
+  const sY={tag:'Giải',ask:`${Y} ${c.has}:`,tpl:lv===1?`${a} + ${mm} = [_] (${c.u})`:`[_] ${c.u}`,ans:[b],wide:b>9999,hint:`“Nhiều hơn” thì làm phép cộng: ${a} + ${mm}.`},
+    sZ={tag:'Giải',ask:`${Z} ${c.has}:`,tpl:lv===1?`[_] − ${l} = [_] (${c.u})`:`[_] ${c.u}`,ans:lv===1?[b,cc]:[cc],hint:`“Ít hơn ${lc(Y)}” thì lấy số của ${lc(Y)} trừ đi ${l}.`},
+    sT={tag:lv===3?'Đáp số':'Giải',ask:`Cả ba ${c.u==='học sinh'?'lớp':c.u==='cây'?'tổ':'ngày'}:`,tpl:`[_] ${c.u}`,ans:[T],wide:T>9999,hint:'Cộng ba số vừa có.'};
+  if(lv===1)return QS({text,fig,hint:plan.hint,sol,steps:[{tag:'Hiểu đề',ask:'Đề bài đã cho biết số của ai?',opts:[X,Y,Z,'Cả ba'],ans:X,keepOrder:true,hint:`Tìm trong đề câu có số ${c.u} cụ thể, không có chữ “hơn”.`},plan,sY,sZ,sT]});
+  return QS({direct:lv===3,text,fig,hint:plan.hint,sol,steps:lv===2?[plan,sY,sZ,sT]:[sY,sZ,sT]});
+};
+
+/* Tìm hai số khi biết tổng và hiệu */
+const T_CTX=[{X:'Thùng thứ nhất',Y:'thùng thứ hai',all:'Hai thùng dầu có tất cả',u:'l',ask:'Hỏi mỗi thùng có bao nhiêu lít dầu?'},{X:'Lớp 4A',Y:'lớp 4B',all:'Hai lớp 4A và 4B trồng được tất cả',u:'cây',ask:'Hỏi mỗi lớp trồng được bao nhiêu cây?'},{X:'Đội Xanh',Y:'đội Đỏ',all:'Hai đội thu gom được tất cả',u:'kg',ask:'Hỏi mỗi đội thu gom được bao nhiêu ki-lô-gam giấy vụn?'}];
+const gSumDiff=lv=>{const c=pick(T_CTX),s=lv===1?R(20,80):R(60,400),h=lv===1?R(4,30):lv===2?R(10,90):2*R(5,40),B=s+h,S=B+s,k=h/2,Yc=c.Y[0].toUpperCase()+c.Y.slice(1);
+  const more=lv===1?`${c.X} nhiều hơn ${c.Y} <b>${h} ${c.u}</b>.`:lv===2?`${Yc} ít hơn ${c.X[0].toLowerCase()+c.X.slice(1)} <b>${h} ${c.u}</b>.`:`Nếu ${c.X[0].toLowerCase()+c.X.slice(1)} chuyển sang ${c.Y} <b>${k} ${c.u}</b> thì số ${c.u} của hai bên bằng nhau.`;
+  const text=`${c.all} <b>${S} ${c.u}</b>${c.u==='kg'?' giấy vụn':''}. ${more} ${c.ask}`;
+  const rt=Math.min(.8,Math.max(.25,h/s)),fig=segSVG([{label:c.X.replace(/^Thùng thứ /,'Thùng '),parts:[{v:1},{v:rt,on:true,t:lv===3?'Hiệu ?':'Hiệu'}],right:'?'},{label:Yc.replace(/^Thùng thứ /,'Thùng '),parts:[{v:1}],right:'?'}],{brace:{from:0,to:1,t:'Tổng'}});
+  const sol=BG(`${c.X} có: (${S} + ${h}) : 2 = ${B} (${c.u})`,`${Yc} có: ${S} − ${B} = ${s} (${c.u})`,`Đáp số: ${c.X}: <b>${B} ${c.u}</b>; ${c.Y}: <b>${s} ${c.u}</b>.`);
+  const hint='Số lớn = (Tổng + Hiệu) : 2; số bé = Tổng − số lớn.';
+  if(lv===1)return QS({text,fig,hint,sol,steps:[
+    {tag:'Hiểu đề',ask:'Bài toán hỏi gì?',opts:[`Số ${c.u} của mỗi bên`,`Tổng số ${c.u} của cả hai`,`${c.X} nhiều hơn bao nhiêu`,`Chỉ số ${c.u} của ${c.Y}`],ans:`Số ${c.u} của mỗi bên`,hint:'Đọc câu hỏi: “Hỏi mỗi … ”.'},
+    {tag:'Tóm tắt',ask:'Điền vào tóm tắt theo sơ đồ:',tpl:`Tổng: [_] ${c.u} &nbsp; Hiệu: [_] ${c.u}`,ans:[S,h],hint:'Cụm “có tất cả” cho biết tổng; cụm “nhiều hơn” cho biết hiệu.'},
+    {tag:'Kế hoạch',ask:`${c.X} là số lớn. Muốn tìm số lớn, con làm thế nào?`,opts:['(Tổng + Hiệu) : 2','(Tổng − Hiệu) : 2','Tổng − Hiệu','Tổng : 2'],ans:'(Tổng + Hiệu) : 2',hint:'Nhìn sơ đồ: thêm phần hiệu vào số bé thì được hai lần số lớn.'},
+    {tag:'Giải',ask:`${c.X} có:`,tpl:`(${S} + ${h}) : 2 = [_] (${c.u})`,ans:[B],hint:`Tính ${S} + ${h} trước rồi chia 2.`},
+    {tag:'Giải',ask:`${Yc} có:`,tpl:`${S} − ${B} = [_] (${c.u})`,ans:[s],hint:'Lấy tổng trừ số lớn vừa tìm.'},
+    {tag:'Thử lại',ask:'Kiểm tra hiệu:',tpl:`${B} − ${s} = [_]`,ans:[h],hint:`Kết quả phải bằng hiệu ${h}.`}]});
+  if(lv===2)return QS({text,fig,hint,sol:BG(`${Yc} có: (${S} − ${h}) : 2 = ${s} (${c.u})`,`${c.X} có: ${s} + ${h} = ${B} (${c.u})`,`Đáp số: ${c.X}: <b>${B} ${c.u}</b>; ${c.Y}: <b>${s} ${c.u}</b>.`),steps:[
+    {tag:'Hiểu đề',ask:`Câu “${Yc} ít hơn … ${h} ${c.u}” cho biết:`,opts:[`${c.X} là số lớn, hiệu là ${h}`,`${Yc} là số lớn, hiệu là ${h}`,`Tổng là ${h}`,`${Yc} có ${h} ${c.u}`],ans:`${c.X} là số lớn, hiệu là ${h}`,hint:`${Yc} ít hơn thì ${c.X[0].toLowerCase()+c.X.slice(1)} nhiều hơn.`},
+    {tag:'Kế hoạch',ask:`Tìm ${c.Y} (số bé) trước. Con tính:`,opts:['(Tổng − Hiệu) : 2','(Tổng + Hiệu) : 2','Tổng − Hiệu','(Tổng − Hiệu) × 2'],ans:'(Tổng − Hiệu) : 2',hint:'Bớt phần hiệu ở số lớn thì còn hai lần số bé.'},
+    {tag:'Giải',ask:`${Yc} có:`,tpl:`([_] − [_]) : 2 = [_] (${c.u})`,ans:[S,h,s],hint:`Điền tổng ${S}, hiệu ${h} rồi tính.`},
+    {tag:'Giải',ask:`${c.X} có:`,tpl:`[_] ${c.u}`,ans:[B],hint:'Lấy số bé cộng hiệu.'},
+    {tag:'Thử lại',ask:'Kiểm tra tổng:',tpl:`${B} + ${s} = [_]`,ans:[S],hint:`Kết quả phải bằng tổng ${S}.`}]});
+  return QS({direct:true,text,fig,hint:`Chuyển ${k} ${c.u} thì bằng nhau, nghĩa là hiệu bằng ${k} × 2.`,sol:BG(`Hiệu: ${k} × 2 = ${h} (${c.u})`,`${c.X} có: (${S} + ${h}) : 2 = ${B} (${c.u})`,`${Yc} có: ${S} − ${B} = ${s} (${c.u})`,`Đáp số: ${c.X}: <b>${B} ${c.u}</b>; ${c.Y}: <b>${s} ${c.u}</b>.`),steps:[
+    {tag:'Hiểu đề',ask:`Chuyển ${k} ${c.u} thì hai bên bằng nhau. Vậy lúc đầu ${c.X[0].toLowerCase()+c.X.slice(1)} nhiều hơn ${c.Y}:`,tpl:`[_] ${c.u}`,ans:[h],hint:`Bên này bớt ${k}, bên kia thêm ${k} mới bằng nhau, nên hai bên chênh nhau ${k} + ${k}.`},
+    {tag:'Kế hoạch',ask:'Bây giờ bài toán thuộc dạng nào?',opts:['Tìm hai số khi biết tổng và hiệu','Tìm số trung bình cộng','Rút về đơn vị','Tìm phân số của một số'],ans:'Tìm hai số khi biết tổng và hiệu',hint:'Đã biết tổng và vừa tìm được hiệu.'},
+    {tag:'Giải',ask:`${c.X} có:`,tpl:`[_] ${c.u}`,ans:[B],hint:'(Tổng + Hiệu) : 2.'},
+    {tag:'Đáp số',ask:'Mỗi bên có:',tpl:`${c.X}: [_] ${c.u} &nbsp; ${Yc}: [_] ${c.u}`,ans:[B,s],hint:'Số bé = Tổng − số lớn.'}]});
+};
+
+/* Hình chữ nhật: nửa chu vi (tổng) và hiệu → diện tích */
+const gRectSD=lv=>{const w=lv===1?R(6,20):R(12,40),h=lv===1?R(2,12):R(4,30),L=w+h,S=L+w,P=S*2,A=L*w;
+  const text=lv===1?`Một mảnh vườn hình chữ nhật có <b>nửa chu vi là ${S} m</b>, chiều dài hơn chiều rộng <b>${h} m</b>. Tính diện tích mảnh vườn.`:`Một mảnh vườn hình chữ nhật có <b>chu vi ${P} m</b>, chiều dài hơn chiều rộng <b>${h} m</b>. Tính diện tích mảnh vườn.`;
+  const fig=segSVG([{label:'Dài',parts:[{v:1},{v:Math.min(.8,Math.max(.25,h/w)),on:true,t:`${h} m`}],right:'?'},{label:'Rộng',parts:[{v:1}],right:'?'}],{labelW:66,brace:{from:0,to:1,t:lv===1?`${S} m`:'Nửa chu vi'}});
+  const sol=BG(...(lv===1?[]:[`Nửa chu vi: ${P} : 2 = ${S} (m)`]),`Chiều dài: (${S} + ${h}) : 2 = ${L} (m)`,`Chiều rộng: ${L} − ${h} = ${w} (m)`,`Diện tích: ${L} × ${w} = ${fmt(A)} (m²)`,`Đáp số: <b>${fmt(A)} m²</b>.`);
+  const hint='Nửa chu vi = chiều dài + chiều rộng (tổng); chiều dài hơn chiều rộng (hiệu).';
+  const sHalf={tag:'Giải',ask:'Nửa chu vi mảnh vườn là:',tpl:`${P} : 2 = [_] (m)`,ans:[S],hint:'Chia chu vi cho 2.'},
+    sL={tag:'Giải',ask:'Chiều dài là:',tpl:lv===1?`(${S} + ${h}) : 2 = [_] (m)`:'[_] m',ans:[L],hint:'Chiều dài là số lớn: (Tổng + Hiệu) : 2.'},
+    sW={tag:'Giải',ask:'Chiều rộng là:',tpl:lv===1?`${L} − ${h} = [_] (m)`:'[_] m',ans:[w],hint:'Lấy chiều dài trừ đi hiệu.'},
+    sA={tag:lv===3?'Đáp số':'Giải',ask:'Diện tích mảnh vườn là:',tpl:lv===1?`${L} × ${w} = [_] (m²)`:'[_] m²',ans:[A],wide:true,hint:'Diện tích hình chữ nhật = chiều dài × chiều rộng.'};
+  const plan={tag:'Kế hoạch',ask:'Chọn thứ tự giải:',opts:['① Tìm chiều dài, chiều rộng (tổng – hiệu) → ② Tính diện tích','① Tính diện tích → ② Tìm chiều dài, chiều rộng',`① Lấy nửa chu vi nhân ${h} → ② Chia 2`,`① Chiều dài = nửa chu vi − ${h} → ② Tính diện tích`],ans:'① Tìm chiều dài, chiều rộng (tổng – hiệu) → ② Tính diện tích',hint:'Muốn tính diện tích phải biết chiều dài và chiều rộng.'};
+  if(lv===1)return QS({text,fig,hint,sol,steps:[{tag:'Hiểu đề',ask:'Nửa chu vi hình chữ nhật chính là:',opts:['Chiều dài + chiều rộng','Chiều dài − chiều rộng','Chiều dài × chiều rộng','Chiều dài × 2'],ans:'Chiều dài + chiều rộng',hint:'Chu vi = (dài + rộng) × 2.'},plan,sL,sW,sA]});
+  return QS({direct:lv===3,text,fig,hint,sol,steps:lv===2?[sHalf,plan,sL,sW,sA]:[sHalf,sL,sW,sA]});
+};
+
+lesson(1,'giai-toan-tung-buoc','🧠 Giải toán từng bước: rút về đơn vị, ba bước tính','Rèn cách giải: hiểu đề, tóm tắt bằng sơ đồ, lập kế hoạch, giải và thử lại.',[gUnit,gThree,gUnit]);
+lesson(5,'tong-hieu-tung-buoc','🧠 Giải toán từng bước: tổng và hiệu','Bài toán tổng – hiệu nhiều bước: sơ đồ đoạn thẳng, “ít hơn”, chuyển bớt, hình chữ nhật.',[gSumDiff,gRectSD,gSumDiff]);
 })();

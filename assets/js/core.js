@@ -32,6 +32,11 @@ const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){retu
 const QB=o=>({kind:'blanks',...o});
 // Chọn đáp án: opts chứa ans; mặc định trộn thứ tự.
 const QC=o=>{const opts=[...new Set(o.opts)];const arr=o.keepOrder?opts:shuffle(opts);return {kind:'choice',...o,opts:arr,correct:arr.indexOf(o.ans)}};
+// Bài toán nhiều bước (giải toán có lời văn): mỗi bước là một câu nhỏ, mở lần lượt.
+//   steps: [{tag:'Hiểu đề'|'Tóm tắt'|'Kế hoạch'|'Giải'|'Thử lại'|'Đáp số', ask, hint, opts+ans (chọn) | tpl+ans (điền, chỉ [_])}]
+//   direct:true (mức 3) → chỉ hiện bước cuối; học sinh có thể bấm "Làm theo từng bước" (tối đa ½ điểm).
+const QS=o=>stepsReset({kind:'steps',...o,steps:o.steps.map(s=>s.opts?{...QC(s),tag:s.tag}:{...s,kind:'blanks'})});
+const stepsReset=q=>Object.assign(q,{cur:0,done:[],st:[],errs:0,guided:!q.direct,usedGuide:false,sel:null});
 const QCmp=(text,left,right,a,b,extra={})=>QC({text,expr:`<span class="big">${left} <span style="color:var(--primary)">?</span> ${right}</span>`,opts:['<','>','='],ans:cmp(a,b),keepOrder:true,compact:true,...extra});
 
 /* ---------- Công thức toán bằng LaTeX (MathJax vẽ) – dùng cho lớp 6 trở lên ----------

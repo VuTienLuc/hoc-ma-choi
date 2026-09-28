@@ -124,3 +124,21 @@ function rectSVG(){return `<svg viewBox="0 0 320 200" role="img" aria-label="Hì
  <text class="sv-txt" x="30" y="36" font-size="19">A</text><text class="sv-txt" x="276" y="36" font-size="19">B</text><text class="sv-txt" x="276" y="182" font-size="19">C</text><text class="sv-txt" x="28" y="182" font-size="19">D</text></svg>`}
 function shapeSVG(kind){const pts={'Hình bình hành':'60,160 110,50 290,50 240,160','Hình thoi':'160,20 250,100 160,180 70,100','Hình chữ nhật':'50,50 270,50 270,150 50,150','Hình vuông':'95,35 225,35 225,165 95,165'}[kind];
  return `<svg viewBox="0 0 320 200" role="img" aria-label="Một hình tứ giác"><polygon class="sv-ink" stroke-width="3.5" points="${pts}" style="fill:var(--primary-soft)"/></svg>`}
+
+/* Sơ đồ đoạn thẳng cho bài toán có lời văn (tiểu học).
+   rows: [{label:'Thùng 1', parts:[{v:3},{v:1,on:true,t:'Hiệu'}], right:'?'}]
+     v: độ dài (cùng đơn vị giữa các hàng); on: tô đậm; cut: nét đứt (phần bớt đi); t: chữ phía trên phần đó.
+   o.brace = {from:0, to:1, t:'Tổng'} – ngoặc bên phải gộp các hàng from..to. */
+function segSVG(rows,o={}){
+  const L=o.labelW||96,W=o.w||240,max=Math.max(...rows.map(r=>r.parts.reduce((a,p)=>a+p.v,0))),sc=W/max,rh=62,top=30,bh=22;
+  const rw=Math.max(0,...rows.map(r=>(r.right||'').length))*10+16,bx=L+W+rw+14,VW=o.brace?bx+22+(o.brace.t.length*10):L+W+rw+6,VH=top+rows.length*rh-14;
+  let s=`<svg viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Sơ đồ đoạn thẳng">`;
+  rows.forEach((r,i)=>{const y=top+i*rh;let x=L;
+    s+=`<text class="sv-txt" x="${L-10}" y="${y+17}" font-size="17" text-anchor="end">${r.label}</text>`;
+    r.parts.forEach(p=>{const w=p.v*sc;s+=`<rect class="${p.cut?'sv-cut':'sv-part'+(p.on?' on':'')}" x="${x}" y="${y}" width="${w}" height="${bh}"/>`;
+      if(p.t)s+=`<text class="sv-muted" x="${x+w/2}" y="${y-7}" font-size="15" text-anchor="middle">${p.t}</text>`;x+=w});
+    if(r.right)s+=`<text class="sv-txt" x="${x+8}" y="${y+17}" font-size="17">${r.right}</text>`});
+  if(o.brace){const{from,to,t}=o.brace,y1=top+from*rh,y2=top+to*rh+bh,m=(y1+y2)/2;
+    s+=`<path class="sv-ink" stroke-width="2.5" d="M${bx-8} ${y1} Q${bx} ${y1} ${bx} ${y1+8} L${bx} ${m-6} L${bx+8} ${m} L${bx} ${m+6} L${bx} ${y2-8} Q${bx} ${y2} ${bx-8} ${y2}"/><text class="sv-txt" x="${bx+14}" y="${m+6}" font-size="17">${t}</text>`}
+  return s+'</svg>';
+}

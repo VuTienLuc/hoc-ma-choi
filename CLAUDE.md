@@ -9,7 +9,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 - Học sinh chọn lớp → chọn bài → chọn mức (1 Làm quen · 2 Luyện tập · 3 Thử thách) → làm một bộ 6 câu xếp từ dễ đến khó.
 - Câu hỏi **sinh ngẫu nhiên bằng code**, không lưu sẵn. Mỗi lần bấm "Làm bộ mới" sẽ ra câu khác.
 - Chấm: sai lần 1 → hiện gợi ý; sai lần 2 → hiện lời giải và khoá câu. Đúng lần đầu được 1 điểm, đúng lần hai được ½ điểm. Hết bộ thì cho 1–3 sao, lưu trong localStorage.
-- Hiện có: **Toán 4 – Kết nối tri thức (29 bài)**, **Toán 8 (chương II, 5 bài)**, **Toán 9 (chương I–IV, 16 bài)**, **Toán 10 (chương I–III, 9 bài)**, **Toán 11 (chương I–II, 9 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
+- Hiện có: **Toán 4 – Kết nối tri thức (29 bài + 2 bài 🧠 Giải toán từng bước)**, **Toán 8 (chương II, 5 bài)**, **Toán 9 (chương I–IV, 16 bài)**, **Toán 10 (chương I–III, 9 bài)**, **Toán 11 (chương I–II, 9 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
 
 ## 2. Cấu trúc và vai trò từng file
 
@@ -19,7 +19,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `data/<mã-lớp>.js` | **Toàn bộ nội dung một lớp**: chủ đề, bài, các dạng bài | Hầu hết mọi việc về nội dung |
 | `data/_mau-lop-moi.js` | File mẫu có chú thích, chứa ví dụ Lớp 3 chạy được | Chép ra khi tạo lớp mới |
 | `assets/js/core.js` | Tiện ích (`R`, `pick`, `fmt`, `F`, `gcd`, `lcm`, `roman`…), bộ dựng câu `QB`/`QC`/`QCmp`, sổ đăng ký `App.addGrade` | Khi cần thêm hàm tiện ích |
-| `assets/js/figures.js` | Hàm vẽ SVG: `protractorSVG`, `angleSVG`, `fracSVG`, `barSVG`, `rectSVG`, `shapeSVG`, `rtTriSVG` (tam giác vuông có nhãn cạnh, cung góc), `triSVG` (tam giác bất kì theo 3 cạnh, nhãn cạnh/góc), `halfCircleSVG` (nửa đường tròn đơn vị), `planeSVG` (mặt phẳng Oxy: đường thẳng, gạch bỏ phần không là miền nghiệm theo quy ước KNTT, chấm điểm) | Khi cần loại hình mới |
+| `assets/js/figures.js` | Hàm vẽ SVG: `protractorSVG`, `angleSVG`, `fracSVG`, `barSVG`, `rectSVG`, `shapeSVG`, `rtTriSVG` (tam giác vuông có nhãn cạnh, cung góc), `triSVG` (tam giác bất kì theo 3 cạnh, nhãn cạnh/góc), `halfCircleSVG` (nửa đường tròn đơn vị), `planeSVG` (mặt phẳng Oxy: đường thẳng, gạch bỏ phần không là miền nghiệm theo quy ước KNTT, chấm điểm), `segSVG` (sơ đồ đoạn thẳng cho toán lời văn tiểu học: các hàng, phần tô đậm/nét đứt, ngoặc gộp) | Khi cần loại hình mới |
 | `assets/js/generators.js` | Dạng bài **dùng chung cho nhiều lớp**: `gPlace`, `gValue`, `gCompose`, `gCmp`, `gRound`, `gAddSub`, `gFindX`, `gConv` (+ `MASS`, `AREA`), `gReadProt`, `gRotate`, `gAngType`, `gAngDeg`, `gAngWhich` | Khi một dạng bài dùng được cho ≥2 lớp |
 | `assets/js/math.js` + `assets/vendor/mathjax/` | Cấu hình MathJax 3.2.2 (bản đặt sẵn trong dự án, chạy không cần mạng) và tự vẽ lại công thức mỗi khi nội dung đổi | Hầu như không sửa |
 | `assets/js/sound.js` | Âm thanh khi chấm (đúng/sai) lấy từ `CONFIG.sounds` (danh sách nguồn, thử lần lượt: `assets/sounds/*.mp3` rồi link ngoài); nút 🔊/🔇 bật tắt, lưu `hoctap:sound` | Khi đổi âm thanh: chỉ sửa `config.js` |
@@ -61,6 +61,7 @@ lesson(1, 'on-so-thap-phan', 'Ôn tập số thập phân', 'Đọc, viết, so 
 | Chọn đáp án | `QC({...})` | `opts` (các phương án), `ans` (phương án đúng, phải nằm trong `opts`), `keepOrder`, `compact`, `expr` |
 | Chọn dấu | `QCmp(text, trái, phải, giáTrịTrái, giáTrịPhải, {hint, sol})` | — |
 | Xoay tia | `{kind:'rotate', target, val, step, text, hint, sol}` | dùng với thước đo góc |
+| Nhiều bước (giải toán có lời văn) | `QS({...})` | `steps:[{tag, ask, hint, opts+ans \| tpl+ans}]` – tag: Hiểu đề, Tóm tắt, Kế hoạch, Giải, Thử lại, Đáp số; bước điền chỉ dùng `[_]`; `direct:true` (mức 3) chỉ hiện bước cuối, có nút "Làm theo từng bước". Chấm từng bước: sai 1 lần → `hint` của bước, sai 2 lần → hiện đáp án bước rồi làm tiếp. Điểm: không sai = 1; có sai hoặc nhờ làm từng bước = ½; phải xem đáp án bước = 0. `sol` trình bày kiểu tiểu học (câu lời giải, phép tính, Đáp số) |
 | Tô màu | `{kind:'shade', n, shape:'rect'|'circle', num, den, on:[], text, hint, sol}` | số phần tô × den = num × n |
 
 Trường chung cho mọi câu: `text` (đề, được dùng HTML), `fig` (SVG, không bắt buộc), `hint`, `sol`.
@@ -120,6 +121,7 @@ python3 tools/test_baigiang.py [lop8] # nếu sửa bài giảng giáo viên: ch
 python3 tools/test_thucung.py   # nếu sửa play.js: xu, hạt, cho ăn, cửa hàng, nhiệm vụ, huy hiệu, xếp hạng
 node tools/test_appscript.js    # nếu sửa tools/apps-script/Code.gs
 python3 tools/test_congthuc.py  # nếu sửa nội dung lớp 6+ (LaTeX): không còn công thức lỗi
+python3 tools/test_nhieubuoc.py  # nếu sửa loại câu nhiều bước (QS): sai→gợi ý, sai 2 lần→đáp án bước, điểm ½/0, mức 3
 node tools/verify8.js           # nếu sửa lớp 8: kiểm tra đại số (đáp án bằng đề, phương án sai không bằng)
 ```
 Khi có thể, chụp màn hình ở kích thước iPad dọc 820×1180 và ngang 1180×820 để kiểm tra: chữ không đè lên hình, không có cuộn ngang, hình không quá to.

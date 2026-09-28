@@ -14,7 +14,10 @@ async (REPS) => {
    S.grade=g; S.lesson=l; S.lv=lv; renderLesson(); genSet(); renderQs();
    const cards=[...document.querySelectorAll('#qs .card')];
    S.qs.forEach((q,i)=>{ out.count++; const el=cards[i]; const where=[g.id,l.id,lv];
-     if(/NaN|undefined|Infinity|null/.test((q.text||'')+(q.tpl||'')+(q.expr||'')+q.sol+q.hint)) out.bad.push(['text',...where,q.text,q.tpl]);
+     const stx=q.kind==='steps'?q.steps.map(s=>s.ask+(s.tpl||'')+(s.opts||[]).join('|')+(s.hint||'')).join('|'):'';
+     if(/NaN|undefined|Infinity|null/.test((q.text||'')+(q.tpl||'')+(q.expr||'')+q.sol+q.hint+stx)) out.bad.push(['text',...where,q.text,q.tpl]);
+     if(q.kind==='steps') q.steps.forEach(s=>{ if(s.kind==='choice'&&(s.correct<0||s.opts.length<3)) out.bad.push(['bước: phương án lỗi',...where,s.ask,s.opts]);
+       if(s.kind==='blanks'&&(s.tpl.match(/\[_\]/g)||[]).length!==s.ans.length) out.bad.push(['bước: số ô ≠ số đáp án',...where,s.tpl]); });
      if(!q.hint||!q.sol) out.bad.push(['thiếu hint/sol',...where]);
      try{
      if(q.kind==='blanks'){ const ins=[...el.querySelectorAll('.blank')]; let j=0;
@@ -24,6 +27,10 @@ async (REPS) => {
        if(j!==ins.length) out.bad.push(['số ô ≠ số đáp án',...where,q.tpl]);
      } else if(q.kind==='choice'){ if(q.correct<0||q.opts.length<2) out.bad.push(['phương án lỗi',...where,q.text]); el.querySelector(`[data-c="${q.correct}"]`).click(); }
      else if(q.kind==='rotate'){ setRot(el,q,q.target); }
+     else if(q.kind==='steps'){ let g=0; while(q.status==='open'&&g++<20){ const k=q.guided?q.cur:q.steps.length-1, s=q.steps[k], li=el.querySelector(`[data-s="${k}"]`);
+         if(s.kind==='choice') li.querySelector(`[data-sc="${s.correct}"]`).click(); else s.ans.forEach((a,j)=>li.querySelectorAll('.blank')[j].value=String(Array.isArray(a)?a[0]:a));
+         el.querySelector('[data-check]').click(); }
+       if(q.pts!==1) out.bad.push(['bước: làm đúng hết mà không được 1 điểm',...where,q.text]); return; }
      else if(q.kind==='shade'){ const need=q.num*q.n/q.den; [...el.querySelectorAll('.sv-part')].slice(0,need).forEach(p=>p.dispatchEvent(new MouseEvent('click'))); }
      el.querySelector('[data-check]').click();
      if(!el.classList.contains('ok')) out.bad.push(['chấm SAI',...where,q.text,q.tpl,JSON.stringify(q.ans)]);

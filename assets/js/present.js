@@ -84,6 +84,8 @@ const Present = (() => {
         return p; }).join('');
       return `<div class="pv-ans">${html}</div>`;
     }
+    if(q.kind === 'steps')
+      return `<ol class="pv-steps">${q.steps.map(s => `<li><b>${s.tag}:</b> ${s.ask}${reveal ? ` <span class="pv-sa">${stepAnsText(s)}</span>` : ''}</li>`).join('')}</ol>`;
     return '';
   }
   function draw(){

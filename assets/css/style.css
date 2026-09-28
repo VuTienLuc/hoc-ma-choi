@@ -318,8 +318,8 @@ body.noscroll{overflow:hidden}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .stats span{padding:6px 12px;border:2px solid var(--line);border-radius:var(--r-md);background:var(--bg)}
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.badge{display:grid;justify-items:center;text-align:center;gap:4px;padding:12px 8px;border:2.5px solid var(--line);border-radius:var(--r-md);background:var(--surface);opacity:.45;filter:grayscale(1)}
-.badge.got{opacity:1;filter:none;background:var(--warn-soft)} .badge .bi{font-size:36px} .badge small{color:var(--muted);line-height:1.35}
+.badges .badge{display:grid;justify-items:center;text-align:center;gap:4px;padding:12px 8px;border:2.5px solid var(--line);border-radius:var(--r-md);background:var(--surface);opacity:.45;filter:grayscale(1)}
+.badges .badge.got{opacity:1;filter:none;background:var(--warn-soft)} .badges .badge .bi{font-size:36px} .badges .badge small{color:var(--muted);line-height:1.35}
 .rank-sort{margin-bottom:8px}
 .rank{list-style:none;margin:0;padding:0;display:grid;gap:6px}
 .rank li{display:grid;grid-template-columns:44px 48px 1fr auto;gap:10px;align-items:center;padding:6px 12px;border:2px solid var(--line);border-radius:var(--r-md);background:var(--surface)}
@@ -444,3 +444,22 @@ body.noscroll{overflow:hidden}
 .lk-list li{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--surface);border:2.5px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow-sm);padding:10px 14px}
 .lk-li{display:grid;gap:3px;min-width:0;flex:1 1 320px} .lk-li b{font:700 17px/1.3 var(--f-body)} .lk-li small{color:var(--muted);font-size:14px;line-height:1.35}
 .lk-acts{display:flex;gap:6px;flex-wrap:wrap} .lk-acts .btn{min-height:44px;padding:6px 14px}
+
+/* Bài toán nhiều bước (giải toán có lời văn) */
+.sv-cut{fill:none;stroke:var(--muted);stroke-width:2.5;stroke-dasharray:6 5}
+.stp{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.stp-i{border:2px solid var(--line);border-radius:var(--r-md);padding:10px 14px 12px;background:var(--surface)}
+.stp-i.is-cur{border-color:var(--primary);box-shadow:4px 4px 0 var(--primary)}
+.stp-i.is-ok{background:var(--ok-soft);border-color:var(--ok)}
+.stp-i.is-shown{background:var(--warn-soft);border-color:var(--warn)}
+.stp-h{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.stp-tag{font:800 14px/1.2 var(--f-head);text-transform:uppercase;letter-spacing:.04em;color:var(--primary)}
+.stp-mark{margin-left:auto;font-size:13px;color:var(--muted)} .stp-mark.ok{color:var(--ok);font-size:20px;font-weight:800}
+.stp-ask{margin:0 0 6px;font-size:18px;font-weight:600;line-height:1.4}
+.stp-i .answer{font-size:22px;line-height:2.1} .stp-done{font-size:18px;font-weight:600} .stp-done.answer{font-size:20px;line-height:1.6}
+.stp-v{color:var(--ok)} .is-shown .stp-v{color:var(--warn)}
+.stp-i .choices{gap:8px} .stp-i .choice{font-size:17px;min-height:48px;padding:8px 14px}
+.stp-guide{margin-top:12px}
+.stp-sol{margin-top:4px;line-height:1.65}
+.pv-steps{margin:0;padding-left:1.1em;display:grid;gap:.25em;font-size:.72em;line-height:1.35} .pv-sa{color:var(--primary);font-weight:800}
+.card.is-steps .qbody.has-fig>.fig{align-self:start;position:sticky;top:96px}
