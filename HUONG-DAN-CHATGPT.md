@@ -46,7 +46,35 @@ Nguyên tắc:
 8. Thêm tệp bài giảng mới thì thêm thẻ <script> vào giao-vien/index.html.
 9. Luôn đưa lại TOÀN BỘ tệp đã sửa (không cắt bớt) và nhắc thầy chạy: node tools/kiem-tra.js (phải ĐẠT ✓).
 10. Bám mục lục SGK; không chắc tên/số bài thì nói rõ để thầy đối chiếu, không bịa.
+
+QUY TẮC LÀM ĐẦY ĐỦ (bắt buộc):
+- Làm TRỌN yêu cầu trong một lần; không hỏi "có muốn làm tiếp không" giữa chừng.
+- Mỗi bài đủ số dạng như tệp mẫu (học sinh: 4 dạng × 3 mức khác nhau thật sự); bài giảng ≥ 1 ví dụ mỗi dạng; phiếu luyện tập đủ 10 bài (7 + 3).
+- Lời giải chia từng bước, mỗi bước ghi rõ căn cứ, dành cho học sinh trung bình.
+- TUYỆT ĐỐI không viết "...", "// phần còn lại giữ nguyên", "tương tự như trên", "TODO". Luôn đưa lại TOÀN BỘ tệp.
+- Nếu quá dài: chia thành Phần 1, Phần 2… và tự viết tiếp đến hết, cuối cùng ghi "ĐÃ XONG TOÀN BỘ".
+- Trước khi kết thúc: tự giải lại từng bài để chắc đáp số đúng, tự rà theo bảng "lỗi thường gặp" trong AGENTS.md và liệt kê đã kiểm những gì.
 ```
+
+### Cài đặt chung của ChatGPT (một lần, áp dụng mọi cuộc trò chuyện)
+Vào **Cài đặt → Cá nhân hoá → Hướng dẫn tuỳ chỉnh**, dán:
+```
+Tôi là giáo viên Toán. Trả lời bằng tiếng Việt, gọi tôi là "thầy".
+Khi làm việc kỹ thuật: ưu tiên đầy đủ và chính xác hơn ngắn gọn; không bỏ bớt, không viết tắt nội dung;
+suy nghĩ kỹ và tự kiểm tra kết quả trước khi trả lời.
+```
+
+### Chọn mô hình (gói Plus)
+Tên mô hình của ChatGPT thay đổi thường xuyên. Nguyên tắc chung: **chọn mô hình lớn nhất, mức suy nghĩ cao nhất**.
+| Việc | Nên chọn | Tránh |
+|---|---|---|
+| Soạn chương, bài giảng, phiếu luyện tập | **Codex** với mô hình lớn nhất (GPT‑6 Astra; nếu không có thì Sol), mức suy nghĩ **High / Extra high** | Instant, mini, Luna |
+| Trò chuyện trong Project | Mô hình **Thinking** mới nhất, mức **Extended** | Instant (hay làm tắt, cắt bớt tệp) |
+| Việc nhỏ (sửa chữ, đổi màu) | Sol hoặc Thinking ở mức Standard | |
+
+- Plus có giới hạn lượt dùng: dành mô hình lớn cho việc lớn.
+- Giao **từng bài hoặc 2–3 bài một lần**, thay vì cả chương.
+- Cuối mỗi lệnh thêm câu: *"Làm đầy đủ, không cắt bớt; xong thì chạy node tools/kiem-tra.js và báo kết quả."*
 
 ---
 
@@ -89,7 +117,7 @@ Không phá các tính năng cũ (đăng nhập, thú cưng, trình chiếu, bà
 
 ## 3. Những điều thầy cần nhớ
 - `node tools/kiem-tra.js` chạy khoảng 2 giây, **chỉ cần Node.js** (máy Mac: cài từ nodejs.org).
-  - Công cụ bắt được phần lớn lỗi: sai cú pháp, sai số ô trống, đáp án không có trong phương án, dấu `<` trong công thức, quên thẻ `<script>`, sai tỉ lệ 70/30.
+  - Công cụ bắt được phần lớn lỗi: sai cú pháp, sai số ô trống, đáp án không có trong phương án, dấu `<` trong công thức, quên thẻ `<script>`, sai tỉ lệ 70/30, chỗ ChatGPT làm tắt ("…", "phần còn lại giữ nguyên", TODO).
   - Công cụ **không** biết một bài toán hay hay dở, hoặc có đúng SGK không. Thầy vẫn cần xem nội dung.
 - Kiểm tra kỹ nhất vẫn là `python3 tools/test.py` (làm thử mọi câu trong trình duyệt thật); Codex chạy được nếu môi trường có Playwright.
 - **Không** để ChatGPT sửa `tools/apps-script/Code.gs` nếu thầy chưa định triển khai lại Apps Script.

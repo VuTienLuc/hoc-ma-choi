@@ -19,6 +19,17 @@
 5. Chạy `python3 tools/build.py` để tạo `dist/hoc-tap.html`.
 6. Báo cáo cho thầy bằng tiếng Việt, gọi là "thầy", ngắn gọn theo mục 8.
 
+**Quy tắc làm ĐẦY ĐỦ (bắt buộc – thầy cần sản phẩm dùng được ngay, không phải bản nháp):**
+- Làm **trọn** yêu cầu trong một lần; không dừng giữa chừng để hỏi "có muốn làm tiếp không". Chỉ hỏi khi yêu cầu thật sự mơ hồ (vd không rõ chương, lớp).
+- Đủ số lượng như tệp mẫu:
+  - phần học sinh: **mỗi bài 4 dạng**, mỗi dạng **3 mức khác nhau thật sự** (mức 3 không chỉ là số to hơn), bài hình học có hình vẽ, cuối chương có bài **Ôn tập chương**;
+  - bài giảng: mỗi bài có `title`, `kt` (kèm hình khi là hình học), `method` cho từng dạng, **≥ 1 ví dụ `vd` mỗi dạng**, `lt`, `sum`;
+  - phiếu luyện tập: **10 bài** = 7 cơ bản + 3 `hard:true`, xếp theo dạng.
+- Lời giải cho học sinh trung bình: **chia từng bước, mỗi bước ghi rõ căn cứ** (quy tắc, định lí, tính chất); không gộp nhiều phép biến đổi vào một bước; đáp số in đậm bằng `tb(...)`.
+- **Tuyệt đối không** viết `...`, `// phần còn lại giữ nguyên`, `// tương tự`, `TODO`, `FIXME` trong mã; luôn đưa lại **toàn bộ** tệp đã sửa. (`tools/kiem-tra.js` sẽ báo lỗi nếu gặp các chuỗi này.)
+- Việc quá dài: chia Phần 1, Phần 2… và tự làm tiếp đến hết; cuối cùng ghi **"ĐÃ XONG TOÀN BỘ"** kèm danh sách bài/dạng đã làm.
+- Trước khi kết thúc: tự rà theo bảng lỗi dưới đây, tự giải lại từng ví dụ/bài để chắc đáp số đúng, chạy `node tools/kiem-tra.js` tới khi ĐẠT, rồi báo cáo đã kiểm những gì.
+
 **Lỗi thường gặp (công cụ `tools/kiem-tra.js` bắt được hầu hết):**
 
 | Lỗi | Cách đúng |
@@ -92,7 +103,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `assets/js/engine.js` | Hiển thị, chấm, sao, điều hướng hash, nạp `data/*.js` | **Hạn chế sửa**. Chỉ sửa khi thêm loại câu hỏi mới hoặc tính năng mới |
 | `assets/css/style.css` | Giao diện "vở ô chấm", token màu, chế độ tối, bố cục iPad | Khi đổi giao diện |
 | `HUONG-DAN-CHATGPT.md` | Hướng dẫn cho thầy: dùng ChatGPT Codex/Project, *Lệnh khởi đầu* và các lệnh mẫu giao việc | Khi đổi quy trình làm việc với AI |
-| `tools/kiem-tra.js` | **Kiểm tra nhanh bằng Node** (không cần trình duyệt): cú pháp mọi tệp JS; sinh câu hỏi mọi dạng × 3 mức và soát hợp đồng dữ liệu, LaTeX, SVG; bài giảng, phiếu luyện tập 70/30; thẻ `<script>` | Chạy sau **mọi** thay đổi (mọi AI chạy được) |
+| `tools/kiem-tra.js` | **Kiểm tra nhanh bằng Node** (không cần trình duyệt): cú pháp mọi tệp JS; chỗ làm tắt (`// ...`, “phần còn lại giữ nguyên”, TODO, nội dung “…”); sinh câu hỏi mọi dạng × 3 mức và soát hợp đồng dữ liệu, LaTeX, SVG; bài giảng, phiếu luyện tập 70/30; thẻ `<script>` | Chạy sau **mọi** thay đổi (mọi AI chạy được) |
 | `tools/dang-len-web.command` | **Nút “Đăng lên web” của thầy** (macOS, bấm đúp; có bản sao trên Desktop). Lần đầu tự biến thư mục `hoc-tap` trên máy thành bản sao git của kho. Mỗi lần: `git add -A` → `node tools/kiem-tra.js` (lỗi thì dừng, chép lỗi vào clipboard) → build → hỏi xác nhận → commit → `pull --rebase` → kiểm tra lại → push. Xung đột thì dừng, giữ nguyên tệp trên máy | Khi đổi quy trình đăng; AI **không** cần tự đẩy lên khi thầy dùng nút này |
 | `tools/test.py` | Kiểm thử tự động: làm hết mọi câu và báo câu nào bị chấm sai | Chạy sau **mọi** thay đổi |
 | `tools/build.py` | Gộp cả thư mục thành `dist/hoc-tap.html` (một file) | Trước khi gửi hoặc publish |

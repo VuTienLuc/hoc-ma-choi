@@ -22,6 +22,17 @@ const errs = [], warns = [], err = (w, m) => errs.push(`${w}: ${m}`), warn = (w,
 const jsFiles = ['config.js', ...['assets/js', 'data', 'giao-vien/bai-giang'].flatMap(d => fs.readdirSync(path.join(ROOT, d)).filter(f => f.endsWith('.js')).map(f => `${d}/${f}`))];
 jsFiles.forEach(f => { try { cp.execFileSync(process.execPath, ['--check', path.join(ROOT, f)], {stdio: 'pipe'}); } catch (e) { err(f, 'LỖI CÚ PHÁP\n' + String(e.stderr || e).split('\n').slice(0, 6).join('\n')); } });
 
+/* ---------- 1b. Làm tắt / bỏ dở (AI viết "…", "phần còn lại giữ nguyên", TODO) trong tệp nội dung ---------- */
+const LAZY = [
+  [/(^|[^:])\/\/\s*(\.\.\.|…)\s*$|\/\*\s*(\.\.\.|…)\s*\*\//, 'chú thích “…” thay cho nội dung'],
+  [/(^|[^:])\/\/[^\n]*?(phần còn lại|giữ nguyên|(làm|viết|tương) tự như|rest of|same as above|unchanged)|\/\*[^*]*?(phần còn lại|giữ nguyên|rest of|unchanged)[^*]*\*\//i, 'chú thích làm tắt'],
+  [/\b(TODO|FIXME|XXX)\b/, 'còn việc chưa làm'],
+  [/\b(de|sol|ans|body|title|text|hint|name|desc|label)\s*:\s*(['"`])\s*(\.\.\.|…)\s*\2/, 'nội dung để trống bằng “…”'],
+];
+jsFiles.filter(f => /^(data|giao-vien\/bai-giang)\//.test(f)).forEach(f => rd(f).split('\n').forEach((line, i) => {
+  for (const [re, what] of LAZY) if (re.test(line)) { err(`${f}:${i + 1}`, `${what} – phải viết đầy đủ: ${line.trim().slice(0, 90)}`); break; }
+}));
+
 /* ---------- Môi trường giả lập trình duyệt (đủ để nạp tệp, không vẽ giao diện) ---------- */
 function sandbox() {
   const el = () => ({ style: {}, dataset: {}, classList: {add() {}, remove() {}, toggle() {}, contains: () => false}, setAttribute() {}, appendChild() {}, addEventListener() {},
