@@ -498,3 +498,18 @@ body.noscroll{overflow:hidden}
 .gr-detail p{margin:6px 0 0;font-size:14px} .gr-facts{display:flex;flex-wrap:wrap;gap:4px 12px;color:var(--muted)}
 .gr-off{margin-top:10px;font-size:14px} .gr-off summary{cursor:pointer;font-weight:700;min-height:32px} .gr-off p{margin:4px 0;color:var(--muted)}
 .gr-note{margin:10px 0 0;font-size:12.5px;color:var(--muted)}
+/* Khung “Lớp học” khi trình chiếu (classpanel.js) */
+.cp{position:fixed;top:0;right:0;bottom:0;z-index:101;display:flex;background:var(--pv-bg);border-left:2px solid var(--pv-line);box-shadow:-6px 0 18px rgb(0 0 0 / .18)}
+.cp[hidden]{display:none}
+.cp-grip{flex:0 0 16px;cursor:col-resize;display:flex;align-items:center;justify-content:center;background:var(--pv-bar);touch-action:none}
+.cp-grip i{width:5px;height:56px;border-radius:3px;background:var(--pv-muted);opacity:.45}
+.cp-grip:hover i,.cp-grip:focus-visible i,.cp.dragging .cp-grip i{opacity:1;background:var(--pv-accent)}
+.cp-main{flex:1;min-width:0;display:flex;flex-direction:column;position:relative}
+.cp-bar{display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--pv-bar);color:var(--pv-ink);font:700 15px/1 var(--f-body)}
+.cp-bar button,.cp-bar a{min-height:38px;min-width:38px;padding:0 12px;border:2px solid var(--pv-line);border-radius:999px;background:var(--pv-bg);color:var(--pv-ink);font:700 14px/1 var(--f-body);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
+.cp-sp{flex:1}
+.cp iframe{flex:1;width:100%;min-height:0;border:0;background:var(--pv-bg)}
+.cp-shield{position:absolute;inset:0;display:none} .cp.dragging .cp-shield{display:block;cursor:col-resize}
+.pv-bar button{white-space:nowrap}
+.pv-bar{overflow-x:auto;scrollbar-width:none}
+.pv.narrow .pv-bar button{padding:4px 9px;font-size:15px} .pv.narrow .pv-bar{gap:5px}

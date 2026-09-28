@@ -19,18 +19,20 @@ const Present = (() => {
   }
 
   function open(start){
-    if(!S.qs.length) return;
+    if(!S.qs.length || el) return;                       // đang chiếu thì không mở chồng thêm
+    if(document.activeElement && document.activeElement.blur) document.activeElement.blur();   // Enter không “bấm lại” nút Trình chiếu
     i = start || 0; shown = {};
     el = document.createElement('div'); el.id = 'present'; el.className = 'pv' + (dark ? ' dark' : '');
     el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Trình chiếu câu hỏi');
     el.innerHTML = `<div class="pv-slide" id="pvSlide"></div>
       <div class="pv-bar"><button data-k="prev" aria-label="Câu trước">‹</button><span id="pvPos"></span><button data-k="next" aria-label="Câu sau">›</button>
-      <span class="pv-sp"></span><button data-k="hint">💡 Gợi ý</button><button data-k="ans">✅ Đáp án</button><button data-k="new">↻ Bộ mới</button>
+      <span class="pv-sp"></span><button data-k="hint">💡 Gợi ý</button><button data-k="ans">✅ Đáp án</button><button data-k="new">↻ Bộ mới</button>${typeof ClassPanel !== 'undefined' ? ClassPanel.button() : ''}
       <button data-k="dark" aria-label="Đổi nền sáng/tối">🌓</button><button data-k="close" aria-label="Thoát trình chiếu">✕</button></div>`;
     document.body.appendChild(el); document.body.classList.add('noscroll');
     el.querySelectorAll('[data-k]').forEach(b => b.onclick = e => { e.stopPropagation(); act(b.dataset.k); });
-    const fs = el.requestFullscreen || el.webkitRequestFullscreen;
-    if(fs) try{ const p = fs.call(el); if(p && p.catch) p.catch(() => {}); }catch(e){}
+    const R = document.documentElement, fs = R.requestFullscreen || R.webkitRequestFullscreen;   // cả trang: để khung “Lớp học” cùng hiện
+    if(fs) try{ const p = fs.call(R); if(p && p.catch) p.catch(() => {}); }catch(e){}
+    if(typeof ClassPanel !== 'undefined') ClassPanel.attach(el, fit);
     addEventListener('keydown', key); addEventListener('resize', fit);
     if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', fit);   // phông công thức tải xong → co giãn lại
     document.addEventListener('fullscreenchange', fsChange); document.addEventListener('webkitfullscreenchange', fsChange);
@@ -44,6 +46,7 @@ const Present = (() => {
     const fe = document.fullscreenElement || document.webkitFullscreenElement;
     if(fe){ const x = document.exitFullscreen || document.webkitExitFullscreen; try{ const p = x.call(document); if(p && p.catch) p.catch(() => {}); }catch(e){} }
     if(ro){ ro.disconnect(); ro = null; }
+    if(typeof ClassPanel !== 'undefined') ClassPanel.detach();
     el.remove(); el = null; document.body.classList.remove('noscroll');
   }
   function fsChange(){ if(el && !(document.fullscreenElement || document.webkitFullscreenElement)) close(); }
@@ -55,6 +58,7 @@ const Present = (() => {
     else if(/^[gGhH]$/.test(k)) act('hint');
     else if(k === 'Enter' || /^[dDđĐ]$/.test(k)) act('ans');
     else if(/^[tT]$/.test(k)) act('dark');
+    else if(/^[lL]$/.test(k)) act('cls');
     else if(/^[a-dA-D]$/.test(k)){ const b = el.querySelector(`[data-o="${'abcd'.indexOf(k.toLowerCase())}"]`); if(b) b.click(); }
   }
   function act(k){
@@ -65,6 +69,7 @@ const Present = (() => {
     if(k === 'ans'){ shown[i] = shown[i] === 'ans' ? '' : 'ans'; draw(); }
     if(k === 'new'){ genSet(); try{ renderQs(); }catch(e){} i = 0; shown = {}; draw(); }
     if(k === 'dark'){ dark = !dark; el.classList.toggle('dark', dark); }
+    if(k === 'cls' && typeof ClassPanel !== 'undefined') ClassPanel.toggle();
     if(k === 'close') close();
   }
 
@@ -115,7 +120,7 @@ const Present = (() => {
     fitting = true; try{ fit_(s); } finally { requestAnimationFrame(() => fitting = false); }
   }
   function fit_(s){
-    const W = innerWidth, H = s.clientHeight;
+    const W = el ? el.clientWidth : innerWidth, H = s.clientHeight;   // khung chiếu hẹp lại khi mở khung Lớp học
     let hi = Math.min(W / 12, 110), lo = 16;
     const fits = f => { s.style.setProperty('--fs', f + 'px'); return s.scrollHeight <= H + 1 && [s, ...s.querySelectorAll('.pv-q,.pv-side,.pv-note,.pv-ans')].every(x => x.scrollWidth <= x.clientWidth + 1); };
     if(fits(hi)) return;

@@ -75,21 +75,24 @@ const Lecture = (() => {
 
   /* ---------- Trình chiếu ---------- */
   function open(l, start){
+    if(el) close();
+    if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
     deck = l; idx = start || 0; step = 0;
     el = document.createElement('div'); el.id = 'lecture'; el.className = 'pv lk' + (dark ? ' dark' : '');
     el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Trình chiếu bài giảng');
     el.innerHTML = `<div class="pv-slide lk-slide" id="lkSlide"></div><div class="lk-menu" id="lkMenu" hidden></div>
       <div class="pv-bar"><button data-k="prev" aria-label="Trang trước">‹</button><span id="lkPos"></span><button data-k="next" aria-label="Tiếp">›</button>
-      <button data-k="menu">☰ Mục lục</button><span class="pv-sp"></span><button data-k="all">👁 Hiện lời giải</button>
+      <button data-k="menu">☰ Mục lục</button><span class="pv-sp"></span>${typeof ClassPanel !== 'undefined' ? ClassPanel.button() : ''}<button data-k="all">👁 Hiện lời giải</button>
       <button data-k="dark" aria-label="Đổi nền sáng/tối">🌓</button><button data-k="close" aria-label="Thoát">✕</button></div>`;
     document.body.appendChild(el); document.body.classList.add('noscroll');
     el.querySelectorAll('[data-k]').forEach(b => b.onclick = e => { e.stopPropagation(); act(b.dataset.k); });
     $('#lkSlide').onclick = () => act('next');
-    const fs = el.requestFullscreen || el.webkitRequestFullscreen;
-    if(fs) try{ const p = fs.call(el); if(p && p.catch) p.catch(() => {}); }catch(e){}
+    const R = document.documentElement, fs = R.requestFullscreen || R.webkitRequestFullscreen;   // toàn màn hình cả trang để khung “Lớp học” (ClassPanel) cùng hiện
+    if(fs) try{ const p = fs.call(R); if(p && p.catch) p.catch(() => {}); }catch(e){}
     addEventListener('keydown', key); addEventListener('resize', fit);
     if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', fit);
     document.addEventListener('fullscreenchange', fsChange); document.addEventListener('webkitfullscreenchange', fsChange);
+    if(typeof ClassPanel !== 'undefined') ClassPanel.attach(el, fit);
     draw();
   }
   function close(){
@@ -98,6 +101,7 @@ const Lecture = (() => {
     if(document.fonts && document.fonts.removeEventListener) document.fonts.removeEventListener('loadingdone', fit);
     document.removeEventListener('fullscreenchange', fsChange); document.removeEventListener('webkitfullscreenchange', fsChange);
     if(document.fullscreenElement || document.webkitFullscreenElement){ const x = document.exitFullscreen || document.webkitExitFullscreen; try{ const p = x.call(document); if(p && p.catch) p.catch(() => {}); }catch(e){} }
+    if(typeof ClassPanel !== 'undefined') ClassPanel.detach();
     el.remove(); el = null; document.body.classList.remove('noscroll');
   }
   function fsChange(){ if(el && !(document.fullscreenElement || document.webkitFullscreenElement)) close(); }
@@ -109,6 +113,7 @@ const Lecture = (() => {
     else if(k === 'Escape'){ const m = $('#lkMenu'); if(m && !m.hidden) m.hidden = true; else close(); }
     else if(/^[mM]$/.test(k)) act('menu');
     else if(/^[tT]$/.test(k)) act('dark');
+    else if(/^[lL]$/.test(k)) act('cls');
     else if(k === 'Home'){ idx = 0; step = 0; draw(); } else if(k === 'End'){ idx = deck.slides.length - 1; step = 0; draw(); }
   }
   function act(k){
@@ -117,6 +122,7 @@ const Lecture = (() => {
     if(k === 'prev'){ if(idx > 0){ idx--; step = 0; draw(); } }
     if(k === 'all'){ step = step >= stepsOf(s) ? 0 : stepsOf(s); draw(); }
     if(k === 'dark'){ dark = !dark; el.classList.toggle('dark', dark); }
+    if(k === 'cls' && typeof ClassPanel !== 'undefined') ClassPanel.toggle();
     if(k === 'menu'){ const m = $('#lkMenu'); m.hidden = !m.hidden; if(!m.hidden){
       m.innerHTML = `<h3>${deck.name}</h3><ol>${deck.slides.map((x, i) => `<li><button data-j="${i}" class="${i === idx ? 'on' : ''}"><span>${x.tag || ''}</span> ${strip(x.title || x.de || '')}</button></li>`).join('')}</ol>`;
       m.querySelectorAll('[data-j]').forEach(b => b.onclick = () => { idx = +b.dataset.j; step = 0; m.hidden = true; draw(); }); } }
@@ -149,7 +155,7 @@ const Lecture = (() => {
   /* Chữ to nhất mà vẫn vừa khung – tính cả các bước lời giải CHƯA hiện để khi hiện thêm chữ không bị nhảy cỡ. */
   function fit(){
     const s = $('#lkSlide'); if(!s) return;
-    const H = s.clientHeight, W = innerWidth;
+    const H = s.clientHeight, W = el ? el.clientWidth : innerWidth;   // bề rộng khung chiếu (hẹp lại khi mở khung Lớp học)
     let hi = Math.min(W / 13, 96), lo = 14;
     const fits = f => { s.style.setProperty('--fs', f + 'px'); return s.scrollHeight <= H + 1 && [s, ...s.querySelectorAll('.lk-de,.lk-body,.lk-h,.lk-title')].every(x => x.scrollWidth <= x.clientWidth + 1); };
     if(!fits(hi)){ for(let k = 0; k < 14; k++){ const m = (hi + lo) / 2; if(fits(m)) lo = m; else hi = m; } s.style.setProperty('--fs', Math.floor(lo) + 'px'); }
