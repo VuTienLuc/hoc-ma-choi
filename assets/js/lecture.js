@@ -31,20 +31,22 @@ const Lecture = (() => {
         <p class="foot">${CONFIG.author}</p>`;
     } else {
       app.innerHTML = bar + `<div class="toolbar"><a class="back" href="#/">← Chọn lớp</a><span class="pill">${g.name} · Bài giảng</span></div>
-        <h1>${g.name}</h1>` + g.books.map(([b, bi]) => `<section class="topic"><h2><small>${b.chapter.split('.')[0]}</small>${b.chapter.split('.').slice(1).join('.').trim()}</h2>
+        <div class="lk-2col"><div class="lk-lessons"><h1>${g.name}</h1>` + g.books.map(([b, bi]) => `<section class="topic"><h2><small>${b.chapter.split('.')[0]}</small>${b.chapter.split('.').slice(1).join('.').trim()}</h2>
           <ol class="lk-list">${b.lessons.map((l, li) => `<li><div class="lk-li"><b>${l.name}</b><small>${l.desc || ''} · ${l.slides.length} trang · ${l.slides.filter(s => s.kind === 'vd').length} ví dụ${l.practice ? ` · ${l.practice.reduce((t, g) => t + g.items.length, 0)} bài luyện tập` : ''}</small></div>
-            <div class="lk-acts"><button class="btn primary small" data-play="${bi}:${li}" title="Trình chiếu toàn màn hình">▶ Chiếu</button><button class="btn small" data-prev="${bi}:${li}" title="Xem dạng trang, in được">📄 Xem</button><button class="btn small" data-ws="${bi}:${li}" title="Phiếu học tập in A4">📝 Phiếu</button>${l.practice ? `<button class="btn small" data-pr="${bi}:${li}" title="Phiếu luyện tập: cơ bản → vận dụng">🏋️ Luyện tập</button>` : ''}</div></li>`).join('')}</ol></section>`).join('') + `<p class="foot">${CONFIG.author}</p>`;
+            <div class="lk-acts"><button class="btn primary small" data-play="${bi}:${li}" title="Trình chiếu toàn màn hình">▶ Chiếu</button><button class="btn small" data-prev="${bi}:${li}" title="Xem dạng trang, in được">📄 Xem</button><button class="btn small" data-ws="${bi}:${li}" title="Phiếu học tập in A4">📝 Phiếu</button>${l.practice ? `<button class="btn small" data-pr="${bi}:${li}" title="Phiếu luyện tập: cơ bản → vận dụng">🏋️ Luyện tập</button>` : ''}</div></li>`).join('')}</ol></section>`).join('') + `</div><aside class="lk-rank card" id="lkRank" aria-label="Bảng xếp hạng học sinh"></aside></div><p class="foot">${CONFIG.author}</p>`;
+      if(typeof GvRank !== 'undefined') GvRank.mount($('#lkRank'), g.id);
       $$('[data-play]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.play.split(':'); open(BOOKS[bi].lessons[li], 0); });
       $$('[data-prev]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.prev.split(':'); preview(BOOKS[bi], BOOKS[bi].lessons[li]); });
       $$('[data-ws]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.ws.split(':'); worksheet(BOOKS[bi], BOOKS[bi].lessons[li], false); });
       $$('[data-pr]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.pr.split(':'); practice(BOOKS[bi], BOOKS[bi].lessons[li], false); });
     }
+    document.body.classList.toggle('gv-wide', !!g);
     if(typeof Account !== 'undefined') Account.bindLogout();
     document.title = g ? `Bài giảng ${g.name} – ${CONFIG.brand || CONFIG.siteName}` : `Bài giảng – ${CONFIG.brand || CONFIG.siteName}`; scrollTo(0, 0);
   }
 
   /* ---------- Xem trước (dạng trang, in được) ---------- */
-  function preview(b, l){
+  function preview(b, l){ document.body.classList.remove('gv-wide');
     const app = $('#app');
     app.innerHTML = `<div class="toolbar"><button class="back linkbtn" id="lkBack">← Danh sách bài</button><div class="row"><button class="btn small" onclick="print()">🖨️ In</button><button class="btn small" id="lkWs">📝 Phiếu học tập</button>${l.practice ? '<button class="btn small" id="lkPr">🏋️ Luyện tập</button>' : ''}<button class="btn primary small" id="lkPlay">▶ Trình chiếu</button></div></div>
       <span class="pill">${b.gradeName} · ${b.chapter}</span><h1>${l.name}</h1>
@@ -157,7 +159,7 @@ const Lecture = (() => {
      ví dụ vẽ hình thì có ô lưới) · IV. Luyện tập. Bản giáo viên (kèm lời giải) thay các dòng bằng nội dung/lời giải. */
   const lines = n => `<div class="ws-lines">${'<i></i>'.repeat(n)}</div>`;
   const plain = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent.length; };
-  function worksheet(b, l, key){
+  function worksheet(b, l, key){ document.body.classList.remove('gv-wide');
     const S = l.slides, title = S.find(s => s.kind === 'title'), brand = CONFIG.brand || CONFIG.siteName;
     let n = 0, dang = 0, h = '';
     const kts = S.filter(s => s.kind === 'kt'), groups = [];
@@ -188,7 +190,7 @@ const Lecture = (() => {
      I. Cơ bản: các dạng lần lượt · II. Vận dụng ★. Bản kèm lời giải thay dòng kẻ bằng lời giải. Có thể chiếu từng bài. */
   const prItems = l => { let n = 0; const out = [];
     [false, true].forEach(hard => l.practice.forEach((g, gi) => g.items.forEach(s => { if(!!s.hard === hard) out.push({...s, g, gi, n: ++n}); }))); return out; };
-  function practice(b, l, key){
+  function practice(b, l, key){ document.body.classList.remove('gv-wide');
     const brand = CONFIG.brand || CONFIG.siteName, all = prItems(l), cb = all.filter(s => !s.hard), vd = all.filter(s => s.hard), pct = k => Math.round(k / all.length * 100);
     const q = s => {
       const fig = s.draw ? `<div class="ws-fig ${key ? '' : 'ws-blank'}">${key ? s.fig : planeSVG(s.draw)}</div>` : s.fig ? `<div class="ws-fig">${s.fig}</div>` : '';

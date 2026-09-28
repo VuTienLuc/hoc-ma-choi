@@ -71,6 +71,7 @@ function doPost(e) {
     if (b.action === 'save') return out_(save_(b));
     if (b.action === 'play') return out_(play_(b));
     if (b.action === 'rank') return out_(rank_(b));
+    if (b.action === 'rankAll') return out_(rankAll_(b));
     return out_({ ok: false, msg: 'Yêu cầu không hợp lệ' });
   } finally { lock.releaseLock(); }
 }
@@ -149,6 +150,28 @@ function rank_(b) {
   const rows = v.slice(1).map((x, i) => ({ x, me: i + 2 === r })).filter(o => norm_(o.x[0]) === lop)
     .map(o => Object.assign({ name: norm_(o.x[2]) || norm_(o.x[1]), stars: Number(o.x[3]) || 0, me: o.me }, pub_(o.x[8])));
   return { ok: true, lop, rows };
+}
+
+/** Giáo viên (tài khoản có tên lớp KHÔNG chứa chữ số, vd "GV"): bảng xếp hạng MỌI lớp của một khối.
+ *  b.grade = số khối (10 → các lớp 10A1, 10A12…). Mỗi em: sao của khối đó, số bài đã có sao, đã đăng nhập chưa, lần làm bài cuối, góc thú cưng. */
+function rankAll_(b) {
+  const v = sheet_(SHEET_TD, H_TD).getDataRange().getValues(), r = rowByToken_(v, b.token);
+  if (r < 0) return AUTH_;
+  if (/\d/.test(norm_(v[r - 1][0]))) return { ok: false, code: 'teacher', msg: 'Chỉ tài khoản giáo viên mới xem được bảng này.' };
+  const g = String(Number(b.grade) || ''), gid = 'lop' + g;
+  const gradeOf = lop => { const m = norm_(lop).match(/\d{1,2}/); return m ? String(Number(m[0])) : ''; };
+  const byKey = {}; v.slice(1).forEach(x => { byKey[key_(x[0], x[1])] = x; });
+  const classes = {};
+  students_().filter(s => g && gradeOf(s.lop) === g).forEach(s => {
+    const x = byKey[key_(s.lop, s.user)]; let prog = {};
+    if (x) { try { prog = JSON.parse(x[6] || '{}') || {}; } catch (err) {} }
+    const keys = Object.keys(prog).filter(k => k.indexOf(gid + ':') === 0);
+    const stars = keys.reduce((t, k) => t + (Number(prog[k]) || 0), 0);
+    const lessons = new Set(keys.filter(k => Number(prog[k]) > 0).map(k => k.split(':')[1])).size;
+    const last = !x || !x[5] ? '' : (x[5] instanceof Date ? Utilities.formatDate(x[5], TZ, 'dd/MM/yyyy') : norm_(x[5]).slice(0, 10));
+    (classes[s.lop] = classes[s.lop] || []).push(Object.assign({ name: s.name, user: s.user, stars, lessons, joined: !!x, last }, pub_(x ? x[8] : '')));
+  });
+  return { ok: true, grade: gid, classes: Object.keys(classes).sort(sortVi_).map(lop => ({ lop, rows: classes[lop] })) };
 }
 
 /* =====================================================================

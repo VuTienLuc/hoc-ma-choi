@@ -62,6 +62,7 @@ Web đọc **số đầu tiên trong tên lớp**: lớp `10A12`, `10A1` → ch�
 - Thú cưng đói và buồn dần nếu em nhiều ngày không học (không bao giờ chết); học mỗi ngày để giữ **chuỗi ngày 🔥**.
 - Dữ liệu này lưu ở cột **Góc thú cưng (máy dùng)** của trang TienDo – thầy/cô **không sửa tay** cột này.
 - Nút **🏆 Xếp hạng lớp** cho học sinh xem các bạn cùng lớp (đã đăng nhập ít nhất một lần) theo tổng sao, chuỗi ngày, huy hiệu, xu.
+- **Giáo viên** (tài khoản lớp `GV`) mở trang bài giảng, chọn một khối: cột bên phải là **bảng xếp hạng tất cả học sinh các lớp của khối** (mỗi lớp một thẻ, xếp theo sao / chuỗi ngày / huy hiệu / số bài, thú cưng đúng cấp tiến hoá; bấm tên để xem chặng tiến hoá 5 cấp; em chưa đăng nhập nằm ở nhóm riêng). Cần `Code.gs` có chức năng `rankAll` (bản từ 28/09/2026).
 - Trang **TongHop** có thêm cột *Chuỗi ngày học 🔥* và *Huy hiệu 🏅* của từng em.
 - **Khi cập nhật lên bản có Nhà thú cưng:** dán lại toàn bộ `Code.gs` mới rồi *Triển khai → Quản lý triển khai → ✏ → Phiên bản: Mới → Triển khai* (URL giữ nguyên). Chưa làm bước này thì mọi thứ vẫn chạy, chỉ riêng bảng xếp hạng báo “chưa tải được”.
 

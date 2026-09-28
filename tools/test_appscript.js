@@ -16,7 +16,7 @@ let n=0;global.Utilities={getUuid:()=>'tok'+(++n),formatDate:(d,tz,f)=>f==='yyyy
 eval(fs.readFileSync(require('path').join(__dirname,'apps-script','Code.gs'),'utf8'));
 setup(); setup();
 console.log('Số trigger sau 2 lần setup:', triggers.length, '| Trang:', Object.keys(sheets).join(', '));
-sheets.HocSinh.rows.push(['10A1','10a1_01','Nguyễn Văn An','0246'],['10A1','10a1_02','Trần Bình','1357'],['10A1','10a1_03','Lê Châu','1111'],['9A','9a_01','Võ Khánh','1111'],['10A1','10a1_04','Đỗ Dũng','2222']);
+sheets.HocSinh.rows.push(['10A1','10a1_01','Nguyễn Văn An','0246'],['10A1','10a1_02','Trần Bình','1357'],['10A1','10a1_03','Lê Châu','1111'],['9A','9a_01','Võ Khánh','1111'],['10A1','10a1_04','Đỗ Dũng','2222'],['10A2','10a2_01','Phan Giang','3333'],['GV','gv','Thầy Lực','9999']);
 const call=b=>JSON.parse(doPost({postData:{contents:JSON.stringify(b)}}).t);
 const L=call({action:'login',lop:'10A1',user:'10a1_01',pass:'0246',device:'iPad'});
 call({action:'save',token:L.token,key:'lop10:menh-de:1',stars:3,setStars:3,score:6,total:6,grade:'Lớp 10',lesson:'Bài 1',level:1,summary:'x'});
@@ -36,10 +36,17 @@ const relog=call({action:'login',lop:'10A1',user:'10a1_01',pass:'0246'});
 const okPlay = RK.ok && RK.rows.length===3 && RK.rows.find(r=>r.me).streak===4 && RK.rows.find(r=>r.name==='Lê Châu').streak===0 && JSON.parse(relog.play).xuTotal===120
   && call({action:'rank',token:'xx'}).code==='auth' && sheets.TienDo.rows[0][8]==='Góc thú cưng (máy dùng)';
 console.log('Góc thú cưng + xếp hạng:', okPlay?'ĐẠT':'LỖI');
+const G=call({action:'login',lop:'GV',user:'gv',pass:'9999'});
+const RA=call({action:'rankAll',token:G.token,grade:10}), c1=RA.classes&&RA.classes.find(c=>c.lop==='10A1'), an=c1&&c1.rows.find(r=>r.name==='Nguyễn Văn An');
+console.log('Giáo viên xem khối 10:', (RA.classes||[]).map(c=>c.lop+': '+c.rows.map(r=>`${r.name} ${r.stars}⭐ ${r.lessons} bài${r.joined?'':' (chưa đăng nhập)'}`).join(', ')).join(' | '));
+const okAll = RA.ok && RA.classes.length===2 && c1.rows.length===4 && an.stars===4 && an.lessons===2 && an.streak===4 && an.pets.lop10===2
+  && c1.rows.find(r=>r.name==='Đỗ Dũng').joined===false && c1.rows.find(r=>r.name==='Lê Châu').stars===2 && !RA.classes.some(c=>c.lop==='9A')
+  && call({action:'rankAll',token:L.token,grade:10}).code==='teacher' && call({action:'rankAll',token:'xx',grade:10}).code==='auth';
+console.log('Bảng xếp hạng cho giáo viên:', okAll?'ĐẠT':'LỖI');
 capNhatTongHop();
 const t=sheets.TongHop;
 t.rows.forEach((r,i)=>console.log(String(i+1).padStart(2), (t.bg[i+1]||'').padEnd(8), r.filter(x=>x!=='').join(' | ')));
 console.log('DangNhap:', sheets.DangNhap.rows.slice(1).map(r=>r.slice(1).join('/')).join(' ; '));
-const ok = okPlay && triggers.length===1 && t.bg[10]==='#e2f4e8' && t.bg[11]==='#f8d7da' && t.bg[8]==='#e2f4e8' && t.bg[7]==='#fff3cd' && sheets.DangNhap.rows.length===6
+const ok = okPlay && okAll && triggers.length===1 && sheets.DangNhap.rows.length===7 && ['#e2f4e8','#f8d7da','#fff3cd'].every(c=>Object.values(t.bg).includes(c))
   && !call({action:'login',lop:'10A1',user:'10a1_01',pass:'sai'}).ok && call({action:'save',token:'xx',key:'a',stars:1}).code==='auth';
 console.log('KẾT QUẢ:', ok ? 'ĐẠT ✓' : 'CHƯA ĐẠT ✗'); process.exit(ok?0:1);
