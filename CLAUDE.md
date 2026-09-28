@@ -1,7 +1,66 @@
 # Hướng dẫn cho AI – dự án "Học mà chơi"
 
-> File này dành cho AI (Claude, ChatGPT, Gemini…). Hãy đọc hết trước khi sửa bất cứ thứ gì trong thư mục.
+> File này dành cho AI (Claude, ChatGPT/Codex, Gemini…). Hãy đọc hết trước khi sửa bất cứ thứ gì trong thư mục.
+> `AGENTS.md` (ChatGPT/Codex đọc) và `CLAUDE.md` (Claude đọc) có **nội dung giống hệt nhau** – sửa tệp này thì sửa luôn tệp kia.
 > Người dùng là giáo viên (thầy Vũ Tiến Lực). Trả lời bằng tiếng Việt và gọi người dùng là "thầy".
+
+## 0. DÀNH CHO CHATGPT / CODEX / MỌI AI – ĐỌC TRƯỚC KHI SỬA
+
+**Quy trình bắt buộc cho mỗi yêu cầu:**
+1. Đọc hết tệp này. Mở tệp mẫu gần nhất rồi làm **y hệt khuôn đó**:
+   - bài học sinh: `data/lop9.js` (chương V);
+   - bài giảng: `giao-vien/bai-giang/lop8.js` (chương III);
+   - phiếu luyện tập: `giao-vien/bai-giang/lop8-luyen-tap.js`.
+2. Chỉ sửa đúng tệp cần sửa. **Không** đổi `CONFIG.sheetAPI`, **không** đổi cấu trúc `engine.js`, **không** thêm framework / npm / ES module / thư viện ngoài.
+3. Sửa xong, chạy **`node tools/kiem-tra.js`** (không cần trình duyệt, khoảng 2 giây) và đọc kết quả:
+   - Chưa ĐẠT thì đọc từng dòng ✗, sửa rồi chạy lại cho tới khi in `KẾT QUẢ: ĐẠT ✓`.
+   - Chạy riêng một lớp, nhiều lần sinh câu hơn: `node tools/kiem-tra.js 80 lop8`.
+4. Máy có Python + Playwright thì chạy thêm `python3 tools/test.py` (chấm thật trong trình duyệt) và các test ở mục 5.
+5. Chạy `python3 tools/build.py` để tạo `dist/hoc-tap.html`.
+6. Báo cáo cho thầy bằng tiếng Việt, gọi là "thầy", ngắn gọn theo mục 8.
+
+**Lỗi thường gặp (công cụ `tools/kiem-tra.js` bắt được hầu hết):**
+
+| Lỗi | Cách đúng |
+|---|---|
+| Gõ `<`, `>` trong công thức | Dùng `\lt`, `\gt`, `\le`, `\ge` (trong chuỗi JS viết `\\lt`) |
+| Ô trống `[_]` nằm trong `tm(...)` | `` `${tm('x =')} [_]` `` |
+| Số ô `[_]`/`[F]` khác số phần tử `ans` | Đếm lại; ô `[F]` cần `{frac:[tử, mẫu], mode}` |
+| `ans` của `QC` không có trong `opts`; phương án trùng nhau | Tạo `good` trước, thêm nhiễu, kiểm tra không trùng |
+| Hai file/chương khai báo trùng `const` (vd `g5a`, `m`, `box`) | Bọc chương mới trong khối `{ … }` (dữ liệu học sinh) hoặc `(() => { … })();` (bài giảng) |
+| Thêm tệp bài giảng mà quên thẻ `<script>` | Thêm vào `giao-vien/index.html`, đúng thứ tự: `lopN.js` rồi `lopN-luyen-tap.js` |
+| Phiếu luyện tập sai tỉ lệ | 10 bài = 7 cơ bản + 3 `hard:true` |
+| Đáp án sai do dựng đề trước | Luôn **chọn đáp án trước** rồi mới dựng đề (mục 4) |
+| Chuỗi JS có `\` đơn (`\frac`) | Trong chuỗi JS phải viết `\\frac`, `\\widehat` |
+| Tên điểm phụ trùng tên đỉnh (vd `H` khi hình tên `EFGH`) | Dùng tên chắc chắn không trùng: `K`, `I`, `O` |
+
+**Khuôn mẫu nhanh:**
+```js
+// data/lop8.js – thêm một CHƯƠNG mới cho học sinh (đặt TRƯỚC dòng cuối "})();")
+{
+const m = tm;
+const g15a = lv => {                        // một dạng bài: lv = 1, 2, 3 (khó dần)
+  const a = R(2, 9), b = R(2, 9), kq = a * b;  // chọn đáp án trước
+  return QB({ text:`Tính ${m(`${a}\\cdot ${b}`)}.`, tpl:`${m('=')} [_]`, ans:[kq],
+    hint:'Nhân hai số.', sol:`${m(`${a}\\cdot ${b} =`)} ${tb(kq)}.` });
+};
+G.topics.push({id:4, hk:1, name:'Tên chương'});
+lesson(4, 'ma-bai-khong-dau', 'Bài 15. Tên bài', 'Mô tả một dòng.', [g15a /*, g15b, g15c */]);
+}
+```
+```js
+// giao-vien/bai-giang/lop8.js – thêm bài giảng (một khối (() => { … })(); riêng)
+Lecture.add({ grade:'lop8', gradeName:'Toán 8', chapter:'Chương IV. …', lessons:[
+  { id:'bai-15', name:'Bài 15. …', desc:'…', slides:[
+    {kind:'title', tag:'…', title:'…', sub:'Mục tiêu bài học', points:['…']},
+    {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'…', body:'…', fig: geoSVG({...})},
+    {kind:'method', tag:'Dạng 1', title:'…', steps:['…','…']},
+    {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:'…', sol:['bước 1','bước 2'], ans:'…'},
+    {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:'…', sol:['…']},
+    {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ', body:'…'} ]} ]});
+// giao-vien/bai-giang/lop8-luyen-tap.js – phiếu luyện tập 10 bài (7 cơ bản + 3 vận dụng)
+Lecture.addPractice('lop8', 'bai-15', [ {dang:'Tên dạng', items:[ {de:'…', sol:['…'], ans:'…'}, {hard:true, de:'…', sol:['…']} ]} ]);
+```
 
 ## 1. Dự án là gì
 
@@ -32,6 +91,8 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 | `tools/apps-script/` | `Code.gs` (máy chủ trên Google Sheets: HocSinh, TongHop, KetQua, DangNhap, TienDo; menu 🐣 và hẹn giờ 30 phút cập nhật TongHop), `HUONG-DAN.md`, `mau-danh-sach-hoc-sinh.xlsx` | Khi đổi cách lưu kết quả |
 | `assets/js/engine.js` | Hiển thị, chấm, sao, điều hướng hash, nạp `data/*.js` | **Hạn chế sửa**. Chỉ sửa khi thêm loại câu hỏi mới hoặc tính năng mới |
 | `assets/css/style.css` | Giao diện "vở ô chấm", token màu, chế độ tối, bố cục iPad | Khi đổi giao diện |
+| `HUONG-DAN-CHATGPT.md` | Hướng dẫn cho thầy: dùng ChatGPT Codex/Project, *Lệnh khởi đầu* và các lệnh mẫu giao việc | Khi đổi quy trình làm việc với AI |
+| `tools/kiem-tra.js` | **Kiểm tra nhanh bằng Node** (không cần trình duyệt): cú pháp mọi tệp JS; sinh câu hỏi mọi dạng × 3 mức và soát hợp đồng dữ liệu, LaTeX, SVG; bài giảng, phiếu luyện tập 70/30; thẻ `<script>` | Chạy sau **mọi** thay đổi (mọi AI chạy được) |
 | `tools/test.py` | Kiểm thử tự động: làm hết mọi câu và báo câu nào bị chấm sai | Chạy sau **mọi** thay đổi |
 | `tools/build.py` | Gộp cả thư mục thành `dist/hoc-tap.html` (một file) | Trước khi gửi hoặc publish |
 
@@ -114,6 +175,7 @@ Quy tắc:
 
 **Sau mọi thay đổi:**
 ```bash
+node tools/kiem-tra.js       # KIỂM TRA NHANH không cần trình duyệt (cú pháp, hợp đồng dữ liệu, LaTeX, bài giảng, phiếu 70/30) – phải in ĐẠT ✓
 python3 tools/test.py        # phải in "KẾT QUẢ: ĐẠT ✓"   (tham số tuỳ chọn: số vòng/bài, mặc định 10)
 python3 tools/build.py       # tạo dist/hoc-tap.html
 python3 tools/test_dangnhap.py  # nếu sửa account.js: thử đăng nhập + thú cưng với máy chủ giả lập
