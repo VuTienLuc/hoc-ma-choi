@@ -18,18 +18,17 @@ Mọi quy tắc kỹ thuật cho AI nằm trong **`AGENTS.md`**. ChatGPT Codex t
 
 ### Cách B – ChatGPT thường (trò chuyện, có Project)
 1. Tạo một **Project** trong ChatGPT, đặt tên "Học mà chơi".
-2. Tải lên Project các tệp sau:
-   - `AGENTS.md`;
-   - tệp mẫu gần nhất với việc cần làm (ví dụ `data/lop8.js`, `giao-vien/bai-giang/lop8.js`, `giao-vien/bai-giang/lop8-luyen-tap.js`);
-   - `tools/kiem-tra.js`.
-3. Dán **Lệnh khởi đầu** (ngay dưới đây) vào ô *Instructions* của Project.
-4. ChatGPT trả về tệp đã sửa. Thầy chép tệp đó vào thư mục `hoc-tap` trên máy, rồi mở Terminal trong thư mục và chạy:
-   ```
-   node tools/kiem-tra.js
-   ```
-   - Thấy `KẾT QUẢ: ĐẠT ✓` mới đưa lên GitHub.
-   - Thấy dòng ✗ thì dán nguyên các dòng đó cho ChatGPT sửa tiếp.
-   - **Nhanh nhất:** bấm đúp nút **“Đăng Học mà chơi lên web”** trên Desktop (mục 4). Nút này tự kiểm tra rồi đăng luôn.
+2. Bấm đúp nút **“Gói tài liệu cho ChatGPT”** trên Desktop. Nút này:
+   - lấy bản mới nhất từ GitHub;
+   - tạo **một tệp duy nhất** `HOC-MA-CHOI-THAM-KHAO.md` trong thư mục *Học mà chơi – cho ChatGPT* trên Desktop. Tệp gồm quy tắc, bản đồ các bài đang có, mã lõi và các tệp mẫu;
+   - mở sẵn Finder (đã chọn tệp) và trang ChatGPT.
+3. Trong Project → **Files**: **xoá** tệp `HOC-MA-CHOI-THAM-KHAO.md` cũ (nếu có), rồi **kéo** tệp mới vào. Chỉ một tệp, nên xoá và tải lại rất nhanh.
+4. Dán **Lệnh khởi đầu** (ngay dưới đây) vào ô *Instructions* của Project.
+5. Khi giao việc: **đính kèm thêm tệp cần sửa** (ví dụ `data/lop10.js`) ngay trong tin nhắn. ChatGPT đọc trọn tệp đính kèm và trả lại tệp đã sửa.
+6. Chép tệp ChatGPT trả về vào đúng chỗ trong thư mục `hoc-tap`, rồi bấm đúp nút **“Đăng Học mà chơi lên web”** (mục 4). Nút này tự kiểm tra; có lỗi thì dừng và chép sẵn lỗi để thầy dán cho ChatGPT sửa.
+   - Làm tay (không dùng nút): mở Terminal trong thư mục và chạy `node tools/kiem-tra.js`. Thấy `KẾT QUẢ: ĐẠT ✓` mới đưa lên GitHub.
+
+**Khi nào tải lại gói?** Mỗi khi Claude hoặc Codex vừa cập nhật dự án: bấm lại nút “Gói tài liệu cho ChatGPT”, xoá tệp cũ trong Project, kéo tệp mới vào.
 
 ### Lệnh khởi đầu (dán vào Instructions của Project / Custom GPT)
 ```

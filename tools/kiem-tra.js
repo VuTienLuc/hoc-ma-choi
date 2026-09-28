@@ -150,6 +150,19 @@ PRACT.forEach(p => { const w0 = `luyện tập ${p.grade}/${p.id}`;
 const idx = rd('index.html');
 ['config.js', 'assets/js/core.js', 'assets/js/engine.js'].forEach(f => { if (!idx.includes(`src="${f}"`)) err('index.html', `thiếu <script src="${f}">`); });
 
+/* ---------- Bản đồ nội dung (dùng cho tools/goi-chatgpt.js): BAN_DO=tệp.md node tools/kiem-tra.js 3 ---------- */
+if (process.env.BAN_DO) try {
+  const App = vm.runInContext('typeof App !== "undefined" ? App : null', S), L = ['# BẢN ĐỒ NỘI DUNG HIỆN CÓ (tự sinh – ' + new Date().toLocaleString('vi-VN') + ')', ''];
+  L.push('## A. Phần học sinh (`data/<lớp>.js`)');
+  (App ? App.grades : []).forEach(g => { L.push('', `### ${g.id} – ${g.name || ''} (${g.lessons.length} bài)`);
+    g.topics.forEach(t => { const ls = g.lessons.filter(l => l.t === t.id); if (!ls.length) return;
+      L.push(`- **Chủ đề ${t.id}. ${t.name}**`); ls.forEach(l => L.push(`  - \`${l.id}\` ${l.name} – ${l.gens.length} dạng`)); }); });
+  L.push('', '## B. Bài giảng giáo viên (`giao-vien/bai-giang/<lớp>.js`) và phiếu luyện tập (`<lớp>-luyen-tap.js`)');
+  BOOKS.forEach(b => { L.push('', `### ${b.grade} – ${b.chapter}`);
+    b.lessons.forEach(l => L.push(`- \`${l.id}\` ${l.name} – ${l.slides.length} trang${PRACT.some(p => p.grade === b.grade && p.id === l.id) ? ' · **có phiếu luyện tập**' : ' · chưa có phiếu luyện tập'}`)); });
+  fs.writeFileSync(process.env.BAN_DO, L.join('\n') + '\n');
+} catch (e) { console.log('  ⚠ không tạo được bản đồ: ' + e.message); }
+
 /* ---------- Báo cáo ---------- */
 console.log(`Tệp JS: ${jsFiles.length} · Câu hỏi đã sinh: ${nQ} (${REPS} lần/dạng/mức) · Trang bài giảng: ${nS} · Phiếu luyện tập: ${PRACT.length}`);
 [...new Set(warns)].slice(0, 15).forEach(x => console.log('  ⚠ ' + x));
