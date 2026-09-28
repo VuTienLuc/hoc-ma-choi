@@ -5,6 +5,7 @@ const CONFIG = {
   siteName: 'Học mà chơi',
   brandHTML: 'Học mà <span>chơi</span>',           // chữ lớn trên đầu trang
   author:   'Soạn bởi thầy Vũ Tiến Lực · Bài tập củng cố theo bài',
+  brand:    'Lớp Toán Thầy Vũ Tiến Lực',                // tên trang in trên phiếu học tập
   setSize:  6,                                     // số câu mỗi bộ
 
   // Danh sách lớp đang có: mỗi mục ứng với một file data/<mã>.js

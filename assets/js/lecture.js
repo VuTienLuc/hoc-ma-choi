@@ -21,21 +21,22 @@ const Lecture = (() => {
       h += `<section class="topic"><h2><small>${b.gradeName}</small>${b.chapter}</h2><div class="grid">` +
         b.lessons.map((l, li) => `<div class="tile lk-tile"><b>${l.name}</b><span>${l.desc || ''}</span>
           <span class="meta"><span>${l.slides.length} trang chiếu · ${l.slides.filter(s => s.kind === 'vd').length} ví dụ</span></span>
-          <div class="row"><button class="btn primary small" data-play="${bi}:${li}">▶ Trình chiếu</button><button class="btn small" data-prev="${bi}:${li}">📄 Xem trước</button></div></div>`).join('') + `</div></section>`;
+          <div class="row"><button class="btn primary small" data-play="${bi}:${li}">▶ Trình chiếu</button><button class="btn small" data-prev="${bi}:${li}">📄 Xem trước</button><button class="btn small" data-ws="${bi}:${li}">📝 Phiếu học tập</button></div></div>`).join('') + `</div></section>`;
     });
     app.innerHTML = h + `<p class="foot">${CONFIG.author}</p>`;
     if(typeof Account !== 'undefined') Account.bindLogout();
     $$('[data-play]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.play.split(':'); open(BOOKS[bi].lessons[li], 0); });
     $$('[data-prev]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.prev.split(':'); preview(BOOKS[bi], BOOKS[bi].lessons[li]); });
+    $$('[data-ws]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.ws.split(':'); worksheet(BOOKS[bi], BOOKS[bi].lessons[li], false); });
   }
 
   /* ---------- Xem trước (dạng trang, in được) ---------- */
   function preview(b, l){
     const app = $('#app');
-    app.innerHTML = `<div class="toolbar"><button class="back linkbtn" id="lkBack">← Danh sách bài giảng</button><div class="row"><button class="btn small" onclick="print()">🖨️ In</button><button class="btn primary small" id="lkPlay">▶ Trình chiếu</button></div></div>
+    app.innerHTML = `<div class="toolbar"><button class="back linkbtn" id="lkBack">← Danh sách bài giảng</button><div class="row"><button class="btn small" onclick="print()">🖨️ In</button><button class="btn small" id="lkWs">📝 Phiếu học tập</button><button class="btn primary small" id="lkPlay">▶ Trình chiếu</button></div></div>
       <span class="pill">${b.gradeName} · ${b.chapter}</span><h1>${l.name}</h1>
       <div class="lk-doc">${l.slides.map((s, i) => `<section class="card lk-page" data-i="${i}">${render(s, true)}<button class="linkbtn lk-go" data-go="${i}">▶ Chiếu từ trang ${i+1}</button></section>`).join('')}</div>`;
-    $('#lkBack').onclick = home; $('#lkPlay').onclick = () => open(l, 0);
+    $('#lkBack').onclick = home; $('#lkPlay').onclick = () => open(l, 0); $('#lkWs').onclick = () => worksheet(b, l, false);
     $$('[data-go]').forEach(x => x.onclick = () => open(l, +x.dataset.go));
     scrollTo(0, 0);
   }
@@ -138,5 +139,36 @@ const Lecture = (() => {
     const fits = f => { s.style.setProperty('--fs', f + 'px'); return s.scrollHeight <= H + 1 && [s, ...s.querySelectorAll('.lk-de,.lk-body,.lk-h,.lk-title')].every(x => x.scrollWidth <= x.clientWidth + 1); };
     if(!fits(hi)){ for(let k = 0; k < 14; k++){ const m = (hi + lo) / 2; if(fits(m)) lo = m; else hi = m; } s.style.setProperty('--fs', Math.floor(lo) + 'px'); }
   }
-  return { add, home, open, preview, BOOKS };
+  /* ---------- Phiếu học tập (in A4, tối giản) ----------
+     Học sinh: I. Mục tiêu · II. Kiến thức trọng tâm (tiêu đề + dòng ghi chép) · III. Dạng bài và ví dụ (đề + dòng làm bài;
+     ví dụ vẽ hình thì có ô lưới) · IV. Luyện tập. Bản giáo viên (kèm lời giải) thay các dòng bằng nội dung/lời giải. */
+  const lines = n => `<div class="ws-lines">${'<i></i>'.repeat(n)}</div>`;
+  const plain = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent.length; };
+  function worksheet(b, l, key){
+    const S = l.slides, title = S.find(s => s.kind === 'title'), brand = CONFIG.brand || CONFIG.siteName;
+    let n = 0, dang = 0, h = '';
+    const kts = S.filter(s => s.kind === 'kt'), groups = [];
+    S.forEach(s => { if(s.kind === 'method'){ groups.push({m:s, vd:[]}); } else if(s.kind === 'vd'){ (groups[groups.length-1] || (groups[0] = {m:null, vd:[]})).vd.push(s); } });
+    const vdBlock = (s, lab) => {
+      const fig = s.fig ? (s.figAt == null || key ? `<div class="ws-fig">${s.fig}</div>` : `<div class="ws-fig ws-blank">${planeSVG({x:[-3,5], y:[-3,5]})}</div>`) : '';
+      const body = key ? `<ol class="ws-sol">${(s.sol || []).map(x => `<li>${x}</li>`).join('')}</ol>${s.ans ? `<p class="ws-ans">${s.ans}</p>` : ''}`
+                       : lines(Math.max(4, Math.min(10, (s.sol || []).length * 2 + (s.ans ? 1 : 0))));
+      return `<div class="ws-q"><p><b>${lab}.</b> ${s.de}</p><div class="ws-row ${fig ? 'has-fig' : ''}"><div class="ws-work">${body}</div>${fig}</div></div>`; };
+    h += `<header class="ws-head"><div class="ws-brand"><span>${brand}</span><span>${b.gradeName} · Kết nối tri thức</span></div>
+      <h1>PHIẾU HỌC TẬP${key ? ' <small>(bản có lời giải)</small>' : ''}</h1><h2>${l.name}</h2>
+      <p class="ws-who">Họ và tên: <span class="ws-fill"></span> Lớp: <span class="ws-fill s"></span> Ngày: <span class="ws-fill s"></span></p></header>`;
+    if(title && title.points) h += `<section><h3>I. Mục tiêu</h3><ul class="ws-goals">${title.points.map(p => `<li>${p}</li>`).join('')}</ul></section>`;
+    if(kts.length) h += `<section><h3>II. Kiến thức trọng tâm</h3>${kts.map((s, i) => `<div class="ws-kt"><h4>${i+1}. ${s.title}</h4>${key ? `<div class="ws-key">${s.body || ''}</div>` : lines(Math.max(4, Math.min(7, Math.round(plain(s.body || '') / 80) + 2)))}</div>`).join('')}</section>`;
+    if(groups.length) h += `<section><h3>III. Dạng bài và ví dụ</h3>${groups.map(g => `${g.m ? `<div class="ws-dang"><h4>Dạng ${++dang}. ${g.m.title}</h4>${key ? `<ol class="ws-steps">${(g.m.steps || []).map(x => `<li>${x}</li>`).join('')}</ol>` : `<p class="ws-hint">Phương pháp:</p>${lines(Math.max(2, (g.m.steps || []).length))}`}</div>` : ''}${g.vd.map(s => vdBlock(s, `Ví dụ ${++n}`)).join('')}`).join('')}</section>`;
+    const lt = S.filter(s => s.kind === 'lt');
+    if(lt.length) h += `<section><h3>IV. Luyện tập</h3>${lt.map((s, i) => vdBlock(s, `Bài ${i+1}`)).join('')}</section>`;
+    h += `<footer class="ws-foot">${brand} · ${l.name}</footer>`;
+    const app = $('#app');
+    app.innerHTML = `<div class="toolbar ws-bar"><button class="back linkbtn" id="wsBack">← Danh sách bài giảng</button><div class="row">
+        <label class="ws-toggle"><input type="checkbox" id="wsKey" ${key ? 'checked' : ''}> Kèm lời giải</label><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
+      <article class="ws">${h}</article>`;
+    $('#wsBack').onclick = home; $('#wsKey').onchange = e => worksheet(b, l, e.target.checked);
+    document.title = `Phiếu học tập – ${l.name}`; scrollTo(0, 0);
+  }
+  return { add, home, open, preview, worksheet, BOOKS };
 })();
