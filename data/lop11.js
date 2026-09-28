@@ -23,7 +23,7 @@ const piStr = u => { if(u===0) return '0'; const g=gcd(Math.abs(u),PI), p=u/g, q
 const degStr = u => `${u/D}^\\circ`;
 const rad = u => u/PI*Math.PI;
 const fr = tfrac;
-const RA = '\;\\Rightarrow\;', EQ = '\;\\Leftrightarrow\;', KZ = '\\ (k \\in \\mathbb{Z})';
+const RA = '\\;\\Rightarrow\\;', EQ = '\\;\\Leftrightarrow\\;', KZ = '\\ (k \\in \\mathbb{Z})';
 // Bảng giá trị đặc biệt (khoá nội bộ dạng chữ, valH đổi sang LaTeX)
 const S3=Math.sqrt(3), S2=Math.SQRT2, S6=Math.sqrt(6);
 const KV = {'0':0,'1/2':.5,'√2/2':S2/2,'√3/2':S3/2,'1':1,'√3/3':S3/3,'√3':S3,'3/2':1.5,'√6/2':S6/2,'2':2,
@@ -298,11 +298,111 @@ const g4c = lv => {   // sin f = sin g, cos f = cos g
     hint:lv===3?`Đưa về cùng một hàm: ${tm('\\cos v = \\sin\\left(\\frac{\\pi}{2} - v\\right)')}, rồi dùng ${tm('\\sin u = \\sin v')}.`:`Dùng ${tm('\\sin u = \\sin v \\Leftrightarrow u = v + k2\\pi')} hoặc ${tm('u = \\pi - v + k2\\pi')}; ${tm('\\cos u = \\cos v \\Leftrightarrow u = \\pm v + k2\\pi')}. Sau đó chuyển vế, chia cho hệ số của ${tm('x')}.`,
     sol:`${why}. Vậy ${tb(good)} ${tm('(k \\in \\mathbb{Z})')}.`}); };
 
+/* =====================================================================
+   ÔN TẬP CHƯƠNG I – các dạng tổng hợp (kết hợp nhiều bài)
+   ===================================================================== */
+const RAo = ` ${tm('\\Rightarrow')} `, EQo = ` ${tm('\\Leftrightarrow')} `;
+const r3 = (p,q) => `${p} ${q<0?'-':'+'} ${Math.abs(q)===1?'':Math.abs(q)}\\sqrt{3}`;          // p + q√3
+const fr3 = (p,q,den) => tf(r3(p,q), den);
+const gO1 = lv => {   // biết một GTLG + góc phần tư → dùng công thức cộng
+  let [a,b,c]=pick(TRIP); if(Math.random()<.5)[a,b]=[b,a];
+  const q=lv===1?1:R(2,4), s=SIGN.sin[q]*a, co=SIGN.cos[q]*b;             // sin α = s/c, cos α = co/c
+  const giveSin=lv===1?true:Math.random()<.5, gv=giveSin?s:co, other=giveSin?'cos':'sin', ov=giveSin?co:s;
+  const given=`${tm(`${fn(giveSin?'sin':'cos')}\\alpha = ${fr(gv,c)}`)}${lv===1?` với ${tm(`0 \\lt \\alpha \\lt ${piStr(PI/2)}`)}`:` với ${tm(QUAD[q])}`}`;
+  const step1=`${tm(`${fn(other)}^2\\alpha = 1 - ${tf(gv*gv,c*c)} = ${tf(ov*ov,c*c)}`)}; ${tm('\\alpha')} thuộc góc phần tư ${ROMAN[q]} nên ${tm(`${fn(other)}\\alpha = ${fr(ov,c)}`)}.`;
+  if(lv<3){
+    const F=pick(['sin','cos']), B=pick([PI/3,PI/6]), e=pick([1,-1]), bS=piStr(B), sg=e>0?'+':'-';
+    let P,Q; if(F==='sin'){ if(B===PI/3){P=s;Q=e*co}else{P=e*co;Q=s} } else { if(B===PI/3){P=co;Q=-e*s}else{P=-e*s;Q=co} }
+    const name=`${fn(F)}\\left(\\alpha ${sg} ${bS}\\right)`, den=2*c, good=fr3(P,Q,den);
+    const W=[...new Set([fr3(P,-Q,den),fr3(-P,Q,den),fr3(Q,P,den),fr3(-P,-Q,den),fr3(Q,-P,den)])].filter(x=>x!==good).slice(0,3);
+    const cb=B===PI/3?['\\tfrac{1}{2}','\\tfrac{\\sqrt{3}}{2}']:['\\tfrac{\\sqrt{3}}{2}','\\tfrac{1}{2}'];     // cos β, sin β
+    const form=F==='sin'?`\\sin\\alpha\\cos ${bS} ${sg} \\cos\\alpha\\sin ${bS}`:`\\cos\\alpha\\cos ${bS} ${e>0?'-':'+'} \\sin\\alpha\\sin ${bS}`;
+    const sub=F==='sin'?`${fr(s,c)}\\cdot ${cb[0]} ${sg} \\left(${fr(co,c)}\\right)\\cdot ${cb[1]}`:`${fr(co,c)}\\cdot ${cb[0]} ${e>0?'-':'+'} \\left(${fr(s,c)}\\right)\\cdot ${cb[1]}`;
+    return QC({text:`Cho ${given}. Tính ${td(name)}`, opts:[good,...W].map(tm), ans:tm(good),
+      hint:`Bước 1: tìm ${tm(`${fn(other)}\\alpha`)} bằng ${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')}, lấy dấu theo góc phần tư. Bước 2: dùng công thức cộng, thay ${tm(`\\cos ${bS}`)}, ${tm(`\\sin ${bS}`)}.`,
+      sol:`${step1} ${tm(`${name} = ${form}`)} ${tm(`= ${sub}`)} = ${tb(good)}.`}); }
+  const e=pick([1,-1]), sg=e>0?'+':'-', num=s+e*co, dn=co-e*s, name=`\\tan\\left(\\alpha ${sg} ${piStr(PI/4)}\\right)`;
+  return QB({text:`Cho ${given}. Tính ${td(name)}`, tpl:FB(name), ans:[{frac:[num,dn],mode:'eq'}],
+    hint:`Tìm ${tm(`${fn(other)}\\alpha`)} (chú ý dấu), suy ra ${tm('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')}; rồi dùng ${tm(`\\tan(\\alpha ${sg} \\beta) = \\dfrac{\\tan\\alpha ${sg} \\tan\\beta}{1 ${e>0?'-':'+'} \\tan\\alpha\\tan\\beta}`)} với ${tm(`\\tan ${piStr(PI/4)} = 1`)}.`,
+    sol:`${step1} ${tm(`\\tan\\alpha = ${fr(s,co)}`)}. ${tm(`${name} = \\dfrac{\\tan\\alpha ${sg} 1}{1 ${e>0?'-':'+'} \\tan\\alpha} = \\dfrac{${fr(s,co)} ${sg} 1}{1 ${e>0?'-':'+'} \\left(${fr(s,co)}\\right)}`)} = ${tb(fr(num,dn))}.`}); };
+
+const gO2 = lv => {   // GTLN, GTNN sau khi biến đổi về một hàm lượng giác
+  let fnS,mx,mn,why,hint; const A=R(-3,6), cst=A?` ${A<0?'-':'+'} ${Math.abs(A)}`:'';
+  if(lv===1){ const B=sR(1,4)*2, h=Math.abs(B)/2;
+    fnS=`y = ${B<0?'-':''}${Math.abs(B)}\\sin x\\cos x${cst}`; mx=A+h; mn=A-h;
+    hint=`Dùng ${tm('2\\sin x\\cos x = \\sin 2x')} rồi ${tm('-1 \\le \\sin 2x \\le 1')}.`;
+    why=`${tm(`y = ${B/2===1?'':B/2===-1?'-':B/2}\\sin 2x${cst}`)}. Vì ${tm('-1 \\le \\sin 2x \\le 1')} nên ${tm(`${mn} \\le y \\le ${mx}`)}.`; }
+  else if(lv===2){ const B=sR(1,5), t=pick(['c','s']), Bs=`${B<0?'-':''}${Math.abs(B)===1?'':Math.abs(B)}`;
+    if(t==='c'){ fnS=`y = ${Bs}\\left(\\cos^2 x - \\sin^2 x\\right)${cst}`; why=`${tm(`\\cos^2 x - \\sin^2 x = \\cos 2x`)} nên ${tm(`y = ${Bs}\\cos 2x${cst}`)}.`; hint=`Dùng ${tm('\\cos^2 x - \\sin^2 x = \\cos 2x')} rồi ${tm('-1 \\le \\cos 2x \\le 1')}.`; }
+    else { fnS=`y = ${Bs}\\left(1 - 2\\sin^2 x\\right)${cst}`; why=`${tm(`1 - 2\\sin^2 x = \\cos 2x`)} nên ${tm(`y = ${Bs}\\cos 2x${cst}`)}.`; hint=`Dùng ${tm('1 - 2\\sin^2 x = \\cos 2x')} rồi ${tm('-1 \\le \\cos 2x \\le 1')}.`; }
+    mx=A+Math.abs(B); mn=A-Math.abs(B); why+=` Vì ${tm('-1 \\le \\cos 2x \\le 1')} nên ${tm(`${mn} \\le y \\le ${mx}`)}.`; }
+  else { const P=pick([[3,4,5],[4,3,5],[6,8,10],[8,6,10],[5,12,13],[12,5,13],['1','\\sqrt{3}',2],['\\sqrt{3}','1',2]]), sa=pick([1,-1]), sb=pick([1,-1]), r=P[2];
+    const term=(v,s,f)=>`${s<0?'-':''}${v==='1'?'':v}\\${f} x`, bt=term(P[1],sb,'cos');
+    fnS=`y = ${term(P[0],sa,'sin')} ${bt.startsWith('-')?'- '+bt.slice(1):'+ '+bt}${cst}`; mx=A+r; mn=A-r;
+    const a2=typeof P[0]==='number'?P[0]*P[0]:P[0]==='1'?1:3, b2=typeof P[1]==='number'?P[1]*P[1]:P[1]==='1'?1:3;
+    hint=`Với ${tm('a\\sin x + b\\cos x')}: đặt ${tm('r = \\sqrt{a^2 + b^2}')}, viết thành ${tm('r\\sin(x + \\varphi)')} nên nó nằm trong ${tm('[-r;\\ r]')}.`;
+    why=`${tm(`r = \\sqrt{${a2} + ${b2}} = ${r}`)}. Chọn ${tm('\\varphi')} với ${tm(`\\cos\\varphi = \\dfrac{${sa<0?'-':''}${P[0]}}{${r}},\\ \\sin\\varphi = \\dfrac{${sb<0?'-':''}${P[1]}}{${r}}`)} thì biểu thức lượng giác bằng ${tm(`${r}\\sin(x + \\varphi)`)}, nằm trong ${tm(`[-${r};\\ ${r}]`)}. Vậy ${tm(`${mn} \\le y \\le ${mx}`)}.`; }
+  return QB({text:`Tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số ${td(fnS)}`, tpl:'<span class="eq">GTLN = [_]</span><br><span class="eq">GTNN = [_]</span>', ans:[mx,mn],
+    hint, sol:`${why} GTLN ${tb(`= ${mx}`)}, GTNN ${tb(`= ${mn}`)}.`}); };
+
+// Phương trình đưa về dạng cơ bản – đếm nghiệm bằng cách thử trên lưới 2,5° (mọi nghiệm đều là bội của 2,5°)
+const O3 = {
+  2:[ ['\\sin 2x = \\sin x', u=>Math.sin(2*rad(u))-Math.sin(rad(u)), `${tm('2x = x + k2\\pi')} hoặc ${tm('2x = \\pi - x + k2\\pi')} ${RAo} ${tm('x = k2\\pi')} hoặc ${tm(`x = ${piStr(PI/3)} + k${piStr(2*PI/3)}`)}`],
+      ['\\cos 2x = \\cos x', u=>Math.cos(2*rad(u))-Math.cos(rad(u)), `${tm('2x = \\pm x + k2\\pi')} ${RAo} ${tm('x = k2\\pi')} hoặc ${tm(`x = k${piStr(2*PI/3)}`)}`],
+      ['\\sin 3x = \\sin x', u=>Math.sin(3*rad(u))-Math.sin(rad(u)), `${tm('3x = x + k2\\pi')} hoặc ${tm('3x = \\pi - x + k2\\pi')} ${RAo} ${tm('x = k\\pi')} hoặc ${tm(`x = ${piStr(PI/4)} + k${piStr(PI/2)}`)}`],
+      ['\\cos 3x = \\cos x', u=>Math.cos(3*rad(u))-Math.cos(rad(u)), `${tm('3x = \\pm x + k2\\pi')} ${RAo} ${tm('x = k\\pi')} hoặc ${tm(`x = k${piStr(PI/2)}`)}, tức là ${tm(`x = k${piStr(PI/2)}`)}`],
+      ['\\sin x = \\cos x', u=>Math.sin(rad(u))-Math.cos(rad(u)), `${tm('\\cos x = 0')} không thoả mãn nên chia hai vế cho ${tm('\\cos x')}: ${tm('\\tan x = 1')} ${RAo} ${tm(`x = ${piStr(PI/4)} + k\\pi`)}`],
+      ['\\sin 2x = \\cos x', u=>Math.sin(2*rad(u))-Math.cos(rad(u)), `${tm('2\\sin x\\cos x - \\cos x = 0')} ${EQo} ${tm('\\cos x(2\\sin x - 1) = 0')} ${RAo} ${tm('\\cos x = 0')} hoặc ${tm(`\\sin x = ${tf(1,2)}`)}`] ],
+  3:[ ['(2\\sin x - 1)(2\\cos x + 1) = 0', u=>(2*Math.sin(rad(u))-1)*(2*Math.cos(rad(u))+1), `${tm(`\\sin x = ${tf(1,2)}`)} hoặc ${tm(`\\cos x = -${tf(1,2)}`)}`],
+      ['\\sin x\\cos x = \\dfrac{1}{4}', u=>Math.sin(rad(u))*Math.cos(rad(u))-.25, `Nhân 2: ${tm(`\\sin 2x = ${tf(1,2)}`)} ${RAo} ${tm(`2x = ${piStr(PI/6)} + k2\\pi`)} hoặc ${tm(`2x = ${piStr(5*PI/6)} + k2\\pi`)}`],
+      ['\\cos^2 x - \\sin^2 x = \\dfrac{1}{2}', u=>Math.cos(2*rad(u))-.5, `${tm(`\\cos 2x = ${tf(1,2)}`)} ${RAo} ${tm(`2x = \\pm ${piStr(PI/3)} + k2\\pi`)} ${RAo} ${tm(`x = \\pm ${piStr(PI/6)} + k\\pi`)}`],
+      ['2\\sin^2 x = 1', u=>2*Math.sin(rad(u))**2-1, `${tm('1 - 2\\sin^2 x = 0')} ${EQo} ${tm('\\cos 2x = 0')} ${RAo} ${tm(`2x = ${piStr(PI/2)} + k\\pi`)} ${RAo} ${tm(`x = ${piStr(PI/4)} + k${piStr(PI/2)}`)}`],
+      ['\\sin 2x = \\sqrt{2}\\cos x', u=>Math.sin(2*rad(u))-Math.SQRT2*Math.cos(rad(u)), `${tm('\\cos x(2\\sin x - \\sqrt{2}) = 0')} ${RAo} ${tm('\\cos x = 0')} hoặc ${tm(`\\sin x = ${tf('\\sqrt{2}',2)}`)}`],
+      ['\\sin 3x + \\sin x = 0', u=>Math.sin(3*rad(u))+Math.sin(rad(u)), `Tổng thành tích: ${tm('2\\sin 2x\\cos x = 0')} ${RAo} ${tm('\\sin 2x = 0')} hoặc ${tm('\\cos x = 0')} ${RAo} ${tm(`x = k${piStr(PI/2)}`)}`],
+      ['\\cos 2x = \\sin x', u=>Math.cos(2*rad(u))-Math.sin(rad(u)), `${tm(`\\sin x = \\cos\\left(${piStr(PI/2)} - x\\right)`)} nên ${tm(`2x = \\pm\\left(${piStr(PI/2)} - x\\right) + k2\\pi`)} ${RAo} ${tm(`x = ${piStr(PI/6)} + k${piStr(2*PI/3)}`)} hoặc ${tm(`x = -${piStr(PI/2)} + k2\\pi`)}`] ] };
+const roots = (F,L,Rr) => { const r=[]; for(let u=L;u<=Rr;u+=30) if(Math.abs(F(u))<1e-9) r.push(u); return r; };
+const gO3 = lv => { let tex,F,how;
+  if(lv===1){ const f=pick(['sin','cos','tan']);
+    if(f==='tan'){ [tex,F,how]=pick([['\\sqrt{3}\\tan x - 1 = 0',u=>Math.sqrt(3)*FN.tan(u)-1,`${tm(`\\tan x = ${tf('\\sqrt{3}',3)}`)} ${RAo} ${tm(`x = ${piStr(PI/6)} + k\\pi`)}`],
+      ['\\tan x - \\sqrt{3} = 0',u=>FN.tan(u)-Math.sqrt(3),`${tm('\\tan x = \\sqrt{3}')} ${RAo} ${tm(`x = ${piStr(PI/3)} + k\\pi`)}`],['\\tan x + 1 = 0',u=>FN.tan(u)+1,`${tm('\\tan x = -1')} ${RAo} ${tm(`x = -${piStr(PI/4)} + k\\pi`)}`]]); }
+    else { const k=pick(['1/2','√2/2','√3/2']), sg=pick([1,-1]), c={'1/2':'1','√2/2':'\\sqrt{2}','√3/2':'\\sqrt{3}'}[k];
+      tex=`2${fn(f)} x ${sg>0?'-':'+'} ${c} = 0`; F=u=>2*FN[f](u)-sg*2*KV[k]; const t0=solveT(f,(sg<0?M:'')+k);
+      how=`${tm(`${fn(f)} x = ${sg<0?'-':''}${valH(k)}`)} ${RAo} ${tm(showSol(t0))}`; } }
+  else [tex,F,how]=pick(O3[lv]);
+  const [L,Rr]=lv===1?[0,P2]:lv===2?pick([[0,PI],[0,P2],[-PI,PI]]):pick([[0,P2],[0,PI],[-PI/2,3*PI/2]]);
+  const xs=roots(F,L,Rr);
+  return QB({text:`Phương trình ${td(tex)} có bao nhiêu nghiệm thuộc đoạn ${tm(`[{${piStr(L)}};\\ {${piStr(Rr)}}]`)}?`, tpl:'[_] nghiệm', ans:[xs.length],
+    hint:lv===1?`Chuyển vế để đưa về phương trình cơ bản, viết công thức nghiệm rồi đếm nghiệm trong đoạn (dùng đường tròn lượng giác).`:`Dùng công thức (nhân đôi, tổng thành tích, ${tm('\\sin u = \\sin v')}…) hoặc đặt nhân tử chung để đưa về phương trình cơ bản; rồi đếm nghiệm trong đoạn trên đường tròn lượng giác.`,
+    sol:`${how} ${tm('(k \\in \\mathbb{Z})')}. Các nghiệm thuộc đoạn: ${tm(xs.map(x=>`{${piStr(x)}}`).join(';\\ '))}. Có ${tb(xs.length)} nghiệm.`}); };
+
+const gO4 = lv => {   // bài toán thực tế: mực nước h(t) = A + B sin(πt/T)
+  const A=R(6,12), B=R(2,5), T=pick([6,12]), hS=`h(t) = ${A} + ${B}\\sin\\dfrac{\\pi t}{${T}}`;
+  const intro=`Độ sâu ${tm('h')} (mét) của mực nước ở một cảng biển tại thời điểm ${tm('t')} (giờ, ${tm('0 \\le t \\le 24')}) được tính bởi ${td(hS)}`;
+  if(lv===1){ const big=Math.random()<.5, v=big?A+B:A-B;
+    return QB({text:`${intro}Mực nước ${big?'sâu nhất':'nông nhất'} là bao nhiêu mét?`, tpl:'[_] m', ans:[v],
+      hint:`Dùng ${tm('-1 \\le \\sin\\dfrac{\\pi t}{'+T+'} \\le 1')}.`,
+      sol:`Vì ${tm(`-1 \\le \\sin\\dfrac{\\pi t}{${T}} \\le 1`)} nên ${tm(`${A-B} \\le h(t) \\le ${A+B}`)}. Mực nước ${big?'sâu nhất':'nông nhất'} là ${tb(v)} m.`}); }
+  if(lv===2){ const t=pick(['max','half']);
+    if(t==='max') return QB({text:`${intro}Sau bao nhiêu giờ kể từ ${tm('t = 0')} thì mực nước sâu nhất lần đầu tiên?`, tpl:'[_] giờ', ans:[T/2],
+      hint:`Mực nước sâu nhất khi ${tm(`\\sin\\dfrac{\\pi t}{${T}} = 1`)}; tìm ${tm('t \\gt 0')} nhỏ nhất.`,
+      sol:`${tm(`\\sin\\dfrac{\\pi t}{${T}} = 1`)} ${EQo} ${tm(`\\dfrac{\\pi t}{${T}} = ${piStr(PI/2)} + k2\\pi`)} ${EQo} ${tm(`t = ${T/2} + ${2*T}k`)}. Giá trị dương nhỏ nhất: ${tb(`t = ${T/2}`)} giờ.`});
+    const v=A+B/2;
+    return QB({text:`${intro}Sau bao nhiêu giờ kể từ ${tm('t = 0')} thì mực nước sâu ${tm(tdec(v))} m lần đầu tiên?`, tpl:'[_] giờ', ans:[T/6],
+      hint:`Giải ${tm(`h(t) = ${tdec(v)}`)}, đưa về ${tm(`\\sin\\dfrac{\\pi t}{${T}} = ${tf(1,2)}`)}; tìm ${tm('t \\gt 0')} nhỏ nhất.`,
+      sol:`${tm(`${A} + ${B}\\sin\\dfrac{\\pi t}{${T}} = ${tdec(v)}`)} ${EQo} ${tm(`\\sin\\dfrac{\\pi t}{${T}} = ${tf(1,2)}`)} ${RAo} ${tm(`\\dfrac{\\pi t}{${T}} = ${piStr(PI/6)} + k2\\pi`)} hoặc ${tm(`\\dfrac{\\pi t}{${T}} = ${piStr(5*PI/6)} + k2\\pi`)}, tức là ${tm(`t = ${T/6} + ${2*T}k`)} hoặc ${tm(`t = ${5*T/6} + ${2*T}k`)}. Giá trị dương nhỏ nhất: ${tb(`t = ${T/6}`)} giờ.`}); }
+  const t=pick(['half','max','mid']), sv={half:.5,max:1,mid:0}[t], v=A+B*sv;
+  const ts=[]; for(let h=0;h<=24;h++) if(Math.abs(Math.sin(Math.PI*h/T)-sv)<1e-9) ts.push(h);
+  const eqs={half:`${tm(`\\sin\\dfrac{\\pi t}{${T}} = ${tf(1,2)}`)} ${RAo} ${tm(`t = ${T/6} + ${2*T}k`)} hoặc ${tm(`t = ${5*T/6} + ${2*T}k`)}`,
+    max:`${tm(`\\sin\\dfrac{\\pi t}{${T}} = 1`)} ${RAo} ${tm(`t = ${T/2} + ${2*T}k`)}`, mid:`${tm(`\\sin\\dfrac{\\pi t}{${T}} = 0`)} ${RAo} ${tm(`t = ${T}k`)}`}[t];
+  return QB({text:`${intro}Trong khoảng ${tm('0 \\le t \\le 24')}, có bao nhiêu thời điểm mực nước sâu đúng ${tm(tdec(v))} m?`, tpl:'[_] thời điểm', ans:[ts.length],
+    hint:`Giải phương trình ${tm(`h(t) = ${tdec(v)}`)} (đưa về phương trình ${tm('\\sin')} cơ bản), viết các họ nghiệm theo ${tm('t')} rồi chọn ${tm('k')} để ${tm('0 \\le t \\le 24')}.`,
+    sol:`${eqs} ${tm('(k \\in \\mathbb{Z})')}. Các giá trị trong ${tm('[0;\\ 24]')}: ${tm(ts.join(';\\ '))}. Có ${tb(ts.length)} thời điểm.`}); };
+
 lesson(1,'gia-tri-luong-giac','Bài 1. Giá trị lượng giác của góc lượng giác','Đổi độ – radian, độ dài cung; điểm biểu diễn; dấu và giá trị lượng giác; tính GTLG khi biết một GTLG.',[g1a,g1b,g1c,g1d,g1e]);
 lesson(1,'cong-thuc-luong-giac','Bài 2. Công thức lượng giác','Công thức cộng; công thức nhân đôi; biến đổi tích thành tổng và tổng thành tích.',[g2a,g2b,g2c]);
 lesson(1,'ham-so-luong-giac','Bài 3. Hàm số lượng giác','Tập xác định; tính chẵn lẻ; chu kì tuần hoàn; giá trị lớn nhất, nhỏ nhất.',[g3a,g3b,g3c,g3d]);
 lesson(1,'pt-luong-giac-co-ban','Bài 4. Phương trình lượng giác cơ bản','Công thức nghiệm sin, cos, tan, cot; số nghiệm trên một đoạn; phương trình đưa về dạng cơ bản.',[g4a,g4b,g4c]);
-lesson(1,'on-tap-c1','Ôn tập chương I','Tổng hợp giá trị lượng giác, công thức, hàm số và phương trình lượng giác.',[g1d,g1e,g2a,g3d,g4a,g4b]);
+lesson(1,'on-tap-c1','Ôn tập chương I','Tổng hợp: giá trị lượng giác và công thức cộng; GTLN – GTNN sau khi biến đổi; giải và đếm nghiệm phương trình đưa về dạng cơ bản; bài toán thực tế.',[g1e,gO1,gO2,g4a,gO3,gO4]);
 
 /* =====================================================================
    CHƯƠNG II. DÃY SỐ. CẤP SỐ CỘNG VÀ CẤP SỐ NHÂN (Bài 5 · Bài 6 · Bài 7)

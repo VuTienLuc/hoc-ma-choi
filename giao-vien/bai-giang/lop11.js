@@ -1,8 +1,160 @@
 /* =====================================================================
    BÀI GIẢNG LỚP 11 – Toán, Kết nối tri thức (giáo viên trình chiếu)
-   Chương II. Dãy số. Cấp số cộng và cấp số nhân (Bài 5 – Bài 7, Ôn tập)
+   Chương I (Ôn tập chương) · Chương II. Dãy số. Cấp số cộng và cấp số nhân (Bài 5 – Bài 7, Ôn tập)
    Cấu trúc trang chiếu: xem giao-vien/bai-giang/lop10.js và CLAUDE.md.
    ===================================================================== */
+/* =====================================================================
+   CHƯƠNG I. HÀM SỐ LƯỢNG GIÁC VÀ PHƯƠNG TRÌNH LƯỢNG GIÁC – Ôn tập chương
+   Hệ thống kiến thức (4 trang, có đường tròn lượng giác) → 5 dạng bài, mỗi dạng
+   có phương pháp và ví dụ giải từng bước → luyện tập → ghi nhớ, sai lầm thường gặp.
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const S = t => `<p>${t}</p>`;
+const f = (a, b) => `\\dfrac{${a}}{${b}}`;
+const K = '(k \\in \\mathbb{Z})';
+const c30 = Math.sqrt(3) / 2;
+// Đường tròn lượng giác: trục Ox, Oy; P = [[x, y, nhãn, hướng nhãn]]; extra = các tuỳ chọn khác của circleSVG
+const UC = (P, extra = {}) => circleSVG({C:[{x:0, y:0, r:1}], L:[[0, 0, 1, 0], [0, 0, 0, 1]], P:[[0, 0, 'O', 225], ...P], box:[-1.15, -1.15, 1.15, 1.15], ...extra});
+
+Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương I. Hàm số lượng giác và phương trình lượng giác', lessons:[
+
+{ id:'on-tap-c1', name:'Ôn tập chương I', desc:'Hệ thống giá trị lượng giác, công thức, hàm số và phương trình lượng giác; 5 dạng bài có ví dụ giải từng bước; bài toán thực tế.', slides:[
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Chương I', title:'Ôn tập chương I', sub:'Hàm số lượng giác và phương trình lượng giác',
+   points:['Hệ thống: giá trị lượng giác, công thức lượng giác, hàm số lượng giác, phương trình lượng giác cơ bản.', 'Giải thành thạo 5 dạng bài trọng tâm của chương.', 'Vận dụng vào bài toán thực tế (chuyển động tuần hoàn, mực nước).']},
+
+  /* ---------- HỆ THỐNG KIẾN THỨC ---------- */
+  {kind:'kt', tag:'Hệ thống kiến thức 1', title:'Giá trị lượng giác của góc lượng giác',
+   body: box(`${m('180^\\circ = \\pi')} rad; cung có số đo ${m('\\alpha')} (rad) trên đường tròn bán kính ${m('R')} dài ${m('l = R\\alpha')}.`) +
+     S(`Điểm ${m('M')} trên đường tròn lượng giác biểu diễn góc ${m('\\alpha')}: ${m('M(\\cos\\alpha;\\ \\sin\\alpha)')}, ${m('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')}, ${m('\\cot\\alpha = \\dfrac{\\cos\\alpha}{\\sin\\alpha}')}.`) +
+     `<table class="lk-table"><tr><th>Góc phần tư</th><th>I</th><th>II</th><th>III</th><th>IV</th></tr>
+      <tr><td>${m('\\sin\\alpha')}</td><td>+</td><td>+</td><td>−</td><td>−</td></tr><tr><td>${m('\\cos\\alpha')}</td><td>+</td><td>−</td><td>−</td><td>+</td></tr>
+      <tr><td>${m('\\tan\\alpha,\\ \\cot\\alpha')}</td><td>+</td><td>−</td><td>+</td><td>−</td></tr></table>` +
+     S(`${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}; ${m('1 + \\tan^2\\alpha = \\dfrac{1}{\\cos^2\\alpha}')}; ${m('\\tan\\alpha\\cdot\\cot\\alpha = 1')}.`),
+   fig: UC([[.5, c30, 'M', 60], [.5, 0, 'cos α', -90], [0, c30, 'sin α', 180], [1, 0, 'A', -45]], {S:[[.5, c30, .5, 0, true], [.5, c30, 0, c30, true], [0, 0, .5, c30]]})},
+
+  {kind:'kt', tag:'Hệ thống kiến thức 2', title:'Công thức lượng giác',
+   body:`<table class="lk-table lk-left">
+      <tr><th>Công thức cộng</th><td>${m('\\sin(a \\pm b) = \\sin a\\cos b \\pm \\cos a\\sin b')}<br>${m('\\cos(a \\pm b) = \\cos a\\cos b \\mp \\sin a\\sin b')}<br>${m('\\tan(a \\pm b) = \\dfrac{\\tan a \\pm \\tan b}{1 \\mp \\tan a\\tan b}')}</td></tr>
+      <tr><th>Nhân đôi</th><td>${m('\\sin 2a = 2\\sin a\\cos a')}; ${m('\\cos 2a = \\cos^2 a - \\sin^2 a = 2\\cos^2 a - 1 = 1 - 2\\sin^2 a')}</td></tr>
+      <tr><th>Hạ bậc</th><td>${m('\\cos^2 a = \\dfrac{1 + \\cos 2a}{2}')}; ${m('\\sin^2 a = \\dfrac{1 - \\cos 2a}{2}')}</td></tr>
+      <tr><th>Tích → tổng</th><td>${m('\\cos a\\cos b = \\tfrac{1}{2}[\\cos(a - b) + \\cos(a + b)]')}; ${m('\\sin a\\sin b = \\tfrac{1}{2}[\\cos(a - b) - \\cos(a + b)]')}; ${m('\\sin a\\cos b = \\tfrac{1}{2}[\\sin(a - b) + \\sin(a + b)]')}</td></tr>
+      <tr><th>Tổng → tích</th><td>${m('\\sin u + \\sin v = 2\\sin\\tfrac{u + v}{2}\\cos\\tfrac{u - v}{2}')}; ${m('\\cos u + \\cos v = 2\\cos\\tfrac{u + v}{2}\\cos\\tfrac{u - v}{2}')}; ${m('\\cos u - \\cos v = -2\\sin\\tfrac{u + v}{2}\\sin\\tfrac{u - v}{2}')}</td></tr></table>`},
+
+  {kind:'kt', tag:'Hệ thống kiến thức 3', title:'Hàm số lượng giác',
+   body:`<table class="lk-table"><tr><th>Hàm số</th><th>Tập xác định</th><th>Tập giá trị</th><th>Tính chẵn, lẻ</th><th>Chu kì</th></tr>
+      <tr><td>${m('y = \\sin x')}</td><td>${m('\\mathbb{R}')}</td><td>${m('[-1;\\ 1]')}</td><td>lẻ</td><td>${m('2\\pi')}</td></tr>
+      <tr><td>${m('y = \\cos x')}</td><td>${m('\\mathbb{R}')}</td><td>${m('[-1;\\ 1]')}</td><td>chẵn</td><td>${m('2\\pi')}</td></tr>
+      <tr><td>${m('y = \\tan x')}</td><td>${m('x \\ne \\tfrac{\\pi}{2} + k\\pi')}</td><td>${m('\\mathbb{R}')}</td><td>lẻ</td><td>${m('\\pi')}</td></tr>
+      <tr><td>${m('y = \\cot x')}</td><td>${m('x \\ne k\\pi')}</td><td>${m('\\mathbb{R}')}</td><td>lẻ</td><td>${m('\\pi')}</td></tr></table>` +
+     box(`${m('y = \\sin(ax + b)')}, ${m('y = \\cos(ax + b)')} có chu kì ${m('\\dfrac{2\\pi}{|a|}')}; ${m('y = \\tan(ax + b)')}, ${m('y = \\cot(ax + b)')} có chu kì ${m('\\dfrac{\\pi}{|a|}')}.`)},
+
+  {kind:'kt', tag:'Hệ thống kiến thức 4', title:'Phương trình lượng giác cơ bản',
+   body:`<table class="lk-table lk-left">
+      <tr><td>${m('\\sin x = \\sin\\alpha')}</td><td>${m('\\Leftrightarrow x = \\alpha + k2\\pi')} hoặc ${m('x = \\pi - \\alpha + k2\\pi')}</td></tr>
+      <tr><td>${m('\\cos x = \\cos\\alpha')}</td><td>${m('\\Leftrightarrow x = \\pm\\alpha + k2\\pi')}</td></tr>
+      <tr><td>${m('\\tan x = \\tan\\alpha')}</td><td>${m('\\Leftrightarrow x = \\alpha + k\\pi')}</td></tr>
+      <tr><td>${m('\\cot x = \\cot\\alpha')}</td><td>${m('\\Leftrightarrow x = \\alpha + k\\pi')}</td></tr></table>` +
+     S(`${m('\\sin x = m')}, ${m('\\cos x = m')} chỉ có nghiệm khi ${m('-1 \\le m \\le 1')}. Luôn ghi ${m(K)}.`) +
+     note(`Ví dụ ${m('\\sin x = \\tfrac{1}{2}')}: đường thẳng ${m('y = \\tfrac{1}{2}')} cắt đường tròn tại 2 điểm ứng với ${m('\\tfrac{\\pi}{6}')} và ${m('\\tfrac{5\\pi}{6}')}.`),
+   fig: UC([[c30, .5, 'π/6', 55], [-c30, .5, '5π/6', 125]], {S:[[-1.1, .5, 1.1, .5, true]]})},
+
+  /* ---------- DẠNG 1 ---------- */
+  {kind:'method', tag:'Dạng 1', title:'Tính giá trị lượng giác khi biết một giá trị',
+   steps:[`Dùng ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')} (hoặc ${m('1 + \\tan^2\\alpha = \\tfrac{1}{\\cos^2\\alpha}')}) để tìm bình phương giá trị cần tìm.`,
+     `<b>Xét góc phần tư</b> để chọn dấu (bảng dấu ở trang Hệ thống kiến thức 1).`,
+     `Các giá trị còn lại: dùng ${m('\\tan\\alpha = \\tfrac{\\sin\\alpha}{\\cos\\alpha}')}, công thức nhân đôi, công thức cộng.`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho ${m(`\\cos\\alpha = -${f(3,5)}`)} với ${m('\\dfrac{\\pi}{2} \\lt \\alpha \\lt \\pi')}. Tính ${m('\\sin\\alpha')}, ${m('\\tan\\alpha')}, ${m('\\sin 2\\alpha')} và ${m('\\cos\\left(\\alpha - \\dfrac{\\pi}{3}\\right)')}.`,
+   sol:[`${m(`\\sin^2\\alpha = 1 - \\cos^2\\alpha = 1 - ${f(9,25)} = ${f(16,25)}`)} (hệ thức cơ bản).`,
+     `${m('\\alpha')} thuộc góc phần tư II nên ${m('\\sin\\alpha \\gt 0')}: ${m(`\\sin\\alpha = ${f(4,5)}`)}.`,
+     `${m(`\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha} = ${f(4,5)} : \\left(-${f(3,5)}\\right) = -${f(4,3)}`)}.`,
+     `Công thức nhân đôi: ${m(`\\sin 2\\alpha = 2\\sin\\alpha\\cos\\alpha = 2\\cdot${f(4,5)}\\cdot\\left(-${f(3,5)}\\right) = -${f(24,25)}`)}.`,
+     `Công thức cộng: ${m(`\\cos\\left(\\alpha - \\tfrac{\\pi}{3}\\right) = \\cos\\alpha\\cos\\tfrac{\\pi}{3} + \\sin\\alpha\\sin\\tfrac{\\pi}{3} = -${f(3,5)}\\cdot${f(1,2)} + ${f(4,5)}\\cdot${f('\\sqrt{3}',2)}`)}.`],
+   ans:`${tb(`\\sin\\alpha = ${f(4,5)}`)}; ${tb(`\\tan\\alpha = -${f(4,3)}`)}; ${tb(`\\sin 2\\alpha = -${f(24,25)}`)}; ${tb(`\\cos\\left(\\alpha - \\tfrac{\\pi}{3}\\right) = ${f('4\\sqrt{3} - 3',10)}`)}.`},
+
+  /* ---------- DẠNG 2 ---------- */
+  {kind:'method', tag:'Dạng 2', title:'Tính giá trị biểu thức, chứng minh đẳng thức lượng giác',
+   steps:[`Nhận dạng biểu thức: có tổng/hiệu hai góc? có góc gấp đôi? có tích hay tổng các sin, cos?`,
+     `Chọn công thức phù hợp: <b>cộng</b>, <b>nhân đôi – hạ bậc</b>, <b>tích ↔ tổng</b>; góc lạ thì tách thành góc đặc biệt (${m('75^\\circ = 45^\\circ + 30^\\circ')}).`,
+     `Chứng minh đẳng thức: biến đổi vế phức tạp về vế đơn giản, <b>mỗi bước ghi rõ công thức đã dùng</b>.`]},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Không dùng máy tính, tính ${m('A = \\sin 75^\\circ + \\cos 75^\\circ')}.`,
+   sol:[`Vì ${m('\\cos 75^\\circ = \\sin 15^\\circ')} (hai góc phụ nhau) nên ${m('A = \\sin 75^\\circ + \\sin 15^\\circ')}.`,
+     `Tổng thành tích: ${m('A = 2\\sin\\dfrac{75^\\circ + 15^\\circ}{2}\\cos\\dfrac{75^\\circ - 15^\\circ}{2} = 2\\sin 45^\\circ\\cos 30^\\circ')}.`,
+     `${m(`A = 2\\cdot${f('\\sqrt{2}',2)}\\cdot${f('\\sqrt{3}',2)}`)}.`], ans:`${tb(`A = ${f('\\sqrt{6}',2)}`)}.`},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Chứng minh rằng ${m('\\cos^4 x - \\sin^4 x = \\cos 2x')} với mọi ${m('x')}.`,
+   sol:[`Hằng đẳng thức ${m('a^2 - b^2 = (a - b)(a + b)')}: ${m('\\cos^4 x - \\sin^4 x = (\\cos^2 x - \\sin^2 x)(\\cos^2 x + \\sin^2 x)')}.`,
+     `Hệ thức cơ bản: ${m('\\cos^2 x + \\sin^2 x = 1')}.`, `Công thức nhân đôi: ${m('\\cos^2 x - \\sin^2 x = \\cos 2x')}.`], ans:`Vế trái bằng ${tb('\\cos 2x')} – đẳng thức được chứng minh.`},
+
+  /* ---------- DẠNG 3 ---------- */
+  {kind:'method', tag:'Dạng 3', title:'Hàm số lượng giác: tập xác định, chẵn – lẻ, chu kì, GTLN – GTNN',
+   steps:[`<b>Tập xác định:</b> ${m('\\tan u')} cần ${m('u \\ne \\tfrac{\\pi}{2} + k\\pi')}; ${m('\\cot u')} cần ${m('u \\ne k\\pi')}; mẫu khác 0; biểu thức dưới căn ${m('\\ge 0')}.`,
+     `<b>Chẵn – lẻ:</b> tập xác định đối xứng, tính ${m('f(-x)')} rồi so sánh với ${m('f(x)')}.`,
+     `<b>GTLN – GTNN:</b> biến đổi về <b>một</b> hàm ${m('\\sin')} hoặc ${m('\\cos')} (dùng nhân đôi, hạ bậc…), rồi dùng ${m('-1 \\le \\sin u, \\cos u \\le 1')}.`]},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 3', label:'Ví dụ 4', de:`Tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số ${m('y = 5 - 4\\sin x\\cos x')}.`,
+   sol:[`Công thức nhân đôi: ${m('4\\sin x\\cos x = 2\\cdot 2\\sin x\\cos x = 2\\sin 2x')}, nên ${m('y = 5 - 2\\sin 2x')}.`,
+     `Vì ${m('-1 \\le \\sin 2x \\le 1')} nên ${m('-2 \\le -2\\sin 2x \\le 2')} (nhân với số âm thì đổi chiều).`,
+     `Cộng 5: ${m('3 \\le y \\le 7')}.`,
+     `${m('y = 7')} khi ${m('\\sin 2x = -1 \\Leftrightarrow x = -\\tfrac{\\pi}{4} + k\\pi')}; ${m('y = 3')} khi ${m('\\sin 2x = 1 \\Leftrightarrow x = \\tfrac{\\pi}{4} + k\\pi')}.`],
+   ans:`GTLN ${tb('= 7')}, GTNN ${tb('= 3')}.`},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Cho hàm số ${m('y = \\tan\\left(2x - \\dfrac{\\pi}{3}\\right)')}. Tìm tập xác định và chu kì của hàm số.`,
+   sol:[`Hàm số xác định khi ${m('\\cos\\left(2x - \\tfrac{\\pi}{3}\\right) \\ne 0 \\Leftrightarrow 2x - \\tfrac{\\pi}{3} \\ne \\tfrac{\\pi}{2} + k\\pi')}.`,
+     `${m('\\Leftrightarrow 2x \\ne \\tfrac{5\\pi}{6} + k\\pi \\Leftrightarrow x \\ne \\tfrac{5\\pi}{12} + k\\tfrac{\\pi}{2}')}.`,
+     `Hàm ${m('\\tan(ax + b)')} có chu kì ${m('\\tfrac{\\pi}{|a|}')}, ở đây ${m('a = 2')}.`],
+   ans:`${tb('D = \\mathbb{R}\\setminus\\left\\{\\tfrac{5\\pi}{12} + k\\tfrac{\\pi}{2} \\mid k \\in \\mathbb{Z}\\right\\}')}; chu kì ${tb('T = \\tfrac{\\pi}{2}')}.`},
+
+  /* ---------- DẠNG 4 ---------- */
+  {kind:'method', tag:'Dạng 4', title:'Giải phương trình lượng giác và đếm nghiệm trên một đoạn',
+   steps:[`Đưa về dạng cơ bản: chuyển vế; viết số thành giá trị lượng giác của góc đặc biệt (${m('\\tfrac{\\sqrt{3}}{2} = \\sin\\tfrac{\\pi}{3}')}…).`,
+     `Nếu có hai hàm khác nhau: dùng công thức (nhân đôi, ${m('\\cos v = \\sin(\\tfrac{\\pi}{2} - v)')}) hoặc <b>đặt nhân tử chung</b> để được tích bằng 0.`,
+     `Viết công thức nghiệm, ghi ${m(K)}.`,
+     `Đếm nghiệm trên đoạn: với từng họ nghiệm, tìm các số nguyên ${m('k')} thoả mãn (hoặc đánh dấu trên đường tròn lượng giác); <b>bỏ nghiệm trùng</b>.`]},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 4', label:'Ví dụ 6', de:`Giải phương trình ${m('2\\sin\\left(x + \\dfrac{\\pi}{6}\\right) - \\sqrt{3} = 0')}.`,
+   sol:[`Chuyển vế, chia 2: ${m('\\sin\\left(x + \\tfrac{\\pi}{6}\\right) = \\tfrac{\\sqrt{3}}{2} = \\sin\\tfrac{\\pi}{3}')}.`,
+     `${m('x + \\tfrac{\\pi}{6} = \\tfrac{\\pi}{3} + k2\\pi')} hoặc ${m('x + \\tfrac{\\pi}{6} = \\pi - \\tfrac{\\pi}{3} + k2\\pi')}.`,
+     `Chuyển ${m('\\tfrac{\\pi}{6}')} sang vế phải: ${m('x = \\tfrac{\\pi}{6} + k2\\pi')} hoặc ${m('x = \\tfrac{2\\pi}{3} - \\tfrac{\\pi}{6} + k2\\pi = \\tfrac{\\pi}{2} + k2\\pi')}.`],
+   ans:`${tb('x = \\tfrac{\\pi}{6} + k2\\pi')}; ${tb('x = \\tfrac{\\pi}{2} + k2\\pi')} ${m(K)}.`},
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Giải phương trình ${m('\\sin 2x = \\cos x')} và tìm các nghiệm thuộc đoạn ${m('[0;\\ 2\\pi]')}.`,
+   sol:[`Công thức nhân đôi: ${m('2\\sin x\\cos x - \\cos x = 0 \\Leftrightarrow \\cos x(2\\sin x - 1) = 0')}.`,
+     `${m('\\cos x = 0 \\Leftrightarrow x = \\tfrac{\\pi}{2} + k\\pi')}.`,
+     `${m('\\sin x = \\tfrac{1}{2} \\Leftrightarrow x = \\tfrac{\\pi}{6} + k2\\pi')} hoặc ${m('x = \\tfrac{5\\pi}{6} + k2\\pi')}.`,
+     `Trên ${m('[0;\\ 2\\pi]')}: họ thứ nhất cho ${m('\\tfrac{\\pi}{2};\\ \\tfrac{3\\pi}{2}')}; họ thứ hai cho ${m('\\tfrac{\\pi}{6}')}; họ thứ ba cho ${m('\\tfrac{5\\pi}{6}')}.`],
+   ans:`Nghiệm thuộc đoạn: ${tb('\\tfrac{\\pi}{6};\\ \\tfrac{\\pi}{2};\\ \\tfrac{5\\pi}{6};\\ \\tfrac{3\\pi}{2}')} (4 nghiệm).`},
+
+  /* ---------- DẠNG 5 ---------- */
+  {kind:'method', tag:'Dạng 5', title:`Bài toán thực tế: mô hình ${m('h(t) = A + B\\sin(\\omega t)')}`,
+   steps:[`Giá trị lớn nhất, nhỏ nhất: dùng ${m('-1 \\le \\sin(\\omega t) \\le 1')} ⇒ ${m('A - |B| \\le h \\le A + |B|')}.`,
+     `Thời điểm ${m('h(t) = c')}: giải phương trình ${m('\\sin(\\omega t) = \\tfrac{c - A}{B}')} theo ẩn ${m('t')}.`,
+     `Chọn các giá trị ${m('t')} thuộc khoảng thời gian đề cho (thường ${m('t \\ge 0')}); trả lời bằng lời, có đơn vị.`]},
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 5', label:'Ví dụ 8', de:`Độ sâu (mét) của mực nước ở một cảng biển tại thời điểm ${m('t')} giờ (${m('0 \\le t \\le 24')}) là ${m('h(t) = 10 + 3\\sin\\dfrac{\\pi t}{6}')}. a) Tìm độ sâu lớn nhất, nhỏ nhất. b) Lần đầu tiên mực nước sâu ${m('11{,}5')} m là lúc mấy giờ? c) Trong ngày có mấy lần mực nước sâu nhất?`,
+   sol:[`a) ${m('-1 \\le \\sin\\tfrac{\\pi t}{6} \\le 1 \\Rightarrow 7 \\le h(t) \\le 13')}.`,
+     `b) ${m('10 + 3\\sin\\tfrac{\\pi t}{6} = 11{,}5 \\Leftrightarrow \\sin\\tfrac{\\pi t}{6} = \\tfrac{1}{2}')}.`,
+     `${m('\\tfrac{\\pi t}{6} = \\tfrac{\\pi}{6} + k2\\pi')} hoặc ${m('\\tfrac{\\pi t}{6} = \\tfrac{5\\pi}{6} + k2\\pi')} ⇒ ${m('t = 1 + 12k')} hoặc ${m('t = 5 + 12k')}; nhỏ nhất ${m('t = 1')}.`,
+     `c) Sâu nhất khi ${m('\\sin\\tfrac{\\pi t}{6} = 1 \\Leftrightarrow t = 3 + 12k')}; trong ${m('[0;\\ 24]')}: ${m('t = 3')} và ${m('t = 15')}.`],
+   ans:`a) Lớn nhất ${tb('13')} m, nhỏ nhất ${tb('7')} m; b) lúc ${tb('1')} giờ; c) ${tb('2')} lần (3 giờ và 15 giờ).`},
+
+  /* ---------- LUYỆN TẬP ---------- */
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho ${m(`\\sin\\alpha = ${f(5,13)}`)} với ${m('\\dfrac{\\pi}{2} \\lt \\alpha \\lt \\pi')}. Tính ${m('\\cos\\alpha')}, ${m('\\tan\\alpha')} và ${m('\\cos 2\\alpha')}.`,
+   sol:[`${m(`\\cos^2\\alpha = 1 - ${f(25,169)} = ${f(144,169)}`)}; góc phần tư II nên ${m(`\\cos\\alpha = -${f(12,13)}`)}.`, `${m(`\\tan\\alpha = ${f(5,13)} : \\left(-${f(12,13)}\\right) = -${f(5,12)}`)}.`, `${m(`\\cos 2\\alpha = 1 - 2\\sin^2\\alpha = 1 - ${f(50,169)} = ${f(119,169)}`)}.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số ${m('y = 3\\sin x + 4\\cos x - 1')}.`,
+   sol:[`${m('r = \\sqrt{3^2 + 4^2} = 5')}; ${m('3\\sin x + 4\\cos x = 5\\sin(x + \\varphi)')} với ${m('\\cos\\varphi = \\tfrac{3}{5},\\ \\sin\\varphi = \\tfrac{4}{5}')}.`, `${m('-5 \\le 5\\sin(x + \\varphi) \\le 5 \\Rightarrow -6 \\le y \\le 4')}.`, `GTLN ${m('= 4')}, GTNN ${m('= -6')}.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Phương trình ${m('\\cos 2x = \\cos x')} có bao nhiêu nghiệm thuộc đoạn ${m('[0;\\ 2\\pi]')}?`,
+   sol:[`${m('2x = \\pm x + k2\\pi \\Rightarrow x = k2\\pi')} hoặc ${m('x = k\\tfrac{2\\pi}{3}')}; họ thứ nhất nằm trong họ thứ hai.`, `Trên ${m('[0;\\ 2\\pi]')}: ${m('0;\\ \\tfrac{2\\pi}{3};\\ \\tfrac{4\\pi}{3};\\ 2\\pi')}.`, `Có <b>4 nghiệm</b>.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Xét tính chẵn, lẻ của hàm số ${m('y = \\sin x\\cos 2x')}.`,
+   sol:[`Tập xác định ${m('\\mathbb{R}')} đối xứng.`, `${m('f(-x) = \\sin(-x)\\cos(-2x) = -\\sin x\\cos 2x = -f(x)')} (sin lẻ, cos chẵn).`, `Hàm số <b>lẻ</b>.`]},
+
+  /* ---------- TỔNG KẾT ---------- */
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ và sai lầm thường gặp',
+   body:`<ul><li><b>Luôn xét góc phần tư</b> trước khi lấy dấu của ${m('\\sin, \\cos, \\tan')}.</li>
+     <li>${m('\\sin x = m')}, ${m('\\cos x = m')} vô nghiệm khi ${m('|m| \\gt 1')}.</li>
+     <li>Không chia hai vế cho biểu thức có thể bằng 0 (như ${m('\\cos x')}) – hãy <b>đặt nhân tử chung</b>.</li>
+     <li>Nghiệm luôn kèm ${m(K)}; đếm nghiệm trên đoạn thì <b>bỏ nghiệm trùng</b>.</li>
+     <li>Tìm GTLN – GTNN: đưa về <b>một</b> hàm ${m('\\sin')} hoặc ${m('\\cos')} rồi mới đánh giá.</li></ul>` +
+     box('Về nhà: làm Bài tập cuối chương I trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 11, Ôn tập chương I (3 mức độ) và phiếu 🏋️ Luyện tập.')},
+]},
+]});
+})();
+
 (() => {
 const m = tm, d = td;
 const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;

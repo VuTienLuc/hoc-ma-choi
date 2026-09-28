@@ -54,6 +54,7 @@ const BAD = /\bNaN\b|\bundefined\b|\bInfinity\b|\[object Object\]/;
 function checkTex(where, s) {
   if (typeof s !== 'string') return;
   if (BAD.test(s.replace(/<[^>]*>/g, ''))) err(where, `có "NaN/undefined/Infinity": ${s.slice(0, 140)}`);
+  if (/\$\{/.test(s)) err(where, `còn nguyên "\${…}" – chuỗi phải viết bằng dấu \` (backtick), không dùng nháy đơn/kép: ${s.slice(0, 120)}`);
   const re = /\\\(([\s\S]*?)\\\)|\\\[([\s\S]*?)\\\]/g; let mm;
   while ((mm = re.exec(s))) {
     const t = mm[1] ?? mm[2];
