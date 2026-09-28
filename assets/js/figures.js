@@ -82,6 +82,43 @@ function planeSVG(o={}){
   (o.pts||[]).forEach(([x,y,l])=>{s+=`<circle class="sv-dot" cx="${X(x)}" cy="${Y(y)}" r="4.5"/>`+(l?`<text class="sv-txt" x="${X(x)+7}" y="${Y(y)-7}" font-size="14">${l}</text>`:'')});
   return s+'</svg>';
 }
+/* Tam giác ABC bất kì vẽ theo độ dài ba cạnh a = BC, b = CA, c = AB (chỉ để lấy hình dạng).
+   o.n=['A','B','C'] tên đỉnh · o.la, o.lb, o.lc nhãn cạnh BC, CA, AB · o.gA, o.gB, o.gC nhãn góc (true = chỉ vẽ cung). */
+function triSVG(o={}){
+  const n=o.n||['A','B','C'], a=o.a||7, b=o.b||5, c=o.c||8;
+  let Ax=(c*c+a*a-b*b)/(2*a), Ay=Math.sqrt(Math.max(0,c*c-Ax*Ax));
+  const xs=[0,a,Ax], minX=Math.min(...xs), spanX=Math.max(...xs)-minX, sc=Math.min(250/spanX,150/Math.max(Ay,1e-6));
+  const W=320,H=220, ox=(W-spanX*sc)/2-minX*sc, oy=(H+Ay*sc)/2+4;
+  const P={A:[ox+Ax*sc,oy-Ay*sc],B:[ox,oy],C:[ox+a*sc,oy]}, G=[(P.A[0]+P.B[0]+P.C[0])/3,(P.A[1]+P.B[1]+P.C[1])/3];
+  const T=(x,y,s,fs=16,anc='middle')=>`<text class="sv-txt" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const out=(p,d)=>{const vx=p[0]-G[0],vy=p[1]-G[1],L=Math.hypot(vx,vy)||1;return [p[0]+vx/L*d,p[1]+vy/L*d]};
+  let s=`<svg viewBox="0 0 ${W} ${H+18}" role="img" aria-label="Tam giác ${n.join('')}"><path class="sv-ink" stroke-width="3" stroke-linejoin="round" d="M${P.A} L${P.B} L${P.C} Z"/>`;
+  const arc=(V,U1,U2,lab)=>{const r=24,a1=Math.atan2(-(U1[1]-V[1]),U1[0]-V[0]),a2=Math.atan2(-(U2[1]-V[1]),U2[0]-V[0]);let d=a2-a1;while(d<=-Math.PI)d+=2*Math.PI;while(d>Math.PI)d-=2*Math.PI;
+    const p1=[V[0]+r*Math.cos(a1),V[1]-r*Math.sin(a1)],p2=[V[0]+r*Math.cos(a1+d),V[1]-r*Math.sin(a1+d)],m=a1+d/2;
+    return `<path class="sv-tick" stroke-width="2.5" fill="none" d="M${p1} A${r} ${r} 0 0 ${d>0?0:1} ${p2}"/>`+(lab&&lab!==true?T(V[0]+(r+18)*Math.cos(m),V[1]-(r+18)*Math.sin(m),lab,14):'')};
+  if(o.gA!=null)s+=arc(P.A,P.B,P.C,o.gA); if(o.gB!=null)s+=arc(P.B,P.C,P.A,o.gB); if(o.gC!=null)s+=arc(P.C,P.A,P.B,o.gC);
+  const side=(U,V,lab)=>{if(!lab)return'';const m=[(U[0]+V[0])/2,(U[1]+V[1])/2],q=out(m,16);return T(q[0],q[1],lab,15)};
+  s+=side(P.B,P.C,o.la)+side(P.C,P.A,o.lb)+side(P.A,P.B,o.lc);
+  ['A','B','C'].forEach((k,i)=>{const q=out(P[k],16);s+=T(q[0],q[1],n[i],19)});
+  return s+'</svg>';
+}
+/* Nửa đường tròn đơn vị với điểm M ứng với góc xOM = deg (0..180). */
+function halfCircleSVG(deg,o={}){
+  const cx=160,cy=160,R=120,t=deg*Math.PI/180,Mx=cx+R*Math.cos(t),My=cy-R*Math.sin(t);
+  const T=(x,y,s,fs=15,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${anc}">${s}</text>`;
+  let s=`<svg viewBox="0 0 320 200" role="img" aria-label="Nửa đường tròn đơn vị">`;
+  s+=`<line class="sv-axis" x1="20" y1="${cy}" x2="306" y2="${cy}"/><line class="sv-axis" x1="${cx}" y1="${cy+14}" x2="${cx}" y2="16"/>`;
+  s+=`<path class="sv-axis" fill="none" d="M300 ${cy-5} L307 ${cy} L300 ${cy+5} M${cx-5} 22 L${cx} 15 L${cx+5} 22"/>`;
+  s+=`<path class="sv-ink" stroke-width="2.5" fill="none" d="M${cx-R} ${cy} A${R} ${R} 0 0 1 ${cx+R} ${cy}"/>`;
+  s+=`<line class="sv-ink" stroke-width="1.6" stroke-dasharray="5 4" x1="${Mx}" y1="${My}" x2="${Mx}" y2="${cy}"/><line class="sv-ink" stroke-width="1.6" stroke-dasharray="5 4" x1="${Mx}" y1="${My}" x2="${cx}" y2="${My}"/>`;
+  s+=`<line class="sv-ray" style="stroke-width:3" x1="${cx}" y1="${cy}" x2="${Mx}" y2="${My}"/>`;
+  const r=30,a2=t;s+=`<path class="sv-tick" stroke-width="2.5" fill="none" d="M${cx+r} ${cy} A${r} ${r} 0 0 0 ${cx+r*Math.cos(a2)} ${cy-r*Math.sin(a2)}"/>`;
+  s+=T(cx+(r+14)*Math.cos(t/2),cy-(r+14)*Math.sin(t/2)+5,o.alpha||'α',16);
+  s+=`<circle class="sv-dot" cx="${Mx}" cy="${My}" r="5"/>`+T(Mx+(deg>90?-10:10),My-10,'M',17,deg>90?'end':'start');
+  s+=T(Mx,cy+20,o.x0||'x₀',14)+T(cx+(deg>90?8:-8),My+5,o.y0||'y₀',14,deg>90?'start':'end');
+  s+=T(cx-R,cy+20,'−1',13,'middle','sv-muted')+T(cx+R,cy+20,'1',13,'middle','sv-muted')+T(cx-10,cy+18,'O',14,'middle','sv-muted')+T(cx+8,cy-R-4,'1',13,'start','sv-muted')+T(308,cy+20,'x',15)+T(cx+10,20,'y',15,'start');
+  return s+'</svg>';
+}
 function rectSVG(){return `<svg viewBox="0 0 320 200" role="img" aria-label="Hình chữ nhật ABCD"><rect class="sv-ink" stroke-width="3" x="50" y="40" width="220" height="120"/>
  <path class="sv-ink" stroke-width="2" d="M50 56 h16 v-16 M254 40 v16 h16 M270 144 h-16 v16 M66 160 v-16 h-16"/>
  <text class="sv-txt" x="30" y="36" font-size="19">A</text><text class="sv-txt" x="276" y="36" font-size="19">B</text><text class="sv-txt" x="276" y="182" font-size="19">C</text><text class="sv-txt" x="28" y="182" font-size="19">D</text></svg>`}

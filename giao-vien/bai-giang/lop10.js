@@ -1,6 +1,7 @@
 /* =====================================================================
    BÀI GIẢNG LỚP 10 – Toán, Kết nối tri thức (dành cho giáo viên trình chiếu)
    Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn
+   Chương III. Hệ thức lượng trong tam giác
    Mỗi trang chiếu: {kind, tag, title|de, body|steps|sol, fig, figAt, ans}
      kind: 'title' (mở bài) · 'kt' (kiến thức trọng tâm) · 'method' (phương pháp một dạng)
            'vd' (ví dụ: đề + lời giải từng bước) · 'lt' (luyện tập) · 'sum' (tổng kết)
@@ -233,4 +234,224 @@ Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương II. Bất p
      box('Luyện thêm: web <b>Học mà chơi</b> – Toán 10, Ôn tập chương II (3 mức độ).')},
 ]},
 ]});
+
+/* =====================================================================
+   CHƯƠNG III. HỆ THỨC LƯỢNG TRONG TAM GIÁC
+   ===================================================================== */
+{
+const DG = x => `${x}^\\circ`, H = tf(1,2), R2 = tf('\\sqrt{2}',2), R3 = tf('\\sqrt{3}',2), T3 = tf('\\sqrt{3}',3);
+const ROWS = [['\\sin\\alpha',['0',H,R2,R3,'1',R3,R2,H,'0']],['\\cos\\alpha',['1',R3,R2,H,'0','-'+H,'-'+R2,'-'+R3,'-1']],
+  ['\\tan\\alpha',['0',T3,'1','\\sqrt{3}','\\|','-\\sqrt{3}','-1','-'+T3,'0']],['\\cot\\alpha',['\\|','\\sqrt{3}','1',T3,'0','-'+T3,'-1','-\\sqrt{3}','\\|']]];
+const TABLE = `<table class="lk-table"><tr><th>${m('\\alpha')}</th>${[0,30,45,60,90,120,135,150,180].map(a => `<th>${m(DG(a))}</th>`).join('')}</tr>` +
+  ROWS.map(([f,v]) => `<tr><th>${m(f)}</th>${v.map(x => `<td>${m(x)}</td>`).join('')}</tr>`).join('') + '</table>';
+const TRI = (o) => triSVG(o);
+
+Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương III. Hệ thức lượng trong tam giác', lessons:[
+
+/* ---------------- BÀI 5 ---------------- */
+{ id:'bai-5', name:'Bài 5. Giá trị lượng giác của một góc từ 0° đến 180°', desc:'Định nghĩa trên nửa đường tròn đơn vị; dấu; hệ thức cơ bản; góc bù; bảng giá trị. 3 dạng, 7 ví dụ.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương III', title:'Bài 5. Giá trị lượng giác của một góc từ 0° đến 180°', sub:'Mục tiêu bài học', points:[
+    `Nhận biết giá trị lượng giác của góc ${m('\\alpha')} (${m('0^\\circ \\le \\alpha \\le 180^\\circ')}) qua nửa đường tròn đơn vị.`,
+    'Nắm dấu, các hệ thức cơ bản và quan hệ giữa hai góc bù nhau.',
+    'Tính giá trị lượng giác và giá trị biểu thức (không dùng máy tính).']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Định nghĩa', fig:halfCircleSVG(135),
+   body: `<p>Trên nửa đường tròn đơn vị, lấy điểm ${m('M(x_0;\\,y_0)')} sao cho ${m('\\widehat{xOM} = \\alpha')}. Khi đó:</p>` +
+     box(`${m('\\sin\\alpha = y_0')}; &nbsp;&nbsp; ${m('\\cos\\alpha = x_0')};<br>${m('\\tan\\alpha = \\dfrac{y_0}{x_0}')} ${m('(x_0 \\ne 0)')}; &nbsp;&nbsp; ${m('\\cot\\alpha = \\dfrac{x_0}{y_0}')} ${m('(y_0 \\ne 0)')}.`) +
+     note(`${m('\\tan 90^\\circ')} và ${m('\\cot 0^\\circ,\\ \\cot 180^\\circ')} <b>không xác định</b>.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Dấu và các hệ thức cơ bản',
+   body:`<p>• ${m('0^\\circ \\lt \\alpha \\lt 90^\\circ')}: cả bốn giá trị đều <b>dương</b>.</p>
+     <p>• ${m('90^\\circ \\lt \\alpha \\lt 180^\\circ')} (góc tù): ${m('\\sin\\alpha \\gt 0')}; ${m('\\cos\\alpha,\\ \\tan\\alpha,\\ \\cot\\alpha')} <b>âm</b>.</p>` +
+     box(`${m('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')}; &nbsp; ${m('\\cot\\alpha = \\dfrac{\\cos\\alpha}{\\sin\\alpha}')}; &nbsp; ${m('\\tan\\alpha\\cdot\\cot\\alpha = 1')}<br>
+       ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}; &nbsp; ${m('1 + \\tan^2\\alpha = \\dfrac{1}{\\cos^2\\alpha}')}; &nbsp; ${m('1 + \\cot^2\\alpha = \\dfrac{1}{\\sin^2\\alpha}')}`) +
+     note(`Với ${m('0^\\circ \\le \\alpha \\le 180^\\circ')} luôn có ${m('\\sin\\alpha \\ge 0')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Hai góc bù nhau. Bảng giá trị đặc biệt',
+   body: box(`${m('\\sin(180^\\circ - \\alpha) = \\sin\\alpha')}; &nbsp; ${m('\\cos(180^\\circ - \\alpha) = -\\cos\\alpha')}; &nbsp; ${m('\\tan(180^\\circ - \\alpha) = -\\tan\\alpha')}; &nbsp; ${m('\\cot(180^\\circ - \\alpha) = -\\cot\\alpha')}`) + TABLE +
+     `<p>(Kí hiệu ${m('\\|')}: không xác định.)</p>`},
+
+  {kind:'method', tag:'Dạng 1', title:'Tính giá trị lượng giác của góc đặc biệt',
+   steps:[`Góc nhọn đặc biệt (${m('30^\\circ, 45^\\circ, 60^\\circ')}): dùng bảng giá trị.`,
+     `Góc tù: viết ${m('\\alpha = 180^\\circ - \\beta')} (${m('\\beta')} nhọn) rồi dùng công thức góc bù – nhớ <b>đổi dấu</b> cos, tan, cot.`,
+     `Thay các giá trị vào biểu thức rồi tính.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Tính ${m('\\sin 120^\\circ')}, ${m('\\cos 135^\\circ')}, ${m('\\tan 150^\\circ')}.`,
+   sol:[`${m(`\\sin 120^\\circ = \\sin(180^\\circ - 60^\\circ) = \\sin 60^\\circ = ${R3}`)}.`,
+     `${m(`\\cos 135^\\circ = -\\cos 45^\\circ = -${R2}`)}.`,
+     `${m(`\\tan 150^\\circ = -\\tan 30^\\circ = -${T3}`)}.`]},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Tính giá trị biểu thức ${d('A = 2\\sin 150^\\circ + \\cos 120^\\circ - \\tan 135^\\circ')}`,
+   sol:[`${m(`\\sin 150^\\circ = ${H}`)}; ${m(`\\cos 120^\\circ = -${H}`)}; ${m('\\tan 135^\\circ = -1')}.`,
+     `${m(`A = 2\\cdot ${H} + \\left(-${H}\\right) - (-1) = 1 - ${H} + 1`)}.`],
+   ans:`${tb(`A = ${tf(3,2)}`)}.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Biết một giá trị lượng giác, tính các giá trị còn lại',
+   steps:[`Dùng ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')} (hoặc ${m('1 + \\tan^2\\alpha = \\dfrac{1}{\\cos^2\\alpha}')}) để tìm giá trị còn thiếu.`,
+     `<b>Xét dấu</b>: ${m('\\sin\\alpha \\ge 0')}; góc tù thì ${m('\\cos, \\tan, \\cot')} âm.`,
+     `Tính ${m('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')}, ${m('\\cot\\alpha = \\dfrac{1}{\\tan\\alpha}')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Cho ${m(`\\sin\\alpha = ${tf(3,5)}`)} với ${m('90^\\circ \\lt \\alpha \\lt 180^\\circ')}. Tính ${m('\\cos\\alpha,\\ \\tan\\alpha,\\ \\cot\\alpha')}.`,
+   sol:[`${m(`\\cos^2\\alpha = 1 - \\sin^2\\alpha = 1 - ${tf(9,25)} = ${tf(16,25)}`)}.`,
+     `${m('\\alpha')} là góc tù nên ${m('\\cos\\alpha \\lt 0')}: ${m(`\\cos\\alpha = -${tf(4,5)}`)}.`,
+     `${m(`\\tan\\alpha = ${tf(3,5)} : \\left(-${tf(4,5)}\\right) = -${tf(3,4)}`)}; ${m(`\\cot\\alpha = -${tf(4,3)}`)}.`],
+   ans:`${tb(`\\cos\\alpha = -${tf(4,5)},\\ \\tan\\alpha = -${tf(3,4)},\\ \\cot\\alpha = -${tf(4,3)}`)}.`},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Cho ${m(`\\cos\\alpha = -${tf(1,3)}`)} với ${m('0^\\circ \\le \\alpha \\le 180^\\circ')}. Tính ${m('\\sin\\alpha')} và ${m('\\tan\\alpha')}.`,
+   sol:[`${m(`\\sin^2\\alpha = 1 - ${tf(1,9)} = ${tf(8,9)}`)}.`,
+     `Vì ${m('\\sin\\alpha \\ge 0')} nên ${m(`\\sin\\alpha = ${tf('2\\sqrt{2}',3)}`)}.`,
+     `${m(`\\tan\\alpha = ${tf('2\\sqrt{2}',3)} : \\left(-${tf(1,3)}\\right) = -2\\sqrt{2}`)}.`],
+   ans:`${tb(`\\sin\\alpha = ${tf('2\\sqrt{2}',3)},\\ \\tan\\alpha = -2\\sqrt{2}`)}.`},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 2', label:'Ví dụ 5', de:`Cho ${m('\\tan\\alpha = -2')} với ${m('0^\\circ \\le \\alpha \\le 180^\\circ')}. Tính ${m('\\cos\\alpha')} và ${m('\\sin\\alpha')}.`,
+   sol:[`${m(`\\dfrac{1}{\\cos^2\\alpha} = 1 + \\tan^2\\alpha = 5 \;\\Rightarrow\; \\cos^2\\alpha = ${tf(1,5)}`)}.`,
+     `${m('\\tan\\alpha \\lt 0')} nên ${m('\\alpha')} tù, ${m('\\cos\\alpha \\lt 0')}: ${m(`\\cos\\alpha = -${tf(1,'\\sqrt{5}')} = -${tf('\\sqrt{5}',5)}`)}.`,
+     `${m(`\\sin\\alpha = \\tan\\alpha\\cdot\\cos\\alpha = (-2)\\cdot\\left(-${tf('\\sqrt{5}',5)}\\right) = ${tf('2\\sqrt{5}',5)}`)}.`]},
+
+  {kind:'method', tag:'Dạng 3', title:'Tính giá trị biểu thức, chứng minh đẳng thức',
+   steps:[`Ghép các cặp góc <b>bù nhau</b> (tổng ${m('180^\\circ')}) để đưa về cùng một góc.`,
+     `Dùng ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}, ${m('\\tan\\alpha\\cdot\\cot\\alpha = 1')} để rút gọn.`,
+     `Chứng minh: biến đổi vế phức tạp về vế đơn giản.`]},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Tính ${d('B = \\cos 10^\\circ + \\cos 170^\\circ + \\sin 80^\\circ - \\sin 100^\\circ')}`,
+   sol:[`${m('10^\\circ + 170^\\circ = 180^\\circ')} nên ${m('\\cos 170^\\circ = -\\cos 10^\\circ')}.`,
+     `${m('80^\\circ + 100^\\circ = 180^\\circ')} nên ${m('\\sin 100^\\circ = \\sin 80^\\circ')}.`,
+     `${m('B = \\cos 10^\\circ - \\cos 10^\\circ + \\sin 80^\\circ - \\sin 80^\\circ')}.`], ans:`${tb('B = 0')}.`},
+
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 3', label:'Ví dụ 7', de:`Chứng minh rằng với mọi góc ${m('\\alpha')} (${m('0^\\circ \\le \\alpha \\le 180^\\circ')}): ${d('(\\sin\\alpha + \\cos\\alpha)^2 = 1 + 2\\sin\\alpha\\cos\\alpha')}`,
+   sol:[`Khai triển vế trái: ${m('(\\sin\\alpha + \\cos\\alpha)^2 = \\sin^2\\alpha + 2\\sin\\alpha\\cos\\alpha + \\cos^2\\alpha')}.`,
+     `Nhóm: ${m('= (\\sin^2\\alpha + \\cos^2\\alpha) + 2\\sin\\alpha\\cos\\alpha = 1 + 2\\sin\\alpha\\cos\\alpha')} (điều phải chứng minh).`]},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Tính ${m('C = \\cos 150^\\circ + \\sin 120^\\circ + \\tan 45^\\circ')}.`,
+   sol:[`${m(`C = -${R3} + ${R3} + 1`)}.`], ans:`${tb('C = 1')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho ${m(`\\cos\\alpha = ${tf(4,5)}`)} với ${m('0^\\circ \\lt \\alpha \\lt 90^\\circ')}. Tính ${m('\\sin\\alpha')} và ${m('\\tan\\alpha')}.`,
+   sol:[`${m(`\\sin^2\\alpha = 1 - ${tf(16,25)} = ${tf(9,25)}`)}, ${m('\\sin\\alpha \\gt 0')} nên ${m(`\\sin\\alpha = ${tf(3,5)}`)}.`, `${m(`\\tan\\alpha = ${tf(3,5)} : ${tf(4,5)} = ${tf(3,4)}`)}.`]},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>${m('\\sin\\alpha = y_0,\\ \\cos\\alpha = x_0')} với ${m('M(x_0;\\,y_0)')} trên nửa đường tròn đơn vị.</li>
+     <li>Góc tù: ${m('\\sin \\gt 0')}; ${m('\\cos, \\tan, \\cot \\lt 0')}.</li>
+     <li>Góc bù: sin <b>giữ nguyên</b>; cos, tan, cot <b>đổi dấu</b>.</li>
+     <li>${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')} – nhớ xét dấu khi khai căn.</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 5 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 5.')},
+]},
+
+/* ---------------- BÀI 6 ---------------- */
+{ id:'bai-6', name:'Bài 6. Hệ thức lượng trong tam giác', desc:'Định lí côsin, định lí sin, công thức diện tích, giải tam giác; 4 dạng, 7 ví dụ, bài toán thực tế.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương III', title:'Bài 6. Hệ thức lượng trong tam giác', sub:'Mục tiêu bài học', points:[
+    'Vận dụng định lí côsin, định lí sin để tính cạnh, góc.',
+    'Tính diện tích tam giác, bán kính đường tròn ngoại tiếp, nội tiếp.',
+    'Giải tam giác và giải quyết bài toán thực tế (đo khoảng cách, diện tích).']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Định lí côsin', fig:TRI({a:7,b:5,c:8,la:'a',lb:'b',lc:'c',gA:'A'}),
+   body:`<p>Trong tam giác ${m('ABC')} với ${m('BC = a,\\ CA = b,\\ AB = c')}:</p>` +
+     box(`${m('a^2 = b^2 + c^2 - 2bc\\cos A')}<br>${m('b^2 = c^2 + a^2 - 2ca\\cos B')}<br>${m('c^2 = a^2 + b^2 - 2ab\\cos C')}`) +
+     `<p><b>Hệ quả:</b> ${m('\\cos A = \\dfrac{b^2 + c^2 - a^2}{2bc}')} (tương tự cho ${m('\\cos B, \\cos C')}).</p>` + note(`Khi ${m('A = 90^\\circ')}: định lí côsin trở thành định lí Pythagore.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Định lí sin', fig:TRI({a:6,b:7,c:8,la:'a',lb:'b',lc:'c',gA:'A',gB:'B',gC:'C'}),
+   body: box(`${d('\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C} = 2R')}trong đó ${m('R')} là bán kính đường tròn ngoại tiếp tam giác.`) +
+     `<p>Suy ra: ${m('a = 2R\\sin A')}, ${m('\\sin A = \\dfrac{a}{2R}')}, ${m('R = \\dfrac{a}{2\\sin A}')}.</p>`},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Công thức tính diện tích tam giác',
+   body: box(`${m('S = \\dfrac{1}{2}ab\\sin C = \\dfrac{1}{2}bc\\sin A = \\dfrac{1}{2}ca\\sin B')}`) +
+     `<p>• ${m('S = \\dfrac{abc}{4R}')} &nbsp;(${m('R')}: bán kính đường tròn ngoại tiếp)</p><p>• ${m('S = pr')} &nbsp;(${m('p = \\dfrac{a + b + c}{2}')}, ${m('r')}: bán kính đường tròn nội tiếp)</p>
+      <p>• Công thức Heron: ${m('S = \\sqrt{p(p - a)(p - b)(p - c)}')}</p>`},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Giải tam giác',
+   body:`<p>Giải tam giác là tìm các cạnh, các góc còn lại khi biết một số yếu tố (trong đó có ít nhất một cạnh).</p>
+     <table class="lk-table lk-left"><tr><th>Đã biết</th><th>Dùng</th></tr>
+     <tr><td>Hai cạnh và góc xen giữa</td><td>Định lí côsin (tìm cạnh thứ ba)</td></tr>
+     <tr><td>Ba cạnh</td><td>Hệ quả định lí côsin (tìm góc)</td></tr>
+     <tr><td>Một cạnh và hai góc</td><td>Tổng ba góc ${m('180^\\circ')} và định lí sin</td></tr></table>`},
+
+  {kind:'method', tag:'Dạng 1', title:'Tính cạnh, góc bằng định lí côsin',
+   steps:[`Biết hai cạnh và góc xen giữa: ${m('a^2 = b^2 + c^2 - 2bc\\cos A')}, rồi khai căn.`,
+     `Biết ba cạnh: ${m('\\cos A = \\dfrac{b^2 + c^2 - a^2}{2bc}')}, suy ra góc (bảng giá trị hoặc máy tính).`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho tam giác ${m('ABC')} có ${m('AB = 5,\\ AC = 8')} và ${m('\\widehat{A} = 60^\\circ')}. Tính ${m('BC')}.`,
+   fig:TRI({a:7,b:8,c:5,la:'?',lb:'8',lc:'5',gA:'60°'}),
+   sol:[`Theo định lí côsin: ${m('BC^2 = AB^2 + AC^2 - 2\\cdot AB\\cdot AC\\cdot\\cos A')}.`,
+     `${m(`BC^2 = 5^2 + 8^2 - 2\\cdot 5\\cdot 8\\cdot ${H} = 25 + 64 - 40 = 49`)}.`], ans:`${tb('BC = 7')}.`},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Cho tam giác ${m('ABC')} có ${m('BC = 7,\\ CA = 3,\\ AB = 5')}. Tính góc ${m('A')}.`,
+   fig:TRI({a:7,b:3,c:5,la:'7',lb:'3',lc:'5',gA:'?'}),
+   sol:[`${m(`\\cos A = \\dfrac{AB^2 + AC^2 - BC^2}{2\\cdot AB\\cdot AC} = \\dfrac{25 + 9 - 49}{2\\cdot 5\\cdot 3} = \\dfrac{-15}{30} = -${H}`)}.`,
+     `Suy ra ${m('\\widehat{A} = 120^\\circ')} (góc tù vì ${m('\\cos A \\lt 0')}).`], ans:`${tb('\\widehat{A} = 120^\\circ')}.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Vận dụng định lí sin',
+   steps:[`Biết hai góc: tính góc thứ ba ${m('C = 180^\\circ - A - B')}.`,
+     `Tính cạnh: ${m('b = \\dfrac{a\\sin B}{\\sin A}')}; tính ${m('R = \\dfrac{a}{2\\sin A}')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Cho tam giác ${m('ABC')} có ${m('BC = 6')}, ${m('\\widehat{A} = 30^\\circ')}, ${m('\\widehat{B} = 45^\\circ')}. Tính ${m('\\widehat{C}')}, cạnh ${m('AC')} và bán kính ${m('R')} của đường tròn ngoại tiếp.`,
+   sol:[`${m('\\widehat{C} = 180^\\circ - 30^\\circ - 45^\\circ = 105^\\circ')}.`,
+     `${m(`AC = \\dfrac{BC\\cdot\\sin B}{\\sin A} = \\dfrac{6\\cdot ${R2}}{${H}} = 6\\sqrt{2}`)}.`,
+     `${m(`R = \\dfrac{BC}{2\\sin A} = \\dfrac{6}{2\\cdot ${H}} = 6`)}.`],
+   ans:`${tb('\\widehat{C} = 105^\\circ,\\ AC = 6\\sqrt{2},\\ R = 6')}.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Tính diện tích, bán kính R, r',
+   steps:[`Biết hai cạnh và góc xen giữa: ${m('S = \\dfrac{1}{2}bc\\sin A')}.`, `Biết ba cạnh: công thức Heron (tính ${m('p')} trước).`,
+     `Sau khi có ${m('S')}: ${m('R = \\dfrac{abc}{4S}')}, ${m('r = \\dfrac{S}{p}')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 3', label:'Ví dụ 4', de:`Tính diện tích tam giác ${m('ABC')} có ${m('AB = 8,\\ AC = 6')} và ${m('\\widehat{A} = 30^\\circ')}.`,
+   fig:TRI({a:4.1,b:6,c:8,lb:'6',lc:'8',gA:'30°'}),
+   sol:[`${m(`S = \\dfrac{1}{2}\\cdot AB\\cdot AC\\cdot\\sin A = \\dfrac{1}{2}\\cdot 8\\cdot 6\\cdot ${H}`)}.`], ans:`${tb('S = 12')} (đơn vị diện tích).`},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Cho tam giác có ba cạnh ${m('a = 13,\\ b = 14,\\ c = 15')}. Tính diện tích ${m('S')}, bán kính ${m('R')} và ${m('r')}.`,
+   fig:TRI({a:13,b:14,c:15,la:'13',lb:'14',lc:'15'}),
+   sol:[`Nửa chu vi ${m('p = \\dfrac{13 + 14 + 15}{2} = 21')}.`,
+     `${m('S = \\sqrt{21\\cdot 8\\cdot 7\\cdot 6} = \\sqrt{7056} = 84')}.`,
+     `${m('R = \\dfrac{abc}{4S} = \\dfrac{13\\cdot 14\\cdot 15}{4\\cdot 84} = \\dfrac{65}{8}')}; &nbsp; ${m('r = \\dfrac{S}{p} = \\dfrac{84}{21} = 4')}.`],
+   ans:`${tb(`S = 84,\\ R = ${tf(65,8)},\\ r = 4`)}.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Bài toán thực tế',
+   steps:[`Vẽ hình, xác định tam giác chứa đại lượng cần tìm.`, `Ghi các yếu tố đã biết (cạnh, góc) lên hình.`,
+     `Chọn công thức phù hợp (côsin, sin, diện tích) rồi tính; trả lời có đơn vị.`]},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 4', label:'Ví dụ 6', fig:TRI({a:140,b:60,c:100,la:'?',lb:'60 m',lc:'100 m',gA:'120°'}),
+   de:`Hai điểm ${m('B, C')} ở hai bên bờ hồ. Chọn điểm ${m('A')} với ${m('AB = 100')} m, ${m('AC = 60')} m, ${m('\\widehat{BAC} = 120^\\circ')}. Tính ${m('BC')}.`,
+   sol:[`Biết hai cạnh và góc xen giữa: dùng định lí côsin.`,
+     `${m(`BC^2 = 100^2 + 60^2 - 2\\cdot 100\\cdot 60\\cdot\\left(-${H}\\right)`)}`,
+     `${m('BC^2 = 10000 + 3600 + 6000 = 19600')}.`], ans:`${tb('BC = 140')} m.`},
+
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', fig:TRI({a:48.4,b:20,c:30,lb:'20 m',lc:'30 m',gA:'150°'}),
+   de:`Một mảnh đất hình tam giác có hai cạnh dài ${m('20')} m và ${m('30')} m, góc xen giữa hai cạnh đó bằng ${m('150^\\circ')}. Tính diện tích mảnh đất.`,
+   sol:[`${m('S = \\dfrac{1}{2}\\cdot 20\\cdot 30\\cdot\\sin 150^\\circ')}; ${m(`\\sin 150^\\circ = \\sin 30^\\circ = ${H}`)}.`,
+     `${m(`S = \\dfrac{1}{2}\\cdot 600\\cdot ${H} = 150`)}.`], ans:`${tb('S = 150')} m².`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho tam giác ${m('ABC')} có ${m('AB = 8,\\ AC = 3,\\ \\widehat{A} = 60^\\circ')}. Tính ${m('BC')}.`,
+   sol:[`${m(`BC^2 = 64 + 9 - 2\\cdot 8\\cdot 3\\cdot ${H} = 49`)}.`], ans:`${tb('BC = 7')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Tính diện tích tam giác có ba cạnh ${m('5,\\ 5,\\ 6')}.`,
+   sol:[`${m('p = 8')}; ${m('S = \\sqrt{8\\cdot 3\\cdot 3\\cdot 2} = \\sqrt{144}')}.`], ans:`${tb('S = 12')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>Định lí côsin: ${m('a^2 = b^2 + c^2 - 2bc\\cos A')}; hệ quả tính ${m('\\cos A')}.</li>
+     <li>Định lí sin: ${m('\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C} = 2R')}.</li>
+     <li>Diện tích: ${m('\\dfrac{1}{2}bc\\sin A')}, ${m('\\dfrac{abc}{4R}')}, ${m('pr')}, Heron.</li>
+     <li>Bài toán thực tế: vẽ hình → ghi dữ kiện → chọn công thức.</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 6 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 6.')},
+]},
+
+/* ---------------- ÔN TẬP CHƯƠNG III ---------------- */
+{ id:'on-tap-c3', name:'Ôn tập chương III', desc:'Sơ đồ kiến thức; ví dụ giải tam giác trọn vẹn; luyện tập tổng hợp.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức', title:'Ôn tập chương III', sub:'Hệ thức lượng trong tam giác', points:['Hệ thống kiến thức Bài 5, Bài 6.','Giải một tam giác trọn vẹn: cạnh, góc, diện tích, bán kính.']},
+  {kind:'sum', tag:'Hệ thống kiến thức', title:'Sơ đồ ghi nhớ',
+   body:`<ol class="lk-steps"><li><b>Giá trị lượng giác</b> ${m('0^\\circ \\to 180^\\circ')}: nửa đường tròn đơn vị; góc bù (sin giữ nguyên, còn lại đổi dấu); ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}.</li>
+     <li><b>Định lí côsin</b>: tìm cạnh khi biết hai cạnh và góc xen giữa; tìm góc khi biết ba cạnh.</li>
+     <li><b>Định lí sin</b>: tìm cạnh khi biết hai góc; tìm ${m('R')}.</li>
+     <li><b>Diện tích</b>: ${m('\\dfrac{1}{2}bc\\sin A')}, Heron, ${m('\\dfrac{abc}{4R}')}, ${m('pr')}.</li></ol>`},
+  {kind:'vd', tag:'Ví dụ tổng hợp', label:'Ví dụ', fig:TRI({a:7,b:5,c:8,la:'?',lb:'5',lc:'8',gA:'60°'}),
+   de:`Cho tam giác ${m('ABC')} có ${m('AB = 8,\\ AC = 5,\\ \\widehat{A} = 60^\\circ')}. Tính ${m('BC')}, diện tích ${m('S')} và bán kính ${m('R')} của đường tròn ngoại tiếp.`,
+   sol:[`${m(`BC^2 = 64 + 25 - 2\\cdot 8\\cdot 5\\cdot ${H} = 49`)} ⇒ ${m('BC = 7')}.`,
+     `${m(`S = \\dfrac{1}{2}\\cdot 8\\cdot 5\\cdot\\sin 60^\\circ = 20\\cdot ${R3} = 10\\sqrt{3}`)}.`,
+     `${m(`R = \\dfrac{BC}{2\\sin A} = \\dfrac{7}{2\\cdot ${R3}} = \\dfrac{7}{\\sqrt{3}} = \\dfrac{7\\sqrt{3}}{3}`)}.`],
+   ans:`${tb(`BC = 7,\\ S = 10\\sqrt{3},\\ R = ${tf('7\\sqrt{3}',3)}`)}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Tính ${m('\\sin 135^\\circ + \\cos 135^\\circ + \\tan 120^\\circ\\cdot\\cot 120^\\circ')}.`,
+   sol:[`${m(`${R2} - ${R2} + 1`)} (vì ${m('\\tan\\alpha\\cdot\\cot\\alpha = 1')}).`], ans:`${tb('1')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Tam giác có ba cạnh ${m('6,\\ 8,\\ 11')} là tam giác nhọn, vuông hay tù?`,
+   sol:[`Cạnh lớn nhất là 11: ${m('6^2 + 8^2 - 11^2 = 100 - 121 = -21 \\lt 0')}.`, `Góc đối diện cạnh 11 có cosin âm nên là góc tù.`], ans:`Tam giác <b>tù</b>.`},
+  {kind:'sum', tag:'Tổng kết', title:'Chuẩn bị kiểm tra',
+   body:`<ul><li>Thuộc bảng giá trị đặc biệt và công thức góc bù.</li><li>Nhận biết khi nào dùng định lí côsin, khi nào dùng định lí sin.</li><li>Bài toán thực tế: luôn vẽ hình và ghi đơn vị.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 10, Ôn tập chương III (3 mức độ).')},
+]},
+]});
+}
 })();

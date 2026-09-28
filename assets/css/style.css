@@ -334,7 +334,7 @@ body.noscroll{overflow:hidden}
   --ok-soft:var(--pv-dok);--bad-soft:var(--pv-dbad);--warn-soft:var(--pv-dwarn)}
 .pv-slide{flex:1 1 0;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:.45em;padding:.6vh 1.2vw 0;font-size:var(--fs,48px);line-height:1.28}
 .pv-q{font-weight:600} .pv-n{color:var(--primary);font-weight:800}
-.pv .mxd{font-size:1em;margin:.15em 0} .pv .big{font-size:1.15em} .pv .pill{font-size:.6em}
+.pv .mxd{font-size:1em;margin:.15em 0;overflow:visible} .pv .big{font-size:1.15em} .pv .pill{font-size:.6em}
 .pv-expr{margin-top:.2em}
 .pv-main{flex:1 1 0;min-height:0;display:flex;flex-direction:column;gap:.5em}
 .pv-slide.has-fig .pv-main{flex-direction:row;align-items:stretch}
@@ -400,3 +400,7 @@ body.noscroll{overflow:hidden}
 .lk-go{position:absolute;right:14px;top:8px}
 @media print{.top,.toolbar,.userbar,.lk-go,.foot,.pill{display:none!important}.lk-page{box-shadow:none;break-inside:avoid;border-width:1px}body{background:var(--pv-bg)}}
 @media (max-width:700px){.lk-main.has-fig{flex-direction:column}.lk-fig{flex:0 0 38%}}
+
+.lk-table{border-collapse:collapse;margin:.3em 0;font-size:.78em}
+.lk-table th,.lk-table td{border:max(1.5px,.04em) solid var(--line);padding:.12em .35em;text-align:center}
+.lk-table th{background:var(--primary-soft)} .lk-table.lk-left td,.lk-table.lk-left th{text-align:left}

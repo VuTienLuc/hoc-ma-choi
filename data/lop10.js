@@ -2,13 +2,14 @@
    DỮ LIỆU LỚP 10 – Toán, Kết nối tri thức
    Chương I. Mệnh đề và tập hợp (Bài 1 Mệnh đề · Bài 2 Tập hợp và các phép toán trên tập hợp)
    Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn (Bài 3 · Bài 4)
+   Chương III. Hệ thức lượng trong tam giác (Bài 5 · Bài 6)
    Mỗi dạng bài: lv => câu hỏi. Chọn đáp án trước rồi mới dựng đề.
    Công thức viết LaTeX: tm() trong dòng, td() riêng dòng, tb() đáp án đậm (xem core.js).
    ===================================================================== */
 (() => {
 const G = App.addGrade({
   id: 'lop10', name: 'Lớp 10', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Mệnh đề và tập hợp'}, {id:2, hk:1, name:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn'} ],
+  topics: [ {id:1, hk:1, name:'Mệnh đề và tập hợp'}, {id:2, hk:1, name:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn'}, {id:3, hk:1, name:'Hệ thức lượng trong tam giác'} ],
 });
 const lesson = G.lesson;
 
@@ -465,4 +466,195 @@ const g4e = lv => {   // bài toán tối ưu thực tế
 lesson(2,'bat-phuong-trinh-hai-an','Bài 3. Bất phương trình bậc nhất hai ẩn','Nhận biết; nghiệm của bất phương trình; miền nghiệm trên mặt phẳng toạ độ; bài toán thực tế.',[g3a,g3b,g3c,g3d]);
 lesson(2,'he-bat-phuong-trinh-hai-an','Bài 4. Hệ bất phương trình bậc nhất hai ẩn','Nhận biết hệ; nghiệm của hệ; miền nghiệm (hình); giá trị lớn nhất, nhỏ nhất của F = ax + by; bài toán tối ưu.',[g4a,g4b,g4c,g4d,g4e]);
 lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: nghiệm và miền nghiệm của bất phương trình, hệ bất phương trình; bài toán tối ưu.',[g3b,g3c,g4b,g4c,g4d,g4e]);
+
+/* =====================================================================
+   CHƯƠNG III – HỆ THỨC LƯỢNG TRONG TAM GIÁC (Bài 5 · Bài 6)
+   Viết trong khối { } để tên hằng không trùng với các chương trước.
+   ===================================================================== */
+{
+const DG = d => `${d}^\\circ`;
+const H = tf(1,2), R2 = tf('\\sqrt{2}',2), R3 = tf('\\sqrt{3}',2), T3 = tf('\\sqrt{3}',3), S3 = '\\sqrt{3}';
+const neg = v => v === '0' ? '0' : '-' + v;
+const VAL = {                                   // giá trị lượng giác (LaTeX); null = không xác định
+  sin:{0:'0',30:H,45:R2,60:R3,90:'1',120:R3,135:R2,150:H,180:'0'},
+  cos:{0:'1',30:R3,45:R2,60:H,90:'0',120:neg(H),135:neg(R2),150:neg(R3),180:'-1'},
+  tan:{0:'0',30:T3,45:'1',60:S3,90:null,120:neg(S3),135:'-1',150:neg(T3),180:'0'},
+  cot:{0:null,30:S3,45:'1',60:T3,90:'0',120:neg(T3),135:'-1',150:neg(S3),180:null},
+};
+const NUM = {sin:d=>Math.sin(d*Math.PI/180), cos:d=>Math.cos(d*Math.PI/180)};
+const POOLV = ['0','1','-1',H,neg(H),R2,neg(R2),R3,neg(R3),S3,neg(S3),T3,neg(T3)];
+const blank = v => `<span class="eq">${tm(`${v} =`)} [_]</span>`;
+const fblank = v => `<span class="eq">${tm(`${v} =`)} [F]</span>`;
+const TABLE = `${tm(`\\sin(180^\\circ - \\alpha) = \\sin\\alpha`)}, ${tm(`\\cos(180^\\circ - \\alpha) = -\\cos\\alpha`)}, ${tm(`\\tan(180^\\circ - \\alpha) = -\\tan\\alpha`)}, ${tm(`\\cot(180^\\circ - \\alpha) = -\\cot\\alpha`)}`;
+const TRIP = [[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29]];
+
+/* ---------------- BÀI 5. Giá trị lượng giác của một góc từ 0° đến 180° ---------------- */
+const g5a = lv => {   // giá trị lượng giác của góc đặc biệt
+  const hint = `Dùng bảng giá trị của ${tm('0^\\circ, 30^\\circ, 45^\\circ, 60^\\circ, 90^\\circ')} và công thức góc bù: ${TABLE}.`;
+  if(lv < 3){ let f, d; do{ f = pick(['sin','cos','tan','cot']); d = pick(lv===1 ? [0,30,45,60,90] : [120,135,150,180]); }while(VAL[f][d] == null);
+    const good = VAL[f][d], opp = good.startsWith('-') ? good.slice(1) : neg(good);
+    const others = [...new Set([opp, ...shuffle(POOLV)])].filter(v => v !== good).slice(0,3);
+    return QC({text:`${tm(`\\${f} ${DG(d)}`)} bằng`, opts:[good,...others].map(tm), ans:tm(good), hint,
+      sol:(d > 90 ? `${tm(`\\${f} ${DG(d)} = ${f==='sin'?'':'-'}\\${f} ${DG(180-d)}`)} ${tm('=')} ` : `Theo bảng giá trị: ${tm(`\\${f} ${DG(d)} =`)} `) + `${tb(good)}.`}); }
+  const bad = pick([['tan',90],['cot',0],['cot',180]]), goods = shuffle([['sin',90],['cos',90],['tan',0],['cot',90],['tan',180],['sin',180],['cos',0]]).slice(0,3);
+  const S = ([f,d]) => `\\${f} ${DG(d)}`;
+  return QC({text:'Giá trị lượng giác nào sau đây <b>không xác định</b>?', opts:[bad,...goods].map(x => tm(S(x))), ans:tm(S(bad)),
+    hint:`${tm('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')} chỉ xác định khi ${tm('\\cos\\alpha \\ne 0')}; ${tm('\\cot\\alpha = \\dfrac{\\cos\\alpha}{\\sin\\alpha}')} chỉ xác định khi ${tm('\\sin\\alpha \\ne 0')}.`,
+    sol:`${tm(S(bad))}: ${bad[0]==='tan' ? tm('\\cos 90^\\circ = 0') : tm(`\\sin ${DG(bad[1])} = 0`)} nên ${tb(S(bad))} không xác định.`});
+};
+const g5b = lv => {   // hai góc bù nhau
+  let a; do{ a = R(10,80) }while(a === 45);
+  if(lv === 1){ const f = pick(['sin','cos','tan','cot']), sgn = f === 'sin' ? '' : '-';
+    return QB({text:'Điền số thích hợp vào ô trống:', tpl:`<span class="eq">${tm(`\\${f} ${DG(180-a)} = ${sgn}\\${f}`)} [_]°</span>`, ans:[a],
+      hint:`Hai góc bù nhau có tổng ${tm('180^\\circ')}. ${TABLE}.`, sol:`${tm(`\\${f} ${DG(180-a)} = \\${f}(180^\\circ - ${DG(a)}) = ${sgn}\\${f} ${DG(a)}`)}. Số cần điền: ${tb(a)}.`}); }
+  if(lv === 2){ const b = 180 - a;
+    const T = [`\\sin ${DG(b)} = \\sin ${DG(a)}`, `\\cos ${DG(b)} = -\\cos ${DG(a)}`, `\\tan ${DG(b)} = -\\tan ${DG(a)}`, `\\cot ${DG(b)} = -\\cot ${DG(a)}`];
+    const F = [`\\sin ${DG(b)} = -\\sin ${DG(a)}`, `\\cos ${DG(b)} = \\cos ${DG(a)}`, `\\tan ${DG(b)} = \\tan ${DG(a)}`, `\\cot ${DG(b)} = \\cot ${DG(a)}`, `\\sin ${DG(b)} = \\cos ${DG(a)}`];
+    const good = pick(T);
+    return QC({text:'Khẳng định nào sau đây <b>đúng</b>?', opts:[good,...shuffle(F).slice(0,3)].map(tm), ans:tm(good), hint:TABLE + '.',
+      sol:`${tm(`${DG(a)} + ${DG(b)} = 180^\\circ`)} (hai góc bù nhau) nên ${tb(good)}.`}); }
+  let b, c; do{ b = R(10,80); c = R(10,80) }while(new Set([a,b,c]).size < 3 || b === 45 || c === 45);
+  const k = [R(1,3),R(1,3),R(1,3)], s = [1,pick([1,-1]),pick([1,-1])];
+  const T = [[tf(`\\sin ${DG(180-a)}`,`\\sin ${DG(a)}`), 1], [tf(`\\cos ${DG(180-b)}`,`\\cos ${DG(b)}`), -1], [tf(`\\tan ${DG(c)}`,`\\tan ${DG(180-c)}`), -1]];
+  const v = T.reduce((t,[,x],i) => t + s[i]*k[i]*x, 0);
+  const E = T.map(([e],i) => (i ? (s[i]<0?' - ':' + ') : '') + (k[i]>1 ? `${k[i]}\\cdot` : '') + e).join('');
+  const E2 = T.map(([,x],i) => (i ? (s[i]<0?' - ':' + ') : '') + (k[i]>1 ? `${k[i]}\\cdot` : '') + tp(x)).join('');
+  return QB({text:`Tính giá trị biểu thức (không dùng máy tính): ${td(`E = ${E}`)}`, tpl:blank('E'), ans:[v], hint:TABLE + '.',
+    sol:`${tm(`\\sin ${DG(180-a)} = \\sin ${DG(a)}`)}; ${tm(`\\cos ${DG(180-b)} = -\\cos ${DG(b)}`)}; ${tm(`\\tan ${DG(180-c)} = -\\tan ${DG(c)}`)}. Các phân số lần lượt bằng ${tm('1,\\ -1,\\ -1')}. ${tm(`E = ${E2} =`)} ${tb(v)}.`});
+};
+const g5c = lv => {   // dấu và tính giá trị khi biết một giá trị
+  if(lv === 1){ const T = ['\\sin\\alpha \\gt 0','\\cos\\alpha \\lt 0','\\tan\\alpha \\lt 0','\\cot\\alpha \\lt 0'], F = ['\\sin\\alpha \\lt 0','\\cos\\alpha \\gt 0','\\tan\\alpha \\gt 0','\\cot\\alpha \\gt 0'];
+    const good = pick(T);
+    return QC({text:`Cho ${tm('\\alpha')} là góc tù (${tm('90^\\circ \\lt \\alpha \\lt 180^\\circ')}). Khẳng định nào sau đây đúng?`, opts:[good,...shuffle(F).slice(0,3)].map(tm), ans:tm(good),
+      hint:`Điểm ${tm('M(x_0;\\,y_0)')} trên nửa đường tròn đơn vị với góc tù có hoành độ âm, tung độ dương: ${tm('\\sin\\alpha = y_0,\\ \\cos\\alpha = x_0')}.`,
+      sol:`Với góc tù: ${tm('\\sin\\alpha \\gt 0')}, ${tm('\\cos\\alpha \\lt 0')} nên ${tm('\\tan\\alpha \\lt 0')}, ${tm('\\cot\\alpha \\lt 0')}. Đáp án: ${tb(good)}.`}); }
+  const [p,q,h] = pick(TRIP), sw = Math.random() < .5, o = sw ? p : q, a = sw ? q : p;   // sin = o/h, |cos| = a/h
+  if(lv === 2){ const givenSin = Math.random() < .5;
+    return givenSin
+      ? QB({text:`Cho ${tm(`\\sin\\alpha = ${tf(o,h)}`)} với ${tm('90^\\circ \\lt \\alpha \\lt 180^\\circ')}. Tính ${tm('\\cos\\alpha')}.`, tpl:fblank('\\cos\\alpha'), ans:[{frac:[-a,h],mode:'eq'}],
+          hint:`Dùng ${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')}; góc tù nên ${tm('\\cos\\alpha \\lt 0')}.`,
+          sol:`${tm(`\\cos^2\\alpha = 1 - ${tf(o*o,h*h)} = ${tf(a*a,h*h)}`)}; vì ${tm('\\alpha')} tù nên ${tm(`\\cos\\alpha = `)}${tb(`-${tf(a,h)}`)}.`})
+      : QB({text:`Cho ${tm(`\\cos\\alpha = -${tf(a,h)}`)} với ${tm('0^\\circ \\le \\alpha \\le 180^\\circ')}. Tính ${tm('\\sin\\alpha')}.`, tpl:fblank('\\sin\\alpha'), ans:[{frac:[o,h],mode:'eq'}],
+          hint:`Dùng ${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')}; với ${tm('0^\\circ \\le \\alpha \\le 180^\\circ')} thì ${tm('\\sin\\alpha \\ge 0')}.`,
+          sol:`${tm(`\\sin^2\\alpha = 1 - ${tf(a*a,h*h)} = ${tf(o*o,h*h)}`)}; vì ${tm('\\sin\\alpha \\ge 0')} nên ${tm('\\sin\\alpha = ')}${tb(tf(o,h))}.`}); }
+  const askTan = Math.random() < .5;
+  return askTan
+    ? QB({text:`Cho ${tm(`\\cos\\alpha = -${tf(a,h)}`)} với ${tm('0^\\circ \\le \\alpha \\le 180^\\circ')}. Tính ${tm('\\tan\\alpha')}.`, tpl:fblank('\\tan\\alpha'), ans:[{frac:[-o,a],mode:'eq'}],
+        hint:`Tính ${tm('\\sin\\alpha')} từ ${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')} (chú ý ${tm('\\sin\\alpha \\ge 0')}), rồi ${tm('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')}.`,
+        sol:`${tm(`\\sin\\alpha = \\sqrt{1 - ${tf(a*a,h*h)}} = ${tf(o,h)}`)}; ${tm(`\\tan\\alpha = ${tf(o,h)} : \\left(-${tf(a,h)}\\right) = `)}${tb(`-${tf(o,a)}`)}.`})
+    : QB({text:`Cho ${tm(`\\tan\\alpha = -${tf(o,a)}`)} với ${tm('0^\\circ \\le \\alpha \\le 180^\\circ')}. Tính ${tm('\\cos\\alpha')}.`, tpl:fblank('\\cos\\alpha'), ans:[{frac:[-a,h],mode:'eq'}],
+        hint:`${tm('\\tan\\alpha \\lt 0')} nên ${tm('\\alpha')} tù, ${tm('\\cos\\alpha \\lt 0')}. Dùng ${tm('1 + \\tan^2\\alpha = \\dfrac{1}{\\cos^2\\alpha}')}.`,
+        sol:`${tm(`\\dfrac{1}{\\cos^2\\alpha} = 1 + ${tf(o*o,a*a)} = ${tf(h*h,a*a)}${'\\;\\Rightarrow\\;'}\\cos^2\\alpha = ${tf(a*a,h*h)}`)}; ${tm('\\alpha')} tù nên ${tm('\\cos\\alpha = ')}${tb(`-${tf(a,h)}`)}.`});
+};
+const TERMS5 = [['2\\sin 150^\\circ',`2\\cdot${H}`,1],['2\\cos 120^\\circ',`2\\cdot\\left(${neg(H)}\\right)`,-1],['\\tan 135^\\circ','-1',-1],['\\cot 135^\\circ','-1',-1],
+  ['4\\sin^2 120^\\circ',`4\\cdot\\left(${R3}\\right)^2`,3],['2\\cos^2 135^\\circ',`2\\cdot\\left(${neg(R2)}\\right)^2`,1],[`${S3}\\tan 150^\\circ`,`${S3}\\cdot\\left(${neg(T3)}\\right)`,-1],
+  [`${S3}\\cot 150^\\circ`,`${S3}\\cdot(${neg(S3)})`,-3],['\\cos 180^\\circ','-1',-1],['\\sin 90^\\circ','1',1],['\\cos 0^\\circ','1',1],['2\\sin 30^\\circ',`2\\cdot${H}`,1],['\\tan 45^\\circ','1',1],['4\\cos^2 150^\\circ',`4\\cdot\\left(${neg(R3)}\\right)^2`,3]];
+const g5d = lv => {   // tính giá trị biểu thức
+  const n = lv === 1 ? 2 : 3, pool = lv === 1 ? TERMS5.filter(t => !/\^2|\\sqrt/.test(t[0])) : TERMS5;
+  const T = shuffle(pool).slice(0,n), s = [1, pick([1,-1]), pick([1,-1])], v = T.reduce((t,x,i) => t + s[i]*x[2], 0);
+  const J = f => T.map((x,i) => (i ? (s[i]<0?' - ':' + ') : '') + f(x)).join('');
+  return QB({text:`Tính giá trị biểu thức (không dùng máy tính): ${td(`E = ${J(x => x[0])}`)}`, tpl:blank('E'), ans:[v],
+    hint:`Thay giá trị lượng giác của từng góc (dùng bảng giá trị đặc biệt và góc bù). Chú ý ${tm('\\sin^2\\alpha = (\\sin\\alpha)^2')}.`,
+    sol:`${tm(`E = ${J(x => x[1].startsWith('-') ? `(${x[1]})` : x[1])} = ${J(x => tp(x[2]))} =`)} ${tb(v)}.`});
+};
+
+/* ---------------- BÀI 6. Hệ thức lượng trong tam giác ---------------- */
+const isSqN = n => n > 0 && Number.isInteger(Math.sqrt(n));
+const pairs = (A, lo=2, hi=16) => { const out = []; for(let b = lo; b <= hi; b++) for(let c = lo; c <= hi; c++){ if(b === c) continue;
+  const a2 = A === 60 ? b*b + c*c - b*c : A === 120 ? b*b + c*c + b*c : b*b + c*c; if(isSqN(a2) && (A !== 90 || true)) out.push([b,c,Math.sqrt(a2)]); } return out; };
+const P60 = pairs(60), P120 = pairs(120), P90 = pairs(90);
+const COS = {60:'\\dfrac{1}{2}', 120:'-\\dfrac{1}{2}', 90:'0'};
+const lawA = (b,c,A) => A === 60 ? `${b}^2 + ${c}^2 - 2\\cdot ${b}\\cdot ${c}\\cdot ${COS[60]}` : A === 120 ? `${b}^2 + ${c}^2 - 2\\cdot ${b}\\cdot ${c}\\cdot\\left(${COS[120]}\\right)` : `${b}^2 + ${c}^2`;
+const COSLAW = `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}`;
+const g6a = lv => {   // định lí côsin: tính cạnh
+  if(lv < 3){ const A = lv === 1 ? pick([60,90]) : 120, [b,c,a] = pick(A===60?P60:A===120?P120:P90);
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)}, ${tm(`AC = ${b}`)} và ${tm(`\\widehat{A} = ${DG(A)}`)}. Tính độ dài cạnh ${tm('BC')}.`,
+      fig:triSVG({a,b,c,la:'?',lb:String(b),lc:String(c),gA:`${A}°`}), tpl:blank('BC'), ans:[a], hint:`Dùng định lí côsin: ${COSLAW}.`,
+      sol:`${tm(`BC^2 = ${lawA(b,c,A)} = ${a*a}`)}, nên ${tm('BC = ')}${tb(a)}.`}); }
+  // cos A cho dạng phân số
+  let b,c,p,q,a2; const CS = [[1,3],[1,4],[-1,4],[2,3],[-1,3],[1,5],[-1,5],[3,4]];
+  do{ b = R(2,15); c = R(2,15); [p,q] = pick(CS); a2 = b*b + c*c - 2*b*c*p/q; }while(!Number.isInteger(a2) || !isSqN(a2) || b === c);
+  const a = Math.sqrt(a2), cA = p < 0 ? `-${tf(-p,q)}` : tf(p,q);
+  return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)}, ${tm(`AC = ${b}`)} và ${tm(`\\cos A = ${cA}`)}. Tính ${tm('BC')}.`, fig:triSVG({a,b,c,la:'?',lb:String(b),lc:String(c),gA:true}),
+    tpl:blank('BC'), ans:[a], hint:`Dùng định lí côsin ${COSLAW} với giá trị ${tm('\\cos A')} đã cho.`,
+    sol:`${tm(`BC^2 = ${b}^2 + ${c}^2 - 2\\cdot ${b}\\cdot ${c}\\cdot\\left(${cA}\\right) = ${b*b+c*c} ${p<0?'+':'-'} ${Math.abs(2*b*c*p/q)} = ${a2}`)}, nên ${tm('BC = ')}${tb(a)}.`});
+};
+const g6b = lv => {   // tính góc, nhận dạng tam giác
+  const CF = tm('\\cos A = \\dfrac{b^2 + c^2 - a^2}{2bc}');
+  if(lv === 1){ let a,b,c; do{ a = R(3,12); b = R(3,12); c = R(3,12); }while(a >= b+c || b >= a+c || c >= a+b || (b*b+c*c-a*a) === 0);
+    const num = b*b + c*c - a*a, den = 2*b*c;
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC = ${a},\\ CA = ${b},\\ AB = ${c}`)}. Tính ${tm('\\cos A')}.`, fig:triSVG({a,b,c,la:String(a),lb:String(b),lc:String(c),gA:'?'}),
+      tpl:fblank('\\cos A'), ans:[{frac:[num,den],mode:'eq'}], hint:`Hệ quả của định lí côsin: ${CF}.`,
+      sol:`${tm(`\\cos A = \\dfrac{${b}^2 + ${c}^2 - ${a}^2}{2\\cdot ${b}\\cdot ${c}} = ${tf(num,den)} = `)}${tb(tfrac(num,den))}.`}); }
+  if(lv === 2){ const A = pick([60,120,90]), [b,c,a] = pick(A===60?P60:A===120?P120:P90);
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC = ${a},\\ CA = ${b},\\ AB = ${c}`)}. Tính số đo góc ${tm('A')}.`, fig:triSVG({a,b,c,la:String(a),lb:String(b),lc:String(c),gA:'?'}),
+      tpl:`<span class="eq">${tm('\\widehat{A} =')} [_]°</span>`, ans:[A], hint:`Tính ${CF} rồi suy ra góc.`,
+      sol:`${tm(`\\cos A = \\dfrac{${b*b} + ${c*c} - ${a*a}}{2\\cdot ${b}\\cdot ${c}} = ${tfrac(b*b+c*c-a*a,2*b*c)}`)}, nên ${tb(`\\widehat{A} = ${DG(A)}`)}.`}); }
+  const K = ['Tam giác nhọn','Tam giác vuông','Tam giác tù'];
+  let a,b,c,t; do{ const s = [R(3,15),R(3,15),R(3,15)].sort((x,y) => x-y); [c,b,a] = s; t = pick([0,1,2]); if(t===1){ const [p,q,h] = pick(TRIP); const k = R(1,2); [c,b,a] = [p*k,q*k,h*k]; } }
+  while(a >= b+c || (t!==1 && Math.sign(b*b+c*c-a*a) !== (t===0?1:-1)));
+  const d = b*b + c*c - a*a, ans = d > 0 ? 0 : d === 0 ? 1 : 2;
+  return QC({text:`Tam giác có độ dài ba cạnh ${tm(`${c},\\ ${b},\\ ${a}`)} là`, opts:K, ans:K[ans], keepOrder:true,
+    hint:`Góc lớn nhất đối diện cạnh lớn nhất ${tm('a')}. Xét dấu ${tm('b^2 + c^2 - a^2')} (dấu của ${tm('\\cos A')}): dương → nhọn, bằng 0 → vuông, âm → tù.`,
+    sol:`Cạnh lớn nhất là ${tm(a)}: ${tm(`${b}^2 + ${c}^2 - ${a}^2 = ${d}`)} ${d>0?'> 0':d===0?'= 0':'< 0'} nên góc lớn nhất ${d>0?'nhọn':d===0?'vuông':'tù'}. Đó là <b>${K[ans].toLowerCase()}</b>.`});
+};
+// Định lí sin: các cặp góc cho kết quả đẹp. k: hệ số, r: căn (1 = số nguyên), d: mẫu cần chia hết
+const SINE = [ {A:30,B:45, f:a=>[a,2], s:'a\\sqrt{2}'}, {A:30,B:60, f:a=>[a,3]}, {A:45,B:30, f:a=>[a/2,2], even:true}, {A:60,B:30, f:a=>[a/3,3], m3:true},
+  {A:30,B:90, f:a=>[2*a,1]}, {A:45,B:60, f:a=>[a/2,6], even:true}, {A:60,B:45, f:a=>[a/3,6], m3:true}, {A:120,B:30, f:a=>[a/3,3], m3:true}, {A:30,B:120, f:a=>[a,3]} ];
+const SINV = {30:H,45:R2,60:R3,90:'1',120:R3};
+const surd = (k,r) => r === 1 ? String(k) : `${k===1?'':k}\\sqrt{${r}}`;
+const g6c = lv => {   // định lí sin
+  const SL = `${tm('\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C} = 2R')}`;
+  if(lv === 1){ const A = pick([30,150,90,45,60]); let a = R(2,12); if(A===90||A===45) a = 2*R(1,8); if(A===60) a = 3*R(1,5);
+    const [k,r] = A===30||A===150 ? [a,1] : A===90 ? [a/2,1] : A===45 ? [a/2,2] : [a/3,3];
+    const tpl = r === 1 ? blank('R') : `<span class="eq">${tm('R =')} [_] ${tm(`\\sqrt{${r}}`)}</span>`;
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC = ${a}`)} và ${tm(`\\widehat{A} = ${DG(A)}`)}. Tính bán kính ${tm('R')} của đường tròn ngoại tiếp tam giác.`, tpl, ans:[k],
+      hint:`Định lí sin: ${SL}, suy ra ${tm('R = \\dfrac{a}{2\\sin A}')}.`,
+      sol:`${tm(`R = \\dfrac{${a}}{2\\sin ${DG(A)}} = \\dfrac{${a}}{2\\cdot ${A===150?H:SINV[A]}} = ${surd(k,r)}`)}. Vậy ${tb(`R = ${surd(k,r)}`)}.`}); }
+  let o, a; do{ o = pick(SINE); a = R(2,12); }while((o.even && a%2) || (o.m3 && a%3) || o.A + o.B >= 180);
+  const [k,r] = o.f(a), C = 180 - o.A - o.B;
+  const tpl = r === 1 ? blank('AC') : `<span class="eq">${tm('AC =')} [_] ${tm(`\\sqrt{${r}}`)}</span>`;
+  const given = lv === 2 ? `${tm(`\\widehat{A} = ${DG(o.A)}`)}, ${tm(`\\widehat{B} = ${DG(o.B)}`)}` : `${tm(`\\widehat{B} = ${DG(o.B)}`)}, ${tm(`\\widehat{C} = ${DG(C)}`)}`;
+  return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC = ${a}`)}, ${given}. Tính độ dài cạnh ${tm('AC')}.`, tpl, ans:[k],
+    hint:(lv===3 ? `Tính ${tm('\\widehat{A} = 180^\\circ - \\widehat{B} - \\widehat{C}')} trước. ` : '') + `Định lí sin: ${tm('\\dfrac{BC}{\\sin A} = \\dfrac{AC}{\\sin B}')}.`,
+    sol:(lv===3 ? `${tm(`\\widehat{A} = 180^\\circ - ${DG(o.B)} - ${DG(C)} = ${DG(o.A)}`)}. ` : '') + `${tm(`AC = \\dfrac{BC\\cdot\\sin B}{\\sin A} = \\dfrac{${a}\\cdot ${SINV[o.B]}}{${SINV[o.A]}} = ${surd(k,r)}`)}. Vậy ${tb(`AC = ${surd(k,r)}`)}.`});
+};
+const HERON = [[13,14,15],[5,5,6],[6,8,10],[9,10,17],[7,15,20],[10,13,13],[5,5,8],[13,13,24],[4,13,15],[11,13,20]];
+const heronS = ([a,b,c]) => { const p = (a+b+c)/2; return Math.sqrt(p*(p-a)*(p-b)*(p-c)); };
+const g6d = lv => {   // diện tích tam giác
+  if(lv === 1){ const A = pick([30,150,90,30]); let b, c; do{ b = R(2,14); c = R(2,14); }while((b*c) % (A===90?2:4));
+    const S = A === 90 ? b*c/2 : b*c/4;
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)}, ${tm(`AC = ${b}`)} và ${tm(`\\widehat{A} = ${DG(A)}`)}. Tính diện tích ${tm('S')} của tam giác.`, tpl:blank('S'), ans:[S],
+      hint:`Dùng ${tm('S = \\dfrac{1}{2}\\,bc\\sin A')}.`, sol:`${tm(`S = \\dfrac{1}{2}\\cdot ${b}\\cdot ${c}\\cdot\\sin ${DG(A)} = \\dfrac{1}{2}\\cdot ${b*c}\\cdot ${A===90?'1':H} = ${S}`)}. Vậy ${tb(`S = ${S}`)}.`}); }
+  const k = R(1,2), [a,b,c] = pick(HERON).map(x => x*k), p = (a+b+c)/2, S = heronS([a,b,c]);
+  const her = `S = \\sqrt{p(p - a)(p - b)(p - c)}`, calc = `p = \\dfrac{${a} + ${b} + ${c}}{2} = ${p}`, sS = `S = \\sqrt{${p}\\cdot ${p-a}\\cdot ${p-b}\\cdot ${p-c}} = ${S}`;
+  if(lv === 2) return QB({text:`Tính diện tích tam giác có độ dài ba cạnh là ${tm(`${a},\\ ${b},\\ ${c}`)}.`, tpl:blank('S'), ans:[S],
+    hint:`Công thức Heron ${tm(her)} với ${tm('p')} là nửa chu vi.`, sol:`${tm(calc)}; ${tm(sS)}. Vậy ${tb(`S = ${S}`)}.`});
+  const askR = Math.random() < .5, [n,d] = askR ? [a*b*c, 4*S] : [S, p];
+  return QB({text:`Cho tam giác có độ dài ba cạnh là ${tm(`${a},\\ ${b},\\ ${c}`)}. Tính bán kính ${askR ? `${tm('R')} của đường tròn <b>ngoại tiếp</b>` : `${tm('r')} của đường tròn <b>nội tiếp</b>`} tam giác.`,
+    tpl:fblank(askR ? 'R' : 'r'), ans:[{frac:[n,d],mode:'eq'}],
+    hint:`Tính diện tích bằng công thức Heron trước, rồi dùng ${askR ? tm('S = \\dfrac{abc}{4R}') : tm('S = pr')}.`,
+    sol:`${tm(calc)}; ${tm(sS)}. ${askR ? tm(`R = \\dfrac{abc}{4S} = \\dfrac{${a}\\cdot ${b}\\cdot ${c}}{4\\cdot ${S}} = `) : tm(`r = \\dfrac{S}{p} = \\dfrac{${S}}{${p}} = `)}${tb(tfrac(n,d))}.`});
+};
+const R1 = x => Math.round((x + 1e-9)*10)/10;
+const g6e = lv => {   // bài toán thực tế
+  if(lv < 3){ const A = lv === 1 ? 60 : 120, k = pick([1,2,3]), [b0,c0,a0] = pick(A===60?P60:P120), [b,c,a] = [b0*k,c0*k,a0*k];
+    const txt = lv === 1
+      ? `Hai tàu cùng xuất phát từ cảng ${tm('A')}, đi theo hai hướng tạo với nhau góc ${tm(DG(60))}. Tàu thứ nhất đi được <b>${b} km</b>, tàu thứ hai đi được <b>${c} km</b>. Hỏi lúc đó hai tàu cách nhau bao nhiêu kilômét?`
+      : `Để đo khoảng cách giữa hai điểm ${tm('B, C')} ở hai bên bờ hồ, người ta chọn điểm ${tm('A')} sao cho ${tm(`AC = ${b}`)} m, ${tm(`AB = ${c}`)} m và ${tm(`\\widehat{BAC} = ${DG(120)}`)}. Tính khoảng cách ${tm('BC')}.`;
+    return QB({text:txt, fig:triSVG({a,b,c,la:'?',lb:`${b}`,lc:`${c}`,gA:`${A}°`}), tpl:lv===1?'[_] km':'[_] m', ans:[a],
+      hint:`Ba điểm tạo thành tam giác biết hai cạnh và góc xen giữa: dùng định lí côsin ${COSLAW}.`,
+      sol:`${tm(`BC^2 = ${lawA(b,c,A)} = ${a*a}`)}, nên ${tm('BC = ')}${tb(a)} ${lv===1?'km':'m'}.`}); }
+  const A = pick([40,50,70,75,80,100,110]), b = R(20,60), c = R(20,60), cv = Math.round(Math.cos(A*Math.PI/180)*100)/100;
+  const a1 = Math.sqrt(b*b + c*c - 2*b*c*cv), a2 = Math.sqrt(b*b + c*c - 2*b*c*Math.cos(A*Math.PI/180));
+  return QB({text:`Từ vị trí ${tm('A')}, bạn Minh nhìn hai cột mốc ${tm('B')} và ${tm('C')} dưới góc ${tm(`\\widehat{BAC} = ${DG(A)}`)}. Biết ${tm(`AB = ${c}`)} m, ${tm(`AC = ${b}`)} m và ${tm(`\\cos ${DG(A)} \\approx ${tdec(cv)}`)}. Tính khoảng cách ${tm('BC')} (làm tròn đến hàng phần mười).`,
+    fig:triSVG({a:a2,b,c,la:'?',lb:`${b} m`,lc:`${c} m`,gA:`${A}°`}), tpl:'[_] m', ans:[R1(a1)===R1(a2) ? R1(a1) : [R1(a1),R1(a2)]],
+    hint:`Dùng định lí côsin ${COSLAW} với ${tm(`\\cos ${DG(A)} \\approx ${tdec(cv)}`)}, rồi khai căn và làm tròn.`,
+    sol:`${tm(`BC^2 \\approx ${b}^2 + ${c}^2 - 2\\cdot ${b}\\cdot ${c}\\cdot ${cv<0?`(${tdec(cv)})`:tdec(cv)} = ${tdec(Math.round(a1*a1*100)/100)}`)}, nên ${tm('BC \\approx')} ${tb(`${tdec(R1(a1))}\\text{ m}`)}.`});
+};
+
+lesson(3,'gia-tri-luong-giac-0-180','Bài 5. Giá trị lượng giác của một góc từ 0° đến 180°','Giá trị lượng giác của góc đặc biệt; hai góc bù nhau; dấu; tính khi biết một giá trị; tính biểu thức.',[g5a,g5b,g5c,g5d]);
+lesson(3,'he-thuc-luong-tam-giac','Bài 6. Hệ thức lượng trong tam giác','Định lí côsin, định lí sin; tính góc, nhận dạng tam giác; diện tích, bán kính R, r; bài toán thực tế.',[g6a,g6b,g6c,g6d,g6e]);
+lesson(3,'on-tap-c3','Ôn tập chương III','Tổng hợp: giá trị lượng giác, định lí côsin, định lí sin, diện tích, bài toán thực tế.',[g5b,g5c,g6a,g6c,g6d,g6e]);
+}
 })();
