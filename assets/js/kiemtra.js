@@ -38,7 +38,7 @@ const KiemTra = (() => {
   /* ---------- Phần đầu đề ---------- */
   const head = (t, code, key) => `<header class="kt-head">
       <div class="kt-l"><b>${t.school}</b><br><b>${t.group}</b><br><span class="kt-small">${key ? '' : `(Đề gồm 3 phần, ${t.mc.length + t.tf.length + t.essay.length} câu)`}</span></div>
-      <div class="kt-r"><b>${key ? 'ĐÁP ÁN – HƯỚNG DẪN CHẤM<br>' : ''}ĐỀ KIỂM TRA ${t.chapter.split('.')[0].toUpperCase()}</b><br>NĂM HỌC ${t.year}<br>Môn: <b>${t.subject}</b> – Sách ${t.book}<br><i>Thời gian làm bài: ${t.time} phút, không kể thời gian phát đề</i></div></header>`
+      <div class="kt-r"><b>${key ? 'ĐÁP ÁN – HƯỚNG DẪN CHẤM<br>' : ''}ĐỀ KIỂM TRA ${t.chapter.split('.')[0].toUpperCase()}${t.set ? ' – ' + t.set.toUpperCase() : ''}</b><br>NĂM HỌC ${t.year}<br>Môn: <b>${t.subject}</b> – Sách ${t.book}<br><i>Thời gian làm bài: ${t.time} phút, không kể thời gian phát đề</i></div></header>`
     + (key ? '' : `<div class="kt-who"><span>Họ và tên: <i class="kt-dots"></i></span><span class="kt-cls">Lớp: <i class="kt-dots"></i></span><span class="kt-code">Mã đề ${code}</span></div>`);
 
   const grid = t => `<table class="kt-grid"><tr><th>Phần I</th>${t.mc.map((_, i) => `<td>${i + 1}</td>`).join('')}</tr><tr><th>Chọn</th>${t.mc.map(() => '<td></td>').join('')}</tr></table>
