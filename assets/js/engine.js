@@ -40,7 +40,7 @@ function renderHome(){
   <h1>Con muốn ôn bài nào hôm nay?</h1><p class="lead">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
   ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}`;
   g.topics.filter(t=>hks.length<2||t.hk===hk).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id);if(!ls.length)return;
-    h+=`<section class="topic"><h2><small>Chủ đề ${t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}</div></section>`});
+    h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}</div></section>`});
   app.innerHTML=h+foot();hook('home',g);
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }
@@ -51,18 +51,24 @@ function bindTheme(){const sb=$('#soundBtn');if(sb)sb.onclick=()=>{sb.textConten
 function renderLesson(){
   const g=S.grade,l=S.lesson,t=g.topics.find(x=>x.id===l.t)||{id:l.t,name:''},idx=g.lessons.indexOf(l),next=g.lessons[idx+1],home=`#/${g.id}`;
   let h=`<div class="toolbar"><a class="back" href="${home}">← Các bài ${g.name}</a>${themeBtn()}</div>
-  <span class="pill">${g.name} · Chủ đề ${t.id} · ${t.name}</span><h1>${l.name}</h1><p class="lead">${l.desc}</p>
+  <span class="pill">${g.name} · ${t.label||'Chủ đề '+t.id} · ${t.name}</span><h1>${l.name}${l.en?`<small class="L-en h1en">${l.en}</small>`:''}</h1><p class="lead">${l.descEn?bi(l.desc,l.descEn):l.desc}</p>${l.bi?langSw():''}${l.intro?introHTML(l):''}
   <div class="levels" role="group" aria-label="Chọn mức độ">${LEVELS.map((x,i)=>`<button class="lvl" data-lv="${i+1}" aria-pressed="${S.lv===i+1}"><b>${x.n}</b><span>${x.d} · ${starsHTML(store.get(bestKey(l.id,i+1))||0)}</span></button>`).join('')}</div>
   <div class="row"><button class="btn" id="newSet">↻ Làm bộ mới</button><button class="btn" id="resetSet">Xoá để làm lại</button></div>
   <div class="progress"><div class="bar"><i id="pbar"></i></div><div class="txt"><span id="ptxt"></span><span id="pscore"></span></div></div>
   <div id="qs"></div><div id="sum"></div>
   <div class="row" style="margin-top:8px"><button class="btn" id="newSet2">↻ Làm bộ mới</button><a class="btn primary" href="${home}">← Các bài ${g.name}</a>${next?`<a class="btn" href="${lessonHref(next)}">Bài tiếp theo →</a>`:''}</div>`+foot();
-  app.innerHTML=h;bindTheme();
+  app.innerHTML=h;bindTheme();bindLang();
   $$('.lvl').forEach(b=>b.onclick=()=>{location.hash=lessonHref(l,+b.dataset.lv)});
   $('#newSet').onclick=$('#newSet2').onclick=()=>{genSet();renderQs();scrollTo({top:$('#qs').offsetTop-120,behavior:'smooth'})};
   $('#resetSet').onclick=()=>{S.qs.forEach(q=>{q.tries=0;q.status='open';q.user=null;q.pts=0;if(q.kind==='shade')q.on=[];if(q.kind==='rotate')q.val=q.target===90?40:90;delete q.sel;if(q.kind==='steps')stepsReset(q)});updateProgress._t=null;renderQs();toast('Đã xoá, con làm lại nhé!')};
   renderQs();hook('lesson',g,l);
 }
+/* Song ngữ + kiến thức trọng tâm (bài có l.bi / l.intro) */
+const LANGS=[['vi','Tiếng Việt'],['bi','Song ngữ'],['en','English']];
+function langSw(){const cur=document.documentElement.dataset.lang||'bi';return `<div class="langsw" role="group" aria-label="Ngôn ngữ / Language">${LANGS.map(([k,n])=>`<button class="btn small" data-lang="${k}" aria-pressed="${cur===k}">${n}</button>`).join('')}</div>`}
+function bindLang(){$$('[data-lang]').forEach(b=>b.onclick=()=>{document.documentElement.dataset.lang=b.dataset.lang;store.set('hoctap:lang',b.dataset.lang);$$('[data-lang]').forEach(x=>x.setAttribute('aria-pressed',x===b))})}
+const pair=a=>Array.isArray(a)?bi(a[0],a[1]):(a||'');
+function introHTML(l){return `<details class="card kt-intro" open><summary>📘 ${bin('Kiến thức trọng tâm – đọc trước khi làm bài','Key ideas – read before you start')}</summary>${l.intro.map((k,i)=>`<div class="kt-item ${k.fig?'has-fig':''}"><div><h3>${i+1}. ${pair(k.t)}</h3><div class="kt-b">${pair(k.b)}</div>${k.ex?`<div class="kt-ex">💡 ${pair(k.ex)}</div>`:''}</div>${k.fig?`<div class="fig">${k.fig}</div>`:''}</div>`).join('')}</details>`}
 function renderQs(){const box=$('#qs');box.innerHTML='';S.qs.forEach((q,i)=>box.appendChild(cardEl(q,i)));updateProgress()}
 
 function blanksHTML(q){let bi=0;return q.tpl.split(/(\[_\]|\[F\])/).map(p=>{if(p==='[_]'){const k=bi++;return `<input class="blank ${q.wide?'wide':''}" data-b="${k}" inputmode="${q.text&&/La Mã/.test(q.text)?'text':'decimal'}" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Ô trống ${k+1}">`}
@@ -186,5 +192,5 @@ function route(){
 function loadGrades(ids,done){const need=ids.filter(id=>!App.grades.some(g=>g.id===id));let i=0;
   const next=()=>{if(i>=need.length)return done();const id=need[i++],sc=document.createElement('script');sc.src=`data/${id}.js`;sc.onload=next;
     sc.onerror=()=>{app.insertAdjacentHTML('beforeend',`<div class="fb show sol"><b class="t">Không tải được data/${id}.js</b>Kiểm tra lại tên file trong config.js.</div>`);next()};document.body.appendChild(sc)};next()}
-(function init(){const th=store.get('hoctap:theme');if(th)document.documentElement.dataset.theme=th;$('#author').textContent=CONFIG.author;$('#brand').innerHTML=CONFIG.brandHTML||CONFIG.siteName;
+(function init(){const th=store.get('hoctap:theme');if(th)document.documentElement.dataset.theme=th;document.documentElement.dataset.lang=store.get('hoctap:lang')||'bi';$('#author').textContent=CONFIG.author;$('#brand').innerHTML=CONFIG.brandHTML||CONFIG.siteName;
   loadGrades(CONFIG.grades,()=>{App.grades.sort((a,b)=>CONFIG.grades.indexOf(a.id)-CONFIG.grades.indexOf(b.id));const start=()=>{addEventListener('hashchange',route);route()};typeof Account!=='undefined'&&Account.gate?Account.gate(start):start()})})();

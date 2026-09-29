@@ -4,7 +4,7 @@
 const App={grades:[],
   // Mỗi file data/<lớp>.js gọi App.addGrade({...}) một lần rồi dùng G.lesson(...) để thêm bài.
   addGrade(cfg){const g={subject:'Toán',book:'',topics:[],...cfg,lessons:[]};
-    g.lesson=(t,id,name,desc,gens)=>{if(g.lessons.some(l=>l.id===id))console.warn('Trùng mã bài',g.id,id);g.lessons.push({t,id,name,desc,gens})};
+    g.lesson=(t,id,name,desc,gens,x)=>{if(g.lessons.some(l=>l.id===id))console.warn('Trùng mã bài',g.id,id);g.lessons.push({t,id,name,desc,gens,...(x||{})})};   // x: {en, descEn, bi:true, intro:[{t:[vi,en], b:[vi,en], ex:[vi,en], fig}]}
     App.grades=App.grades.filter(x=>x.id!==g.id);App.grades.push(g);return g}};
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
@@ -30,6 +30,9 @@ const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){retu
 /* ---------- Bộ dựng câu hỏi ---------- */
 // Điền ô trống: tpl dùng [_] (ô số/chữ) và [F] (ô phân số). ans khớp theo thứ tự.
 const QB=o=>({kind:'blanks',...o});
+/* Song ngữ Việt – Anh: bi() cho đoạn văn (chế độ song ngữ: tiếng Anh xuống dòng, in nghiêng), bin() cho nhãn ngắn trong dòng ("vi / en"). */
+const bi=(vi,en)=>`<span class="L-vi">${vi}</span><span class="L-en">${en}</span>`;
+const bin=(vi,en)=>`<span class="L-vi">${vi}</span><span class="L-en L-in">${en}</span>`;
 // Chọn đáp án: opts chứa ans; mặc định trộn thứ tự.
 const QC=o=>{const opts=[...new Set(o.opts)];const arr=o.keepOrder?opts:shuffle(opts);return {kind:'choice',...o,opts:arr,correct:arr.indexOf(o.ans)}};
 // Bài toán nhiều bước (giải toán có lời văn): mỗi bước là một câu nhỏ, mở lần lượt.

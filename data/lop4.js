@@ -237,4 +237,324 @@ const gRectSD=lv=>{const w=lv===1?R(6,20):R(12,40),h=lv===1?R(2,12):R(4,30),L=w+
 
 lesson(1,'giai-toan-tung-buoc','🧠 Giải toán từng bước: rút về đơn vị, ba bước tính','Rèn cách giải: hiểu đề, tóm tắt bằng sơ đồ, lập kế hoạch, giải và thử lại.',[gUnit,gThree,gUnit]);
 lesson(5,'tong-hieu-tung-buoc','🧠 Giải toán từng bước: tổng và hiệu','Bài toán tổng – hiệu nhiều bước: sơ đồ đoạn thẳng, “ít hơn”, chuyển bớt, hình chữ nhật.',[gSumDiff,gRectSD,gSumDiff]);
+/* =====================================================================
+   🧠 TOÁN TƯ DUY – PHÉP CỘNG VÀ PHÉP TRỪ (song ngữ Việt – Anh, có kiến thức trọng tâm)
+   6 bài theo danh mục thầy tổng hợp từ NotebookLM (Singapore Math Grade 2+/4+, Collins Cambridge…):
+   dãy cách đều · tổng – hiệu nâng cao · tính tuổi · tính ngược/điền chữ số · trồng cây · thừa – thiếu.
+   Mọi câu sinh số ngẫu nhiên, CHỌN ĐÁP ÁN TRƯỚC rồi dựng đề. bi()/bin() trong core.js.
+   ===================================================================== */
+{
+const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`;
+const L2 = (vi, en) => V(BG(...vi), BG(...en));                     // lời giải nhiều dòng, hai thứ tiếng
+const KIDS = ['An', 'Bình', 'Chi', 'Dũng', 'Hà', 'Minh', 'Lan', 'Nam', 'Mai', 'Tú'];
+const two = () => { const a = pick(KIDS); let b; do b = pick(KIDS); while(b === a); return [a, b]; };
+const ITEMS = [['viên bi', 'marbles'], ['quyển vở', 'notebooks'], ['cái kẹo', 'candies'], ['con tem', 'stamps'], ['quả táo', 'apples']];
+const seq = (a, d, n) => `${a}, ${a + d}, ${a + 2 * d}, ${a + 3 * d}, …, ${fmt(a + (n - 1) * d)}`;
+const qc = (o, good, wrong) => { const opts = [...new Set([good, ...wrong])].slice(0, 4); return QC({...o, opts, ans:good}); };
+
+/* Hình: cây trồng thành hàng (kiến thức trọng tâm bài trồng cây) */
+const treesSVG = (n, closed) => { const W = 320, H = closed ? 170 : 110;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${n} cây, ${closed ? n : n - 1} khoảng cách">`;
+  if(!closed){ const x = i => 30 + i * (W - 60) / (n - 1);
+    s += `<line class="sv-ink" stroke-width="2.5" x1="20" y1="80" x2="${W - 20}" y2="80"/>`;
+    for(let i = 0; i < n; i++){ s += `<circle class="sv-part on" cx="${x(i)}" cy="56" r="13"/><line class="sv-ink" stroke-width="3" x1="${x(i)}" y1="69" x2="${x(i)}" y2="80"/>`;
+      if(i < n - 1) s += `<text class="sv-muted" x="${(x(i) + x(i + 1)) / 2}" y="102" font-size="14" text-anchor="middle">${i + 1}</text>`; }
+    s += `<text class="sv-txt" x="${W / 2}" y="22" font-size="15" text-anchor="middle">${n} cây · ${n - 1} khoảng</text>`;
+  } else { const cx = 160, cy = 92, r = 58;
+    s += `<circle class="sv-ink" stroke-width="2.5" cx="${cx}" cy="${cy}" r="${r}"/>`;
+    for(let i = 0; i < n; i++){ const a = i * 2 * Math.PI / n - Math.PI / 2; s += `<circle class="sv-part on" cx="${(cx + r * Math.cos(a)).toFixed(1)}" cy="${(cy + r * Math.sin(a)).toFixed(1)}" r="11"/>`; }
+    s += `<text class="sv-txt" x="${cx}" y="${cy + 6}" font-size="15" text-anchor="middle">${n} cây · ${n} khoảng</text>`; }
+  return s + '</svg>'; };
+
+G.topics.splice(G.topics.findIndex(t => t.id === 5) + 1, 0, {id:51, hk:1, name:'Phép cộng và phép trừ', label:'🧠 Toán tư duy'});
+
+/* ---------------------------------------------------------------- BÀI 1. DÃY SỐ CÁCH ĐỀU */
+const tdCount = lv => {
+  if(lv === 1){ const a = R(1, 60), n = R(15, 70), b = a + n - 1;
+    return QB({text:V(`Có bao nhiêu số tự nhiên liên tiếp từ ${a} đến ${b}?`, `How many consecutive whole numbers are there from ${a} to ${b}?`), tpl:`[_] ${v('số', 'numbers')}`, ans:[n],
+      hint:V('Số các số = Số cuối − Số đầu + 1.', 'Count = Last − First + 1.'), sol:L2([`${b} − ${a} + 1 = ${Bb(n)} (số)`], [`${b} − ${a} + 1 = ${Bb(n)} (numbers)`])}); }
+  const d = R(2, lv === 2 ? 5 : 9), a = R(1, 20), n = R(12, lv === 2 ? 40 : 60), last = a + (n - 1) * d;
+  if(lv === 2) return QB({text:V(`Dãy số ${seq(a, d, n)} có bao nhiêu số hạng?`, `How many terms are there in the sequence ${seq(a, d, n)}?`), tpl:`[_] ${v('số hạng', 'terms')}`, ans:[n],
+    hint:V('Số số hạng = (Số cuối − Số đầu) : Khoảng cách + 1.', 'Number of terms = (Last − First) : Step + 1.'),
+    sol:L2([`Khoảng cách: ${d}`, `(${fmt(last)} − ${a}) : ${d} + 1 = ${Bb(n)} (số hạng)`], [`Step: ${d}`, `(${fmt(last)} − ${a}) : ${d} + 1 = ${Bb(n)} (terms)`])});
+  return QB({text:V(`Cho dãy số ${a}, ${a + d}, ${a + 2 * d}, ${a + 3 * d}, … Số hạng thứ ${n} của dãy là số nào?`, `Look at the sequence ${a}, ${a + d}, ${a + 2 * d}, ${a + 3 * d}, … What is term number ${n}?`), tpl:'[_]', ans:[last], wide:true,
+    hint:V('Số hạng thứ n = Số đầu + (n − 1) × Khoảng cách.', 'The nth term = First + (n − 1) × Step.'),
+    sol:L2([`${a} + (${n} − 1) × ${d} = ${Bb(last)}`], [`${a} + (${n} − 1) × ${d} = ${Bb(last)}`])});
+};
+const tdSum = lv => {
+  const d = lv === 3 ? R(2, 5) : 1, a = lv === 1 ? 1 : R(lv === 2 ? 10 : 1, lv === 2 ? 80 : 15), n = R(lv === 1 ? 10 : 10, lv === 1 ? 40 : 30), last = a + (n - 1) * d, S = (a + last) * n / 2;
+  const show = lv === 3 ? seq(a, d, n) : `${a} + ${a + 1} + ${a + 2} + … + ${last}`;
+  const txt = lv === 3 ? V(`Tính tổng các số của dãy ${show}.`, `Find the sum of the sequence ${show}.`) : V(`Tính nhanh: ${show}`, `Calculate quickly: ${show}`);
+  return QB({text:txt, tpl:`${v('Tổng', 'Sum')} = [_]`, ans:[S], wide:true,
+    hint:V('Tổng = (Số đầu + Số cuối) × Số số hạng : 2.', 'Sum = (First + Last) × Number of terms : 2.'),
+    sol:L2([`Số số hạng: ${d === 1 ? `${last} − ${a} + 1` : `(${last} − ${a}) : ${d} + 1`} = ${n}`, `Tổng: (${a} + ${last}) × ${n} : 2 = ${Bb(S)}`],
+           [`Number of terms: ${d === 1 ? `${last} − ${a} + 1` : `(${last} − ${a}) : ${d} + 1`} = ${n}`, `Sum: (${a} + ${last}) × ${n} : 2 = ${Bb(S)}`])});
+};
+const tdPair = lv => {
+  const n = R(5, 20) * 2, a = lv === 1 ? 1 : R(5, 50), b = a + n - 1, S = (a + b) * n / 2, show = `${a} + ${a + 1} + ${a + 2} + … + ${b - 1} + ${b}`;
+  const pairTxt = V(`Trong tổng ${show}, em ghép số đầu với số cuối, số thứ hai với số kế cuối, …`, `In the sum ${show}, pair the first number with the last, the second with the second-to-last, …`);
+  if(lv === 1) return qc({text:pairTxt + V(' Mỗi cặp có tổng bằng bao nhiêu?', ' What is the sum of each pair?'), compact:true,
+    hint:V('Cặp đầu tiên là số đầu và số cuối.', 'The first pair is the first and the last number.'), sol:L2([`${a} + ${b} = ${Bb(a + b)}`], [`${a} + ${b} = ${Bb(a + b)}`])}, fmt(a + b), [fmt(b), fmt(a + b + 1), fmt(2 * b)]);
+  if(lv === 2) return qc({text:pairTxt + V(' Có bao nhiêu cặp như vậy?', ' How many pairs are there?'), compact:true,
+    hint:V('Đếm số số hạng rồi chia cho 2.', 'Count the terms, then divide by 2.'), sol:L2([`Số số hạng: ${b} − ${a} + 1 = ${n}`, `Số cặp: ${n} : 2 = ${Bb(n / 2)}`], [`Terms: ${b} − ${a} + 1 = ${n}`, `Pairs: ${n} : 2 = ${Bb(n / 2)}`])},
+    fmt(n / 2), [fmt(n), fmt(n / 2 + 1), fmt((b - a) / 2 | 0 || n / 2 - 1)]);
+  return qc({text:V(`Tổng ${show} bằng:`, `The sum ${show} equals:`), compact:true,
+    hint:V('Có bao nhiêu cặp? Mỗi cặp có tổng bằng bao nhiêu?', 'How many pairs? What is each pair worth?'),
+    sol:L2([`Có ${n / 2} cặp, mỗi cặp bằng ${a + b}.`, `Tổng: ${a + b} × ${n / 2} = ${Bb(S)}`], [`${n / 2} pairs, each worth ${a + b}.`, `Sum: ${a + b} × ${n / 2} = ${Bb(S)}`])},
+    fmt(S), [fmt(S * 2), fmt(S - b), fmt((a + b) * (n / 2 - 1))]);
+};
+lesson(51, 'td-tong-day-cach-deu', 'Tổng dãy số cách đều', 'Đếm số hạng, tìm số hạng thứ n và tính nhanh tổng của dãy số cách đều.', [tdCount, tdPair, tdSum], {
+  bi:true, en:'Sums of evenly spaced sequences', descEn:'Count terms, find the nth term and add up an evenly spaced sequence quickly.',
+  intro:[
+    {t:['Dãy số cách đều', 'Evenly spaced sequences'], b:['Hai số liền nhau hơn kém nhau cùng một số gọi là <b>khoảng cách</b>.', 'Neighbouring numbers always differ by the same amount, called the <b>step</b>.'], ex:['2, 5, 8, 11, … có khoảng cách 3.', '2, 5, 8, 11, … has a step of 3.']},
+    {t:['Số số hạng và số hạng thứ n', 'Number of terms and the nth term'], b:['Số số hạng = (Số cuối − Số đầu) : Khoảng cách + 1<br>Số hạng thứ n = Số đầu + (n − 1) × Khoảng cách', 'Number of terms = (Last − First) : Step + 1<br>The nth term = First + (n − 1) × Step'], ex:['Dãy 2, 5, 8, …, 29 có (29 − 2) : 3 + 1 = 10 số hạng.', '2, 5, 8, …, 29 has (29 − 2) : 3 + 1 = 10 terms.']},
+    {t:['Tính tổng bằng cách ghép cặp', 'Adding by pairing'], b:['Ghép số đầu với số cuối, số thứ hai với số kế cuối… Mọi cặp đều có tổng bằng nhau.<br><b>Tổng = (Số đầu + Số cuối) × Số số hạng : 2</b>', 'Pair the first with the last, the second with the second-to-last… Every pair has the same sum.<br><b>Sum = (First + Last) × Number of terms : 2</b>'], ex:['1 + 2 + … + 50 = (1 + 50) × 50 : 2 = 1 275', '1 + 2 + … + 50 = (1 + 50) × 50 : 2 = 1 275']}]});
+
+/* ---------------------------------------------------------------- BÀI 2. TỔNG – HIỆU NÂNG CAO */
+const tdGive = lv => { const [X, Y] = two(), [u, ue] = pick(ITEMS);
+  if(lv < 3){ const e = R(15, 70), k = R(2, 12), A = e + k, B = e - k, S = 2 * e;
+    const fig = segSVG([{label:X, parts:[{v:1}, {v:Math.min(.7, Math.max(.25, 2 * k / B)), on:true, t:`${k}+${k}`}]}, {label:Y, parts:[{v:1}]}], {labelW:70, brace:{from:0, to:1, t:String(S)}});
+    return QB({text:V(`${X} và ${Y} có tất cả ${Bb(S)} ${u}. Nếu ${X} cho ${Y} ${Bb(k)} ${u} thì số ${u} của hai bạn bằng nhau. Hỏi lúc đầu ${lv === 1 ? `${X} có bao nhiêu ${u}` : 'mỗi bạn có bao nhiêu ' + u}?`,
+        `${X} and ${Y} have ${Bb(S)} ${ue} in total. If ${X} gives ${Y} ${Bb(k)} ${ue}, they will have the same number. How many ${ue} did ${lv === 1 ? X : 'each of them'} have at first?`),
+      fig, tpl:lv === 1 ? `${X}: [_]` : `${X}: [_] &nbsp; ${Y}: [_]`, ans:lv === 1 ? [A] : [A, B],
+      hint:V(`${X} bớt ${k}, ${Y} thêm ${k} mới bằng nhau, nên lúc đầu hai bạn chênh nhau ${k} + ${k}.`, `${X} loses ${k} and ${Y} gains ${k} to be equal, so at first they differ by ${k} + ${k}.`),
+      sol:L2([`Hiệu: ${k} × 2 = ${2 * k}`, `${X}: (${S} + ${2 * k}) : 2 = ${Bb(A)}`, `${Y}: ${S} − ${A} = ${Bb(B)}`], [`Difference: ${k} × 2 = ${2 * k}`, `${X}: (${S} + ${2 * k}) : 2 = ${Bb(A)}`, `${Y}: ${S} − ${A} = ${Bb(B)}`])}); }
+  const k = R(4, 12), m = R(1, 2 * k - 2), x = R(20, 60), A = x + k, B = x + m - k, S = A + B, h = 2 * k - m;
+  return QB({text:V(`${X} và ${Y} có tất cả ${Bb(S)} ${u}. Nếu ${X} cho ${Y} ${Bb(k)} ${u} thì ${Y} có nhiều hơn ${X} ${Bb(m)} ${u}. Hỏi lúc đầu mỗi bạn có bao nhiêu ${u}?`,
+      `${X} and ${Y} have ${Bb(S)} ${ue} in total. If ${X} gives ${Y} ${Bb(k)} ${ue}, ${Y} will have ${Bb(m)} more than ${X}. How many ${ue} did each have at first?`),
+    tpl:`${X}: [_] &nbsp; ${Y}: [_]`, ans:[A, B],
+    hint:V(`Sau khi cho, ${Y} hơn ${X} ${m}. Vậy lúc đầu ${X} hơn ${Y}: ${k} + ${k} − ${m}.`, `After giving, ${Y} has ${m} more. So at first ${X} had ${k} + ${k} − ${m} more than ${Y}.`),
+    sol:L2([`Lúc đầu ${X} hơn ${Y}: ${k} × 2 − ${m} = ${h}`, `${X}: (${S} + ${h}) : 2 = ${Bb(A)}`, `${Y}: ${S} − ${A} = ${Bb(B)}`], [`At first ${X} had ${k} × 2 − ${m} = ${h} more`, `${X}: (${S} + ${h}) : 2 = ${Bb(A)}`, `${Y}: ${S} − ${A} = ${Bb(B)}`])});
+};
+const HIDE_S = [[99, 'số lớn nhất có hai chữ số', 'the greatest 2-digit number'], [100, 'số bé nhất có ba chữ số', 'the smallest 3-digit number'], [999, 'số lớn nhất có ba chữ số', 'the greatest 3-digit number'], [998, 'số chẵn lớn nhất có ba chữ số', 'the greatest even 3-digit number'], [997, 'số lẻ lớn nhất có ba chữ số nhưng bé hơn 999', 'the greatest odd 3-digit number less than 999'], [1000, 'số bé nhất có bốn chữ số', 'the smallest 4-digit number'], [9900, 'số tròn trăm lớn nhất có bốn chữ số', 'the greatest 4-digit multiple of 100']];
+const HIDE_H = [[9, 'số lớn nhất có một chữ số', 'the greatest 1-digit number'], [10, 'số chẵn bé nhất có hai chữ số', 'the smallest even 2-digit number'], [11, 'số lẻ bé nhất có hai chữ số', 'the smallest odd 2-digit number'], [90, 'số tròn chục lớn nhất có hai chữ số', 'the greatest 2-digit multiple of 10'], [99, 'số lớn nhất có hai chữ số', 'the greatest 2-digit number'], [100, 'số bé nhất có ba chữ số', 'the smallest 3-digit number']];
+const tdHidden = lv => {
+  if(lv === 1){ const s = R(10, 90), h = 2 * R(2, 25), b = s + h, T = (b + s) / 2;
+    return QB({text:V(`Trung bình cộng của hai số là ${Bb(T)}. Số lớn hơn số bé ${Bb(h)} đơn vị. Tìm hai số đó.`, `The average of two numbers is ${Bb(T)}. The larger one is ${Bb(h)} more than the smaller one. Find the two numbers.`),
+      tpl:`${v('Số lớn', 'Larger')}: [_] &nbsp; ${v('Số bé', 'Smaller')}: [_]`, ans:[b, s],
+      hint:V('Tổng hai số = Trung bình cộng × 2.', 'Sum of the two numbers = Average × 2.'),
+      sol:L2([`Tổng: ${T} × 2 = ${2 * T}`, `Số lớn: (${2 * T} + ${h}) : 2 = ${Bb(b)}`, `Số bé: ${2 * T} − ${b} = ${Bb(s)}`], [`Sum: ${T} × 2 = ${2 * T}`, `Larger: (${2 * T} + ${h}) : 2 = ${Bb(b)}`, `Smaller: ${2 * T} − ${b} = ${Bb(s)}`])}); }
+  if(lv === 2){ const ok = []; HIDE_S.forEach(S => HIDE_H.forEach(H => { if(S[0] > H[0] && (S[0] + H[0]) % 2 === 0 && S[0] !== H[0]) ok.push([S, H]); }));
+    const [[S, sv, se], [h, hv, he]] = pick(ok), b = (S + h) / 2, s = S - b;
+    return QB({text:V(`Tổng hai số là <b>${sv}</b>, hiệu hai số là <b>${hv}</b>. Tìm hai số đó.`, `The sum of two numbers is <b>${se}</b> and their difference is <b>${he}</b>. Find the two numbers.`),
+      tpl:`${v('Số lớn', 'Larger')}: [_] &nbsp; ${v('Số bé', 'Smaller')}: [_]`, ans:[b, s], wide:true,
+      hint:V('Viết tổng và hiệu thành số trước, rồi dùng cách tìm hai số biết tổng và hiệu.', 'First write the sum and the difference as numbers, then use the sum-and-difference method.'),
+      sol:L2([`Tổng là ${fmt(S)}, hiệu là ${h}.`, `Số lớn: (${fmt(S)} + ${h}) : 2 = ${Bb(b)}`, `Số bé: ${fmt(S)} − ${fmt(b)} = ${Bb(s)}`], [`Sum ${fmt(S)}, difference ${h}.`, `Larger: (${fmt(S)} + ${h}) : 2 = ${Bb(b)}`, `Smaller: ${fmt(S)} − ${fmt(b)} = ${Bb(s)}`])}); }
+  const f = R(20, 300), a = R(3, 25), c = R(3, 25), g = f + a + c, S = f + g;
+  return QB({text:V(`Hai số có tổng là ${Bb(S)}. Nếu thêm vào số thứ nhất ${Bb(a)} đơn vị và bớt ở số thứ hai ${Bb(c)} đơn vị thì hai số bằng nhau. Tìm hai số đó.`, `Two numbers add up to ${Bb(S)}. If you add ${Bb(a)} to the first number and take ${Bb(c)} away from the second, the two numbers become equal. Find them.`),
+    tpl:`${v('Số thứ nhất', 'First')}: [_] &nbsp; ${v('Số thứ hai', 'Second')}: [_]`, ans:[f, g],
+    hint:V(`Số thứ hai hơn số thứ nhất: ${a} + ${c}.`, `The second number is ${a} + ${c} more than the first.`),
+    sol:L2([`Hiệu: ${a} + ${c} = ${a + c}`, `Số thứ nhất (số bé): (${S} − ${a + c}) : 2 = ${Bb(f)}`, `Số thứ hai: ${S} − ${f} = ${Bb(g)}`], [`Difference: ${a} + ${c} = ${a + c}`, `First (smaller): (${S} − ${a + c}) : 2 = ${Bb(f)}`, `Second: ${S} − ${f} = ${Bb(g)}`])});
+};
+const tdAway = lv => { const [X, Y] = two(), [u, ue] = pick(ITEMS), B = R(12, 60);
+  if(lv < 3){ const k = R(3, 15), A = B + k, S = A + B;
+    return QB({text:V(`${X} và ${Y} có tất cả ${Bb(S)} ${u}. Sau khi ${X} cho em ${Bb(k)} ${u} thì số ${u} của ${X} bằng số ${u} của ${Y}. Hỏi ${lv === 1 ? `${Y} có bao nhiêu ${u}` : 'lúc đầu mỗi bạn có bao nhiêu ' + u}?`,
+        `${X} and ${Y} had ${Bb(S)} ${ue} in total. After ${X} gave ${Bb(k)} ${ue} to a little sister, ${X} had the same number as ${Y}. How many ${ue} did ${lv === 1 ? Y : 'each of them'} have${lv === 1 ? '' : ' at first'}?`),
+      tpl:lv === 1 ? `${Y}: [_]` : `${X}: [_] &nbsp; ${Y}: [_]`, ans:lv === 1 ? [B] : [A, B],
+      hint:V(`${X} cho em (người khác), không cho ${Y}. Vậy lúc đầu ${X} hơn ${Y} đúng ${k}.`, `${X} gave them to someone else, not to ${Y}. So at first ${X} had exactly ${k} more than ${Y}.`),
+      sol:L2([`Hiệu: ${k}`, `${Y} (số bé): (${S} − ${k}) : 2 = ${Bb(B)}`, ...(lv === 1 ? [] : [`${X}: ${B} + ${k} = ${Bb(A)}`])], [`Difference: ${k}`, `${Y} (smaller): (${S} − ${k}) : 2 = ${Bb(B)}`, ...(lv === 1 ? [] : [`${X}: ${B} + ${k} = ${Bb(A)}`])])}); }
+  const k = R(3, 12), j = R(3, 12), A = B + k + j, S = A + B;
+  return QB({text:V(`${X} và ${Y} có tất cả ${Bb(S)} ${u}. Nếu ${X} làm mất ${Bb(k)} ${u} và ${Y} được mẹ cho thêm ${Bb(j)} ${u} thì số ${u} của hai bạn bằng nhau. Hỏi lúc đầu mỗi bạn có bao nhiêu ${u}?`,
+      `${X} and ${Y} have ${Bb(S)} ${ue} in total. If ${X} loses ${Bb(k)} ${ue} and ${Y} gets ${Bb(j)} more from Mum, they will have the same number. How many ${ue} does each have now?`),
+    tpl:`${X}: [_] &nbsp; ${Y}: [_]`, ans:[A, B],
+    hint:V(`${X} phải bớt ${k}, ${Y} phải thêm ${j} mới bằng nhau: hiệu là ${k} + ${j}.`, `${X} must lose ${k} and ${Y} must gain ${j} to be equal: the difference is ${k} + ${j}.`),
+    sol:L2([`Hiệu: ${k} + ${j} = ${k + j}`, `${X}: (${S} + ${k + j}) : 2 = ${Bb(A)}`, `${Y}: ${S} − ${A} = ${Bb(B)}`], [`Difference: ${k} + ${j} = ${k + j}`, `${X}: (${S} + ${k + j}) : 2 = ${Bb(A)}`, `${Y}: ${S} − ${A} = ${Bb(B)}`])});
+};
+lesson(51, 'td-tong-hieu-nang-cao', 'Tìm hai số biết tổng và hiệu – nâng cao', 'Tìm tổng, hiệu bị “ẩn”: chuyển bớt cho nhau, cho người khác, trung bình cộng, số đặc biệt.', [tdAway, tdGive, tdHidden], {
+  bi:true, en:'Sum and difference – advanced', descEn:'Find hidden sums and differences: giving away, sharing, averages and special numbers.',
+  intro:[
+    {t:['Công thức', 'The rule'], b:['Số lớn = (Tổng + Hiệu) : 2<br>Số bé = (Tổng − Hiệu) : 2', 'Larger = (Sum + Difference) : 2<br>Smaller = (Sum − Difference) : 2'],
+     fig:segSVG([{label:'Số lớn', parts:[{v:1}, {v:.4, on:true, t:'Hiệu'}]}, {label:'Số bé', parts:[{v:1}]}], {labelW:74, brace:{from:0, to:1, t:'Tổng'}})},
+    {t:['Chuyển cho nhau thì hiệu gấp đôi', 'Giving to each other doubles the gap'], b:['A cho B một số k thì bằng nhau ⇒ lúc đầu A hơn B đúng <b>k + k</b> (A bớt k, B thêm k).', 'If A gives k to B and they become equal, A had <b>k + k</b> more than B at first (A loses k, B gains k).'], ex:['Cho nhau 5 viên thì bằng nhau ⇒ hiệu là 10.', 'Giving 5 makes them equal ⇒ the difference is 10.']},
+    {t:['Cho người khác thì hiệu chỉ bằng k', 'Giving to someone else: the gap is just k'], b:['A cho người khác k thì A bằng B ⇒ lúc đầu A hơn B đúng <b>k</b>.<br>Nhớ: đổi tổng, hiệu “ẩn” ra số trước khi tính (trung bình cộng × 2 = tổng).', 'If A gives k to someone else and then equals B, A had exactly <b>k</b> more.<br>Remember: turn hidden sums and differences into numbers first (average × 2 = sum).']}]});
+
+/* ---------------------------------------------------------------- BÀI 3. TÍNH TUỔI */
+const PAIRS = [['mẹ', 'Mum', 'con', 'the child', 22, 32], ['bố', 'Dad', 'con', 'the child', 25, 35], ['ông', 'Grandpa', 'cháu', 'the grandchild', 50, 62], ['anh', 'the older brother', 'em', 'the younger brother', 2, 9], ['chị', 'the older sister', 'em', 'the younger sister', 2, 8]];
+const cap = s => s[0].toUpperCase() + s.slice(1);
+const tdAge1 = lv => { const [a, ae, b, be, h1, h2] = pick(PAIRS), h = R(h1, h2), c = R(4, 14), P = c + h;
+  if(lv === 1){ const c2 = c + R(3, 15);
+    return QB({text:V(`Năm nay ${a} ${P} tuổi, ${b} ${c} tuổi. Hỏi khi ${b} ${c2} tuổi thì ${a} bao nhiêu tuổi?`, `This year ${ae} is ${P} and ${be} is ${c}. How old will ${ae} be when ${be} is ${c2}?`), tpl:`[_] ${v('tuổi', 'years old')}`, ans:[c2 + h],
+      hint:V('Hiệu số tuổi của hai người không thay đổi theo thời gian.', 'The age difference between two people never changes.'),
+      sol:L2([`${cap(a)} hơn ${b}: ${P} − ${c} = ${h} (tuổi)`, `Khi đó ${a}: ${c2} + ${h} = ${Bb(c2 + h)} (tuổi)`], [`Difference: ${P} − ${c} = ${h} (years)`, `Then ${ae}: ${c2} + ${h} = ${Bb(c2 + h)} (years old)`])}); }
+  if(lv === 2){ const n = R(3, 15), T = P + c + 2 * n;
+    return QB({text:V(`Năm nay ${a} ${P} tuổi, ${b} ${c} tuổi. Hỏi sau bao nhiêu năm nữa thì tổng số tuổi của hai người là ${T} tuổi?`, `This year ${ae} is ${P} and ${be} is ${c}. In how many years will their ages add up to ${T}?`), tpl:`[_] ${v('năm', 'years')}`, ans:[n],
+      hint:V('Mỗi năm trôi qua, mỗi người thêm 1 tuổi, nên tổng số tuổi tăng thêm 2.', 'Each year both get 1 year older, so the total grows by 2.'),
+      sol:L2([`Tổng số tuổi hiện nay: ${P} + ${c} = ${P + c}`, `Tổng tăng thêm: ${T} − ${P + c} = ${2 * n}`, `Số năm: ${2 * n} : 2 = ${Bb(n)} (năm)`], [`Total now: ${P} + ${c} = ${P + c}`, `Increase: ${T} − ${P + c} = ${2 * n}`, `Years: ${2 * n} : 2 = ${Bb(n)}`])}); }
+  const n = R(2, 10), S = P + c;
+  return QB({text:V(`Hiện nay tổng số tuổi của ${a} và ${b} là ${S} tuổi, ${a} hơn ${b} ${h} tuổi. Hỏi ${n} năm nữa ${b} bao nhiêu tuổi?`, `Now ${ae} and ${be} are ${S} years old in total, and ${ae} is ${h} years older. How old will ${be} be in ${n} years?`), tpl:`[_] ${v('tuổi', 'years old')}`, ans:[c + n],
+    hint:V(`Tìm tuổi ${b} hiện nay trước (tổng – hiệu), rồi cộng thêm ${n}.`, `First find ${be}'s age now (sum and difference), then add ${n}.`),
+    sol:L2([`${cap(b)} hiện nay: (${S} − ${h}) : 2 = ${c} (tuổi)`, `${n} năm nữa: ${c} + ${n} = ${Bb(c + n)} (tuổi)`], [`${cap(be)} now: (${S} − ${h}) : 2 = ${c}`, `In ${n} years: ${c} + ${n} = ${Bb(c + n)}`])});
+};
+const tdAge2 = lv => { const [a, ae, b, be, h1, h2] = pick(PAIRS), h = R(h1, h2), c = R(6, 15), P = c + h, n = R(2, Math.min(5, c - 1));
+  const S = lv === 1 ? P + c : lv === 2 ? P + c + 2 * n : P + c - 2 * n;
+  const when = lv === 1 ? ['Hiện nay tổng', 'Now the sum'] : lv === 2 ? [`${n} năm nữa tổng`, `In ${n} years the sum`] : [`Cách đây ${n} năm tổng`, `${n} years ago the sum`];
+  return QB({text:V(`${when[0]} số tuổi của ${a} và ${b} là ${S} tuổi. Biết ${a} hơn ${b} ${h} tuổi. Tính tuổi của mỗi người hiện nay.`, `${when[1]} of the ages of ${ae} and ${be} is ${S}. ${cap(ae)} is ${h} years older. How old is each of them now?`),
+    tpl:`${cap(a)}: [_] &nbsp; ${cap(b)}: [_]`, ans:[P, c],
+    hint:lv === 1 ? V('Dùng cách tìm hai số biết tổng và hiệu.', 'Use the sum-and-difference method.') : V(`Đổi về tổng số tuổi HIỆN NAY trước: mỗi năm tổng thay đổi 2 tuổi.`, `First find the total age NOW: the total changes by 2 every year.`),
+    sol:L2([...(lv === 1 ? [] : [`Tổng hiện nay: ${S} ${lv === 2 ? '−' : '+'} ${n} × 2 = ${P + c}`]), `${cap(b)}: (${P + c} − ${h}) : 2 = ${Bb(c)} (tuổi)`, `${cap(a)}: ${c} + ${h} = ${Bb(P)} (tuổi)`],
+           [...(lv === 1 ? [] : [`Total now: ${S} ${lv === 2 ? '−' : '+'} ${n} × 2 = ${P + c}`]), `${cap(be)}: (${P + c} − ${h}) : 2 = ${Bb(c)}`, `${cap(ae)}: ${c} + ${h} = ${Bb(P)}`])});
+};
+const tdAge3 = lv => { const [a, ae, b, be, h1, h2] = pick(PAIRS), h = R(h1, h2), c = R(4, 14), P = c + h, n = R(3, 12);
+  if(lv === 1) return qc({text:V(`Năm nay ${a} hơn ${b} ${h} tuổi. Sau ${n} năm nữa, ${a} hơn ${b} bao nhiêu tuổi?`, `This year ${ae} is ${h} years older than ${be}. In ${n} years, how much older will ${ae} be?`), compact:true,
+    hint:V('Cả hai người cùng thêm tuổi như nhau.', 'Both people get older by the same amount.'),
+    sol:L2([`Hiệu số tuổi không đổi: vẫn hơn ${Bb(h)} tuổi.`], [`The difference never changes: still ${Bb(h)} years.`])}, bin(`${h} tuổi`, `${h} years`), [bin(`${h + n} tuổi`, `${h + n} years`), bin(`${h + 2 * n} tuổi`, `${h + 2 * n} years`), bin(`${Math.max(1, h - n) === h ? h + 1 : Math.max(1, h - n)} tuổi`, `${Math.max(1, h - n) === h ? h + 1 : Math.max(1, h - n)} years`)]);
+  if(lv === 2) return QB({text:V(`Sau ${n} năm nữa, tổng số tuổi của ${a} và ${b} tăng thêm bao nhiêu tuổi?`, `In ${n} years, by how much will the total age of ${ae} and ${be} increase?`), tpl:`[_] ${v('tuổi', 'years')}`, ans:[2 * n],
+    hint:V('Mỗi năm, mỗi người thêm 1 tuổi.', 'Each year, each person gets 1 year older.'), sol:L2([`${n} × 2 = ${Bb(2 * n)} (tuổi)`], [`${n} × 2 = ${Bb(2 * n)} (years)`])});
+  return QB({text:V(`Năm nay ${a} ${P} tuổi, ${b} ${c} tuổi. Hỏi khi ${b} bằng tuổi ${a} hiện nay thì ${a} bao nhiêu tuổi?`, `This year ${ae} is ${P} and ${be} is ${c}. When ${be} is as old as ${ae} is now, how old will ${ae} be?`), tpl:`[_] ${v('tuổi', 'years old')}`, ans:[P + h],
+    hint:V(`${cap(b)} cần thêm bao nhiêu năm để được ${P} tuổi? ${cap(a)} cũng thêm chừng ấy năm.`, `How many years until ${be} is ${P}? ${cap(ae)} gets that many years older too.`),
+    sol:L2([`Số năm: ${P} − ${c} = ${h} (năm)`, `${cap(a)} khi đó: ${P} + ${h} = ${Bb(P + h)} (tuổi)`], [`Years needed: ${P} − ${c} = ${h}`, `${cap(ae)} then: ${P} + ${h} = ${Bb(P + h)}`])});
+};
+lesson(51, 'td-bai-toan-tinh-tuoi', 'Bài toán tính tuổi', 'Hiệu số tuổi không đổi; mỗi năm tổng số tuổi hai người tăng 2; tổng – hiệu về tuổi.', [tdAge3, tdAge1, tdAge2], {
+  bi:true, en:'Age problems', descEn:'The age difference never changes; the total grows by 2 each year; sum and difference of ages.',
+  intro:[
+    {t:['Hiệu số tuổi không đổi', 'The age gap never changes'], b:['Mỗi năm ai cũng thêm 1 tuổi, nên hai người luôn hơn kém nhau đúng một số tuổi.', 'Everyone gets 1 year older each year, so the gap between two people stays the same forever.'], ex:['Mẹ hơn con 25 tuổi thì 10 năm nữa mẹ vẫn hơn con 25 tuổi.', 'If Mum is 25 years older now, she is still 25 years older in 10 years.']},
+    {t:['Tổng số tuổi thay đổi 2 mỗi năm', 'The total changes by 2 each year'], b:['Hai người: sau n năm tổng tuổi <b>tăng n × 2</b>; cách đây n năm tổng tuổi <b>ít hơn n × 2</b>.', 'For two people: in n years the total <b>grows by n × 2</b>; n years ago it was <b>n × 2 smaller</b>.']},
+    {t:['Cách làm', 'How to solve'], b:['① Đưa về tổng và hiệu số tuổi ở <b>cùng một thời điểm</b>. ② Dùng Số lớn = (Tổng + Hiệu) : 2.', '① Find the total and the gap at the <b>same moment</b>. ② Use Larger = (Sum + Difference) : 2.']}]});
+
+/* ---------------------------------------------------------------- BÀI 4. TÍNH NGƯỢC, ĐIỀN CHỮ SỐ, CÂU ĐỐ SỐ */
+const tdBack = lv => { const [X] = two();
+  if(lv === 1){ const x = R(10, 99), a = R(10, 90), b = R(5, x + a - 5), r = x + a - b;
+    return QB({text:V(`${X} nghĩ một số. Lấy số đó cộng ${a} rồi trừ đi ${b} thì được ${r}. Số ${X} nghĩ là số nào?`, `${X} thinks of a number, adds ${a}, then subtracts ${b} and gets ${r}. What was the number?`), tpl:'[_]', ans:[x],
+      hint:V('Tính ngược từ cuối lên đầu: trừ thì đổi thành cộng, cộng thì đổi thành trừ.', 'Work backwards from the end: undo subtraction by adding, undo addition by subtracting.'),
+      sol:L2([`Trước khi trừ ${b}: ${r} + ${b} = ${r + b}`, `Trước khi cộng ${a}: ${r + b} − ${a} = ${Bb(x)}`], [`Before −${b}: ${r} + ${b} = ${r + b}`, `Before +${a}: ${r + b} − ${a} = ${Bb(x)}`])}); }
+  if(lv === 2){ const x = R(12, 45), k = R(3, 9), b = R(5, Math.min(40, x * k - 5)), r = x * k - b;
+    return QB({text:V(`${X} lấy một số nhân với ${k}, rồi trừ tích đó đi ${b} thì được ${r}. Số đó là bao nhiêu?`, `${X} multiplied a number by ${k}, then subtracted ${b} from the product and got ${r}. What was the number?`), tpl:'[_]', ans:[x],
+      hint:V('Tính ngược: trừ ↔ cộng, nhân ↔ chia.', 'Work backwards: − becomes +, × becomes :.'),
+      sol:L2([`Tích là: ${r} + ${b} = ${r + b}`, `Số đó: ${r + b} : ${k} = ${Bb(x)}`], [`Product: ${r} + ${b} = ${r + b}`, `Number: ${r + b} : ${k} = ${Bb(x)}`])}); }
+  const x = R(5, 30), a = R(2, 20), k = R(2, 6), b = R(3, Math.min(40, (x + a) * k - 5)), r = (x + a) * k - b;
+  return QB({text:V(`Một số cộng với ${a}, được bao nhiêu nhân với ${k}, rồi trừ đi ${b} thì được ${r}. Tìm số đó.`, `A number is increased by ${a}, the result is multiplied by ${k}, then ${b} is subtracted, giving ${r}. Find the number.`), tpl:'[_]', ans:[x],
+    hint:V('Làm ngược ba bước, bắt đầu từ bước cuối cùng.', 'Undo the three steps, starting with the last one.'),
+    sol:L2([`${r} + ${b} = ${r + b}`, `${r + b} : ${k} = ${x + a}`, `${x + a} − ${a} = ${Bb(x)}`], [`${r} + ${b} = ${r + b}`, `${r + b} : ${k} = ${x + a}`, `${x + a} − ${a} = ${Bb(x)}`])});
+};
+const hideDig = (n, i) => { const s = String(n); return s.slice(0, i) + '[_]' + s.slice(i + 1); };
+const boldDig = (n, i) => { const s = String(n); return s.slice(0, i) + `<b>${s[i]}</b>` + s.slice(i + 1); };
+const tdDigit = lv => {
+  const hint = V('Tính từ hàng đơn vị sang trái, nhớ số nhớ ở mỗi hàng.', 'Work from the ones column to the left, remembering any carry.');
+  if(lv < 3){ let a, b, i, j; do { a = R(100, 899); b = R(100, 999 - a > 99 ? 999 : 899); i = R(0, 2); j = lv === 1 ? -1 : R(0, 2); } while(a + b > 1999 || (lv === 2 && i === j));
+    const c = a + b, dA = +String(a)[i], dB = j >= 0 ? +String(b)[j] : null;
+    return QB({text:V('Điền chữ số thích hợp vào ô trống:', 'Fill in the missing digit' + (lv === 2 ? 's:' : ':')), tpl:`<span class="eq">${hideDig(a, i)} + ${j >= 0 ? hideDig(b, j) : b} = ${c}</span>`, ans:j >= 0 ? [dA, dB] : [dA],
+      hint, sol:L2([`${boldDig(a, i)} + ${j >= 0 ? boldDig(b, j) : b} = ${c}`], [`${boldDig(a, i)} + ${j >= 0 ? boldDig(b, j) : b} = ${c}`])}); }
+  let b, c, i, j; do { b = R(100, 999); c = R(1000, 8999); i = R(0, 3); j = R(0, 3); } while(b + c > 9999 || i === j);
+  const a = b + c;
+  return QB({text:V('Điền chữ số thích hợp vào ô trống:', 'Fill in the missing digits:'), tpl:`<span class="eq">${hideDig(a, i)} − ${b} = ${hideDig(c, j)}</span>`, ans:[+String(a)[i], +String(c)[j]],
+    hint:V('Phép trừ: Số bị trừ = Hiệu + Số trừ. Thử lại bằng phép cộng từ hàng đơn vị.', 'Subtraction: check with addition (difference + subtrahend = minuend), from the ones column.'),
+    sol:L2([`${boldDig(a, i)} − ${b} = ${boldDig(c, j)}`, `Thử lại: ${c} + ${b} = ${a}`], [`${boldDig(a, i)} − ${b} = ${boldDig(c, j)}`, `Check: ${c} + ${b} = ${a}`])});
+};
+const tdConsec = lv => {
+  if(lv === 1){ const n = R(20, 500), S = 2 * n + 1;
+    return QB({text:V(`Tổng của hai số tự nhiên liên tiếp là ${S}. Tìm số lớn hơn.`, `Two consecutive whole numbers add up to ${S}. Find the larger one.`), tpl:'[_]', ans:[n + 1],
+      hint:V('Hai số liên tiếp hơn kém nhau 1: tổng – hiệu với hiệu bằng 1.', 'Consecutive numbers differ by 1: use sum and difference with difference 1.'),
+      sol:L2([`(${S} + 1) : 2 = ${Bb(n + 1)}`], [`(${S} + 1) : 2 = ${Bb(n + 1)}`])}); }
+  if(lv === 2){ const n = R(20, 300), S = 3 * n + 3;
+    return QB({text:V(`Tổng của ba số tự nhiên liên tiếp là ${S}. Tìm số bé nhất.`, `Three consecutive whole numbers add up to ${S}. Find the smallest one.`), tpl:'[_]', ans:[n],
+      hint:V('Số ở giữa bằng tổng chia 3.', 'The middle number is the sum divided by 3.'),
+      sol:L2([`Số ở giữa: ${S} : 3 = ${n + 1}`, `Số bé nhất: ${n + 1} − 1 = ${Bb(n)}`], [`Middle: ${S} : 3 = ${n + 1}`, `Smallest: ${n + 1} − 1 = ${Bb(n)}`])}); }
+  const e = 2 * R(10, 150), S = 3 * e + 6;
+  return QB({text:V(`Tổng của ba số chẵn liên tiếp là ${S}. Tìm số lớn nhất.`, `Three consecutive even numbers add up to ${S}. Find the largest one.`), tpl:'[_]', ans:[e + 4],
+    hint:V('Ba số chẵn liên tiếp hơn kém nhau 2; số ở giữa bằng tổng chia 3.', 'Consecutive even numbers differ by 2; the middle one is the sum divided by 3.'),
+    sol:L2([`Số ở giữa: ${S} : 3 = ${e + 2}`, `Số lớn nhất: ${e + 2} + 2 = ${Bb(e + 4)}`], [`Middle: ${S} : 3 = ${e + 2}`, `Largest: ${e + 2} + 2 = ${Bb(e + 4)}`])});
+};
+lesson(51, 'td-dien-chu-so-cau-do-so', 'Tính ngược, điền chữ số, câu đố số', 'Tính ngược từ kết quả; điền chữ số còn thiếu trong phép cộng, trừ; số liên tiếp.', [tdBack, tdConsec, tdDigit], {
+  bi:true, en:'Working backwards, missing digits and number riddles', descEn:'Work backwards from a result; fill in missing digits; consecutive numbers.',
+  intro:[
+    {t:['Tính ngược từ cuối lên đầu', 'Work backwards'], b:['Đi ngược các bước và dùng phép tính ngược: cộng ↔ trừ, nhân ↔ chia.', 'Go through the steps in reverse and undo each one: + ↔ −, × ↔ :.'], ex:['Nhân 7 rồi trừ 13 được 141 ⇒ (141 + 13) : 7 = 22.', '×7 then −13 gives 141 ⇒ (141 + 13) : 7 = 22.']},
+    {t:['Điền chữ số còn thiếu', 'Missing digits'], b:['Làm từ hàng đơn vị sang trái, chú ý số nhớ. Phép trừ thì thử lại bằng phép cộng.', 'Work from the ones column leftwards and watch the carries. Check subtractions with addition.']},
+    {t:['Số liên tiếp', 'Consecutive numbers'], b:['Hai số liên tiếp hơn kém 1. Ba số liên tiếp: <b>số giữa = tổng : 3</b>. Số chẵn (lẻ) liên tiếp hơn kém 2.', 'Consecutive numbers differ by 1. For three of them, <b>middle = sum : 3</b>. Consecutive even (odd) numbers differ by 2.']}]});
+
+/* ---------------------------------------------------------------- BÀI 5. TRỒNG CÂY – KHOẢNG CÁCH */
+const tdLine = lv => { const d = R(2, 10);
+  if(lv === 1){ const n = R(5, 20), dd = R(3, 20);
+    return QB({text:V(`Dọc một con đường có ${n} cột điện, hai cột liền nhau cách nhau ${dd} m. Hỏi từ cột đầu tiên đến cột cuối cùng dài bao nhiêu mét?`, `There are ${n} poles along a road, ${dd} m apart. What is the distance from the first pole to the last one?`), tpl:'[_] m', ans:[(n - 1) * dd],
+      hint:V('Số khoảng cách = Số cột − 1.', 'Number of gaps = Number of poles − 1.'),
+      sol:L2([`Số khoảng cách: ${n} − 1 = ${n - 1}`, `Độ dài: ${n - 1} × ${dd} = ${Bb((n - 1) * dd)} (m)`], [`Gaps: ${n} − 1 = ${n - 1}`, `Distance: ${n - 1} × ${dd} = ${Bb((n - 1) * dd)} (m)`])}); }
+  const k = R(8, 45), L = k * d, ends = lv === 2;
+  return QB({text:V(`Người ta trồng cây dọc một đoạn đường dài ${L} m, cây nọ cách cây kia ${d} m${ends ? ', có trồng ở cả hai đầu đường' : ', <b>không</b> trồng ở hai đầu đường'}. Hỏi cần bao nhiêu cây?`,
+      `Trees are planted along a ${L} m path, ${d} m apart${ends ? ', with a tree at both ends' : ', with <b>no</b> tree at either end'}. How many trees are needed?`), tpl:`[_] ${v('cây', 'trees')}`, ans:[ends ? k + 1 : k - 1],
+    hint:ends ? V('Có cây ở hai đầu: Số cây = Số khoảng + 1.', 'Trees at both ends: Trees = Gaps + 1.') : V('Không trồng ở hai đầu: Số cây = Số khoảng − 1.', 'No trees at the ends: Trees = Gaps − 1.'),
+    sol:L2([`Số khoảng: ${L} : ${d} = ${k}`, `Số cây: ${k} ${ends ? '+' : '−'} 1 = ${Bb(ends ? k + 1 : k - 1)} (cây)`], [`Gaps: ${L} : ${d} = ${k}`, `Trees: ${k} ${ends ? '+' : '−'} 1 = ${Bb(ends ? k + 1 : k - 1)}`])});
+};
+const tdClosed = lv => { const d = R(2, 8);
+  if(lv === 1){ const k = R(10, 60), P = k * d;
+    return QB({text:V(`Quanh một hồ nước có chu vi ${P} m, người ta trồng cây cách nhau ${d} m. Hỏi trồng được bao nhiêu cây?`, `Trees are planted ${d} m apart all around a lake with a perimeter of ${P} m. How many trees are there?`), tpl:`[_] ${v('cây', 'trees')}`, ans:[k],
+      hint:V('Trồng khép kín (vòng quanh): Số cây = Số khoảng.', 'Around a closed shape: Trees = Gaps.'), sol:L2([`${P} : ${d} = ${Bb(k)} (cây)`], [`${P} : ${d} = ${Bb(k)} (trees)`])}); }
+  if(lv === 2){ const m = R(3, 15), a = m * d;
+    return QB({text:V(`Một mảnh vườn hình vuông cạnh ${a} m. Người ta trồng cây quanh vườn, ở 4 góc đều có cây, cây nọ cách cây kia ${d} m. Hỏi trồng bao nhiêu cây?`, `A square garden has sides of ${a} m. Trees are planted around it ${d} m apart, with a tree at each corner. How many trees are planted?`), tpl:`[_] ${v('cây', 'trees')}`, ans:[4 * m],
+      hint:V('Tính chu vi rồi áp dụng: trồng khép kín thì số cây = số khoảng.', 'Find the perimeter; around a closed shape, trees = gaps.'),
+      sol:L2([`Chu vi: ${a} × 4 = ${4 * a} (m)`, `Số cây: ${4 * a} : ${d} = ${Bb(4 * m)} (cây)`], [`Perimeter: ${a} × 4 = ${4 * a} (m)`, `Trees: ${4 * a} : ${d} = ${Bb(4 * m)}`])}); }
+  const k = R(8, 40), L = k * d;
+  return QB({text:V(`Hai bên một con đường dài ${L} m, mỗi bên trồng một hàng cây, cây nọ cách cây kia ${d} m, cả hai đầu đường đều có cây. Hỏi trồng tất cả bao nhiêu cây?`, `A ${L} m road has a row of trees on each side, ${d} m apart, with trees at both ends. How many trees are there altogether?`), tpl:`[_] ${v('cây', 'trees')}`, ans:[2 * (k + 1)],
+    hint:V('Tính số cây của một bên trước rồi nhân 2.', 'Find the trees on one side first, then multiply by 2.'),
+    sol:L2([`Một bên: ${L} : ${d} + 1 = ${k + 1} (cây)`, `Hai bên: ${k + 1} × 2 = ${Bb(2 * (k + 1))} (cây)`], [`One side: ${L} : ${d} + 1 = ${k + 1}`, `Both sides: ${k + 1} × 2 = ${Bb(2 * (k + 1))}`])});
+};
+const tdCut = lv => {
+  if(lv < 3){ const n = R(4, 15), t = R(2, 9);
+    return QB({text:lv === 1 ? V(`Cưa một khúc gỗ thành ${n} đoạn thì phải cưa bao nhiêu lần?`, `How many cuts are needed to saw a log into ${n} pieces?`) : V(`Cưa một khúc gỗ thành ${n} đoạn, mỗi lần cưa mất ${t} phút. Hỏi cưa xong hết bao nhiêu phút?`, `A log is sawn into ${n} pieces. Each cut takes ${t} minutes. How long does it take altogether?`),
+      tpl:lv === 1 ? `[_] ${v('lần', 'cuts')}` : `[_] ${v('phút', 'minutes')}`, ans:[lv === 1 ? n - 1 : (n - 1) * t],
+      hint:V('Các đoạn gỗ giống các “cây”, vết cưa giống “khoảng cách” ở giữa: số lần cưa = số đoạn − 1.', 'Pieces are like “trees” and cuts are the gaps between them: cuts = pieces − 1.'),
+      sol:L2([`Số lần cưa: ${n} − 1 = ${lv === 1 ? Bb(n - 1) : n - 1}`, ...(lv === 1 ? [] : [`Thời gian: ${n - 1} × ${t} = ${Bb((n - 1) * t)} (phút)`])], [`Cuts: ${n} − 1 = ${lv === 1 ? Bb(n - 1) : n - 1}`, ...(lv === 1 ? [] : [`Time: ${n - 1} × ${t} = ${Bb((n - 1) * t)} (minutes)`])])}); }
+  const k = R(3, 12), s = R(12, 24);
+  return QB({text:V(`Mỗi tầng cầu thang của một tòa nhà có ${s} bậc. Đi từ tầng 1 (mặt đất) lên tầng ${k} phải bước qua bao nhiêu bậc?`, `Each flight of stairs in a building has ${s} steps. How many steps do you climb from floor 1 (ground) to floor ${k}?`), tpl:`[_] ${v('bậc', 'steps')}`, ans:[(k - 1) * s],
+    hint:V(`Từ tầng 1 lên tầng ${k} chỉ đi qua ${k} − 1 đợt cầu thang.`, `From floor 1 to floor ${k} you only climb ${k} − 1 flights.`),
+    sol:L2([`Số đợt cầu thang: ${k} − 1 = ${k - 1}`, `Số bậc: ${k - 1} × ${s} = ${Bb((k - 1) * s)}`], [`Flights: ${k} − 1 = ${k - 1}`, `Steps: ${k - 1} × ${s} = ${Bb((k - 1) * s)}`])});
+};
+lesson(51, 'td-trong-cay-khoang-cach', 'Bài toán trồng cây và khoảng cách', 'Quan hệ giữa số cây (cột, đoạn) và số khoảng cách: hai đầu, không có đầu, khép kín.', [tdLine, tdClosed, tdCut], {
+  bi:true, en:'Trees and gaps', descEn:'How the number of trees (poles, pieces) relates to the number of gaps: open rows and closed loops.',
+  intro:[
+    {t:['Hàng cây có cây ở hai đầu', 'A row with trees at both ends'], b:['<b>Số cây = Số khoảng + 1</b>; Số khoảng = Độ dài : Khoảng cách.', '<b>Trees = Gaps + 1</b>; Gaps = Length : Distance apart.'], ex:['Đường 20 m, cách 5 m ⇒ 4 khoảng ⇒ 5 cây.', 'A 20 m path, 5 m apart ⇒ 4 gaps ⇒ 5 trees.'], fig:treesSVG(5, false)},
+    {t:['Không trồng ở hai đầu', 'No trees at the ends'], b:['<b>Số cây = Số khoảng − 1</b>. Trồng ở một đầu: Số cây = Số khoảng.', '<b>Trees = Gaps − 1</b>. A tree at only one end: Trees = Gaps.']},
+    {t:['Trồng khép kín (quanh hồ, quanh vườn)', 'Closed loops (around a lake or a garden)'], b:['<b>Số cây = Số khoảng = Chu vi : Khoảng cách</b>. Cưa gỗ: số lần cưa = số đoạn − 1.', '<b>Trees = Gaps = Perimeter : Distance apart</b>. Sawing: cuts = pieces − 1.'], fig:treesSVG(6, true)}]});
+
+/* ---------------------------------------------------------------- BÀI 6. THỪA – THIẾU, CHÊNH LỆCH */
+const tdMoney = lv => { const [X] = two(), p = R(3, 12), a = R(2, 6), b = a + R(2, 5);
+  if(lv < 3){ const r2 = R(1, (b - a) * p - 1), M = b * p - r2, r1 = M - a * p;
+    return QB({text:V(`${X} mang một số tiền đi mua vở. Nếu mua ${a} quyển thì còn thừa ${r1} nghìn đồng; nếu mua ${b} quyển thì thiếu ${r2} nghìn đồng. ${lv === 1 ? 'Hỏi giá một quyển vở là bao nhiêu?' : `Hỏi ${X} mang theo bao nhiêu tiền?`}`,
+        `${X} goes to buy notebooks. Buying ${a} leaves ${r1} thousand dong; buying ${b} would need ${r2} thousand dong more. ${lv === 1 ? 'How much does one notebook cost?' : `How much money does ${X} have?`}`),
+      tpl:`[_] ${v('nghìn đồng', 'thousand dong')}`, ans:[lv === 1 ? p : M],
+      hint:V(`Mua thêm ${b} − ${a} quyển thì số tiền chênh lệch là thừa + thiếu.`, `Buying ${b} − ${a} more notebooks costs the leftover plus the shortage.`),
+      sol:L2([`Số vở chênh: ${b} − ${a} = ${b - a} (quyển)`, `Tiền chênh: ${r1} + ${r2} = ${r1 + r2} (nghìn đồng)`, `Giá một quyển: ${r1 + r2} : ${b - a} = ${lv === 1 ? Bb(p) : p} (nghìn đồng)`, ...(lv === 1 ? [] : [`Số tiền: ${a} × ${p} + ${r1} = ${Bb(M)} (nghìn đồng)`])],
+             [`Extra notebooks: ${b} − ${a} = ${b - a}`, `Money gap: ${r1} + ${r2} = ${r1 + r2}`, `One notebook: ${r1 + r2} : ${b - a} = ${lv === 1 ? Bb(p) : p}`, ...(lv === 1 ? [] : [`Money: ${a} × ${p} + ${r1} = ${Bb(M)}`])])}); }
+  const r2 = R(1, 10), r1 = r2 + (b - a) * p, M = a * p + r1;
+  return QB({text:V(`${X} có một số tiền. Nếu mua ${a} quyển vở thì còn thừa ${r1} nghìn đồng; nếu mua ${b} quyển vở thì vẫn còn thừa ${r2} nghìn đồng. Hỏi ${X} có bao nhiêu tiền?`, `${X} has some money. Buying ${a} notebooks leaves ${r1} thousand dong; buying ${b} notebooks still leaves ${r2} thousand dong. How much money does ${X} have?`),
+    tpl:`[_] ${v('nghìn đồng', 'thousand dong')}`, ans:[M],
+    hint:V('Cả hai lần đều thừa: tiền chênh = thừa nhiều − thừa ít.', 'Money left both times: the gap = bigger leftover − smaller leftover.'),
+    sol:L2([`Tiền chênh: ${r1} − ${r2} = ${r1 - r2} ứng với ${b - a} quyển`, `Giá một quyển: ${r1 - r2} : ${b - a} = ${p}`, `Số tiền: ${a} × ${p} + ${r1} = ${Bb(M)} (nghìn đồng)`], [`Gap: ${r1} − ${r2} = ${r1 - r2} for ${b - a} notebooks`, `One notebook: ${r1 - r2} : ${b - a} = ${p}`, `Money: ${a} × ${p} + ${r1} = ${Bb(M)}`])});
+};
+const tdShare = lv => { const n = R(5, 15), a = R(2, 5), b = a + R(1, 3);
+  if(lv < 3){ const r1 = R(1, (b - a) * n - 1), K = a * n + r1, r2 = b * n - K;
+    return QB({text:V(`Cô giáo chia kẹo cho các bạn. Nếu mỗi bạn ${a} cái thì thừa ${r1} cái; nếu mỗi bạn ${b} cái thì thiếu ${r2} cái. Hỏi ${lv === 1 ? 'có bao nhiêu bạn' : 'có bao nhiêu bạn và bao nhiêu cái kẹo'}?`,
+        `The teacher shares candies. If each pupil gets ${a}, ${r1} are left over; if each gets ${b}, ${r2} are missing. How many ${lv === 1 ? 'pupils are there' : 'pupils and candies are there'}?`),
+      tpl:lv === 1 ? `[_] ${v('bạn', 'pupils')}` : `[_] ${v('bạn', 'pupils')} &nbsp; [_] ${v('cái kẹo', 'candies')}`, ans:lv === 1 ? [n] : [n, K],
+      hint:V(`Mỗi bạn nhận thêm ${b} − ${a} cái thì cần thêm: số thừa + số thiếu.`, `Giving each pupil ${b} − ${a} more needs the leftover plus the shortage.`),
+      sol:L2([`Mỗi bạn thêm: ${b} − ${a} = ${b - a} (cái)`, `Cần thêm: ${r1} + ${r2} = ${r1 + r2} (cái)`, `Số bạn: ${r1 + r2} : ${b - a} = ${Bb(n)}`, ...(lv === 1 ? [] : [`Số kẹo: ${a} × ${n} + ${r1} = ${Bb(K)}`])],
+             [`Extra per pupil: ${b} − ${a} = ${b - a}`, `Extra needed: ${r1} + ${r2} = ${r1 + r2}`, `Pupils: ${r1 + r2} : ${b - a} = ${Bb(n)}`, ...(lv === 1 ? [] : [`Candies: ${a} × ${n} + ${r1} = ${Bb(K)}`])])}); }
+  const r3 = R(1, a * n - 1), K = a * n - r3, r2 = b * n - K;
+  return QB({text:V(`Chia kẹo cho các bạn: nếu mỗi bạn ${b} cái thì thiếu ${r2} cái; nếu mỗi bạn ${a} cái thì vẫn thiếu ${r3} cái. Hỏi có bao nhiêu bạn và bao nhiêu cái kẹo?`, `Sharing candies: if each pupil gets ${b}, ${r2} are missing; if each gets ${a}, ${r3} are still missing. How many pupils and candies are there?`),
+    tpl:`[_] ${v('bạn', 'pupils')} &nbsp; [_] ${v('cái kẹo', 'candies')}`, ans:[n, K],
+    hint:V('Cả hai lần đều thiếu: chênh lệch = thiếu nhiều − thiếu ít.', 'Short both times: the gap = bigger shortage − smaller shortage.'),
+    sol:L2([`Chênh: ${r2} − ${r3} = ${r2 - r3} (cái), mỗi bạn chênh ${b - a} cái`, `Số bạn: ${r2 - r3} : ${b - a} = ${Bb(n)}`, `Số kẹo: ${a} × ${n} − ${r3} = ${Bb(K)}`], [`Gap: ${r2} − ${r3} = ${r2 - r3}, ${b - a} per pupil`, `Pupils: ${r2 - r3} : ${b - a} = ${Bb(n)}`, `Candies: ${a} × ${n} − ${r3} = ${Bb(K)}`])});
+};
+const tdDiff = lv => {
+  if(lv < 3){ const p = R(2, 9), q = R(4, 15), a = R(2, 6), b1 = R(1, 4), b2 = b1 + R(1, 4), X = a * q + b1 * p, Y = a * q + b2 * p;
+    return QB({text:V(`Mua ${a} quyển vở và ${b1} cái bút hết ${X} nghìn đồng. Mua ${a} quyển vở và ${b2} cái bút hết ${Y} nghìn đồng. ${lv === 1 ? 'Giá một cái bút là bao nhiêu?' : 'Giá một cái bút và một quyển vở là bao nhiêu?'}`,
+        `${a} notebooks and ${b1} pens cost ${X} thousand dong. ${a} notebooks and ${b2} pens cost ${Y} thousand dong. ${lv === 1 ? 'How much is one pen?' : 'How much is one pen and one notebook?'}`),
+      tpl:lv === 1 ? `[_] ${v('nghìn đồng', 'thousand dong')}` : `${v('Bút', 'Pen')}: [_] &nbsp; ${v('Vở', 'Notebook')}: [_]`, ans:lv === 1 ? [p] : [p, q],
+      hint:V('Hai lần mua có cùng số vở: tiền chênh chính là tiền của số bút mua thêm.', 'Both times the notebooks are the same: the price gap is the cost of the extra pens.'),
+      sol:L2([`Bút thêm: ${b2} − ${b1} = ${b2 - b1}; tiền thêm: ${Y} − ${X} = ${Y - X}`, `Một cái bút: ${Y - X} : ${b2 - b1} = ${Bb(p)}`, ...(lv === 1 ? [] : [`Một quyển vở: (${X} − ${b1} × ${p}) : ${a} = ${Bb(q)}`])],
+             [`Extra pens: ${b2 - b1}; extra cost: ${Y} − ${X} = ${Y - X}`, `One pen: ${Y - X} : ${b2 - b1} = ${Bb(p)}`, ...(lv === 1 ? [] : [`One notebook: (${X} − ${b1} × ${p}) : ${a} = ${Bb(q)}`])])}); }
+  const [X, Y] = two(); let h, k; do { h = R(4, 30); k = R(2, 15); } while(2 * k === h);
+  const good = 2 * k < h ? bin(`${X} hơn ${Y} ${h - 2 * k} viên`, `${X} has ${h - 2 * k} more`) : bin(`${Y} hơn ${X} ${2 * k - h} viên`, `${Y} has ${2 * k - h} more`);
+  const w = [bin(`${X} hơn ${Y} ${h - k > 0 ? h - k : h + k} viên`, `${X} has ${h - k > 0 ? h - k : h + k} more`), bin(`${Y} hơn ${X} ${2 * k + h} viên`, `${Y} has ${2 * k + h} more`), bin('Hai bạn bằng nhau', 'They have the same number'), bin(`${X} hơn ${Y} ${h + 2 * k} viên`, `${X} has ${h + 2 * k} more`)].filter(x => x !== good);
+  return qc({text:V(`${X} có nhiều hơn ${Y} ${h} viên bi. Nếu ${X} cho ${Y} ${k} viên bi thì khi đó:`, `${X} has ${h} more marbles than ${Y}. If ${X} gives ${Y} ${k} marbles, then:`),
+    hint:V(`Cho ${k} viên thì ${X} bớt ${k}, ${Y} thêm ${k}: khoảng chênh thay đổi ${k} + ${k}.`, `Giving ${k}: ${X} loses ${k} and ${Y} gains ${k}, so the gap changes by ${k} + ${k}.`),
+    sol:L2([`Khoảng chênh thay đổi: ${k} × 2 = ${2 * k}`, 2 * k < h ? `${X} còn hơn: ${h} − ${2 * k} = <b>${h - 2 * k}</b> viên` : `${Y} lại hơn: ${2 * k} − ${h} = <b>${2 * k - h}</b> viên`],
+           [`The gap changes by ${k} × 2 = ${2 * k}`, 2 * k < h ? `${X} still has ${h} − ${2 * k} = <b>${h - 2 * k}</b> more` : `Now ${Y} has ${2 * k} − ${h} = <b>${2 * k - h}</b> more`])}, good, w.slice(0, 3));
+};
+lesson(51, 'td-thua-thieu-chenh-lech', 'Bài toán thừa – thiếu và lượng chênh lệch', 'Chia đồ vật khi thừa hoặc thiếu; so sánh hai lần mua để tìm giá; cho nhau thì chênh lệch thay đổi thế nào.', [tdDiff, tdShare, tdMoney], {
+  bi:true, en:'Leftover and shortage problems', descEn:'Sharing with items left over or missing; comparing two purchases to find prices; how giving changes the gap.',
+  intro:[
+    {t:['So sánh hai cách chia (thừa – thiếu)', 'Compare the two ways of sharing'], b:['Một lần thừa, một lần thiếu: <b>tổng chênh = thừa + thiếu</b>.<br>Hai lần cùng thừa (hoặc cùng thiếu): <b>chênh = số lớn − số bé</b>.<br><b>Số người = Tổng chênh : chênh mỗi người</b>.', 'Once left over, once short: <b>total gap = leftover + shortage</b>.<br>Left over both times (or short both times): <b>gap = bigger − smaller</b>.<br><b>People = total gap : gap per person</b>.'],
+     ex:['Mỗi bạn 3 cái thừa 5, mỗi bạn 5 cái thiếu 7 ⇒ (5 + 7) : (5 − 3) = 6 bạn.', '3 each leaves 5, 5 each is 7 short ⇒ (5 + 7) : (5 − 3) = 6 pupils.']},
+    {t:['Lượng chênh lệch khi mua hàng', 'Using the difference between two purchases'], b:['Hai lần mua giống nhau ở một loại hàng ⇒ phần tiền chênh là tiền của phần hàng mua thêm.', 'If two purchases share the same items, the extra money pays for the extra items only.']}]});
+}
+
 })();

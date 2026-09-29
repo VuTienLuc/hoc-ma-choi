@@ -83,7 +83,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 - Học sinh chọn lớp → chọn bài → chọn mức (1 Làm quen · 2 Luyện tập · 3 Thử thách) → làm một bộ 6 câu xếp từ dễ đến khó.
 - Câu hỏi **sinh ngẫu nhiên bằng code**, không lưu sẵn. Mỗi lần bấm "Làm bộ mới" sẽ ra câu khác.
 - Chấm: sai lần 1 → hiện gợi ý; sai lần 2 → hiện lời giải và khoá câu. Đúng lần đầu được 1 điểm, đúng lần hai được ½ điểm. Hết bộ thì cho 1–3 sao, lưu trong localStorage.
-- Hiện có: **Toán 4 – Kết nối tri thức (29 bài + 2 bài 🧠 Giải toán từng bước)**, **Toán 8 (chương II–III, 11 bài)**, **Toán 9 (chương I–V, 22 bài)**, **Toán 10 (chương I–III, 9 bài)**, **Toán 11 (chương I–II, 9 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
+- Hiện có: **Toán 4 – Kết nối tri thức (29 bài + 2 bài 🧠 Giải toán từng bước + 6 bài 🧠 Toán tư duy song ngữ – chủ đề Phép cộng và phép trừ)**, **Toán 8 (chương II–III, 11 bài)**, **Toán 9 (chương I–V, 22 bài)**, **Toán 10 (chương I–III, 9 bài)**, **Toán 11 (chương I–II, 9 bài)** – Kết nối tri thức. Lớp 9–11 xưng "em"; lớp 11 tính góc theo đơn vị U = 1/12 độ (π = 2160) trong `data/lop11.js`. **Từ lớp 6 trở lên mọi công thức viết bằng LaTeX, MathJax vẽ** (xem mục 4b). Mục tiêu là thêm dần các lớp và môn khác.
 
 ## 2. Cấu trúc và vai trò từng file
 
@@ -155,6 +155,13 @@ Cách viết `ans` cho ô trống:
 - số thập phân: `ans:[0.6]` nhận cả “0,6” và “0.6”; kết quả làm tròn nên cho đề sẵn giá trị gần đúng (vd. `sin 40° ≈ 0,64`) và chấp nhận thêm kết quả bấm máy trực tiếp: `ans:[[7.7, 7.6]]`.
 
 Token có thể nằm trong markup. Ví dụ `<span class="fr"><span>[_]</span><span>12</span></span>` hỏi riêng tử số.
+
+## 3b. Toán tư duy song ngữ + kiến thức trọng tâm (mẫu: cuối `data/lop4.js`, khối “🧠 TOÁN TƯ DUY”)
+- Nhóm riêng: `G.topics.splice(…, {id:51, hk:1, name:'Phép cộng và phép trừ', label:'🧠 Toán tư duy'})` – `label` thay chữ “Chủ đề N”.
+- `lesson(51, 'td-…', 'Tên bài', 'Mô tả', [dạng…], {bi:true, en:'English title', descEn:'…', intro:[{t:[vi,en], b:[vi,en], ex:[vi,en], fig}]})`.
+  `intro` = thẻ **📘 Kiến thức trọng tâm** hiện đầu trang bài (mở sẵn); `bi:true` hiện nút **Tiếng Việt / Song ngữ / English** (lưu `hoctap:lang`, mặc định song ngữ).
+- Mọi chữ trong đề, gợi ý, lời giải viết song ngữ: `bi(vi, en)` cho câu/đoạn, `bin(vi, en)` cho nhãn ngắn trong dòng (đơn vị, tên ô, phương án) – cả hai ở `core.js`. Đáp án số không phụ thuộc ngôn ngữ.
+- Dữ liệu thầy gửi theo mẫu Excel `Mau-du-lieu-Toan-tu-duy-lop4-song-ngu.xlsx` (trang BaiHoc, KienThuc, CauHoi, TuVung); câu `doi_so = Có` được lập trình thành dạng sinh số ngẫu nhiên.
 
 ## 4. Quy tắc nội dung (quan trọng nhất)
 
