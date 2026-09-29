@@ -1,0 +1,80 @@
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – LỚP 11 (Kết nối tri thức, tập 1) – câu VẬN DỤNG / câu KHÓ, lời giải ngắn gọn.
+   Một bộ chung: Bài 4. Phương trình lượng giác cơ bản + Bài tập cuối chương I (gắn vào bài giảng “Ôn tập chương I”).
+   Lecture.addSgk(lớp, mã bài giảng, [trang chiếu…]) – nạp SAU tệp bài giảng lop11.js.
+   Đề ghi tóm tắt, kèm số trang/số bài để thầy đối chiếu SGK.
+   ===================================================================== */
+(() => {
+const m = tm;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const f = (a, b) => `\\dfrac{${a}}{${b}}`, K = '(k \\in \\mathbb{Z})';
+
+Lecture.addSgk('lop11', 'on-tap-c1', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Phương trình lượng giác cơ bản và Ôn tập chương I', sub:'Các câu vận dụng, câu khó – SGK tập 1, trang 35 – 41',
+   points:['Bài 4: Vận dụng (tr. 35) – pha của Mặt Trăng; Bài 1.20, 1.21 (đạn pháo), 1.22 (dao động điều hoà) – tr. 39.',
+     'Cuối chương I (tr. 41): Bài 1.33b (tập giá trị), 1.34b, c (phương trình), 1.35 (huyết áp), 1.36 (khúc xạ ánh sáng).']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba kĩ thuật dùng trong các bài này',
+   body:`<ol class="lk-steps"><li><b>Đưa về cùng một hàm:</b> ${m('-\\cos v = \\cos(\\pi - v)')}, ${m('-\\sin v = \\cos\\left(\\tfrac{\\pi}{2} + v\\right)')}, ${m('2\\sin^2 x - 1 = -\\cos 2x')}; rồi dùng ${m('\\cos u = \\cos v \\Leftrightarrow u = \\pm v + k2\\pi')}.</li>
+     <li><b>Mô hình thực tế</b> ${m('y = A + B\\sin(\\omega t + \\varphi)')}: giá trị trong ${m('[A - |B|;\\ A + |B|]')}, chu kì ${m('T = \\tfrac{2\\pi}{|\\omega|}')}.</li>
+     <li><b>Đếm nghiệm theo thời gian:</b> viết họ nghiệm ${m('t = t_0 + kT')}, giải bất phương trình theo ${m('k \\in \\mathbb{Z}')}.</li></ol>` +
+     note(`Phương trình ${m('\\tan u = \\tan v')}: nhớ điều kiện ${m('\\cos u \\ne 0,\\ \\cos v \\ne 0')}.`)},
+
+  /* ---------- BÀI 4 ---------- */
+  {kind:'vd', tag:'SGK tr. 35 · Vận dụng', label:'Câu 1', de:`Phần Mặt Trăng được chiếu sáng nhìn từ Trái Đất là ${m(`F = ${f(1, 2)}(1 - \\cos\\alpha)`)} với ${m('0^\\circ \\le \\alpha \\le 360^\\circ')} (${m('\\alpha')} là góc Mặt Trời – Trái Đất – Mặt Trăng). Tìm ${m('\\alpha')} ứng với: a) trăng mới ${m('F = 0')}; b) trăng lưỡi liềm ${m('F = 0{,}25')}; c) trăng bán nguyệt ${m('F = 0{,}5')}; d) trăng tròn ${m('F = 1')}.`,
+   sol:[`${m(`${f(1, 2)}(1 - \\cos\\alpha) = F \\Leftrightarrow \\cos\\alpha = 1 - 2F`)}.`,
+     `a) ${m('\\cos\\alpha = 1 \\Rightarrow \\alpha \\in \\{0^\\circ;\\ 360^\\circ\\}')}. b) ${m(`\\cos\\alpha = ${f(1, 2)} \\Rightarrow \\alpha \\in \\{60^\\circ;\\ 300^\\circ\\}`)}.`,
+     `c) ${m('\\cos\\alpha = 0 \\Rightarrow \\alpha \\in \\{90^\\circ;\\ 270^\\circ\\}')}. d) ${m('\\cos\\alpha = -1 \\Rightarrow \\alpha = 180^\\circ')}.`],
+   ans:`a) ${tb('0^\\circ;\\ 360^\\circ')} · b) ${tb('60^\\circ;\\ 300^\\circ')} · c) ${tb('90^\\circ;\\ 270^\\circ')} · d) ${tb('180^\\circ')}.`},
+
+  {kind:'vd', tag:'SGK tr. 39 · Bài 1.20', label:'Câu 2', de:`Giải các phương trình: a) ${m('\\sin 2x + \\cos 4x = 0')}; b) ${m('\\cos 3x = -\\cos 7x')}.`,
+   sol:[`a) ${m('\\cos 4x = -\\sin 2x = \\cos\\left(\\tfrac{\\pi}{2} + 2x\\right) \\Leftrightarrow 4x = \\pm\\left(\\tfrac{\\pi}{2} + 2x\\right) + k2\\pi')}.`,
+     `${m('2x = \\tfrac{\\pi}{2} + k2\\pi \\Rightarrow x = \\tfrac{\\pi}{4} + k\\pi')}; ${m('6x = -\\tfrac{\\pi}{2} + k2\\pi \\Rightarrow x = -\\tfrac{\\pi}{12} + k\\tfrac{\\pi}{3}')}.`,
+     `b) ${m('\\cos 3x = \\cos(\\pi - 7x) \\Leftrightarrow 3x = \\pm(\\pi - 7x) + k2\\pi')}.`,
+     `${m('10x = \\pi + k2\\pi \\Rightarrow x = \\tfrac{\\pi}{10} + k\\tfrac{\\pi}{5}')}; ${m('-4x = -\\pi + k2\\pi \\Rightarrow x = \\tfrac{\\pi}{4} + k\\tfrac{\\pi}{2}')}.`],
+   ans:`a) ${tb('x = \\tfrac{\\pi}{4} + k\\pi;\\ x = -\\tfrac{\\pi}{12} + k\\tfrac{\\pi}{3}')} · b) ${tb('x = \\tfrac{\\pi}{10} + k\\tfrac{\\pi}{5};\\ x = \\tfrac{\\pi}{4} + k\\tfrac{\\pi}{2}')} ${m(K)}.`},
+
+  {kind:'vd', tag:'SGK tr. 39 · Bài 1.21', label:'Câu 3', de:`Đạn pháo bắn với vận tốc ban đầu ${m('v_0 = 500')} m/s, hợp với phương ngang góc ${m('\\alpha')}. Bỏ qua sức cản không khí, quỹ đạo là ${m(`y = -${f('g', '2v_0^2\\cos^2\\alpha')}x^2 + x\\tan\\alpha`)} (${m('g = 9{,}8')} m/s²). a) Tính tầm xa theo ${m('\\alpha')}. b) Tìm ${m('\\alpha')} để trúng mục tiêu cách ${m('22\\,000')} m.`,
+   sol:[`a) Đạn chạm đất khi ${m('y = 0,\\ x \\gt 0')}: ${m(`x = ${f('2v_0^2\\sin\\alpha\\cos\\alpha', 'g')} = ${f('v_0^2\\sin 2\\alpha', 'g')} = ${f('1\\,250\\,000\\sin 2\\alpha', '49')}`)} (m).`,
+     `b) ${m(`${f('1\\,250\\,000\\sin 2\\alpha', '49')} = 22\\,000 \\Leftrightarrow \\sin 2\\alpha = ${f(539, 625)} = 0{,}8624`)}.`,
+     `${m('2\\alpha \\approx 59{,}6^\\circ')} hoặc ${m('2\\alpha \\approx 180^\\circ - 59{,}6^\\circ = 120{,}4^\\circ')} (với ${m('0^\\circ \\lt \\alpha \\lt 90^\\circ')}).`],
+   ans:`a) ${tb(`x = ${f('1\\,250\\,000\\sin 2\\alpha', '49')}`)} m · b) ${tb('\\alpha \\approx 29{,}8^\\circ')} hoặc ${tb('\\alpha \\approx 60{,}2^\\circ')}.`},
+
+  {kind:'vd', tag:'SGK tr. 39 · Bài 1.22', label:'Câu 4', de:`Một vật dao động điều hoà theo phương trình ${m('x = 2\\cos\\left(5t - \\dfrac{\\pi}{6}\\right)')} (${m('x')}: cm, ${m('t')}: giây). Từ ${m('t = 0')} đến ${m('t = 6')} giây, vật đi qua vị trí cân bằng bao nhiêu lần?`,
+   sol:[`Vị trí cân bằng: ${m('x = 0 \\Leftrightarrow \\cos\\left(5t - \\tfrac{\\pi}{6}\\right) = 0 \\Leftrightarrow 5t - \\tfrac{\\pi}{6} = \\tfrac{\\pi}{2} + k\\pi')}.`,
+     `${m(`t = ${f('2\\pi', 15)} + k${f('\\pi', 5)}`)} ${m(K)}.`,
+     `${m(`0 \\le ${f('2\\pi', 15)} + k${f('\\pi', 5)} \\le 6 \\Leftrightarrow -${f(2, 3)} \\le k \\le ${f(30, '\\pi')} - ${f(2, 3)} \\approx 8{,}88`)} ⇒ ${m('k \\in \\{0;\\ 1;\\ \\ldots;\\ 8\\}')}.`],
+   ans:`Vật qua vị trí cân bằng ${tb('9')} lần.`},
+
+  /* ---------- CUỐI CHƯƠNG I ---------- */
+  {kind:'vd', tag:'SGK tr. 41 · Bài 1.33b', label:'Câu 5', de:`Tìm tập giá trị của hàm số ${m('y = \\sin x + \\cos x')}.`,
+   sol:[`Công thức cộng: ${m(`\\sin x + \\cos x = \\sqrt{2}\\left(\\sin x\\cos\\tfrac{\\pi}{4} + \\cos x\\sin\\tfrac{\\pi}{4}\\right) = \\sqrt{2}\\sin\\left(x + \\tfrac{\\pi}{4}\\right)`)}.`,
+     `${m('-1 \\le \\sin\\left(x + \\tfrac{\\pi}{4}\\right) \\le 1 \\Rightarrow -\\sqrt{2} \\le y \\le \\sqrt{2}')}; hai giá trị đầu mút đều đạt được.`],
+   ans:`Tập giá trị ${tb('[-\\sqrt{2};\\ \\sqrt{2}]')}.`},
+
+  {kind:'vd', tag:'SGK tr. 41 · Bài 1.34b, c', label:'Câu 6', de:`Giải các phương trình: b) ${m('2\\sin^2 x - 1 + \\cos 3x = 0')}; c) ${m('\\tan\\left(2x + \\dfrac{\\pi}{5}\\right) = \\tan\\left(x - \\dfrac{\\pi}{6}\\right)')}.`,
+   sol:[`b) ${m('2\\sin^2 x - 1 = -\\cos 2x')} nên phương trình ${m('\\Leftrightarrow \\cos 3x = \\cos 2x \\Leftrightarrow 3x = \\pm 2x + k2\\pi')}.`,
+     `${m('x = k2\\pi')} hoặc ${m(`x = k${f('2\\pi', 5)}`)}; họ thứ nhất nằm trong họ thứ hai.`,
+     `c) Điều kiện ${m('\\cos\\left(2x + \\tfrac{\\pi}{5}\\right) \\ne 0,\\ \\cos\\left(x - \\tfrac{\\pi}{6}\\right) \\ne 0')}. ${m('2x + \\tfrac{\\pi}{5} = x - \\tfrac{\\pi}{6} + k\\pi \\Leftrightarrow x = -\\tfrac{11\\pi}{30} + k\\pi')}.`,
+     `Khi đó ${m('x - \\tfrac{\\pi}{6} = -\\tfrac{8\\pi}{15} + k\\pi')} và ${m('2x + \\tfrac{\\pi}{5} = -\\tfrac{8\\pi}{15} + 2k\\pi')}, đều không có dạng ${m('\\tfrac{\\pi}{2} + n\\pi')} ⇒ thoả mãn điều kiện.`],
+   ans:`b) ${tb(`x = k${f('2\\pi', 5)}`)} · c) ${tb('x = -\\tfrac{11\\pi}{30} + k\\pi')} ${m(K)}.`},
+
+  {kind:'vd', tag:'SGK tr. 41 · Bài 1.35', label:'Câu 7', de:`Huyết áp của một người được mô hình hoá bởi ${m('p(t) = 115 + 25\\sin(160\\pi t)')} (${m('p')}: mmHg, ${m('t')}: phút). a) Tìm chu kì của hàm số. b) Tính số nhịp tim mỗi phút. c) Tìm chỉ số huyết áp (tâm thu/tâm trương) và so sánh với mức bình thường 120/80.`,
+   sol:[`a) ${m(`T = ${f('2\\pi', '160\\pi')} = ${f(1, 80)}`)} (phút).`,
+     `b) Mỗi chu kì là một nhịp tim ⇒ số nhịp mỗi phút ${m(`= 1 : ${f(1, 80)} = 80`)}.`,
+     `c) ${m('-1 \\le \\sin(160\\pi t) \\le 1 \\Rightarrow 90 \\le p(t) \\le 140')}: huyết áp ${m('140/90')}, cao hơn mức 120/80.`],
+   ans:`a) ${tb(`T = ${f(1, 80)}`)} phút · b) ${tb('80')} nhịp/phút · c) ${tb('140/90')} mmHg – cao hơn bình thường.`},
+
+  {kind:'vd', tag:'SGK tr. 41 · Bài 1.36', label:'Câu 8', de:`Tia sáng đi từ không khí (${m('n_1 = 1')}) vào nước (${m('n_2 = 1{,}33')}) với góc tới ${m('i = 50^\\circ')}. Theo định luật khúc xạ ${m(`${f('\\sin i', '\\sin r')} = ${f('n_2', 'n_1')}`)}, tính góc khúc xạ ${m('r')}.`,
+   sol:[`${m(`\\sin r = ${f('n_1\\sin i', 'n_2')} = ${f('\\sin 50^\\circ', '1{,}33')} \\approx 0{,}5760`)}.`,
+     `Vì ${m('0^\\circ \\lt r \\lt 90^\\circ')} nên dùng máy tính: ${m('r \\approx 35{,}17^\\circ')}.`],
+   ans:`${tb("r \\approx 35^\\circ 10'")}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Chia hai vế cho biểu thức có thể bằng 0 – hãy chuyển về cùng một hàm hoặc đặt nhân tử chung.</li>
+     <li>Quên điều kiện của ${m('\\tan, \\cot')}; quên ${m(K)}; không gộp họ nghiệm trùng (Bài 1.34b).</li>
+     <li>Bài thực tế: nhầm đơn vị (phút/giây, độ/radian); với ${m('\\sin 2\\alpha = c')} phải lấy cả ${m('2\\alpha')} và ${m('180^\\circ - 2\\alpha')}.</li>
+     <li>Đếm nghiệm theo thời gian: giải bất phương trình theo ${m('k')}, đếm số nguyên ${m('k')} (Bài 1.22).</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Ôn tập chương I và phiếu 🏋️ Luyện tập.')},
+], 'Bài 4. Phương trình lượng giác cơ bản và Ôn tập chương I');
+})();

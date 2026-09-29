@@ -14,9 +14,9 @@ const Lecture = (() => {
   const addPractice = (grade, id, groups) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id);
     if(l) l.practice = groups; else console.warn('Không thấy bài', grade, id); };
   // Giải bài tập SGK (câu vận dụng/khó): Lecture.addSgk('lop10', 'bai-3', [trang chiếu…]) – cùng kiểu trang như bài giảng (title, kt, vd, sum).
-  const addSgk = (grade, id, slides) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id);
-    if(l) l.sgk = slides; else console.warn('Không thấy bài', grade, id); };
-  const sgkDeck = l => ({ name:'Giải bài tập SGK – ' + l.name, slides:l.sgk });
+  const addSgk = (grade, id, slides, name) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id);
+    if(l){ l.sgk = slides; l.sgkName = name; } else console.warn('Không thấy bài', grade, id); };
+  const sgkDeck = l => ({ name:'Giải bài tập SGK – ' + (l.sgkName || l.name), slides:l.sgk });
   let deck = null, idx = 0, step = 0, dark = false, el = null;
 
   /* ---------- Trang chủ giáo viên: chọn lớp → danh sách bài của lớp đó (#/lop8) ---------- */
