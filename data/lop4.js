@@ -557,4 +557,93 @@ lesson(51, 'td-thua-thieu-chenh-lech', 'Bài toán thừa – thiếu và lượ
     {t:['Lượng chênh lệch khi mua hàng', 'Using the difference between two purchases'], b:['Hai lần mua giống nhau ở một loại hàng ⇒ phần tiền chênh là tiền của phần hàng mua thêm.', 'If two purchases share the same items, the extra money pays for the extra items only.']}]});
 }
 
+/* =====================================================================
+   🧠 TOÁN TƯ DUY – PHÉP NHÂN VÀ PHÉP CHIA (song ngữ, có kiến thức trọng tâm)
+   Nguồn đề: Singapore Math Challenge Word Problems, Grades 4–6 (thầy trích qua NotebookLM).
+   Bài 1: Chapter 3 – Making a Supposition (Giả thiết tạm). 10 bài của sách làm khuôn, số liệu đổi mỗi lần.
+   ===================================================================== */
+{
+const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
+G.topics.splice(G.topics.findIndex(t => t.id === 8) + 1, 0, {id:81, hk:2, name:'Phép nhân và phép chia', label:'🧠 Toán tư duy'});
+
+/* Bối cảnh giả thiết tạm – theo 10 bài của Chapter 3. A = loại có giá trị nhỏ (a), B = loại có giá trị lớn (b).
+   txt(N, T, a, b) → [vi, en]; ask = tên loại khi hỏi; q = đại lượng được cộng lại; per = đơn vị đếm */
+const SUP = [
+  {A:['xe đạp', 'bicycles'], B:['xe ba bánh', 'tricycles'], ab:() => [2, 3], q:['bánh xe', 'wheels'], per:['chiếc', 'vehicles'],
+   txt:(N, T) => [`Cửa hàng có ${N} chiếc xe gồm xe đạp (2 bánh) và xe ba bánh (3 bánh). Tất cả có ${T} bánh xe.`, `A shop has ${N} bicycles and tricycles. Each bicycle has 2 wheels and each tricycle has 3 wheels. There are ${T} wheels in all.`]},
+  {A:['con công', 'peacocks'], B:['con mèo', 'cats'], ab:() => [2, 4], q:['chân', 'legs'], per:['con', 'animals'],
+   txt:(N, T) => [`Trong công viên có ${N} con gồm công và mèo. Mỗi con công có 2 chân, mỗi con mèo có 4 chân. Bạn Tom đếm được tất cả ${T} chân.`, `There are ${N} peacocks and cats in a park. Each peacock has 2 legs and each cat has 4 legs. Tom counts ${T} legs altogether.`]},
+  {A:['con vịt', 'ducks'], B:['con cừu', 'sheep'], ab:() => [2, 4], q:['chân', 'legs'], per:['con', 'animals'],
+   txt:(N, T) => [`Có tất cả ${N} con cừu và vịt. Chúng có tất cả ${T} chân.`, `There is a total of ${N} sheep and ducks. They have ${T} legs altogether.`]},
+  {A:['hình vuông', 'squares'], B:['hình lục giác', 'hexagons'], ab:() => [4, 6], q:['que diêm', 'matchsticks'], per:['hình', 'shapes'],
+   txt:(N, T) => [`Bạn Ron dùng ${T} que diêm xếp được ${N} hình gồm hình vuông (4 que) và hình lục giác (6 que).`, `Ron used ${T} matchsticks to form ${N} squares (4 sticks each) and hexagons (6 sticks each).`]},
+  {A:['tờ 20 nghìn đồng', '20-thousand-dong notes'], B:['tờ 50 nghìn đồng', '50-thousand-dong notes'], ab:() => [20, 50], q:['nghìn đồng', 'thousand dong'], per:['tờ', 'notes'],
+   txt:(N, T) => [`Có ${N} tờ tiền gồm loại 20 nghìn đồng và loại 50 nghìn đồng, tổng giá trị là ${fmt(T)} nghìn đồng.`, `There are ${N} notes, some worth 20 thousand dong and the rest worth 50 thousand dong. Their total value is ${fmt(T)} thousand dong.`]},
+  {A:['câu 2 điểm', '2-point questions'], B:['câu 5 điểm', '5-point questions'], ab:() => [2, 5], q:['điểm', 'points'], per:['câu', 'questions'],
+   txt:(N, T) => [`Bài kiểm tra có ${N} câu, gồm câu 2 điểm và câu 5 điểm. Tổng điểm của bài là ${T} điểm.`, `A test has ${N} questions, some worth 2 points and the rest worth 5 points. The test is worth ${T} points in total.`]},
+  {A:['quyển sổ tay', 'notebooks'], B:['quyển vở bài tập', 'exercise books'], ab:() => { const a = R(3, 6); return [a, a + R(3, 6)]; }, q:['nghìn đồng', 'thousand dong'], per:['quyển', 'books'], price:true,
+   txt:(N, T, a, b) => [`Mai mua ${N} quyển gồm sổ tay (${a} nghìn đồng một quyển) và vở bài tập (${b} nghìn đồng một quyển), trả vừa hết ${T} nghìn đồng.`, `Mai spent exactly ${T} thousand dong on ${N} notebooks (${a} thousand each) and exercise books (${b} thousand each).`]},
+  {A:['sợi dây ngắn', 'short ropes'], B:['sợi dây dài', 'long ropes'], ab:() => { const a = R(6, 15); return [a, a + R(8, 25)]; }, q:['cm', 'cm'], per:['sợi', 'ropes'],
+   txt:(N, T, a, b) => [`${N} sợi dây gồm dây dài và dây ngắn có tổng chiều dài ${T} cm. Mỗi sợi dây dài dài ${b} cm, mỗi sợi dây ngắn dài ${a} cm.`, `The total length of ${N} long and short ropes is ${T} cm. Each long rope is ${b} cm and each short rope is ${a} cm long.`]}];
+
+const supMake = (big) => { const c = pick(SUP), [a, b] = c.ab(), N = big ? R(15, 40) : R(8, 18); const y = R(1, N - 1), x = N - y, T = x * a + y * b; return {c, a, b, N, x, y, T}; };
+const supSol = ({c, a, b, N, x, y, T}, askA) => {
+  const [qv, qe] = c.q, [Av, Ae] = c.A, [Bv, Be] = c.B;
+  return L2([`Giả sử cả ${N} ${c.per[0]} đều là ${Av}.`, `Khi đó có: ${N} × ${a} = ${fmt(N * a)} (${qv})`, `Còn thiếu: ${fmt(T)} − ${fmt(N * a)} = ${T - N * a} (${qv})`, `Mỗi ${Bv} hơn mỗi ${Av}: ${b} − ${a} = ${b - a} (${qv})`,
+      `Số ${Bv}: ${T - N * a} : ${b - a} = ${askA ? y : Bb(y)}`, ...(askA ? [`Số ${Av}: ${N} − ${y} = ${Bb(x)}`] : [])],
+    [`Suppose all ${N} ${c.per[1]} were ${Ae}.`, `Then there would be ${N} × ${a} = ${fmt(N * a)} ${qe}`, `Missing: ${fmt(T)} − ${fmt(N * a)} = ${T - N * a} ${qe}`, `Each of the ${Be} has ${b} − ${a} = ${b - a} more`,
+      `${Be}: ${T - N * a} : ${b - a} = ${askA ? y : Bb(y)}`, ...(askA ? [`${Ae}: ${N} − ${y} = ${Bb(x)}`] : [])]);
+};
+const SUP_HINT = V('Giả sử tất cả đều là một loại, tính tổng khi đó, so với thực tế xem chênh bao nhiêu, rồi chia cho chênh lệch của mỗi cái.', 'Suppose they are all the same kind, work out the total, compare with the real total, then divide by the difference per item.');
+
+/* Dạng 1: giả thiết tạm cơ bản (mức 1 hỏi loại tìm ra trước; mức 2 hỏi loại còn lại; mức 3 số lớn, hỏi cả hai) */
+const gSup1 = lv => { const d = supMake(lv === 3), {c, x, y} = d, [tv, te] = c.txt(d.N, d.T, d.a, d.b);
+  const askA = lv === 2 ? true : lv === 1 ? false : null;
+  const qv = lv === 3 ? ` Hỏi có bao nhiêu ${c.A[0]}, bao nhiêu ${c.B[0]}?` : ` Hỏi có bao nhiêu ${askA ? c.A[0] : c.B[0]}?`;
+  const qe = lv === 3 ? ` How many ${c.A[1]} and how many ${c.B[1]} are there?` : ` How many ${askA ? c.A[1] : c.B[1]} are there?`;
+  return QB({text:V(tv + qv, te + qe), tpl:lv === 3 ? `${v(c.A[0], c.A[1])}: [_] &nbsp; ${v(c.B[0], c.B[1])}: [_]` : `[_] ${v(askA ? c.A[0] : c.B[0], askA ? c.A[1] : c.B[1])}`,
+    ans:lv === 3 ? [x, y] : [askA ? x : y], hint:SUP_HINT, sol:supSol(d, lv !== 1)}); };
+
+/* Dạng 2: giải từng bước (Hiểu đề → Giả sử → Tính → Chênh lệch → Đáp số) */
+const gSup2 = lv => { const d = supMake(lv === 3), {c, a, b, N, x, y, T} = d, [tv, te] = c.txt(N, T, a, b), [qv, qe] = c.q;
+  const lessV = 'Ít hơn thực tế', moreV = 'Nhiều hơn thực tế', eqV = 'Bằng thực tế';
+  return QS({direct:lv === 3, text:V(tv + ` Hỏi có bao nhiêu ${c.A[0]}?`, te + ` How many ${c.A[1]} are there?`), hint:SUP_HINT, sol:supSol(d, true), steps:[
+    {tag:'Hiểu đề', ask:V(`Nếu giả sử cả ${N} ${c.per[0]} đều là ${c.A[0]} thì tổng số ${qv} sẽ:`, `If all ${N} ${c.per[1]} were ${c.A[1]}, the total number of ${qe} would be:`),
+     opts:[v(lessV, 'Less than the real total'), v(moreV, 'More than the real total'), v(eqV, 'Equal to the real total')], ans:v(lessV, 'Less than the real total'),
+     hint:V(`Mỗi ${c.A[0]} chỉ có ${a}, ít hơn ${c.B[0]} (${b}).`, `Each of the ${c.A[1]} counts only ${a}, less than ${b}.`)},
+    {tag:'Giải', ask:V('Tổng khi giả sử là:', 'The supposed total is:'), tpl:`${N} × ${a} = [_]`, ans:[N * a], hint:V(`Nhân số ${c.per[0]} với ${a}.`, `Multiply the number of ${c.per[1]} by ${a}.`)},
+    {tag:'Giải', ask:V('So với thực tế còn thiếu:', 'Compared with the real total, it is short by:'), tpl:`${fmt(T)} − ${fmt(N * a)} = [_]`, ans:[T - N * a], hint:V('Lấy tổng thật trừ tổng giả sử.', 'Real total minus supposed total.')},
+    {tag:'Giải', ask:V(`Mỗi ${c.B[0]} hơn mỗi ${c.A[0]}:`, `Each of the ${c.B[1]} has this much more:`), tpl:`${b} − ${a} = [_]`, ans:[b - a], hint:V('Lấy giá trị lớn trừ giá trị nhỏ.', 'Bigger value minus smaller value.')},
+    {tag:'Giải', ask:V(`Số ${c.B[0]} là:`, `Number of ${c.B[1]}:`), tpl:`${T - N * a} : ${b - a} = [_]`, ans:[y], hint:V('Mỗi lần thay một cái bằng loại lớn thì tổng tăng thêm phần chênh lệch.', 'Swapping one item for the bigger kind adds the difference once.')},
+    {tag:'Đáp số', ask:V(`Số ${c.A[0]} là:`, `Number of ${c.A[1]}:`), tpl:`${N} − ${y} = [_]`, ans:[x], hint:V('Lấy tổng số trừ số vừa tìm.', 'Total count minus the number you just found.')}]}); };
+
+/* Dạng 3: biến thể nâng cao – ba loại (gộp nhóm), “ngắn hơn …”, được – trừ điểm */
+const gSup3 = lv => {
+  if(lv === 1){ const N = R(12, 30), y = R(2, N - 3), x = N - y, T = 2 * x + 4 * y;
+    return QB({text:V(`Có tổng cộng ${N} con gồm gà, mèo và ngựa. Biết tổng số chân là ${T} chân. Hỏi có bao nhiêu con gà?`, `There were ${N} chickens, cats and horses. The total number of legs was ${T}. How many chickens were there?`), tpl:`[_] ${v('con gà', 'chickens')}`, ans:[x],
+      hint:V('Mèo và ngựa đều có 4 chân: gộp lại thành một nhóm “con 4 chân”.', 'Cats and horses both have 4 legs: put them together as “4-legged animals”.'),
+      sol:L2([`Giả sử cả ${N} con đều là gà: ${N} × 2 = ${2 * N} (chân)`, `Còn thiếu: ${T} − ${2 * N} = ${T - 2 * N} (chân)`, `Số con 4 chân: ${T - 2 * N} : 2 = ${y} (con)`, `Số gà: ${N} − ${y} = ${Bb(x)} (con)`],
+             [`Suppose all ${N} were chickens: ${N} × 2 = ${2 * N} legs`, `Missing: ${T} − ${2 * N} = ${T - 2 * N} legs`, `4-legged animals: ${T - 2 * N} : 2 = ${y}`, `Chickens: ${N} − ${y} = ${Bb(x)}`])}); }
+  if(lv === 2){ const L = R(30, 60), k = R(4, 12), s = L - k, N = R(10, 20), y = R(2, N - 2), x = N - y, T = y * L + x * s;
+    return QB({text:V(`Tổng chiều dài của ${N} sợi dây gồm dây dài và dây ngắn là ${T} cm. Mỗi sợi dây dài dài ${L} cm, mỗi sợi dây ngắn ngắn hơn sợi dây dài ${k} cm. Hỏi có bao nhiêu sợi dây dài?`, `The total length of ${N} long and short ropes is ${T} cm. Each long rope is ${L} cm, and each short rope is ${k} cm shorter than a long rope. How many long ropes are there?`),
+      tpl:`[_] ${v('sợi dây dài', 'long ropes')}`, ans:[y], hint:V('Tính chiều dài một sợi dây ngắn trước, rồi giả sử tất cả đều là dây ngắn.', 'First find the length of a short rope, then suppose they are all short.'),
+      sol:L2([`Dây ngắn dài: ${L} − ${k} = ${s} (cm)`, `Giả sử cả ${N} sợi đều ngắn: ${N} × ${s} = ${N * s} (cm)`, `Còn thiếu: ${T} − ${N * s} = ${T - N * s} (cm)`, `Số dây dài: ${T - N * s} : ${k} = ${Bb(y)} (sợi)`],
+             [`Short rope: ${L} − ${k} = ${s} cm`, `Suppose all ${N} were short: ${N} × ${s} = ${N * s} cm`, `Missing: ${T} − ${N * s} = ${T - N * s} cm`, `Long ropes: ${T - N * s} : ${k} = ${Bb(y)}`])}); }
+  const N = R(10, 25), p = R(3, 6), m = R(1, 3); let w, T; do { w = R(1, N - 2); T = (N - w) * p - w * m; } while(T <= 0);
+  return QB({text:V(`Trong một trò chơi có ${N} câu hỏi. Mỗi câu trả lời đúng được ${p} điểm, mỗi câu trả lời sai bị trừ ${m} điểm. Bạn Nam trả lời hết ${N} câu và được ${T} điểm. Hỏi Nam trả lời đúng bao nhiêu câu?`, `A quiz has ${N} questions. Each correct answer earns ${p} points and each wrong answer loses ${m} points. Nam answered all ${N} questions and scored ${T} points. How many did he get right?`),
+    tpl:`[_] ${v('câu đúng', 'correct')}`, ans:[N - w], hint:V(`Giả sử Nam đúng hết. Mỗi câu sai làm mất ${p} điểm lẽ ra được và còn bị trừ thêm ${m} điểm.`, `Suppose Nam got everything right. Each wrong answer loses the ${p} points he would have earned plus ${m} more.`),
+    sol:L2([`Giả sử đúng cả ${N} câu: ${N} × ${p} = ${N * p} (điểm)`, `Bị hụt: ${N * p} − ${T} = ${N * p - T} (điểm)`, `Mỗi câu sai làm hụt: ${p} + ${m} = ${p + m} (điểm)`, `Số câu sai: ${N * p - T} : ${p + m} = ${w}`, `Số câu đúng: ${N} − ${w} = ${Bb(N - w)}`],
+           [`Suppose all ${N} were right: ${N} × ${p} = ${N * p}`, `Short by: ${N * p} − ${T} = ${N * p - T}`, `Each wrong answer costs ${p} + ${m} = ${p + m}`, `Wrong: ${N * p - T} : ${p + m} = ${w}`, `Right: ${N} − ${w} = ${Bb(N - w)}`])});
+};
+lesson(81, 'td-gia-thiet-tam', 'Phương pháp giả thiết tạm', 'Giả sử tất cả cùng một loại, so sánh với thực tế để tìm số lượng mỗi loại (gà – chó, xe đạp – xe ba bánh…).', [gSup1, gSup2, gSup3], {
+  bi:true, en:'Making a supposition', descEn:'Suppose everything is the same kind, compare with the real total and find how many of each kind.',
+  intro:[
+    {t:['Các bước giải', 'The steps'], b:['① <b>Giả sử</b> tất cả đều là loại có giá trị nhỏ.<br>② Tính <b>tổng khi giả sử</b>.<br>③ Tìm <b>phần còn thiếu</b> = tổng thật − tổng giả sử.<br>④ Tìm <b>chênh lệch mỗi cái</b> = giá trị lớn − giá trị nhỏ.<br>⑤ Số cái loại lớn = phần thiếu : chênh lệch mỗi cái.',
+      '① <b>Suppose</b> everything is the kind with the smaller value.<br>② Work out the <b>supposed total</b>.<br>③ <b>Missing amount</b> = real total − supposed total.<br>④ <b>Difference per item</b> = bigger value − smaller value.<br>⑤ Number of the bigger kind = missing amount : difference per item.']},
+    {t:['Ví dụ (sách Singapore Math, Chapter 3)', 'Worked example (Singapore Math, Chapter 3)'],
+     b:['14 chiếc xe đạp (2 bánh) và xe ba bánh (3 bánh) có 37 bánh.<br>Giả sử cả 14 xe là xe đạp: 14 × 2 = 28 bánh; thiếu 37 − 28 = 9 bánh; mỗi xe ba bánh hơn 1 bánh ⇒ 9 xe ba bánh, 14 − 9 = <b>5 xe đạp</b>.',
+        '14 bicycles (2 wheels) and tricycles (3 wheels) have 37 wheels.<br>Suppose all 14 are bicycles: 14 × 2 = 28 wheels; 37 − 28 = 9 missing; each tricycle has 1 more ⇒ 9 tricycles and 14 − 9 = <b>5 bicycles</b>.']},
+    {t:['Mẹo', 'Tips'], b:['Ba loại mà hai loại có cùng giá trị (mèo, ngựa đều 4 chân) thì <b>gộp thành một nhóm</b>. Được – trừ điểm: mỗi câu sai làm hụt <b>điểm được + điểm bị trừ</b>.', 'If two kinds have the same value (cats and horses both have 4 legs), <b>group them together</b>. Plus/minus scoring: each wrong answer costs <b>points earned + points lost</b>.']}]});
+}
+
 })();
