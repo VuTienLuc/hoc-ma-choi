@@ -121,7 +121,8 @@ else {
 /* ---------- 3. Phần giáo viên ---------- */
 const T = sandbox(), BOOKS = [], PRACT = [];
 ['config.js', 'assets/js/core.js', 'assets/js/figures.js', 'assets/js/generators.js'].forEach(f => run(T, f));
-T.Lecture = { add: b => BOOKS.push(b), addPractice: (grade, id, groups) => PRACT.push({grade, id, groups}) };
+T.Lecture = { add: b => BOOKS.push(b), addPractice: (grade, id, groups) => PRACT.push({grade, id, groups}),
+  addSgk: (grade, id, slides) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id); if (!l) err(`giải SGK ${grade}/${id}`, 'không tìm thấy bài giảng có mã này (addSgk phải nạp SAU tệp bài giảng)'); else l.sgk = slides; } };
 const gvHtml = fs.existsSync(path.join(ROOT, 'giao-vien/index.html')) ? rd('giao-vien/index.html') : '';
 const gvFiles = [...gvHtml.matchAll(/<script src="(bai-giang\/[^"]+\.js)"/g)].map(x => 'giao-vien/' + x[1]);
 fs.readdirSync(path.join(ROOT, 'giao-vien/bai-giang')).filter(f => f.endsWith('.js')).forEach(f => { if (!gvFiles.includes('giao-vien/bai-giang/' + f)) err('giao-vien/index.html', `chưa nạp tệp bai-giang/${f} (thêm thẻ <script>)`); });
@@ -133,7 +134,8 @@ BOOKS.forEach(b => {
   if (!b.grade || !b.gradeName || !b.chapter || !Array.isArray(b.lessons)) return err('Lecture.add', `thiếu grade/gradeName/chapter/lessons (${b.chapter || '?'})`);
   b.lessons.forEach(l => { const w0 = `${b.grade}/${l.id}`;
     if (!l.id || !l.name || !Array.isArray(l.slides) || !l.slides.length) return err(w0, 'bài giảng thiếu id/name/slides');
-    l.slides.forEach((s, i) => { const w = `${w0} trang ${i + 1}`; nS++;
+    if (l.sgk && (!Array.isArray(l.sgk) || !l.sgk.some(x => x.kind === 'vd'))) err(w0, 'giải SGK cần mảng trang chiếu có ít nhất một trang vd');
+    l.slides.concat(l.sgk || []).forEach((s, i) => { const w = `${w0} trang ${i + 1}${i >= l.slides.length ? ' (giải SGK)' : ''}`; nS++;
       if (!KINDS.includes(s.kind)) err(w, `kind lạ: ${s.kind}`);
       if ((s.kind === 'vd' || s.kind === 'lt') && (!s.de || !Array.isArray(s.sol))) err(w, 'ví dụ/luyện tập cần de và sol:[…]');
       if (['kt', 'method', 'sum', 'title'].includes(s.kind) && !s.title) err(w, 'thiếu title');

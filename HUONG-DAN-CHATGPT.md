@@ -100,6 +100,13 @@ mỗi phiếu 10 bài (7 cơ bản, 3 vận dụng hard:true), xếp theo dạng
 Nhớ thêm thẻ <script> vào giao-vien/index.html (sau tệp bài giảng). Kiểm tra bằng node tools/kiem-tra.js.
 ```
 
+**Giải bài tập SGK (câu vận dụng, câu khó)**
+```
+Tạo phần giải bài tập SGK cho Toán LỚP – BÀI … trong giao-vien/bai-giang/lopN-giai-sgk.js theo khuôn giao-vien/bai-giang/lop10-giai-sgk.js (Lecture.addSgk):
+chỉ chọn câu vận dụng/câu khó, ghi đúng số trang và số bài trong SGK Kết nối tri thức (không chắc thì nói rõ), lời giải ngắn gọn, có hình khi cần.
+Thêm thẻ <script> vào giao-vien/index.html sau tệp bài giảng của lớp. Chạy node tools/kiem-tra.js tới khi ĐẠT.
+```
+
 **Tạo đề kiểm tra (4 mã đề, đáp án riêng, in A4)**
 ```
 Tạo đề kiểm tra CHƯƠNG … Toán LỚP trong giao-vien/bai-giang/lopN-kiem-tra.js theo đúng khuôn giao-vien/bai-giang/lop11-kiem-tra.js:
