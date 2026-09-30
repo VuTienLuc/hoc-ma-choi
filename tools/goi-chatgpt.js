@@ -13,7 +13,7 @@ const OUT = path.resolve(process.argv[2] || path.join(ROOT, 'dist', 'chatgpt'));
 fs.mkdirSync(OUT, {recursive: true});
 
 // 1. Bản đồ nội dung (tự sinh từ dữ liệu thật) + kiểm tra
-const bd = path.join(require('os').tmpdir(), 'hoc-ma-choi-ban-do-' + process.pid + '.md');
+const bd = path.join(OUT, '.ban-do.md');
 let kq = '';
 try { kq = cp.execFileSync(process.execPath, [path.join(ROOT, 'tools/kiem-tra.js'), '3'], {env: {...process.env, BAN_DO: bd}, encoding: 'utf8'}); }
 catch (e) { kq = String(e.stdout || ''); }
