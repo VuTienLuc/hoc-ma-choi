@@ -19,6 +19,12 @@ const Lecture = (() => {
     if(l){ l.sgk = slides; l.sgkName = name; } else console.warn('Không thấy bài', grade, id); };
   const sgkDeck = l => ({ name:'Giải bài tập SGK – ' + (l.sgkName || l.name), slides:l.sgk });
   let deck = null, idx = 0, step = 0, dark = false, el = null;
+  const canPresent = () => typeof Account !== 'undefined' && typeof Account.isTeacher === 'function' && Account.isTeacher();
+  function requireTeacher(){
+    if(canPresent()) return true;
+    try{ toast('🔒 Chỉ tài khoản GV mới sử dụng được chế độ trình chiếu.') }catch(e){}
+    return false;
+  }
 
   /* ---------- Trang chủ giáo viên: chọn lớp → danh sách bài của lớp đó (#/lop8) ---------- */
   const grades = () => { const m = new Map(); BOOKS.forEach((b, bi) => { if(!m.has(b.grade)) m.set(b.grade, {id:b.grade, name:b.gradeName, books:[]}); m.get(b.grade).books.push([b, bi]); }); return [...m.values()]; };
@@ -39,7 +45,7 @@ const Lecture = (() => {
       app.innerHTML = bar + `<div class="toolbar"><a class="back" href="#/">← Chọn lớp</a><span class="pill">${g.name} · Bài giảng</span></div>
         <div class="lk-2col"><div class="lk-lessons"><h1>${g.name}</h1>` + g.books.map(([b, bi]) => `<section class="topic"><h2><small>${b.chapter.split('.')[0]}</small>${b.chapter.split('.').slice(1).join('.').trim()}</h2>
           <ol class="lk-list">${b.lessons.map((l, li) => `<li><div class="lk-li"><b>${l.name}</b><small>${l.desc || ''} · ${l.slides.length} trang · ${l.slides.filter(s => s.kind === 'vd').length} ví dụ${l.practice ? ` · ${l.practice.reduce((t, g) => t + g.items.length, 0)} bài luyện tập` : ''}${l.sgk ? ` · giải ${l.sgk.filter(x => x.kind === 'vd').length} câu SGK` : ''}</small></div>
-            <div class="lk-acts"><button class="btn primary small" data-play="${bi}:${li}" title="Trình chiếu toàn màn hình">▶ Chiếu</button><button class="btn small" data-prev="${bi}:${li}" title="Xem dạng trang, in được">📄 Xem</button><button class="btn small" data-ws="${bi}:${li}" title="Phiếu học tập in A4">📝 Phiếu</button>${l.practice ? `<button class="btn small" data-pr="${bi}:${li}" title="Phiếu luyện tập: cơ bản → vận dụng">🏋️ Luyện tập</button>` : ''}${l.sgk ? `<button class="btn small" data-sgk="${bi}:${li}" title="Giải các câu vận dụng, câu khó trong SGK">📘 Giải SGK</button>` : ''}</div></li>`).join('')}</ol></section>`).join('') + (typeof KiemTra !== 'undefined' ? KiemTra.section(g.id) : '') + `</div><aside class="lk-rank card" id="lkRank" aria-label="Bảng xếp hạng học sinh"></aside></div><p class="foot">${CONFIG.author}</p>`;
+            <div class="lk-acts">${canPresent() ? `<button class="btn primary small" data-play="${bi}:${li}" title="Trình chiếu toàn màn hình">▶ Chiếu</button>` : ''}<button class="btn small" data-prev="${bi}:${li}" title="Xem dạng trang, in được">📄 Xem</button><button class="btn small" data-ws="${bi}:${li}" title="Phiếu học tập in A4">📝 Phiếu</button>${l.practice ? `<button class="btn small" data-pr="${bi}:${li}" title="Phiếu luyện tập: cơ bản → vận dụng">🏋️ Luyện tập</button>` : ''}${l.sgk ? `<button class="btn small" data-sgk="${bi}:${li}" title="Giải các câu vận dụng, câu khó trong SGK">📘 Giải SGK</button>` : ''}</div></li>`).join('')}</ol></section>`).join('') + (typeof KiemTra !== 'undefined' ? KiemTra.section(g.id) : '') + `</div><aside class="lk-rank card" id="lkRank" aria-label="Bảng xếp hạng học sinh"></aside></div><p class="foot">${CONFIG.author}</p>`;
       if(typeof GvRank !== 'undefined') GvRank.mount($('#lkRank'), g.id);
       $$('[data-play]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.play.split(':'); open(BOOKS[bi].lessons[li], 0); });
       $$('[data-prev]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.prev.split(':'); preview(BOOKS[bi], BOOKS[bi].lessons[li]); });
@@ -55,10 +61,11 @@ const Lecture = (() => {
   /* ---------- Xem trước (dạng trang, in được) ---------- */
   function preview(b, l){ document.body.classList.remove('gv-wide');
     const app = $('#app');
-    app.innerHTML = `<div class="toolbar"><button class="back linkbtn" id="lkBack">← Danh sách bài</button><div class="row"><button class="btn small" onclick="print()">🖨️ In</button><button class="btn small" id="lkWs">📝 Phiếu học tập</button>${l.practice ? '<button class="btn small" id="lkPr">🏋️ Luyện tập</button>' : ''}<button class="btn primary small" id="lkPlay">▶ Trình chiếu</button></div></div>
+    const present = canPresent();
+    app.innerHTML = `<div class="toolbar"><button class="back linkbtn" id="lkBack">← Danh sách bài</button><div class="row"><button class="btn small" onclick="print()">🖨️ In</button><button class="btn small" id="lkWs">📝 Phiếu học tập</button>${l.practice ? '<button class="btn small" id="lkPr">🏋️ Luyện tập</button>' : ''}${present ? '<button class="btn primary small" id="lkPlay">▶ Trình chiếu</button>' : ''}</div></div>
       <span class="pill">${b.gradeName} · ${b.chapter}</span><h1>${l.name}</h1>
-      <div class="lk-doc">${l.slides.map((s, i) => `<section class="card lk-page" data-i="${i}">${render(s, true)}<button class="linkbtn lk-go" data-go="${i}">▶ Chiếu từ trang ${i+1}</button></section>`).join('')}</div>`;
-    $('#lkBack').onclick = home; $('#lkPlay').onclick = () => open(l, 0); $('#lkWs').onclick = () => worksheet(b, l, false); if(l.practice) $('#lkPr').onclick = () => practice(b, l, false);
+      <div class="lk-doc">${l.slides.map((s, i) => `<section class="card lk-page" data-i="${i}">${render(s, true)}${present ? `<button class="linkbtn lk-go" data-go="${i}">▶ Chiếu từ trang ${i+1}</button>` : ''}</section>`).join('')}</div>`;
+    $('#lkBack').onclick = home; if(present) $('#lkPlay').onclick = () => open(l, 0); $('#lkWs').onclick = () => worksheet(b, l, false); if(l.practice) $('#lkPr').onclick = () => practice(b, l, false);
     $$('[data-go]').forEach(x => x.onclick = () => open(l, +x.dataset.go));
     scrollTo(0, 0);
   }
@@ -82,6 +89,7 @@ const Lecture = (() => {
 
   /* ---------- Trình chiếu ---------- */
   function open(l, start){
+    if(!requireTeacher()) return false;
     if(el) close();
     if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
     deck = l; idx = start || 0; step = 0;
@@ -218,10 +226,11 @@ const Lecture = (() => {
         <p class="pr-legend">Gồm <b>${all.length} bài</b>: ${cb.length} bài cơ bản (${pct(cb.length)}%) · ${vd.length} bài vận dụng ★ (${pct(vd.length)}%). Làm lần lượt từ Phần I đến Phần II.</p></header>`
       + part(cb, `I. Bài tập cơ bản <small>(${cb.length} bài)</small>`) + part(vd, `II. Bài tập vận dụng ★ <small>(${vd.length} bài)</small>`)
       + `<footer class="ws-foot">${brand} · Luyện tập ${l.name}</footer>`;
+    const present = canPresent();
     $('#app').innerHTML = `<div class="toolbar ws-bar"><button class="back linkbtn" id="wsBack">← Danh sách bài</button><div class="row">
-        <label class="ws-toggle"><input type="checkbox" id="wsKey" ${key ? 'checked' : ''}> Kèm lời giải</label><button class="btn small" id="prPlay">▶ Chiếu bài tập</button><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
+        <label class="ws-toggle"><input type="checkbox" id="wsKey" ${key ? 'checked' : ''}> Kèm lời giải</label>${present ? '<button class="btn small" id="prPlay">▶ Chiếu bài tập</button>' : ''}<button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
       <article class="ws pr">${h}</article>`;
-    $('#wsBack').onclick = home; $('#wsKey').onchange = e => practice(b, l, e.target.checked); $('#prPlay').onclick = () => open(practiceDeck(b, l), 0);
+    $('#wsBack').onclick = home; $('#wsKey').onchange = e => practice(b, l, e.target.checked); if(present) $('#prPlay').onclick = () => open(practiceDeck(b, l), 0);
     document.title = `Phiếu luyện tập – ${l.name}`; scrollTo(0, 0);
   }
   // Chiếu phiếu luyện tập: mỗi bài một trang (đề + lời giải từng bước; hình cần vẽ hiện ở bước cuối).
