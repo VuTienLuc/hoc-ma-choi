@@ -15,6 +15,7 @@ const Lecture = (() => {
     if(l) l.practice = groups; else console.warn('Không thấy bài', grade, id); };
   // Giải bài tập SGK (câu vận dụng/khó): Lecture.addSgk('lop10', 'bai-3', [trang chiếu…]) – cùng kiểu trang như bài giảng (title, kt, vd, sum).
   const addSgk = (grade, id, slides, name) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id);
+    slides.forEach(s => { if(s.sol && s.plainSol == null) s.plainSol = true; });
     if(l){ l.sgk = slides; l.sgkName = name; } else console.warn('Không thấy bài', grade, id); };
   const sgkDeck = l => ({ name:'Giải bài tập SGK – ' + (l.sgkName || l.name), slides:l.sgk });
   let deck = null, idx = 0, step = 0, dark = false, el = null;
@@ -75,7 +76,7 @@ const Lecture = (() => {
     const sol = s.sol || [], n = sol.length;
     const solHTML = sol.map((x, k) => `<li class="${k < shown ? 'on' : ''}">${x}</li>`).join('');
     return `${tag(s)}<div class="lk-de"><b>${s.label || 'Đề bài'}.</b> ${s.de}</div>
-      <div class="lk-main ${fig ? 'has-fig' : ''}"><div class="lk-body">${n ? `<div class="lk-sol ${shown > 0 ? 'open' : ''}"><div class="lk-solh">Lời giải</div><ol class="lk-solsteps">${solHTML}</ol>${s.ans ? `<div class="lk-ans ${shown >= n ? 'on' : ''}">${s.ans}</div>` : ''}</div>` : ''}</div>${fig}</div>`;
+      <div class="lk-main ${fig ? 'has-fig' : ''}"><div class="lk-body">${n ? `<div class="lk-sol ${shown > 0 ? 'open' : ''}"><div class="lk-solh">Lời giải</div><ol class="lk-solsteps ${s.plainSol ? 'plain' : ''}">${solHTML}</ol>${s.ans ? `<div class="lk-ans ${shown >= n ? 'on' : ''}">${s.ans}</div>` : ''}</div>` : ''}</div>${fig}</div>`;
   }
   const stepsOf = s => (s.sol || []).length;
 
