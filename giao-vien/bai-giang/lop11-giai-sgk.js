@@ -78,3 +78,56 @@ Lecture.addSgk('lop11', 'on-tap-c1', [
      box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Ôn tập chương I và phiếu 🏋️ Luyện tập.')},
 ], 'Bài 4. Phương trình lượng giác cơ bản và Ôn tập chương I');
 })();
+
+
+/* =====================================================================
+   BÀI 5. DÃY SỐ – CÁC CÂU VẬN DỤNG
+   ===================================================================== */
+(() => {
+const m = tm;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const F_luong = () => barSVG(['Năm 1','Năm 2','Năm 3','Năm 4','Năm 5'], [200,225,250,275,300], 50, 'triệu đồng');
+const F_tietKiem = () => barSVG(['Ban đầu','Tháng 1','Tháng 2','Tháng 12'], [100,100.5,101.0025,106.1678], 20, 'triệu đồng');
+const F_traGop = () => barSVG(['0','1','2','3','4','5','6'], [100,98.8,97.5904,96.3711,95.1421,93.9032,92.6545], 20, 'triệu đồng');
+
+Lecture.addSgk('lop11', 'bai-5', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 5. Dãy số', sub:'Các câu vận dụng – SGK tập 1, trang 46 – 47',
+   points:['Vận dụng (tr. 46): mô hình tiền lương tăng hằng năm.', 'Bài 2.6 (tr. 46): gửi tiết kiệm theo lãi kép.', 'Bài 2.7 (tr. 47): số tiền còn nợ khi vay trả góp.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba mô hình dãy số thường gặp',
+   body:box(`<b>Tăng đều một lượng cố định:</b> ${m('u_n=u_1+(n-1)d')}.`) +
+     box(`<b>Lãi kép:</b> nếu lãi suất mỗi kì là ${m('r')} thì ${m('A_n=A_0(1+r)^n')}.`) +
+     box(`<b>Vay trả góp:</b> nợ mới = nợ cũ + tiền lãi − tiền trả, nên ${m('A_n=(1+r)A_{n-1}-a')}.`) +
+     note('Đổi lãi suất phần trăm về số thập phân và thống nhất đơn vị tiền trước khi tính.')},
+
+  {kind:'vd', tag:'SGK tr. 46 · Vận dụng', label:'Vận dụng', fig:F_luong(), figAt:2,
+   de:`Anh Thanh nhận lương năm đầu ${m('200')} triệu đồng; mỗi năm tiếp theo tăng ${m('25')} triệu đồng. Gọi ${m('s_n')} là lương năm thứ ${m('n')}, với ${m('s_1=200,\\ s_n=s_{n-1}+25')} (${m('n\\ge2')}). a) Tính lương năm thứ ${m('5')}. b) Chứng minh ${m('(s_n)')} tăng và giải thích ý nghĩa thực tế.`,
+   sol:[`Do mỗi năm tăng ${m('25')} triệu đồng nên ${m('s_n=200+25(n-1)')}. Suy ra ${m('s_5=200+25\\cdot4=300')} (triệu đồng).`,
+     `Với mọi ${m('n\\ge1')}, ${m('s_{n+1}-s_n=25\\gt0')}, do đó ${m('(s_n)')} là dãy số tăng.`,
+     `Kết quả có nghĩa là tiền lương của anh Thanh năm sau luôn cao hơn năm trước ${m('25')} triệu đồng.`],
+   ans:`Lương năm thứ ${m('5')} là ${tb('300\\text{ triệu đồng}')}; tiền lương tăng đều qua từng năm.`},
+
+  {kind:'vd', tag:'SGK tr. 46 · Bài 2.6', label:'Bài 2.6', fig:F_tietKiem(), figAt:3,
+   de:`Ông An gửi tiết kiệm ${m('100')} triệu đồng, kì hạn một tháng, lãi suất ${m('6\\%')} một năm và tính lãi kép. Số tiền sau ${m('n')} tháng là ${m('A_n=100\\left(1+\\dfrac{0{,}06}{12}\\right)^n')}. a) Tính số tiền sau tháng thứ nhất và thứ hai. b) Tính số tiền sau một năm.`,
+   sol:[`Lãi suất một tháng là ${m('\\dfrac{0{,}06}{12}=0{,}005')}, nên mỗi tháng số tiền được nhân với ${m('1{,}005')}.`,
+     `${m('A_1=100\\cdot1{,}005=100{,}5')} và ${m('A_2=100\\cdot1{,}005^2=101{,}0025')} (triệu đồng).`,
+     `Một năm có ${m('12')} tháng: ${m('A_{12}=100\\cdot1{,}005^{12}\\approx106{,}17')} (triệu đồng).`],
+   ans:`Sau tháng 1: ${tb('100{,}5\\text{ triệu đồng}')}; sau tháng 2: ${tb('101{,}0025\\text{ triệu đồng}')}; sau một năm: khoảng ${tb('106{,}17\\text{ triệu đồng}')}.`},
+
+  {kind:'vd', tag:'SGK tr. 47 · Bài 2.7', label:'Bài 2.7', fig:F_traGop(), figAt:3,
+   de:`Chị Hương vay ${m('100')} triệu đồng, trả ${m('2')} triệu đồng mỗi tháng; lãi suất bằng ${m('0{,}8\\%')} số tiền còn nợ. Gọi ${m('A_n')} là số tiền còn nợ sau ${m('n')} tháng. a) Tính ${m('A_0,A_1,\\ldots,A_6')}. b) Dự đoán hệ thức truy hồi của ${m('(A_n)')}.`,
+   sol:[`Ban đầu ${m('A_0=100')}. Sau mỗi tháng, tiền nợ bằng nợ cũ cộng ${m('0{,}8\\%')} tiền lãi rồi trừ ${m('2')} triệu đồng đã trả.`,
+     `${m('A_1=100\\cdot1{,}008-2=98{,}8')}; ${m('A_2=98{,}8\\cdot1{,}008-2=97{,}5904')}; ${m('A_3\\approx96{,}37')}.`,
+     `${m('A_4\\approx95{,}14')}; ${m('A_5\\approx93{,}90')}; ${m('A_6\\approx92{,}65')} (triệu đồng).`,
+     `Với ${m('n\\ge1')}, quy tắc trên cho ${m('A_n=A_{n-1}+0{,}008A_{n-1}-2=1{,}008A_{n-1}-2')}.`],
+   ans:`Sau 6 tháng còn nợ khoảng ${tb('92{,}65\\text{ triệu đồng}')}; hệ thức truy hồi: ${tb('A_0=100,\\ A_n=1{,}008A_{n-1}-2')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ khi giải bài toán thực tế về dãy số',
+   body:`<ul><li>Xác định rõ số hạng đầu và đơn vị của dãy số.</li>
+     <li>Tăng một lượng cố định dùng phép cộng; tăng theo phần trăm dùng phép nhân.</li>
+     <li>Lãi kép tính trên cả vốn và lãi của kì trước.</li>
+     <li>Vay trả góp: cộng tiền lãi trước rồi trừ khoản tiền trả trong tháng theo mô hình của đề.</li>
+     <li>Chỉ làm tròn ở kết quả cuối để tránh sai số tích luỹ.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 5. Dãy số.')},
+]);
+})();
