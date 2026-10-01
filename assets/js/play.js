@@ -15,14 +15,14 @@ const Play = (() => {
   const uid = () => (typeof Account !== 'undefined' && Account.user) ? `${Account.user.lop}|${Account.user.user}` : '';
   const blankStats = () => ({correct:0, sets:0, three:0, run:0, bestRun:0, fed:0, played:0, bought:0});
   const blank = () => ({v:1, ts:0, xu:0, xuTotal:0, food:3, no:80, vui:80, t:Date.now(), lastPlay:0,
-    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}});
+    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}});
   let S = null, who = null;
 
   /* ---------- Lưu / nạp ---------- */
   function st(){
     if(S && who === uid()) return S;
     who = uid(); const d = store.get(KEY) || {};
-    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {};
+    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {}; S.mastery = S.mastery || {};
     tick(); rollQuests(); return S;
   }
   function tick(){   // đói, buồn dần theo thời gian; chuỗi ngày bị ngắt nếu bỏ quá 1 ngày
@@ -36,6 +36,7 @@ const Play = (() => {
     if(sync && typeof Account !== 'undefined' && Account.syncPlay){ clearTimeout(syncT); syncT = setTimeout(() => Account.syncPlay(snapshot()), 3000); }
   }
   function snapshot(){ st(); const pets = {}; App.grades.forEach(g => pets[g.id] = Pet.stage(g)); return JSON.stringify({...S, pets}); }
+  const mastery = g => Math.max(0, Number(st().mastery[g.id]) || 0);
   function adopt(raw){   // nhận dữ liệu từ máy chủ khi đăng nhập (nếu mới hơn dữ liệu trên máy)
     S = null; if(!raw) return; let d; try{ d = typeof raw === 'string' ? JSON.parse(raw) : raw; }catch(e){ return; }
     const cur = store.get(KEY); if(cur && (cur.ts||0) >= (d.ts||0)) return;
@@ -89,7 +90,12 @@ const Play = (() => {
     ['ban-than','🎾','Bạn thân','Chơi với thú cưng 20 lần', s => s.st.played >= 20],
     ['thoi-trang','🎀','Nhà tạo mẫu','Mua 3 món phụ kiện', s => s.st.bought >= 3],
     ['nhiem-vu','🎯','Hoàn thành nhiệm vụ','Xong 10 nhiệm vụ ngày', s => s.qDone >= 10],
-    ['vuong-mien','👑','Vương miện','Thú cưng một khối đạt cấp 5', () => App.grades.some(g => Pet.stage(g) === 4)],
+    ['vuong-mien','👑','Vương miện','Thú cưng một khối đạt cấp Vương đầu tiên', () => App.grades.some(g => Pet.stage(g) >= 4)],
+    ['tai-sinh','🔥','Tái sinh trong lửa','Cú Vương tiến hoá thành Trứng Lửa', () => App.grades.some(g => Pet.count(g) > 5 && Pet.stage(g) >= 5)],
+    ['cau-vong','🌈','Phép màu cầu vồng','Phượng Vương tiến hoá thành Mầm Cầu Vồng', () => App.grades.some(g => Pet.count(g) > 10 && Pet.stage(g) >= 10)],
+    ['hoang-gia','🦄','Kỳ Lân Hoàng Gia','Đạt cấp tiến hoá cao nhất của hành trình', () => App.grades.some(g => Pet.stage(g) === Pet.count(g) - 1)],
+    ['tinh-thong','🔮','Kỳ Lân Huyền Thoại','Đạt bậc Kỳ Lân Tinh Anh', () => App.grades.some(g => Pet.legend(mastery(g)).rank >= 1)],
+    ['bat-diet','🌠','Kỳ Lân Bất Diệt','Đạt 1.000 Điểm Tinh Thông', () => App.grades.some(g => Pet.legend(mastery(g)).rank >= 5)],
   ];
   function checkBadges(){
     for(const [id, ic, nm, , ok] of BADGES) if(!S.badges[id] && ok(S)){ S.badges[id] = today(); S.xu += 10; S.xuTotal += 10; note(`🏅 Huy hiệu mới: ${ic} ${nm}! +10 🪙`); }
@@ -172,8 +178,15 @@ const Play = (() => {
       checkBadges(); save(false); updateMini();
     }
     if(ev === 'done'){
-      const {g, l, lv, st: stars, pts} = a, food = pts > 0 ? Math.max(1, stars) : 0, bonus = stars === 3 ? 5 : 0;
+      const {g, l, lv, st: stars, pts, n} = a, food = pts > 0 ? Math.max(1, stars) : 0, bonus = stars === 3 ? 5 : 0;
       s.food += food; s.xu += bonus; s.xuTotal += bonus; s.st.sets++; if(stars === 3) s.st.three++;
+      if(Pet.count(g) > 5 && Pet.stage(g) === Pet.count(g) - 1){
+        const before = mastery(g), gain = 1 + (stars === 3 ? 2 : 0) + (pts === n ? 2 : 0);
+        s.mastery[g.id] = before + gain;
+        const oldRank = Pet.legend(before), newRank = Pet.legend(s.mastery[g.id]);
+        note(`🔮 +${gain} Điểm Tinh Thông · tổng ${s.mastery[g.id]} điểm`);
+        if(newRank.name !== oldRank.name || newRank.stars !== oldRank.stars) note(`🌠 Thăng cấp: ${newRank.name}${newRank.stars ? ` ★${newRank.stars}` : ''}!`);
+      }
       const d = today();
       if(s.last !== d){ s.streak = dayNum(d) - dayNum(s.last) === 1 ? s.streak + 1 : 1; s.last = d; s.best = Math.max(s.best, s.streak);
         if(s.streak > 1) note(`🔥 Chuỗi ${s.streak} ngày học liên tiếp! Giỏi quá!`); }
@@ -188,7 +201,7 @@ const Play = (() => {
 
   /* ---------- Giao diện ---------- */
   const meter = (ic, lab, v) => `<div class="meter ${v < 25 ? 'low' : v < 55 ? 'mid' : ''}"><span>${ic} ${lab}</span><div class="bar"><i style="width:${v}%"></i></div><b>${v}</b></div>`;
-  const chips = () => { const s = st(); return `<div class="pchips"><span title="Chuỗi ngày học liên tiếp">🔥 <b>${s.streak}</b> ngày</span><span title="Xu">🪙 <b>${s.xu}</b></span><span title="Hạt thức ăn">🍖 <b>${s.food}</b></span><span title="Huy hiệu">🏅 <b>${Object.keys(s.badges).length}</b></span></div>`; };
+  const chips = () => { const s = st(), mt = G ? mastery(G) : 0; return `<div class="pchips"><span title="Chuỗi ngày học liên tiếp">🔥 <b>${s.streak}</b> ngày</span><span title="Xu">🪙 <b>${s.xu}</b></span><span title="Hạt thức ăn">🍖 <b>${s.food}</b></span><span title="Huy hiệu">🏅 <b>${Object.keys(s.badges).length}</b></span>${mt ? `<span title="Điểm Tinh Thông">🔮 <b>${mt}</b></span>` : ''}</div>`; };
   function questRows(){ const s = st(); return s.q.list.map(it => { const Qd = QUESTS[it.id];
     return `<li class="${it.done?'done':''}"><span class="qi">${it.done?'✅':'🎯'}</span><div><b>${Qd.text}</b><div class="bar"><i style="width:${Math.round(it.p/Qd.n*100)}%"></i></div></div><small>${it.p}/${Qd.n}<br>+${Qd.xu} 🪙</small></li>`; }).join(''); }
   function decorateHome(g){
@@ -216,7 +229,7 @@ const Play = (() => {
     draw();
   }
   function drawTop(msg){ const g = G, k = Pet.stage(g);
-    $('#phTop').innerHTML = `<div class="ph-pet" id="phPet">${Pet.svg(g, k, 'big')}</div><div><small>Thú cưng ${esc(g.name)} · Cấp ${k+1}/5</small><h2>${Pet.name(g,k)}</h2>${chips()}<p class="mood" id="phMsg">${msg || moodText()}</p></div>`; }
+    $('#phTop').innerHTML = `<div class="ph-pet" id="phPet">${Pet.svg(g, k, 'big')}</div><div><small>Thú cưng ${esc(g.name)} · Cấp ${k+1}/${Pet.count(g)}</small><h2>${Pet.name(g,k)}</h2>${chips()}<p class="mood" id="phMsg">${msg || moodText()}</p></div>`; }
   function jump(){ const p = $('#phPet'); if(p){ p.classList.remove('boing'); void p.offsetWidth; p.classList.add('boing'); } }
   function draw(msg){
     drawTop(msg); $$('#petHome [data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === TAB));
@@ -239,7 +252,7 @@ const Play = (() => {
     }
     if(TAB === 'quest'){
       body.innerHTML = `<h3>Nhiệm vụ hôm nay</h3><ul class="qlist">${questRows()}</ul><p class="note-line">Mỗi ngày có 3 nhiệm vụ mới. Em đã hoàn thành <b>${s.qDone}</b> nhiệm vụ.</p>
-        <h3>Thành tích của em</h3><div class="stats"><span>✅ <b>${s.st.correct}</b> câu đúng</span><span>📚 <b>${s.st.sets}</b> bộ</span><span>⭐⭐⭐ <b>${s.st.three}</b> bộ</span><span>⚡ Đúng liền nhiều nhất <b>${s.st.bestRun}</b></span><span>🔥 Chuỗi dài nhất <b>${s.best}</b> ngày</span><span>🪙 Đã kiếm <b>${s.xuTotal}</b> xu</span></div>`;
+        <h3>Thành tích của em</h3><div class="stats"><span>✅ <b>${s.st.correct}</b> câu đúng</span><span>📚 <b>${s.st.sets}</b> bộ</span><span>⭐⭐⭐ <b>${s.st.three}</b> bộ</span><span>⚡ Đúng liền nhiều nhất <b>${s.st.bestRun}</b></span><span>🔥 Chuỗi dài nhất <b>${s.best}</b> ngày</span><span>🪙 Đã kiếm <b>${s.xuTotal}</b> xu</span><span>🔮 <b>${mastery(G)}</b> Điểm Tinh Thông</span></div>`;
     }
     if(TAB === 'badge'){
       body.innerHTML = `<p class="note-line">Mỗi huy hiệu mới thưởng <b>10 🪙</b>. Em có <b>${Object.keys(s.badges).length}/${BADGES.length}</b>.</p><div class="badges">${BADGES.map(([id, ic, nm, desc]) => {
@@ -252,8 +265,8 @@ const Play = (() => {
     const head = () => `<div class="row rank-sort">${[['stars','⭐ Tổng sao'],['streak','🔥 Chuỗi ngày'],['badges','🏅 Huy hiệu'],['xu','🪙 Xu đã kiếm']].map(([k,t]) => `<button class="btn small ${rankSort===k?'primary':''}" data-rs="${k}">${t}</button>`).join('')}</div>`;
     const render = () => { const rows = rankData.slice().sort((a,b) => (b[rankSort]-a[rankSort]) || (b.stars-a.stars) || a.name.localeCompare(b.name,'vi'));
       body.innerHTML = head() + `<p class="note-line">Lớp <b>${esc(Account.user.lop)}</b> · ${rows.length} bạn đã tham gia. Cố lên nhé! 💪</p><ol class="rank">${rows.map((r, i) => {
-        const k = Math.min(4, Math.max(0, r.pets && r.pets[G.id] != null ? r.pets[G.id] : 0));
-        return `<li class="${r.me?'me':''}"><span class="rk">${i<3?['🥇','🥈','🥉'][i]:i+1}</span><span class="rp">${Pet.svg(G, k, '', {wear:r.wear||{}, mood:'vui'})}</span><b>${esc(r.name)}${r.me?' (em)':''}</b><span class="rv">${{stars:'⭐',streak:'🔥',badges:'🏅',xu:'🪙'}[rankSort]} ${r[rankSort]}</span></li>`; }).join('')}</ol>`;
+        const k = Math.min(Pet.count(G)-1, Math.max(0, r.pets && r.pets[G.id] != null ? r.pets[G.id] : 0));
+        return `<li class="${r.me?'me':''}"><span class="rk">${i<3?['🥇','🥈','🥉'][i]:i+1}</span><span class="rp">${Pet.svg(G, k, '', {wear:r.wear||{}, mood:'vui', mastery:0})}</span><b>${esc(r.name)}${r.me?' (em)':''}</b><span class="rv">${{stars:'⭐',streak:'🔥',badges:'🏅',xu:'🪙'}[rankSort]} ${r[rankSort]}</span></li>`; }).join('')}</ol>`;
       body.querySelectorAll('[data-rs]').forEach(b => b.onclick = () => { rankSort = b.dataset.rs; render(); }); };
     if(rankData){ render(); }
     else body.innerHTML = '<p class="note-line">Đang tải bảng xếp hạng…</p>';
@@ -262,5 +275,5 @@ const Play = (() => {
   }
 
   addEventListener('hashchange', () => { const m = $('#petHome'); if(m){ m.remove(); document.body.classList.remove('noscroll'); } });
-  return { on, look, bgSVG, accSVG, snapshot, adopt, open, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, feed, playWith, buy, wear };
+  return { on, look, bgSVG, accSVG, snapshot, adopt, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, feed, playWith, buy, wear };
 })();

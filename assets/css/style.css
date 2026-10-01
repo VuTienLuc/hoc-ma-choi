@@ -201,6 +201,8 @@ h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
 .pet{display:block;width:100%;height:100%;overflow:visible}
 .pet .pet-body{fill:var(--pb);stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
 .pet.sp-meo{--pb:var(--pet-meo)} .pet.sp-rong{--pb:var(--pet-rong)} .pet.sp-cu{--pb:var(--pet-cu)} .pet.sp-tho{--pb:var(--pet-tho)}
+.pet.sp-phuong{--pb:#ff7043;--pet-egg:#fff0c7;--pet-spot:#ff9f1c;--pet-belly:#ffe7a3;--pet-cheek:#ff5f7e;--pet-crown:#ffd43b;--pet-gem:#ff2e63}
+.pet.sp-kylan{--pb:#f8f0ff;--pet-belly:#fffaff;--pet-cheek:#ff91c8;--pet-crown:#ffe45e;--pet-gem:#8a5cff}
 .pet .pet-belly{fill:var(--pet-belly)}
 .pet .pet-egg{fill:var(--pet-egg);stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
 .pet .pet-spot{fill:var(--pet-spot)}
@@ -217,6 +219,30 @@ h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
 .pet .pet-gem{fill:var(--pet-gem)}
 .pet .pet-spark{fill:var(--pet-crown);animation:twinkle 1.6s ease-in-out infinite}
 .pet .pet-spark.s2{animation-delay:.5s} .pet .pet-spark.s3{animation-delay:1s}
+.pet .pet-flame-back{fill:#ff4d1c;stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-flame-core{fill:#ffd43b;stroke:#ff7a00;stroke-width:2;stroke-linejoin:round}
+.pet .pet-tail-fire{fill:#ff7a00;stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-crest{fill:#ffd43b;stroke:var(--pet-ink);stroke-width:2;stroke-linejoin:round}
+.pet .pet-phoenix-wing{fill:#ff9f1c;stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet.sp-phuong .pet-wing{fill:#ff9f1c}
+.pet .pet-rainbow{fill:none;stroke-width:7;stroke-linecap:round}.pet .pet-rainbow.r1{stroke:#ff5d8f}.pet .pet-rainbow.r2{stroke:#ffd43b}.pet .pet-rainbow.r3{stroke:#55d6be}
+.pet .pet-cloud{fill:#fffaff;stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-sprout{fill:none;stroke:#35a853;stroke-width:3;stroke-linecap:round}
+.pet .pet-leaf{fill:#6ee7a0;stroke:var(--pet-ink);stroke-width:1.8}.pet .pet-leaf.alt{fill:#55d6be}
+.pet .pet-ear{fill:#f8f0ff;stroke:var(--pet-ink);stroke-width:2.5;stroke-linejoin:round}
+.pet .pet-unicorn-horn{fill:#ffe45e;stroke:var(--pet-ink);stroke-width:2;stroke-linejoin:round}
+.pet .pet-horn-line{fill:none;stroke:#ff7ab6;stroke-width:2;stroke-linecap:round}
+.pet .pet-mane{stroke:var(--pet-ink);stroke-width:2.2;stroke-linejoin:round}.pet .pet-mane.m1{fill:#ff7ab6}.pet .pet-mane.m2{fill:#8a7dff}
+.pet .pet-star-wing{fill:#78dcff;stroke:var(--pet-ink);stroke-width:2.3;stroke-linejoin:round}.pet .pet-star-wing.alt{fill:#b995ff}
+.pet .pet-legend-aura{fill:#7dd3fc22;stroke:#38bdf8;stroke-width:2;stroke-dasharray:4 5;animation:spin-aura 10s linear infinite;transform-origin:60px 61px}
+.pet .pet-legend-ring{fill:none;stroke:#60a5fa;stroke-width:4;stroke-linecap:round;filter:drop-shadow(0 0 3px #60a5fa)}
+.pet .pet-diamond{fill:#b9f3ff;stroke:#3578c9;stroke-width:1.7;filter:drop-shadow(0 0 4px #7dd3fc)}
+.pet .pet-cosmic{fill:#fff;stroke:#7c3aed;stroke-width:1;filter:drop-shadow(0 0 4px #a78bfa)}
+.pet.legend-r2 .pet-legend-aura{fill:#a5f3fc33;stroke:#22d3ee}.pet.legend-r2 .pet-legend-ring{stroke:#67e8f9}
+.pet.legend-r3 .pet-legend-aura{fill:#7c3aed26;stroke:#8b5cf6}.pet.legend-r3 .pet-legend-ring{stroke:#c084fc}.pet.legend-r3 .pet-mane.m1{fill:#c084fc}.pet.legend-r3 .pet-mane.m2{fill:#60a5fa}
+.pet.legend-r4 .pet-legend-aura{fill:#f472b62b;stroke:#f472b6}.pet.legend-r4 .pet-legend-ring{stroke:#f9a8d4;stroke-width:5}.pet.legend-r4 .pet-star-wing{fill:#f0abfc}.pet.legend-r4 .pet-star-wing.alt{fill:#818cf8}
+.pet.legend-r5 .pet-legend-aura{fill:#fde04730;stroke:#facc15;stroke-width:3}.pet.legend-r5 .pet-legend-ring{stroke:#fb7185;stroke-width:5;filter:drop-shadow(0 0 5px #facc15)}.pet.legend-r5 .pet-unicorn-horn{fill:#fff;stroke:#f59e0b;filter:drop-shadow(0 0 5px #fde047)}
+@keyframes spin-aura{to{transform:rotate(360deg)}}
 .pet .pet-shadow{fill:var(--pet-shadow)}
 .pet .pet-float,.pet .pet-wobble{transform-box:fill-box;transform-origin:50% 100%}
 .pet.big .pet-float{animation:bob 2.4s ease-in-out infinite}
@@ -233,8 +259,11 @@ h1{font:800 clamp(28px,4.4vw,38px)/1.2 var(--f-head);margin:16px 0 6px}
 .pet-info p{margin:10px 0 8px;font-size:17px}
 .pet-info .bar{height:14px}
 .pet-steps{display:flex;gap:6px}
+.pet-steps.long{flex-wrap:wrap;max-width:700px}
 .pet-steps span{width:40px;height:40px;opacity:.28;filter:grayscale(1)}
 .pet-steps span.on{opacity:1;filter:none}
+.legend-path{margin-top:12px;padding:10px 12px;border:2px dashed color-mix(in srgb,var(--primary) 45%,var(--line));border-radius:14px;background:color-mix(in srgb,var(--primary) 6%,var(--surface))}
+.legend-path>b{display:block;margin-bottom:7px;color:var(--primary)}.legend-path>span{display:flex;flex-wrap:wrap;gap:6px}.legend-path i{font-style:normal;font-size:12px;padding:4px 7px;border-radius:999px;background:var(--paper);color:var(--muted);border:1px solid var(--line)}.legend-path i.on{background:color-mix(in srgb,#facc15 25%,var(--surface));color:var(--ink);border-color:#f0b400;font-weight:800}
 @media (max-width:560px){.pet-card{grid-template-columns:1fr;justify-items:center;text-align:center}.pet-steps{justify-content:center}}
 .tile-pet{position:absolute;right:12px;top:10px;width:56px;height:56px}
 .tile.grade{position:relative}
@@ -491,6 +520,7 @@ body.noscroll{overflow:hidden}
 .gr-list .rk{font-size:17px}
 .gr-list li.gr-detail{display:block;border-style:dashed;padding:8px 10px;cursor:default}
 .gr-evo{display:flex;align-items:flex-end;justify-content:space-between;gap:2px}
+.gr-evo.long{justify-content:flex-start;overflow-x:auto;padding:5px 3px 10px}.gr-evo.long figure{flex:0 0 68px}.gr-evo.long .gr-arrow{flex:0 0 auto}
 .gr-evo figure{margin:0;display:grid;justify-items:center;text-align:center;flex:1;min-width:0} .gr-evo svg{width:100%;max-width:56px;height:auto}
 .gr-evo figcaption{font-size:10.5px;line-height:1.2;color:var(--muted)} .gr-evo .now figcaption{color:var(--ink);font-weight:800}
 .gr-evo .todo svg{filter:grayscale(1);opacity:.35} .gr-evo .now svg{outline:2.5px solid var(--primary);outline-offset:2px;border-radius:12px}

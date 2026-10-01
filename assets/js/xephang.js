@@ -3,7 +3,7 @@
    - Lấy dữ liệu bằng Account.rankAll(khối) (Apps Script action 'rankAll', chỉ tài khoản giáo viên).
    - Mỗi lớp của khối một thẻ; xếp theo ⭐ sao · 🔥 chuỗi ngày · 🏅 huy hiệu · 📘 số bài.
    - Thú cưng vẽ đúng cấp tiến hoá theo số sao của khối (Pet.thresholds cần nạp data/<khối>.js → nạp khi cần).
-   - Bấm một em: hiện chặng tiến hoá 5 cấp + chi tiết (sao còn thiếu, chuỗi ngày, huy hiệu, lần làm bài cuối).
+   - Bấm một em: hiện toàn bộ chặng tiến hoá + chi tiết (sao còn thiếu, chuỗi ngày, huy hiệu, lần làm bài cuối).
    ===================================================================== */
 const GvRank = (() => {
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -22,7 +22,7 @@ const GvRank = (() => {
     });
   }
   const stageOf = (G, r) => {
-    if(!G) return Math.min(4, Math.max(0, (r.pets && r.pets[st.gid]) || 0));
+    if(!G){ const g = {id:st.gid}; return Math.min(Pet.count(g) - 1, Math.max(0, (r.pets && r.pets[st.gid]) || 0)); }
     const t = Pet.thresholds(G); let k = 0; t.forEach((v, i) => { if(r.stars >= v) k = i; }); return k;
   };
 
@@ -64,11 +64,11 @@ const GvRank = (() => {
     const on = rows.filter(r => r.joined).sort((a, b) => (b[st.sort] - a[st.sort]) || (b.stars - a.stars) || a.name.localeCompare(b.name, 'vi'));
     const off = rows.filter(r => !r.joined).sort((a, b) => a.name.localeCompare(b.name, 'vi'));
     const g = G || {id: st.gid}, T = G ? Pet.thresholds(G) : null;
-    const sum = rows.reduce((t, r) => t + r.stars, 0), kings = rows.filter(r => r.k === 4).length;
+    const last = Pet.count(g) - 1, sum = rows.reduce((t, r) => t + r.stars, 0), kings = rows.filter(r => r.k === last).length;
     const li = (r, i) => { const open = st.open === r.user;
       const next = T && T[r.k + 1], pct = T ? (next ? Math.round((r.stars - T[r.k]) / (next - T[r.k]) * 100) : 100) : 0;
       return `<li class="gr-row ${open ? 'open' : ''}" data-u="${esc(r.user)}" tabindex="0" role="button" aria-expanded="${open}">
-        <span class="rk">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</span><span class="rp">${Pet.svg(g, r.k, '', {wear:{}, mood:'vui'})}</span>
+        <span class="rk">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</span><span class="rp">${Pet.svg(g, r.k, '', {wear:{}, mood:'vui', mastery:0})}</span>
         <span class="gr-who"><b>${esc(r.name)}</b><small>${esc(Pet.name(g, r.k))}</small>${T ? `<i class="gr-bar"><i style="width:${pct}%"></i></i>` : ''}</span>
         <span class="rv">${ICON[st.sort]} ${r[st.sort]}</span></li>${open ? detail(g, T, r) : ''}`; };
     box.innerHTML = head(time)
@@ -85,9 +85,9 @@ const GvRank = (() => {
     bindReload();
   }
   function detail(g, T, r){
-    const next = T && T[r.k + 1];
-    return `<li class="gr-detail"><div class="gr-evo">${[0,1,2,3,4].map(k => `<figure class="${k < r.k ? 'done' : k === r.k ? 'now' : 'todo'}">${Pet.svg(g, k, '', {wear:{}, mood:'vui'})}<figcaption>${esc(Pet.name(g, k))}${T ? `<br><small>${T[k]}⭐</small>` : ''}</figcaption></figure>`).join('<span class="gr-arrow">›</span>')}</div>
-      <p>${r.k === 4 ? '👑 Đã đạt cấp tiến hoá cao nhất!' : next ? `Có <b>${r.stars}⭐</b> · cần thêm <b>${next - r.stars}⭐</b> để lên <b>${esc(Pet.name(g, r.k + 1))}</b>.` : `Có <b>${r.stars}⭐</b>.`}</p>
+    const next = T && T[r.k + 1], total = Pet.count(g);
+    return `<li class="gr-detail"><div class="gr-evo ${total > 5 ? 'long' : ''}">${Array.from({length:total}, (_,k) => `<figure class="${k < r.k ? 'done' : k === r.k ? 'now' : 'todo'}">${Pet.svg(g, k, '', {wear:{}, mood:'vui', mastery:0})}<figcaption>${esc(Pet.name(g, k))}${T ? `<br><small>${T[k]}⭐</small>` : ''}</figcaption></figure>`).join('<span class="gr-arrow">›</span>')}</div>
+      <p>${r.k === total - 1 ? '👑 Đã đạt cấp tiến hoá cao nhất!' : next ? `Có <b>${r.stars}⭐</b> · cần thêm <b>${next - r.stars}⭐</b> để lên <b>${esc(Pet.name(g, r.k + 1))}</b>.` : `Có <b>${r.stars}⭐</b>.`}</p>
       <p class="gr-facts"><span>📘 ${r.lessons} bài có sao</span><span>🔥 ${r.streak} ngày (kỉ lục ${r.best || 0})</span><span>🏅 ${r.badges} huy hiệu</span><span>🪙 ${r.xu} xu</span>${r.last ? `<span>🕒 làm bài gần nhất ${esc(r.last)}</span>` : ''}</p></li>`;
   }
   return { mount };
