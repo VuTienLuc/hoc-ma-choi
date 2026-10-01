@@ -1,6 +1,6 @@
 /* =====================================================================
    PLAY – "Nhà thú cưng": chăm sóc hằng ngày, cửa hàng phụ kiện, nhiệm vụ ngày,
-   huy hiệu và bảng xếp hạng lớp. Nạp SAU account.js, TRƯỚC engine.js.
+   huy hiệu, sticker và bảng xếp hạng lớp. Nạp SAU account.js, TRƯỚC engine.js.
    - Làm đúng: +2 xu (đúng ngay lần đầu) / +1 xu (đúng lần hai). Xong một bộ: mỗi ⭐ = 1 hạt thức ăn.
    - Thú cưng đói (no) và buồn (vui) dần theo thời gian nếu em không học; KHÔNG bao giờ chết.
    - Trạng thái lưu trong store 'hoctap:play' (riêng từng học sinh) và đồng bộ lên Google Sheet.
@@ -15,14 +15,14 @@ const Play = (() => {
   const uid = () => (typeof Account !== 'undefined' && Account.user) ? `${Account.user.lop}|${Account.user.user}` : '';
   const blankStats = () => ({correct:0, sets:0, three:0, run:0, bestRun:0, fed:0, played:0, bought:0});
   const blank = () => ({v:1, ts:0, xu:0, xuTotal:0, food:3, no:80, vui:80, t:Date.now(), lastPlay:0,
-    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}});
+    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}, stickers:{}, stickerTotal:0, stickerLast:''});
   let S = null, who = null;
 
   /* ---------- Lưu / nạp ---------- */
   function st(){
     if(S && who === uid()) return S;
     who = uid(); const d = store.get(KEY) || {};
-    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {}; S.mastery = S.mastery || {};
+    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {}; S.mastery = S.mastery || {}; S.stickers = S.stickers || {};
     tick(); rollQuests(); return S;
   }
   function tick(){   // đói, buồn dần theo thời gian; chuỗi ngày bị ngắt nếu bỏ quá 1 ngày
@@ -75,6 +75,70 @@ const Play = (() => {
         note(`🎯 Xong nhiệm vụ: ${Qd.text}! +${Qd.xu} 🪙${Qd.food?` +${Qd.food} 🍖`:''}`); } }
   }
 
+  /* ---------- Bộ sưu tập sticker: thưởng riêng cho một bộ đúng tuyệt đối 6/6 ---------- */
+  const STICKERS = [
+    {id:'meo-kem',       icon:'🐱', name:'Mèo Kem Mơ Mộng',       group:'Bạn thú đáng yêu', r:'common'},
+    {id:'cun-bong',       icon:'🐶', name:'Cún Bông Vẫy Đuôi',     group:'Bạn thú đáng yêu', r:'common'},
+    {id:'tho-dau',        icon:'🐰', name:'Thỏ Dâu Má Hồng',       group:'Bạn thú đáng yêu', r:'common'},
+    {id:'gau-mat',        icon:'🐼', name:'Gấu Trúc Ôm Tim',       group:'Bạn thú đáng yêu', r:'rare'},
+    {id:'rai-ca',         icon:'🦦', name:'Rái Cá Tinh Nghịch',    group:'Bạn thú đáng yêu', r:'epic'},
+    {id:'dau-tay',        icon:'🍓', name:'Dâu Tây Ngọt Ngào',     group:'Tiệc ngọt', r:'common'},
+    {id:'banh-kem',       icon:'🧁', name:'Bánh Kem Cầu Vồng',     group:'Tiệc ngọt', r:'common'},
+    {id:'kem-que',        icon:'🍦', name:'Kem Mây Mát Lạnh',      group:'Tiệc ngọt', r:'common'},
+    {id:'donut-sao',      icon:'🍩', name:'Donut Sao Lấp Lánh',   group:'Tiệc ngọt', r:'rare'},
+    {id:'tra-sua',        icon:'🧋', name:'Trà Sữa Vui Vẻ',        group:'Tiệc ngọt', r:'rare'},
+    {id:'but-than',       icon:'✏️', name:'Bút Thần Chăm Chỉ',    group:'Góc học tập', r:'common'},
+    {id:'sach-bay',       icon:'📚', name:'Sách Bay Tri Thức',     group:'Góc học tập', r:'rare'},
+    {id:'nao-vang',       icon:'🧠', name:'Bộ Não Tỏa Sáng',       group:'Góc học tập', r:'rare'},
+    {id:'cup-sieu-sao',   icon:'🏆', name:'Cúp Siêu Sao',          group:'Góc học tập', r:'epic'},
+    {id:'ten-lua',        icon:'🚀', name:'Tên Lửa Vươn Cao',      group:'Góc học tập', r:'epic'},
+    {id:'may-cuoi',       icon:'☁️', name:'Mây Cười Bồng Bềnh',    group:'Xứ sở diệu kỳ', r:'common'},
+    {id:'cau-vong',       icon:'🌈', name:'Cầu Vồng May Mắn',      group:'Xứ sở diệu kỳ', r:'rare'},
+    {id:'trang-sao',      icon:'🌙', name:'Trăng Sao Ngủ Ngoan',   group:'Xứ sở diệu kỳ', r:'rare'},
+    {id:'sao-uoc',        icon:'🌟', name:'Ngôi Sao Điều Ước',     group:'Xứ sở diệu kỳ', r:'epic'},
+    {id:'pha-le',         icon:'💎', name:'Pha Lê Ngân Hà',        group:'Xứ sở diệu kỳ', r:'legend'},
+    {id:'cu-thong-thai',  icon:'🦉', name:'Cú Thông Thái',         group:'Linh vật huyền thoại', r:'rare'},
+    {id:'phuong-lua',     icon:'🐦‍🔥', name:'Phượng Lửa Rực Rỡ', group:'Linh vật huyền thoại', r:'epic'},
+    {id:'ky-lan',         icon:'🦄', name:'Kỳ Lân Ánh Sáng',       group:'Linh vật huyền thoại', r:'legend'},
+    {id:'rong-sao',       icon:'🐲', name:'Rồng Sao Dũng Cảm',     group:'Linh vật huyền thoại', r:'legend'},
+    {id:'vuong-mien',     icon:'👑', name:'Vương Miện Tri Thức',   group:'Linh vật huyền thoại', r:'legend'},
+    {id:'tim-lap-lanh',   icon:'💖', name:'Trái Tim Lấp Lánh',    group:'Cảm xúc vui', r:'common'},
+    {id:'mat-cuoi',       icon:'🥳', name:'Khuôn Mặt Mở Hội',      group:'Cảm xúc vui', r:'common'},
+    {id:'nam-tay',        icon:'🙌', name:'Cùng Nhau Cố Gắng',     group:'Cảm xúc vui', r:'rare'},
+    {id:'phao-hoa',       icon:'🎆', name:'Pháo Hoa Chiến Thắng',  group:'Cảm xúc vui', r:'epic'},
+    {id:'ngan-ha',        icon:'🌌', name:'Ngân Hà Tuyệt Đối',     group:'Cảm xúc vui', r:'legend'},
+  ];
+  const RARITY = {
+    common:{name:'Dễ thương', icon:'💚', weight:8}, rare:{name:'Hiếm', icon:'💙', weight:4},
+    epic:{name:'Sử thi', icon:'💜', weight:2}, legend:{name:'Huyền thoại', icon:'💛', weight:1},
+  };
+  const stickerCount = s => Object.values(s.stickers || {}).reduce((n, v) => n + (Number(v) || 0), 0);
+  const stickerUnique = s => STICKERS.filter(x => (s.stickers || {})[x.id] > 0).length;
+  function chooseSticker(s){
+    const missing = STICKERS.filter(x => !s.stickers[x.id]), source = missing.length ? missing : STICKERS, bag = [];
+    source.forEach(x => { for(let i=0; i<RARITY[x.r].weight; i++) bag.push(x); });
+    return bag[Math.floor(Math.random()*bag.length)];
+  }
+  function showSticker(x, count, isNew, g){
+    if(typeof document === 'undefined' || !document.body) return;
+    const old = document.querySelector('#stickerReward'); if(old) old.remove();
+    const el = document.createElement('div'); el.id = 'stickerReward'; el.className = `sticker-reward ${x.r}`; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true');
+    el.innerHTML = `<div class="sr-spark" aria-hidden="true">✨ ⭐ 💫 ✨ ⭐</div><div class="sr-card"><div class="sr-perfect">6/6 TUYỆT ĐỐI!</div><div class="sr-icon">${x.icon}</div>
+      <span class="sr-rarity">${RARITY[x.r].icon} ${RARITY[x.r].name}</span><h2>${x.name}</h2><p>${isNew ? 'Sticker mới đã vào Phòng truyền thống!' : `Sticker trùng đã được nâng lên bản lấp lánh ×${count}!`}</p>
+      <div class="row"><button class="btn primary" data-see>🏛️ Xem phòng Sticker</button><button class="btn" data-close>Tiếp tục học</button></div></div>`;
+    document.body.appendChild(el); document.body.classList.add('noscroll');
+    const close = () => { el.remove(); if(!document.querySelector('#petHome')) document.body.classList.remove('noscroll'); };
+    el.querySelector('[data-close]').onclick = close; el.querySelector('[data-see]').onclick = () => { close(); if(g) open(g, 'sticker'); };
+    el.addEventListener('click', e => { if(e.target === el) close(); });
+  }
+  function awardSticker(g){
+    const s = st(), x = chooseSticker(s), isNew = !s.stickers[x.id];
+    s.stickers[x.id] = (Number(s.stickers[x.id]) || 0) + 1; s.stickerTotal = stickerCount(s); s.stickerLast = x.id;
+    note(`${isNew?'🎁 Sticker mới':'✨ Sticker nâng cấp'}: ${x.icon} ${x.name}!`);
+    setTimeout(() => showSticker(x, s.stickers[x.id], isNew, g), 1900);
+    return x;
+  }
+
   /* ---------- Huy hiệu ---------- */
   const BADGES = [
     ['buoc-dau','🌱','Bước đầu tiên','Hoàn thành bộ câu hỏi đầu tiên', s => s.st.sets >= 1],
@@ -96,6 +160,9 @@ const Play = (() => {
     ['hoang-gia','🦄','Kỳ Lân Hoàng Gia','Đạt cấp tiến hoá cao nhất của hành trình', () => App.grades.some(g => Pet.stage(g) === Pet.count(g) - 1)],
     ['tinh-thong','🔮','Kỳ Lân Huyền Thoại','Đạt bậc Kỳ Lân Tinh Anh', () => App.grades.some(g => Pet.legend(mastery(g)).rank >= 1)],
     ['bat-diet','🌠','Kỳ Lân Bất Diệt','Đạt 1.000 Điểm Tinh Thông', () => App.grades.some(g => Pet.legend(mastery(g)).rank >= 5)],
+    ['sticker-dau','🎁','Món quà tuyệt đối','Sưu tập sticker 6/6 đầu tiên', s => stickerUnique(s) >= 1],
+    ['sticker-muoi','🖼️','Nhà sưu tập nhí','Sưu tập 10 sticker khác nhau', s => stickerUnique(s) >= 10],
+    ['sticker-day-du','🏛️','Phòng truyền thống rực rỡ','Sưu tập đủ toàn bộ sticker', s => stickerUnique(s) >= STICKERS.length],
   ];
   function checkBadges(){
     for(const [id, ic, nm, , ok] of BADGES) if(!S.badges[id] && ok(S)){ S.badges[id] = today(); S.xu += 10; S.xuTotal += 10; note(`🏅 Huy hiệu mới: ${ic} ${nm}! +10 🪙`); }
@@ -193,6 +260,7 @@ const Play = (() => {
       if(food) note(`🍖 +${food} hạt cho thú cưng${bonus ? ` · +${bonus} 🪙 thưởng 3 sao` : ''}`);
       quest('bo1'); quest('bo3'); if(stars === 3) quest('sao3'); if(lv >= 2) quest('muc2');
       const lk = `${g.id}:${l.id}`; if(!s.seen[lk]){ s.seen[lk] = 1; quest('moi'); }
+      if(n === 6 && pts === 6) awardSticker(g);
       checkBadges(); save(false); updateMini();
     }
     if(ev === 'home') decorateHome(a);
@@ -201,14 +269,14 @@ const Play = (() => {
 
   /* ---------- Giao diện ---------- */
   const meter = (ic, lab, v) => `<div class="meter ${v < 25 ? 'low' : v < 55 ? 'mid' : ''}"><span>${ic} ${lab}</span><div class="bar"><i style="width:${v}%"></i></div><b>${v}</b></div>`;
-  const chips = () => { const s = st(), mt = G ? mastery(G) : 0; return `<div class="pchips"><span title="Chuỗi ngày học liên tiếp">🔥 <b>${s.streak}</b> ngày</span><span title="Xu">🪙 <b>${s.xu}</b></span><span title="Hạt thức ăn">🍖 <b>${s.food}</b></span><span title="Huy hiệu">🏅 <b>${Object.keys(s.badges).length}</b></span>${mt ? `<span title="Điểm Tinh Thông">🔮 <b>${mt}</b></span>` : ''}</div>`; };
+  const chips = () => { const s = st(), mt = G ? mastery(G) : 0; return `<div class="pchips"><span title="Chuỗi ngày học liên tiếp">🔥 <b>${s.streak}</b> ngày</span><span title="Xu">🪙 <b>${s.xu}</b></span><span title="Hạt thức ăn">🍖 <b>${s.food}</b></span><span title="Sticker đã mở">🎟️ <b>${stickerUnique(s)}</b></span><span title="Huy hiệu">🏅 <b>${Object.keys(s.badges).length}</b></span>${mt ? `<span title="Điểm Tinh Thông">🔮 <b>${mt}</b></span>` : ''}</div>`; };
   function questRows(){ const s = st(); return s.q.list.map(it => { const Qd = QUESTS[it.id];
     return `<li class="${it.done?'done':''}"><span class="qi">${it.done?'✅':'🎯'}</span><div><b>${Qd.text}</b><div class="bar"><i style="width:${Math.round(it.p/Qd.n*100)}%"></i></div></div><small>${it.p}/${Qd.n}<br>+${Qd.xu} 🪙</small></li>`; }).join(''); }
   function decorateHome(g){
     const info = $('.pet-card .pet-info'); if(!info) return; const s = st();
     info.insertAdjacentHTML('afterbegin', chips());
     info.insertAdjacentHTML('beforeend', `<div class="meters">${meter('🍖','No',s.no)}${meter('💖','Vui',s.vui)}</div><p class="mood">${moodText()}</p>
-      <div class="row"><button class="btn primary" data-ph="care">🏠 Nhà thú cưng</button><button class="btn" data-ph="shop">🛍️ Cửa hàng</button>${Account.user?'<button class="btn" data-ph="rank">🏆 Xếp hạng lớp</button>':''}</div>`);
+      <div class="row"><button class="btn primary" data-ph="care">🏠 Nhà thú cưng</button><button class="btn" data-ph="sticker">🏛️ Phòng Sticker (${stickerUnique(s)}/${STICKERS.length})</button><button class="btn" data-ph="shop">🛍️ Cửa hàng</button>${Account.user?'<button class="btn" data-ph="rank">🏆 Xếp hạng lớp</button>':''}</div>`);
     const card = $('.pet-card'); if(card) card.insertAdjacentHTML('afterend', `<section class="quests card"><h3>🎯 Nhiệm vụ hôm nay</h3><ul>${questRows()}</ul><button class="linkbtn" data-ph="badge">Xem huy hiệu (${Object.keys(s.badges).length}/${BADGES.length}) →</button></section>`);
     $$('[data-ph]').forEach(b => b.onclick = () => open(g, b.dataset.ph));
   }
@@ -220,7 +288,7 @@ const Play = (() => {
     G = g; TAB = tab || 'care'; const old = $('#petHome'); if(old) old.remove();
     const el = document.createElement('div'); el.id = 'petHome'; el.className = 'evolve pethome'; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true');
     el.innerHTML = `<div class="ph card"><button class="ph-x" data-close aria-label="Đóng">✕</button><div class="ph-top" id="phTop"></div>
-      <div class="ph-tabs" role="tablist">${[['care','🏠 Chăm sóc'],['shop','🛍️ Cửa hàng'],['quest','🎯 Nhiệm vụ'],['badge','🏅 Huy hiệu'],['rank','🏆 Xếp hạng']].map(([k,t]) => `<button role="tab" data-tab="${k}">${t}</button>`).join('')}</div>
+      <div class="ph-tabs" role="tablist">${[['care','🏠 Chăm sóc'],['sticker','🏛️ Sticker'],['shop','🛍️ Cửa hàng'],['quest','🎯 Nhiệm vụ'],['badge','🏅 Huy hiệu'],['rank','🏆 Xếp hạng']].map(([k,t]) => `<button role="tab" data-tab="${k}">${t}</button>`).join('')}</div>
       <div class="ph-body" id="phBody"></div></div>`;
     document.body.appendChild(el); document.body.classList.add('noscroll');
     const close = () => { el.remove(); document.body.classList.remove('noscroll'); if(location.hash === `#/${g.id}`) try{ renderHome() }catch(e){} };
@@ -258,6 +326,14 @@ const Play = (() => {
       body.innerHTML = `<p class="note-line">Mỗi huy hiệu mới thưởng <b>10 🪙</b>. Em có <b>${Object.keys(s.badges).length}/${BADGES.length}</b>.</p><div class="badges">${BADGES.map(([id, ic, nm, desc]) => {
         const got = s.badges[id]; return `<div class="badge ${got?'got':''}"><span class="bi">${ic}</span><b>${nm}</b><small>${desc}${got?`<br>✔ ${got.split('-').reverse().join('/')}`:''}</small></div>`; }).join('')}</div>`;
     }
+    if(TAB === 'sticker'){
+      const got = stickerUnique(s), total = stickerCount(s), last = STICKERS.find(x => x.id === s.stickerLast);
+      const groups = [...new Set(STICKERS.map(x => x.group))];
+      body.innerHTML = `<section class="sticker-head"><div><small>PHÒNG TRUYỀN THỐNG CỦA EM</small><h3>${got === STICKERS.length ? '🌟 Bộ sưu tập đã đủ!' : `Đã mở ${got}/${STICKERS.length} sticker`}</h3><p>Mỗi lần làm đúng tuyệt đối <b>6/6</b>, em được mở một sticker bất ngờ. Sticker chưa có luôn được ưu tiên.</p></div><div class="sticker-score"><b>${total}</b><span>lần đạt<br>6/6</span></div></section>
+        ${last ? `<div class="sticker-latest"><span>${last.icon}</span><div><small>STICKER MỚI NHẤT</small><b>${last.name}</b></div></div>` : '<div class="sticker-empty">🎁 Hãy chinh phục một bộ 6/6 để mở sticker đầu tiên nhé!</div>'}
+        ${groups.map(group => `<h3>${group}</h3><div class="sticker-grid">${STICKERS.filter(x => x.group === group).map(x => { const n = Number(s.stickers[x.id]) || 0, rr = RARITY[x.r];
+          return `<div class="sticker ${n?'got':''} ${x.r} ${n>1?'shine':''}" title="${n?x.name:'Sticker bí mật'}"><span class="sticker-icon">${n?x.icon:'❔'}</span><b>${n?x.name:'Chưa mở khóa'}</b><small>${n?`${rr.icon} ${rr.name}${n>1?` · ×${n}`:''}`:'Đạt 6/6 để mở'}</small></div>`; }).join('')}</div>`).join('')}`;
+    }
     if(TAB === 'rank') drawRank(body);
   }
   async function drawRank(body){
@@ -275,5 +351,5 @@ const Play = (() => {
   }
 
   addEventListener('hashchange', () => { const m = $('#petHome'); if(m){ m.remove(); document.body.classList.remove('noscroll'); } });
-  return { on, look, bgSVG, accSVG, snapshot, adopt, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, feed, playWith, buy, wear };
+  return { on, look, bgSVG, accSVG, snapshot, adopt, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
 })();

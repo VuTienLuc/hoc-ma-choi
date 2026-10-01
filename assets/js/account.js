@@ -100,7 +100,7 @@ const Account = (() => {
         LS.set('hoctap:session', user); LS.set('hoctap:lastLop', lop);
         if(P()){ Play.reset(); Play.adopt(r.play); }
         Object.entries(r.progress || {}).forEach(([k,v]) => { const key = 'hoctap:'+k; if((+v||0) > (store.get(key)||0)) store.set(key, +v); });
-        App.grades.forEach(g => store.set(`hoctap:petseen-v2:${g.id}`, Pet.stage(g)));   // không bật màn tiến hoá khi vừa đăng nhập
+        App.grades.forEach(g => store.set(`hoctap:petseen-v3:${g.id}`, Pet.stage(g)));   // không bật màn tiến hoá khi vừa đăng nhập
         restrict(); start();
       }catch(err){ say('Không kết nối được máy chủ. Em thử lại sau ít phút nhé.'); }
       finally{ btn.disabled = false; btn.textContent = 'Đăng nhập'; }
@@ -167,9 +167,7 @@ const Pet = (() => {
   function thresholds(g){
     const M = g.lessons.length * 9;
     if(sp(g) === 'cu'){
-      const t = [0, 10, 25, 42, 60];
-      for(let i = 1; i <= 10; i++) t.push(60 + Math.ceil((M - 60) * i / 10));
-      return t;
+      return [0, 10, 25, 42, 60, 80, 100, 125, 150, 180, 205, 230, 255, 280, 300];
     }
     const t = [0, 3, Math.max(6, Math.ceil(.15*M)), Math.ceil(.4*M), Math.ceil(.75*M)];
     for(let i = 2; i < 5; i++) if(t[i] <= t[i-1]) t[i] = t[i-1] + 2; return t;
@@ -257,7 +255,7 @@ const Pet = (() => {
 
   /* ---- Tiến hoá ---- */
   function check(g){
-    const k = stage(g), key = `hoctap:petseen-v2:${g.id}`, seen = store.get(key);
+    const k = stage(g), key = `hoctap:petseen-v3:${g.id}`, seen = store.get(key);
     if(seen == null){ store.set(key, k); if(k === 0) return; }
     if(seen != null && k <= seen) return;
     store.set(key, k); show(g, seen == null ? Math.max(0, k-1) : seen, k);
