@@ -1,8 +1,280 @@
 /* =====================================================================
    BÀI GIẢNG LỚP 8 – Toán, Kết nối tri thức (giáo viên trình chiếu)
-   Chương II. Hằng đẳng thức đáng nhớ và ứng dụng (Bài 6 – Bài 9, Ôn tập)
+   Chương I. Đa thức (Ôn tập) · Chương II. Hằng đẳng thức · Chương III. Tứ giác
    Cấu trúc trang chiếu: xem giao-vien/bai-giang/lop10.js và CLAUDE.md.
    ===================================================================== */
+/* =====================================================================
+   CHƯƠNG I. ĐA THỨC – ÔN TẬP CHƯƠNG I
+   Bao quát Bài 1 – Bài 5, hai phần Luyện tập chung và Bài tập cuối chương.
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const box = h => `<div class="lk-box">${h}</div>`;
+const note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const S = t => `<p>${t}</p>`;
+const areaFig = () => `<svg viewBox="0 0 420 250" role="img" aria-label="Hình chữ nhật có chiều dài x cộng 3 và chiều rộng x cộng 2">
+  <rect class="sv-part" x="45" y="35" width="300" height="165"/>
+  <line class="sv-line" x1="245" y1="35" x2="245" y2="200"/><line class="sv-line" x1="45" y1="145" x2="345" y2="145"/>
+  <text class="sv-txt" x="145" y="95" text-anchor="middle">x²</text><text class="sv-txt" x="295" y="95" text-anchor="middle">3x</text>
+  <text class="sv-txt" x="145" y="180" text-anchor="middle">2x</text><text class="sv-txt" x="295" y="180" text-anchor="middle">6</text>
+  <text class="sv-muted" x="145" y="25" text-anchor="middle">x</text><text class="sv-muted" x="295" y="25" text-anchor="middle">3</text>
+  <text class="sv-muted" x="25" y="95" text-anchor="middle">x</text><text class="sv-muted" x="25" y="180" text-anchor="middle">2</text>
+  <text class="sv-muted" x="195" y="232" text-anchor="middle">Diện tích: (x + 3)(x + 2)</text></svg>`;
+
+Lecture.add({ grade:'lop8', gradeName:'Toán 8', chapter:'Chương I. Đa thức', lessons:[
+{ id:'on-tap-c1', name:'Ôn tập chương I', desc:'Đơn thức, đa thức; cộng, trừ, nhân đa thức; chia đa thức cho đơn thức; bài toán tổng hợp.', slides:[
+  {kind:'title', tag:'Toán 8 · Kết nối tri thức · Chương I', title:'Ôn tập chương I', sub:'Đa thức', points:[
+    'Hệ thống đầy đủ kiến thức từ Bài 1 đến Bài 5.',
+    'Nhận dạng đúng dạng toán, trình bày phép biến đổi có căn cứ.',
+    'Vận dụng tổng hợp vào tính giá trị và bài toán thực tế.'
+  ]},
+
+  {kind:'kt', tag:'Bản đồ chương', title:'Các chủ đề cần ôn tập', body:`<table class="lk-table lk-left"><tr><th>Nội dung SGK</th><th>Kiến thức, kĩ năng trọng tâm</th></tr>
+    <tr><td>Bài 1. Đơn thức</td><td>Thu gọn; hệ số, phần biến, bậc; đơn thức đồng dạng.</td></tr>
+    <tr><td>Bài 2. Đa thức</td><td>Hạng tử; thu gọn; bậc; tính giá trị của đa thức.</td></tr>
+    <tr><td>Bài 3 và Luyện tập chung trang 17</td><td>Cộng, trừ đa thức; bỏ dấu ngoặc; đổi dấu đúng.</td></tr>
+    <tr><td>Bài 4. Phép nhân đa thức</td><td>Nhân đơn thức với đa thức; nhân đa thức với đa thức.</td></tr>
+    <tr><td>Bài 5 và Luyện tập chung trang 25</td><td>Chia đa thức cho đơn thức; bài toán tổng hợp.</td></tr>
+    <tr><td>Bài tập cuối chương I</td><td>Phối hợp các phép tính; mô hình hoá tình huống thực tế.</td></tr></table>`},
+
+  {kind:'kt', tag:'Kiến thức nền · Bài 1', title:'Đơn thức', body:box(`<b>Đơn thức</b> là biểu thức đại số chỉ gồm một số, một biến, hoặc một tích giữa các số và các biến.`) +
+    `<ul><li><b>Dạng thu gọn:</b> tích của một số với các biến, mỗi biến chỉ xuất hiện một lần dưới dạng một luỹ thừa có số mũ nguyên không âm.</li><li><b>Hệ số:</b> thừa số bằng số; <b>phần biến:</b> tích các luỹ thừa của biến.</li><li><b>Bậc của đơn thức khác 0:</b> tổng các số mũ của các biến. Số khác 0 có bậc 0.</li><li>Đơn thức 0 <b>không có bậc</b>.</li></ul>` +
+    note(`Khi thu gọn, nhân các hệ số và dùng ${m('x^m\\cdot x^n=x^{m+n}')}. Không cộng các số mũ của hai biến khác nhau.`)},
+
+  {kind:'kt', tag:'Kiến thức nền · Bài 1', title:'Đơn thức đồng dạng', body:box(`Hai đơn thức đồng dạng là hai đơn thức có <b>cùng phần biến</b>.`) +
+    S(`Cộng hoặc trừ các đơn thức đồng dạng: cộng hoặc trừ các hệ số và giữ nguyên phần biến.`) + d(`au^mv^n+bu^mv^n=(a+b)u^mv^n`) +
+    note(`Các đơn thức ${m('3x^2y')} và ${m('3xy^2')} không đồng dạng vì số mũ của từng biến không giống nhau.`)},
+
+  {kind:'kt', tag:'Kiến thức nền · Bài 2', title:'Đa thức', body:box(`<b>Đa thức</b> là một tổng của những đơn thức. Mỗi đơn thức trong tổng gọi là một <b>hạng tử</b>.`) +
+    `<ul><li><b>Thu gọn đa thức:</b> nhóm và cộng các hạng tử đồng dạng.</li><li><b>Bậc của đa thức khác 0:</b> bậc lớn nhất của các hạng tử sau khi đã thu gọn.</li><li><b>Giá trị của đa thức:</b> thay giá trị của biến rồi thực hiện phép tính theo đúng thứ tự.</li></ul>` +
+    note('Phải thu gọn trước khi kết luận bậc; các hạng tử bậc cao nhất có thể triệt tiêu nhau.')},
+
+  {kind:'kt', tag:'Kiến thức nền · Bài 3–5', title:'Bốn phép tính với đa thức', body:`<table class="lk-table lk-left"><tr><th>Phép tính</th><th>Quy tắc cốt lõi</th></tr>
+    <tr><td>Cộng</td><td>Bỏ ngoặc, giữ nguyên dấu; nhóm các hạng tử đồng dạng.</td></tr>
+    <tr><td>Trừ</td><td>Bỏ ngoặc sau dấu trừ và <b>đổi dấu mọi hạng tử</b> trong ngoặc.</td></tr>
+    <tr><td>Nhân</td><td>Dùng tính chất phân phối: mỗi hạng tử của đa thức này nhân với từng hạng tử của đa thức kia.</td></tr>
+    <tr><td>Chia cho đơn thức</td><td>Chia từng hạng tử của đa thức cho đơn thức, rồi cộng các kết quả.</td></tr></table>` +
+    box(`Thứ tự nên làm: <b>phá ngoặc → thực hiện nhân, chia → nhóm hạng tử đồng dạng → thu gọn</b>.`)},
+
+  {kind:'method', tag:'Dạng 1 · Bài 1', title:'Thu gọn đơn thức; tìm hệ số, phần biến và bậc', steps:[
+    'Nhân các thừa số bằng số để được hệ số.',
+    `Với mỗi biến, cộng các số mũ theo quy tắc ${m('x^m\\cdot x^n=x^{m+n}')}.`,
+    'Viết đơn thức ở dạng thu gọn; xác định hệ số và phần biến.',
+    'Cộng các số mũ của tất cả biến để tìm bậc.'
+  ]},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Thu gọn đơn thức ${m('A=(-3x^2y)\\cdot(2xy^3)')}. Xác định hệ số, phần biến và bậc của ${m('A')}.`,
+   sol:[
+    `Nhân các hệ số: ${m('(-3)\\cdot2=-6')}.`,
+    `Gộp các luỹ thừa cùng cơ số: ${m('x^2\\cdot x=x^3')} và ${m('y\\cdot y^3=y^4')}.`,
+    `Vì vậy ${m('A=-6x^3y^4')}; hệ số là ${m('-6')}, phần biến là ${m('x^3y^4')}.`,
+    `Bậc của ${m('A')} là ${m('3+4=7')}.`
+   ], ans:`${tb('A=-6x^3y^4')}; hệ số ${tb('-6')}; bậc ${tb('7')}.`},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Cho các đơn thức ${m('-7xy^2;\\ 4x^2y^0;\\ 5;\\ 0')}. Hãy chỉ ra hệ số, phần biến và bậc của mỗi đơn thức.`,
+   sol:[
+    `${m('-7xy^2')} có hệ số ${m('-7')}, phần biến ${m('xy^2')}, bậc ${m('1+2=3')}.`,
+    `Vì ${m('y^0=1')}, ${m('4x^2y^0=4x^2')}; hệ số ${m('4')}, phần biến ${m('x^2')}, bậc ${m('2')}.`,
+    `Số ${m('5')} là đơn thức có hệ số ${m('5')}, không có phần biến và có bậc ${m('0')}.`,
+    `Đơn thức ${m('0')} không có bậc.`
+   ]},
+
+  {kind:'method', tag:'Dạng 2 · Bài 1', title:'Nhận biết và cộng, trừ các đơn thức đồng dạng', steps:[
+    'Thu gọn từng đơn thức trước khi so sánh.',
+    'Đối chiếu phần biến: đúng biến và đúng số mũ của từng biến.',
+    'Chỉ cộng hoặc trừ các hệ số; giữ nguyên phần biến.',
+    'Kiểm tra dấu, đặc biệt khi hệ số âm hoặc là phân số.'
+  ]},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Trong các đơn thức ${m('2x^2y;\\ -5xy^2;\\ 7x^2y;\\ 3yx^2')}, hãy tìm các đơn thức đồng dạng và tính tổng của chúng.`,
+   sol:[
+    `Viết ${m('3yx^2=3x^2y')}; ba đơn thức ${m('2x^2y,\\ 7x^2y,\\ 3x^2y')} có cùng phần biến ${m('x^2y')}.`,
+    `Đơn thức ${m('-5xy^2')} có phần biến ${m('xy^2')} nên không đồng dạng với ba đơn thức trên.`,
+    `Cộng các hệ số: ${m('2+7+3=12')}.`,
+    `Vậy tổng các đơn thức đồng dạng đã tìm được là ${m('12x^2y')}.`
+   ], ans:`${tb('12x^2y')}.`},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Thu gọn ${m('B=\\dfrac34x^3y-\\dfrac52x^3y+x^3y')}.`,
+   sol:[
+    `Ba hạng tử có cùng phần biến ${m('x^3y')} nên là các đơn thức đồng dạng.`,
+    `Cộng các hệ số: ${m('\\dfrac34-\\dfrac52+1=\\dfrac34-\\dfrac{10}4+\\dfrac44=-\\dfrac34')}.`,
+    `Giữ nguyên phần biến ${m('x^3y')}.`
+   ], ans:`${tb('B=-\\dfrac34x^3y')}.`},
+
+  {kind:'method', tag:'Dạng 3 · Bài 2', title:'Thu gọn, tìm bậc và tính giá trị đa thức', steps:[
+    'Nhóm các hạng tử đồng dạng và cộng các hệ số.',
+    'Viết đa thức thu gọn theo một thứ tự rõ ràng.',
+    'Tìm bậc lớn nhất trong các hạng tử còn lại.',
+    'Muốn tính giá trị: thay số vào đa thức đã thu gọn, đặt số âm trong ngoặc rồi tính.'
+  ]},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Thu gọn và tìm bậc của ${m('P=3x^2y-2xy+x^2y+5xy-4')}.`,
+   sol:[
+    `Nhóm các hạng tử đồng dạng: ${m('(3x^2y+x^2y)+(-2xy+5xy)-4')}.`,
+    `Cộng hệ số trong từng nhóm: ${m('P=4x^2y+3xy-4')}.`,
+    `Các hạng tử có bậc lần lượt là ${m('3,\\ 2,\\ 0')}.`,
+    `Bậc lớn nhất là ${m('3')}, nên đa thức ${m('P')} có bậc ${m('3')}.`
+   ], ans:`${tb('P=4x^2y+3xy-4')}; bậc ${tb('3')}.`},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Tính giá trị của ${m('P=3x^2y-2xy+x^2y+5xy-4')} tại ${m('x=1,\\ y=-2')}.`,
+   sol:[
+    `Từ ví dụ trước, đa thức thu gọn là ${m('P=4x^2y+3xy-4')}.`,
+    `Thay ${m('x=1,\\ y=-2')}: ${m('P=4\\cdot1^2\\cdot(-2)+3\\cdot1\\cdot(-2)-4')}.`,
+    `Thực hiện phép nhân trước: ${m('P=-8-6-4')}.`,
+    `Do đó ${m('P=-18')}.`
+   ], ans:`${tb('-18')}.`},
+
+  {kind:'method', tag:'Dạng 4 · Bài 3', title:'Cộng và trừ đa thức', steps:[
+    'Đặt mỗi đa thức trong ngoặc để nhìn rõ phạm vi phép cộng hoặc phép trừ.',
+    'Sau dấu cộng: giữ nguyên dấu các hạng tử. Sau dấu trừ: đổi dấu tất cả hạng tử trong ngoặc.',
+    'Nhóm các hạng tử đồng dạng.',
+    'Cộng, trừ các hệ số và viết kết quả thu gọn.'
+  ]},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Cho ${m('P=2x^2-3xy+y^2')}, ${m('Q=-x^2+5xy-2y^2')}. Tính ${m('P+Q')} và ${m('P-Q')}.`,
+   sol:[
+    `${m('P+Q=(2x^2-x^2)+(-3xy+5xy)+(y^2-2y^2)')}.`,
+    `Suy ra ${m('P+Q=x^2+2xy-y^2')}.`,
+    `${m('P-Q=2x^2-3xy+y^2-(-x^2+5xy-2y^2)')}.`,
+    `Đổi dấu toàn bộ ${m('Q')}: ${m('P-Q=2x^2-3xy+y^2+x^2-5xy+2y^2=3x^2-8xy+3y^2')}.`
+   ], ans:`${tb('P+Q=x^2+2xy-y^2')}; ${tb('P-Q=3x^2-8xy+3y^2')}.`},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 8 · Dạng 4', label:'Ví dụ 8', de:`Cho ${m('A=4x^2-3x+1')}, ${m('B=x^2+2x-5')}, ${m('C=2x^2-x+3')}. Thu gọn ${m('A-(B-C)')}.`,
+   sol:[
+    `Bỏ ngoặc ngoài: ${m('A-(B-C)=A-B+C')}; vì trừ cả hiệu nên ${m('B')} đổi dấu, còn ${m('C')} giữ dấu cộng.`,
+    `Thay các đa thức: ${m('4x^2-3x+1-(x^2+2x-5)+(2x^2-x+3)')}.`,
+    `Bỏ ngoặc: ${m('4x^2-3x+1-x^2-2x+5+2x^2-x+3')}.`,
+    `Nhóm hạng tử đồng dạng: ${m('(4-1+2)x^2+(-3-2-1)x+(1+5+3)')}.`
+   ], ans:`${tb('5x^2-6x+9')}.`},
+
+  {kind:'method', tag:'Dạng 5 · Bài 4', title:'Nhân đơn thức với đơn thức hoặc đa thức', steps:[
+    'Nhân các hệ số; xác định dấu của tích.',
+    'Nhân các luỹ thừa cùng biến bằng cách cộng số mũ.',
+    'Với đơn thức nhân đa thức: dùng tính chất phân phối, nhân đơn thức với từng hạng tử.',
+    'Thu gọn các hạng tử đồng dạng nếu có.'
+  ]},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 9 · Dạng 5', label:'Ví dụ 9', de:`Thực hiện phép nhân ${m('(-3x^2y)(2xy^3)')}.`,
+   sol:[
+    `Hệ số: ${m('(-3)\\cdot2=-6')}.`,
+    `Phần biến: ${m('x^2\\cdot x=x^3')} và ${m('y\\cdot y^3=y^4')}.`,
+    `Ghép hệ số với phần biến được ${m('-6x^3y^4')}.`
+   ], ans:`${tb('-6x^3y^4')}.`},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 10 · Dạng 5', label:'Ví dụ 10', de:`Thực hiện phép nhân ${m('-2xy(3x^2-xy+4y^2)')}.`,
+   sol:[
+    `Nhân với hạng tử thứ nhất: ${m('-2xy\\cdot3x^2=-6x^3y')}.`,
+    `Nhân với hạng tử thứ hai: ${m('-2xy\\cdot(-xy)=2x^2y^2')}.`,
+    `Nhân với hạng tử thứ ba: ${m('-2xy\\cdot4y^2=-8xy^3')}.`,
+    `Ba hạng tử không đồng dạng nên không cộng được với nhau.`
+   ], ans:`${tb('-6x^3y+2x^2y^2-8xy^3')}.`},
+
+  {kind:'method', tag:'Dạng 6 · Bài 4', title:'Nhân đa thức với đa thức', steps:[
+    'Nhân từng hạng tử của đa thức thứ nhất với từng hạng tử của đa thức thứ hai.',
+    'Viết đủ các tích, chú ý quy tắc dấu.',
+    'Nhóm các hạng tử đồng dạng.',
+    'Thu gọn và kiểm tra: bậc của tích không vượt quá tổng bậc của hai đa thức.'
+  ]},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 11 · Dạng 6', label:'Ví dụ 11', de:`Khai triển và thu gọn ${m('(x+2)(x^2-3x+4)')}.`,
+   sol:[
+    `Nhân ${m('x')} với từng hạng tử: ${m('x(x^2-3x+4)=x^3-3x^2+4x')}.`,
+    `Nhân ${m('2')} với từng hạng tử: ${m('2(x^2-3x+4)=2x^2-6x+8')}.`,
+    `Cộng hai kết quả: ${m('x^3-3x^2+4x+2x^2-6x+8')}.`,
+    `Thu gọn các hạng tử đồng dạng.`
+   ], ans:`${tb('x^3-x^2-2x+8')}.`},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 12 · Dạng 6', label:'Ví dụ 12', de:`Một hình chữ nhật có chiều dài ${m('x+3')} và chiều rộng ${m('x+2')}. Viết đa thức biểu thị diện tích của hình chữ nhật.`, fig:areaFig(),
+   sol:[
+    `Theo công thức diện tích hình chữ nhật: ${m('S=(x+3)(x+2)')}.`,
+    `Dùng tính chất phân phối: ${m('S=x^2+2x+3x+6')}.`,
+    `Hai hạng tử ${m('2x')} và ${m('3x')} đồng dạng nên cộng được với nhau.`,
+    `Vì vậy ${m('S=x^2+5x+6')}. Hình vẽ cũng cho tổng diện tích ${m('x^2+3x+2x+6')}.`
+   ], ans:`${tb('S=x^2+5x+6')}.`},
+
+  {kind:'method', tag:'Dạng 7 · Bài 5', title:'Chia đa thức cho đơn thức', steps:[
+    'Kiểm tra từng hạng tử của đa thức có chia hết cho đơn thức hay không.',
+    `Chia từng hệ số; với cùng biến, trừ số mũ theo quy tắc ${m('x^m:x^n=x^{m-n}')} khi ${m('m\\ge n')}.`,
+    'Giữ nguyên dấu của phép cộng hoặc phép trừ giữa các thương.',
+    'Nhân thương với đơn thức chia để kiểm tra lại đa thức bị chia.'
+  ]},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 13 · Dạng 7', label:'Ví dụ 13', de:`Thực hiện phép chia ${m('(12x^3y^2-8x^2y+4xy^3):(4xy)')}.`,
+   sol:[
+    `Mỗi hạng tử đều chứa ít nhất một thừa số ${m('x')} và một thừa số ${m('y')}, nên đều chia hết cho ${m('4xy')}.`,
+    `${m('12x^3y^2:4xy=3x^{3-1}y^{2-1}=3x^2y')}.`,
+    `${m('-8x^2y:4xy=-2x^{2-1}y^{1-1}=-2x')}.`,
+    `${m('4xy^3:4xy=y^{3-1}=y^2')}.`
+   ], ans:`${tb('3x^2y-2x+y^2')}.`},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 14 · Dạng 7', label:'Ví dụ 14', de:`Đa thức ${m('6x^2y+9xy^2-3x')} có chia hết cho đơn thức ${m('3xy')} không? Giải thích.`,
+   sol:[
+    `Hai hạng tử đầu chia hết cho ${m('3xy')}: ${m('6x^2y:3xy=2x')} và ${m('9xy^2:3xy=3y')}.`,
+    `Hạng tử ${m('-3x')} không chứa biến ${m('y')}, nên không chia hết cho ${m('3xy')}.`,
+    `Muốn một đa thức chia hết cho một đơn thức thì <b>mọi hạng tử</b> của đa thức phải chia hết cho đơn thức đó.`,
+    `Vì có một hạng tử không chia hết nên phép chia đã cho không cho kết quả là một đa thức.`
+   ], ans:`Đa thức ${tb('không chia hết')} cho ${m('3xy')}.`},
+
+  {kind:'method', tag:'Dạng 8 · Luyện tập chung', title:'Biểu thức tổng hợp và bài toán thực tế', steps:[
+    'Đọc cấu trúc biểu thức, xác định phép tính trong ngoặc cần làm trước.',
+    'Thực hiện phép nhân hoặc phép chia; không vội thay số khi biểu thức còn có thể thu gọn.',
+    'Bỏ ngoặc đúng dấu, rồi nhóm các hạng tử đồng dạng.',
+    'Với bài toán thực tế: chọn biến, lập biểu thức theo công thức hình học, thu gọn, sau đó mới thay số và ghi đơn vị.'
+  ]},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 15 · Dạng 8', label:'Ví dụ 15', de:`Thu gọn ${m('E=(x+2)(x-3)-x(x-1)+6')}.`,
+   sol:[
+    `Khai triển tích thứ nhất: ${m('(x+2)(x-3)=x^2-3x+2x-6=x^2-x-6')}.`,
+    `Khai triển tích thứ hai: ${m('x(x-1)=x^2-x')}.`,
+    `Thay vào biểu thức: ${m('E=x^2-x-6-(x^2-x)+6')}.`,
+    `Bỏ ngoặc sau dấu trừ: ${m('E=x^2-x-6-x^2+x+6=0')}.`
+   ], ans:`${tb('E=0')} với mọi giá trị của ${m('x')}.`},
+
+  {kind:'vd', plainSol:true, tag:'Ví dụ 16 · Dạng 8', label:'Ví dụ 16', de:`Một tấm bìa hình chữ nhật có kích thước ${m('x+4')} cm và ${m('x+3')} cm. Người ta cắt bỏ một hình vuông cạnh ${m('x')} cm. a) Lập đa thức biểu thị diện tích phần còn lại. b) Tính diện tích khi ${m('x=2')}.`,
+   sol:[
+    `Diện tích hình chữ nhật là ${m('(x+4)(x+3)')} cm²; diện tích hình vuông bị cắt là ${m('x^2')} cm².`,
+    `Diện tích còn lại: ${m('S=(x+4)(x+3)-x^2')}.`,
+    `Khai triển: ${m('S=x^2+3x+4x+12-x^2=7x+12')}.`,
+    `Khi ${m('x=2')}: ${m('S=7\\cdot2+12=26')} cm².`
+   ], ans:`a) ${tb('S=7x+12')} cm²; b) ${tb('26')} cm².`},
+
+  {kind:'lt', plainSol:true, tag:'Luyện tập tổng hợp', label:'Bài 1', de:`Thu gọn ${m('M=(-2x^2y)(3xy^2)')}, rồi xác định bậc của đơn thức thu được.`,
+   sol:[`${m('M=(-2)\\cdot3\\cdot x^{2+1}y^{1+2}=-6x^3y^3')}.`, `Bậc của ${m('M')} là ${m('3+3=6')}.`], ans:`${tb('M=-6x^3y^3')}; bậc ${tb('6')}.`},
+
+  {kind:'lt', plainSol:true, tag:'Luyện tập tổng hợp', label:'Bài 2', de:`Thu gọn và tìm bậc của ${m('N=5x^2y-3xy+2x^2y+7xy-6')}.`,
+   sol:[`${m('N=(5+2)x^2y+(-3+7)xy-6=7x^2y+4xy-6')}.`, `Hạng tử có bậc lớn nhất là ${m('7x^2y')} với bậc ${m('3')}.`], ans:`${tb('N=7x^2y+4xy-6')}; bậc ${tb('3')}.`},
+
+  {kind:'lt', plainSol:true, tag:'Luyện tập tổng hợp', label:'Bài 3', de:`Cho ${m('P=3x^2-2x+4')}, ${m('Q=x^2+5x-1')}. Tính ${m('P-Q')}.`,
+   sol:[`${m('P-Q=3x^2-2x+4-(x^2+5x-1)')}.`, `Đổi dấu các hạng tử của ${m('Q')}: ${m('P-Q=3x^2-2x+4-x^2-5x+1')}.`, `Thu gọn.`], ans:`${tb('2x^2-7x+5')}.`},
+
+  {kind:'lt', plainSol:true, tag:'Luyện tập tổng hợp', label:'Bài 4', de:`Khai triển và thu gọn ${m('(2x-3)(x^2+x-4)')}.`,
+   sol:[`${m('2x(x^2+x-4)=2x^3+2x^2-8x')}.`, `${m('-3(x^2+x-4)=-3x^2-3x+12')}.`, `Cộng hai kết quả và thu gọn.`], ans:`${tb('2x^3-x^2-11x+12')}.`},
+
+  {kind:'lt', plainSol:true, tag:'Luyện tập tổng hợp', label:'Bài 5', de:`Thực hiện phép chia ${m('(15x^4y^2-10x^3y+5x^2y^3):(5x^2y)')}.`,
+   sol:[`${m('15x^4y^2:5x^2y=3x^2y')}.`, `${m('-10x^3y:5x^2y=-2x')}.`, `${m('5x^2y^3:5x^2y=y^2')}.`], ans:`${tb('3x^2y-2x+y^2')}.`},
+
+  {kind:'lt', plainSol:true, tag:'Luyện tập tổng hợp', label:'Bài 6', de:`Thu gọn ${m('F=(2x-1)(x+3)-(2x^2+5x-3)')}.`,
+   sol:[`${m('(2x-1)(x+3)=2x^2+6x-x-3=2x^2+5x-3')}.`, `${m('F=(2x^2+5x-3)-(2x^2+5x-3)=0')}.`], ans:`${tb('F=0')} với mọi ${m('x')}.`},
+
+  {kind:'kt', tag:'Tự kiểm tra', title:'Sáu lỗi cần tránh', body:`<ol class="lk-steps">
+    <li>Cộng số mũ của hai biến khác nhau, chẳng hạn viết sai ${m('x^2y^3=x^5')}.</li>
+    <li>Cộng các đơn thức không đồng dạng.</li>
+    <li>Tìm bậc trước khi thu gọn đa thức.</li>
+    <li>Chỉ đổi dấu hạng tử đầu tiên khi bỏ ngoặc sau dấu trừ.</li>
+    <li>Nhân thiếu một cặp hạng tử khi nhân hai đa thức.</li>
+    <li>Chia đa thức cho đơn thức nhưng bỏ sót hạng tử hoặc không kiểm tra điều kiện chia hết.</li></ol>`},
+
+  {kind:'sum', tag:'Tổng kết chương I', title:'Quy trình làm bài chắc chắn', body:`<ol class="lk-steps">
+    <li><b>Nhận dạng:</b> đơn thức, đa thức và phép tính đang có.</li>
+    <li><b>Thu gọn:</b> hệ số, luỹ thừa, hạng tử đồng dạng.</li>
+    <li><b>Biến đổi:</b> dùng phân phối; đặc biệt chú ý dấu trừ trước ngoặc.</li>
+    <li><b>Kiểm tra:</b> dấu, số mũ, bậc, điều kiện chia hết và đơn vị.</li></ol>` +
+    box(`Chuỗi kiến thức: <b>đơn thức → đa thức → cộng, trừ → nhân → chia → vận dụng tổng hợp</b>.`) +
+    S('Hoàn thành lại sáu bài luyện tập; với mỗi lỗi sai, ghi rõ quy tắc cần dùng để sửa.')},
+]}
+]});
+})();
+
 (() => {
 const m = tm, d = td;
 const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
