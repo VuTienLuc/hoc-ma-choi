@@ -1806,16 +1806,25 @@ const Present = (() => {
   const LET = 'ABCDEFGH';
   const fmtAns = v => String(v).replace('.', ',');
   const ansOf = sp => sp && sp.frac ? sp.frac : Array.isArray(sp) ? ansOf(sp[0]) : sp;
+  const canPresent = () => typeof Account !== 'undefined' && typeof Account.isTeacher === 'function' && Account.isTeacher();
+  const requireTeacher = () => {
+    if(canPresent()) return true;
+    if(typeof toast === 'function') toast('Chế độ trình chiếu chỉ dành cho tài khoản giáo viên.');
+    return false;
+  };
 
   function on(ev){
     if(ev !== 'lesson') return;
-    const r = $('#resetSet'); if(!r || $('#presentBtn')) return;
+    const old = $('#presentBtn');
+    if(!canPresent()){ if(old) old.remove(); return; }
+    const r = $('#resetSet'); if(!r || old) return;
     r.insertAdjacentHTML('afterend', `<button class="btn" id="presentBtn" title="Trình chiếu lên máy chiếu">📽️ Trình chiếu</button>`);
     $('#presentBtn').onclick = () => open(0);
   }
 
   function open(start){
-    if(!S.qs.length || el) return;                       // đang chiếu thì không mở chồng thêm
+    if(!requireTeacher()) return false;
+    if(!S.qs.length || el) return false;                 // đang chiếu thì không mở chồng thêm
     if(document.activeElement && document.activeElement.blur) document.activeElement.blur();   // Enter không “bấm lại” nút Trình chiếu
     i = start || 0; shown = {};
     el = document.createElement('div'); el.id = 'present'; el.className = 'pv' + (dark ? ' dark' : '');
