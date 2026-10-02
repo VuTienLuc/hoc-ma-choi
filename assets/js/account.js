@@ -68,7 +68,7 @@ const Account = (() => {
 
   /* ---- Màn hình đăng nhập ---- */
   function gate(start, opt={}){
-    if(!API() || user){ restrict(); start(); flush(); return; }
+    if(!API() || user){ restrict(); if(P()) Play.checkInactivity(); start(); flush(); return; }
     const app = document.getElementById('app');
     app.innerHTML = `<div class="login card">
       <h1>${opt.title || 'Chào em! 👋'}</h1><p class="lead">${opt.lead || 'Chọn lớp rồi đăng nhập bằng tài khoản thầy cô đã phát.'}</p>
@@ -99,9 +99,13 @@ const Account = (() => {
         user = {token:r.token, name:r.name, lop:r.lop, user:r.user};
         LS.set('hoctap:session', user); LS.set('hoctap:lastLop', lop);
         if(P()){ Play.reset(); Play.adopt(r.play); }
-        Object.entries(r.progress || {}).forEach(([k,v]) => { const key = 'hoctap:'+k; if((+v||0) > (store.get(key)||0)) store.set(key, +v); });
+        Object.entries(r.progress || {}).forEach(([k,v]) => {
+          const key = 'hoctap:'+k, value = P() ? Play.progressValue(k, v) : (+v||0);
+          if(P() && Play.hasStarCap(k)) store.set(key, value); else if(value > (store.get(key)||0)) store.set(key, value);
+        });
+        restrict(); if(P()) Play.checkInactivity();
         App.grades.forEach(g => store.set(`hoctap:petseen-v3:${g.id}`, Pet.stage(g)));   // không bật màn tiến hoá khi vừa đăng nhập
-        restrict(); start();
+        start();
       }catch(err){ say('Không kết nối được máy chủ. Em thử lại sau ít phút nhé.'); }
       finally{ btn.disabled = false; btn.textContent = 'Đăng nhập'; }
     };

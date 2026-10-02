@@ -642,6 +642,15 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .kt-item .fig svg{max-height:170px;width:100%}
 @media (min-width:900px){.kt-item.has-fig{grid-template-columns:1fr 38%;align-items:center}}
 
+/* Cảnh báo duy trì học tập: nhắc từ ngày 5, trừ sao từ ngày 8 */
+.study-warning{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start;margin:4px 0 16px;padding:14px 17px;border-color:#e5a400;background:linear-gradient(135deg,#fff7cc,var(--surface))}
+.study-warning.loss{border-color:#e46a72;background:linear-gradient(135deg,#ffe0e3,var(--surface))}
+.study-warning .sw-icon{font-size:32px;line-height:1}.study-warning b{font:800 18px/1.25 var(--f-head)}
+.study-warning p{margin:4px 0 0;line-height:1.45}.study-warning small{display:block;margin-top:5px;color:var(--muted);font-weight:600}
+.study-warning.compact{margin:0 0 14px;padding:11px 14px}.study-warning.compact .sw-icon{font-size:27px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .study-warning{background:color-mix(in srgb,#e5a400 18%,var(--surface))}:root:not([data-theme="light"]) .study-warning.loss{background:color-mix(in srgb,#e46a72 18%,var(--surface))}}
+:root[data-theme="dark"] .study-warning{background:color-mix(in srgb,#e5a400 18%,var(--surface))}:root[data-theme="dark"] .study-warning.loss{background:color-mix(in srgb,#e46a72 18%,var(--surface))}
+
 </style>
 </head>
 <body>
@@ -1168,7 +1177,7 @@ const Account = (() => {
 
   /* ---- Màn hình đăng nhập ---- */
   function gate(start, opt={}){
-    if(!API() || user){ restrict(); start(); flush(); return; }
+    if(!API() || user){ restrict(); if(P()) Play.checkInactivity(); start(); flush(); return; }
     const app = document.getElementById('app');
     app.innerHTML = `<div class="login card">
       <h1>${opt.title || 'Chào em! 👋'}</h1><p class="lead">${opt.lead || 'Chọn lớp rồi đăng nhập bằng tài khoản thầy cô đã phát.'}</p>
@@ -1199,9 +1208,13 @@ const Account = (() => {
         user = {token:r.token, name:r.name, lop:r.lop, user:r.user};
         LS.set('hoctap:session', user); LS.set('hoctap:lastLop', lop);
         if(P()){ Play.reset(); Play.adopt(r.play); }
-        Object.entries(r.progress || {}).forEach(([k,v]) => { const key = 'hoctap:'+k; if((+v||0) > (store.get(key)||0)) store.set(key, +v); });
+        Object.entries(r.progress || {}).forEach(([k,v]) => {
+          const key = 'hoctap:'+k, value = P() ? Play.progressValue(k, v) : (+v||0);
+          if(P() && Play.hasStarCap(k)) store.set(key, value); else if(value > (store.get(key)||0)) store.set(key, value);
+        });
+        restrict(); if(P()) Play.checkInactivity();
         App.grades.forEach(g => store.set(`hoctap:petseen-v3:${g.id}`, Pet.stage(g)));   // không bật màn tiến hoá khi vừa đăng nhập
-        restrict(); start();
+        start();
       }catch(err){ say('Không kết nối được máy chủ. Em thử lại sau ít phút nhé.'); }
       finally{ btn.disabled = false; btn.textContent = 'Đăng nhập'; }
     };
@@ -1395,10 +1408,12 @@ const Play = (() => {
   const today = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
   const dayNum = s => s ? Math.round(new Date(s + 'T12:00:00').getTime() / 864e5) : -1e9;
   const clamp = v => Math.max(0, Math.min(100, Math.round(v)));
+  const WARN_DAYS = 5, FIRST_LOSS_DAY = 8, LOSS_EVERY_DAYS = 7;
   const uid = () => (typeof Account !== 'undefined' && Account.user) ? `${Account.user.lop}|${Account.user.user}` : '';
   const blankStats = () => ({correct:0, sets:0, three:0, run:0, bestRun:0, fed:0, played:0, bought:0});
   const blank = () => ({v:1, ts:0, xu:0, xuTotal:0, food:3, no:80, vui:80, t:Date.now(), lastPlay:0,
-    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}, stickers:{}, stickerTotal:0, stickerLast:''});
+    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}, stickers:{}, stickerTotal:0, stickerLast:'',
+    absence:{base:'', applied:0, lost:0, caps:{}, lastLoss:null}});
   let S = null, who = null;
 
   /* ---------- Lưu / nạp ---------- */
@@ -1406,6 +1421,7 @@ const Play = (() => {
     if(S && who === uid()) return S;
     who = uid(); const d = store.get(KEY) || {};
     S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {}; S.mastery = S.mastery || {}; S.stickers = S.stickers || {};
+    S.absence = Object.assign({base:'', applied:0, lost:0, caps:{}, lastLoss:null}, d.absence || {}); S.absence.caps = S.absence.caps || {};
     tick(); rollQuests(); return S;
   }
   function tick(){   // đói, buồn dần theo thời gian; chuỗi ngày bị ngắt nếu bỏ quá 1 ngày
@@ -1424,6 +1440,57 @@ const Play = (() => {
     S = null; if(!raw) return; let d; try{ d = typeof raw === 'string' ? JSON.parse(raw) : raw; }catch(e){ return; }
     const cur = store.get(KEY); if(cur && (cur.ts||0) >= (d.ts||0)) return;
     delete d.pets; store.set(KEY, d); S = null;
+  }
+
+  /* ---------- Nhắc học đều và giảm sao khi nghỉ quá lâu ----------
+     Ngày 5–7: chỉ cảnh báo. Từ ngày 8: trừ 1 sao; sau đó mỗi 7 ngày trừ thêm 1 sao.
+     caps ghi lại mức sao đã giảm để lần đăng nhập sau máy chủ không cộng trả lại. */
+  const progressKey = key => String(key || '').replace(/^hoctap:/, '');
+  function hasStarCap(key){ return Object.prototype.hasOwnProperty.call(st().absence.caps, progressKey(key)); }
+  function progressValue(key, value){ const a = st().absence, k = progressKey(key), v = Math.max(0, Number(value) || 0); return hasStarCap(k) ? Math.min(v, Math.max(0, Number(a.caps[k]) || 0)) : v; }
+  function releaseStarCap(g, l, lv, earned){
+    const s = st(), k = `${g.id}:${l.id}:${lv}`;
+    if(hasStarCap(k) && Number(earned) > Number(s.absence.caps[k])) delete s.absence.caps[k];
+  }
+  function inactiveDays(){ const s = st(); return s.last ? Math.max(0, dayNum(today()) - dayNum(s.last)) : 0; }
+  function inactivityInfo(g){
+    const s = st(), days = inactiveDays(); if(!s.last || days < WARN_DAYS) return null;
+    const a = s.absence, next = days < FIRST_LOSS_DAY ? FIRST_LOSS_DAY - days : LOSS_EVERY_DAYS - ((days - FIRST_LOSS_DAY) % LOSS_EVERY_DAYS);
+    return {days, lost:Number(a.lost)||0, next, lastLoss:a.lastLoss, g};
+  }
+  function checkInactivity(){
+    const s = st();
+    if(typeof Account !== 'undefined' && Account.user && Account.isTeacher && Account.isTeacher()) return null;
+    const gid = typeof Account !== 'undefined' && Account.user && Account.gradeOfClass ? Account.gradeOfClass(Account.user.lop) : '';
+    const g = App.grades.find(x => x.id === gid) || App.grades[0], days = inactiveDays(); if(!g || !s.last) return null;
+    const a = s.absence;
+    if(a.base !== s.last){ a.base = s.last; a.applied = 0; a.lost = 0; a.lastLoss = null; }
+    const target = days < FIRST_LOSS_DAY ? 0 : 1 + Math.floor((days - FIRST_LOSS_DAY) / LOSS_EVERY_DAYS);
+    const need = Math.max(0, target - (Number(a.applied) || 0));
+    if(!need) return inactivityInfo(g);
+    const before = Pet.stage(g); let lost = 0;
+    for(let n=0; n<need; n++){
+      const choices = [];
+      g.lessons.forEach((l, li) => [1,2,3].forEach(lv => { const key = `${g.id}:${l.id}:${lv}`, full = `hoctap:${key}`, value = Number(store.get(full)) || 0; if(value > 0) choices.push({key, full, value, li, lv}); }));
+      choices.sort((x,y) => y.value-x.value || y.lv-x.lv || y.li-x.li || x.key.localeCompare(y.key));
+      const x = choices[0]; if(!x) break;
+      const value = x.value - 1; store.set(x.full, value); a.caps[x.key] = value; lost++;
+    }
+    a.applied = target; a.lost = (Number(a.lost) || 0) + lost;
+    const after = Pet.stage(g); a.lastLoss = {day:today(), days, lost, before, after};
+    store.set(`hoctap:petseen-v3:${g.id}`, after); save(true);
+    return inactivityInfo(g);
+  }
+  function inactivityHTML(g, compact=false){
+    const x = inactivityInfo(g); if(!x) return '';
+    if(x.days < FIRST_LOSS_DAY){
+      const when = x.next === 1 ? 'ngày mai' : `sau ${x.next} ngày nữa`;
+      return `<section class="study-warning card ${compact?'compact':''}"><span class="sw-icon">⏰</span><div><b>Em quay lại học nhé!</b><p>Đã <b>${x.days} ngày</b> em chưa hoàn thành bộ câu hỏi. Hãy làm một bộ hôm nay để giữ sao và cấp tiến hoá; nếu vẫn chưa học, hệ thống sẽ bắt đầu trừ 1 ⭐ ${when}.</p></div></section>`;
+    }
+    const down = x.lastLoss && x.lastLoss.day === today() && x.lastLoss.after < x.lastLoss.before
+      ? ` Thú cưng đã hạ từ <b>${Pet.name(g,x.lastLoss.before)}</b> xuống <b>${Pet.name(g,x.lastLoss.after)}</b>.` : '';
+    const lost = x.lost ? `Trong đợt nghỉ này, hệ thống đã trừ <b>${x.lost} ⭐</b>.${down}` : 'Hiện em chưa có sao để trừ.';
+    return `<section class="study-warning loss card ${compact?'compact':''}"><span class="sw-icon">💫</span><div><b>${x.days} ngày chưa học</b><p>${lost} Hãy hoàn thành một bộ hôm nay để dừng trừ sao. Em có thể lấy lại từng sao bằng cách làm tốt lại bài đã bị giảm.</p><small>Nếu tiếp tục nghỉ, 1 ⭐ nữa sẽ bị trừ ${x.next===1?'ngày mai':`sau ${x.next} ngày`}.</small></div></section>`;
   }
 
   /* ---------- Thông báo nối tiếp ---------- */
@@ -1638,7 +1705,9 @@ const Play = (() => {
         if(newRank.name !== oldRank.name || newRank.stars !== oldRank.stars) note(`🌠 Thăng cấp: ${newRank.name}${newRank.stars ? ` ★${newRank.stars}` : ''}!`);
       }
       const d = today();
+      releaseStarCap(g, l, lv, stars);
       if(s.last !== d){ s.streak = dayNum(d) - dayNum(s.last) === 1 ? s.streak + 1 : 1; s.last = d; s.best = Math.max(s.best, s.streak);
+        s.absence.base = d; s.absence.applied = 0; s.absence.lost = 0; s.absence.lastLoss = null;
         if(s.streak > 1) note(`🔥 Chuỗi ${s.streak} ngày học liên tiếp! Giỏi quá!`); }
       if(food) note(`🍖 +${food} hạt cho thú cưng${bonus ? ` · +${bonus} 🪙 thưởng 3 sao` : ''}`);
       quest('bo1'); quest('bo3'); if(stars === 3) quest('sao3'); if(lv >= 2) quest('muc2');
@@ -1647,7 +1716,9 @@ const Play = (() => {
       checkBadges(); save(false); updateMini();
     }
     if(ev === 'home') decorateHome(a);
-    if(ev === 'lesson') updateMini();
+    if(ev === 'lesson'){
+      updateMini(); const warning = inactivityHTML(a, true), toolbar = $('.toolbar'); if(warning && toolbar) toolbar.insertAdjacentHTML('afterend', warning);
+    }
   }
 
   /* ---------- Giao diện ---------- */
@@ -1657,6 +1728,7 @@ const Play = (() => {
     return `<li class="${it.done?'done':''}"><span class="qi">${it.done?'✅':'🎯'}</span><div><b>${Qd.text}</b><div class="bar"><i style="width:${Math.round(it.p/Qd.n*100)}%"></i></div></div><small>${it.p}/${Qd.n}<br>+${Qd.xu} 🪙</small></li>`; }).join(''); }
   function decorateHome(g){
     const info = $('.pet-card .pet-info'); if(!info) return; const s = st();
+    const warning = inactivityHTML(g); if(warning) $('.pet-card').insertAdjacentHTML('beforebegin', warning);
     info.insertAdjacentHTML('afterbegin', chips());
     info.insertAdjacentHTML('beforeend', `<div class="meters">${meter('🍖','No',s.no)}${meter('💖','Vui',s.vui)}</div><p class="mood">${moodText()}</p>
       <div class="row"><button class="btn primary" data-ph="care">🏠 Nhà thú cưng</button><button class="btn" data-ph="sticker">🏛️ Phòng Sticker (${stickerUnique(s)}/${STICKERS.length})</button><button class="btn" data-ph="shop">🛍️ Cửa hàng</button>${Account.user?'<button class="btn" data-ph="rank">🏆 Xếp hạng lớp</button>':''}</div>`);
@@ -1729,12 +1801,14 @@ const Play = (() => {
       body.querySelectorAll('[data-rs]').forEach(b => b.onclick = () => { rankSort = b.dataset.rs; render(); }); };
     if(rankData){ render(); }
     else body.innerHTML = '<p class="note-line">Đang tải bảng xếp hạng…</p>';
-    try{ const r = await Account.rank(); if(!r.ok) throw new Error(r.msg); rankData = r.rows; if(TAB === 'rank') render(); setTimeout(() => rankData = null, 60000); }
+    try{ const r = await Account.rank(); if(!r.ok) throw new Error(r.msg);
+      rankData = r.rows.map(x => x.me ? {...x, stars:gradeStars(G), pets:{...(x.pets||{}), [G.id]:Pet.stage(G)}} : x);
+      if(TAB === 'rank') render(); setTimeout(() => rankData = null, 60000); }
     catch(e){ if(!rankData) body.innerHTML = '<p class="note-line">Chưa tải được bảng xếp hạng. Em kiểm tra mạng rồi thử lại nhé. (Nếu vẫn lỗi: thầy cô cần cập nhật lại Apps Script.)</p>'; }
   }
 
   addEventListener('hashchange', () => { const m = $('#petHome'); if(m){ m.remove(); document.body.classList.remove('noscroll'); } });
-  return { on, look, bgSVG, accSVG, snapshot, adopt, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
+  return { on, look, bgSVG, accSVG, snapshot, adopt, checkInactivity, inactivityInfo, progressValue, hasStarCap, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
 })();
 
 </script>

@@ -624,3 +624,12 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .kt-item h3{margin:0 0 4px;font:700 18px/1.35 var(--f-body)} .kt-b{font-size:18px;line-height:1.5} .kt-ex{margin-top:6px;padding:8px 12px;border-radius:12px;background:var(--primary-soft);font-size:17px}
 .kt-item .fig svg{max-height:170px;width:100%}
 @media (min-width:900px){.kt-item.has-fig{grid-template-columns:1fr 38%;align-items:center}}
+
+/* Cảnh báo duy trì học tập: nhắc từ ngày 5, trừ sao từ ngày 8 */
+.study-warning{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start;margin:4px 0 16px;padding:14px 17px;border-color:#e5a400;background:linear-gradient(135deg,#fff7cc,var(--surface))}
+.study-warning.loss{border-color:#e46a72;background:linear-gradient(135deg,#ffe0e3,var(--surface))}
+.study-warning .sw-icon{font-size:32px;line-height:1}.study-warning b{font:800 18px/1.25 var(--f-head)}
+.study-warning p{margin:4px 0 0;line-height:1.45}.study-warning small{display:block;margin-top:5px;color:var(--muted);font-weight:600}
+.study-warning.compact{margin:0 0 14px;padding:11px 14px}.study-warning.compact .sw-icon{font-size:27px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .study-warning{background:color-mix(in srgb,#e5a400 18%,var(--surface))}:root:not([data-theme="light"]) .study-warning.loss{background:color-mix(in srgb,#e46a72 18%,var(--surface))}}
+:root[data-theme="dark"] .study-warning{background:color-mix(in srgb,#e5a400 18%,var(--surface))}:root[data-theme="dark"] .study-warning.loss{background:color-mix(in srgb,#e46a72 18%,var(--surface))}

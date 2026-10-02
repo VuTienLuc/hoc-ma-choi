@@ -51,7 +51,8 @@ async def main():
     ev=await pg.query_selector('#evolve'); print('Màn tiến hoá hiện:', bool(ev), '|', (await ev.inner_text()).replace('\n',' | ') if ev else '')
     await pg.screenshot(path='/tmp/hoctap-e3-evolve.png')
     print('Lần gửi 1 (mất mạng) → hàng đợi:', await pg.evaluate("JSON.parse(localStorage.getItem('hoctap:queue')||'[]').length"))
-    await pg.click('[data-close]'); 
+    for sel in ['#stickerReward [data-close]','#evolve [data-close]']:
+      if await pg.locator(sel).count(): await pg.click(sel)
     await pg.evaluate("Account.flush()"); await pg.wait_for_timeout(500)
     print('Sau khi có mạng: hàng đợi =', await pg.evaluate("JSON.parse(localStorage.getItem('hoctap:queue')||'[]').length"), '| số lần máy chủ nhận =', len(saves))
     if saves: s=saves[-1]; print('Dữ liệu gửi:', {k:s[k] for k in ['key','stars','setStars','score','total','grade','lesson','gradeStars','pet']})

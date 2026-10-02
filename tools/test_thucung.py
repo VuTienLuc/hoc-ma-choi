@@ -44,6 +44,10 @@ async def main():
     await pg.goto(BASE+'#/lop9'); await pg.wait_for_timeout(500)
     ok('Trang khối có nhiệm vụ hôm nay', await pg.locator('.quests li').count()==3)
     await pg.screenshot(path='/tmp/thucung-1-home.png')
+    # Phần thưởng sticker xuất hiện trễ để nối tiếp thông báo; chờ rồi đóng trước khi mở Nhà thú cưng.
+    await pg.wait_for_timeout(2100)
+    for sel in ['#stickerReward [data-close]','#evolve [data-close]']:
+      if await pg.locator(sel).count(): await pg.click(sel)
     await pg.click('[data-ph="care"]'); await pg.wait_for_timeout(300)
     await pg.evaluate("Play.state.no=40; Play.state.vui=30"); await pg.click('[data-tab="care"]')
     await pg.click('[data-act="feed"]'); s2=await st(); ok('Cho ăn: -1 hạt, no +25', s2['food']==s1['food']-1 and s2['no']==65)
@@ -64,10 +68,20 @@ async def main():
     await pg.click('[data-rs="streak"]'); ok('Đổi cách xếp theo chuỗi ngày', 'Trần Minh Anh' in await pg.inner_text('.rank li:first-child'))
     await pg.screenshot(path='/tmp/thucung-6-rank.png')
     await pg.wait_for_timeout(3300); ok('Đồng bộ lên máy chủ (action play)', any(c.get('action')=='play' for c in calls))
+    # Nghỉ 15 ngày: ngày 8 trừ 1 sao, ngày 15 trừ thêm 1 sao; tải lại không được trừ lặp
+    stars0=await pg.evaluate("gradeStars(App.grades[0])")
+    await pg.evaluate("""()=>{const k=Object.keys(localStorage).find(k=>k.endsWith(':play'));const d=JSON.parse(localStorage.getItem(k));const x=new Date(Date.now()-15*864e5);d.last=`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;d.absence={base:'',applied:0,lost:0,caps:{},lastLoss:null};d.ts=Date.now();localStorage.setItem(k,JSON.stringify(d));Play.reset()}""")
+    await pg.reload(); await pg.wait_for_timeout(700)
+    stars1=await pg.evaluate("gradeStars(App.grades[0])"); s_idle=await st()
+    ok(f'Nghỉ 15 ngày: trừ đúng 2 sao ({stars0} → {stars1})', stars1==stars0-2 and s_idle['absence']['lost']==2 and s_idle['absence']['applied']==2)
+    ok('Hiện cảnh báo số ngày nghỉ, cách dừng trừ và lấy lại sao', await pg.locator('.study-warning.loss').count()==1 and 'lấy lại' in (await pg.inner_text('.study-warning.loss')).lower())
+    await pg.screenshot(path='/tmp/thucung-8-nghi-lau.png', full_page=True)
+    caps=s_idle['absence']['caps']; ck=next(iter(caps)); ok('Giữ mức sao đã trừ khi nhận lại tiến độ máy chủ', await pg.evaluate("([k,v])=>Play.progressValue(k,3)===v", [ck,caps[ck]]))
+    await pg.evaluate("Play.checkInactivity()"); ok('Cùng một mốc nghỉ không bị trừ lặp khi tải lại', await pg.evaluate("gradeStars(App.grades[0])")==stars1)
     # Bỏ học 3 ngày: đói, buồn, mất chuỗi
     await pg.evaluate("(()=>{const k=Object.keys(localStorage).find(k=>k.endsWith(':play'));const d=JSON.parse(localStorage.getItem(k));d.t=Date.now()-3*864e5;d.last='2020-01-01';d.no=80;d.vui=80;localStorage.setItem(k,JSON.stringify(d));Play.reset()})()")
     await pg.goto(BASE+'#/lop4'); await pg.goto(BASE+'#/lop9'); await pg.wait_for_timeout(400)
-    s6=await st(); ok(f"Sau 3 ngày không học: no={s6['no']}, vui={s6['vui']}, chuỗi=0, mặt buồn", s6['no']<25 and s6['vui']<25 and s6['streak']==0 and await pg.locator('.pet-card .pet-tear').count()>0)
+    s6=await st(); ok(f"Sau 3 ngày không học: no={s6['no']}, vui={s6['vui']}, chuỗi=0, mặt buồn", s6['no']<25 and s6['vui']<25 and s6['streak']==0 and await pg.evaluate("Play.look().mood==='buon'"))
     await pg.screenshot(path='/tmp/thucung-7-sad.png')
     ok('Không có lỗi trang', not errs); print(errs[:3])
     await br.close()
