@@ -1,5 +1,6 @@
 /* =====================================================================
    DỮ LIỆU LỚP 8 – Toán, Kết nối tri thức
+   Chương I. Đa thức (Ôn tập chương I)
    Chương II. Hằng đẳng thức đáng nhớ và ứng dụng
    Bài 6 Hiệu hai bình phương. Bình phương của một tổng hay một hiệu
    Bài 7 Lập phương của một tổng. Lập phương của một hiệu
@@ -10,7 +11,7 @@
 (() => {
 const G = App.addGrade({
   id: 'lop8', name: 'Lớp 8', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:2, hk:1, name:'Hằng đẳng thức đáng nhớ và ứng dụng'} ],
+  topics: [ {id:1, hk:1, name:'Đa thức'}, {id:2, hk:1, name:'Hằng đẳng thức đáng nhớ và ứng dụng'} ],
 });
 const lesson = G.lesson;
 
@@ -31,6 +32,122 @@ const HD2 = `${tm('(A + B)^3 = A^3 + 3A^2B + 3AB^2 + B^3')}; ${tm('(A - B)^3 = A
 const HD3 = `${tm('A^3 + B^3 = (A + B)(A^2 - AB + B^2)')}; ${tm('A^3 - B^3 = (A - B)(A^2 + AB + B^2)')}`;
 const pickUV = lv => lv === 3 && Math.random() < .6 ? ['x','y'] : ['x',''];
 const mc = (good, bad, extra=[]) => uniq([good, ...bad, ...extra]).filter((x,i,a) => i === 0 || x !== good).slice(0,4);
+
+/* =====================================================================
+   CHƯƠNG I – ĐA THỨC (Ôn tập chương I)
+   Sáu dạng cho một bộ 6 câu: đơn thức; đa thức; cộng trừ; nhân; chia; tổng hợp.
+   ===================================================================== */
+const xp = n => n === 0 ? '' : n === 1 ? 'x' : `x^${n}`;
+const polyX = a => P(...a.map((c,i)=>[c,xp(i)]).reverse());          // a[i] là hệ số x^i
+const addX = (a,b,k=1) => Array.from({length:Math.max(a.length,b.length)},(_,i)=>(a[i]||0)+k*(b[i]||0));
+const mulX = (a,b) => { const c=Array(a.length+b.length-1).fill(0); a.forEach((u,i)=>b.forEach((v,j)=>c[i+j]+=u*v)); return c; };
+const different = (...xs) => [...new Set(xs)];
+
+/* Dạng 1. Đơn thức: thu gọn; hệ số, bậc; đơn thức đồng dạng. */
+const gO1 = lv => {
+  if(lv === 1 || (lv === 3 && Math.random() < .5)){
+    const a=sR(1,7), b=sR(1,7), p=R(1,4), r=R(1,4), q=lv===1?0:R(1,3), s=lv===1?0:R(1,3);
+    const coef=a*b, deg=p+r+q+s, A=mono('x',p,'y',q), B=mono('x',r,'y',s), M=mono('x',p+r,'y',q+s);
+    return QB({text:`Thu gọn ${tm(`A=(${P([a,A])})(${P([b,B])})`)}, rồi xác định hệ số và bậc của đơn thức thu được.`,
+      tpl:`Hệ số: [_] &nbsp; Bậc: [_]`, ans:[coef,deg],
+      hint:`Nhân các hệ số; với cùng biến, dùng ${tm('x^m\\cdot x^n=x^{m+n}')}. Bậc là tổng số mũ của các biến sau khi thu gọn.`,
+      sol:`${tm(`A=(${a})\\cdot(${b})\\cdot x^{${p}+${r}}${q+s?`y^{${q}+${s}}`:''}=${P([coef,M])}`)}. Hệ số là ${tb(coef)}; bậc là ${tm(`${p+r}+${q+s}=`)} ${tb(deg)}.`});
+  }
+  let a,b,c,sum; do{a=sR(1,9);b=sR(1,9);c=sR(1,9);sum=a+b+c;}while(!sum);
+  const p=R(1,4), q=R(1,3), M=mono('x',p,'y',q), e=P([a,M],[b,M],[c,M]);
+  return QB({text:`Thu gọn tổng các đơn thức đồng dạng ${td(`B=${e}`)}`,
+    tpl:`${tm('B=')} [_]${tm(M)}`, ans:[sum],
+    hint:'Các đơn thức có cùng phần biến. Chỉ cộng các hệ số rồi giữ nguyên phần biến.',
+    sol:`${tm(`B=(${a}${b>=0?'+':''}${b}${c>=0?'+':''}${c})${M}=${sum}${M}`)}. Hệ số cần điền là ${tb(sum)}.`});
+};
+
+/* Dạng 2. Đa thức: thu gọn, tìm bậc, tính giá trị. */
+const gO2 = lv => {
+  let a,b,c,d,A,C; do{a=sR(1,7);b=sR(1,7);c=sR(1,7);d=sR(1,7);A=a+b;C=c+d;}while(!A||!C);
+  const k=sR(1,9), raw=P([a,'x^2y'],[c,'xy'],[b,'x^2y'],[d,'xy'],[k,'']), good=P([A,'x^2y'],[C,'xy'],[k,'']);
+  if(lv === 1){
+    return QB({text:`Thu gọn đa thức ${tm(`P=${raw}`)}, rồi điền các hệ số và bậc.`,
+      tpl:`Hệ số của ${tm('x^2y')}: [_] &nbsp; Hệ số của ${tm('xy')}: [_]<br>Hệ số tự do: [_] &nbsp; Bậc của ${tm('P')}: [_]`, ans:[A,C,k,3],
+      hint:'Nhóm các hạng tử đồng dạng. Bậc của đa thức đã thu gọn là bậc lớn nhất của các hạng tử còn lại.',
+      sol:`${tm(`P=((${a})+(${b}))x^2y+((${c})+(${d}))xy+(${k})=${good}`)}. Các hệ số lần lượt là ${tb(`${A};\ ${C};\ ${k}`)} và bậc là ${tb(3)}.`});
+  }
+  const x=pick([-2,-1,1,2,3]), y=pick([-2,-1,1,2]), val=A*x*x*y+C*x*y+k;
+  return QB({text:`Cho ${tm(`P=${raw}`)}. Tính giá trị của ${tm('P')} tại ${tm(`x=${x},\ y=${y}`)}.`, tpl:`${tm('P=')} [_]`, ans:[val], wide:true,
+    hint:'Thu gọn đa thức trước, sau đó thay giá trị của biến. Khi thay số âm, đặt số đó trong ngoặc.',
+    sol:`Thu gọn: ${tm(`P=${good}`)}.<br>Thay ${tm(`x=${x},\ y=${y}`)}: ${tm(`P=${A}\cdot(${x})^2\cdot(${y})${C>=0?'+':''}${C}\cdot(${x})\cdot(${y})${k>=0?'+':''}${k}=${val}`)}. Vậy ${tb(`P=${val}`)}.`});
+};
+
+/* Dạng 3. Cộng và trừ đa thức. */
+const gO3 = lv => {
+  const A=[sR(1,8),sR(1,8),R(8,12)], B=[sR(1,8),sR(1,8),R(1,3)], C=[sR(1,6),sR(1,6),R(1,3)];
+  const p=polyX(A), q=polyX(B), r=polyX(C);
+  if(lv < 3){ const sub=lv===2||Math.random()<.5, good=polyX(addX(A,B,sub?-1:1));
+    const bad=[polyX(addX(A,B,sub?1:-1)),polyX([A[0]-(sub?B[0]:-B[0]),A[1]+B[1],A[2]+B[2]]),polyX(A.map((v,i)=>v-(B[i]||0))),polyX(A.map((v,i)=>v+(B[i]||0)))];
+    const opts=mc(good,bad);
+    const target=sub?`(${p})-(${q})`:`(${p})+(${q})`;
+    return QC({text:`Thu gọn ${tm(target)}.`, opts:opts.map(tm), ans:tm(good),
+      hint:sub?'Bỏ ngoặc sau dấu trừ: đổi dấu tất cả hạng tử của đa thức Q, rồi nhóm các hạng tử đồng dạng.':'Bỏ ngoặc, giữ nguyên dấu rồi nhóm các hạng tử đồng dạng.',
+      sol:sub?`${tm(`P-Q=(${p})-(${q})=${good}`)}. Vậy kết quả là ${tb(good)}.`:`${tm(`P+Q=(${p})+(${q})=${good}`)}. Vậy kết quả là ${tb(good)}.`});
+  }
+  const good=polyX(addX(addX(A,B,-1),C,1));
+  const bad=[polyX(addX(addX(A,B,1),C,-1)),polyX(addX(addX(A,B,-1),C,-1)),polyX(addX(addX(A,B,1),C,1)),polyX(addX(addX(A,C,-1),B,1))];
+  const target=`(${p})-((${q})-(${r}))`;
+  return QC({text:`Thu gọn ${tm(target)}.`, opts:mc(good,bad).map(tm), ans:tm(good),
+    hint:`Dùng ${tm('A-(B-C)=A-B+C')}: đa thức ${tm('B')} đổi dấu, đa thức ${tm('C')} giữ dấu cộng.`,
+    sol:`${tm(`A-(B-C)=A-B+C=(${p})-(${q})+(${r})=${good}`)}. Đáp án: ${tb(good)}.`});
+};
+
+/* Dạng 4. Phép nhân đa thức. */
+const gO4 = lv => {
+  if(lv === 1){
+    const a=R(1,8), b=R(1,8), p=R(1,4), q=R(1,4), good=P([a*b,xp(p+q)]), e=`(${P([a,xp(p)])})(${P([b,xp(q)])})`;
+    const bad=[P([a+b,xp(p+q)]),P([a*b,xp(p*q)]),P([a*b,xp(Math.abs(p-q))]),P([a*b+1,xp(p+q)])];
+    return QC({text:`Thực hiện phép nhân ${tm(e)}.`, opts:mc(good,bad).map(tm), ans:tm(good),
+      hint:'Nhân các hệ số và cộng số mũ của cùng biến.', sol:`${tm(`${e}=(${a})\\cdot(${b})x^{${p}+${q}}=${good}`)}. Đáp án: ${tb(good)}.`});
+  }
+  if(lv === 2){
+    const a=R(1,6), r=R(1,3), B=[sR(1,7),sR(1,7),R(1,5)], e=`${P([a,xp(r)])}(${polyX(B)})`, C=Array(r).fill(0).concat(B.map(v=>a*v)), good=polyX(C);
+    const bad=[polyX(Array(r).fill(0).concat(B)),polyX(C.map((v,i)=>i===C.length-1?v+a:v)),polyX(mulX([0,a],B)),polyX(C.map((v,i)=>i===r?v/a:v))];
+    return QC({text:`Khai triển và thu gọn ${tm(e)}.`, opts:mc(good,bad).map(tm), ans:tm(good),
+      hint:'Dùng tính chất phân phối: nhân đơn thức với từng hạng tử của đa thức.',
+      sol:`${tm(`${e}=${B.map((v,i)=>P([a*v,xp(r+i)])).reverse().join(' + ').replaceAll(' + -',' - ')}=${good}`)}. Đáp án: ${tb(good)}.`});
+  }
+  const A=[sR(1,6),R(1,5)], B=[sR(1,6),sR(1,6),R(1,4)], good=polyX(mulX(A,B)), e=`(${polyX(A)})(${polyX(B)})`;
+  const bad=[polyX(addX(A,B)),polyX([A[0]*B[0],A[1]*B[1],A[1]*B[2]]),polyX(mulX([A[0],A[1]+1],B)),polyX(mulX(A,[B[0],-B[1],B[2]]))];
+  return QC({text:`Khai triển và thu gọn ${tm(e)}.`, opts:mc(good,bad).map(tm), ans:tm(good),
+    hint:'Nhân từng hạng tử của đa thức thứ nhất với từng hạng tử của đa thức thứ hai, sau đó cộng các hạng tử đồng dạng.',
+    sol:`Thực hiện đầy đủ ${tm('2\\cdot3=6')} tích thành phần rồi thu gọn, ta được ${tm(`${e}=${good}`)}. Đáp án: ${tb(good)}.`});
+};
+
+/* Dạng 5. Chia đa thức cho đơn thức. */
+const gO5 = lv => {
+  const k=R(2,6), r=R(1,3), s=lv===3?R(1,2):0, D=P([k,mono('x',r,'y',s)]);
+  if(lv === 1){
+    const a=sR(1,8), p=R(1,4), dividend=P([k*a,mono('x',r+p,'y',s)]), good=P([a,xp(p)]);
+    return QB({text:`Thực hiện phép chia ${tm(`(${dividend}):(${D})`)}.`, tpl:`${tm('Thương =')} [_]${tm(xp(p))}`, ans:[a],
+      hint:'Chia hệ số; với cùng biến thì lấy số mũ của số bị chia trừ số mũ của số chia.',
+      sol:`${tm(`(${dividend}):(${D})=${k*a}:${k}\cdot x^{${r+p}-${r}}=${good}`)}. Hệ số cần điền là ${tb(a)}.`});
+  }
+  const Q=[sR(1,7),sR(1,7),sR(1,5)], good=polyX(Q), terms=Q.map((c,i)=>[k*c,mono('x',r+i,'y',s)]).reverse(), dividend=P(...terms);
+  return QB({text:`Thực hiện phép chia ${td(`(${dividend}):(${D})`)}`, tpl:`Hệ số của ${tm('x^2')}: [_] &nbsp; Hệ số của ${tm('x')}: [_]<br>Hệ số tự do: [_]`, ans:[Q[2],Q[1],Q[0]],
+    hint:'Chia từng hạng tử của đa thức cho đơn thức, giữ nguyên dấu giữa các thương rồi thu gọn.',
+    sol:`${terms.map(([c,v],i)=>`${tm(`${P([c,v])}:(${D})=${P([c/k,xp(Q.length-1-i)])}`)}`).join('; ')}.<br>Vậy thương là ${tb(good)}; các hệ số cần điền lần lượt là ${tb(`${Q[2]};\ ${Q[1]};\ ${Q[0]}`)}.`});
+};
+
+/* Dạng 6. Bài toán tổng hợp nhiều bước: lập, thu gọn và tính giá trị đa thức. */
+const gO6 = lv => {
+  const a=R(2,6), b=R(2,7), x=lv===1?R(1,4):lv===2?R(2,7):R(5,12), u=a+b, v=a*b, area=u*x+v;
+  const formula=`(x+${a})(x+${b})-x^2`;
+  return QS({text:`Một tấm bìa hình chữ nhật có kích thước ${tm(`x+${a}`)} cm và ${tm(`x+${b}`)} cm. Cắt bỏ một hình vuông cạnh ${tm('x')} cm. Tính diện tích phần còn lại khi ${tm(`x=${x}`)}.`, direct:lv===3,
+    hint:'Lập diện tích hình chữ nhật, trừ diện tích hình vuông, thu gọn đa thức rồi mới thay giá trị của biến.',
+    steps:[
+      {tag:'Lập biểu thức', ask:'Biểu thức nào biểu thị diện tích phần còn lại?', opts:[formula,`(x+${a})+(x+${b})-x^2`,`(x+${a})(x+${b})+x^2`,`${a+b}x-${a*b}`].map(tm), ans:tm(formula), hint:'Diện tích còn lại = diện tích hình chữ nhật − diện tích hình vuông.'},
+      {tag:'Thu gọn', ask:'Thu gọn biểu thức diện tích.', tpl:`${tm('S=')} [_]${tm('x+')} [_]`, ans:[u,v], hint:`Khai triển ${tm(`(x+${a})(x+${b})`)} rồi trừ ${tm('x^2')}.`},
+      {tag:'Đáp số', ask:`Thay ${tm(`x=${x}`)} và tính diện tích.`, tpl:'[_] cm²', ans:[area], hint:`Thay ${tm(`x=${x}`)} vào ${tm(`S=${u}x+${v}`)}.`}
+    ], sol:`${tm(`S=(x+${a})(x+${b})-x^2=x^2+${u}x+${v}-x^2=${u}x+${v}`)}. Với ${tm(`x=${x}`)}: ${tm(`S=${u}\\cdot${x}+${v}=${area}`)}. Đáp số: ${tb(area)} cm².`});
+};
+
+lesson(1,'on-tap-c1','Ôn tập chương I','Tổng hợp: đơn thức, đa thức; cộng, trừ, nhân đa thức; chia đa thức cho đơn thức và bài toán thực tế.',[gO1,gO2,gO3,gO4,gO5,gO6]);
 
 /* =====================================================================
    BÀI 6. Hiệu hai bình phương. Bình phương của một tổng hay một hiệu
