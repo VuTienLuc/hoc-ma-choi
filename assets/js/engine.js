@@ -21,7 +21,9 @@ const app=$('#app');
 function starsHTML(k,max=3){return `<span class="stars" aria-label="${k} trên ${max} sao">${'★'.repeat(k)}<span class="off">${'★'.repeat(max-k)}</span></span>`}
 const bestKey=(id,lv,g=S.grade)=>`hoctap:${g.id}:${id}:${lv}`;
 const lessonStars=(id,g=S.grade)=>[1,2,3].reduce((s,lv)=>s+(store.get(bestKey(id,lv,g))||0),0);
-const gradeStars=g=>g.lessons.reduce((s,l)=>s+lessonStars(l.id,g),0);
+const testStars=g=>typeof StudentTest!=='undefined'?StudentTest.stars(g.id):0;
+const gradeStars=g=>g.lessons.reduce((s,l)=>s+lessonStars(l.id,g),0)+testStars(g);
+const gradeMaxStars=g=>g.lessons.length*9+(typeof StudentTest!=='undefined'?StudentTest.maxStars(g.id):0);
 const lessonHref=(l,lv)=>`#/${S.grade.id}/bai/${l.id}${lv?'/'+lv:''}`;
 const foot=()=>`<p class="foot">${CONFIG.author}</p>`;
 
@@ -35,12 +37,12 @@ function renderPicker(){
 function renderHome(){
   const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g);
   const hks=[...new Set(g.topics.map(t=>t.hk))];
-  let h=`<div class="toolbar">${App.grades.length>1||(CONFIG.upcoming||[]).length?`<a class="back" href="#/">← Chọn lớp</a>`:`<span class="pill">${g.name} · ${g.book}</span>`}<div class="row"><span class="stat">⭐ ${total} / ${g.lessons.length*9} sao</span>${themeBtn()}</div></div>
+  let h=`<div class="toolbar">${App.grades.length>1||(CONFIG.upcoming||[]).length?`<a class="back" href="#/">← Chọn lớp</a>`:`<span class="pill">${g.name} · ${g.book}</span>`}<div class="row"><span class="stat">⭐ ${total} / ${gradeMaxStars(g)} sao</span>${themeBtn()}</div></div>
   <span class="pill">${g.subject} ${g.name.replace('Lớp ','')} · ${g.book}</span>
   <h1>Con muốn ôn bài nào hôm nay?</h1><p class="lead">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
   ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}`;
-  g.topics.filter(t=>hks.length<2||t.hk===hk).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id);if(!ls.length)return;
-    h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}</div></section>`});
+  g.topics.filter(t=>hks.length<2||t.hk===hk).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id),tests=typeof StudentTest!=='undefined'?StudentTest.tiles(g.id,t.id):'';if(!ls.length&&!tests)return;
+    h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}${tests}</div></section>`});
   app.innerHTML=h+foot();hook('home',g);
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }
@@ -179,6 +181,7 @@ let tT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('sh
 
 /* ---------- Điều hướng: #/  ·  #/lop4  ·  #/lop4/bai/ma-bai/2 ---------- */
 function route(){
+  if(typeof StudentTest!=='undefined'&&StudentTest.route())return;
   const m=location.hash.match(/^#\/([\w-]+)(?:\/bai\/([\w-]+)(?:\/(\d))?)?/);
   const g=m&&App.grades.find(x=>x.id===m[1]);
   if(!g){ if(App.grades.length===1&&!(CONFIG.upcoming||[]).length){location.replace('#/'+App.grades[0].id);return}

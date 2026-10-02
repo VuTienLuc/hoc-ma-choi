@@ -169,7 +169,7 @@ const Pet = (() => {
   }
   const count = g => sp(g) === 'cu' ? OWL_STAGE.length : STAGE.length;
   function thresholds(g){
-    const M = g.lessons.length * 9;
+    const M = g.lessons.length * 9 + (typeof StudentTest !== 'undefined' ? StudentTest.maxStars(g.id) : 0);
     if(sp(g) === 'cu'){
       return [0, 10, 25, 42, 60, 80, 100, 125, 150, 180, 205, 230, 255, 280, 300];
     }

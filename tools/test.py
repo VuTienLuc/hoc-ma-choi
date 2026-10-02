@@ -8,7 +8,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 10
 JS = r"""
 async (REPS) => {
- const out={errs:[],bad:[],count:0,grades:[]};
+ const out={errs:[],bad:[],count:0,grades:[],studentTest:false};
  for(const g of App.grades){ out.grades.push(g.id+':'+g.lessons.length);
   for(const l of g.lessons){ for(const lv of [1,2,3]){ for(let rep=0;rep<REPS;rep++){
    S.grade=g; S.lesson=l; S.lv=lv; renderLesson(); genSet(); renderQs();
@@ -37,6 +37,27 @@ async (REPS) => {
      }catch(e){out.errs.push([...where,String(e)])}
    });
  }}}}
+ if(typeof StudentTest!=='undefined'&&StudentTest.TESTS.length){
+  try{
+   const t=StudentTest.find('lop9','c3'), seen=new Set();
+   localStorage.removeItem('hoctap:test:lop9:c3:meta');
+   location.hash='#/lop9/kiem-tra/c3';
+   for(let attempt=0;attempt<4;attempt++){
+    localStorage.removeItem('hoctap:test:lop9:c3:state'); StudentTest.route();
+    document.querySelector('#testStart').click();
+    const s=store.get('hoctap:test:lop9:c3:state'), q=StudentTest.build(t,s.ci); seen.add(q.code);
+    q.mc.forEach((x,i)=>document.querySelector(`[data-mc="${i}"][data-v="${x.a}"]`).click());
+    q.tf.forEach((x,i)=>x.items.forEach((it,k)=>document.querySelector(`[data-tf="${i}"][data-it="${k}"][data-v="${it.ok?1:0}"]`).click()));
+    q.short.forEach((x,i)=>{const el=document.querySelector(`[data-short="${i}"]`);el.value=Array.isArray(x.ans)?x.ans[0]:x.ans;el.dispatchEvent(new Event('input',{bubbles:true}))});
+    document.querySelector('#testSubmit').click();
+    const score=document.querySelector('.result-score b');
+    if(!score||score.textContent.trim()!=='10')out.bad.push(['bài kiểm tra học sinh: làm đúng toàn bộ nhưng không được 10 điểm',q.code,score&&score.textContent]);
+    if(document.querySelectorAll('.test-review').length!==21)out.bad.push(['bài kiểm tra học sinh: trang lời giải không đủ 21 câu',q.code]);
+   }
+   if(seen.size!==4)out.bad.push(['bài kiểm tra học sinh: chưa luân phiên đủ bốn mã đề',[...seen]]);
+   out.studentTest=true;
+  }catch(e){out.errs.push(['bài kiểm tra học sinh',String(e)])}
+ }
  return out;
 }
 """
@@ -48,7 +69,7 @@ async def main():
     await pg.goto((ROOT/'index.html').as_uri()); await pg.wait_for_timeout(600)
     await pg.add_script_tag(path=str(ROOT/'data'/'_mau-lop-moi.js'))   # kiểm tra luôn file mẫu
     r = await pg.evaluate(JS, REPS)
-    print('Các lớp:', ', '.join(r['grades']), '| Số câu đã thử:', r['count'])
+    print('Các lớp:', ', '.join(r['grades']), '| Số câu đã thử:', r['count'], '| Bài kiểm tra học sinh:', 'đã thử' if r['studentTest'] else 'chưa thử')
     for x in r['bad'][:20]: print('  ✗', x)
     for x in r['errs'][:10]: print('  ! lỗi JS', x)
     for x in errs[:5]: print('  ! lỗi trang', x)

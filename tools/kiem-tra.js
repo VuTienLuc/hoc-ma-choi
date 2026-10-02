@@ -118,6 +118,37 @@ else {
   });
 }
 
+/* ---------- 2b. Bài kiểm tra tương tác dành cho học sinh ---------- */
+let nST = 0;
+const studentTestFiles = [...idxSafe().matchAll(/<script src="(data\/[^"]+-kiem-tra\.js)"/g)].map(x => x[1]);
+if (studentTestFiles.length) {
+  run(S, 'assets/js/student-test.js');
+  studentTestFiles.forEach(f => run(S, f));
+  const ST = vm.runInContext('typeof StudentTest !== "undefined" ? StudentTest : null', S);
+  (ST ? ST.TESTS : []).forEach(t => { const w0 = `bài kiểm tra học sinh ${t.grade}/${t.id}`; nST++;
+    if (!t.grade || !t.id || !t.title || !t.topic || !t.time) err(w0, 'thiếu grade/id/title/topic/time');
+    if (!Array.isArray(t.codes) || t.codes.length !== 4 || new Set(t.codes).size !== 4) err(w0, 'phải có đúng 4 mã đề khác nhau');
+    if (!Array.isArray(t.mc) || t.mc.length !== 12) err(w0, 'Phần I phải có đúng 12 câu');
+    if (!Array.isArray(t.tf) || t.tf.length !== 3) err(w0, 'Phần II phải có đúng 3 câu');
+    if (!Array.isArray(t.short) || t.short.length !== 6) err(w0, 'Phần III phải có đúng 6 câu');
+    (t.codes || []).forEach((code, ci) => { let v; const w1 = `${w0} mã ${code}`;
+      try { v = ST.build(t, ci); } catch (e) { return err(w1, 'lỗi khi dựng đề: ' + e.message); }
+      const cnt = [0, 0, 0, 0];
+      v.mc.forEach((q, i) => { const w = `${w1} Phần I câu ${i + 1}`; cnt[q.a]++;
+        if (!q.q || !q.sol || !Array.isArray(q.opts) || q.opts.length !== 4) err(w, 'cần q, sol và đúng 4 phương án');
+        else if (new Set(q.opts).size !== 4) err(w, 'có phương án trùng nhau');
+        [q.q, q.sol, ...(q.opts || [])].forEach(x => checkTex(w, x)); });
+      if (Math.max(...cnt) - Math.min(...cnt) > 1) err(w1, `đáp án Phần I lệch: A/B/C/D = ${cnt.join('/')}`);
+      v.tf.forEach((q, i) => { const w = `${w1} Phần II câu ${i + 1}`;
+        if (!q.stem || !Array.isArray(q.items) || q.items.length !== 4) err(w, 'cần stem và đúng 4 ý');
+        else { if (q.items.every(x => x.ok) || q.items.every(x => !x.ok)) err(w, 'phải có cả ý đúng và ý sai'); q.items.forEach(x => { if (!x.sol) err(w, 'mỗi ý cần lời giải'); [x.text,x.sol].forEach(y => checkTex(w,y)); }); }
+        checkTex(w, q.stem); });
+      v.short.forEach((q, i) => { const w = `${w1} Phần III câu ${i + 1}`;
+        if (!q.q || q.ans == null || !q.sol) err(w, 'cần q, ans và sol'); [q.q,q.sol].forEach(x => checkTex(w,x)); });
+    });
+  });
+}
+
 /* ---------- 3. Phần giáo viên ---------- */
 const T = sandbox(), BOOKS = [], PRACT = [];
 ['config.js', 'assets/js/core.js', 'assets/js/figures.js', 'assets/js/generators.js'].forEach(f => run(T, f));
@@ -180,6 +211,7 @@ const KT = vm.runInContext('typeof KiemTra !== "undefined" ? KiemTra : null', T)
 /* ---------- 4. Liên kết trang học sinh ---------- */
 const idx = rd('index.html');
 ['config.js', 'assets/js/core.js', 'assets/js/engine.js'].forEach(f => { if (!idx.includes(`src="${f}"`)) err('index.html', `thiếu <script src="${f}">`); });
+function idxSafe(){ return fs.existsSync(path.join(ROOT, 'index.html')) ? rd('index.html') : ''; }
 
 /* ---------- Bản đồ nội dung (dùng cho tools/goi-chatgpt.js): BAN_DO=tệp.md node tools/kiem-tra.js 3 ---------- */
 if (process.env.BAN_DO) try {
@@ -195,7 +227,7 @@ if (process.env.BAN_DO) try {
 } catch (e) { console.log('  ⚠ không tạo được bản đồ: ' + e.message); }
 
 /* ---------- Báo cáo ---------- */
-console.log(`Tệp JS: ${jsFiles.length} · Câu hỏi đã sinh: ${nQ} (${REPS} lần/dạng/mức) · Trang bài giảng: ${nS} · Phiếu luyện tập: ${PRACT.length} · Đề kiểm tra: ${nKT}`);
+console.log(`Tệp JS: ${jsFiles.length} · Câu hỏi đã sinh: ${nQ} (${REPS} lần/dạng/mức) · Bài kiểm tra học sinh: ${nST} · Trang bài giảng: ${nS} · Phiếu luyện tập: ${PRACT.length} · Đề kiểm tra: ${nKT}`);
 [...new Set(warns)].slice(0, 15).forEach(x => console.log('  ⚠ ' + x));
 [...new Set(errs)].slice(0, 40).forEach(x => console.log('  ✗ ' + x));
 if (errs.length > 40) console.log(`  … và ${errs.length - 40} lỗi khác`);
