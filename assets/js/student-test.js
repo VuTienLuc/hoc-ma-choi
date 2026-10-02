@@ -46,8 +46,10 @@ const StudentTest = (() => {
     const m = meta(t), old = store.get(stateKey(t));
     if(old && old.submitted) return result(t, g, old);
     if(old && !old.submitted) return exam(t, g, old);
-    shell(t, g, `<section class="card test-intro"><span class="pill">KIỂM TRA CHƯƠNG III</span><h1>${esc(t.title)}</h1>
-      <p class="lead">Định dạng ba phần theo hướng đánh giá năng lực, nội dung từ cơ bản đến nâng cao dành cho tuyển sinh lớp 10.</p>
+    const chapter = typeof roman === 'function' ? roman(t.topic) : t.topic;
+    const lead = t.lead || (t.grade === 'lop9' ? 'Định dạng ba phần theo hướng đánh giá năng lực, nội dung từ cơ bản đến nâng cao dành cho tuyển sinh lớp 10.' : 'Định dạng ba phần theo hướng đánh giá năng lực, nội dung được sắp xếp từ cơ bản đến nâng cao.');
+    shell(t, g, `<section class="card test-intro"><span class="pill">KIỂM TRA CHƯƠNG ${chapter}</span><h1>${esc(t.title)}</h1>
+      <p class="lead">${esc(lead)}</p>
       <div class="test-facts"><span>⏱️ <b>${t.time} phút</b></span><span>🔘 <b>${t.mc.length}</b> câu chọn đáp án</span><span>✅ <b>${t.tf.length}</b> câu đúng–sai</span><span>⌨️ <b>${t.short.length}</b> câu trả lời ngắn</span></div>
       <div class="test-rules"><h3>Quy định làm bài</h3><ul><li>Không có gợi ý và không hiện đáp án trước khi nộp bài.</li><li>Bài được lưu tự động trên thiết bị; tải lại trang vẫn tiếp tục đúng mã đề và thời gian còn lại.</li><li>Câu đúng–sai chấm theo số ý đúng; điểm thô tối đa 9 và được quy đổi về thang 10.</li><li>Sau khi nộp, em được xem đáp án và lời giải chi tiết từng bước.</li></ul></div>
       ${m.attempts ? `<p class="test-best">Kết quả tốt nhất: <b>${vn(m.best)}/10</b> · ${starsHTML(m.bestStars)}</p>` : ''}

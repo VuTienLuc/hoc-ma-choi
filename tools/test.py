@@ -39,22 +39,23 @@ async (REPS) => {
  }}}}
  if(typeof StudentTest!=='undefined'&&StudentTest.TESTS.length){
   try{
-   const t=StudentTest.find('lop9','c3'), seen=new Set();
-   localStorage.removeItem('hoctap:test:lop9:c3:meta');
-   location.hash='#/lop9/kiem-tra/c3';
-   for(let attempt=0;attempt<4;attempt++){
-    localStorage.removeItem('hoctap:test:lop9:c3:state'); StudentTest.route();
-    document.querySelector('#testStart').click();
-    const s=store.get('hoctap:test:lop9:c3:state'), q=StudentTest.build(t,s.ci); seen.add(q.code);
-    q.mc.forEach((x,i)=>document.querySelector(`[data-mc="${i}"][data-v="${x.a}"]`).click());
-    q.tf.forEach((x,i)=>x.items.forEach((it,k)=>document.querySelector(`[data-tf="${i}"][data-it="${k}"][data-v="${it.ok?1:0}"]`).click()));
-    q.short.forEach((x,i)=>{const el=document.querySelector(`[data-short="${i}"]`);el.value=Array.isArray(x.ans)?x.ans[0]:x.ans;el.dispatchEvent(new Event('input',{bubbles:true}))});
-    document.querySelector('#testSubmit').click();
-    const score=document.querySelector('.result-score b');
-    if(!score||score.textContent.trim()!=='10')out.bad.push(['bài kiểm tra học sinh: làm đúng toàn bộ nhưng không được 10 điểm',q.code,score&&score.textContent]);
-    if(document.querySelectorAll('.test-review').length!==21)out.bad.push(['bài kiểm tra học sinh: trang lời giải không đủ 21 câu',q.code]);
+   for(const t of StudentTest.TESTS){
+    const stateKey=`hoctap:test:${t.grade}:${t.id}:state`, metaKey=`hoctap:test:${t.grade}:${t.id}:meta`, seen=new Set();
+    localStorage.removeItem(metaKey); location.hash=`#/${t.grade}/kiem-tra/${t.id}`;
+    for(let attempt=0;attempt<4;attempt++){
+     localStorage.removeItem(stateKey); StudentTest.route();
+     document.querySelector('#testStart').click();
+     const s=store.get(stateKey), q=StudentTest.build(t,s.ci); seen.add(q.code);
+     q.mc.forEach((x,i)=>document.querySelector(`[data-mc="${i}"][data-v="${x.a}"]`).click());
+     q.tf.forEach((x,i)=>x.items.forEach((it,k)=>document.querySelector(`[data-tf="${i}"][data-it="${k}"][data-v="${it.ok?1:0}"]`).click()));
+     q.short.forEach((x,i)=>{const el=document.querySelector(`[data-short="${i}"]`);el.value=Array.isArray(x.ans)?x.ans[0]:x.ans;el.dispatchEvent(new Event('input',{bubbles:true}))});
+     document.querySelector('#testSubmit').click();
+     const score=document.querySelector('.result-score b');
+     if(!score||score.textContent.trim()!=='10')out.bad.push(['bài kiểm tra học sinh: làm đúng toàn bộ nhưng không được 10 điểm',t.id,q.code,score&&score.textContent]);
+     if(document.querySelectorAll('.test-review').length!==21)out.bad.push(['bài kiểm tra học sinh: trang lời giải không đủ 21 câu',t.id,q.code]);
+    }
+    if(seen.size!==4)out.bad.push(['bài kiểm tra học sinh: chưa luân phiên đủ bốn mã đề',t.id,[...seen]]);
    }
-   if(seen.size!==4)out.bad.push(['bài kiểm tra học sinh: chưa luân phiên đủ bốn mã đề',[...seen]]);
    out.studentTest=true;
   }catch(e){out.errs.push(['bài kiểm tra học sinh',String(e)])}
  }
