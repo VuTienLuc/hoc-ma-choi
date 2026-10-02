@@ -289,3 +289,47 @@ Lecture.addPractice('lop9', 'on-tap-c5', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   ÔN THI TUYỂN SINH – HÌNH HỌC 1. TIẾP TUYẾN CỦA ĐƯỜNG TRÒN
+   20 bài: 14 cơ bản + 6 vận dụng (★), lời giải ghi rõ căn cứ.
+   ===================================================================== */
+(() => {
+const m=tm;
+const at=(r,a)=>[r*Math.cos(a*Math.PI/180),r*Math.sin(a*Math.PI/180)];
+const F=()=>{const O=[0,0],A=[2.5,3],B=[2.5,-3],M=[6.1,0],H=[2.5,0];return circleSVG({C:[{x:0,y:0,r:Math.sqrt(15.25),lab:'O'}],P:[[...A,'A'],[...B,'B'],[...M,'M'],[...H,'H',-70]],S:[[...M,...A],[...M,...B],[...O,...A],[...O,...B],[...A,...B],[...O,...M,true]]});};
+Lecture.addPractice('lop9','on-thi-tiep-tuyen',[
+ {dang:'Nhận biết và chứng minh tiếp tuyến',items:[
+  {de:`Cho ${m('(O;\\,5\\text{ cm})')} và đường thẳng ${m('d')} cách ${m('O')} một khoảng ${m('5')} cm. Chứng minh ${m('d')} là tiếp tuyến của ${m('(O)')}.`,sol:[`Gọi ${m('H')} là chân đường vuông góc từ ${m('O')} xuống ${m('d')}; khi đó ${m('OH=5=R')}.`,`Khoảng cách từ tâm đến đường thẳng bằng bán kính nên ${m('d')} tiếp xúc với ${m('(O)')} tại ${m('H')}.`],ans:`${m('d')} là tiếp tuyến của ${m('(O)')}.`,lines:4},
+  {de:`Cho tam giác ${m('ABC')} có ${m('AB=9')} cm, ${m('AC=12')} cm, ${m('BC=15')} cm. Chứng minh ${m('AB')} là tiếp tuyến của đường tròn ${m('(C;\\,CA)')}.`,sol:[`${m('AB^2+AC^2=9^2+12^2=225=BC^2')}, nên tam giác ${m('ABC')} vuông tại ${m('A')} theo Pythagore đảo.`,`Suy ra ${m('AB\\perp AC')}. Vì ${m('A\\in(C;\\,CA)')}, ${m('AB')} là tiếp tuyến tại ${m('A')}.`],lines:5},
+  {de:`Cho ${m('A\\in(O)')}. Đường thẳng ${m('a')} đi qua ${m('A')} và ${m('\\widehat{OAx}=90^\\circ')} với tia ${m('Ax\\subset a')}. Hãy kết luận vị trí của ${m('a')} đối với ${m('(O)')}.`,sol:[`${m('OA\\perp a')} tại ${m('A')}.`,`Đường thẳng đi qua một điểm của đường tròn và vuông góc với bán kính tại điểm đó là tiếp tuyến.`],ans:`${m('a')} là tiếp tuyến của ${m('(O)')} tại ${m('A')}.`,lines:4},
+ ]},
+ {dang:'Tam giác vuông tạo bởi một tiếp tuyến',items:[
+  {de:`Từ ${m('M')} kẻ tiếp tuyến ${m('MA')} đến ${m('(O;\\,6\\text{ cm})')}. Biết ${m('OM=10')} cm. Tính ${m('MA')}.`,sol:[`${m('OA\\perp MA')} nên tam giác ${m('OAM')} vuông tại ${m('A')}.`,`${m('MA=\\sqrt{OM^2-OA^2}=\\sqrt{100-36}=8')} cm.`],ans:`${tb('8')} cm.`,lines:4},
+  {de:`${m('MA')} là tiếp tuyến của ${m('(O)')} tại ${m('A')}. Biết ${m('OA=8')} cm, ${m('MA=15')} cm. Tính ${m('OM')}.`,sol:[`Tam giác ${m('OAM')} vuông tại ${m('A')}.`,`${m('OM=\\sqrt{OA^2+MA^2}=\\sqrt{64+225}=17')} cm.`],ans:`${tb('17')} cm.`,lines:4},
+  {de:`${m('MA')} là tiếp tuyến của ${m('(O)')} tại ${m('A')}. Biết ${m('OM=25')} cm, ${m('MA=24')} cm. Tính bán kính.`,sol:[`${m('OA\\perp MA')}; áp dụng Pythagore trong tam giác ${m('OAM')}.`,`${m('R=OA=\\sqrt{OM^2-MA^2}=\\sqrt{625-576}=7')} cm.`],ans:`${tb('7')} cm.`,lines:4},
+ ]},
+ {dang:'Hai tiếp tuyến cắt nhau',items:[
+  {de:`Từ ${m('M')} kẻ hai tiếp tuyến ${m('MA,MB')} của ${m('(O)')}. Biết ${m('MA=13')} cm. Tính ${m('MB')}.`,sol:[`Hai tiếp tuyến xuất phát từ cùng một điểm ngoài có độ dài bằng nhau: ${m('MA=MB')}.`],ans:`${tb('MB=13')} cm.`,lines:3},
+  {de:`Hai tiếp tuyến ${m('MA,MB')} của ${m('(O)')} tạo thành góc ${m('70^\\circ')}. Tính ${m('\\widehat{AOB}')}.`,sol:[`Tứ giác ${m('OAMB')} có ${m('\\widehat{OAM}=\\widehat{OBM}=90^\\circ')}.`,`Vì tổng bốn góc của tứ giác bằng ${m('360^\\circ')}, ${m('\\widehat{AOB}=180^\\circ-70^\\circ=110^\\circ')}.`],ans:`${tb('110^\\circ')}.`,lines:4},
+  {de:`Từ ${m('M')} kẻ hai tiếp tuyến ${m('MA,MB')} của ${m('(O)')}. Biết ${m('\\widehat{AOB}=124^\\circ')}. Tính ${m('\\widehat{AMB}')} và ${m('\\widehat{AMO}')}.`,sol:[`${m('\\widehat{AMB}=180^\\circ-124^\\circ=56^\\circ')}.`,`Vì ${m('MO')} là tia phân giác của ${m('\\widehat{AMB}')}, ${m('\\widehat{AMO}=28^\\circ')}.`],ans:`${tb('\\widehat{AMB}=56^\\circ;\\ \\widehat{AMO}=28^\\circ')}.`,lines:4},
+ ]},
+ {dang:'Dây tiếp điểm',items:[
+  {de:`Từ ${m('M')} kẻ hai tiếp tuyến ${m('MA,MB')} của ${m('(O)')}; ${m('H=OM\\cap AB')}. Chứng minh ${m('OM\\perp AB')} và ${m('HA=HB')}.`,fig:F(),sol:[`${m('OA=OB')} vì là bán kính, nên ${m('O')} thuộc đường trung trực của ${m('AB')}.`,`${m('MA=MB')} vì là hai tiếp tuyến xuất phát từ ${m('M')}, nên ${m('M')} cũng thuộc đường trung trực của ${m('AB')}.`,`Vậy ${m('OM')} là đường trung trực của ${m('AB')}; suy ra ${m('OM\\perp AB')} và ${m('HA=HB')}.`],lines:6},
+  {de:`Cho ${m('(O;\\,6\\text{ cm})')}, ${m('OM=10')} cm. Từ ${m('M')} kẻ hai tiếp tuyến ${m('MA,MB')}; ${m('H=OM\\cap AB')}. Tính ${m('OH')}.`,fig:F(),sol:[`${m('OM\\perp AB')} nên ${m('AH')} là đường cao ứng với cạnh huyền của tam giác vuông ${m('OAM')}.`,`Theo hệ thức lượng: ${m('OA^2=OH\\cdot OM')}.`,`Suy ra ${m('OH=6^2/10=3{,}6')} cm.`],ans:`${tb('3{,}6')} cm.`,lines:5},
+  {hard:true,de:`Cho ${m('(O;\\,10\\text{ cm})')}, ${m('OM=12{,}5')} cm. Hai tiếp tuyến từ ${m('M')} tiếp xúc tại ${m('A,B')}. Tính độ dài dây tiếp điểm ${m('AB')}.`,fig:F(),sol:[`${m('MA=\\sqrt{OM^2-OA^2}=\\sqrt{12{,}5^2-10^2}=7{,}5')} cm.`,`Gọi ${m('H=OM\\cap AB')}. Ta có ${m('OM\\perp AB')} và ${m('AH=HB')}.`,`Trong tam giác vuông ${m('OAM')}, ${m('AH\\cdot OM=OA\\cdot AM')}; do đó ${m('AH=10\\cdot7{,}5/12{,}5=6')} cm.`,`Vậy ${m('AB=2AH=12')} cm.`],ans:`${tb('12')} cm.`},
+  {hard:true,de:`Từ ${m('M')} kẻ hai tiếp tuyến ${m('MA,MB')} đến ${m('(O;\\,5\\text{ cm})')}. Biết ${m('AB=8')} cm. Tính ${m('OM')}.`,fig:F(),sol:[`Gọi ${m('H=OM\\cap AB')}; khi đó ${m('AH=AB/2=4')} cm và ${m('OM\\perp AB')}.`,`Tam giác ${m('OHA')} vuông tại ${m('H')}: ${m('OH=\\sqrt{OA^2-AH^2}=\\sqrt{25-16}=3')} cm.`,`Hệ thức lượng trong tam giác vuông ${m('OAM')}: ${m('OA^2=OH\\cdot OM')}.`,`Suy ra ${m('OM=25/3')} cm.`],ans:`${tb('\\dfrac{25}{3}')} cm.`},
+ ]},
+ {dang:'Tiếp tuyến – cát tuyến',items:[
+  {de:`Từ ${m('M')} kẻ tiếp tuyến ${m('MA')} và cát tuyến ${m('MCD')} của ${m('(O)')}. Biết ${m('MC=4')} cm, ${m('MD=9')} cm. Tính ${m('MA')}.`,sol:[`Theo định lí tiếp tuyến–cát tuyến, ${m('MA^2=MC\\cdot MD=4\\cdot9=36')}.`,`Vì ${m('MA\\gt0')}, ${m('MA=6')} cm.`],ans:`${tb('6')} cm.`,lines:4},
+  {de:`Từ ${m('M')} kẻ tiếp tuyến ${m('MA')} và cát tuyến ${m('MCD')}. Biết ${m('MA=12')} cm, ${m('MC=8')} cm. Tính ${m('MD')} và ${m('CD')}.`,sol:[`${m('MA^2=MC\\cdot MD')}, nên ${m('MD=144/8=18')} cm.`,`Vì ${m('C')} nằm giữa ${m('M,D')}, ${m('CD=MD-MC=18-8=10')} cm.`],ans:`${tb('MD=18\\text{ cm};\\ CD=10\\text{ cm}')}.`,lines:4},
+  {hard:true,de:`Từ ${m('M')} kẻ tiếp tuyến ${m('MA')} và cát tuyến ${m('MCD')} của ${m('(O)')}. Biết ${m('MC=5')} cm, ${m('CD=15')} cm. Tính ${m('MA')}.`,sol:[`Vì ${m('C')} nằm giữa ${m('M,D')}, ${m('MD=MC+CD=20')} cm.`,`Theo định lí tiếp tuyến–cát tuyến, ${m('MA^2=MC\\cdot MD=5\\cdot20=100')}.`,`Suy ra ${m('MA=10')} cm.`],ans:`${tb('10')} cm.`,lines:5},
+  {hard:true,de:`Từ ${m('M')} kẻ hai cát tuyến ${m('MAB')} và ${m('MCD')} của cùng một đường tròn. Biết ${m('MA=3')} cm, ${m('MB=12')} cm, ${m('MC=4')} cm. Tính ${m('MD')}.`,sol:[`Kẻ thêm tiếp tuyến ${m('MT')}. Theo định lí tiếp tuyến–cát tuyến, ${m('MT^2=MA\\cdot MB')} và ${m('MT^2=MC\\cdot MD')}.`,`Do đó ${m('MA\\cdot MB=MC\\cdot MD')}.`,`Suy ra ${m('MD=3\\cdot12/4=9')} cm.`],ans:`${tb('9')} cm.`},
+ ]},
+ {dang:'Chứng minh tổng hợp và cực trị',items:[
+  {de:`Từ ${m('M')} ngoài ${m('(O)')} kẻ hai tiếp tuyến ${m('MA,MB')}. Chứng minh bốn điểm ${m('O,A,M,B')} cùng thuộc một đường tròn và xác định đường kính của đường tròn đó.`,fig:F(),sol:[`${m('OA\\perp MA')} và ${m('OB\\perp MB')} nên ${m('\\widehat{OAM}=\\widehat{OBM}=90^\\circ')}.`,`Hai điểm ${m('A,B')} cùng nhìn đoạn ${m('OM')} dưới góc vuông, nên cùng thuộc đường tròn có đường kính ${m('OM')}.`],ans:`Đường tròn đi qua ${m('O,A,M,B')} có đường kính ${tb('OM')}.`,lines:5},
+  {hard:true,de:`Cho nửa đường tròn đường kính ${m('AB=10')} cm. Tiếp tuyến tại ${m('A')} và tiếp tuyến tại điểm ${m('M')} trên nửa đường tròn cắt nhau tại ${m('C')}. Chứng minh ${m('CA=CM')} và ${m('OC')} là phân giác của ${m('\\widehat{AOM}')}.`,sol:[`${m('CA,CM')} là hai tiếp tuyến của cùng đường tròn xuất phát từ ${m('C')}, nên ${m('CA=CM')}.`,`Ta có ${m('OA=OM')} (bán kính), ${m('CA=CM')} và ${m('OC')} chung; hai tam giác ${m('OAC,OMC')} bằng nhau theo c.c.c.`,`Suy ra ${m('\\widehat{AOC}=\\widehat{COM}')}; vậy ${m('OC')} là tia phân giác của ${m('\\widehat{AOM}')}.`],lines:7},
+  {hard:true,de:`Cho ${m('(O;\\,R)')} và điểm ${m('M')} cố định ở ngoài đường tròn. Một đường thẳng qua ${m('M')} cắt đường tròn tại ${m('C,D')}. Chứng minh tích ${m('MC\\cdot MD')} không đổi khi cát tuyến thay đổi.`,sol:[`Kẻ tiếp tuyến ${m('MA')} đến ${m('(O)')}. Độ dài ${m('MA')} cố định vì ${m('M')} và đường tròn cố định.`,`Với mọi cát tuyến ${m('MCD')}, định lí tiếp tuyến–cát tuyến cho ${m('MC\\cdot MD=MA^2')}.`,`Vế phải không đổi, do đó ${m('MC\\cdot MD')} không đổi và bằng ${m('MA^2=OM^2-R^2')}.`],ans:`${tb('MC\\cdot MD=OM^2-R^2')}.`,lines:7},
+ ]},
+]);
+})();

@@ -4875,6 +4875,71 @@ lesson(5,'duong-thang-duong-tron','Bài 16. Vị trí tương đối của đư�
 lesson(5,'hai-duong-tron','Bài 17. Vị trí tương đối của hai đường tròn','Cắt nhau, tiếp xúc, không giao nhau; số điểm chung; đoạn nối tâm.',[g17b,g17a,g17c,g17d]);
 lesson(5,'on-tap-c5','Ôn tập chương V','Tổng hợp: vị trí điểm, dây cung, độ dài cung – diện tích quạt, tiếp tuyến, hai đường tròn.',[g13a,g14c,g15b,g15c,g16b,g17a]);
 }
+
+/* =====================================================================
+   ÔN THI TUYỂN SINH VÀO LỚP 10 – HÌNH HỌC 1. TIẾP TUYẾN CỦA ĐƯỜNG TRÒN
+   ===================================================================== */
+{
+const TANG_TRIPLES = [[3,4,5],[5,12,13],[6,8,10],[7,24,25],[8,15,17],[9,12,15]];
+const tangentFig = (r,t,d) => { const s=4/d, A=[r*r/d*s,r*t/d*s], M=[4,0];
+  const dir=(P,Q)=>Math.atan2(Q[1]-P[1],Q[0]-P[0])*180/Math.PI;
+  return circleSVG({C:[{x:0,y:0,r:r*s,lab:'O'}],P:[[...A,'A'],[...M,'M']],S:[[0,0,...A],[...A,...M],[0,0,...M,true]],right:[[A[0],A[1],dir(A,[0,0])]]}); };
+
+const gTs1 = lv => {
+  const good = pick([
+    [`${tm('A \\in (O)')} và ${tm('OA \\perp d')} tại ${tm('A')}`,`Đường thẳng ${tm('d')} là tiếp tuyến của ${tm('(O)')} tại ${tm('A')}.`],
+    [`Khoảng cách từ ${tm('O')} đến ${tm('d')} bằng bán kính ${tm('R')}`,`Đường thẳng ${tm('d')} tiếp xúc với ${tm('(O;\\,R)')}.`],
+    [`${tm('MA, MB')} là hai tiếp tuyến kẻ từ ${tm('M')}`,`${tm('MA = MB')}.`]
+  ]);
+  if(lv===1) return QC({text:`Khẳng định nào là <b>dấu hiệu nhận biết tiếp tuyến</b>?`,opts:[good[0],`${tm('d')} đi qua một điểm nằm trong ${tm('(O)')}.`,`${tm('d \\parallel OA')} tại ${tm('A')}.`,`${tm('d')} cắt ${tm('(O)')} tại hai điểm.`],ans:good[0],hint:'Tiếp tuyến vuông góc với bán kính tại tiếp điểm.',sol:`${good[1]} Đây là dấu hiệu nhận biết tiếp tuyến.`});
+  const Rr=R(3,12), dist=pick([Rr-2,Rr,Rr+2]), n=dist<Rr?2:dist===Rr?1:0;
+  return QB({text:`Đường thẳng ${tm('d')} cách tâm của đường tròn ${tm(`(O;\\,${Rr}\\text{ cm})`)} một khoảng ${tm(`${dist}`)} cm. Hai hình có bao nhiêu điểm chung?`,tpl:'[_] điểm chung',ans:[n],hint:'So sánh khoảng cách từ tâm đến đường thẳng với bán kính.',sol:`Vì ${tm(`d=${dist}`)} ${tm(dist<Rr?'\\lt R':dist===Rr?'=R':'\\gt R')} nên có ${tb(n)} điểm chung${n===1?', đường thẳng là tiếp tuyến':''}.`});
+};
+
+const gTs2 = lv => {
+  const [r,t,d]=pick(TANG_TRIPLES);
+  const ask=lv===1?0:R(0,2), fig=tangentFig(r,t,d);
+  if(ask===0) return QB({text:`Từ ${tm('M')} kẻ tiếp tuyến ${tm('MA')} đến ${tm(`(O;\\,${r}\\text{ cm})`)} tại ${tm('A')}. Biết ${tm(`OM=${d}`)} cm. Tính ${tm('MA')}.`,tpl:`${tm('MA =')} [_] cm`,ans:[t],fig,hint:`${tm('OA \\perp MA')}; áp dụng định lí Pythagore trong tam giác vuông ${tm('OAM')}.`,sol:`${tm(`MA=\\sqrt{OM^2-OA^2}=\\sqrt{${d}^2-${r}^2}=${t}`)} cm.`});
+  if(ask===1) return QB({text:`${tm('MA')} là tiếp tuyến của ${tm('(O)')} tại ${tm('A')}. Biết ${tm(`OA=${r}`)} cm, ${tm(`MA=${t}`)} cm. Tính ${tm('OM')}.`,tpl:`${tm('OM =')} [_] cm`,ans:[d],fig,hint:'Tam giác OAM vuông tại A.',sol:`${tm(`OM=\\sqrt{OA^2+MA^2}=\\sqrt{${r}^2+${t}^2}=${d}`)} cm.`});
+  return QB({text:`${tm('MA')} là tiếp tuyến của ${tm('(O)')} tại ${tm('A')}. Biết ${tm(`OM=${d}`)} cm, ${tm(`MA=${t}`)} cm. Tính bán kính.`,tpl:`${tm('R =')} [_] cm`,ans:[r],fig,hint:'Bán kính OA vuông góc với tiếp tuyến MA.',sol:`${tm(`R=OA=\\sqrt{OM^2-MA^2}=\\sqrt{${d}^2-${t}^2}=${r}`)} cm.`});
+};
+
+const gTs3 = lv => {
+  const be=2*R(20,70), half=be/2;
+  if(lv===1){const x=R(4,20);return QB({text:`Từ ${tm('M')} kẻ hai tiếp tuyến ${tm('MA, MB')} của ${tm('(O)')}. Biết ${tm(`MA=${x}`)} cm. Tính ${tm('MB')}.`,tpl:`${tm('MB =')} [_] cm`,ans:[x],hint:'Hai tiếp tuyến xuất phát từ cùng một điểm ngoài thì có độ dài bằng nhau.',sol:`Theo tính chất hai tiếp tuyến cắt nhau, ${tm('MB=MA')} nên ${tm(`MB=${x}`)} cm.`});}
+  if(lv===2) return QB({text:`Hai tiếp tuyến ${tm('MA, MB')} của ${tm('(O)')} tạo thành góc ${tm(`\\widehat{AMB}=${be}^\\circ`)}. Tính ${tm('\\widehat{AOB}')}.`,tpl:`${tm('\\widehat{AOB} =')} [_]${tm('^\\circ')}`,ans:[180-be],hint:'Tứ giác OAMB có hai góc vuông tại A và B.',sol:`${tm(`\\widehat{AOB}=180^\\circ-\\widehat{AMB}=180^\\circ-${be}^\\circ=${180-be}^\\circ`)}.`});
+  return QB({text:`Từ ${tm('M')} kẻ hai tiếp tuyến ${tm('MA, MB')} của ${tm('(O)')}. Biết ${tm(`\\widehat{AMB}=${be}^\\circ`)}. Tính ${tm('\\widehat{AMO}')} và ${tm('\\widehat{AOM}')}.`,tpl:`${tm('\\widehat{AMO} =')} [_]${tm('^\\circ')} &nbsp; ${tm('\\widehat{AOM} =')} [_]${tm('^\\circ')}`,ans:[half,90-half],hint:'MO phân giác góc AMB; tam giác OAM vuông tại A.',sol:`${tm(`\\widehat{AMO}=\\dfrac{${be}^\\circ}{2}=${half}^\\circ`)}; do ${tm('\\widehat{OAM}=90^\\circ')} nên ${tm(`\\widehat{AOM}=${90-half}^\\circ`)}.`});
+};
+
+const gTs4 = lv => {
+  const [r,t,d]=pick(TANG_TRIPLES), oh=r*r/d, ah=r*t/d;
+  if(lv===1) return QC({text:`Từ ${tm('M')} kẻ hai tiếp tuyến ${tm('MA, MB')} của ${tm('(O)')}; ${tm('H=OM\\cap AB')}. Kết luận nào <b>luôn đúng</b>?`,opts:[tm('OM\\perp AB'),tm('OM\\parallel AB'),tm('HA=OM'),tm('OA\\parallel MB')],ans:tm('OM\\perp AB'),hint:'OA = OB và MA = MB nên O và M cùng nằm trên đường trung trực của AB.',sol:`${tm('OA=OB')} và ${tm('MA=MB')} nên ${tm('OM')} là đường trung trực của ${tm('AB')}. Do đó ${tb('OM\\perp AB')}.`});
+  if(lv===2) return QB({text:`Cho ${tm(`(O;\\,${r}\\text{ cm})`)}, ${tm(`OM=${d}`)} cm. Từ ${tm('M')} kẻ hai tiếp tuyến ${tm('MA, MB')}; ${tm('H=OM\\cap AB')}. Tính ${tm('OH')}.`,tpl:`${tm('OH =')} [_] cm`,ans:[oh],hint:`Trong tam giác vuông ${tm('OAM')}, ${tm('AH')} là đường cao ứng với cạnh huyền: ${tm('OA^2=OH\\cdot OM')}.`,sol:`${tm(`OH=\\dfrac{OA^2}{OM}=\\dfrac{${r}^2}{${d}}=${oh}`)} cm.`});
+  return QB({text:`Cho ${tm(`(O;\\,${r}\\text{ cm})`)}, ${tm(`OM=${d}`)} cm. Hai tiếp tuyến từ ${tm('M')} tiếp xúc tại ${tm('A,B')}. Tính độ dài dây tiếp điểm ${tm('AB')}.`,tpl:`${tm('AB =')} [_] cm`,ans:[2*ah],hint:`Gọi ${tm('H=OM\\cap AB')}. Khi đó ${tm('OH=OA^2/OM')} và ${tm('AB=2AH')}.`,sol:`${tm(`OH=${r}^2/${d}=${oh}`)} cm; ${tm(`AH=\\sqrt{OA^2-OH^2}=${ah}`)} cm, nên ${tm(`AB=2AH=${2*ah}`)} cm.`});
+};
+
+const gTs5 = lv => {
+  const triples=[[3,12,6],[4,21,10],[5,32,8],[6,27,12],[8,45,15]], [x,y,t]=pick(triples); // MC=x, MD=y, MA=t
+  if(lv===1) return QC({text:`Từ điểm ${tm('M')} ngoài ${tm('(O)')}, ${tm('MA')} là tiếp tuyến và cát tuyến qua ${tm('M')} cắt đường tròn tại ${tm('C,D')} (${tm('C')} nằm giữa ${tm('M,D')}). Hệ thức đúng là`,opts:[tm('MA^2=MC\\cdot MD'),tm('MA=MC+MD'),tm('MA^2=MC^2+MD^2'),tm('MA\\cdot MD=MC^2')],ans:tm('MA^2=MC\\cdot MD'),hint:'Bình phương độ dài tiếp tuyến bằng tích hai đoạn của cát tuyến tính từ điểm ngoài.',sol:`Theo định lí tiếp tuyến–cát tuyến: ${tb('MA^2=MC\\cdot MD')}.`});
+  if(lv===2) return QB({text:`Từ ${tm('M')} kẻ tiếp tuyến ${tm('MA')} và cát tuyến ${tm('MCD')} của ${tm('(O)')}. Biết ${tm(`MC=${x}`)} cm, ${tm(`MD=${y}`)} cm. Tính ${tm('MA')}.`,tpl:`${tm('MA =')} [_] cm`,ans:[t],hint:`Dùng ${tm('MA^2=MC\\cdot MD')}.`,sol:`${tm(`MA=\\sqrt{MC\\cdot MD}=\\sqrt{${x}\\cdot${y}}=${t}`)} cm.`});
+  return QB({text:`Từ ${tm('M')} kẻ tiếp tuyến ${tm('MA')} và cát tuyến ${tm('MCD')} của ${tm('(O)')}; ${tm('C')} nằm giữa ${tm('M,D')}. Biết ${tm(`MA=${t}`)} cm, ${tm(`MC=${x}`)} cm. Tính ${tm('CD')}.`,tpl:`${tm('CD =')} [_] cm`,ans:[y-x],hint:`Tính ${tm('MD=MA^2/MC')} rồi dùng ${tm('CD=MD-MC')}.`,sol:`${tm(`MD=\\dfrac{MA^2}{MC}=\\dfrac{${t}^2}{${x}}=${y}`)} cm; ${tm(`CD=MD-MC=${y}-${x}=${y-x}`)} cm.`});
+};
+
+const gTs6 = lv => {
+  const [r,t,d]=pick(TANG_TRIPLES), oh=r*r/d, ab=2*r*t/d;
+  const text=`Cho ${tm(`(O;\\,${r}\\text{ cm})`)} và điểm ${tm('M')} ở ngoài sao cho ${tm(`OM=${d}`)} cm. Kẻ hai tiếp tuyến ${tm('MA, MB')}; gọi ${tm('H=OM\\cap AB')}.`;
+  const steps=[
+    {tag:'Nhận xét',ask:`Tứ giác ${tm('OAMB')} nội tiếp đường tròn có đường kính nào?`,opts:[tm('OM'),tm('AB'),tm('OA'),tm('MA')],ans:tm('OM'),hint:'Hai góc OAM và OBM đều vuông.'},
+    {tag:'Tính tiếp tuyến',ask:`Tính ${tm('MA')}.`,tpl:`${tm('MA =')} [_] cm`,ans:[t],hint:'Dùng Pythagore trong tam giác OAM vuông tại A.'},
+    {tag:'Dây tiếp điểm',ask:`Tính ${tm('OH')}.`,tpl:`${tm('OH =')} [_] cm`,ans:[oh],hint:'Dùng hệ thức OA² = OH·OM.'},
+    {tag:'Kết quả',ask:`Tính ${tm('AB')}.`,tpl:`${tm('AB =')} [_] cm`,ans:[ab],hint:'Trong tam giác vuông OAM, AH = OA·MA/OM và AB = 2AH.'}
+  ];
+  return QS({direct:lv===3,text,hint:'Nối tâm với hai tiếp điểm; khai thác hai góc vuông và tính chất hai tiếp tuyến.',steps:lv===1?steps.slice(0,3):steps,sol:`Vì ${tm('OA\\perp MA')} và ${tm('OB\\perp MB')}, bốn điểm ${tm('O,A,M,B')} cùng thuộc đường tròn đường kính ${tm('OM')}. ${tm(`MA=${t}`)} cm; ${tm(`OH=${oh}`)} cm; ${tm(`AB=${ab}`)} cm.`});
+};
+
+G.topics.push({id:6,hk:2,name:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học'});
+lesson(6,'on-thi-tiep-tuyen','Hình học 1. Tiếp tuyến của đường tròn','Ôn tuyển sinh từ cơ bản đến nâng cao: nhận biết và chứng minh tiếp tuyến; tính độ dài; hai tiếp tuyến; dây tiếp điểm; tiếp tuyến–cát tuyến; bài tổng hợp.',[gTs1,gTs2,gTs3,gTs4,gTs5,gTs6]);
+}
 })();
 
 </script>

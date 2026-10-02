@@ -1,5 +1,5 @@
 /* =====================================================================
-   PHIẾU LUYỆN TẬP LỚP 8 – Chương III. Tứ giác (Bài 10 – 14, Ôn tập)
+   PHIẾU LUYỆN TẬP LỚP 8 – Chương II và Chương III
    Lecture.addPractice(lớp, mã bài, [{dang, items:[{de, sol, ans, fig, hard}]}]) – 70% cơ bản, 30% vận dụng (★).
    Học sinh yếu hình: lời giải ghi rõ căn cứ từng bước. Hình: geoSVG (figures.js).
    ===================================================================== */
@@ -13,6 +13,68 @@ const F_pgO = () => geoSVG({P:{A:[1.6,3],B:[6.8,3],C:[5.2,0],D:[0,0],O:[3.4,1.5]
 const F_pgEF = () => geoSVG({P:{A:[1.6,3],B:[6.8,3],C:[5.2,0],D:[0,0],E:[0.8,1.5],F:[6,1.5]}, S:Q4.concat(['EF']), T:{AE:1,ED:1,BF:1,FC:1}, Pa:{AB:1,CD:1}});
 const F_mef = () => geoSVG({P:{A:[0,0],B:[6,0],C:[0,4.5],M:[3,2.25],E:[3,0],F:[0,2.25]}, S:['AB','AC','BC',['ME','dash'],['MF','dash'],['EF','dash']], R:['CAB','MEB','MFC']});
 const F_sqIn = () => geoSVG({P:{A:[0,4],B:[4,4],C:[4,0],D:[0,0],E:[1,4],F:[4,3],G:[3,0],H:[0,1]}, S:Q4.concat(['EF','FG','GH','HE']), R:['DAB','ABC','BCD','CDA'], T:{AE:1,BF:1,CG:1,DH:1}});
+
+/* =====================================================================  BÀI 6  */
+Lecture.addPractice('lop8', 'bai-6', [
+ {dang:'Khai triển bằng hằng đẳng thức', items:[
+  {de:`Khai triển ${m('(x + 5)^2')}.`,
+   sol:[`Áp dụng ${m('(A + B)^2 = A^2 + 2AB + B^2')} với ${m('A = x,\\ B = 5')}.`, `${m('(x + 5)^2 = x^2 + 2\\cdot x\\cdot 5 + 5^2')}.`], ans:`${tb('x^2 + 10x + 25')}.`, lines:3},
+  {de:`Khai triển ${m('(3x - 2)^2')}.`,
+   sol:[`Áp dụng ${m('(A - B)^2 = A^2 - 2AB + B^2')} với ${m('A = 3x,\\ B = 2')}.`, `${m('(3x - 2)^2 = (3x)^2 - 2\\cdot 3x\\cdot 2 + 2^2')}.`], ans:`${tb('9x^2 - 12x + 4')}.`, lines:3},
+  {de:`Khai triển ${m('(2x - 3y)^2')}.`,
+   sol:[`Xác định ${m('A = 2x,\\ B = 3y')}; dùng bình phương của một hiệu.`, `${m('(2x - 3y)^2 = (2x)^2 - 2\\cdot 2x\\cdot 3y + (3y)^2')}.`], ans:`${tb('4x^2 - 12xy + 9y^2')}.`, lines:3},
+ ]},
+ {dang:'Viết thành bình phương hoặc thành tích', items:[
+  {de:`Viết ${m('x^2 + 10x + 25')} dưới dạng bình phương của một tổng.`,
+   sol:[`${m('x^2 = x^2,\\ 25 = 5^2')} và ${m('10x = 2\\cdot x\\cdot 5')}.`, `Ba hạng tử khớp với ${m('A^2 + 2AB + B^2 = (A + B)^2')}.`], ans:`${tb('(x + 5)^2')}.`, lines:3},
+  {de:`Viết ${m('9x^2 - 24xy + 16y^2')} dưới dạng bình phương của một hiệu.`,
+   sol:[`${m('9x^2 = (3x)^2,\\ 16y^2 = (4y)^2')}.`, `Hạng tử giữa ${m('-24xy = -2\\cdot 3x\\cdot 4y')}, đúng dạng ${m('A^2 - 2AB + B^2')}.`], ans:`${tb('(3x - 4y)^2')}.`, lines:3},
+  {de:`Phân tích ${m('25x^2 - 49')} thành nhân tử.`,
+   sol:[`Nhận thấy ${m('25x^2 = (5x)^2')} và ${m('49 = 7^2')}.`, `Áp dụng ${m('A^2 - B^2 = (A - B)(A + B)')}.`], ans:`${tb('(5x - 7)(5x + 7)')}.`, lines:3},
+  {hard:true, de:`Phân tích ${m('(x + 2)^2 - 9y^2')} thành nhân tử.`,
+   sol:[`Viết ${m('9y^2 = (3y)^2')}, khi đó biểu thức là hiệu hai bình phương với ${m('A = x + 2,\\ B = 3y')}.`, `Áp dụng ${m('A^2 - B^2 = (A - B)(A + B)')}: ${m('(x + 2)^2 - (3y)^2 = [(x + 2) - 3y][(x + 2) + 3y]')}.`], ans:`${tb('(x + 2 - 3y)(x + 2 + 3y)')}.`, lines:4},
+ ]},
+ {dang:'Tính nhanh, rút gọn và tìm x', items:[
+  {de:`Tính nhanh ${m('98\\cdot 102')}.`,
+   sol:[`Hai thừa số cách đều ${m('100')}: ${m('98 = 100 - 2,\\ 102 = 100 + 2')}.`, `Dùng ${m('(A - B)(A + B) = A^2 - B^2')}: ${m('98\\cdot 102 = 100^2 - 2^2 = 10000 - 4')}.`], ans:`${tb('9996')}.`, lines:3},
+  {hard:true, de:`Rút gọn ${m('A = (x + 3)^2 - (x - 3)^2')}, rồi tính ${m('A')} tại ${m('x = 25')}.`,
+   sol:[`Coi biểu thức là hiệu hai bình phương với ${m('U = x + 3,\\ V = x - 3')}.`, `${m('A = (U - V)(U + V) = [(x + 3) - (x - 3)][(x + 3) + (x - 3)]')}.`, `Thu gọn: ${m('A = 6\\cdot 2x = 12x')}. Thay ${m('x = 25')}: ${m('A = 12\\cdot 25')}.`], ans:`${tb('A = 300')}.`, lines:5},
+  {hard:true, de:`Tìm ${m('x')}, biết ${m('(x + 4)^2 - (x - 4)^2 = 64')}.`,
+   sol:[`Dùng hiệu hai bình phương với ${m('U = x + 4,\\ V = x - 4')}.`, `${m('(U - V)(U + V) = 64')}, tức ${m('[(x + 4) - (x - 4)][(x + 4) + (x - 4)] = 64')}.`, `Thu gọn: ${m('8\\cdot 2x = 64 \\Rightarrow 16x = 64 \\Rightarrow x = 4')}.`], ans:`${tb('x = 4')}.`, lines:5},
+ ]},
+]);
+// Bài 6: 7 bài cơ bản, 3 bài mức khá (đánh dấu ★).
+
+/* =====================================================================  BÀI 7  */
+Lecture.addPractice('lop8', 'bai-7', [
+ {dang:'Khai triển lập phương của một tổng hoặc một hiệu', items:[
+  {de:`Khai triển ${m('(x + 3)^3')}.`,
+   sol:[`Áp dụng ${m('(A + B)^3 = A^3 + 3A^2B + 3AB^2 + B^3')} với ${m('A = x,\\ B = 3')}.`, `${m('(x + 3)^3 = x^3 + 3\\cdot x^2\\cdot 3 + 3\\cdot x\\cdot 3^2 + 3^3')}.`], ans:`${tb('x^3 + 9x^2 + 27x + 27')}.`, lines:4},
+  {de:`Khai triển ${m('(x - 4)^3')}.`,
+   sol:[`Áp dụng ${m('(A - B)^3 = A^3 - 3A^2B + 3AB^2 - B^3')} với ${m('A = x,\\ B = 4')}.`, `${m('(x - 4)^3 = x^3 - 3\\cdot x^2\\cdot 4 + 3\\cdot x\\cdot 4^2 - 4^3')}.`], ans:`${tb('x^3 - 12x^2 + 48x - 64')}.`, lines:4},
+  {de:`Khai triển ${m('(2x + 1)^3')}.`,
+   sol:[`Xác định ${m('A = 2x,\\ B = 1')}; viết đủ bốn hạng tử theo hệ số ${m('1,3,3,1')}.`, `${m('(2x + 1)^3 = (2x)^3 + 3(2x)^2\\cdot1 + 3(2x)\\cdot1^2 + 1^3')}.`], ans:`${tb('8x^3 + 12x^2 + 6x + 1')}.`, lines:4},
+ ]},
+ {dang:'Nhận dạng và viết dưới dạng lập phương', items:[
+  {de:`Viết ${m('x^3 + 6x^2 + 12x + 8')} dưới dạng lập phương của một tổng.`,
+   sol:[`Hạng tử đầu ${m('x^3 = (x)^3')}, hạng tử cuối ${m('8 = 2^3')}, nên chọn ${m('A = x,\\ B = 2')}.`, `Kiểm tra: ${m('3A^2B = 6x^2')} và ${m('3AB^2 = 12x')}; cả hai hạng tử giữa đều khớp.`], ans:`${tb('(x + 2)^3')}.`, lines:4},
+  {de:`Viết ${m('8x^3 - 36x^2y + 54xy^2 - 27y^3')} dưới dạng lập phương của một hiệu.`,
+   sol:[`${m('8x^3 = (2x)^3,\\ 27y^3 = (3y)^3')}, nên chọn ${m('A = 2x,\\ B = 3y')}.`, `Kiểm tra: ${m('-3A^2B = -3(2x)^2(3y) = -36x^2y')}; ${m('3AB^2 = 3(2x)(3y)^2 = 54xy^2')}.`], ans:`${tb('(2x - 3y)^3')}.`, lines:4},
+  {de:`Điền các số còn thiếu: ${m('x^3 - a x^2 + b x - 27 = (x - 3)^3')}. Tìm ${m('a')} và ${m('b')}.`,
+   sol:[`Dùng ${m('(x - 3)^3 = x^3 - 3\\cdot x^2\\cdot3 + 3\\cdot x\\cdot3^2 - 3^3')}.`, `Thu gọn: ${m('(x - 3)^3 = x^3 - 9x^2 + 27x - 27')}.`, `So sánh các hệ số tương ứng.`], ans:`${tb('a = 9,\\ b = 27')}.`, lines:4},
+  {hard:true, de:`Viết ${m('27x^3 + 54x^2y + 36xy^2 + 8y^3')} dưới dạng lập phương của một tổng.`,
+   sol:[`${m('27x^3 = (3x)^3')} và ${m('8y^3 = (2y)^3')}; chọn ${m('A = 3x,\\ B = 2y')}.`, `Hạng tử thứ hai: ${m('3A^2B = 3(3x)^2(2y) = 54x^2y')}.`, `Hạng tử thứ ba: ${m('3AB^2 = 3(3x)(2y)^2 = 36xy^2')}; vậy bốn hạng tử khớp hoàn toàn.`], ans:`${tb('(3x + 2y)^3')}.`, lines:5},
+ ]},
+ {dang:'Tính giá trị, rút gọn và tìm x', items:[
+  {de:`Tính giá trị của ${m('A = x^3 + 3x^2 + 3x + 1')} tại ${m('x = 19')}.`,
+   sol:[`Nhận dạng ${m('A = x^3 + 3x^2\\cdot1 + 3x\\cdot1^2 + 1^3 = (x + 1)^3')}.`, `Thay ${m('x = 19')}: ${m('A = (19 + 1)^3 = 20^3')}.`], ans:`${tb('A = 8000')}.`, lines:4},
+  {hard:true, de:`Rút gọn ${m('B = (x + 2)^3 - (x - 2)^3')}, rồi tính ${m('B')} tại ${m('x = 3')}.`,
+   sol:[`Khai triển: ${m('(x + 2)^3 = x^3 + 6x^2 + 12x + 8')}.`, `${m('(x - 2)^3 = x^3 - 6x^2 + 12x - 8')}.`, `Trừ hai đa thức và đổi dấu toàn bộ ngoặc thứ hai: ${m('B = x^3 + 6x^2 + 12x + 8 - x^3 + 6x^2 - 12x + 8 = 12x^2 + 16')}.`, `Thay ${m('x = 3')}: ${m('B = 12\\cdot3^2 + 16 = 108 + 16')}.`], ans:`${tb('B = 124')}.`, lines:6},
+  {hard:true, de:`Tìm ${m('x')}, biết ${m('x^3 - 6x^2 + 12x - 8 = 125')}.`,
+   sol:[`Vế trái có dạng lập phương của một hiệu: ${m('x^3 - 6x^2 + 12x - 8 = (x - 2)^3')}.`, `Phương trình trở thành ${m('(x - 2)^3 = 125 = 5^3')}.`, `Hai số có lập phương bằng nhau thì bằng nhau: ${m('x - 2 = 5 \\Rightarrow x = 7')}.`], ans:`${tb('x = 7')}.`, lines:5},
+ ]},
+]);
+// Bài 7: 7 bài cơ bản, 3 bài mức khá (đánh dấu ★).
 
 /* =====================================================================  BÀI 10  */
 Lecture.addPractice('lop8', 'bai-10', [
