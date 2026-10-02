@@ -1280,4 +1280,67 @@ const gTs6 = lv => {
 G.topics.push({id:6,hk:2,name:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học'});
 lesson(6,'on-thi-tiep-tuyen','Hình học 1. Tiếp tuyến của đường tròn','Ôn tuyển sinh từ cơ bản đến nâng cao: nhận biết và chứng minh tiếp tuyến; tính độ dài; hai tiếp tuyến; dây tiếp điểm; tiếp tuyến–cát tuyến; bài tổng hợp.',[gTs1,gTs2,gTs3,gTs4,gTs5,gTs6]);
 }
+/* =====================================================================
+   ÔN THI TUYỂN SINH VÀO LỚP 10 – HÌNH HỌC 2. GÓC Ở TÂM, GÓC NỘI TIẾP
+   ===================================================================== */
+{
+const angAt=(r,a)=>[r*Math.cos(a*Math.PI/180),r*Math.sin(a*Math.PI/180)];
+const insFig=(arcDeg=100)=>{const A=angAt(3,200),B=angAt(3,200+arcDeg),C=angAt(3,50);return circleSVG({C:[{x:0,y:0,r:3,lab:'O'}],P:[[...A,'A'],[...B,'B'],[...C,'C']],S:[[...A,...B],[...C,...A],[...C,...B],[0,0,...A,true],[0,0,...B,true]],arc:{x:0,y:0,r:3,a1:200,a2:200+arcDeg}});};
+const arcName=s=>`\\overset{\\frown}{${s}}`, hatA=s=>`\\widehat{${s}}`;
+
+const gGa1=lv=>{
+  const n=R(4,28)*10;
+  if(lv===1)return QB({text:`Trên đường tròn ${tm('(O)')}, góc ở tâm ${tm(`${hatA('AOB')}=${n}^\\circ`)} chắn cung nhỏ ${tm('AB')}. Tính số đo cung nhỏ ${tm('AB')}.`,tpl:`${tm(`\\text{sđ}${arcName('AB')} =`)} [_]${tm('^\\circ')}`,ans:[n],fig:insFig(Math.min(n,160)),hint:'Số đo cung nhỏ bằng số đo góc ở tâm chắn cung đó.',sol:`Góc ${tm(hatA('AOB'))} là góc ở tâm chắn cung nhỏ ${tm('AB')}, nên ${tm(`\\text{sđ}${arcName('AB')}=${n}^\\circ`)}.`});
+  if(lv===2)return QB({text:`Cung nhỏ ${tm('AB')} của ${tm('(O)')} có số đo ${tm(`${n}^\\circ`)}. Tính số đo cung lớn ${tm('AB')}.`,tpl:'[_]'+tm('^\\circ'),ans:[360-n],hint:'Tổng số đo cung nhỏ và cung lớn có chung hai mút bằng 360°.',sol:`Cung lớn ${tm('AB')} có số đo ${tm(`360^\\circ-${n}^\\circ=${360-n}^\\circ`)}.`});
+  const a=R(3,10)*10,b=R(3,10)*10;
+  return QB({text:`Ba tia ${tm('OA,OB,OC')} theo thứ tự nằm trong cùng một nửa mặt phẳng, tia ${tm('OB')} nằm giữa ${tm('OA,OC')}. Biết ${tm(`${hatA('AOB')}=${a}^\\circ`)}, ${tm(`${hatA('BOC')}=${b}^\\circ`)}. Tính số đo cung nhỏ ${tm('AC')}.`,tpl:'[_]'+tm('^\\circ'),ans:[a+b],hint:'Cộng hai góc ở tâm kề nhau.',sol:`${tm(`${hatA('AOC')}=${hatA('AOB')}+${hatA('BOC')}=${a}^\\circ+${b}^\\circ=${a+b}^\\circ`)}. Vì vậy cung nhỏ ${tm('AC')} có số đo ${tb(`${a+b}^\\circ`)}.`});
+};
+
+const gGa2=lv=>{
+  const x=R(2,8)*10, arc=2*x;
+  if(lv===1)return QB({text:`Góc nội tiếp ${tm(hatA('ACB'))} chắn cung nhỏ ${tm('AB')} có số đo ${tm(`${arc}^\\circ`)}. Tính ${tm(hatA('ACB'))}.`,tpl:`${tm(`${hatA('ACB')} =`)} [_]${tm('^\\circ')}`,ans:[x],fig:insFig(arc),hint:'Góc nội tiếp bằng nửa số đo cung bị chắn.',sol:`${tm(`${hatA('ACB')}=\\dfrac12\\text{sđ}${arcName('AB')}=\\dfrac12\\cdot${arc}^\\circ=${x}^\\circ`)}.`});
+  if(lv===2)return QB({text:`Góc nội tiếp ${tm(`${hatA('ACB')}=${x}^\\circ`)} chắn cung ${tm('AB')}. Tính số đo cung ${tm('AB')}.`,tpl:'[_]'+tm('^\\circ'),ans:[arc],fig:insFig(arc),hint:'Cung bị chắn có số đo gấp đôi góc nội tiếp.',sol:`${tm(`\\text{sđ}${arcName('AB')}=2${hatA('ACB')}=2\\cdot${x}^\\circ=${arc}^\\circ`)}.`});
+  return QB({text:`Trên ${tm('(O)')}, góc ở tâm ${tm(`${hatA('AOB')}=${arc}^\\circ`)} và điểm ${tm('C')} nằm trên cung lớn ${tm('AB')}. Tính góc nội tiếp ${tm(hatA('ACB'))}.`,tpl:'[_]'+tm('^\\circ'),ans:[x],fig:insFig(arc),hint:'Góc ở tâm và góc nội tiếp cùng chắn cung nhỏ AB; góc nội tiếp bằng nửa góc ở tâm.',sol:`${tm(`${hatA('ACB')}=\\dfrac12${hatA('AOB')}=\\dfrac12\\cdot${arc}^\\circ=${x}^\\circ`)}.`});
+};
+
+const gGa3=lv=>{
+  if(lv===1)return QC({text:`Cho ${tm('AB')} là đường kính của ${tm('(O)')} và ${tm('C\\in(O)')}, ${tm('C\\ne A,B')}. Góc ${tm(hatA('ACB'))} bằng`,opts:[tm('90^\\circ'),tm('45^\\circ'),tm('60^\\circ'),tm('180^\\circ')],ans:tm('90^\\circ'),hint:'Góc nội tiếp chắn nửa đường tròn là góc vuông.',sol:`Góc ${tm(hatA('ACB'))} chắn cung ${tm('AB')} có số đo ${tm('180^\\circ')}, nên bằng ${tb('90^\\circ')}.`});
+  const x=R(2,7)*10;
+  if(lv===2)return QB({text:`Các điểm ${tm('A,B,C,D')} cùng thuộc ${tm('(O)')}; ${tm('C,D')} nằm trên cùng một cung ${tm('AB')}. Biết ${tm(`${hatA('ACB')}=${x}^\\circ`)}. Tính ${tm(hatA('ADB'))}.`,tpl:'[_]'+tm('^\\circ'),ans:[x],hint:'Hai góc nội tiếp cùng chắn một cung thì bằng nhau.',sol:`${tm(hatA('ACB'))} và ${tm(hatA('ADB'))} cùng chắn cung ${tm('AB')}, nên ${tm(`${hatA('ADB')}=${hatA('ACB')}=${x}^\\circ`)}.`});
+  const a=R(2,7)*10;
+  return QB({text:`Tam giác ${tm('ABC')} nội tiếp đường tròn có ${tm('AB')} là đường kính. Biết ${tm(`${hatA('CAB')}=${a}^\\circ`)}. Tính ${tm(hatA('ABC'))}.`,tpl:'[_]'+tm('^\\circ'),ans:[90-a],hint:'Góc ACB chắn đường kính nên bằng 90°; dùng tổng ba góc của tam giác.',sol:`${tm(`${hatA('ACB')}=90^\\circ`)} vì chắn đường kính. Do đó ${tm(`${hatA('ABC')}=180^\\circ-90^\\circ-${a}^\\circ=${90-a}^\\circ`)}.`});
+};
+
+const gGa4=lv=>{
+  const a=R(5,13)*10;
+  if(lv===1)return QB({text:`Tứ giác ${tm('ABCD')} nội tiếp một đường tròn. Biết ${tm(`${hatA('BAD')}=${a}^\\circ`)}. Tính ${tm(hatA('BCD'))}.`,tpl:'[_]'+tm('^\\circ'),ans:[180-a],hint:'Tổng hai góc đối của tứ giác nội tiếp bằng 180°.',sol:`${tm(`${hatA('BAD')}+${hatA('BCD')}=180^\\circ`)}, nên ${tm(`${hatA('BCD')}=180^\\circ-${a}^\\circ=${180-a}^\\circ`)}.`});
+  if(lv===2){const b=180-a;return QC({text:`Tứ giác ${tm('ABCD')} có ${tm(`${hatA('A')}=${a}^\\circ`)}, ${tm(`${hatA('C')}=${b}^\\circ`)}. Kết luận đúng là`,opts:['Tứ giác ABCD nội tiếp được một đường tròn','AB song song CD','Hai đường chéo vuông góc','AB = CD'],ans:'Tứ giác ABCD nội tiếp được một đường tròn',hint:'Một tứ giác có tổng hai góc đối bằng 180° thì nội tiếp.',sol:`Vì ${tm(`${hatA('A')}+${hatA('C')}=${a}^\\circ+${b}^\\circ=180^\\circ`)}, tứ giác ${tb('ABCD')} nội tiếp được một đường tròn.`});}
+  const ext=R(4,12)*10;
+  return QB({text:`Tứ giác ${tm('ABCD')} nội tiếp. Tia ${tm('Bx')} là tia đối của ${tm('BA')}. Biết góc ngoài ${tm(`${hatA('xBC')}=${ext}^\\circ`)}. Tính góc trong đối diện ${tm(hatA('ADC'))}.`,tpl:'[_]'+tm('^\\circ'),ans:[ext],hint:'Góc ngoài của tứ giác nội tiếp bằng góc trong đối diện.',sol:`Trong tứ giác nội tiếp, góc ngoài tại ${tm('B')} bằng góc trong đối diện tại ${tm('D')}; do đó ${tm(`${hatA('ADC')}=${ext}^\\circ`)}.`});
+};
+
+const gGa5=lv=>{
+  const x=R(2,8)*10, arc=2*x;
+  if(lv===1)return QB({text:`Tiếp tuyến tại ${tm('A')} của ${tm('(O)')} tạo với dây ${tm('AB')} một góc ${tm(`${x}^\\circ`)}. Tính số đo cung nhỏ ${tm('AB')}.`,tpl:'[_]'+tm('^\\circ'),ans:[arc],hint:'Góc tạo bởi tiếp tuyến và dây bằng nửa số đo cung bị chắn.',sol:`${tm(`\\text{sđ}${arcName('AB')}=2\\cdot${x}^\\circ=${arc}^\\circ`)}.`});
+  if(lv===2)return QB({text:`Tiếp tuyến ${tm('Ax')} của ${tm('(O)')} tại ${tm('A')} tạo với dây ${tm('AB')} góc ${tm(`${hatA('xAB')}=${x}^\\circ`)}. Điểm ${tm('C')} nằm trên cung lớn ${tm('AB')}. Tính ${tm(hatA('ACB'))}.`,tpl:'[_]'+tm('^\\circ'),ans:[x],hint:'Góc tạo bởi tiếp tuyến và dây bằng góc nội tiếp chắn cùng cung.',sol:`Hai góc cùng chắn cung nhỏ ${tm('AB')}, nên ${tm(`${hatA('ACB')}=${hatA('xAB')}=${x}^\\circ`)}.`});
+  const y=90-x;
+  return QB({text:`Tại ${tm('A\\in(O)')}, tiếp tuyến ${tm('Ax')} tạo với dây ${tm('AB')} góc ${tm(`${x}^\\circ`)}. Tính góc giữa bán kính ${tm('OA')} và dây ${tm('AB')}.`,tpl:'[_]'+tm('^\\circ'),ans:[y],hint:'Bán kính OA vuông góc với tiếp tuyến Ax.',sol:`Vì ${tm('OA\\perp Ax')}, góc giữa ${tm('OA')} và ${tm('AB')} bằng ${tm(`90^\\circ-${x}^\\circ=${y}^\\circ`)}.`});
+};
+
+const gGa6=lv=>{
+  const a=R(2,7)*10,b=R(2,7)*10,sum=a+b,diff=Math.abs(a-b), inside=sum/2,outside=diff/2;
+  const text=lv<3?`Hai dây ${tm('AB')} và ${tm('CD')} của một đường tròn cắt nhau tại ${tm('E')} ở trong đường tròn. Biết ${tm(`\\text{sđ}${arcName('AC')}=${a}^\\circ`)}, ${tm(`\\text{sđ}${arcName('BD')}=${b}^\\circ`)}.`:`Từ điểm ${tm('M')} ngoài đường tròn kẻ hai cát tuyến. Hai cung bị chắn có số đo ${tm(`${Math.max(a,b)}^\\circ`)} và ${tm(`${Math.min(a,b)}^\\circ`)}.`;
+  const steps=lv<3?[
+   {tag:'Chọn công thức',ask:`Góc tạo bởi hai dây cắt nhau <b>trong</b> đường tròn bằng`,opts:['Nửa tổng số đo hai cung bị chắn','Nửa hiệu số đo hai cung bị chắn','Tổng hai cung bị chắn','Hiệu hai cung bị chắn'],ans:'Nửa tổng số đo hai cung bị chắn',hint:'Giao điểm nằm trong đường tròn nên dùng nửa tổng.'},
+   {tag:'Tính góc',ask:`Tính góc ${tm(hatA('AEC'))}.`,tpl:'[_]'+tm('^\\circ'),ans:[inside],hint:'Lấy nửa tổng số đo hai cung AC và BD.'}
+  ]:[
+   {tag:'Chọn công thức',ask:'Góc có đỉnh ngoài đường tròn bằng',opts:['Nửa hiệu số đo cung lớn và cung nhỏ','Nửa tổng số đo hai cung','Hiệu hai cung','Tổng hai cung'],ans:'Nửa hiệu số đo cung lớn và cung nhỏ',hint:'Đỉnh ở ngoài đường tròn nên dùng nửa hiệu.'},
+   {tag:'Tính góc',ask:'Tính số đo góc tạo bởi hai cát tuyến.',tpl:'[_]'+tm('^\\circ'),ans:[outside],hint:'Lấy nửa hiệu số đo hai cung bị chắn.'}
+  ];
+  return QS({direct:lv===3,text,steps,hint:lv<3?'Giao điểm trong: nửa tổng hai cung.':'Giao điểm ngoài: nửa hiệu hai cung.',sol:lv<3?`${tm(`${hatA('AEC')}=\\dfrac{${a}^\\circ+${b}^\\circ}{2}=${inside}^\\circ`)}.`:`Góc cần tìm bằng ${tm(`\\dfrac{${Math.max(a,b)}^\\circ-${Math.min(a,b)}^\\circ}{2}=${outside}^\\circ`)}.`});
+};
+
+lesson(6,'on-thi-goc-duong-tron','Hình học 2. Góc ở tâm, góc nội tiếp','Ôn tuyển sinh từ cơ bản đến nâng cao: cung và góc ở tâm; góc nội tiếp; đường kính; tứ giác nội tiếp; tiếp tuyến–dây; góc có đỉnh trong và ngoài đường tròn.',[gGa1,gGa2,gGa3,gGa4,gGa5,gGa6]);
+}
+
 })();

@@ -333,3 +333,48 @@ Lecture.addPractice('lop9','on-thi-tiep-tuyen',[
  ]},
 ]);
 })();
+
+/* =====================================================================
+   ÔN THI TUYỂN SINH – HÌNH HỌC 2. GÓC Ở TÂM, GÓC NỘI TIẾP
+   20 bài: 14 cơ bản + 6 vận dụng (★), lời giải ghi rõ căn cứ.
+   ===================================================================== */
+(() => {
+const m=tm, arc=s=>`\\overset{\\frown}{${s}}`, hat=s=>`\\widehat{${s}}`;
+const at=(r,a)=>[r*Math.cos(a*Math.PI/180),r*Math.sin(a*Math.PI/180)];
+const Fang=()=>{const A=at(3,150),B=at(3,30),C=at(3,260),D=at(3,220);return circleSVG({C:[{x:0,y:0,r:3,lab:'O'}],P:[[...A,'A'],[...B,'B'],[...C,'C'],[...D,'D']],S:[[0,0,...A],[0,0,...B],[...C,...A],[...C,...B],[...D,...A],[...D,...B]]});};
+const Fquad=()=>{const A=at(3,145),B=at(3,35),C=at(3,-45),D=at(3,225);return circleSVG({C:[{x:0,y:0,r:3,lab:'O'}],P:[[...A,'A'],[...B,'B'],[...C,'C'],[...D,'D']],S:[[...A,...B],[...B,...C],[...C,...D],[...D,...A]]});};
+Lecture.addPractice('lop9','on-thi-goc-duong-tron',[
+ {dang:'Cung và góc ở tâm',items:[
+  {de:`Cho góc ở tâm ${m(`${hat('AOB')}=86^\\circ`)}. Tính số đo cung nhỏ và cung lớn ${m('AB')}.`,sol:[`Số đo cung nhỏ bằng số đo góc ở tâm chắn cung đó, nên bằng ${m('86^\\circ')}.`,`Số đo cung lớn bằng ${m('360^\\circ-86^\\circ=274^\\circ')}.`],ans:`Cung nhỏ: ${tb('86^\\circ')}; cung lớn: ${tb('274^\\circ')}.`,lines:4},
+  {de:`Trên ${m('(O)')}, tia ${m('OB')} nằm giữa ${m('OA,OC')}; ${m(`${hat('AOB')}=48^\\circ`)}, ${m(`${hat('BOC')}=72^\\circ`)}. Tính số đo cung nhỏ ${m('AC')}.`,sol:[`${m(`${hat('AOC')}=${hat('AOB')}+${hat('BOC')}=48^\\circ+72^\\circ=120^\\circ`)}.`,`Cung nhỏ ${m('AC')} có số đo bằng góc ở tâm ${m(hat('AOC'))}.`],ans:`${tb('120^\\circ')}.`,lines:4},
+  {de:`Đường kính ${m('AB')} chia đường tròn thành hai nửa. Điểm ${m('C')} nằm trên một nửa đường tròn và cung nhỏ ${m('AC')} bằng ${m('68^\\circ')}. Tính cung nhỏ ${m('CB')}.`,sol:[`Cung ${m('ACB')} là nửa đường tròn nên có số đo ${m('180^\\circ')}.`,`Do đó ${m(`\\text{sđ}${arc('CB')}=180^\\circ-68^\\circ=112^\\circ`)}.`],ans:`${tb('112^\\circ')}.`,lines:4},
+ ]},
+ {dang:'Góc nội tiếp và góc cùng chắn cung',items:[
+  {de:`Góc nội tiếp ${m(hat('ACB'))} chắn cung ${m('AB')} có số đo ${m('124^\\circ')}. Tính ${m(hat('ACB'))}.`,fig:Fang(),sol:[`Góc nội tiếp bằng nửa số đo cung bị chắn.`,`${m(`${hat('ACB')}=\\dfrac12\\cdot124^\\circ=62^\\circ`)}.`],ans:`${tb('62^\\circ')}.`,lines:4},
+  {de:`Góc nội tiếp ${m(`${hat('ADB')}=37^\\circ`)} chắn cung ${m('AB')}. Tính số đo cung ${m('AB')}.`,fig:Fang(),sol:[`Số đo cung bị chắn bằng hai lần số đo góc nội tiếp.`,`${m(`\\text{sđ}${arc('AB')}=2\\cdot37^\\circ=74^\\circ`)}.`],ans:`${tb('74^\\circ')}.`,lines:4},
+  {de:`Các điểm ${m('A,B,C,D')} cùng thuộc một đường tròn; ${m('C,D')} nằm trên cùng cung ${m('AB')}. Biết ${m(`${hat('ACB')}=46^\\circ`)}. Tính ${m(hat('ADB'))}.`,fig:Fang(),sol:[`${m(hat('ACB'))} và ${m(hat('ADB'))} là hai góc nội tiếp cùng chắn cung ${m('AB')}.`,`Vì vậy hai góc bằng nhau.`],ans:`${tb(`${hat('ADB')}=46^\\circ`)}.`,lines:4},
+ ]},
+ {dang:'Góc chắn đường kính và tam giác vuông',items:[
+  {de:`Tam giác ${m('ABC')} nội tiếp đường tròn có ${m('AB')} là đường kính. Tính ${m(hat('ACB'))}.`,sol:[`Góc ${m(hat('ACB'))} là góc nội tiếp chắn nửa đường tròn ${m('AB')}.`,`Góc nội tiếp chắn nửa đường tròn bằng ${m('90^\\circ')}.`],ans:`${tb('90^\\circ')}.`,lines:3},
+  {de:`Tam giác ${m('ABC')} nội tiếp đường tròn có ${m('AB')} là đường kính; ${m(`${hat('CAB')}=34^\\circ`)}. Tính ${m(hat('ABC'))}.`,sol:[`${m(`${hat('ACB')}=90^\\circ`)} vì chắn đường kính ${m('AB')}.`,`Tổng ba góc tam giác bằng ${m('180^\\circ')}, nên ${m(`${hat('ABC')}=180^\\circ-90^\\circ-34^\\circ=56^\\circ`)}.`],ans:`${tb('56^\\circ')}.`,lines:4},
+  {hard:true,de:`Tam giác ${m('ABC')} nội tiếp đường tròn có ${m('AB')} là đường kính, ${m('AB=13')} cm, ${m('AC=5')} cm. Tính ${m('BC')} và bán kính đường tròn.`,sol:[`${m(`${hat('ACB')}=90^\\circ`)} vì chắn đường kính; tam giác ${m('ABC')} vuông tại ${m('C')}.`,`Theo Pythagore, ${m('BC=\\sqrt{AB^2-AC^2}=\\sqrt{169-25}=12')} cm.`,`Bán kính bằng nửa đường kính: ${m('R=AB/2=6{,}5')} cm.`],ans:`${tb('BC=12\\text{ cm};\\ R=6{,}5\\text{ cm}')}.`},
+ ]},
+ {dang:'Tứ giác nội tiếp',items:[
+  {de:`Tứ giác ${m('ABCD')} nội tiếp có ${m(`${hat('A')}=72^\\circ`)}. Tính ${m(hat('C'))}.`,fig:Fquad(),sol:[`Hai góc đối của tứ giác nội tiếp bù nhau: ${m(`${hat('A')}+${hat('C')}=180^\\circ`)}.`,`Suy ra ${m(`${hat('C')}=180^\\circ-72^\\circ=108^\\circ`)}.`],ans:`${tb('108^\\circ')}.`,lines:4},
+  {de:`Tứ giác ${m('ABCD')} nội tiếp. Tia ${m('Bx')} là tia đối của ${m('BA')}; ${m(`${hat('xBC')}=65^\\circ`)}. Tính ${m(hat('ADC'))}.`,sol:[`Góc ngoài của tứ giác nội tiếp bằng góc trong đối diện.`,`Do đó ${m(`${hat('ADC')}=${hat('xBC')}=65^\\circ`)}.`],ans:`${tb('65^\\circ')}.`,lines:4},
+  {de:`Tứ giác ${m('MNPQ')} có ${m(`${hat('M')}=83^\\circ`)}, ${m(`${hat('P')}=97^\\circ`)}. Chứng minh tứ giác nội tiếp được một đường tròn.`,sol:[`${m(`${hat('M')}+${hat('P')}=83^\\circ+97^\\circ=180^\\circ`)}.`,`Tứ giác có tổng hai góc đối bằng ${m('180^\\circ')} nên nội tiếp được một đường tròn.`],lines:4},
+  {hard:true,de:`Cho tam giác ${m('ABC')} có hai đường cao ${m('BE,CF')} cắt nhau tại ${m('H')}. Chứng minh tứ giác ${m('AEHF')} nội tiếp và ${m(`${hat('EHF')}+${hat('EAF')}=180^\\circ`)}.`,sol:[`${m('BE\\perp AC')} nên ${m(`${hat('AEH')}=90^\\circ`)}; ${m('CF\\perp AB')} nên ${m(`${hat('AFH')}=90^\\circ`)}.`,`Hai góc đối ${m(hat('AEH'))} và ${m(hat('AFH'))} có tổng ${m('180^\\circ')}; do đó ${m('AEHF')} nội tiếp đường tròn đường kính ${m('AH')}.`,`Hai góc ${m(hat('EHF'))} và ${m(hat('EAF'))} là hai góc đối của tứ giác nội tiếp nên tổng bằng ${m('180^\\circ')}.`],lines:7},
+ ]},
+ {dang:'Góc tạo bởi tiếp tuyến và dây',items:[
+  {de:`Tiếp tuyến tại ${m('A')} tạo với dây ${m('AB')} góc ${m('38^\\circ')}. Tính số đo cung nhỏ ${m('AB')}.`,sol:[`Góc tạo bởi tiếp tuyến và dây bằng nửa số đo cung bị chắn.`,`Vì vậy cung nhỏ ${m('AB')} có số đo ${m('2\\cdot38^\\circ=76^\\circ')}.`],ans:`${tb('76^\\circ')}.`,lines:4},
+  {de:`Tiếp tuyến ${m('Ax')} tại ${m('A')} tạo với dây ${m('AB')} góc ${m('44^\\circ')}. Điểm ${m('C')} nằm trên cung lớn ${m('AB')}. Tính ${m(hat('ACB'))}.`,sol:[`${m(hat('xAB'))} là góc tạo bởi tiếp tuyến và dây; ${m(hat('ACB'))} là góc nội tiếp cùng chắn cung nhỏ ${m('AB')}.`,`Hai góc bằng nhau, nên ${m(`${hat('ACB')}=44^\\circ`)}.`],ans:`${tb('44^\\circ')}.`,lines:4},
+  {hard:true,de:`Cho tam giác ${m('ABC')} nội tiếp ${m('(O)')}. Tiếp tuyến tại ${m('A')} song song với ${m('BC')}. Chứng minh tam giác ${m('ABC')} cân tại ${m('A')}.`,sol:[`Gọi ${m('Ax')} là tiếp tuyến tại ${m('A')}. Vì ${m('Ax\\parallel BC')}, ${m(`${hat('xAB')}=${hat('ABC')}`)} (so le trong).`,`Theo định lí góc tạo bởi tiếp tuyến và dây, ${m(`${hat('xAB')}=${hat('ACB')}`)} vì cùng chắn cung ${m('AB')}.`,`Suy ra ${m(`${hat('ABC')}=${hat('ACB')}`)}, nên hai cạnh đối diện bằng nhau: ${m('AC=AB')}. Vậy tam giác cân tại ${m('A')}.`],lines:7},
+  {hard:true,de:`Cho đường tròn ${m('(O)')} và dây ${m('AB')}. Hai tiếp tuyến tại ${m('A,B')} cắt nhau tại ${m('M')}. Biết cung nhỏ ${m('AB')} bằng ${m('116^\\circ')}. Tính ${m(hat('AMB'))}.`,sol:[`Góc ở tâm chắn cung nhỏ ${m('AB')} là ${m(`${hat('AOB')}=116^\\circ`)}.`,`Bán kính vuông góc với tiếp tuyến nên tứ giác ${m('OAMB')} có hai góc tại ${m('A,B')} bằng ${m('90^\\circ')}.`,`Do đó ${m(`${hat('AMB')}=180^\\circ-${hat('AOB')}=180^\\circ-116^\\circ=64^\\circ`)}.`],ans:`${tb('64^\\circ')}.`},
+ ]},
+ {dang:'Góc có đỉnh trong hoặc ngoài đường tròn',items:[
+  {de:`Hai dây ${m('AB,CD')} cắt nhau tại ${m('E')} trong đường tròn. Biết cung ${m('AC')} bằng ${m('70^\\circ')}, cung ${m('BD')} bằng ${m('50^\\circ')}. Tính ${m(hat('AEC'))}.`,sol:[`Góc có đỉnh trong đường tròn bằng nửa tổng số đo hai cung bị chắn.`,`${m(`${hat('AEC')}=\\dfrac{70^\\circ+50^\\circ}{2}=60^\\circ`)}.`],ans:`${tb('60^\\circ')}.`,lines:4},
+  {hard:true,de:`Từ ${m('M')} ngoài đường tròn kẻ hai cát tuyến tạo góc chắn hai cung có số đo ${m('164^\\circ')} và ${m('72^\\circ')}. Tính góc tại ${m('M')}.`,sol:[`Góc có đỉnh ngoài đường tròn bằng nửa hiệu cung lớn và cung nhỏ.`,`${m(`${hat('M')}=\\dfrac{164^\\circ-72^\\circ}{2}=46^\\circ`)}.`],ans:`${tb('46^\\circ')}.`},
+  {hard:true,de:`Hai dây ${m('AB,CD')} cắt nhau tại ${m('E')} trong đường tròn. Biết ${m(`${hat('AEC')}=75^\\circ`)} và cung ${m('AC')} bằng ${m('96^\\circ')}. Tính số đo cung ${m('BD')}.`,sol:[`Theo công thức góc có đỉnh trong đường tròn: ${m(`${hat('AEC')}=\\dfrac{\\text{sđ}${arc('AC')}+\\text{sđ}${arc('BD')}}{2}`)}.`,`Suy ra ${m(`150^\\circ=96^\\circ+\\text{sđ}${arc('BD')}`)}.`,`Vậy ${m(`\\text{sđ}${arc('BD')}=54^\\circ`)}.`],ans:`${tb('54^\\circ')}.`},
+ ]},
+]);
+})();
