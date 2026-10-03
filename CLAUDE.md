@@ -77,6 +77,16 @@ Lecture.add({ grade:'lop8', gradeName:'Toán 8', chapter:'Chương IV. …', les
 Lecture.addPractice('lop8', 'bai-15', [ {dang:'Tên dạng', items:[ {de:'…', sol:['…'], ans:'…'}, {hard:true, de:'…', sol:['…']} ]} ]);
 ```
 
+## 0b. LỆNH "TRỌN BỘ" – khi thầy chỉ nói tên bài
+Thầy nói **"Làm trọn bộ <Toán N> <Bài X. Tên bài>"** (hoặc "đầy đủ các bộ", "đủ bộ", "làm bài <tên bài> như Bài 5 Dãy số") thì làm **một lần, đủ 6 phần**, không hỏi lại, rồi báo cáo ngắn:
+1. **Học sinh luyện tập** – `data/lopN.js`: mỗi bài ≥ 4 dạng × 3 mức (khuôn mục 3–4).
+2. **Bài giảng trình chiếu** – `giao-vien/bai-giang/lopN.js`: title, kt, method, ≥ 1 ví dụ mỗi dạng, luyện tập, sum.
+3. **Phiếu luyện tập** – `lopN-luyen-tap.js`: 10 bài = 7 cơ bản + 3 vận dụng ★.
+4. **Giải SGK (câu vận dụng, câu khó)** – `lopN-giai-sgk.js`: tra đúng số trang/số bài SGK, không bịa; không chắc thì ghi rõ để thầy đối chiếu.
+5. **Phiếu học tập trên lớp (khởi động – củng cố, theo skill giao-vien-toan-khoi-dong-cung-co)** – `lopN-khoi-dong.js`: Phần A in đúng 2 trang A4, phương án A–D 1–2 dòng; bám các ví dụ của bài giảng.
+6. **Phiếu học tập in A4 tự sinh** – không cần viết thêm (nút 📝 Phiếu lấy từ bài giảng).
+Không làm thêm **đề kiểm tra** (chỉ làm khi thầy nói "đề kiểm tra chương …"). Sau cùng chạy: `node tools/kiem-tra.js`, `python3 tools/test.py`, `python3 tools/test_phieu_tren_lop.py`, `python3 tools/build.py`; thêm thẻ `<script>` vào `giao-vien/index.html` nếu có tệp mới; cập nhật bảng ở mục 2 nếu thêm loại tệp. Thầy muốn bớt phần nào thì nói "trọn bộ, bỏ giải SGK" (hoặc phần khác).
+
 ## 1. Dự án là gì
 
 Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo từng bài SGK**, chạy tốt nhất trên **iPad**.
