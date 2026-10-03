@@ -17,6 +17,9 @@ const Lecture = (() => {
   const addSgk = (grade, id, slides, name) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id);
     slides.forEach(s => { if(s.sol && s.plainSol == null) s.plainSol = true; });
     if(l){ l.sgk = slides; l.sgkName = name; } else console.warn('Không thấy bài', grade, id); };
+  // Phiếu học tập trên lớp (Khởi động – Củng cố, tệp Markdown): Lecture.addSheet('lop11', 'bai-5', markdown). Phần A (học sinh) và Phần B (giáo viên) ngăn bằng thẻ page-break.
+  const addSheet = (grade, id, md) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id);
+    if(l) l.sheet = md; else console.warn('Không thấy bài', grade, id); };
   const sgkDeck = l => ({ name:'Giải bài tập SGK – ' + (l.sgkName || l.name), slides:l.sgk });
   let deck = null, idx = 0, step = 0, dark = false, el = null;
   const canPresent = () => typeof Account !== 'undefined' && typeof Account.isTeacher === 'function' && Account.isTeacher();
@@ -45,12 +48,13 @@ const Lecture = (() => {
       app.innerHTML = bar + `<div class="toolbar"><a class="back" href="#/">← Chọn lớp</a><span class="pill">${g.name} · Bài giảng</span></div>
         <div class="lk-2col"><div class="lk-lessons"><h1>${g.name}</h1>` + g.books.map(([b, bi]) => `<section class="topic"><h2><small>${b.chapter.split('.')[0]}</small>${b.chapter.split('.').slice(1).join('.').trim()}</h2>
           <ol class="lk-list">${b.lessons.map((l, li) => `<li><div class="lk-li"><b>${l.name}</b><small>${l.desc || ''} · ${l.slides.length} trang · ${l.slides.filter(s => s.kind === 'vd').length} ví dụ${l.practice ? ` · ${l.practice.reduce((t, g) => t + g.items.length, 0)} bài luyện tập` : ''}${l.sgk ? ` · giải ${l.sgk.filter(x => x.kind === 'vd').length} câu SGK` : ''}</small></div>
-            <div class="lk-acts">${canPresent() ? `<button class="btn primary small" data-play="${bi}:${li}" title="Trình chiếu toàn màn hình">▶ Chiếu</button>` : ''}<button class="btn small" data-prev="${bi}:${li}" title="Xem dạng trang, in được">📄 Xem</button><button class="btn small" data-ws="${bi}:${li}" title="Phiếu học tập in A4">📝 Phiếu</button>${l.practice ? `<button class="btn small" data-pr="${bi}:${li}" title="Phiếu luyện tập: cơ bản → vận dụng">🏋️ Luyện tập</button>` : ''}${l.sgk ? `<button class="btn small" data-sgk="${bi}:${li}" title="Giải các câu vận dụng, câu khó trong SGK">📘 Giải SGK</button>` : ''}</div></li>`).join('')}</ol></section>`).join('') + (typeof KiemTra !== 'undefined' ? KiemTra.section(g.id) : '') + `</div><aside class="lk-rank card" id="lkRank" aria-label="Bảng xếp hạng học sinh"></aside></div><p class="foot">${CONFIG.author}</p>`;
+            <div class="lk-acts">${canPresent() ? `<button class="btn primary small" data-play="${bi}:${li}" title="Trình chiếu toàn màn hình">▶ Chiếu</button>` : ''}<button class="btn small" data-prev="${bi}:${li}" title="Xem dạng trang, in được">📄 Xem</button><button class="btn small" data-ws="${bi}:${li}" title="Phiếu học tập in A4">📝 Phiếu</button>${l.practice ? `<button class="btn small" data-pr="${bi}:${li}" title="Phiếu luyện tập: cơ bản → vận dụng">🏋️ Luyện tập</button>` : ''}${l.sgk ? `<button class="btn small" data-sgk="${bi}:${li}" title="Giải các câu vận dụng, câu khó trong SGK">📘 Giải SGK</button>` : ''}${l.sheet ? `<button class="btn small" data-kd="${bi}:${li}" title="Phiếu học tập trên lớp: khởi động – củng cố, kèm gợi ý sư phạm">📋 Phiếu trên lớp</button>` : ''}</div></li>`).join('')}</ol></section>`).join('') + (typeof KiemTra !== 'undefined' ? KiemTra.section(g.id) : '') + `</div><aside class="lk-rank card" id="lkRank" aria-label="Bảng xếp hạng học sinh"></aside></div><p class="foot">${CONFIG.author}</p>`;
       if(typeof GvRank !== 'undefined') GvRank.mount($('#lkRank'), g.id);
       $$('[data-play]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.play.split(':'); open(BOOKS[bi].lessons[li], 0); });
       $$('[data-prev]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.prev.split(':'); preview(BOOKS[bi], BOOKS[bi].lessons[li]); });
       $$('[data-ws]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.ws.split(':'); worksheet(BOOKS[bi], BOOKS[bi].lessons[li], false); });
       $$('[data-pr]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.pr.split(':'); practice(BOOKS[bi], BOOKS[bi].lessons[li], false); });
+      $$('[data-kd]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.kd.split(':'); classSheet(BOOKS[bi], BOOKS[bi].lessons[li], 'all'); });
       $$('[data-sgk]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.sgk.split(':'); preview(BOOKS[bi], sgkDeck(BOOKS[bi].lessons[li])); });
     }
     document.body.classList.toggle('gv-wide', !!g);
@@ -240,5 +244,52 @@ const Lecture = (() => {
         points:[`Phần I: ${cb} bài cơ bản`, `Phần II: ${all.length - cb} bài vận dụng ★`]}]
       .concat(all.map(s => ({kind:'lt', tag:`${s.hard ? 'Vận dụng ★' : 'Cơ bản'} · Dạng ${s.gi + 1}`, label:`Bài ${s.n}`, de:s.de, sol:s.sol, ans:s.ans, fig:s.fig, figAt:s.draw ? (s.sol || []).length : undefined}))) };
   }
-  return { add, addPractice, addSgk, sgkDeck, home, open, preview, worksheet, practice, practiceDeck, BOOKS };
+
+  /* ---------- Phiếu học tập trên lớp (Markdown → trang xem/in; tải về .md) ---------- */
+  const BREAK_RE = /<div style="page-break-after: always;"><\/div>/;
+  function mdToHtml(md){
+    const maths = [], esc = t => t.replace(/&(?!nbsp;|amp;|lt;|gt;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    md = md.replace(/\$\$([\s\S]+?)\$\$/g, (_, t) => { maths.push('\\[' + esc(t) + '\\]'); return `\u0001${maths.length - 1}\u0002`; })
+           .replace(/\$([^$\n]+?)\$/g, (_, t) => { maths.push('\\(' + esc(t) + '\\)'); return `\u0001${maths.length - 1}\u0002`; });
+    const inl = t => esc(t).replace(/\*\*([^*]+?)\*\*/g, '<b>$1</b>').replace(/\*([^*\s][^*]*?)\*/g, '<i>$1</i>').replace(/\u0001(\d+)\u0002/g, (_, k) => maths[+k]);
+    const L = md.split('\n'), out = []; let i = 0;
+    const isLi = x => /^(\s*)(\d+\.|-)\s+/.test(x), indent = x => x.match(/^\s*/)[0].length;
+    function list(){ const base = indent(L[i]), ord = /^\s*\d+\./.test(L[i]); let h = ord ? '<ol>' : '<ul>';
+      while(i < L.length && isLi(L[i]) && indent(L[i]) === base){
+        let txt = L[i].replace(/^\s*(\d+\.|-)\s+/, ''); i++;
+        while(i < L.length && L[i].trim() && !isLi(L[i]) && indent(L[i]) > base) txt += ' ' + L[i++].trim();
+        let sub = ''; if(i < L.length && isLi(L[i]) && indent(L[i]) > base) sub = list();
+        h += `<li>${inl(txt)}${sub}</li>`; }
+      return h + (ord ? '</ol>' : '</ul>'); }
+    while(i < L.length){
+      const x = L[i];
+      if(!x.trim()){ i++; continue; }
+      if(BREAK_RE.test(x)){ out.push('<div class="kd-break"></div>'); i++; continue; }
+      let m;
+      if((m = x.match(/^(#{1,3})\s+(.*)/))){ out.push(`<h${m[1].length}>${inl(m[2])}</h${m[1].length}>`); i++; continue; }
+      if(/^>/.test(x)){ let t = []; while(i < L.length && /^>/.test(L[i])) t.push(L[i++].replace(/^>\s?/, '')); out.push(`<blockquote>${t.map(inl).join('<br>')}</blockquote>`); continue; }
+      if(/^\|/.test(x)){ const rows = []; while(i < L.length && /^\|/.test(L[i])) rows.push(L[i++].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()));
+        const head = rows[0], body = rows.slice(2); out.push(`<table><thead><tr>${head.map(c => `<th>${inl(c)}</th>`).join('')}</tr></thead><tbody>${body.map(r => `<tr>${r.map(c => `<td>${inl(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`); continue; }
+      if(isLi(x)){ out.push(list()); continue; }
+      let t = []; while(i < L.length && L[i].trim() && !/^(#|>|\||<div)/.test(L[i]) && !isLi(L[i])) t.push(L[i++].trim());
+      if(!t.length){ i++; continue; } out.push(`<p>${inl(t.join(' '))}</p>`);
+    }
+    return out.join('\n');
+  }
+  const sheetFile = (b, l) => `KD-CC - Lớp ${(b.gradeName.match(/\d+/) || [''])[0]} - ${l.name.replace(/\./g, '')}.md`;
+  function classSheet(b, l, part){ document.body.classList.remove('gv-wide');
+    const [a, bb] = l.sheet.split(BREAK_RE), md = part === 'A' ? a : part === 'B' ? bb : l.sheet;
+    $('#app').innerHTML = `<div class="toolbar ws-bar"><button class="back linkbtn" id="kdBack">← Danh sách bài</button><div class="row">
+        <label class="ws-toggle">Hiển thị <select id="kdPart"><option value="all">Cả hai phần</option><option value="A">Phần A – phiếu học sinh</option><option value="B">Phần B – gợi ý giáo viên</option></select></label>
+        <button class="btn small" id="kdDl">⬇️ Tải Markdown</button><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
+      <article class="ws kd">${mdToHtml(md)}</article>`;
+    $('#kdPart').value = part; $('#kdPart').onchange = e => classSheet(b, l, e.target.value);
+    $('#kdBack').onclick = home;
+    $('#kdDl').onclick = () => { const url = URL.createObjectURL(new Blob(['﻿' + l.sheet], {type:'text/markdown;charset=utf-8'})), a2 = document.createElement('a');
+      a2.href = url; a2.download = sheetFile(b, l); document.body.appendChild(a2); a2.click(); a2.remove(); setTimeout(() => URL.revokeObjectURL(url), 1500); };
+    document.title = `Phiếu trên lớp – ${l.name}`; scrollTo(0, 0);
+    if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([$('#app')]);
+  }
+
+  return { add, addPractice, addSgk, addSheet, classSheet, mdToHtml, sgkDeck, home, open, preview, worksheet, practice, practiceDeck, BOOKS };
 })();
