@@ -270,6 +270,13 @@ const Lecture = (() => {
       if(/^>/.test(x)){ let t = []; while(i < L.length && /^>/.test(L[i])) t.push(L[i++].replace(/^>\s?/, '')); out.push(`<blockquote>${t.map(inl).join('<br>')}</blockquote>`); continue; }
       if(/^\|/.test(x)){ const rows = []; while(i < L.length && /^\|/.test(L[i])) rows.push(L[i++].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim()));
         const head = rows[0], body = rows.slice(2); out.push(`<table><thead><tr>${head.map(c => `<th>${inl(c)}</th>`).join('')}</tr></thead><tbody>${body.map(r => `<tr>${r.map(c => `<td>${inl(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`); continue; }
+      { const mo = x.match(/^([A-D]\.|[a-d]\))\s+/);   // phương án trắc nghiệm (A. B. C. D.) hoặc ý đúng–sai (a) b) c) d)) liên tiếp → một khối 1–2 dòng
+        if(mo){ const first = mo[1], paren = first.endsWith(')'), items = []; let j = i, want = first.charCodeAt(0);
+          while(j < L.length){ let k = j; while(k < L.length && !L[k].trim()) k++;
+            const mm = k < L.length && L[k].match(paren ? /^([a-d])\)\s+(.*)/ : /^([A-D])\.\s+(.*)/);
+            if(!mm || mm[1].charCodeAt(0) !== want) break; items.push(mm[2]); want++; j = k + 1; }
+          if(items.length >= 2){ i = j; const len = Math.max(...items.map(t => t.replace(/\u0001\d+\u0002/g, 'xxxxxxx').length)), cols = len <= 16 ? items.length : len <= 54 ? 2 : 1;
+            out.push(`<div class="kd-opts o${cols}">${items.map((t, k) => `<span><b>${paren ? String.fromCharCode(97 + k) + ')' : String.fromCharCode(65 + k) + '.'}</b> ${inl(t)}</span>`).join('')}</div>`); continue; } } }
       if(isLi(x)){ out.push(list()); continue; }
       let t = []; while(i < L.length && L[i].trim() && !/^(#|>|\||<div)/.test(L[i]) && !isLi(L[i])) t.push(L[i++].trim());
       if(!t.length){ i++; continue; } out.push(`<p>${inl(t.join(' '))}</p>`);
@@ -277,18 +284,41 @@ const Lecture = (() => {
     return out.join('\n');
   }
   const sheetFile = (b, l) => `KD-CC - Lớp ${(b.gradeName.match(/\d+/) || [''])[0]} - ${l.name.replace(/\./g, '')}.md`;
+  /* Phần A (phiếu học sinh) luôn in ĐÚNG 2 TRANG A4 (1 tờ hai mặt): tự chọn cỡ chữ lớn nhất (≤ 12pt) mà các khối xếp vừa 2 trang; báo ⚠ nếu 8,5pt vẫn không vừa. */
+  const KD_PAGE_W = 188, KD_PAGE_H = 279;   // mm: bề rộng/chiều cao vùng in (A4 trừ lề @page kdsheet 9mm × 11mm)
+  function kdPages(root, fs){
+    const m = document.createElement('div'); m.className = 'ws kd kd-meas'; m.style.cssText = `position:absolute;left:-9999px;top:0;width:${KD_PAGE_W}mm;padding:0;margin:0;visibility:hidden`;
+    const a = root.cloneNode(true); a.style.setProperty('--kd-fs', fs + 'pt'); m.appendChild(a); document.body.appendChild(m);
+    const H = KD_PAGE_H * 3.7795 - 6, blocks = [...a.children], units = [];
+    blocks.forEach(b => { if(/^H[1-3]$/.test(b.tagName) && blocks[blocks.indexOf(b) + 1]) units.push([b, blocks[blocks.indexOf(b) + 1]]); else if(!units.length || units[units.length - 1][1] !== b) units.push([b]); });
+    let pages = 1, y0 = 0, tallest = 0;
+    units.forEach(u => { const t = u[0].offsetTop, bt = u[u.length - 1].offsetTop + u[u.length - 1].offsetHeight; tallest = Math.max(tallest, bt - t);
+      if(bt - y0 > H && t > y0){ pages++; y0 = t; } });
+    m.remove(); return {pages, tooTall: tallest > H};
+  }
+  function kdFit(root){
+    if(!root) return;
+    let fs = 12; while(fs > 8.5 && kdPages(root, fs).pages > 2) fs -= 0.25;
+    root.style.setProperty('--kd-fs', fs + 'pt'); root.dataset.fs = fs; root.dataset.pages = kdPages(root, fs).pages;
+    if(+root.dataset.pages > 2) console.warn('Phiếu trên lớp: Phần A vẫn quá 2 trang ở cỡ chữ 8,5pt – cần rút gọn nội dung.');
+  }
   function classSheet(b, l, part){ document.body.classList.remove('gv-wide');
-    const [a, bb] = l.sheet.split(BREAK_RE), md = part === 'A' ? a : part === 'B' ? bb : l.sheet;
+    const [a, bb] = l.sheet.split(BREAK_RE);
+    const secs = html => { const c = html.split(/(?=<h2>)/); return c[0] + c.slice(1).map(x => `<div class="kd-sec">${x}</div>`).join(''); };   // mỗi mục (## …) là một khối không bị ngắt giữa chừng khi in
+    const A = `<section class="kd-a">${secs(mdToHtml(a))}</section>`, B = `<section class="kd-b">${mdToHtml(bb)}</section>`;
     $('#app').innerHTML = `<div class="toolbar ws-bar"><button class="back linkbtn" id="kdBack">← Danh sách bài</button><div class="row">
-        <label class="ws-toggle">Hiển thị <select id="kdPart"><option value="all">Cả hai phần</option><option value="A">Phần A – phiếu học sinh</option><option value="B">Phần B – gợi ý giáo viên</option></select></label>
+        <label class="ws-toggle">Hiển thị <select id="kdPart"><option value="all">Cả hai phần</option><option value="A">Phần A – phiếu học sinh (2 trang)</option><option value="B">Phần B – gợi ý giáo viên</option></select></label>
         <button class="btn small" id="kdDl">⬇️ Tải Markdown</button><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
-      <article class="ws kd">${mdToHtml(md)}</article>`;
+      <article class="ws kd">${part === 'B' ? '' : A}${part === 'A' ? '' : B}</article>`;
     $('#kdPart').value = part; $('#kdPart').onchange = e => classSheet(b, l, e.target.value);
     $('#kdBack').onclick = home;
     $('#kdDl').onclick = () => { const url = URL.createObjectURL(new Blob(['﻿' + l.sheet], {type:'text/markdown;charset=utf-8'})), a2 = document.createElement('a');
       a2.href = url; a2.download = sheetFile(b, l); document.body.appendChild(a2); a2.click(); a2.remove(); setTimeout(() => URL.revokeObjectURL(url), 1500); };
     document.title = `Phiếu trên lớp – ${l.name}`; scrollTo(0, 0);
-    if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([$('#app')]);
+    const fit = () => kdFit($('.kd-a'));
+    if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([$('#app')]).then(fit, fit); else fit();
+    setTimeout(fit, 1200);
+    if(!window.__kdPrint){ window.__kdPrint = true; addEventListener('beforeprint', () => { const r = $('.kd-a'); if(r) kdFit(r); }); }
   }
 
   return { add, addPractice, addSgk, addSheet, classSheet, mdToHtml, sgkDeck, home, open, preview, worksheet, practice, practiceDeck, BOOKS };

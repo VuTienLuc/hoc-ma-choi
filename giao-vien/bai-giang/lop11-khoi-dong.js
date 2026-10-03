@@ -6,45 +6,33 @@
    ===================================================================== */
 Lecture.addSheet('lop11', 'bai-5', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 11 · Bài 5. Dãy số
 
-**Họ tên:** ……………………………………… **Lớp:** ……………… **Ngày:** ……………………
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
 
-> Phiếu bám các **Ví dụ 1–6** của bài giảng Bài 5. Em làm bằng bút chì hoặc bút nhạt màu để sửa khi cần. Có bài thấy khó hơn bài trước là bình thường: đó là dấu hiệu em đang học thật.
+> Phiếu bám các **Ví dụ 1–6** của bài giảng. Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Bài khó hơn bài trước là dấu hiệu em đang học thật.
 
 ## 1. Vào lớp làm ngay (Do Now) – 4 phút
 
-Làm một mình, không dùng máy tính, không cần nhìn sách.
+**Câu 1** *(bài trước – Bài 4)*. Giải phương trình $\sin x=\dfrac12$. Đáp án: ………………………………………………
 
-**Câu 1** *(bài trước – Bài 4)*. Giải phương trình $\sin x=\dfrac12$.
+**Câu 2** *(chủ đề trước)*. Tập giá trị của hàm số $y=\sin x$ là: ……………………
 
-……………………………………………………………………………………………
+**Câu 3** *(Toán 10)*. Hàm số $y=3x-2$ đồng biến hay nghịch biến trên $\mathbb{R}$? Vì sao? ………………………………
 
-**Câu 2** *(chủ đề trước – hàm số lượng giác)*. Tập giá trị của hàm số $y=\sin x$ là gì?
+……………………………………………………………………………………………………………………………………
 
-……………………………………………………………………………………………
-
-**Câu 3** *(năm trước – Toán 10)*. Hàm số $y=3x-2$ đồng biến hay nghịch biến trên $\mathbb{R}$? Vì sao?
-
-……………………………………………………………………………………………
-
-**Câu 4** *(bắc cầu vào bài mới)*. Cho $f(x)=\dfrac{2x-1}{x+1}$. Tính $f(1)$, $f(2)$, $f(3)$.
-
-……………………………………………………………………………………………
+**Câu 4** *(bắc cầu vào bài mới)*. Cho $f(x)=\dfrac{2x-1}{x+1}$. Tính $f(1),\ f(2),\ f(3)$: ……………………………
 
 ## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
 
-Nhìn ba hàng số sau (mỗi hàng viết tiếp theo quy luật):
-
-| Hàng | Các số |
+| Hàng | Các số (viết tiếp theo quy luật) |
 |---|---|
 | (a) | $1,\ 4,\ 9,\ 16,\ 25,\ \ldots$ |
 | (b) | $2,\ 3,\ 5,\ 9,\ 17,\ \ldots$ |
 | (c) | $2,\ 3,\ 5,\ 7,\ 11,\ \ldots$ |
 
-**Em nhận thấy:** ……………………………………………………………………………
+**Em nhận thấy:** ………………………………………………………… **Em thắc mắc:** ………………………………………………
 
-**Em thắc mắc:** ……………………………………………………………………………
-
-> **Câu hỏi của bài học:** Hàng nào đoán được ngay số thứ $100$? Làm thế nào để *mô tả* mỗi hàng bằng ngôn ngữ toán học, để tính được số thứ $n$ bất kì?
+> **Câu hỏi của bài học:** Hàng nào đoán được ngay số thứ $100$? Làm thế nào *mô tả* mỗi hàng bằng ngôn ngữ toán học để tính được số thứ $n$ bất kì?
 
 ## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
 
@@ -70,54 +58,39 @@ D. $17$
 
 ## 4. Luyện tập xen kẽ (10 phút)
 
-Các câu **không** xếp theo từng dạng: đọc kĩ đề rồi chọn cách làm. (★ biết · ★★ hiểu · ★★★ vận dụng)
+Các câu **không** xếp theo dạng: đọc kĩ đề rồi chọn cách làm. (★ biết · ★★ hiểu · ★★★ vận dụng)
 
-**Câu 1 ★.** Cho dãy số $u_n=n^2-3n$. Tính $u_1,\ u_2,\ u_3,\ u_4,\ u_5$.
+**Câu 1 ★.** Cho $u_n=n^2-3n$. Tính $u_1,\ u_2,\ u_3,\ u_4,\ u_5$. Đáp số: ………………………………………
 
-……………………………………………………………………………………………
+**Câu 2 ★.** Giải phương trình $\cos x=-\dfrac{\sqrt3}{2}$. Đáp số: ………………………………………
 
-**Câu 2 ★.** Giải phương trình $\cos x=-\dfrac{\sqrt3}{2}$.
+**Câu 3 ★.** Cho $u_1=3,\ u_{n+1}=u_n+2n$. Tính $u_2,\ u_3,\ u_4$. Đáp số: ………………………………………
 
-……………………………………………………………………………………………
+**Câu 4 ★★.** Dự đoán $u_n$: a) $2,\ 5,\ 10,\ 17,\ \ldots$ ………………… b) $-1,\ 1,\ -1,\ 1,\ \ldots$ …………………
 
-**Câu 3 ★.** Cho dãy số $u_1=3,\ u_{n+1}=u_n+2n$. Tính $u_2,\ u_3,\ u_4$.
+**Câu 5 ★★.** Xét tính tăng, giảm của dãy $u_n=\dfrac{3n-1}{n+1}$. Đáp số: ………………………………………
 
-……………………………………………………………………………………………
+……………………………………………………………………………………………………………………………………
 
-**Câu 4 ★★.** Dự đoán số hạng tổng quát $u_n$ của mỗi dãy:
-a) $2,\ 5,\ 10,\ 17,\ \ldots$ &nbsp;&nbsp; b) $-1,\ 1,\ -1,\ 1,\ \ldots$
+**Câu 6 ★★.** Với $u_n=3n-2$, từ số hạng thứ mấy trở đi thì $u_n>100$? Đáp số: ………………………
 
-……………………………………………………………………………………………
+**Câu 7 ★★★.** Chứng minh dãy $u_n=\dfrac{2n-1}{n+1}$ bị chặn. *Gợi ý: viết $u_n=2-\dfrac{\ ?\ }{n+1}$ rồi tìm $m,\ M$ để $m\le u_n\le M$.* ……………………………………………………………………………………………………………………………………
 
-**Câu 5 ★★.** Xét tính tăng, giảm của dãy số $u_n=\dfrac{3n-1}{n+1}$.
-
-……………………………………………………………………………………………
-
-**Câu 6 ★★.** Với dãy số $u_n=3n-2$, từ số hạng thứ mấy trở đi thì $u_n>100$?
-
-……………………………………………………………………………………………
-
-**Câu 7 ★★★.** Chứng minh dãy số $u_n=\dfrac{2n-1}{n+1}$ bị chặn.
-
-*Gợi ý: viết $u_n=2-\dfrac{\ ?\ }{n+1}$, rồi tìm $m,\ M$ sao cho $m\le u_n\le M$.*
-
-……………………………………………………………………………………………
+……………………………………………………………………………………………………………………………………
 
 ## 5. Tìm lỗi sai (3 phút)
 
-Bạn An xét tính tăng, giảm của dãy số $u_n=3n-2$ như sau:
+Bạn An xét tính tăng, giảm của $u_n=3n-2$: *"$u_{n+1}-u_n=3(n+1)-2-3n-2=-1<0$. Vậy dãy số giảm."*
 
-> $u_{n+1}-u_n=3(n+1)-2-3n-2=-1<0$. Vậy dãy số giảm.
+**Lỗi ở:** ……………………………………………………………………………
 
-Lời giải của An sai ở dòng nào? Sửa lại cho đúng.
+**Lời giải đúng:** …………………………………………………………………………………
 
-**Lỗi ở:** ……………………………………………………………………………………
-
-**Lời giải đúng:** ……………………………………………………………………………
+……………………………………………………………………………………………………………………………………
 
 ## 6. Phiếu ra khỏi lớp (4 phút)
 
-**Câu 1 (trắc nghiệm).** Cho dãy số $u_1=1,\ u_{n+1}=u_n+n$. Số hạng $u_4$ bằng
+**Câu 1 (trắc nghiệm).** Cho $u_1=1,\ u_{n+1}=u_n+n$. Số hạng $u_4$ bằng
 
 A. $4$
 
@@ -129,37 +102,27 @@ D. $11$
 
 **Câu 2 (đúng – sai).** Cho dãy số $u_n=\dfrac{n+2}{n+1}$. Xét tính đúng – sai của các mệnh đề:
 
-a) $u_3=\dfrac54$.  ☐ Đúng ☐ Sai
+a) $u_3=\dfrac54$.  ☐ Đ ☐ S
 
-b) Dãy số đã cho là dãy số tăng.  ☐ Đúng ☐ Sai
+b) Dãy số đã cho là dãy số tăng.  ☐ Đ ☐ S
 
-c) $u_n>1$ với mọi $n\in\mathbb{N}^*$.  ☐ Đúng ☐ Sai
+c) $u_n>1$ với mọi $n\in\mathbb{N}^*$.  ☐ Đ ☐ S
 
-d) Dãy số đã cho bị chặn trên bởi $1$.  ☐ Đúng ☐ Sai
+d) Dãy số đã cho bị chặn trên bởi $1$.  ☐ Đ ☐ S
 
-**Câu 3 (trả lời ngắn – ôn chủ đề cũ).** Phương trình $2\sin x=1$ có bao nhiêu nghiệm trong đoạn $[0;2\pi]$?
-
-Đáp số: …………………
+**Câu 3 (trả lời ngắn – ôn chủ đề cũ).** Phương trình $2\sin x=1$ có bao nhiêu nghiệm trong đoạn $[0;2\pi]$? Đáp số: …………
 
 ## 7. Một phút suy ngẫm
 
-Bước nào trong bài hôm nay em sẽ **kiểm tra lại** nếu gặp trong đề thi?
-
-……………………………………………………………………………………………
+Bước nào trong bài hôm nay em sẽ **kiểm tra lại** nếu gặp trong đề thi? ……………………………………………………………………
 
 ## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
 
-Xếp các tam giác đều liên tiếp bằng que diêm: $1$ tam giác cần $3$ que, $2$ tam giác cần $5$ que, $3$ tam giác cần $7$ que, …
+Xếp các tam giác đều liên tiếp bằng que diêm: $1$ tam giác cần $3$ que, $2$ tam giác cần $5$ que, $3$ tam giác cần $7$ que, … Gọi $u_n$ là số que cần để xếp $n$ tam giác.
 
-Gọi $u_n$ là số que cần để xếp $n$ tam giác.
+a) Viết $u_n$ bằng **công thức** theo $n$ và bằng **hệ thức truy hồi**. b) Cần bao nhiêu que để xếp $50$ tam giác? c) Có $100$ que, xếp được nhiều nhất bao nhiêu tam giác?
 
-a) Viết $u_n$ bằng **công thức** theo $n$ và bằng **hệ thức truy hồi**.
-
-b) Cần bao nhiêu que để xếp $50$ tam giác?
-
-c) Có $100$ que, xếp được nhiều nhất bao nhiêu tam giác theo cách trên?
-
-**Sản phẩm:** lập bảng tính (Google Sheets hoặc Excel) tính $u_1,\dots,u_{20}$ theo **cả hai cách** (công thức và truy hồi), chụp ảnh màn hình hai cột kết quả khớp nhau, kèm lời giải câu b, c. **Hạn nộp:** tiết học sau.
+**Sản phẩm:** bảng tính (Google Sheets/Excel) tính $u_1,\dots,u_{20}$ theo **cả hai cách**, chụp ảnh hai cột kết quả khớp nhau, kèm lời giải câu b, c. **Hạn nộp:** tiết học sau.
 
 <div style="page-break-after: always;"></div>
 
