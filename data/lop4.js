@@ -266,7 +266,7 @@ const treesSVG = (n, closed) => { const W = 320, H = closed ? 170 : 110;
     s += `<text class="sv-txt" x="${cx}" y="${cy + 6}" font-size="15" text-anchor="middle">${n} cây · ${n} khoảng</text>`; }
   return s + '</svg>'; };
 
-G.topics.splice(G.topics.findIndex(t => t.id === 5) + 1, 0, {id:51, hk:1, name:'Phép cộng và phép trừ', label:'🧠 Toán tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 5) + 1, 0, {id:51, hk:1, name:'Phép cộng và phép trừ', label:'🧠 Toán tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* ---------------------------------------------------------------- BÀI 1. DÃY SỐ CÁCH ĐỀU */
 const tdCount = lv => {
@@ -564,7 +564,7 @@ lesson(51, 'td-thua-thieu-chenh-lech', 'Bài toán thừa – thiếu và lượ
    ===================================================================== */
 {
 const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
-G.topics.splice(G.topics.findIndex(t => t.id === 8) + 1, 0, {id:81, hk:2, name:'Phép nhân và phép chia', label:'🧠 Toán tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 8) + 1, 0, {id:81, hk:1, name:'Phép nhân và phép chia', label:'🧠 Toán tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Bối cảnh giả thiết tạm – theo 10 bài của Chapter 3. A = loại có giá trị nhỏ (a), B = loại có giá trị lớn (b).
    txt(N, T, a, b) → [vi, en]; ask = tên loại khi hỏi; q = đại lượng được cộng lại; per = đơn vị đếm */
@@ -657,7 +657,7 @@ const digits = [0,1,2,3,4,5,6,7,8,9];
 const modPow = (a, n, mod = 10) => { let r = 1; a %= mod; while(n){ if(n % 2) r = r * a % mod; a = a * a % mod; n = Math.floor(n / 2); } return r; };
 const DAYS_VI = ['Chủ nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
 const DAYS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-G.topics.splice(G.topics.findIndex(t => t.id === 81) + 1, 0, {id:82, hk:2, name:'Lý thuyết số và bài toán đồng dư', label:'🧠 Toán tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 81) + 1, 0, {id:82, hk:1, name:'Lý thuyết số và bài toán đồng dư', label:'🧠 Toán tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Dạng 1: dấu hiệu chia hết và điền chữ số */
 const ntDiv = lv => {
@@ -758,7 +758,7 @@ lesson(82, 'td-ly-thuyet-so-dong-du', 'Lý thuyết số nâng cao và bài toá
 const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
 const descendingTriples = total => { const a=[]; for(let x=1;x<total;x++) for(let y=1;y<x;y++) for(let z=1;z<y;z++) if(x+y+z===total) a.push([x,y,z]); return a; };
 const knownList = a => a.join(', ');
-G.topics.splice(G.topics.findIndex(t => t.id === 82) + 1, 0, {id:83, hk:2, name:'Tư duy ba tầng trong toán trung bình cộng', label:'🧠 Toán tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 82) + 1, 0, {id:83, hk:1, name:'Tư duy ba tầng trong toán trung bình cộng', label:'🧠 Toán tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Dạng 1: biết trung bình cộng và các số hạng đã biết, tìm số còn thiếu */
 const avMissing = lv => {
@@ -838,7 +838,7 @@ lesson(83, 'td-trung-binh-cong-ba-tang', 'Bài 2.1: Tư duy ba tầng trong toá
    ===================================================================== */
 {
 const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
-G.topics.splice(G.topics.findIndex(t => t.id === 83) + 1, 0, {id:84, hk:2, name:'Bài toán tuổi và năng suất công việc', label:'🧠 Toán tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 83) + 1, 0, {id:84, hk:1, name:'Bài toán tuổi và năng suất công việc', label:'🧠 Toán tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Dạng 1: hiệu số tuổi không đổi */
 const awAgeDifference = lv => {
@@ -900,7 +900,7 @@ const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi
 const pageDigits = n => n<=0?0:n<=9?n:n<=99?9+(n-9)*2:189+(n-99)*3;
 const pageRangeDigits = (a,b) => pageDigits(b)-pageDigits(a-1);
 const digitPlaceCounts = (n,d) => { const c=[0,0,0]; for(let x=1;x<=n;x++){ const s=String(x); for(let i=0;i<s.length;i++) if(+s[i]===d) c[s.length-1-i]++; } return c; };
-G.topics.splice(G.topics.findIndex(t => t.id === 84) + 1, 0, {id:85, hk:2, name:'Logic hệ thập phân qua bài toán đánh số trang', label:'🧠 Toán tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 84) + 1, 0, {id:85, hk:1, name:'Logic hệ thập phân qua bài toán đánh số trang', label:'🧠 Toán tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Dạng 1: chiều xuôi – biết số trang, tìm số chữ số */
 const pnForward = lv => {
@@ -958,7 +958,7 @@ lesson(85, 'td-danh-so-trang', 'Bài 2.3: Logic hệ thập phân qua bài toán
    ===================================================================== */
 {
 const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
-G.topics.splice(G.topics.findIndex(t => t.id === 85) + 1, 0, {id:86, hk:2, name:'Chu vi và diện tích các hình phức hợp', label:'🧠 Hình học tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 85) + 1, 0, {id:86, hk:1, name:'Chu vi và diện tích các hình phức hợp', label:'🧠 Hình học tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Dạng 1: hình chữ L – phân mảnh hoặc bù khuyết */
 const cgLShape = lv => {
@@ -1015,7 +1015,7 @@ const sumHeights = a => a.flat().reduce((s,x)=>s+x,0);
 const layerCount = (a,k) => a.flat().filter(x=>x>=k).length;
 const gridRects = (r,c) => r*(r+1)*c*(c+1)/4;
 const gridSquares = (r,c) => {let s=0;for(let k=1;k<=Math.min(r,c);k++)s+=(r-k+1)*(c-k+1);return s;};
-G.topics.splice(G.topics.findIndex(t => t.id === 86) + 1, 0, {id:87, hk:2, name:'Phân tích khối không gian ba chiều và đếm hình', label:'🧠 Hình học tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 86) + 1, 0, {id:87, hk:1, name:'Phân tích khối không gian ba chiều và đếm hình', label:'🧠 Hình học tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Dạng 1: chụp X-quang và đếm khối theo tầng */
 const scTower = lv => {
@@ -1080,7 +1080,7 @@ lesson(87, 'td-khoi-khong-gian-va-dem-hinh', 'Bài 3.2: Phân tích khối khôn
 const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
 const fact = n => {let p=1;for(let i=2;i<=n;i++)p*=i;return p;};
 const routeWays = (rows,cols,blocked) => {const a=Array.from({length:rows+1},()=>Array(cols+1).fill(0));a[0][0]=1;for(let r=0;r<=rows;r++)for(let c=0;c<=cols;c++){if(!r&&!c)continue;if(blocked&&blocked[0]===c&&blocked[1]===r){a[r][c]=0;continue}a[r][c]=(c?a[r][c-1]:0)+(r?a[r-1][c]:0)}return a;};
-G.topics.splice(G.topics.findIndex(t => t.id === 87) + 1, 0, {id:88, hk:2, name:'Tổ hợp, xác suất và nguyên lý bao hàm – loại trừ', label:'🧠 Toán tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 87) + 1, 0, {id:88, hk:1, name:'Tổ hợp, xác suất và nguyên lý bao hàm – loại trừ', label:'🧠 Toán tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Dạng 1: xếp hàng bằng mô hình ghế trống */
 const cpArrange = lv => {
@@ -1140,7 +1140,7 @@ lesson(88, 'td-to-hop-xac-suat-bao-ham', 'Bài 5.1: Tổ hợp, xác suất và 
    ===================================================================== */
 {
 const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
-G.topics.splice(G.topics.findIndex(t => t.id === 88) + 1, 0, {id:89, hk:2, name:'Logic suy luận và nguyên lý Dirichlet', label:'🧠 Toán tư duy'});
+G.topics.splice(G.topics.findIndex(t => t.id === 88) + 1, 0, {id:89, hk:1, name:'Logic suy luận và nguyên lý Dirichlet', label:'🧠 Toán tư duy', grp:'🧠 Toán tư duy · Singapore Math'});
 
 /* Dạng 1: ép tất cả đối tượng về một loại rồi dùng phần chênh lệch. */
 const lgAssumption = lv => {

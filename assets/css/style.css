@@ -673,3 +673,6 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .ws.kd .kd-opts > span{display:block}
 .ws.kd .kd-sec{break-inside:avoid}
 @media print{.ws.kd{padding:0}}
+
+/* Nhóm chủ đề trong menu (vd. Toán tư duy) */
+.grp-title{margin:28px 0 4px;padding:10px 14px;border-radius:12px;background:var(--card,#f4f1ff);font-size:1.15rem;border-left:5px solid #7c5cff}

@@ -41,7 +41,8 @@ function renderHome(){
   <span class="pill">${g.subject} ${g.name.replace('Lớp ','')} · ${g.book}</span>
   <h1>Con muốn ôn bài nào hôm nay?</h1><p class="lead">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
   ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}`;
-  g.topics.filter(t=>hks.length<2||t.hk===hk).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id),tests=typeof StudentTest!=='undefined'?StudentTest.tiles(g.id,t.id):'';if(!ls.length&&!tests)return;
+  let lastGrp='';[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>(a.grp?1:0)-(b.grp?1:0)).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id),tests=typeof StudentTest!=='undefined'?StudentTest.tiles(g.id,t.id):'';if(!ls.length&&!tests)return;
+    if((t.grp||'')!==lastGrp){lastGrp=t.grp||'';if(lastGrp)h+=`<h2 class="grp-title">${lastGrp}</h2>`}
     h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}${tests}</div></section>`});
   app.innerHTML=h+foot();hook('home',g);
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
