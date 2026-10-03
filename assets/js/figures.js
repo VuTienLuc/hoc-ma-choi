@@ -294,3 +294,57 @@ function rectGridSVG(rows,cols,o={}){
   for(let i=0;i<=rows;i++)s+=`<line class="sv-ink" stroke-width="${i===0||i===rows?3:1.8}" x1="${x}" y1="${y+i*cell}" x2="${x+w}" y2="${y+i*cell}"/>`;
   return s+'</svg>';
 }
+/* Mô hình các vị trí cần lấp đầy cho quy tắc nhân. */
+function choiceSlotsSVG(labels,choices,o={}){
+  const n=labels.length,gap=12,w=Math.min(68,(330-gap*(n-1))/n),total=n*w+(n-1)*gap,x0=(380-total)/2,y=82;
+  let s=`<svg viewBox="0 0 380 210" role="img" aria-label="Mô hình các vị trí lựa chọn">`;
+  if(o.pool)s+=`<text class="sv-muted" x="190" y="34" font-size="16" text-anchor="middle">${o.pool}</text>`;
+  labels.forEach((lab,i)=>{const x=x0+i*(w+gap);s+=`<rect class="sv-part${i===0?' on':''}" x="${x}" y="${y}" width="${w}" height="58" rx="7"/><text class="sv-txt" x="${x+w/2}" y="${y+35}" font-size="20" text-anchor="middle">${choices[i]}</text><text class="sv-muted" x="${x+w/2}" y="${y+83}" font-size="14" text-anchor="middle">${lab}</text>`});
+  s+=`<text class="sv-muted" x="190" y="194" font-size="15" text-anchor="middle">${choices.join(' × ')}</text>`;
+  return s+'</svg>';
+}
+
+/* Biểu đồ Venn hai nhóm; giá trị null được thay bằng dấu ?. */
+function venn2SVG(o={}){
+  const val=x=>x==null?'?':x,A=o.labelA||'Nhóm A',B=o.labelB||'Nhóm B';
+  return `<svg viewBox="0 0 400 250" role="img" aria-label="Biểu đồ Venn hai nhóm"><rect class="sv-ink" stroke-width="2.5" x="20" y="20" width="360" height="210" rx="10"/><circle class="sv-fill" cx="155" cy="135" r="70"/><circle class="sv-fill" cx="245" cy="135" r="70"/><circle class="sv-ink" stroke-width="2.5" cx="155" cy="135" r="70"/><circle class="sv-ink" stroke-width="2.5" cx="245" cy="135" r="70"/><text class="sv-txt" x="112" y="48" font-size="16" text-anchor="middle">${A}</text><text class="sv-txt" x="288" y="48" font-size="16" text-anchor="middle">${B}</text><text class="sv-txt" x="118" y="143" font-size="22" text-anchor="middle">${val(o.aOnly)}</text><text class="sv-txt" x="200" y="143" font-size="22" text-anchor="middle">${val(o.both)}</text><text class="sv-txt" x="282" y="143" font-size="22" text-anchor="middle">${val(o.bOnly)}</text><text class="sv-muted" x="42" y="220" font-size="14">Không nhóm nào: ${val(o.none)}</text></svg>`;
+}
+
+/* Lưới đường đi: rows hàng, cols cột; chỉ đi lên và sang phải. blocked=[cột,hàng] nếu có nút bị chặn. */
+function routeGridSVG(rows,cols,o={}){
+  const x0=48,y0=218,w=282,h=164,dx=w/cols,dy=h/rows,X=c=>x0+c*dx,Y=r=>y0-r*dy,b=o.blocked;
+  const ways=Array.from({length:rows+1},()=>Array(cols+1).fill(0));ways[0][0]=1;for(let r=0;r<=rows;r++)for(let c=0;c<=cols;c++){if(!r&&!c)continue;if(b&&b[0]===c&&b[1]===r){ways[r][c]=0;continue}ways[r][c]=(c?ways[r][c-1]:0)+(r?ways[r-1][c]:0)}
+  let s=`<svg viewBox="0 0 380 270" role="img" aria-label="Lưới đường đi ${rows} hàng ${cols} cột">`;
+  for(let c=0;c<=cols;c++)s+=`<line class="sv-ink" stroke-width="1.8" x1="${X(c)}" y1="${Y(0)}" x2="${X(c)}" y2="${Y(rows)}"/>`;
+  for(let r=0;r<=rows;r++)s+=`<line class="sv-ink" stroke-width="1.8" x1="${X(0)}" y1="${Y(r)}" x2="${X(cols)}" y2="${Y(r)}"/>`;
+  for(let r=0;r<=rows;r++)for(let c=0;c<=cols;c++){const blocked=b&&b[0]===c&&b[1]===r;s+=`<circle class="${blocked?'sv-pt':'sv-dot'}" cx="${X(c)}" cy="${Y(r)}" r="${blocked?8:4}"/>`;if(o.showCounts&&!blocked)s+=`<text class="sv-muted" x="${X(c)+9}" y="${Y(r)-9}" font-size="13">${ways[r][c]}</text>`;if(blocked)s+=`<path class="sv-ink" stroke-width="2.5" d="M${X(c)-9} ${Y(r)-9} L${X(c)+9} ${Y(r)+9} M${X(c)+9} ${Y(r)-9} L${X(c)-9} ${Y(r)+9}"/>`}
+  s+=`<text class="sv-txt" x="${X(0)-20}" y="${Y(0)+20}" font-size="18">A</text><text class="sv-txt" x="${X(cols)+9}" y="${Y(rows)-10}" font-size="18">B</text><text class="sv-muted" x="190" y="258" font-size="15" text-anchor="middle">Chỉ đi → hoặc ↑</text>`;
+  return s+'</svg>';
+}
+
+/* Túi bóng minh họa xác suất; groups là danh sách nhóm, mỗi nhóm có kí hiệu, số lượng và trạng thái tô. */
+function probabilityBagSVG(groups,o={}){
+  const balls=[];groups.forEach((g,gi)=>{for(let i=0;i<g.count;i++)balls.push({mark:g.mark,on:g.on??gi===0})});
+  let s=`<svg viewBox="0 0 380 250" role="img" aria-label="Túi có ${balls.length} quả bóng">`;
+  s+=`<path class="sv-ink" stroke-width="3" d="M105 48 Q190 24 275 48 L302 218 Q190 244 78 218 Z"/>`;
+  balls.forEach((b,i)=>{const cols=5,row=Math.floor(i/cols),col=i%cols,x=118+col*36+(row%2)*10,y=92+row*42;s+=`<circle class="sv-part${b.on?' on':''}" cx="${x}" cy="${y}" r="15"/><text class="sv-txt" x="${x}" y="${y+5}" font-size="14" text-anchor="middle">${b.mark}</text>`});
+  if(o.caption)s+=`<text class="sv-muted" x="190" y="242" font-size="14" text-anchor="middle">${o.caption}</text>`;
+  return s+'</svg>';
+}
+/* Hai thanh so sánh tổng giả sử và tổng thực tế; phần chênh lệch là chìa khóa của giả thiết tạm. */
+function assumptionGapSVG(o={}){
+  const assumed=o.assumed||0,actual=o.actual||0,max=Math.max(assumed,actual,1),x=118,w=220,scale=w/max,
+    labelA=o.labelA||'Giả sử',labelB=o.labelB||'Thực tế',unit=o.unit||'';
+  const bar=(y,value,on)=>`<rect class="sv-part${on?' on':''}" x="${x}" y="${y}" width="${Math.max(4,value*scale)}" height="38" rx="8"/><text class="sv-txt" x="${x+10}" y="${y+26}" font-size="17">${value} ${unit}</text>`;
+  return `<svg viewBox="0 0 380 210" role="img" aria-label="So sánh tổng theo giả thiết và tổng thực tế"><text class="sv-muted" x="105" y="67" font-size="15" text-anchor="end">${labelA}</text>${bar(42,assumed,false)}<text class="sv-muted" x="105" y="127" font-size="15" text-anchor="end">${labelB}</text>${bar(102,actual,true)}<path class="sv-ink" stroke-width="2" d="M${x+assumed*scale} 156 L${x+actual*scale} 156 M${x+assumed*scale} 148 L${x+assumed*scale} 164 M${x+actual*scale} 148 L${x+actual*scale} 164"/><text class="sv-txt" x="${x+(assumed+actual)*scale/2}" y="190" font-size="16" text-anchor="middle">${o.gapLabel||'Phần chênh lệch'}</text></svg>`;
+}
+
+/* Sơ đồ chuồng thỏ: mỗi ô đang chứa tối đa limit vật; vật tiếp theo buộc tạo một nhóm mới. */
+function pigeonholeSVG(labels,limit=1,o={}){
+  const n=labels.length,gap=12,w=Math.min(92,(340-gap*(n-1))/n),total=n*w+(n-1)*gap,x0=(380-total)/2,y=52;
+  let s=`<svg viewBox="0 0 380 245" role="img" aria-label="Sơ đồ nguyên lý chuồng thỏ">`;
+  labels.forEach((lab,i)=>{const x=x0+i*(w+gap);s+=`<rect class="sv-part" x="${x}" y="${y}" width="${w}" height="112" rx="10"/><text class="sv-txt" x="${x+w/2}" y="${y+25}" font-size="15" text-anchor="middle">${lab}</text>`;for(let j=0;j<limit;j++){const cols=Math.min(3,limit),row=Math.floor(j/cols),col=j%cols,cx=x+w/2+(col-(cols-1)/2)*22,cy=y+55+row*25;s+=`<circle class="sv-dot" cx="${cx}" cy="${cy}" r="7"/>`}
+  });
+  s+=`<path class="sv-ink" stroke-width="2.5" d="M190 210 L190 178 M182 187 L190 178 L198 187"/><circle class="sv-pt" cx="190" cy="220" r="9"/><text class="sv-muted" x="208" y="225" font-size="14" text-anchor="start">${o.nextLabel||'vật tiếp theo'}</text></svg>`;
+  return s;
+}
