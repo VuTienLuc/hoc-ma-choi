@@ -3442,6 +3442,191 @@ lesson(81, 'td-gia-thiet-tam', 'Phương pháp giả thiết tạm', 'Giả sử
     {t:['Mẹo', 'Tips'], b:['Ba loại mà hai loại có cùng giá trị (mèo, ngựa đều 4 chân) thì <b>gộp thành một nhóm</b>. Được – trừ điểm: mỗi câu sai làm hụt <b>điểm được + điểm bị trừ</b>.', 'If two kinds have the same value (cats and horses both have 4 legs), <b>group them together</b>. Plus/minus scoring: each wrong answer costs <b>points earned + points lost</b>.']}]});
 }
 
+/* =====================================================================
+   🧠 TOÁN TƯ DUY – LÝ THUYẾT SỐ NÂNG CAO VÀ BÀI TOÁN ĐỒNG DƯ
+   Dấu hiệu chia hết · tính chẵn lẻ · số dư · chu kì chữ số tận cùng · chữ số ẩn.
+   Câu hỏi sinh ngẫu nhiên, ba mức tăng dần, lời giải song ngữ Việt – Anh.
+   ===================================================================== */
+{
+const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
+const digits = [0,1,2,3,4,5,6,7,8,9];
+const modPow = (a, n, mod = 10) => { let r = 1; a %= mod; while(n){ if(n % 2) r = r * a % mod; a = a * a % mod; n = Math.floor(n / 2); } return r; };
+const DAYS_VI = ['Chủ nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
+const DAYS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+G.topics.splice(G.topics.findIndex(t => t.id === 81) + 1, 0, {id:82, hk:2, name:'Lý thuyết số và bài toán đồng dư', label:'🧠 Toán tư duy'});
+
+/* Dạng 1: dấu hiệu chia hết và điền chữ số */
+const ntDiv = lv => {
+  if(lv === 1){ const a = R(1,9), b = R(0,9), ok = digits.filter(x => (100*a + 10*b + x) % 3 === 0), good = pick(ok), bad = shuffle(digits.filter(x => !ok.includes(x))).slice(0,3);
+    return QC({text:V(`Chữ số nào dưới đây có thể thay vào ${Bb('x')} để số ${Bb(`${a}${b}x`)} chia hết cho 3?`, `Which digit can replace ${Bb('x')} so that ${Bb(`${a}${b}x`)} is divisible by 3?`), opts:[good,...bad].map(String), ans:String(good),
+      hint:V('Một số chia hết cho 3 khi tổng các chữ số chia hết cho 3.', 'A number is divisible by 3 when its digit sum is divisible by 3.'),
+      sol:L2([`Tổng chữ số là ${a} + ${b} + x = ${a+b} + x.`, `Với x = ${good}: ${a+b} + ${good} = ${a+b+good}, chia hết cho 3.`, `Vậy một chữ số phù hợp là ${Bb(good)}.`], [`The digit sum is ${a} + ${b} + x = ${a+b} + x.`, `For x = ${good}: ${a+b} + ${good} = ${a+b+good}, which is divisible by 3.`, `So a suitable digit is ${Bb(good)}.`])}); }
+  if(lv === 2){ const good = v('x = 1 hoặc x = 7', 'x = 1 or x = 7');
+    return QC({text:V(`Tìm tất cả chữ số ${Bb('x')} để số ${Bb('54x2')} đồng thời chia hết cho 3 và 4.`, `Find all digits ${Bb('x')} so that ${Bb('54x2')} is divisible by both 3 and 4.`),
+      opts:[good,v('x = 1 hoặc x = 4','x = 1 or x = 4'),v('x = 3 hoặc x = 9','x = 3 or x = 9'),v('chỉ x = 7','x = 7 only')],ans:good,
+      hint:V('Xét hai chữ số tận cùng để chia hết cho 4; xét tổng chữ số để chia hết cho 3.', 'Use the last two digits for divisibility by 4 and the digit sum for divisibility by 3.'),
+      sol:L2([`Chia hết cho 4: số x2 phải chia hết cho 4, nên x có thể là 1, 3, 5, 7, 9.`, `Chia hết cho 3: 5 + 4 + x + 2 = 11 + x phải chia hết cho 3.`, `Thử các chữ số trên: 11 + 1 = 12 và 11 + 7 = 18 chia hết cho 3; các trường hợp khác không thỏa.`, `Kết luận: ${Bb('x = 1 hoặc x = 7')}.`], [`Divisible by 4: x2 must be divisible by 4, so x may be 1, 3, 5, 7 or 9.`, `Divisible by 3: 5 + 4 + x + 2 = 11 + x must be divisible by 3.`, `Testing these digits, 11 + 1 = 12 and 11 + 7 = 18 are divisible by 3.`, `Therefore ${Bb('x = 1 or x = 7')}.`])}); }
+  let a,b,c,ok; do{ a=R(1,9); b=R(0,9); c=pick([0,2,4,6,8]); ok=digits.filter(x => (1000*a+100*b+10*x+c)%9===0 && (10*x+c)%4===0); }while(ok.length!==1);
+  const x=ok[0],N=1000*a+100*b+10*x+c;
+  return QB({text:V(`Tìm chữ số ${Bb('x')} để số ${Bb(`${a}${b}x${c}`)} đồng thời chia hết cho 9 và 4.`, `Find the digit ${Bb('x')} so that ${Bb(`${a}${b}x${c}`)} is divisible by both 9 and 4.`), tpl:'x = [_]', ans:[x],
+    hint:V('Lập danh sách chữ số làm hai chữ số cuối chia hết cho 4, rồi dùng tổng chữ số để kiểm tra chia hết cho 9.', 'List digits that make the last two digits divisible by 4, then use the digit sum to test divisibility by 9.'),
+    sol:L2([`Hai chữ số cuối là x${c}; trước hết chọn x để x${c} chia hết cho 4.`, `Tổng chữ số phải chia hết cho 9: ${a} + ${b} + x + ${c} = ${a+b+c} + x.`, `Chỉ x = ${x} thỏa cả hai điều kiện: ${a+b+c} + ${x} = ${a+b+c+x} chia hết cho 9 và ${10*x+c} chia hết cho 4.`, `Số nhận được là ${N}. Đáp số: ${Bb(x)}.`], [`The last two digits are x${c}; first make x${c} divisible by 4.`, `The digit sum must be divisible by 9: ${a} + ${b} + x + ${c} = ${a+b+c} + x.`, `Only x = ${x} meets both conditions: ${a+b+c} + ${x} = ${a+b+c+x} is divisible by 9 and ${10*x+c} is divisible by 4.`, `The number is ${N}. Answer: ${Bb(x)}.`])});
+};
+
+/* Dạng 2: tính chẵn lẻ */
+const ntParity = lv => {
+  if(lv === 1){ const n=R(20,120)*2+(Math.random()<.5?0:1),odd=n%2===1,good=v(odd?'Số lẻ':'Số chẵn',odd?'Odd':'Even');
+    return QC({text:V(`Tổng của ${n} số tự nhiên lẻ là số chẵn hay số lẻ?`, `Is the sum of ${n} odd whole numbers even or odd?`),opts:[good,v(odd?'Số chẵn':'Số lẻ',odd?'Even':'Odd'),v('Luôn bằng 0','Always 0'),v('Không xác định được','Cannot be determined')],ans:good,
+      hint:V('Ghép từng cặp số lẻ: lẻ + lẻ = chẵn. Nếu số lượng số lẻ là lẻ thì còn dư một số lẻ.', 'Pair the odd numbers: odd + odd = even. An odd number of odd terms leaves one odd term unpaired.'),
+      sol:L2([`${n} là số ${odd?'lẻ':'chẵn'}.`, odd?`Ghép được ${(n-1)/2} cặp có tổng chẵn và còn một số lẻ.`:`Ghép được ${n/2} cặp, mỗi cặp có tổng chẵn.`, `Vì vậy tổng là ${Bb(odd?'số lẻ':'số chẵn')}.`], [`${n} is ${odd?'odd':'even'}.`, odd?`There are ${(n-1)/2} even-sum pairs and one odd number left.`:`There are ${n/2} pairs, each with an even sum.`, `Therefore the total is ${Bb(odd?'odd':'even')}.`])}); }
+  if(lv === 2){ const a=R(20,80),count=R(3,8),odd=2*R(10,50)+1,good=v('Số lẻ','Odd');
+    return QC({text:V(`Xét biểu thức ${a} × ${a+1} × ${a+2} × … × ${a+count-1} + ${odd}. Kết quả là số chẵn hay số lẻ?`, `Consider ${a} × ${a+1} × ${a+2} × … × ${a+count-1} + ${odd}. Is the result even or odd?`),opts:[good,v('Số chẵn','Even'),v('Luôn tận cùng bằng 0','Always ends in 0'),v('Không xác định được','Cannot be determined')],ans:good,
+      hint:V('Trong các số tự nhiên liên tiếp luôn có số chẵn; tích có một thừa số chẵn là số chẵn.', 'Consecutive whole numbers include an even number; a product with an even factor is even.'),
+      sol:L2([`Dãy ${a}, ${a+1}, …, ${a+count-1} có ít nhất một số chẵn.`, `Tích đã cho là số chẵn vì chứa thừa số chẵn.`, `${odd} là số lẻ. Chẵn + lẻ = ${Bb('lẻ')}.`], [`The list ${a}, ${a+1}, …, ${a+count-1} contains an even number.`, `The product is even because it has an even factor.`, `${odd} is odd. Even + odd = ${Bb('odd')}.`])}); }
+  const good=v('a + c là số chẵn','a + c is even');
+  return QC({text:V(`Biết a + b là số lẻ và b + c là số lẻ. Khẳng định nào chắc chắn đúng?`, `Suppose a + b is odd and b + c is odd. Which statement must be true?`),opts:[good,v('a + c là số lẻ','a + c is odd'),v('a, b, c đều lẻ','a, b and c are all odd'),v('a, b, c đều chẵn','a, b and c are all even')],ans:good,
+    hint:V('Tổng là số lẻ khi hai số hạng khác tính chẵn lẻ.', 'A sum is odd when its two terms have different parity.'),
+    sol:L2([`a + b lẻ nên a và b khác tính chẵn lẻ.`, `b + c lẻ nên b và c khác tính chẵn lẻ.`, `Vì a và c đều có tính chẵn lẻ ngược với b nên a và c cùng tính chẵn lẻ.`, `Hai số cùng tính chẵn lẻ có tổng chẵn. Vậy ${Bb('a + c là số chẵn')}.`], [`a + b is odd, so a and b have different parity.`, `b + c is odd, so b and c have different parity.`, `Both a and c have the opposite parity to b, so a and c have the same parity.`, `Two numbers with the same parity have an even sum. Thus ${Bb('a + c is even')}.`])});
+};
+
+/* Dạng 3: số dư và lịch */
+const ntModulo = lv => {
+  if(lv === 1){ const start=R(0,6),days=R(20,180),idx=(start+days%7)%7,good=v(DAYS_VI[idx],DAYS_EN[idx]);
+    return QC({text:V(`Hôm nay là ${DAYS_VI[start]}. Sau ${days} ngày nữa là thứ mấy?`, `Today is ${DAYS_EN[start]}. What day will it be ${days} days later?`),opts:[good,...[1,2,3].map(k=>v(DAYS_VI[(idx+k)%7],DAYS_EN[(idx+k)%7]))],ans:good,
+      hint:V('Một tuần lặp lại sau 7 ngày. Chỉ cần tìm số dư khi chia số ngày cho 7.', 'The weekdays repeat every 7 days. Only the remainder after division by 7 matters.'),
+      sol:L2([`${days} : 7 = ${Math.floor(days/7)} dư ${days%7}.`, `Bỏ qua ${Math.floor(days/7)} tuần trọn vẹn, đếm tiếp ${days%7} ngày từ ${DAYS_VI[start]}.`, `Kết quả là ${Bb(DAYS_VI[idx])}.`], [`${days} ÷ 7 = ${Math.floor(days/7)} remainder ${days%7}.`, `Ignore the ${Math.floor(days/7)} complete weeks and count ${days%7} more days from ${DAYS_EN[start]}.`, `The answer is ${Bb(DAYS_EN[idx])}.`])}); }
+  if(lv === 2){ const n=pick([5,7,8,9]),r1=R(0,n-1),r2=R(0,n-1),ans=(r1+r2)%n;
+    return QB({text:V(`Số A chia cho ${n} dư ${r1}; số B chia cho ${n} dư ${r2}. Tổng A + B chia cho ${n} dư bao nhiêu?`, `A leaves remainder ${r1} when divided by ${n}; B leaves remainder ${r2}. What remainder does A + B leave when divided by ${n}?`),tpl:'[_]',ans:[ans],
+      hint:V('Cộng hai số dư rồi tiếp tục chia cho số chia.', 'Add the two remainders, then reduce again by the divisor.'),
+      sol:L2([`Tổng hai số dư: ${r1} + ${r2} = ${r1+r2}.`, `${r1+r2} : ${n} dư ${ans}.`, `Vậy A + B chia cho ${n} dư ${Bb(ans)}.`], [`Add the remainders: ${r1} + ${r2} = ${r1+r2}.`, `${r1+r2} ÷ ${n} leaves remainder ${ans}.`, `So A + B leaves remainder ${Bb(ans)}.`])}); }
+  let target,r3,r5; do{target=R(1,14);r3=target%3;r5=target%5}while(r3===0&&r5===0);const wrong=shuffle([...new Set([target+1,target+2,target+3,target+5,15-target].filter(x=>x>0&&x!==target))]).slice(0,3);
+  return QC({text:V(`Tìm số tự nhiên dương nhỏ nhất chia cho 3 dư ${r3} và chia cho 5 dư ${r5}.`, `Find the smallest positive whole number that leaves remainder ${r3} when divided by 3 and remainder ${r5} when divided by 5.`),opts:[target,...wrong].map(String),ans:String(target),
+    hint:V(`Liệt kê các số chia cho 5 dư ${r5}, rồi thử số dư khi chia cho 3.`, `List numbers that leave remainder ${r5} when divided by 5, then test their remainders modulo 3.`),
+    sol:L2([`Các số dương chia cho 5 dư ${r5}: ${[...Array(4)].map((_,i)=>r5+5*i).filter(x=>x>0).join(', ')}, …`, `Số đầu tiên trong danh sách đồng thời chia cho 3 dư ${r3} là ${target}.`, `Đáp số: ${Bb(target)}.`], [`Positive numbers leaving remainder ${r5} modulo 5: ${[...Array(4)].map((_,i)=>r5+5*i).filter(x=>x>0).join(', ')}, …`, `The first one that also leaves remainder ${r3} modulo 3 is ${target}.`, `Answer: ${Bb(target)}.`])});
+};
+
+/* Dạng 4: chu kì chữ số tận cùng */
+const ntLastDigit = lv => {
+  if(lv === 1){ const base=pick([1,5,6]),exp=R(15,80),ans=base;return QB({text:V(`Tìm chữ số tận cùng của tích gồm ${exp} thừa số ${base}: ${base} × ${base} × … × ${base}.`, `Find the last digit of the product of ${exp} factors ${base}: ${base} × ${base} × … × ${base}.`),tpl:'[_]',ans:[ans],
+    hint:V(`Các lũy thừa dương của số tận cùng bằng ${base} luôn giữ chữ số tận cùng ${base}.`, `Positive powers of a number ending in ${base} always end in ${base}.`),
+    sol:L2([`${base} × ${base} vẫn có chữ số tận cùng là ${base}; nhân tiếp với ${base} vẫn không đổi.`, `Vậy tích có chữ số tận cùng là ${Bb(ans)}.`], [`${base} × ${base} still ends in ${base}; multiplying by ${base} keeps the same last digit.`, `So the last digit is ${Bb(ans)}.`])}); }
+  if(lv === 2){ const base=pick([4,9]),exp=R(20,100),cycle=base===4?[4,6]:[9,1],pos=(exp-1)%2,ans=cycle[pos];return QB({text:V(`Tìm chữ số tận cùng của ${base}<sup>${exp}</sup>.`, `Find the last digit of ${base}<sup>${exp}</sup>.`),tpl:'[_]',ans:[ans],
+    hint:V(`Chữ số tận cùng của lũy thừa cơ số ${base} lặp theo chu kì 2.`, `The last digits of powers of ${base} repeat in a cycle of 2.`),
+    sol:L2([`Chu kì chữ số tận cùng: ${cycle[0]}, ${cycle[1]}.`, `${exp} : 2 = ${Math.floor(exp/2)} dư ${exp%2}.`, `Số mũ ${exp%2===0?'chia hết cho 2 nên ở vị trí thứ 2':'lẻ nên ở vị trí thứ 1'} của chu kì. Chữ số tận cùng là ${Bb(ans)}.`], [`Last-digit cycle: ${cycle[0]}, ${cycle[1]}.`, `${exp} ÷ 2 = ${Math.floor(exp/2)} remainder ${exp%2}.`, `The exponent lands in position ${pos+1} of the cycle. The last digit is ${Bb(ans)}.`])}); }
+  const a=pick([2,3,7,8]),b=pick([2,3,7,8]),p=R(25,90),qv=R(25,90),la=modPow(a,p),lb=modPow(b,qv),ans=la*lb%10;
+  return QB({text:V(`Tìm chữ số tận cùng của ${a}<sup>${p}</sup> × ${b}<sup>${qv}</sup>.`, `Find the last digit of ${a}<sup>${p}</sup> × ${b}<sup>${qv}</sup>.`),tpl:'[_]',ans:[ans],
+    hint:V('Tìm riêng chữ số tận cùng của từng lũy thừa bằng chu kì 4, rồi nhân hai chữ số tận cùng.', 'Use the 4-step cycle to find each last digit, then multiply those last digits.'),
+    sol:L2([`Chu kì của ${a} có độ dài 4; ${p} chia cho 4 dư ${p%4}, nên ${a}<sup>${p}</sup> tận cùng là ${la}.`, `Chu kì của ${b} có độ dài 4; ${qv} chia cho 4 dư ${qv%4}, nên ${b}<sup>${qv}</sup> tận cùng là ${lb}.`, `${la} × ${lb} = ${la*lb}, nên tích tận cùng là ${Bb(ans)}.`], [`The cycle for ${a} has length 4; ${p} modulo 4 is ${p%4}, so ${a}<sup>${p}</sup> ends in ${la}.`, `The cycle for ${b} has length 4; ${qv} modulo 4 is ${qv%4}, so ${b}<sup>${qv}</sup> ends in ${lb}.`, `${la} × ${lb} = ${la*lb}, so the product ends in ${Bb(ans)}.`])});
+};
+
+/* Dạng 5: chữ số ẩn và phép tính theo cột */
+const ntCrypto = lv => {
+  if(lv === 1) return QB({text:V(`Trong phép tính ${Bb('AB + AB = BCC')}, các chữ cái khác nhau là các chữ số khác nhau. Tìm A, B, C.`, `In ${Bb('AB + AB = BCC')}, different letters stand for different digits. Find A, B and C.`),tpl:'A = [_] &nbsp; B = [_] &nbsp; C = [_]',ans:[6,1,2],wide:true,
+    hint:V('Tổng hai số có hai chữ số không vượt quá 198. Bắt đầu từ hàng trăm, rồi xét hàng đơn vị và số nhớ.', 'The sum of two 2-digit numbers is at most 198. Start with the hundreds column, then use the ones column and the carry.'),
+    sol:L2([`Hàng trăm của tổng phải là 1, nên B = 1.`, `Hàng đơn vị: B + B = 1 + 1 = 2, nên C = 2 và không nhớ.`, `Hàng chục phải tạo ra 12: A + A = 12, nên A = 6.`, `Thử lại: 61 + 61 = 122. Vậy ${Bb('A = 6, B = 1, C = 2')}.`], [`The hundreds digit must be 1, so B = 1.`, `Ones: B + B = 1 + 1 = 2, so C = 2 with no carry.`, `The tens column must make 12: A + A = 12, so A = 6.`, `Check: 61 + 61 = 122. Thus ${Bb('A = 6, B = 1, C = 2')}.`])});
+  if(lv === 2){ const row=pick([[7,1,3,4],[8,1,5,6],[9,1,7,8]]),[A,B,C,D]=row;
+    return QB({text:V(`Cho ${Bb(`A = ${A}`)} và phép tính ${Bb('AB + AC = BDD')}. Các chữ cái khác nhau là các chữ số khác nhau. Tìm B, C, D.`, `Given ${Bb(`A = ${A}`)} and ${Bb('AB + AC = BDD')}, different letters are different digits. Find B, C and D.`),tpl:'B = [_] &nbsp; C = [_] &nbsp; D = [_]',ans:[B,C,D],wide:true,
+      hint:V('Tổng là số có ba chữ số nên B = 1. Làm từ hàng đơn vị để tìm D và số nhớ.', 'The sum has three digits, so B = 1. Work from the ones column to find D and the carry.'),
+      sol:L2([`Vì tổng của hai số có hai chữ số nhỏ hơn 200, chữ số hàng trăm B = 1.`, `Hàng chục: ${A} + ${A} = ${A+A} = 10 + ${D}, nên viết D = ${D} và nhớ 1 sang hàng trăm.`, `Hàng đơn vị không có số nhớ: B + C = D. Vì B = ${B}, D = ${D} nên C = ${D} − ${B} = ${C}.`, `Kiểm tra: ${10*A+B} + ${10*A+C} = ${100*B+11*D}. Vậy ${Bb(`B = ${B}, C = ${C}, D = ${D}`)}.`], [`The sum is below 200, so the hundreds digit B = 1.`, `Tens: ${A} + ${A} = ${A+A} = 10 + ${D}, so write D = ${D} and carry 1 to the hundreds.`, `There is no carry from the ones column: B + C = D. Since B = ${B} and D = ${D}, C = ${D} − ${B} = ${C}.`, `Check: ${10*A+B} + ${10*A+C} = ${100*B+11*D}. Thus ${Bb(`B = ${B}, C = ${C}, D = ${D}`)}.`])}); }
+  const row=pick([[2,6,9,1],[4,7,9,1],[6,8,9,1]]),[A,B,C,D]=row;
+  return QB({text:V(`Cho ${Bb(`A = ${A}`)} và phép tính ${Bb('AB + CB = DAA')}. Các chữ cái khác nhau là các chữ số khác nhau. Tìm B, C, D.`, `Given ${Bb(`A = ${A}`)} and ${Bb('AB + CB = DAA')}, different letters are different digits. Find B, C and D.`),tpl:'B = [_] &nbsp; C = [_] &nbsp; D = [_]',ans:[B,C,D],wide:true,
+    hint:V('Bắt đầu ở hàng đơn vị: B + B phải có chữ số tận cùng A. Ghi lại số nhớ rồi chuyển sang hàng chục.', 'Start in the ones column: B + B must end in A. Record the carry, then move to the tens column.'),
+    sol:L2([`Hàng đơn vị: B + B có chữ số tận cùng A = ${A}. Trong các chữ số, B = ${B} vì ${B} + ${B} = ${2*B}, viết ${A} nhớ 1.`, `Hàng chục: A + C + 1 phải có chữ số tận cùng A. Vì vậy C + 1 = 10, nên C = ${C}, nhớ 1.`, `Hàng trăm chính là số nhớ, nên D = ${D}.`, `Kiểm tra: ${10*A+B} + ${10*C+B} = ${100*D+11*A}. Vậy ${Bb(`B = ${B}, C = ${C}, D = ${D}`)}.`], [`Ones: B + B must end in A = ${A}. B = ${B} because ${B} + ${B} = ${2*B}; write ${A}, carry 1.`, `Tens: A + C + 1 must end in A. Therefore C + 1 = 10, so C = ${C}, carry 1.`, `The hundreds digit is the carry, so D = ${D}.`, `Check: ${10*A+B} + ${10*C+B} = ${100*D+11*A}. Thus ${Bb(`B = ${B}, C = ${C}, D = ${D}`)}.`])});
+};
+
+lesson(82, 'td-ly-thuyet-so-dong-du', 'Lý thuyết số nâng cao và bài toán đồng dư', 'Dấu hiệu chia hết, tính chẵn lẻ, số dư, chu kì chữ số tận cùng và bài toán điền chữ số ẩn.', [ntDiv, ntParity, ntModulo, ntLastDigit, ntCrypto], {
+  bi:true, en:'Advanced number theory and modular arithmetic', descEn:'Divisibility, parity, remainders, last-digit cycles and cryptarithms.',
+  intro:[
+    {t:['A. Dấu hiệu chia hết', 'A. Divisibility rules'], b:['Chia hết cho 2 hoặc 5: xét chữ số tận cùng.<br>Chia hết cho 3 hoặc 9: xét tổng các chữ số.<br>Chia hết cho 4: xét số tạo bởi hai chữ số tận cùng.', 'For 2 or 5: check the last digit.<br>For 3 or 9: check the digit sum.<br>For 4: check the number made by the last two digits.'], ex:['54x2 chia hết cho 4 ⇒ x2 chia hết cho 4.', '54x2 is divisible by 4 ⇒ x2 is divisible by 4.']},
+    {t:['B. Tính chẵn lẻ', 'B. Parity'], b:['Cùng tính chẵn lẻ cộng hoặc trừ nhau ⇒ chẵn.<br>Khác tính chẵn lẻ cộng hoặc trừ nhau ⇒ lẻ.<br>Một tích có ít nhất một thừa số chẵn ⇒ tích chẵn.', 'Same parity added or subtracted ⇒ even.<br>Different parity added or subtracted ⇒ odd.<br>A product with at least one even factor ⇒ even.']},
+    {t:['C. Số dư và đồng dư', 'C. Remainders and congruence'], b:['Khi chia một tổng hoặc tích cho N, có thể thay từng số bằng số dư của nó rồi tính tiếp. Bài toán thứ trong tuần có chu kì 7.', 'For a sum or product modulo N, replace each number by its remainder first. Weekdays repeat in a cycle of 7.'], ex:['100 chia 7 dư 2 ⇒ sau 100 ngày tiến thêm 2 thứ.', '100 leaves remainder 2 modulo 7 ⇒ move forward 2 weekdays.']},
+    {t:['D. Chu kì chữ số tận cùng', 'D. Last-digit cycles'], b:['Tận cùng 0, 1, 5, 6: chu kì 1.<br>Tận cùng 4, 9: chu kì 2.<br>Tận cùng 2, 3, 7, 8: chu kì 4.', 'Last digit 0, 1, 5 or 6: cycle 1.<br>Last digit 4 or 9: cycle 2.<br>Last digit 2, 3, 7 or 8: cycle 4.'], ex:['Lũy thừa của 2 có chu kì 2, 4, 8, 6.', 'Powers of 2 end in the cycle 2, 4, 8, 6.']},
+    {t:['E. Điền chữ số ẩn', 'E. Cryptarithms'], b:['Các chữ cái giống nhau là cùng một chữ số; các chữ cái khác nhau là các chữ số khác nhau. Bắt đầu từ hàng đơn vị để tìm số nhớ, hoặc từ hàng lớn nhất để đánh giá số chữ số.', 'Equal letters mean equal digits; different letters mean different digits. Start from the ones column to track carries, or from the largest place to estimate the number of digits.']}
+  ]});
+}
+
+/* =====================================================================
+   🧠 TOÁN TƯ DUY – BÀI 2.1: TƯ DUY BA TẦNG TRONG TOÁN TRUNG BÌNH CỘNG
+   Thuật toán cơ bản · dãy cách đều · sơ đồ đoạn thẳng và nguyên lí bù trừ.
+   Câu hỏi sinh theo ba mức, lời giải song ngữ Việt – Anh.
+   ===================================================================== */
+{
+const V = bi, v = bin, Bb = x => `<b>${fmt(x)}</b>`, L2 = (vi, en) => V(BG(...vi), BG(...en));
+const descendingTriples = total => { const a=[]; for(let x=1;x<total;x++) for(let y=1;y<x;y++) for(let z=1;z<y;z++) if(x+y+z===total) a.push([x,y,z]); return a; };
+const knownList = a => a.join(', ');
+G.topics.splice(G.topics.findIndex(t => t.id === 82) + 1, 0, {id:83, hk:2, name:'Tư duy ba tầng trong toán trung bình cộng', label:'🧠 Toán tư duy'});
+
+/* Dạng 1: biết trung bình cộng và các số hạng đã biết, tìm số còn thiếu */
+const avMissing = lv => {
+  if(lv === 1) return QB({text:V('Đội tuyển toán có 4 bạn. Điểm của 3 bạn đầu là 85, 90 và 95. Trung bình cộng điểm của cả 4 bạn là 92. Bạn thứ tư đạt bao nhiêu điểm?', 'A maths team has 4 students. The first three scores are 85, 90 and 95. The average score is 92. What is the fourth score?'),tpl:`[_] ${v('điểm','points')}`,ans:[98],
+    hint:V('Thấy trung bình cộng, trước hết tìm tổng điểm của cả 4 bạn.', 'When the average is known, first find the total score of all 4 students.'),
+    sol:L2(['Tổng điểm của 4 bạn: 92 × 4 = 368 (điểm).','Tổng điểm của 3 bạn đầu: 85 + 90 + 95 = 270 (điểm).',`Điểm bạn thứ tư: 368 − 270 = ${Bb(98)} (điểm).`],['Total for 4 students: 92 × 4 = 368 points.','Total of the first 3 scores: 85 + 90 + 95 = 270 points.',`Fourth score: 368 − 270 = ${Bb(98)} points.`])});
+  const n=lv===2?5:6, avg=lv===2?R(55,95):R(90,150); let known,missing;
+  do{ known=Array.from({length:n-1},()=>R(Math.max(20,avg-30),avg+25)); missing=n*avg-known.reduce((s,x)=>s+x,0); }while(missing<20||missing>avg+45);
+  return QB({text:V(`Trung bình cộng của ${n} số là ${avg}. Biết ${n-1} số đầu là ${knownList(known)}. Tìm số còn lại.`, `The average of ${n} numbers is ${avg}. The first ${n-1} numbers are ${knownList(known)}. Find the remaining number.`),tpl:'[_]',ans:[missing],
+    hint:V(`Tổng của ${n} số bằng trung bình cộng nhân với ${n}.`, `The total of ${n} numbers equals the average multiplied by ${n}.`),
+    sol:L2([`Tổng của ${n} số: ${avg} × ${n} = ${avg*n}.`,`Tổng ${n-1} số đã biết: ${known.join(' + ')} = ${known.reduce((s,x)=>s+x,0)}.`,`Số còn lại: ${avg*n} − ${known.reduce((s,x)=>s+x,0)} = ${Bb(missing)}.`],[`Total of ${n} numbers: ${avg} × ${n} = ${avg*n}.`,`Sum of the ${n-1} known numbers: ${known.join(' + ')} = ${known.reduce((s,x)=>s+x,0)}.`,`Remaining number: ${avg*n} − ${known.reduce((s,x)=>s+x,0)} = ${Bb(missing)}.`])});
+};
+
+/* Dạng 2: công thức ngược với hai hoặc ba số */
+const avReverse = lv => {
+  if(lv === 1) return QB({text:V('Trung bình cộng của hai số tự nhiên là 145. Số thứ nhất là số chẵn lớn nhất có hai chữ số. Tìm số thứ hai.', 'The average of two whole numbers is 145. The first is the greatest two-digit even number. Find the second number.'),tpl:'[_]',ans:[192],
+    hint:V('Số chẵn lớn nhất có hai chữ số là 98. Tìm tổng của hai số trước.', 'The greatest two-digit even number is 98. Find the total of the two numbers first.'),
+    sol:L2(['Số chẵn lớn nhất có hai chữ số là 98.','Tổng của hai số: 145 × 2 = 290.','Số thứ hai: 290 − 98 = '+Bb(192)+'.'],['The greatest two-digit even number is 98.','Total of the two numbers: 145 × 2 = 290.','Second number: 290 − 98 = '+Bb(192)+'.'])});
+  if(lv === 2){ const avg=R(80,220),first=R(40,avg+30),second=2*avg-first; return QB({text:V(`Trung bình cộng của hai số là ${avg}. Số thứ nhất là ${first}. Tìm số thứ hai.`, `The average of two numbers is ${avg}. The first number is ${first}. Find the second number.`),tpl:'[_]',ans:[second],hint:V('Tổng của hai số bằng trung bình cộng nhân 2.', 'The total of two numbers is the average multiplied by 2.'),sol:L2([`Tổng hai số: ${avg} × 2 = ${2*avg}.`,`Số thứ hai: ${2*avg} − ${first} = ${Bb(second)}.`],[`Total: ${avg} × 2 = ${2*avg}.`,`Second number: ${2*avg} − ${first} = ${Bb(second)}.`])}); }
+  const avg=R(100,300),sum2=R(avg,2*avg),third=3*avg-sum2;
+  return QB({text:V(`Trung bình cộng của ba số là ${avg}. Tổng của số thứ nhất và số thứ hai là ${sum2}. Tìm số thứ ba.`, `The average of three numbers is ${avg}. The first two numbers have a total of ${sum2}. Find the third number.`),tpl:'[_]',ans:[third],hint:V('Từ trung bình cộng tìm tổng của cả ba số, rồi trừ tổng hai số đã biết.', 'Use the average to find the total of all three, then subtract the known sum.'),sol:L2([`Tổng ba số: ${avg} × 3 = ${3*avg}.`,`Số thứ ba: ${3*avg} − ${sum2} = ${Bb(third)}.`],[`Total of three numbers: ${avg} × 3 = ${3*avg}.`,`Third number: ${3*avg} − ${sum2} = ${Bb(third)}.`])});
+};
+
+/* Dạng 3: trung bình cộng của dãy số cách đều */
+const avSequence = lv => {
+  if(lv === 1){ const mid=2*R(30,300)+1; return QB({text:V(`Ba số lẻ liên tiếp có trung bình cộng là ${mid}. Tìm số bé nhất và số lớn nhất.`, `Three consecutive odd numbers have an average of ${mid}. Find the smallest and greatest numbers.`),tpl:`${v('Số bé nhất','Smallest')} = [_] &nbsp; ${v('Số lớn nhất','Greatest')} = [_]`,ans:[mid-2,mid+2],wide:true,hint:V('Ba số cách đều có số giữa bằng trung bình cộng.', 'For three equally spaced numbers, the middle number equals the average.'),sol:L2([`Số giữa là ${mid}.`,`Hai số lẻ liên tiếp cách nhau 2.`,`Số bé nhất: ${mid} − 2 = ${mid-2}. Số lớn nhất: ${mid} + 2 = ${Bb(mid+2)}.`],[`The middle number is ${mid}.`,`Consecutive odd numbers differ by 2.`,`Smallest: ${mid} − 2 = ${mid-2}. Greatest: ${mid} + 2 = ${Bb(mid+2)}.`])}); }
+  if(lv === 2) return QB({text:V('Trung bình cộng của 5 số lẻ liên tiếp là 2023. Tìm số bé nhất và số lớn nhất.', 'The average of 5 consecutive odd numbers is 2023. Find the smallest and greatest numbers.'),tpl:`${v('Số bé nhất','Smallest')} = [_] &nbsp; ${v('Số lớn nhất','Greatest')} = [_]`,ans:[2019,2027],wide:true,hint:V('Dãy có 5 số nên trung bình cộng là số thứ ba.', 'There are 5 numbers, so the average is the third number.'),sol:L2(['Năm số lẻ liên tiếp là dãy cách đều và có số lượng số hạng lẻ, nên số chính giữa bằng trung bình cộng.','Số thứ ba là 2023; mỗi bước cách 2.','Số bé nhất: 2023 − 2 − 2 = 2019.','Số lớn nhất: 2023 + 2 + 2 = '+Bb(2027)+'.'],['Five consecutive odd numbers are equally spaced and there is an odd number of terms, so the middle term equals the average.','The third number is 2023 and each step is 2.','Smallest: 2023 − 2 − 2 = 2019.','Greatest: 2023 + 2 + 2 = '+Bb(2027)+'.'])});
+  const count=pick([7,9]),half=(count-1)/2,d=pick([3,4,5,6]),mid=R(100,500),first=mid-half*d,last=mid+half*d;
+  return QB({text:V(`Một dãy gồm ${count} số cách đều, khoảng cách giữa hai số liên tiếp là ${d}, trung bình cộng là ${mid}. Tìm số đầu và số cuối.`, `A sequence has ${count} equally spaced terms, with a difference of ${d}, and an average of ${mid}. Find the first and last terms.`),tpl:`${v('Số đầu','First')} = [_] &nbsp; ${v('Số cuối','Last')} = [_]`,ans:[first,last],wide:true,hint:V('Dãy có số lượng số hạng lẻ nên trung bình cộng là số chính giữa.', 'The sequence has an odd number of terms, so its average is the middle term.'),sol:L2([`Có ${half} bước từ số giữa đến mỗi đầu dãy.`,`Khoảng cách từ số giữa đến mỗi đầu: ${half} × ${d} = ${half*d}.`,`Số đầu: ${mid} − ${half*d} = ${first}. Số cuối: ${mid} + ${half*d} = ${Bb(last)}.`],[`There are ${half} steps from the middle term to either end.`,`Distance from the middle to either end: ${half} × ${d} = ${half*d}.`,`First: ${mid} − ${half*d} = ${first}. Last: ${mid} + ${half*d} = ${Bb(last)}.`])});
+};
+
+/* Dạng 4: suy luận từ trung bình và điều kiện lớn hơn – nhỏ hơn */
+const avLogic = lv => {
+  if(lv === 1){ const avg=R(3,8); return QB({text:V(`Ba con gà đẻ trung bình ${avg} quả trứng mỗi ngày. Cả ba con đẻ được bao nhiêu quả mỗi ngày?`, `Three hens lay an average of ${avg} eggs per day. How many eggs do they lay altogether each day?`),tpl:`[_] ${v('quả trứng','eggs')}`,ans:[3*avg],hint:V('Tổng bằng trung bình cộng nhân số lượng.', 'Total equals average multiplied by the number of items.'),sol:L2([`Có 3 con gà.`,`Tổng số trứng: ${avg} × 3 = ${Bb(3*avg)} (quả).`],[`There are 3 hens.`,`Total eggs: ${avg} × 3 = ${Bb(3*avg)}.`])}); }
+  if(lv === 2){ const good=v('5 quả, 4 quả, 3 quả','5 eggs, 4 eggs, 3 eggs'); return QC({text:V('Ba con gà đẻ trung bình 4 quả trứng mỗi ngày. Con thứ nhất đẻ nhiều hơn con thứ hai, con thứ hai đẻ nhiều hơn con thứ ba. Phương án nào có thể xảy ra?', 'Three hens lay an average of 4 eggs per day. The first lays more than the second, and the second lays more than the third. Which result is possible?'),opts:[good,v('4 quả, 4 quả, 4 quả','4 eggs, 4 eggs, 4 eggs'),v('6 quả, 4 quả, 3 quả','6 eggs, 4 eggs, 3 eggs'),v('3 quả, 4 quả, 5 quả','3 eggs, 4 eggs, 5 eggs')],ans:good,hint:V('Tổng phải bằng 4 × 3 = 12 và ba số phải giảm dần.', 'The total must be 4 × 3 = 12 and the three numbers must be strictly decreasing.'),sol:L2(['Tổng số trứng phải là: 4 × 3 = 12.','Bộ 5, 4, 3 có tổng 12 và thỏa 5 > 4 > 3.','Các phương án khác hoặc sai tổng, hoặc không thỏa thứ tự. Vậy chọn '+Bb('5 quả, 4 quả, 3 quả')+'.'],['The total must be 4 × 3 = 12.','The triple 5, 4, 3 totals 12 and satisfies 5 > 4 > 3.','The other choices have the wrong total or order. Choose '+Bb('5, 4, 3')+'.'])}); }
+  const total=pick([9,12,15,18]),sets=descendingTriples(total),avg=total/3;
+  return QB({text:V(`Ba con gà đẻ tổng cộng ${total} quả mỗi ngày. Mỗi con đẻ một số nguyên dương và con thứ nhất đẻ nhiều hơn con thứ hai, con thứ hai đẻ nhiều hơn con thứ ba. Có bao nhiêu bộ số trứng có thể xảy ra?`, `Three hens lay ${total} eggs altogether each day. Each lays a positive whole number, with the first laying more than the second and the second more than the third. How many triples are possible?`),tpl:`[_] ${v('bộ','triples')}`,ans:[sets.length],hint:V(`Trung bình là ${avg}. Liệt kê có thứ tự các bộ a > b > c > 0 và a + b + c = ${total}.`, `The average is ${avg}. List ordered triples a > b > c > 0 with a + b + c = ${total}.`),sol:L2([`Ta cần a > b > c > 0 và a + b + c = ${total}.`,`Liệt kê không lặp: ${sets.map(s=>s.join('–')).join('; ')}.`,`Có tất cả ${Bb(sets.length)} bộ.`],[`We need a > b > c > 0 and a + b + c = ${total}.`,`The non-repeating list is: ${sets.map(s=>s.join('–')).join('; ')}.`,`There are ${Bb(sets.length)} triples.`])});
+};
+
+/* Dạng 5: một đại lượng nhiều hơn trung bình cộng – bar model bù đi */
+const avAbove = lv => {
+  let others,d,avg,x;
+  if(lv === 1){ others=[45,55];d=10;avg=55;x=65; }
+  else { const n=lv===2?3:4; avg=R(35,90);d=R(4,16); const need=(n-1)*avg-d; do{ others=Array.from({length:n-2},()=>R(Math.max(10,avg-20),avg+10)); others.push(need-others.reduce((s,z)=>s+z,0)); }while(others[others.length-1]<=5); x=avg+d; }
+  const n=others.length+1,S=others.reduce((s,z)=>s+z,0);
+  const textVi=lv===1?'Thùng thứ nhất có 45 lít dầu, thùng thứ hai có 55 lít dầu. Thùng thứ ba nhiều hơn trung bình cộng của cả 3 thùng 10 lít. Hỏi thùng thứ ba có bao nhiêu lít dầu?':`Có ${n} thùng dầu. ${n-1} thùng đầu lần lượt có ${knownList(others)} lít. Thùng cuối nhiều hơn trung bình cộng của cả nhóm ${d} lít. Hỏi thùng cuối có bao nhiêu lít dầu?`;
+  const textEn=lv===1?'The first oil tank has 45 litres and the second has 55 litres. The third has 10 litres more than the average of all 3 tanks. How many litres are in the third tank?':`There are ${n} oil tanks. The first ${n-1} contain ${knownList(others)} litres. The last has ${d} litres more than the average. How many litres are in the last tank?`;
+  return QB({text:V(textVi,textEn),tpl:`[_] ${v('lít','litres')}`,ans:[x],hint:V(`Cắt phần hơn ${d} ở đại lượng cuối để bù cho ${n-1} đại lượng đầu. Khi đó tổng ${n-1} đại lượng đầu sau khi nhận bù bằng ${n-1} lần trung bình cộng.`, `Move the excess ${d} from the last quantity to the first ${n-1}. Their adjusted total then equals ${n-1} times the average.`),sol:L2([`Tổng ${n-1} đại lượng đầu: ${others.join(' + ')} = ${S}.`,`Phần hơn ${d} được chuyển sang bù, nên ${n-1} lần trung bình cộng là: ${S} + ${d} = ${S+d}.`,`Trung bình cộng: ${S+d} : ${n-1} = ${avg}.`,`Đại lượng cuối: ${avg} + ${d} = ${Bb(x)}.`],[`Total of the first ${n-1}: ${others.join(' + ')} = ${S}.`,`Move the excess ${d} to them, so ${n-1} times the average is ${S} + ${d} = ${S+d}.`,`Average: ${S+d} ÷ ${n-1} = ${avg}.`,`Last quantity: ${avg} + ${d} = ${Bb(x)}.`])});
+};
+
+/* Dạng 6: một đại lượng ít hơn trung bình cộng – bar model nhận bù */
+const avBelow = lv => {
+  let others,d,avg,x;
+  if(lv === 1){ others=[38,42];d=6;avg=37;x=31; }
+  else { const n=lv===2?3:4; avg=R(30,85);d=R(3,14); const need=(n-1)*avg+d; do{ others=Array.from({length:n-2},()=>R(Math.max(10,avg-10),avg+25)); others.push(need-others.reduce((s,z)=>s+z,0)); }while(others[others.length-1]<=5); x=avg-d; }
+  const n=others.length+1,S=others.reduce((s,z)=>s+z,0);
+  const textVi=lv===1?'Lan có 38 nhãn vở, Hồng có 42 nhãn vở. Huệ có ít hơn trung bình cộng của cả 3 bạn 6 nhãn vở. Hỏi Huệ có bao nhiêu nhãn vở?':`Có ${n} bạn. ${n-1} bạn đầu lần lượt có ${knownList(others)} nhãn vở. Bạn cuối có ít hơn trung bình cộng của cả nhóm ${d} nhãn vở. Hỏi bạn cuối có bao nhiêu nhãn vở?`;
+  const textEn=lv===1?'Lan has 38 notebook labels and Hong has 42. Hue has 6 fewer labels than the average of all 3 children. How many labels does Hue have?':`There are ${n} children. The first ${n-1} have ${knownList(others)} notebook labels. The last child has ${d} fewer than the group average. How many labels does the last child have?`;
+  return QB({text:V(textVi,textEn),tpl:`[_] ${v('nhãn vở','labels')}`,ans:[x],hint:V(`${n-1} đại lượng đầu phải cho đại lượng cuối ${d} để nó đạt mức trung bình. Phần còn lại bằng ${n-1} lần trung bình cộng.`, `The first ${n-1} quantities give ${d} to the last one so it reaches the average. Their remaining total equals ${n-1} times the average.`),sol:L2([`Tổng ${n-1} đại lượng đầu: ${others.join(' + ')} = ${S}.`,`Sau khi trích ${d} để bù cho đại lượng cuối, ${n-1} lần trung bình cộng là: ${S} − ${d} = ${S-d}.`,`Trung bình cộng: ${S-d} : ${n-1} = ${avg}.`,`Đại lượng cuối: ${avg} − ${d} = ${Bb(x)}.`],[`Total of the first ${n-1}: ${others.join(' + ')} = ${S}.`,`After giving ${d} to the last quantity, ${n-1} times the average is ${S} − ${d} = ${S-d}.`,`Average: ${S-d} ÷ ${n-1} = ${avg}.`,`Last quantity: ${avg} − ${d} = ${Bb(x)}.`])});
+};
+
+lesson(83, 'td-trung-binh-cong-ba-tang', 'Bài 2.1: Tư duy ba tầng trong toán trung bình cộng', 'Hiểu trung bình cộng là sự san đều; vận dụng công thức ngược, dãy số cách đều và sơ đồ đoạn thẳng bù trừ.', [avMissing, avReverse, avSequence, avLogic, avAbove, avBelow], {
+  bi:true, en:'Lesson 2.1: Three-level thinking with averages', descEn:'Understand an average as equal sharing; use reverse formulas, equally spaced sequences and bar-model compensation.',
+  intro:[
+    {t:['Bản chất: san đều', 'The meaning: equal sharing'],b:['Trung bình cộng là mức nhận được khi lấy bớt ở nơi nhiều và bù sang nơi ít cho đến khi mọi phần bằng nhau. Đây là bước <b>Cụ thể → Trực quan → Trừu tượng</b> trong phương pháp CPA.', 'An average is the level reached by moving excess from larger amounts to smaller amounts until all are equal. This follows the CPA path: <b>Concrete → Pictorial → Abstract</b>.']},
+    {t:['Tầng 1: Thuật toán cơ bản', 'Level 1: Basic algorithm'],b:['Trung bình cộng = Tổng : Số lượng.<br><b>Công thức ngược:</b> Tổng = Trung bình cộng × Số lượng.<br>Phản xạ đầu tiên khi thấy trung bình cộng: tìm tổng.', 'Average = Total ÷ Number of items.<br><b>Reverse formula:</b> Total = Average × Number of items.<br>First response when an average is given: find the total.'],ex:['TBC của 4 bạn là 92 ⇒ tổng điểm là 92 × 4 = 368.', 'Average of 4 students is 92 ⇒ total is 92 × 4 = 368.']},
+    {t:['Tầng 2: Số ẩn và dãy cách đều', 'Level 2: Hidden numbers and sequences'],b:['Dãy cách đều có số lượng số hạng lẻ: trung bình cộng là số chính giữa.<br>Mọi dãy cách đều: trung bình cộng = (số đầu + số cuối) : 2.', 'For an equally spaced sequence with an odd number of terms, the average is the middle term.<br>For every equally spaced sequence: average = (first + last) ÷ 2.'],ex:['TBC của 2, 4, 6 là 4.', 'The average of 2, 4 and 6 is 4.']},
+    {t:['Tầng 3: Bar Model – nhiều hơn TBC', 'Level 3: Bar model – above average'],b:['Phần nhiều hơn là phần phải <b>mang đi bù</b> cho các phần còn lại. Sau khi chuyển phần thừa, các đoạn đều bằng mức trung bình cộng.', 'The excess is the part moved to <b>compensate</b> the other quantities. After moving it, all bars reach the average level.']},
+    {t:['Tầng 3: Bar Model – ít hơn TBC', 'Level 3: Bar model – below average'],b:['Phần ít hơn là phần cần <b>nhận bù</b>. Các phần còn lại phải trích đúng phần thiếu đó để đưa đại lượng cuối lên mức trung bình cộng.', 'The shortage is the part that must be <b>received</b>. The other quantities give exactly that shortage to bring the last one up to the average.']}
+  ]});
+}
+
 })();
 
 </script>
