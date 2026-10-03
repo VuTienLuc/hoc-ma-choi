@@ -208,3 +208,89 @@ function geoSVG(o={}){
     s+=`<circle class="sv-pt" cx="${f(p[0])}" cy="${f(p[1])}" r="3.2"/>`+T(p[0]+dx*16,p[1]+dy*16,n.replace(/\d$/,'')+(/\d$/.test(n)?`<tspan font-size="11" dy="4">${n.slice(-1)}</tspan>`:''),17)});
   return s+'</svg>';
 }
+/* Hình chữ nhật phức hợp cho Toán tư duy tiểu học.
+   kind: 'L' | 'stairs' | 'cutCorners' | 'frame'.
+   Kích thước dùng để vẽ đúng tỉ lệ; q là tên kích thước cần ẩn bằng dấu ?. */
+function complexRectSVG(kind,o={}){
+  const W=o.W||10,H=o.H||8,unit=o.unit||'cm',x0=72,y0=28,sc=Math.min(250/W,185/H),X=x=>x0+x*sc,Y=y=>y0+(H-y)*sc;
+  const T=(x,y,s,a='middle',fs=16,cls='sv-muted')=>`<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${a}" dominant-baseline="middle">${s}</text>`;
+  const lab=(n,key)=>`${o.q===key?'?':n} ${unit}`;
+  const poly=pts=>pts.map(p=>`${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`).join(' ');
+  let s=`<svg viewBox="0 0 390 260" role="img" aria-label="Hình phức hợp gồm các hình chữ nhật">`;
+  if(kind==='L'){
+    const cw=o.cw||4,ch=o.ch||3,pts=[[0,0],[W,0],[W,H-ch],[W-cw,H-ch],[W-cw,H],[0,H]];
+    s+=`<polygon class="sv-fill" points="${poly(pts)}"/><polygon class="sv-ink" stroke-width="3" stroke-linejoin="round" points="${poly(pts)}"/>`;
+    s+=`<line class="sv-cut" x1="${X(W-cw)}" y1="${Y(0)}" x2="${X(W-cw)}" y2="${Y(H-ch)}"/>`;
+    s+=T((X(0)+X(W))/2,Y(0)+24,lab(W,'W'))+T(X(0)-26,(Y(0)+Y(H))/2,lab(H,'H'));
+    s+=T((X(W-cw)+X(W))/2,Y(H-ch)-14,lab(cw,'cw'))+T(X(W-cw)+29,(Y(H-ch)+Y(H))/2,lab(ch,'ch'));
+  }else if(kind==='stairs'){
+    const n=o.steps||3,pts=[[0,0],[W,0]];for(let i=1;i<=n;i++){pts.push([W-(i-1)*W/n,i*H/n]);pts.push([W-i*W/n,i*H/n])}pts.push([0,H],[0,0]);
+    s+=`<polygon class="sv-fill" points="${poly(pts)}"/><polygon class="sv-ink" stroke-width="3" stroke-linejoin="round" points="${poly(pts)}"/>`;
+    s+=`<line class="sv-cut" x1="${X(0)}" y1="${Y(H)}" x2="${X(W)}" y2="${Y(H)}"/><line class="sv-cut" x1="${X(W)}" y1="${Y(0)}" x2="${X(W)}" y2="${Y(H)}"/>`;
+    s+=T((X(0)+X(W))/2,Y(0)+24,lab(W,'W'))+T(X(0)-28,(Y(0)+Y(H))/2,lab(H,'H'));
+  }else if(kind==='cutCorners'){
+    const c=o.c||3,pts=[[c,0],[W-c,0],[W-c,c],[W,c],[W,H-c],[W-c,H-c],[W-c,H],[c,H],[c,H-c],[0,H-c],[0,c],[c,c]];
+    s+=`<polygon class="sv-fill" points="${poly(pts)}"/><polygon class="sv-ink" stroke-width="3" stroke-linejoin="round" points="${poly(pts)}"/>`;
+    s+=`<line class="sv-cut" x1="${X(0)}" y1="${Y(0)}" x2="${X(W)}" y2="${Y(0)}"/><line class="sv-cut" x1="${X(0)}" y1="${Y(0)}" x2="${X(0)}" y2="${Y(H)}"/>`;
+    s+=T((X(0)+X(W))/2,Y(0)+25,lab(W,'W'))+T(X(0)-28,(Y(0)+Y(H))/2,lab(H,'H'));
+    s+=T((X(0)+X(c))/2,Y(H-c)-14,lab(c,'c'), 'middle',14)+T(X(c)+26,(Y(H-c)+Y(H))/2,lab(c,'c'),'middle',14);
+  }else if(kind==='frame'){
+    const w=o.w||W-4,h=o.h||H-4,ix=(W-w)/2,iy=(H-h)/2;
+    const outer=`M${X(0)} ${Y(0)} L${X(W)} ${Y(0)} L${X(W)} ${Y(H)} L${X(0)} ${Y(H)} Z`,inner=`M${X(ix)} ${Y(iy)} L${X(ix)} ${Y(iy+h)} L${X(ix+w)} ${Y(iy+h)} L${X(ix+w)} ${Y(iy)} Z`;
+    s+=`<path class="sv-fill" fill-rule="evenodd" d="${outer} ${inner}"/><path class="sv-ink" stroke-width="3" d="${outer} ${inner}"/>`;
+    s+=T((X(0)+X(W))/2,Y(0)+25,lab(W,'W'))+T(X(0)-29,(Y(0)+Y(H))/2,lab(H,'H'));
+    if(o.showInner!==false)s+=T((X(ix)+X(ix+w))/2,Y(iy+h)+18,lab(w,'w'))+T(X(ix+w)-34,(Y(iy)+Y(iy+h))/2,lab(h,'h'));
+    if(o.t!=null){const mx=(X(0)+X(ix))/2;s+=`<line class="sv-ink" stroke-width="1.8" x1="${X(0)}" y1="${Y(H/2)}" x2="${X(ix)}" y2="${Y(H/2)}"/>`;s+=T(mx,Y(H/2)-13,lab(o.t,'t'),'middle',14)}
+  }
+  return s+'</svg>';
+}
+/* Tháp khối lập phương: heights là ma trận chiều cao từng cột; các khối được vẽ đẳng phối để nhìn theo tầng. */
+function cubeTowerSVG(heights,o={}){
+  const rows=heights.length,cols=heights[0].length,mx=Math.max(...heights.flat()),s=Math.min(34,132/Math.max(rows,cols)),ox=190,top=28;
+  const P=(x,y,z)=>[ox+(x-y)*s,top+(x+y)*s*.5+(mx-z)*s],pts=a=>a.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ');
+  const cubes=[];for(let y=0;y<rows;y++)for(let x=0;x<cols;x++)for(let z=0;z<heights[y][x];z++)cubes.push({x,y,z});cubes.sort((a,b)=>(a.x+a.y)-(b.x+b.y)||a.z-b.z||a.x-b.x);
+  let out=`<svg viewBox="0 0 380 280" role="img" aria-label="Mô hình xếp bằng các khối lập phương nhỏ">`;
+  cubes.forEach(({x,y,z})=>{const t=[P(x,y,z+1),P(x+1,y,z+1),P(x+1,y+1,z+1),P(x,y+1,z+1)],r=[P(x+1,y,z),P(x+1,y+1,z),P(x+1,y+1,z+1),P(x+1,y,z+1)],l=[P(x,y+1,z),P(x+1,y+1,z),P(x+1,y+1,z+1),P(x,y+1,z+1)];
+    out+=`<polygon class="sv-fill" points="${pts(l)}"/><polygon class="sv-fill" style="fill-opacity:.22" points="${pts(r)}"/><polygon class="sv-fill" style="fill-opacity:.5" points="${pts(t)}"/><polygon class="sv-ink" stroke-width="1.8" points="${pts(l)}"/><polygon class="sv-ink" stroke-width="1.8" points="${pts(r)}"/><polygon class="sv-ink" stroke-width="1.8" points="${pts(t)}"/>`});
+  if(o.caption)out+=`<text class="sv-muted" x="190" y="268" font-size="15" text-anchor="middle">${o.caption}</text>`;
+  return out+'</svg>';
+}
+
+/* Hình khai triển chuẩn: một mặt giữa, bốn mặt kề và một mặt nối đuôi. */
+function cubeNetSVG(labels={}){
+  const L={center:'1',top:'2',left:'3',right:'4',bottom:'5',tail:'6',...labels},cells=[[1,1,L.center],[1,0,L.top],[0,1,L.left],[2,1,L.right],[1,2,L.bottom],[1,3,L.tail]],a=56,x0=92,y0=20;
+  let s=`<svg viewBox="0 0 360 260" role="img" aria-label="Hình khai triển của khối lập phương">`;
+  cells.forEach(([x,y,t],i)=>{s+=`<rect class="sv-part${i===0?' on':''}" x="${x0+x*a}" y="${y0+y*a}" width="${a}" height="${a}"/><text class="sv-txt" x="${x0+x*a+a/2}" y="${y0+y*a+a/2+6}" font-size="20" text-anchor="middle">${t}</text>`});
+  return s+'</svg>';
+}
+
+/* Tam giác quạt: n khoảng nhỏ trên đáy, mọi đường đều nối về một đỉnh chung. */
+function triangleFanSVG(n,o={}){
+  const x0=38,x1=342,y=226,ax=190,ay=24;
+  let s=`<svg viewBox="0 0 380 260" role="img" aria-label="Tam giác được chia thành ${n} tam giác nhỏ chung đỉnh">`;
+  s+=`<polygon class="sv-fill" points="${ax},${ay} ${x1},${y} ${x0},${y}"/>`;
+  for(let i=0;i<=n;i++){const x=x0+(x1-x0)*i/n;s+=`<line class="sv-ink" stroke-width="${i===0||i===n?3:2}" x1="${ax}" y1="${ay}" x2="${x.toFixed(1)}" y2="${y}"/>`;if(o.number&&i<n)s+=`<text class="sv-muted" x="${(x+(x0+(x1-x0)*(i+1)/n))/2}" y="248" font-size="14" text-anchor="middle">${i+1}</text>`}
+  s+=`<line class="sv-ink" stroke-width="3" x1="${x0}" y1="${y}" x2="${x1}" y2="${y}"/>`;
+  return s+'</svg>';
+}
+
+/* Khối lập phương n×n×n nhìn thấy ba mặt, có lưới chia các khối nhỏ. */
+function paintedCubeSVG(n,o={}){
+  const s=Math.min(31,132/n),ox=190,top=28,P=(x,y,z)=>[ox+(x-y)*s,top+(x+y)*s*.5+(n-z)*s],line=(a,b,w=1.4)=>`<line class="sv-ink" stroke-width="${w}" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/>`,poly=a=>a.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ');
+  const topF=[P(0,0,n),P(n,0,n),P(n,n,n),P(0,n,n)],right=[P(n,0,0),P(n,n,0),P(n,n,n),P(n,0,n)],left=[P(0,n,0),P(n,n,0),P(n,n,n),P(0,n,n)];
+  let out=`<svg viewBox="0 0 380 280" role="img" aria-label="Khối lập phương ${n} nhân ${n} nhân ${n} được chia thành các khối nhỏ">`;
+  out+=`<polygon class="sv-fill" points="${poly(left)}"/><polygon class="sv-fill" style="fill-opacity:.22" points="${poly(right)}"/><polygon class="sv-fill" style="fill-opacity:.5" points="${poly(topF)}"/>`;
+  for(let i=0;i<=n;i++){out+=line(P(i,0,n),P(i,n,n),i===0||i===n?2.5:1.2)+line(P(0,i,n),P(n,i,n),i===0||i===n?2.5:1.2);out+=line(P(n,i,0),P(n,i,n),i===0||i===n?2.5:1.2)+line(P(n,0,i),P(n,n,i),i===0||i===n?2.5:1.2);out+=line(P(i,n,0),P(i,n,n),i===0||i===n?2.5:1.2)+line(P(0,n,i),P(n,n,i),i===0||i===n?2.5:1.2)}
+  out+=`<text class="sv-muted" x="190" y="268" font-size="16" text-anchor="middle">${n} × ${n} × ${n}</text>`;
+  return out+'</svg>';
+}
+
+/* Lưới hình chữ nhật rows hàng, cols cột để đếm hình có hệ thống. */
+function rectGridSVG(rows,cols,o={}){
+  const cell=Math.min(54,270/cols,190/rows),w=cols*cell,h=rows*cell,x=(360-w)/2,y=(240-h)/2;
+  let s=`<svg viewBox="0 0 360 240" role="img" aria-label="Lưới ${rows} hàng ${cols} cột">`;
+  s+=`<rect class="sv-fill" x="${x}" y="${y}" width="${w}" height="${h}"/>`;
+  for(let i=0;i<=cols;i++)s+=`<line class="sv-ink" stroke-width="${i===0||i===cols?3:1.8}" x1="${x+i*cell}" y1="${y}" x2="${x+i*cell}" y2="${y+h}"/>`;
+  for(let i=0;i<=rows;i++)s+=`<line class="sv-ink" stroke-width="${i===0||i===rows?3:1.8}" x1="${x}" y1="${y+i*cell}" x2="${x+w}" y2="${y+i*cell}"/>`;
+  return s+'</svg>';
+}
