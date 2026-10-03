@@ -181,7 +181,14 @@ if (gameDataFiles.length) {
 const T = sandbox(), BOOKS = [], PRACT = [];
 ['config.js', 'assets/js/core.js', 'assets/js/figures.js', 'assets/js/generators.js'].forEach(f => run(T, f));
 T.Lecture = { add: b => BOOKS.push(b), addPractice: (grade, id, groups) => PRACT.push({grade, id, groups}),
-  addSgk: (grade, id, slides) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id); if (!l) err(`giải SGK ${grade}/${id}`, 'không tìm thấy bài giảng có mã này (addSgk phải nạp SAU tệp bài giảng)'); else l.sgk = slides; } };
+  addSgk: (grade, id, slides) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id); if (!l) err(`giải SGK ${grade}/${id}`, 'không tìm thấy bài giảng có mã này (addSgk phải nạp SAU tệp bài giảng)'); else l.sgk = slides; },
+  addSheet: (grade, id, md) => { const w = `phiếu trên lớp ${grade}/${id}`, l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id);
+    if (!l) { err(w, 'không tìm thấy bài giảng có mã này (addSheet phải nạp SAU tệp bài giảng)'); return; }
+    l.sheet = md; const parts = String(md).split('<div style="page-break-after: always;"></div>');
+    if (parts.length !== 2) err(w, 'cần đúng một thẻ page-break giữa Phần A (học sinh) và Phần B (giáo viên)');
+    const t = String(md).replace(/\$\$[\s\S]+?\$\$|\$[^$\n]+?\$/g, ''); if (/\$/.test(t)) err(w, 'dấu $ chưa đóng/mở đủ cặp');
+    if (/[²³π≤≥∈≠√∞±×÷⇒⇔]/.test(t)) err(w, 'còn ký tự toán Unicode ngoài $…$');
+    if (!/Phần B|PHẦN B/.test(parts[1] || '')) err(w, 'thiếu Phần B (gợi ý giáo viên)'); } };
 const gvHtml = fs.existsSync(path.join(ROOT, 'giao-vien/index.html')) ? rd('giao-vien/index.html') : '';
 const gvFiles = [...gvHtml.matchAll(/<script src="(bai-giang\/[^"]+\.js)"/g)].map(x => 'giao-vien/' + x[1]);
 fs.readdirSync(path.join(ROOT, 'giao-vien/bai-giang')).filter(f => f.endsWith('.js')).forEach(f => { if (!gvFiles.includes('giao-vien/bai-giang/' + f)) err('giao-vien/index.html', `chưa nạp tệp bai-giang/${f} (thêm thẻ <script>)`); });
