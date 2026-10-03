@@ -8,7 +8,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 10
 JS = r"""
 async (REPS) => {
- const out={errs:[],bad:[],count:0,grades:[],studentTest:false};
+ const out={errs:[],bad:[],count:0,grades:[],studentTest:false,game:false};
  for(const g of App.grades){ out.grades.push(g.id+':'+g.lessons.length);
   for(const l of g.lessons){ for(const lv of [1,2,3]){ for(let rep=0;rep<REPS;rep++){
    S.grade=g; S.lesson=l; S.lv=lv; renderLesson(); genSet(); renderQs();
@@ -59,6 +59,27 @@ async (REPS) => {
    out.studentTest=true;
   }catch(e){out.errs.push(['bài kiểm tra học sinh',String(e)])}
  }
+ if(typeof Game!=='undefined'&&Game.TOPICS.length){
+  try{
+   for(const t of Game.TOPICS){const qs=Game.build(t.id,'trinh-duyet-'+t.id,20);
+    if(qs.length!==20)out.bad.push(['Học mà chơi: không đủ 20 câu',t.id,qs.length]);
+    qs.forEach((q,i)=>{if(q.opts.length!==4||new Set(q.opts).size!==4||q.correct<0)out.bad.push(['Học mà chơi: phương án lỗi',t.id,i+1]);});
+   }
+   S.grade=App.grades.find(g=>g.id==='lop9');renderHome();
+   if(!document.querySelector('.game-entry'))out.bad.push(['Học mà chơi: thiếu lối vào ở trang lớp 9']);
+   location.hash='#/game/game-tiep-tuyen';Game.route();
+   if(document.querySelectorAll('[data-mode]').length!==3)out.bad.push(['Học mà chơi: thiếu ba chế độ chơi']);
+   document.querySelector('[data-mode="bot"]').click();await new Promise(ok=>setTimeout(ok,1000));
+   if(!document.querySelector('#gameArena')||document.querySelectorAll('#gameArena [data-o]').length!==4)out.bad.push(['Học mà chơi: không dựng được màn đấu máy']);
+   let exit=document.querySelector('#gameArena [data-exit]');if(exit)exit.click();
+   location.hash='#/game/game-tiep-tuyen';Game.route();document.querySelector('[data-mode="duel"]').click();await new Promise(ok=>setTimeout(ok,1000));
+   if(document.querySelectorAll('#gameArena [data-o]').length!==8)out.bad.push(['Học mà chơi: màn hai người không đủ hai bộ đáp án']);
+   exit=document.querySelector('#gameArena [data-exit]');if(exit)exit.click();
+   location.hash='#/game/game-tiep-tuyen';Game.route();document.querySelector('[data-mode="class"]').click();
+   if(!document.querySelector('#gjCode')&&!document.querySelector('#gcCreate'))out.bad.push(['Học mà chơi: không mở được phần chơi cả lớp']);
+   out.game=true;
+  }catch(e){out.errs.push(['Học mà chơi',String(e)])}
+ }
  return out;
 }
 """
@@ -70,7 +91,7 @@ async def main():
     await pg.goto((ROOT/'index.html').as_uri()); await pg.wait_for_timeout(600)
     await pg.add_script_tag(path=str(ROOT/'data'/'_mau-lop-moi.js'))   # kiểm tra luôn file mẫu
     r = await pg.evaluate(JS, REPS)
-    print('Các lớp:', ', '.join(r['grades']), '| Số câu đã thử:', r['count'], '| Bài kiểm tra học sinh:', 'đã thử' if r['studentTest'] else 'chưa thử')
+    print('Các lớp:', ', '.join(r['grades']), '| Số câu đã thử:', r['count'], '| Bài kiểm tra học sinh:', 'đã thử' if r['studentTest'] else 'chưa thử', '| Học mà chơi:', 'đã thử' if r['game'] else 'chưa thử')
     for x in r['bad'][:20]: print('  ✗', x)
     for x in r['errs'][:10]: print('  ! lỗi JS', x)
     for x in errs[:5]: print('  ! lỗi trang', x)

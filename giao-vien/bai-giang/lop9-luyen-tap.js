@@ -378,3 +378,48 @@ Lecture.addPractice('lop9','on-thi-goc-duong-tron',[
  ]},
 ]);
 })();
+
+/* =====================================================================
+   ÔN THI TUYỂN SINH – HÌNH HỌC 3. HÌNH QUẠT, HÌNH VÀNH KHUYÊN
+   20 bài: 14 cơ bản + 6 vận dụng (★), lời giải ghi rõ căn cứ.
+   ===================================================================== */
+(() => {
+const m=tm;
+const at=(r,a)=>[r*Math.cos(a*Math.PI/180),r*Math.sin(a*Math.PI/180)];
+const Fsec=(n=90)=>circleSVG({C:[{x:0,y:0,r:3,lab:'O'}],sector:{x:0,y:0,r:3,a1:20,a2:20+n},S:[[0,0,...at(3,20),false,'R'],[0,0,...at(3,20+n)]],ang:[[0,0,20,20+n,m(`${n}^\\circ`)]]});
+const Fring=()=>circleSVG({C:[{x:0,y:0,r:4,lab:'O'},{x:0,y:0,r:2.2}],ring:{x:0,y:0,r1:4,r2:2.2},S:[[0,0,...at(4,25),false,'R'],[0,0,...at(2.2,205),false,'r']]});
+Lecture.addPractice('lop9','on-thi-hinh-quat-vanh-khuyen',[
+ {dang:'Độ dài cung và bài toán ngược',items:[
+  {de:`Tính độ dài cung ${m('60^\\circ')} của đường tròn bán kính ${m('6')} cm.`,fig:Fsec(60),sol:[`Áp dụng ${m('l=\\dfrac{\\pi Rn}{180}')}.`,`${m('l=\\dfrac{\\pi\\cdot6\\cdot60}{180}=2\\pi')} cm.`],ans:`${tb('2\\pi')} cm.`,lines:4},
+  {de:`Một cung tròn bán kính ${m('10')} cm có độ dài ${m('5\\pi')} cm. Tính số đo cung.`,sol:[`${m('5\\pi=\\dfrac{\\pi\\cdot10\\cdot n}{180}')}.`,`Rút gọn ${m('\\pi')} rồi giải: ${m('n=90^\\circ')}.`],ans:`${tb('90^\\circ')}.`,lines:4},
+  {de:`Cung ${m('120^\\circ')} có độ dài ${m('10\\pi')} cm. Tính bán kính đường tròn.`,sol:[`${m('10\\pi=\\dfrac{\\pi R\\cdot120}{180}')}.`,`Suy ra ${m('R=10\\cdot180/120=15')} cm.`],ans:`${tb('15')} cm.`,lines:4},
+ ]},
+ {dang:'Diện tích hình quạt tròn',items:[
+  {de:`Tính diện tích hình quạt bán kính ${m('8')} cm, góc ở tâm ${m('90^\\circ')}.`,fig:Fsec(90),sol:[`${m('S=\\dfrac{\\pi R^2n}{360}')}.`,`${m('S=\\dfrac{\\pi\\cdot8^2\\cdot90}{360}=16\\pi')} cm².`],ans:`${tb('16\\pi')} cm².`,lines:4},
+  {de:`Hình quạt bán kính ${m('12')} cm có diện tích ${m('24\\pi')} cm². Tính góc ở tâm.`,sol:[`${m('24\\pi=\\dfrac{\\pi\\cdot12^2n}{360}')}.`,`Suy ra ${m('n=60^\\circ')}.`],ans:`${tb('60^\\circ')}.`,lines:4},
+  {de:`Hình quạt bán kính ${m('10')} cm có diện tích ${m('20\\pi')} cm². Tính độ dài cung.`,sol:[`Dùng ${m('S=\\dfrac{lR}{2}')}.`,`Suy ra ${m('l=\\dfrac{2S}{R}=\\dfrac{2\\cdot20\\pi}{10}=4\\pi')} cm.`],ans:`${tb('4\\pi')} cm.`,lines:4},
+ ]},
+ {dang:'Hình vành khuyên',items:[
+  {de:`Tính diện tích hình vành khuyên có bán kính ngoài ${m('10')} cm và bán kính trong ${m('6')} cm.`,fig:Fring(),sol:[`${m('S=\\pi(R^2-r^2)')}.`,`${m('S=\\pi(10^2-6^2)=64\\pi')} cm².`],ans:`${tb('64\\pi')} cm².`,lines:4},
+  {de:`Hình vành khuyên có bán kính ngoài ${m('13')} cm, diện tích ${m('144\\pi')} cm². Tính bán kính trong.`,sol:[`${m('144\\pi=\\pi(13^2-r^2)')}.`,`Suy ra ${m('r^2=169-144=25')}. Vì bán kính dương, ${m('r=5')} cm.`],ans:`${tb('5')} cm.`,lines:4},
+  {de:`Hình vành khuyên có bán kính trong ${m('8')} cm, diện tích ${m('225\\pi')} cm². Tính bán kính ngoài.`,sol:[`${m('225\\pi=\\pi(R^2-8^2)')}.`,`Suy ra ${m('R^2=225+64=289')}; do ${m('R\\gt0')}, ${m('R=17')} cm.`],ans:`${tb('17')} cm.`,lines:4},
+  {hard:true,de:`Một lối đi rộng đều ${m('2')} m bao quanh một hồ tròn bán kính ${m('8')} m. Tính diện tích lối đi.`,fig:Fring(),sol:[`Bán kính ngoài gồm bán kính hồ và bề rộng lối đi: ${m('R=8+2=10')} m; bán kính trong ${m('r=8')} m.`,`Diện tích lối đi là diện tích vành khuyên: ${m('S=\\pi(10^2-8^2)=36\\pi')} m².`],ans:`${tb('36\\pi')} m².`},
+ ]},
+ {dang:'Quạt vành khuyên và hình tô màu',items:[
+  {de:`Tính diện tích quạt vành khuyên có bán kính ngoài ${m('10')} cm, bán kính trong ${m('6')} cm và góc ở tâm ${m('90^\\circ')}.`,sol:[`${m('S=\\dfrac{\\pi(R^2-r^2)n}{360}')}.`,`${m('S=\\dfrac{\\pi(10^2-6^2)90}{360}=16\\pi')} cm².`],ans:`${tb('16\\pi')} cm².`,lines:4},
+  {de:`Từ hình tròn bán kính ${m('12')} cm, người ta bỏ đi hình quạt ${m('60^\\circ')}. Tính diện tích phần còn lại.`,sol:[`Diện tích hình tròn: ${m('144\\pi')} cm².`,`Diện tích quạt bị bỏ: ${m('\\dfrac{60}{360}\\cdot144\\pi=24\\pi')} cm².`,`Diện tích còn lại: ${m('144\\pi-24\\pi=120\\pi')} cm².`],ans:`${tb('120\\pi')} cm².`,lines:5},
+  {hard:true,de:`Một quạt vành khuyên có bán kính ngoài ${m('12')} cm, bán kính trong ${m('6')} cm và góc ở tâm ${m('120^\\circ')}. Tính diện tích và chu vi của hình.`,sol:[`Diện tích: ${m('S=\\dfrac{\\pi(12^2-6^2)120}{360}=36\\pi')} cm².`,`Cung ngoài: ${m('l_1=\\dfrac{\\pi\\cdot12\\cdot120}{180}=8\\pi')} cm; cung trong: ${m('l_2=4\\pi')} cm.`,`Hai cạnh thẳng có tổng độ dài ${m('2(12-6)=12')} cm.`,`Chu vi: ${m('P=8\\pi+4\\pi+12=12\\pi+12')} cm.`],ans:`${tb('S=36\\pi')} cm²; ${tb('P=12\\pi+12')} cm.`},
+  {hard:true,de:`Một hình vuông cạnh ${m('10')} cm chứa một phần tư hình tròn bán kính ${m('10')} cm có tâm tại một đỉnh. Tính diện tích phần trong hình vuông nhưng ngoài phần tư hình tròn.`,sol:[`Diện tích hình vuông: ${m('S_v=10^2=100')} cm².`,`Diện tích phần tư hình tròn: ${m('S_q=\\dfrac14\\pi\\cdot10^2=25\\pi')} cm².`,`Phần cần tìm: ${m('S=100-25\\pi')} cm².`],ans:`${tb('100-25\\pi')} cm².`},
+ ]},
+ {dang:'Chu vi và bài toán thực tế',items:[
+  {de:`Tính chu vi hình quạt nửa đường tròn bán kính ${m('7')} cm.`,fig:Fsec(180),sol:[`Cung nửa đường tròn dài ${m('l=\\pi R=7\\pi')} cm.`,`Chu vi hình quạt gồm cung và hai bán kính: ${m('P=7\\pi+14')} cm.`],ans:`${tb('7\\pi+14')} cm.`,lines:4},
+  {de:`Một bồn hoa hình quạt ${m('90^\\circ')} bán kính ${m('10')} m được rào quanh toàn bộ biên. Lấy ${m('\\pi\\approx3{,}14')}. Tính chiều dài hàng rào.`,sol:[`Độ dài cung: ${m('l=5\\pi\\approx15{,}7')} m.`,`Cộng hai bán kính: ${m('P=15{,}7+20=35{,}7')} m.`],ans:`${tb('35{,}7')} m.`,lines:4},
+  {hard:true,de:`Một vòi phun quay góc ${m('120^\\circ')} và phun xa ${m('9')} m. Tính diện tích mặt đất được tưới và độ dài cung ngoài của vùng tưới, lấy ${m('\\pi\\approx3{,}14')}; làm tròn đến hàng phần mười.`,sol:[`Vùng tưới là hình quạt bán kính ${m('9')} m, góc ${m('120^\\circ')}.`,`Diện tích: ${m('S=\\dfrac{120}{360}\\pi\\cdot9^2=27\\pi\\approx84{,}8')} m².`,`Độ dài cung: ${m('l=\\dfrac{\\pi\\cdot9\\cdot120}{180}=6\\pi\\approx18{,}8')} m.`],ans:`Khoảng ${tb('84{,}8')} m² và ${tb('18{,}8')} m.`},
+ ]},
+ {dang:'Tỉ lệ và bài toán tổng hợp',items:[
+  {de:`Hai hình quạt có cùng góc ở tâm. Bán kính hình thứ hai gấp ${m('2')} lần hình thứ nhất. Diện tích hình thứ hai gấp bao nhiêu lần?`,sol:[`Với góc ở tâm không đổi, diện tích hình quạt tỉ lệ với bình phương bán kính.`,`Tỉ số diện tích là ${m('2^2=4')}.`],ans:`${tb('4')} lần.`,lines:4},
+  {hard:true,de:`Một hình quạt có diện tích ${m('54\\pi')} cm² và độ dài cung ${m('6\\pi')} cm. Tính bán kính và góc ở tâm.`,sol:[`Dùng ${m('S=\\dfrac{lR}{2}')}: ${m('54\\pi=\\dfrac{6\\pi\\cdot R}{2}=3\\pi R')}, nên ${m('R=18')} cm.`,`Dùng ${m('l=\\dfrac{\\pi Rn}{180}')}: ${m('6\\pi=\\dfrac{\\pi\\cdot18n}{180}')}.`,`Suy ra ${m('n=60^\\circ')}.`],ans:`${tb('R=18')} cm; ${tb('n=60^\\circ')}.`},
+  {hard:true,de:`Một hình vành khuyên có diện tích ${m('96\\pi')} cm². Bán kính ngoài hơn bán kính trong ${m('4')} cm. Tính hai bán kính.`,sol:[`Gọi bán kính ngoài, trong lần lượt là ${m('R,r')}. Ta có ${m('R-r=4')}.`,`Từ diện tích: ${m('R^2-r^2=96')}, hay ${m('(R-r)(R+r)=96')}.`,`Thay ${m('R-r=4')} được ${m('R+r=24')}. Giải hệ ${m('R-r=4,\\ R+r=24')} được ${m('R=14,r=10')}.`],ans:`Bán kính ngoài ${tb('14')} cm; bán kính trong ${tb('10')} cm.`},
+ ]},
+]);
+})();

@@ -6,8 +6,20 @@ const CONFIG = {
   brandHTML: 'Học mà <span>chơi</span>',           // chữ lớn trên đầu trang
   author:   'Soạn bởi thầy Vũ Tiến Lực · Bài tập củng cố theo bài',
   brand:    'Lớp Toán Thầy Vũ Tiến Lực',                // tên trang in trên phiếu học tập
-  classApp: 'https://dojotienluc.vercel.app/',          // ứng dụng quản lý lớp: mở ở khung phải khi trình chiếu (nút 🧑‍🏫 Lớp học); để '' thì ẩn nút
+  classApp: 'https://hoc-ma-choi-six.vercel.app/',          // ứng dụng quản lý lớp: mở ở khung phải khi trình chiếu (nút 🧑‍🏫 Lớp học); để '' thì ẩn nút
   setSize:  6,                                     // số câu mỗi bộ
+
+  // PHÒNG HỌC MÀ CHƠI: tạo Web App + Realtime Database theo HUONG-DAN-FIREBASE.md rồi điền các giá trị dưới đây.
+  firebase: {
+    apiKey: 'AIzaSyD7Rqnn_hFMs2fjq_Yqgl4iMNl6cSh7mXo',
+    authDomain: 'hoc-ma.firebaseapp.com',
+    databaseURL: 'https://hoc-ma-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId: 'hoc-ma',
+    storageBucket: 'hoc-ma.firebasestorage.app',
+    messagingSenderId: '324062548291',
+    appId: '1:324062548291:web:fd522126b754db4391dff6',
+    measurementId: 'G-XFZVNPY6N6',
+  },
 
   // Danh sách lớp đang có: mỗi mục ứng với một file data/<mã>.js
   // Thêm lớp mới: tạo data/lop5.js (chép từ data/_mau-lop-moi.js) rồi thêm 'lop5' vào đây.

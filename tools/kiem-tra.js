@@ -149,6 +149,34 @@ if (studentTestFiles.length) {
   });
 }
 
+/* ---------- 2c. Học mà chơi (20 câu/chủ đề, 4 phương án đổi vị trí) ---------- */
+let nGame = 0;
+const gameDataFiles = [...idxSafe().matchAll(/<script src="(data\/game-[^"]+\.js)"/g)].map(x => x[1]);
+if (gameDataFiles.length) {
+  if (!idxSafe().includes('src="assets/js/game.js"')) err('index.html', 'có kho trò chơi nhưng chưa nạp assets/js/game.js');
+  run(S, 'assets/js/game.js');
+  gameDataFiles.forEach(f => run(S, f));
+  const GAME = vm.runInContext('typeof Game !== "undefined" ? Game : null', S);
+  (GAME ? GAME.TOPICS : []).forEach(t => { const w0 = `Học mà chơi ${t.grade}/${t.id}`; nGame++;
+    if (!t.grade || !t.id || !t.name || !t.desc || typeof t.generate !== 'function') err(w0, 'thiếu grade/id/name/desc/generate');
+    if (!(CONFIG.grades || []).includes(t.grade)) err(w0, `lớp ${t.grade} chưa có trong CONFIG.grades`);
+    const positions = [0, 0, 0, 0];
+    for (let turn = 0; turn < 8; turn++) { let qs;
+      try { qs = GAME.build(t.id, `kiem-tra-${turn}`, 20); } catch (e) { err(w0, 'không dựng được trận: ' + e.message); break; }
+      if (!Array.isArray(qs) || qs.length !== 20) { err(w0, `mỗi trận phải có đúng 20 câu, hiện có ${(qs || []).length}`); break; }
+      const signatures = new Set();
+      qs.forEach((x, i) => { const w = `${w0} · trận ${turn + 1} · câu ${i + 1}`;
+        if (!x.text || !x.explain || !Array.isArray(x.opts) || x.opts.length !== 4) err(w, 'cần đề, giải thích và đúng 4 phương án');
+        else if (new Set(x.opts).size !== 4) err(w, 'có phương án trùng nhau');
+        if (!Number.isInteger(x.correct) || x.correct < 0 || x.correct > 3) err(w, 'chỉ số đáp án đúng không hợp lệ'); else positions[x.correct]++;
+        const sig = String(x.text).replace(/<[^>]+>/g, ''); if (signatures.has(sig)) err(w, 'trùng câu trong cùng một trận'); signatures.add(sig);
+        [x.text, x.explain, ...(x.opts || [])].forEach(y => checkTex(w, y));
+      });
+    }
+    if (positions.some(x => x === 0)) err(w0, `đáp án chưa đổi đủ bốn vị trí A/B/C/D: ${positions.join('/')}`);
+  });
+}
+
 /* ---------- 3. Phần giáo viên ---------- */
 const T = sandbox(), BOOKS = [], PRACT = [];
 ['config.js', 'assets/js/core.js', 'assets/js/figures.js', 'assets/js/generators.js'].forEach(f => run(T, f));
@@ -210,7 +238,7 @@ const KT = vm.runInContext('typeof KiemTra !== "undefined" ? KiemTra : null', T)
 
 /* ---------- 4. Liên kết trang học sinh ---------- */
 const idx = rd('index.html');
-['config.js', 'assets/js/core.js', 'assets/js/engine.js'].forEach(f => { if (!idx.includes(`src="${f}"`)) err('index.html', `thiếu <script src="${f}">`); });
+['config.js', 'assets/js/core.js', 'assets/js/game.js', 'data/game-lop9.js', 'assets/js/engine.js'].forEach(f => { if (!idx.includes(`src="${f}"`)) err('index.html', `thiếu <script src="${f}">`); });
 function idxSafe(){ return fs.existsSync(path.join(ROOT, 'index.html')) ? rd('index.html') : ''; }
 
 /* ---------- Bản đồ nội dung (dùng cho tools/goi-chatgpt.js): BAN_DO=tệp.md node tools/kiem-tra.js 3 ---------- */
@@ -227,7 +255,7 @@ if (process.env.BAN_DO) try {
 } catch (e) { console.log('  ⚠ không tạo được bản đồ: ' + e.message); }
 
 /* ---------- Báo cáo ---------- */
-console.log(`Tệp JS: ${jsFiles.length} · Câu hỏi đã sinh: ${nQ} (${REPS} lần/dạng/mức) · Bài kiểm tra học sinh: ${nST} · Trang bài giảng: ${nS} · Phiếu luyện tập: ${PRACT.length} · Đề kiểm tra: ${nKT}`);
+console.log(`Tệp JS: ${jsFiles.length} · Câu hỏi đã sinh: ${nQ} (${REPS} lần/dạng/mức) · Bài kiểm tra học sinh: ${nST} · Chủ đề trò chơi: ${nGame} · Trang bài giảng: ${nS} · Phiếu luyện tập: ${PRACT.length} · Đề kiểm tra: ${nKT}`);
 [...new Set(warns)].slice(0, 15).forEach(x => console.log('  ⚠ ' + x));
 [...new Set(errs)].slice(0, 40).forEach(x => console.log('  ✗ ' + x));
 if (errs.length > 40) console.log(`  … và ${errs.length - 40} lỗi khác`);

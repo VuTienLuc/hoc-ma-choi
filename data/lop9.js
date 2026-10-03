@@ -1343,4 +1343,67 @@ const gGa6=lv=>{
 lesson(6,'on-thi-goc-duong-tron','Hình học 2. Góc ở tâm, góc nội tiếp','Ôn tuyển sinh từ cơ bản đến nâng cao: cung và góc ở tâm; góc nội tiếp; đường kính; tứ giác nội tiếp; tiếp tuyến–dây; góc có đỉnh trong và ngoài đường tròn.',[gGa1,gGa2,gGa3,gGa4,gGa5,gGa6]);
 }
 
+/* =====================================================================
+   ÔN THI TUYỂN SINH VÀO LỚP 10 – HÌNH HỌC 3. HÌNH QUẠT, HÌNH VÀNH KHUYÊN
+   ===================================================================== */
+{
+const SEC_ARC=[[6,60,2],[8,45,2],[9,80,4],[10,72,4],[12,90,6],[15,120,10]];
+const SEC_AREA=[[6,90,9],[8,90,16],[10,72,20],[12,60,24],[15,80,50],[18,40,36]];
+const ANN=[[5,3,16],[10,6,64],[13,5,144],[15,9,144],[17,8,225],[20,12,256]];
+const ANN_SEC=[[6,2,90,8],[10,6,90,16],[9,3,120,24],[12,6,120,36],[15,9,60,24],[18,12,120,60]];
+const secAt=(r,a)=>[r*Math.cos(a*Math.PI/180),r*Math.sin(a*Math.PI/180)];
+const secFig=(n=90)=>circleSVG({C:[{x:0,y:0,r:3,lab:'O'}],sector:{x:0,y:0,r:3,a1:20,a2:20+n},S:[[0,0,...secAt(3,20),false,'R'],[0,0,...secAt(3,20+n)]],ang:[[0,0,20,20+n,tm(`${n}^\\circ`)]]});
+const ringFig=()=>circleSVG({C:[{x:0,y:0,r:4,lab:'O'},{x:0,y:0,r:2.2}],ring:{x:0,y:0,r1:4,r2:2.2},S:[[0,0,...secAt(4,25),false,'R'],[0,0,...secAt(2.2,205),false,'r']]});
+
+const gSq1=lv=>{
+  const [r,n,k]=pick(SEC_ARC);
+  if(lv===1)return QB({text:`Tính độ dài cung ${tm(`${n}^\\circ`)} của đường tròn bán kính ${tm(`${r}`)} cm. Điền hệ số của ${tm('\\pi')}.`,tpl:`${tm('l =')} [_]${tm('\\pi')} cm`,ans:[k],fig:secFig(n),hint:`Dùng ${tm('l=\\dfrac{\\pi Rn}{180}')}.`,sol:`${tm(`l=\\dfrac{\\pi\\cdot${r}\\cdot${n}}{180}=${k}\\pi`)} cm.`});
+  if(lv===2)return QB({text:`Một cung tròn bán kính ${tm(`${r}`)} cm có độ dài ${tm(`${k}\\pi`)} cm. Tính số đo cung.`,tpl:'[_]'+tm('^\\circ'),ans:[n],hint:`Thay vào ${tm('l=\\dfrac{\\pi Rn}{180}')} rồi giải tìm ${tm('n')}.`,sol:`${tm(`${k}\\pi=\\dfrac{\\pi\\cdot${r}\\cdot n}{180}`)}, suy ra ${tm(`n=${n}^\\circ`)}.`});
+  return QB({text:`Cung ${tm(`${n}^\\circ`)} có độ dài ${tm(`${k}\\pi`)} cm. Tính bán kính đường tròn.`,tpl:`${tm('R =')} [_] cm`,ans:[r],hint:'Đổi công thức độ dài cung để tìm bán kính.',sol:`${tm(`R=\\dfrac{180l}{\\pi n}=\\dfrac{180\\cdot${k}\\pi}{\\pi\\cdot${n}}=${r}`)} cm.`});
+};
+
+const gSq2=lv=>{
+  const [r,n,k]=pick(SEC_AREA);
+  if(lv===1)return QB({text:`Tính diện tích hình quạt tròn bán kính ${tm(`${r}`)} cm, góc ở tâm ${tm(`${n}^\\circ`)}. Điền hệ số của ${tm('\\pi')}.`,tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`,ans:[k],fig:secFig(n),hint:`Dùng ${tm('S=\\dfrac{\\pi R^2n}{360}')}.`,sol:`${tm(`S=\\dfrac{\\pi\\cdot${r}^2\\cdot${n}}{360}=${k}\\pi`)} cm².`});
+  if(lv===2)return QB({text:`Hình quạt bán kính ${tm(`${r}`)} cm có diện tích ${tm(`${k}\\pi`)} cm². Tính góc ở tâm.`,tpl:'[_]'+tm('^\\circ'),ans:[n],hint:`Thay vào ${tm('S=\\dfrac{\\pi R^2n}{360}')}.`,sol:`${tm(`${k}\\pi=\\dfrac{\\pi\\cdot${r}^2n}{360}`)}, suy ra ${tm(`n=${n}^\\circ`)}.`});
+  const l=2*k/r;
+  return QB({text:`Hình quạt tròn bán kính ${tm(`${r}`)} cm có diện tích ${tm(`${k}\\pi`)} cm². Tính độ dài cung của hình quạt. Điền hệ số của ${tm('\\pi')}.`,tpl:`${tm('l =')} [_]${tm('\\pi')} cm`,ans:[l],hint:`Dùng hệ thức ${tm('S=\\dfrac{lR}{2}')}.`,sol:`${tm(`l=\\dfrac{2S}{R}=\\dfrac{2\\cdot${k}\\pi}{${r}}=${l}\\pi`)} cm.`});
+};
+
+const gSq3=lv=>{
+  const [Rr,r,k]=pick(ANN);
+  if(lv===1)return QB({text:`Tính diện tích hình vành khuyên giới hạn bởi hai đường tròn đồng tâm bán kính ${tm(`${Rr}`)} cm và ${tm(`${r}`)} cm. Điền hệ số của ${tm('\\pi')}.`,tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`,ans:[k],fig:ringFig(),hint:`Dùng ${tm('S=\\pi(R^2-r^2)')}.`,sol:`${tm(`S=\\pi(${Rr}^2-${r}^2)=${k}\\pi`)} cm².`});
+  if(lv===2)return QB({text:`Một hình vành khuyên có bán kính ngoài ${tm(`${Rr}`)} cm và diện tích ${tm(`${k}\\pi`)} cm². Tính bán kính trong.`,tpl:`${tm('r =')} [_] cm`,ans:[r],fig:ringFig(),hint:`Từ ${tm('R^2-r^2=S/\\pi')} suy ra ${tm('r')}.`,sol:`${tm(`r^2=R^2-\\dfrac S\\pi=${Rr}^2-${k}=${r*r}`)}, nên ${tm(`r=${r}`)} cm.`});
+  return QB({text:`Hình vành khuyên có bán kính trong ${tm(`${r}`)} cm và diện tích ${tm(`${k}\\pi`)} cm². Tính bán kính ngoài.`,tpl:`${tm('R =')} [_] cm`,ans:[Rr],hint:`Dùng ${tm('R^2=r^2+S/\\pi')}.`,sol:`${tm(`R^2=${r}^2+${k}=${Rr*Rr}`)}, nên ${tm(`R=${Rr}`)} cm.`});
+};
+
+const gSq4=lv=>{
+  const [Rr,r,n,k]=pick(ANN_SEC);
+  if(lv===1)return QC({text:'Diện tích một hình quạt vành khuyên có bán kính ngoài '+tm('R')+', bán kính trong '+tm('r')+' và góc ở tâm '+tm('n^\\circ')+' được tính bởi',opts:[tm('\\dfrac{\\pi(R^2-r^2)n}{360}'),tm('\\pi(R-r)^2'),tm('\\dfrac{\\pi(R-r)n}{180}'),tm('\\pi(R^2+r^2)')],ans:tm('\\dfrac{\\pi(R^2-r^2)n}{360}'),hint:'Lấy diện tích quạt lớn trừ diện tích quạt nhỏ có cùng góc ở tâm.',sol:`Diện tích cần tìm là ${tb('\\dfrac{\\pi(R^2-r^2)n}{360}')}.`});
+  if(lv===2)return QB({text:`Một hình quạt vành khuyên có bán kính ngoài ${tm(`${Rr}`)} cm, bán kính trong ${tm(`${r}`)} cm và góc ở tâm ${tm(`${n}^\\circ`)}. Điền hệ số của ${tm('\\pi')} trong diện tích.`,tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`,ans:[k],fig:ringFig(),hint:'Lấy diện tích quạt lớn trừ diện tích quạt nhỏ.',sol:`${tm(`S=\\dfrac{\\pi(${Rr}^2-${r}^2)${n}}{360}=${k}\\pi`)} cm².`});
+  const full=(Rr*Rr-r*r), remain=full-k;
+  return QB({text:`Từ hình vành khuyên bán kính ngoài ${tm(`${Rr}`)} cm, bán kính trong ${tm(`${r}`)} cm, người ta bỏ đi một phần quạt ${tm(`${n}^\\circ`)}. Điền hệ số của ${tm('\\pi')} trong diện tích còn lại.`,tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`,ans:[remain],hint:'Diện tích còn lại bằng diện tích vành khuyên trừ diện tích quạt vành khuyên bị bỏ.',sol:`${tm(`S=\\pi(${Rr}^2-${r}^2)-${k}\\pi=${full}\\pi-${k}\\pi=${remain}\\pi`)} cm².`});
+};
+
+const gSq5=lv=>{
+  if(lv===1){const r=R(3,12);return QB({text:`Một hình quạt nửa đường tròn bán kính ${tm(`${r}`)} cm. Tính chu vi hình quạt. Điền hệ số của ${tm('\\pi')} và phần số thường.`,tpl:`${tm('P =')} [_]${tm('\\pi +')} [_] cm`,ans:[r,2*r],hint:'Chu vi hình quạt bằng độ dài cung cộng hai bán kính.',sol:`Cung nửa đường tròn dài ${tm(`\\pi R=${r}\\pi`)} cm; hai bán kính dài ${tm(`${2*r}`)} cm. Vậy ${tm(`P=${r}\\pi+${2*r}`)} cm.`});}
+  if(lv===2){const r=10,n=90,l=5*Math.PI;return QB({text:`Một bồn hoa là hình quạt ${tm('90^\\circ')} bán kính ${tm('10')} m. Người ta làm hàng rào dọc theo toàn bộ chu vi bồn hoa. Lấy ${tm('\\pi\\approx3{,}14')}. Hỏi cần bao nhiêu mét hàng rào?`,tpl:'[_] m',ans:[35.7],hint:'Chu vi quạt bằng độ dài cung cộng hai bán kính.',sol:`Độ dài cung ${tm('l=\\dfrac{\\pi\\cdot10\\cdot90}{180}=5\\pi\\approx15{,}7')} m. Chu vi ${tm('P=15{,}7+20=35{,}7')} m.`});}
+  return QC({text:'Khi giữ nguyên góc ở tâm và tăng bán kính hình quạt lên 2 lần thì diện tích hình quạt',opts:['tăng 4 lần','tăng 2 lần','không đổi','giảm 2 lần'],ans:'tăng 4 lần',hint:'Diện tích hình quạt tỉ lệ với bình phương bán kính.',sol:`Vì ${tm('S=\\dfrac{\\pi R^2n}{360}')}, thay ${tm('R')} bởi ${tm('2R')} làm diện tích ${tb('tăng 4 lần')}.`});
+};
+
+const gSq6=lv=>{
+  const [Rr,r,n,k]=pick(ANN_SEC), outer=Rr*Rr*n/360, inner=r*r*n/360;
+  const text=`Một khu trang trí có dạng hình quạt vành khuyên tâm ${tm('O')}, bán kính ngoài ${tm(`${Rr}`)} m, bán kính trong ${tm(`${r}`)} m và góc ở tâm ${tm(`${n}^\\circ`)}.`;
+  const steps=[
+   {tag:'Chọn công thức',ask:'Diện tích phần trang trí được tính bằng',opts:['Diện tích quạt lớn trừ diện tích quạt nhỏ','Diện tích hai quạt cộng lại','Diện tích vành khuyên đầy đủ','Chu vi quạt lớn trừ chu vi quạt nhỏ'],ans:'Diện tích quạt lớn trừ diện tích quạt nhỏ',hint:'Hai hình quạt đồng tâm và có cùng góc ở tâm.'},
+   {tag:'Quạt lớn',ask:`Điền hệ số của ${tm('\\pi')} trong diện tích quạt lớn.`,tpl:'[_]'+tm('\\pi')+' m²',ans:[outer],hint:`Dùng ${tm('S=\\pi R^2n/360')}.`},
+   {tag:'Quạt nhỏ',ask:`Điền hệ số của ${tm('\\pi')} trong diện tích quạt nhỏ.`,tpl:'[_]'+tm('\\pi')+' m²',ans:[inner],hint:'Dùng bán kính trong.'},
+   {tag:'Kết quả',ask:`Điền hệ số của ${tm('\\pi')} trong diện tích phần trang trí.`,tpl:'[_]'+tm('\\pi')+' m²',ans:[k],hint:'Lấy diện tích quạt lớn trừ diện tích quạt nhỏ.'}
+  ];
+  return QS({direct:lv===3,text,steps:lv===1?steps.slice(0,3):steps,hint:'Tách hình quạt vành khuyên thành quạt lớn trừ quạt nhỏ.',sol:`Diện tích quạt lớn là ${tm(`${outer}\\pi`)} m², quạt nhỏ là ${tm(`${inner}\\pi`)} m². Diện tích cần tìm: ${tm(`${outer}\\pi-${inner}\\pi=${k}\\pi`)} m².`});
+};
+
+lesson(6,'on-thi-hinh-quat-vanh-khuyen','Hình học 3. Hình quạt tròn và hình vành khuyên','Ôn tuyển sinh từ cơ bản đến nâng cao: độ dài cung; diện tích quạt; vành khuyên; quạt vành khuyên; chu vi, hình ghép và bài toán thực tế.',[gSq1,gSq2,gSq3,gSq4,gSq5,gSq6]);
+}
+
 })();

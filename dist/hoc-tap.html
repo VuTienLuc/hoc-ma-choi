@@ -673,6 +673,28 @@ h1 .h1en{font-size:.55em;font-weight:600}
 @media (max-width:700px){.test-facts,.result-parts{grid-template-columns:1fr 1fr}.test-head{grid-template-columns:1fr 1fr}.test-clock{grid-column:1/-1;justify-self:stretch;text-align:center}.test-options{grid-template-columns:1fr}.test-tf>div{grid-template-columns:1fr}.tf-buttons button{flex:1}.test-part>h2{font-size:21px}.result-score b{font-size:58px}}
 
 </style>
+<style>
+/* HỌC MÀ CHƠI – giao diện ngang cho iPad, đấu máy, hai người và phòng cả lớp */
+.game-entry{margin-top:34px}.game-entry h2 small{color:#ff7a18}.game-tile{border-color:#ffbb55;background:linear-gradient(145deg,#fff9e8,#fff)}
+.game-tile:hover{border-color:#ff8a00;box-shadow:0 12px 30px #ff9d2030}.game-tile b{font-size:1.18rem}
+.game-room-head{display:flex;align-items:center;gap:18px;margin:18px 0 28px}.game-room-head h1{margin:2px 0}.game-room-head p{margin:0;color:var(--muted)}
+.game-room-head small{color:var(--muted);font-weight:700}.game-icon{display:grid;place-items:center;width:82px;height:82px;border-radius:26px;background:linear-gradient(135deg,#fff0aa,#ffb347);font-size:42px;box-shadow:0 10px 24px #ed8b2030}
+.game-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.game-mode{min-height:140px;padding:22px;border:2px solid var(--line);border-radius:22px;background:var(--card);color:var(--text);text-align:left;cursor:pointer;box-shadow:var(--shadow);font:inherit}.game-mode:hover{transform:translateY(-2px);border-color:#ff991f}.game-mode b,.game-mode span{display:block}.game-mode b{font:800 1.25rem/1.25 'Baloo 2',sans-serif;margin-bottom:8px}.game-mode span{color:var(--muted);line-height:1.45}
+.game-classbox{margin-top:20px;max-width:640px}.game-classbox h3{margin-top:0}.game-classbox label{display:grid;gap:7px;margin:14px 0;font-weight:700}.game-classbox input,.game-classbox select{min-height:48px;padding:8px 12px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font:700 1rem inherit}.game-classbox input{text-transform:uppercase;letter-spacing:.18em;font-size:1.25rem}.game-classbox #gcMsg{margin-top:12px;color:#d65a00;font-weight:700}
+body.game-active{overflow:hidden;background:#09142d}.game-active>.top,.game-active>#app,.game-active>#toast{display:none!important}.game-arena{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;overflow:auto;padding:max(12px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));background:radial-gradient(circle at 18% 5%,#203d78 0,#0c1a3b 42%,#071125 100%);color:#fff;font-family:'Be Vietnam Pro',sans-serif}
+.ga-head{display:grid;grid-template-columns:auto 1fr auto 72px;align-items:center;gap:16px;min-height:50px}.ga-head button,.class-lobby>[data-exit]{border:0;border-radius:12px;background:#ffffff18;color:#fff;padding:10px 14px;font:700 1rem inherit;cursor:pointer}.ga-head>b{text-align:center;font-size:1.08rem}.ga-head>span{font-weight:700;color:#d8e5ff}.ga-head time{display:grid;place-items:center;width:58px;height:42px;border-radius:14px;background:#ffb21c;color:#221500;font:800 1.35rem 'Baloo 2',sans-serif}
+.ga-score{display:grid;grid-template-columns:1fr 1px 1fr;align-items:center;text-align:center;margin:8px auto 4px;width:min(650px,70%);font-weight:700}.ga-score i{height:28px;background:#ffffff30}.ga-score b{margin-left:8px;color:#ffd55f;font-size:1.35rem}
+.ga-question{display:grid;place-items:center;flex:1;min-height:104px;margin:8px auto 12px;width:min(1050px,94%);padding:18px 28px;border:2px solid #ffffff24;border-radius:24px;background:#ffffff10;text-align:center;font:700 clamp(1.15rem,2.2vw,1.8rem)/1.5 'Be Vietnam Pro',sans-serif}.ga-question mjx-container{font-size:110%!important}
+.ga-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:min(1000px,94%);margin:0 auto}.ga-options button,.ga-player button{display:grid;grid-template-columns:46px 1fr;align-items:center;gap:12px;min-height:68px;padding:10px 16px;border:2px solid #91a8d040;border-radius:18px;background:#f7faff;color:#12213d;text-align:left;font:600 1rem/1.35 inherit;cursor:pointer}.ga-options button:hover,.ga-player button:hover{border-color:#ffd05c;transform:translateY(-1px)}.ga-options button>b,.ga-player button>b{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#dce7fa;color:#17315f;font:800 1.12rem 'Baloo 2',sans-serif}.ga-options button.picked,.ga-player button.picked{border-color:#f6b51e;background:#fff6cb}.ga-options button.right,.ga-player button.right{border-color:#35d07f;background:#dffbea}.ga-options button.wrong,.ga-player button.wrong{border-color:#ff6472;background:#ffe4e7}.ga-options button:disabled,.ga-player button:disabled{cursor:default;opacity:1}
+.ga-duel{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(1180px,98%);margin:0 auto}.ga-player{padding:10px;border-radius:22px;background:#ffffff0b}.ga-player h3{text-align:center;margin:0 0 7px;color:#ffd666}.ga-player>div{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ga-player button{min-height:62px;padding:8px 10px;grid-template-columns:38px 1fr}.ga-player button>b{width:34px;height:34px}.ga-bot,.game-wait{text-align:center;margin:12px;font-weight:700;color:#c9d8f3}
+.game-arena footer{width:min(1050px,96%);margin:10px auto 0;text-align:center}.ga-explain{display:inline-block;margin-right:14px;padding:10px 16px;border-radius:14px;background:#ffffff16;text-align:left;line-height:1.45}.game-arena .btn{border-color:#ffffff40;background:#ffffff16;color:#fff}.game-arena .btn.primary{border-color:#ffc340;background:#ffb21c;color:#211600;font-weight:800}
+.game-result,.class-lobby{width:min(900px,94%);margin:auto;text-align:center}.game-cup{font-size:76px}.game-result h1,.class-lobby h1{font:800 clamp(1.8rem,4vw,3.3rem) 'Baloo 2',sans-serif;margin:6px}.result-versus{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;margin:28px auto;width:min(650px,90%)}.result-versus>span{padding:20px;border-radius:22px;background:#ffffff12}.result-versus b,.result-versus small{display:block}.result-versus b{font:800 2.8rem 'Baloo 2',sans-serif;color:#ffd35d}.result-versus small{color:#d2dff5}.result-versus i{font-size:2rem}.game-result .row{justify-content:center}
+.class-lobby>small{display:block;color:#bbcae6;letter-spacing:.2em;margin-top:8px}.class-lobby>strong{display:block;font:800 clamp(3.5rem,11vw,8rem)/1 'Baloo 2',sans-serif;letter-spacing:.12em;color:#ffd04f;text-shadow:0 5px 24px #ff9d3050}.class-players{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-height:180px;overflow:auto;margin:16px 0}.class-players span{padding:8px 12px;border-radius:20px;background:#ffffff14}.class-players small{color:#b9c9e6}.class-host{display:grid;grid-template-columns:140px 1fr auto;align-items:center;gap:20px;width:min(1050px,96%);margin:0 auto}.class-host>div:first-child{text-align:center}.class-host>div:first-child b,.class-host>div:first-child span{display:block}.class-host>div:first-child b{font:800 2rem 'Baloo 2',sans-serif;color:#ffd05a}.class-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.class-bars>span{position:relative;display:grid;grid-template-columns:28px 1fr 24px;align-items:center;gap:5px;overflow:hidden;padding:8px;border-radius:11px;background:#ffffff12}.class-bars i{position:absolute;inset:0 auto 0 0;background:#43d38b33}.class-bars b,.class-bars em{z-index:1;font-style:normal}.class-result ol{list-style:none;padding:0;max-width:650px;margin:16px auto;text-align:left}.class-result li{display:flex;justify-content:space-between;gap:18px;padding:11px 16px;border-bottom:1px solid #ffffff20}.game-loading{margin:auto;font-size:1.2rem}
+#rotateGame{display:none;position:fixed;inset:0;z-index:10000;place-items:center;background:#071125;color:#fff;text-align:center;padding:24px}#rotateGame.show{display:grid}#rotateGame>div{display:grid;gap:12px;justify-items:center}#rotateGame>div:first-letter{font-size:5rem;color:#ffd052}#rotateGame b{font:800 1.8rem 'Baloo 2',sans-serif}#rotateGame span{color:#c7d6f0}
+@media(max-width:800px){.game-modes{grid-template-columns:1fr}.game-room-head{align-items:flex-start}.game-active .game-arena{padding:8px 12px}.ga-question{min-height:86px;padding:12px 18px}.ga-options button{min-height:58px}.class-host{grid-template-columns:110px 1fr}.class-host>.btn{grid-column:1/-1}.ga-explain{font-size:.9rem}.ga-duel{gap:8px}.ga-player{padding:6px}.ga-player button span{font-size:.82rem}}
+@media(orientation:portrait){#rotateGame.show{display:grid}}
+
+</style>
 </head>
 <body>
 <header class="top">
@@ -693,8 +715,20 @@ const CONFIG = {
   brandHTML: 'Học mà <span>chơi</span>',           // chữ lớn trên đầu trang
   author:   'Soạn bởi thầy Vũ Tiến Lực · Bài tập củng cố theo bài',
   brand:    'Lớp Toán Thầy Vũ Tiến Lực',                // tên trang in trên phiếu học tập
-  classApp: 'https://dojotienluc.vercel.app/',          // ứng dụng quản lý lớp: mở ở khung phải khi trình chiếu (nút 🧑‍🏫 Lớp học); để '' thì ẩn nút
+  classApp: 'https://hoc-ma-choi-six.vercel.app/',          // ứng dụng quản lý lớp: mở ở khung phải khi trình chiếu (nút 🧑‍🏫 Lớp học); để '' thì ẩn nút
   setSize:  6,                                     // số câu mỗi bộ
+
+  // PHÒNG HỌC MÀ CHƠI: tạo Web App + Realtime Database theo HUONG-DAN-FIREBASE.md rồi điền các giá trị dưới đây.
+  firebase: {
+    apiKey: 'AIzaSyD7Rqnn_hFMs2fjq_Yqgl4iMNl6cSh7mXo',
+    authDomain: 'hoc-ma.firebaseapp.com',
+    databaseURL: 'https://hoc-ma-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId: 'hoc-ma',
+    storageBucket: 'hoc-ma.firebasestorage.app',
+    messagingSenderId: '324062548291',
+    appId: '1:324062548291:web:fd522126b754db4391dff6',
+    measurementId: 'G-XFZVNPY6N6',
+  },
 
   // Danh sách lớp đang có: mỗi mục ứng với một file data/<mã>.js
   // Thêm lớp mới: tạo data/lop5.js (chép từ data/_mau-lop-moi.js) rồi thêm 'lop5' vào đây.
@@ -1830,6 +1864,113 @@ const Play = (() => {
 
   addEventListener('hashchange', () => { const m = $('#petHome'); if(m){ m.remove(); document.body.classList.remove('noscroll'); } });
   return { on, look, bgSVG, accSVG, snapshot, adopt, checkInactivity, inactivityInfo, progressValue, hasStarCap, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
+})();
+
+</script>
+<script>/* assets/js/game.js */
+/* =====================================================================
+   GAME – Chế độ "Học mà chơi": đấu máy, hai người chung iPad, phòng cả lớp.
+   Dữ liệu: Game.addTopic({...}) trong data/game-<lớp>.js.
+   Phòng lớp: Firebase Anonymous Auth + Realtime Database.
+   ===================================================================== */
+const Game = (() => {
+  const TOPICS=[], LET='ABCD'; let view=null, timer=null, fbReady=null, roomRef=null, roomOff=null, currentGrade='lop9';
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const hash=s=>{let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
+  const rng=seed=>{let a=hash(seed);return()=>{a+=0x6D2B79F5;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}};
+  const shuffle=(a,r)=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  const addTopic=t=>TOPICS.push(t);
+  function build(id,seed,count=20){const t=TOPICS.find(x=>x.id===id);if(!t)throw Error('Không thấy chủ đề '+id);const r=rng(seed),out=[],seen=new Set();let tries=0;
+    while(out.length<count&&tries<count*30){const q=t.generate(r,out.length+tries),sig=(q.text||'').replace(/<[^>]+>/g,'');tries++;if(seen.has(sig))continue;seen.add(sig);
+      const opts=shuffle([...new Set([q.answer,...q.wrong])],r);if(opts.length!==4)continue;out.push({...q,opts,correct:opts.indexOf(q.answer),qid:`${id}-${out.length+1}`});}
+    if(out.length<count)throw Error(`Chủ đề ${id} chỉ sinh được ${out.length}/${count} câu không trùng`);return out;}
+  const appEl=()=>document.querySelector('#app');
+  const gradeOf=()=>{const id=typeof Account!=='undefined'&&Account.user?Account.gradeOfClass(Account.user.lop):'';return id||currentGrade};
+  const isTeacher=()=>typeof Account!=='undefined'&&Account.isTeacher&&Account.isTeacher();
+  const homeHref=()=>`#/${gradeOf()}`;
+  function on(ev,g){if(ev!=='home'||!g)return;currentGrade=g.id;const app=appEl();if(!app||app.querySelector('.game-entry'))return;const foot=app.querySelector('.foot');const h=`<section class="topic game-entry"><h2><small>Chế độ luyện tập</small>Học mà chơi</h2><div class="grid"><a class="tile game-tile" href="#/game"><b>🎮 Vào phòng chơi</b><span>Đấu với máy · Hai người · Cả lớp</span><span class="meta"><span>20 câu thông hiểu</span><span>Trắc nghiệm 4 phương án</span></span></a></div></section>`;foot?foot.insertAdjacentHTML('beforebegin',h):app.insertAdjacentHTML('beforeend',h)}
+  function route(){if(!location.hash.startsWith('#/game')){const a=document.querySelector('#gameArena');if(a)a.remove();if(view)clear();return false}clear();const m=location.hash.match(/^#\/game(?:\/([^/]+))?/);m&&m[1]?renderTopic(m[1]):renderHub();return true}
+  function shell(body){const app=appEl();app.innerHTML=`<div class="toolbar"><a class="back" href="${homeHref()}">← Bài học</a><span class="pill">🎮 Học mà chơi</span></div>${body}<p class="foot">${CONFIG.author}</p>`;typeset(app)}
+  function renderHub(){const grade=gradeOf(),ts=TOPICS.filter(t=>t.grade===grade);shell(`<h1>Chọn chủ đề để vào phòng</h1><p class="lead">Mỗi trận gồm 20 câu trắc nghiệm thông hiểu. Các phương án được đổi vị trí trong mỗi trận.</p><div class="grid game-topics">${ts.map(t=>`<a class="tile game-tile" href="#/game/${t.id}"><b>${t.icon||'🎯'} ${t.name}</b><span>${t.desc}</span><span class="meta"><span>20 câu/trận</span><span>4 phương án</span></span></a>`).join('')}</div>`)}
+  function renderTopic(id){const t=TOPICS.find(x=>x.id===id);if(!t)return renderHub();view={topic:t};shell(`<div class="game-room-head"><span class="game-icon">${t.icon||'🎯'}</span><div><small>${t.group||'Ôn thi tuyển sinh'}</small><h1>${t.name}</h1><p>${t.desc}</p></div></div><h2>Chọn cách chơi</h2><div class="game-modes"><button class="game-mode" data-mode="bot"><b>🤖 Chơi với máy</b><span>Thi tốc độ với đối thủ máy</span></button><button class="game-mode" data-mode="duel"><b>⚔️ Chơi 2 người</b><span>Hai bạn dùng chung một iPad</span></button><button class="game-mode" data-mode="class"><b>🏫 Chơi cả lớp</b><span>${isTeacher()?'Tạo phòng và điều khiển':'Nhập mã phòng của giáo viên'}</span></button></div><div id="gameClass"></div>`);document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>chooseMode(b.dataset.mode))}
+  function chooseMode(mode){if(mode==='class')return isTeacher()?classCreateForm():classJoinForm();startLocal(mode)}
+  async function landscape(){const root=document.documentElement,fs=root.requestFullscreen||root.webkitRequestFullscreen;try{if(fs&&!document.fullscreenElement)await fs.call(root)}catch(e){}try{if(screen.orientation&&screen.orientation.lock)await screen.orientation.lock('landscape')}catch(e){}document.body.classList.add('game-active');ensureRotate()}
+  function ensureRotate(){let o=document.querySelector('#rotateGame');if(!o){o=document.createElement('div');o.id='rotateGame';o.innerHTML='<div>↻<b>Hãy xoay iPad sang ngang</b><span>Trò chơi sẽ bắt đầu khi màn hình ở chiều ngang.</span></div>';document.body.appendChild(o)}const f=()=>o.classList.toggle('show',innerHeight>innerWidth);f();addEventListener('resize',f);view&&(view.rotate=f)}
+  function clear(){clearInterval(timer);timer=null;if(roomOff)roomOff();roomOff=null;roomRef=null;if(view&&view.rotate)removeEventListener('resize',view.rotate);view=null;document.body.classList.remove('game-active');const o=document.querySelector('#rotateGame');if(o)o.remove()}
+  function score(remain,limit){return 700+Math.max(0,Math.round(300*remain/limit))}
+  function startLocal(mode){const seed=Date.now()+'-'+Math.random(),qs=build(view.topic.id,seed,20);view={topic:view.topic,mode,qs,i:0,limit:20,scores:[0,0],correct:[0,0],picked:[null,null],bot:null,reveal:false};landscape().then(drawLocal)}
+  function arena(){let el=document.querySelector('#gameArena');if(!el){document.body.insertAdjacentHTML('beforeend','<main id="gameArena" class="game-arena" aria-live="polite"></main>');el=document.querySelector('#gameArena')}return el}
+  function drawLocal(){const v=view,q=v.qs[v.i],two=v.mode==='duel';clearInterval(timer);v.picked=[null,null];v.bot=null;v.reveal=false;v.left=v.limit;const el=arena();el.className='game-arena '+(two?'duel':'bot');el.innerHTML=`<header class="ga-head"><button data-exit>✕ Thoát</button><b>${v.topic.name}</b><span>Câu ${v.i+1}/20</span><time id="gaTime">${v.left}</time></header><section class="ga-score"><span>${two?'Bạn 1':'Em'} <b id="sc0">${v.scores[0]}</b></span><i></i><span>${two?'Bạn 2':'Máy'} <b id="sc1">${v.scores[1]}</b></span></section><section class="ga-question"><div>${q.text}</div></section>${two?`<section class="ga-duel">${playerOptions(q,0,'Bạn 1')}${playerOptions(q,1,'Bạn 2')}</section>`:`<section class="ga-options">${q.opts.map((o,k)=>`<button data-p="0" data-o="${k}"><b>${LET[k]}</b><span>${o}</span></button>`).join('')}</section><div class="ga-bot" id="botState">🤖 Máy đang suy nghĩ…</div>`}<footer id="gaFoot"></footer>`;el.querySelector('[data-exit]').onclick=exitGame;el.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>pickLocal(+b.dataset.p,+b.dataset.o));typeset(el);timer=setInterval(tickLocal,1000);if(!two){const rr=rng(Date.now()),delay=1200+Math.floor(rr()*2500);setTimeout(()=>{if(!view||view.reveal||view.mode!=='bot')return;const accuracy=.7,correct=rr()<accuracy,q=view.qs[view.i];view.bot=correct?q.correct:shuffle([0,1,2,3].filter(x=>x!==q.correct),rr)[0];finishIfReady()},delay)}}
+  function playerOptions(q,p,name){return `<div class="ga-player p${p}"><h3>${name}</h3><div>${q.opts.map((o,k)=>`<button data-p="${p}" data-o="${k}"><b>${LET[k]}</b><span>${o}</span></button>`).join('')}</div></div>`}
+  function pickLocal(p,k){if(!view||view.reveal||view.picked[p]!=null)return;view.picked[p]=k;document.querySelectorAll(`[data-p="${p}"]`).forEach(b=>{b.disabled=true;b.classList.toggle('picked',+b.dataset.o===k)});finishIfReady()}
+  function tickLocal(){if(!view||view.reveal)return;view.left--;const t=document.querySelector('#gaTime');if(t)t.textContent=view.left;if(view.left<=0){view.picked=view.picked.map(x=>x==null?-1:x);if(view.mode==='bot'&&view.bot==null)view.bot=-1;finishLocal()}}
+  function finishIfReady(){if(view.mode==='duel'){if(view.picked.every(x=>x!=null))finishLocal()}else if(view.picked[0]!=null&&view.bot!=null)finishLocal()}
+  function finishLocal(){if(!view||view.reveal)return;view.reveal=true;clearInterval(timer);const q=view.qs[view.i],answers=view.mode==='duel'?view.picked:[view.picked[0],view.bot];answers.forEach((a,p)=>{if(a===q.correct){view.scores[p]+=score(view.left,view.limit);view.correct[p]++}});document.querySelectorAll('[data-o]').forEach(b=>{const k=+b.dataset.o;b.classList.toggle('right',k===q.correct);if(+b.dataset.p<answers.length&&answers[+b.dataset.p]===k&&k!==q.correct)b.classList.add('wrong');b.disabled=true});const bot=document.querySelector('#botState');if(bot)bot.textContent=view.bot===q.correct?'🤖 Máy trả lời đúng!':'🤖 Máy trả lời sai.';document.querySelector('#sc0').textContent=view.scores[0];document.querySelector('#sc1').textContent=view.scores[1];document.querySelector('#gaFoot').innerHTML=`<div class="ga-explain"><b>Đáp án ${LET[q.correct]}.</b> ${q.explain}</div><button class="btn primary" id="gameNext">${view.i===19?'Xem kết quả':'Câu tiếp theo →'}</button>`;document.querySelector('#gameNext').onclick=()=>{view.i++;view.i>=20?localResult():drawLocal()};typeset(document.querySelector('#gaFoot'))}
+  function localResult(){clearInterval(timer);const v=view,a=v.scores[0],b=v.scores[1],winner=a===b?'Hòa rồi!':a>b?(v.mode==='duel'?'Bạn 1 chiến thắng!':'Em chiến thắng!'):(v.mode==='duel'?'Bạn 2 chiến thắng!':'Máy chiến thắng!');arena().innerHTML=`<section class="game-result"><div class="game-cup">🏆</div><h1>${winner}</h1><div class="result-versus"><span><b>${a}</b><small>${v.correct[0]}/20 câu đúng</small></span><i>–</i><span><b>${b}</b><small>${v.correct[1]}/20 câu đúng</small></span></div><div class="row"><button class="btn primary" id="gameAgain">Chơi lại</button><button class="btn" id="gameExit">Chọn chủ đề</button></div></section>`;document.querySelector('#gameAgain').onclick=()=>startLocal(v.mode);document.querySelector('#gameExit').onclick=exitGame}
+  function exitGame(){const el=document.querySelector('#gameArena');if(el)el.remove();try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}const topic=view&&view.topic;clear();location.hash=topic?`#/game/${topic.id}`:'#/game'}
+
+  /* ---------- Firebase phòng cả lớp ---------- */
+  const firebaseConfigured=()=>CONFIG.firebase&&CONFIG.firebase.apiKey&&CONFIG.firebase.databaseURL&&CONFIG.firebase.projectId;
+  const loadScript=src=>new Promise((ok,no)=>{if([...document.scripts].some(s=>s.src===src))return ok();const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+  async function firebaseReady(){if(!firebaseConfigured())throw Error('Firebase chưa được cấu hình trong config.js');if(fbReady)return fbReady;fbReady=(async()=>{await loadScript('https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js');await loadScript('https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js');await loadScript('https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js');if(!firebase.apps.length)firebase.initializeApp(CONFIG.firebase);await firebase.auth().signInAnonymously();return firebase.database()})();return fbReady}
+  function classBox(h){const b=document.querySelector('#gameClass');b.innerHTML=`<section class="card game-classbox">${h}</section>`;return b}
+  function classCreateForm(){if(!firebaseConfigured())return classBox('<h3>Chưa cấu hình Firebase</h3><p>Làm theo tệp <b>HUONG-DAN-FIREBASE.md</b>, sau đó điền <b>CONFIG.firebase</b>.</p>');classBox(`<h3>🏫 Tạo phòng cả lớp</h3><label>Số câu<select id="gcCount"><option>20</option><option>25</option><option>30</option></select></label><label>Thời gian mỗi câu<select id="gcTime"><option value="15">15 giây</option><option value="20" selected>20 giây</option><option value="30">30 giây</option></select></label><button class="btn primary" id="gcCreate">Tạo phòng</button><div id="gcMsg"></div>`);document.querySelector('#gcCreate').onclick=createRoom}
+  function classJoinForm(){classBox(`<h3>🏫 Vào phòng cả lớp</h3><label>Mã phòng<input id="gjCode" maxlength="6" inputmode="text" autocomplete="off" placeholder="Ví dụ: A3K9Q2"></label><button class="btn primary" id="gjJoin">Vào phòng</button><div id="gcMsg"></div>`);document.querySelector('#gjJoin').onclick=()=>joinRoom(document.querySelector('#gjCode').value)}
+  const code=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=rng(Date.now());return Array.from({length:6},()=>a[Math.floor(r()*a.length)]).join('')};
+  async function createRoom(){const msg=document.querySelector('#gcMsg');try{msg.textContent='Đang tạo phòng…';const db=await firebaseReady(),u=firebase.auth().currentUser,c=code(),count=+document.querySelector('#gcCount').value,limit=+document.querySelector('#gcTime').value,seed=Date.now()+'-'+c;roomRef=db.ref('rooms/'+c);await roomRef.set({hostUid:u.uid,hostName:Account.user.name||'Giáo viên',topicId:view.topic.id,topicName:view.topic.name,count,limit,seed,state:'lobby',index:-1,questionKey:'-1',reveal:false,createdAt:firebase.database.ServerValue.TIMESTAMP,expiresAt:Date.now()+72e5});listenRoom(c,true)}catch(e){msg.textContent=e.message}}
+  async function joinRoom(raw){const c=String(raw||'').toUpperCase().replace(/[^A-Z0-9]/g,'');const msg=document.querySelector('#gcMsg');if(c.length!==6){msg.textContent='Mã phòng gồm 6 ký tự.';return}try{msg.textContent='Đang vào phòng…';const db=await firebaseReady(),u=firebase.auth().currentUser,ref=db.ref('rooms/'+c),snap=await ref.once('value');if(!snap.exists())throw Error('Không tìm thấy phòng.');const x=snap.val();if(x.expiresAt<Date.now())throw Error('Phòng đã hết hạn.');await ref.child('players/'+u.uid).set({name:Account.user.name||Account.user.user,lop:Account.user.lop||'',score:0,correct:0,joinedAt:firebase.database.ServerValue.TIMESTAMP});roomRef=ref;listenRoom(c,false)}catch(e){msg.textContent=e.message}}
+  function listenRoom(c,host){landscape();const el=arena(),cb=s=>drawClass(c,host,s.val()||{});roomRef.on('value',cb);roomOff=()=>roomRef&&roomRef.off('value',cb);view={topic:view.topic,mode:'class',host,code:c,room:null,qs:[],rotate:view&&view.rotate};el.innerHTML='<div class="game-loading">Đang nối phòng…</div>'}
+  function drawClass(c,host,r){if(!view)return;view.room=r;if(r.reveal)view.revealing=false;if(r.topicId){view.topic=TOPICS.find(x=>x.id===r.topicId)||view.topic;view.qs=build(r.topicId,r.seed,r.count||20)}const players=Object.entries(r.players||{}),q=r.index>=0&&view.qs[r.index];const el=arena();clearInterval(timer);
+    if(r.state==='lobby'){el.innerHTML=`<section class="class-lobby"><button data-exit>✕</button><small>MÃ PHÒNG</small><strong>${c}</strong><h1>${r.topicName}</h1><p>${players.length} học sinh đã vào phòng</p><div class="class-players">${players.map(([,p])=>`<span>🙂 ${esc(p.name)} <small>${esc(p.lop)}</small></span>`).join('')}</div>${host?'<button class="btn primary" id="classStart" '+(players.length?'':'disabled')+'>Bắt đầu</button>':'<div class="game-wait">Chờ giáo viên bắt đầu…</div>'}</section>`;el.querySelector('[data-exit]').onclick=exitClass;if(host&&players.length)document.querySelector('#classStart').onclick=()=>roomRef.update({state:'play',index:0,questionKey:'0',reveal:false,deadline:Date.now()+(r.limit||20)*1000});return}
+    if(r.state==='ended')return classResult(c,host,r,players);
+    const answers=(r.answers&&r.answers[r.index])||{},mine=firebase.auth().currentUser&&answers[firebase.auth().currentUser.uid];el.innerHTML=`<header class="ga-head"><button data-exit>✕</button><b>Phòng ${c}</b><span>Câu ${r.index+1}/${r.count}</span><time id="gaTime">${Math.max(0,Math.ceil((r.deadline-Date.now())/1000))}</time></header><section class="ga-question"><div>${q.text}</div></section>${host?hostClassBody(q,r,answers,players):studentClassBody(q,r,mine)}<footer id="gaFoot">${r.reveal?`<div class="ga-explain"><b>Đáp án ${LET[q.correct]}.</b> ${q.explain}</div>`:''}</footer>`;el.querySelector('[data-exit]').onclick=exitClass;typeset(el);
+    if(host){const b=document.querySelector('#classControl');b.onclick=()=>r.reveal?nextClass(r):revealClass(r,q,answers)}else if(!r.reveal&&!mine)el.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>sendClassAnswer(r,+b.dataset.o));
+    timer=setInterval(()=>{const t=document.querySelector('#gaTime');if(!t)return;const n=Math.max(0,Math.ceil((r.deadline-Date.now())/1000));t.textContent=n;if(host&&n===0&&!r.reveal)revealClass(r,q,answers)},500)}
+  function studentClassBody(q,r,mine){return `<section class="ga-options">${q.opts.map((o,k)=>`<button data-o="${k}" ${mine||r.reveal?'disabled':''} class="${r.reveal&&k===q.correct?'right':''} ${mine&&mine.choice===k?'picked':''}"><b>${LET[k]}</b><span>${o}</span></button>`).join('')}</section>${mine&&!r.reveal?'<div class="game-wait">Đã gửi đáp án · Chờ giáo viên…</div>':''}`}
+  function hostClassBody(q,r,answers,players){const n=Object.keys(answers).length;return `<section class="class-host"><div><b>${n}/${players.length}</b><span>đã trả lời</span></div><div class="class-bars">${q.opts.map((o,k)=>`<span><b>${LET[k]}</b><i style="width:${n?100*Object.values(answers).filter(a=>a.choice===k).length/n:0}%"></i><em>${Object.values(answers).filter(a=>a.choice===k).length}</em></span>`).join('')}</div><button class="btn primary" id="classControl">${r.reveal?(r.index+1>=r.count?'Kết thúc':'Câu tiếp theo →'):'Khóa và hiện đáp án'}</button></section>`}
+  async function sendClassAnswer(r,k){const u=firebase.auth().currentUser;if(!u)return;await roomRef.child(`answers/${r.index}/${u.uid}`).set({choice:k,at:firebase.database.ServerValue.TIMESTAMP})}
+  async function revealClass(r,q,answers){if(!view||!view.host||r.reveal||view.revealing)return;view.revealing=true;const updates={reveal:true};Object.entries(answers).forEach(([uid,a])=>{const p=(r.players||{})[uid];if(!p)return;const ok=a.choice===q.correct,remain=Math.max(0,(r.deadline-(a.at||r.deadline))/1000);updates[`players/${uid}/score`]=(p.score||0)+(ok?score(remain,r.limit):0);updates[`players/${uid}/correct`]=(p.correct||0)+(ok?1:0)});try{await roomRef.update(updates)}catch(e){view.revealing=false;console.error(e)}}
+  function nextClass(r){if(r.index+1>=r.count)return roomRef.update({state:'ended'});roomRef.update({index:r.index+1,questionKey:String(r.index+1),reveal:false,deadline:Date.now()+r.limit*1000})}
+  function classResult(c,host,r,players){players.sort((a,b)=>(b[1].score||0)-(a[1].score||0));arena().innerHTML=`<section class="game-result class-result"><div class="game-cup">🏆</div><h1>Kết quả phòng ${c}</h1><ol>${players.map(([,p],i)=>`<li><b>${i+1}. ${esc(p.name)}</b><span>${p.correct||0}/${r.count} câu · ${p.score||0} điểm</span></li>`).join('')}</ol><button class="btn primary" id="classExit">Rời phòng</button></section>`;document.querySelector('#classExit').onclick=exitClass}
+  function exitClass(){if(roomOff)roomOff();if(view&&view.host&&roomRef)roomRef.update({state:'ended'});exitGame()}
+  function typeset(el){if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([el]).catch(()=>{})}
+  return {TOPICS,addTopic,build,on,route};
+})();
+
+</script>
+<script>/* data/game-lop9.js */
+/* Kho câu hỏi Học mà chơi – Lớp 9. Mỗi trận sinh 20 câu thông hiểu, 4 phương án. */
+(() => {
+const m=tm, ri=(r,a,b)=>a+Math.floor(r()*(b-a+1)), pick=(r,a)=>a[Math.floor(r()*a.length)];
+const q=(text,answer,wrong,explain)=>({text,answer,wrong,explain});
+const nums=(v,d=[1,2,3])=>d.map(x=>m(String(v+x)));
+Game.addTopic({id:'game-tiep-tuyen',grade:'lop9',icon:'📐',group:'Ôn thi tuyển sinh · Hình học',name:'Tiếp tuyến của đường tròn',desc:'Tính chất, hai tiếp tuyến, dây tiếp điểm và tiếp tuyến–cát tuyến.',generate(r,i){const k=i%8;
+ if(k===0){const R=ri(r,4,12),d=pick(r,[R-2,R,R+2]),a=d<R?'cắt đường tròn tại hai điểm':d===R?'là tiếp tuyến của đường tròn':'không giao với đường tròn';return q(`Đường thẳng ${m('d')} cách tâm ${m('O')} một khoảng ${m(String(d))} cm; đường tròn có bán kính ${m(String(R))} cm. Kết luận đúng là`,a,['cắt đường tròn tại hai điểm','là tiếp tuyến của đường tròn','không giao với đường tròn','đi qua tâm đường tròn'].filter(x=>x!==a).slice(0,3),`So sánh ${m(`d=${d}`)} với ${m(`R=${R}`)}.`)}
+ if(k===1){const T=pick(r,[[3,4,5],[5,12,13],[8,15,17],[7,24,25]]),[Rr,t,d]=T;return q(`Từ ${m('M')} kẻ tiếp tuyến ${m('MA')} đến ${m(`(O;${Rr}\\text{ cm})`)}. Biết ${m(`OM=${d}`)} cm. Độ dài ${m('MA')} bằng`,m(`${t}\\text{ cm}`),nums(t),`${m('MA=\\sqrt{OM^2-OA^2}')} vì tam giác ${m('OAM')} vuông tại ${m('A')}.`)}
+ if(k===2){const x=ri(r,5,18);return q(`Từ ${m('M')} kẻ hai tiếp tuyến ${m('MA,MB')} của ${m('(O)')}. Nếu ${m(`MA=${x}`)} cm thì ${m('MB')} bằng`,m(`${x}\\text{ cm}`),[m(`${x+1}\\text{ cm}`),m(`${2*x}\\text{ cm}`),m(`${Math.max(1,x-2)}\\text{ cm}`)],'Hai tiếp tuyến xuất phát từ cùng một điểm ngoài có độ dài bằng nhau.')}
+ if(k===3){const a=ri(r,4,13)*10,c=180-a;return q(`Hai tiếp tuyến ${m('MA,MB')} tạo góc ${m(`${a}^\\circ`)}. Góc ở tâm ${m('\\widehat{AOB}')} bằng`,m(`${c}^\\circ`),[m(`${a}^\\circ`),m(`${90-a/2}^\\circ`),m(`${360-a}^\\circ`)],`${m('\\widehat{AOB}+\\widehat{AMB}=180^\\circ')}.`)}
+ if(k===4){const T=pick(r,[[3,4,5],[6,8,10],[8,15,17]]),[Rr,t,d]=T,oh=Rr*Rr/d;return q(`Cho ${m(`OA=${Rr}`)} cm, ${m(`OM=${d}`)} cm; ${m('MA,MB')} là hai tiếp tuyến và ${m('H=OM\\cap AB')}. Độ dài ${m('OH')} bằng`,m(`${String(oh).replace('.',',')}\\text{ cm}`),[m(`${Rr}\\text{ cm}`),m(`${t}\\text{ cm}`),m(`${d-Rr}\\text{ cm}`)],`Trong tam giác vuông ${m('OAM')}, ${m('OA^2=OH\\cdot OM')}.`)}
+ if(k===5){const a=ri(r,3,8),b=a*4,t=a*2;return q(`Từ ${m('M')} kẻ tiếp tuyến ${m('MA')} và cát tuyến ${m('MCD')}. Biết ${m(`MC=${a}`)} cm, ${m(`MD=${b}`)} cm. ${m('MA')} bằng`,m(`${t}\\text{ cm}`),[m(`${a}\\text{ cm}`),m(`${b-a}\\text{ cm}`),m(`${t+2}\\text{ cm}`)],`${m('MA^2=MC\\cdot MD')}, nên ${m(`MA=\\sqrt{${a}\\cdot${b}}=${t}`)} cm.`)}
+ if(k===6)return q(`Muốn chứng minh đường thẳng ${m('a')} là tiếp tuyến của ${m('(O)')} tại ${m('A')}, cặp điều kiện nào đủ?`,`${m('A\\in(O)')} và ${m('a\\perp OA')} tại ${m('A')}`,[`${m('A\\in(O)')} và ${m('a\\parallel OA')}`,`${m('a')} đi qua ${m('O')}`,`${m('OA=R')} và ${m('a')} bất kỳ`],'Đường thẳng qua một điểm của đường tròn và vuông góc bán kính tại điểm đó là tiếp tuyến.')
+ return q(`Từ ${m('M')} kẻ hai tiếp tuyến ${m('MA,MB')}. Đường thẳng ${m('OM')} có tính chất nào với dây tiếp điểm ${m('AB')}?`,m('OM\\perp AB')+' và '+m('HA=HB'),[m('OM\\parallel AB'),m('OM=AB'),m('OA\\parallel MB')],`${m('OA=OB')} và ${m('MA=MB')} nên ${m('OM')} là đường trung trực của ${m('AB')}.`)} });
+Game.addTopic({id:'game-goc-duong-tron',grade:'lop9',icon:'⭕',group:'Ôn thi tuyển sinh · Hình học',name:'Góc ở tâm, góc nội tiếp',desc:'Quan hệ góc–cung, tứ giác nội tiếp và các góc nâng cao.',generate(r,i){const k=i%8,a=ri(r,2,8)*10;
+ if(k===0)return q(`Góc ở tâm ${m(`\\widehat{AOB}=${a}^\\circ`)} chắn cung nhỏ ${m('AB')}. Số đo cung nhỏ bằng`,m(`${a}^\\circ`),[m(`${a/2}^\\circ`),m(`${180-a}^\\circ`),m(`${360-a}^\\circ`)],'Số đo cung nhỏ bằng số đo góc ở tâm chắn cung đó.')
+ if(k===1)return q(`Cung ${m('AB')} có số đo ${m(`${2*a}^\\circ`)}. Góc nội tiếp chắn cung đó bằng`,m(`${a}^\\circ`),[m(`${2*a}^\\circ`),m(`${90-a/2}^\\circ`),m(`${180-a}^\\circ`)],'Góc nội tiếp bằng nửa số đo cung bị chắn.')
+ if(k===2)return q(`Góc nội tiếp chắn đường kính có số đo`,m('90^\\circ'),[m('45^\\circ'),m('60^\\circ'),m('180^\\circ')],'Góc nội tiếp chắn nửa đường tròn là góc vuông.')
+ if(k===3)return q(`Hai góc nội tiếp cùng chắn một cung thì`, 'bằng nhau',['bù nhau','phụ nhau','có tổng bằng '+m('360^\\circ')],'Hai góc nội tiếp cùng chắn một cung có số đo bằng nhau.')
+ if(k===4){const b=180-a;return q(`Tứ giác ${m('ABCD')} nội tiếp, ${m(`\\widehat A=${a}^\\circ`)}. Góc ${m('\\widehat C')} bằng`,m(`${b}^\\circ`),[m(`${a}^\\circ`),m(`${90-a/2}^\\circ`),m(`${360-a}^\\circ`)],'Hai góc đối của tứ giác nội tiếp bù nhau.')}
+ if(k===5)return q(`Góc tạo bởi tiếp tuyến và dây bằng ${m(`${a}^\\circ`)}. Góc nội tiếp cùng chắn cung đó bằng`,m(`${a}^\\circ`),[m(`${2*a}^\\circ`),m(`${a/2}^\\circ`),m(`${180-a}^\\circ`)],'Góc tiếp tuyến–dây bằng góc nội tiếp cùng chắn một cung.')
+ if(k===6){const b=ri(r,2,7)*10,s=(a+b)/2;return q(`Hai dây cắt nhau trong đường tròn, hai cung bị chắn có số đo ${m(`${a}^\\circ`)} và ${m(`${b}^\\circ`)}. Góc tạo bởi hai dây bằng`,m(`${s}^\\circ`),[m(`${a+b}^\\circ`),m(`${Math.abs(a-b)/2}^\\circ`),m(`${Math.max(a,b)}^\\circ`)],'Góc có đỉnh trong đường tròn bằng nửa tổng hai cung bị chắn.')}
+ const b=ri(r,1,Math.max(1,a/10-1))*10,d=(a-b)/2;return q(`Hai cát tuyến gặp nhau ngoài đường tròn, hai cung bị chắn bằng ${m(`${a}^\\circ`)} và ${m(`${b}^\\circ`)}. Góc ngoài bằng`,m(`${d}^\\circ`),[m(`${a-b}^\\circ`),m(`${(a+b)/2}^\\circ`),m(`${a/2}^\\circ`)],'Góc có đỉnh ngoài đường tròn bằng nửa hiệu cung lớn và cung nhỏ.')} });
+Game.addTopic({id:'game-hinh-quat',grade:'lop9',icon:'🌙',group:'Ôn thi tuyển sinh · Hình học',name:'Hình quạt tròn và hình vành khuyên',desc:'Độ dài cung, diện tích quạt, vành khuyên và ứng dụng.',generate(r,i){const k=i%8;
+ if(k===0){const [R,n,c]=pick(r,[[6,60,2],[10,72,4],[12,90,6]]);return q(`Độ dài cung ${m(`${n}^\\circ`)} của đường tròn bán kính ${m(String(R))} cm bằng`,m(`${c}\\pi\\text{ cm}`),[m(`${2*c}\\pi\\text{ cm}`),m(`${c}\\pi\\text{ cm}^2`),m(`${R}\\pi\\text{ cm}`)],`${m('l=\\dfrac{\\pi Rn}{180}')}.`)}
+ if(k===1){const [R,n,c]=pick(r,[[8,90,16],[12,60,24],[10,72,20]]);return q(`Diện tích hình quạt bán kính ${m(String(R))} cm, góc ở tâm ${m(`${n}^\\circ`)} bằng`,m(`${c}\\pi\\text{ cm}^2`),[m(`${2*c}\\pi\\text{ cm}^2`),m(`${c}\\pi\\text{ cm}`),m(`${R*R}\\pi\\text{ cm}^2`)],`${m('S=\\dfrac{\\pi R^2n}{360}')}.`)}
+ if(k===2){const [Rr,rr,c]=pick(r,[[10,6,64],[13,5,144],[17,8,225]]);return q(`Diện tích vành khuyên có bán kính ngoài ${m(String(Rr))} cm, bán kính trong ${m(String(rr))} cm bằng`,m(`${c}\\pi\\text{ cm}^2`),[m(`${(Rr-rr)*(Rr-rr)}\\pi\\text{ cm}^2`),m(`${Rr*Rr}\\pi\\text{ cm}^2`),m(`${Rr+rr}\\pi\\text{ cm}^2`)],`${m('S=\\pi(R^2-r^2)')}.`)}
+ if(k===3)return q('Công thức đúng tính diện tích hình vành khuyên là',m('S=\\pi(R^2-r^2)'),[m('S=\\pi(R-r)^2'),m('S=2\\pi(R-r)'),m('S=\\pi(R^2+r^2)')],'Lấy diện tích hình tròn lớn trừ diện tích hình tròn nhỏ.')
+ if(k===4){const R=ri(r,4,12);return q(`Chu vi hình quạt nửa đường tròn bán kính ${m(String(R))} cm bằng`,m(`${R}\\pi+${2*R}\\text{ cm}`),[m(`${2*R}\\pi\\text{ cm}`),m(`${R}\\pi\\text{ cm}`),m(`${R*R}\\pi\\text{ cm}`)],'Chu vi hình quạt bằng độ dài cung cộng hai bán kính.')}
+ if(k===5){const [Rr,rr,n,c]=pick(r,[[10,6,90,16],[12,6,120,36],[9,3,120,24]]);return q(`Diện tích quạt vành khuyên có ${m(`R=${Rr}`)} cm, ${m(`r=${rr}`)} cm, góc ${m(`${n}^\\circ`)} bằng`,m(`${c}\\pi\\text{ cm}^2`),[m(`${Rr*Rr-rr*rr}\\pi\\text{ cm}^2`),m(`${c*2}\\pi\\text{ cm}^2`),m(`${Rr-rr}\\pi\\text{ cm}^2`)],`${m('S=\\dfrac{\\pi(R^2-r^2)n}{360}')}.`)}
+ if(k===6)return q('Giữ nguyên góc ở tâm, tăng bán kính hình quạt lên 2 lần thì diện tích','tăng 4 lần',['tăng 2 lần','không đổi','giảm 2 lần'],'Diện tích hình quạt tỉ lệ với bình phương bán kính.')
+ return q(`Một bồn hoa hình quạt ${m('90^\\circ')} bán kính ${m('10')} m. Độ dài cung cong bằng`,m('5\\pi\\text{ m}'),[m('10\\pi\\text{ m}'),m('25\\pi\\text{ m}'),m('5\\pi\\text{ m}^2')],`${m('l=\\dfrac{\\pi\\cdot10\\cdot90}{180}=5\\pi')} m.`)} });
 })();
 
 </script>
@@ -5003,6 +5144,69 @@ const gGa6=lv=>{
 lesson(6,'on-thi-goc-duong-tron','Hình học 2. Góc ở tâm, góc nội tiếp','Ôn tuyển sinh từ cơ bản đến nâng cao: cung và góc ở tâm; góc nội tiếp; đường kính; tứ giác nội tiếp; tiếp tuyến–dây; góc có đỉnh trong và ngoài đường tròn.',[gGa1,gGa2,gGa3,gGa4,gGa5,gGa6]);
 }
 
+/* =====================================================================
+   ÔN THI TUYỂN SINH VÀO LỚP 10 – HÌNH HỌC 3. HÌNH QUẠT, HÌNH VÀNH KHUYÊN
+   ===================================================================== */
+{
+const SEC_ARC=[[6,60,2],[8,45,2],[9,80,4],[10,72,4],[12,90,6],[15,120,10]];
+const SEC_AREA=[[6,90,9],[8,90,16],[10,72,20],[12,60,24],[15,80,50],[18,40,36]];
+const ANN=[[5,3,16],[10,6,64],[13,5,144],[15,9,144],[17,8,225],[20,12,256]];
+const ANN_SEC=[[6,2,90,8],[10,6,90,16],[9,3,120,24],[12,6,120,36],[15,9,60,24],[18,12,120,60]];
+const secAt=(r,a)=>[r*Math.cos(a*Math.PI/180),r*Math.sin(a*Math.PI/180)];
+const secFig=(n=90)=>circleSVG({C:[{x:0,y:0,r:3,lab:'O'}],sector:{x:0,y:0,r:3,a1:20,a2:20+n},S:[[0,0,...secAt(3,20),false,'R'],[0,0,...secAt(3,20+n)]],ang:[[0,0,20,20+n,tm(`${n}^\\circ`)]]});
+const ringFig=()=>circleSVG({C:[{x:0,y:0,r:4,lab:'O'},{x:0,y:0,r:2.2}],ring:{x:0,y:0,r1:4,r2:2.2},S:[[0,0,...secAt(4,25),false,'R'],[0,0,...secAt(2.2,205),false,'r']]});
+
+const gSq1=lv=>{
+  const [r,n,k]=pick(SEC_ARC);
+  if(lv===1)return QB({text:`Tính độ dài cung ${tm(`${n}^\\circ`)} của đường tròn bán kính ${tm(`${r}`)} cm. Điền hệ số của ${tm('\\pi')}.`,tpl:`${tm('l =')} [_]${tm('\\pi')} cm`,ans:[k],fig:secFig(n),hint:`Dùng ${tm('l=\\dfrac{\\pi Rn}{180}')}.`,sol:`${tm(`l=\\dfrac{\\pi\\cdot${r}\\cdot${n}}{180}=${k}\\pi`)} cm.`});
+  if(lv===2)return QB({text:`Một cung tròn bán kính ${tm(`${r}`)} cm có độ dài ${tm(`${k}\\pi`)} cm. Tính số đo cung.`,tpl:'[_]'+tm('^\\circ'),ans:[n],hint:`Thay vào ${tm('l=\\dfrac{\\pi Rn}{180}')} rồi giải tìm ${tm('n')}.`,sol:`${tm(`${k}\\pi=\\dfrac{\\pi\\cdot${r}\\cdot n}{180}`)}, suy ra ${tm(`n=${n}^\\circ`)}.`});
+  return QB({text:`Cung ${tm(`${n}^\\circ`)} có độ dài ${tm(`${k}\\pi`)} cm. Tính bán kính đường tròn.`,tpl:`${tm('R =')} [_] cm`,ans:[r],hint:'Đổi công thức độ dài cung để tìm bán kính.',sol:`${tm(`R=\\dfrac{180l}{\\pi n}=\\dfrac{180\\cdot${k}\\pi}{\\pi\\cdot${n}}=${r}`)} cm.`});
+};
+
+const gSq2=lv=>{
+  const [r,n,k]=pick(SEC_AREA);
+  if(lv===1)return QB({text:`Tính diện tích hình quạt tròn bán kính ${tm(`${r}`)} cm, góc ở tâm ${tm(`${n}^\\circ`)}. Điền hệ số của ${tm('\\pi')}.`,tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`,ans:[k],fig:secFig(n),hint:`Dùng ${tm('S=\\dfrac{\\pi R^2n}{360}')}.`,sol:`${tm(`S=\\dfrac{\\pi\\cdot${r}^2\\cdot${n}}{360}=${k}\\pi`)} cm².`});
+  if(lv===2)return QB({text:`Hình quạt bán kính ${tm(`${r}`)} cm có diện tích ${tm(`${k}\\pi`)} cm². Tính góc ở tâm.`,tpl:'[_]'+tm('^\\circ'),ans:[n],hint:`Thay vào ${tm('S=\\dfrac{\\pi R^2n}{360}')}.`,sol:`${tm(`${k}\\pi=\\dfrac{\\pi\\cdot${r}^2n}{360}`)}, suy ra ${tm(`n=${n}^\\circ`)}.`});
+  const l=2*k/r;
+  return QB({text:`Hình quạt tròn bán kính ${tm(`${r}`)} cm có diện tích ${tm(`${k}\\pi`)} cm². Tính độ dài cung của hình quạt. Điền hệ số của ${tm('\\pi')}.`,tpl:`${tm('l =')} [_]${tm('\\pi')} cm`,ans:[l],hint:`Dùng hệ thức ${tm('S=\\dfrac{lR}{2}')}.`,sol:`${tm(`l=\\dfrac{2S}{R}=\\dfrac{2\\cdot${k}\\pi}{${r}}=${l}\\pi`)} cm.`});
+};
+
+const gSq3=lv=>{
+  const [Rr,r,k]=pick(ANN);
+  if(lv===1)return QB({text:`Tính diện tích hình vành khuyên giới hạn bởi hai đường tròn đồng tâm bán kính ${tm(`${Rr}`)} cm và ${tm(`${r}`)} cm. Điền hệ số của ${tm('\\pi')}.`,tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`,ans:[k],fig:ringFig(),hint:`Dùng ${tm('S=\\pi(R^2-r^2)')}.`,sol:`${tm(`S=\\pi(${Rr}^2-${r}^2)=${k}\\pi`)} cm².`});
+  if(lv===2)return QB({text:`Một hình vành khuyên có bán kính ngoài ${tm(`${Rr}`)} cm và diện tích ${tm(`${k}\\pi`)} cm². Tính bán kính trong.`,tpl:`${tm('r =')} [_] cm`,ans:[r],fig:ringFig(),hint:`Từ ${tm('R^2-r^2=S/\\pi')} suy ra ${tm('r')}.`,sol:`${tm(`r^2=R^2-\\dfrac S\\pi=${Rr}^2-${k}=${r*r}`)}, nên ${tm(`r=${r}`)} cm.`});
+  return QB({text:`Hình vành khuyên có bán kính trong ${tm(`${r}`)} cm và diện tích ${tm(`${k}\\pi`)} cm². Tính bán kính ngoài.`,tpl:`${tm('R =')} [_] cm`,ans:[Rr],hint:`Dùng ${tm('R^2=r^2+S/\\pi')}.`,sol:`${tm(`R^2=${r}^2+${k}=${Rr*Rr}`)}, nên ${tm(`R=${Rr}`)} cm.`});
+};
+
+const gSq4=lv=>{
+  const [Rr,r,n,k]=pick(ANN_SEC);
+  if(lv===1)return QC({text:'Diện tích một hình quạt vành khuyên có bán kính ngoài '+tm('R')+', bán kính trong '+tm('r')+' và góc ở tâm '+tm('n^\\circ')+' được tính bởi',opts:[tm('\\dfrac{\\pi(R^2-r^2)n}{360}'),tm('\\pi(R-r)^2'),tm('\\dfrac{\\pi(R-r)n}{180}'),tm('\\pi(R^2+r^2)')],ans:tm('\\dfrac{\\pi(R^2-r^2)n}{360}'),hint:'Lấy diện tích quạt lớn trừ diện tích quạt nhỏ có cùng góc ở tâm.',sol:`Diện tích cần tìm là ${tb('\\dfrac{\\pi(R^2-r^2)n}{360}')}.`});
+  if(lv===2)return QB({text:`Một hình quạt vành khuyên có bán kính ngoài ${tm(`${Rr}`)} cm, bán kính trong ${tm(`${r}`)} cm và góc ở tâm ${tm(`${n}^\\circ`)}. Điền hệ số của ${tm('\\pi')} trong diện tích.`,tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`,ans:[k],fig:ringFig(),hint:'Lấy diện tích quạt lớn trừ diện tích quạt nhỏ.',sol:`${tm(`S=\\dfrac{\\pi(${Rr}^2-${r}^2)${n}}{360}=${k}\\pi`)} cm².`});
+  const full=(Rr*Rr-r*r), remain=full-k;
+  return QB({text:`Từ hình vành khuyên bán kính ngoài ${tm(`${Rr}`)} cm, bán kính trong ${tm(`${r}`)} cm, người ta bỏ đi một phần quạt ${tm(`${n}^\\circ`)}. Điền hệ số của ${tm('\\pi')} trong diện tích còn lại.`,tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`,ans:[remain],hint:'Diện tích còn lại bằng diện tích vành khuyên trừ diện tích quạt vành khuyên bị bỏ.',sol:`${tm(`S=\\pi(${Rr}^2-${r}^2)-${k}\\pi=${full}\\pi-${k}\\pi=${remain}\\pi`)} cm².`});
+};
+
+const gSq5=lv=>{
+  if(lv===1){const r=R(3,12);return QB({text:`Một hình quạt nửa đường tròn bán kính ${tm(`${r}`)} cm. Tính chu vi hình quạt. Điền hệ số của ${tm('\\pi')} và phần số thường.`,tpl:`${tm('P =')} [_]${tm('\\pi +')} [_] cm`,ans:[r,2*r],hint:'Chu vi hình quạt bằng độ dài cung cộng hai bán kính.',sol:`Cung nửa đường tròn dài ${tm(`\\pi R=${r}\\pi`)} cm; hai bán kính dài ${tm(`${2*r}`)} cm. Vậy ${tm(`P=${r}\\pi+${2*r}`)} cm.`});}
+  if(lv===2){const r=10,n=90,l=5*Math.PI;return QB({text:`Một bồn hoa là hình quạt ${tm('90^\\circ')} bán kính ${tm('10')} m. Người ta làm hàng rào dọc theo toàn bộ chu vi bồn hoa. Lấy ${tm('\\pi\\approx3{,}14')}. Hỏi cần bao nhiêu mét hàng rào?`,tpl:'[_] m',ans:[35.7],hint:'Chu vi quạt bằng độ dài cung cộng hai bán kính.',sol:`Độ dài cung ${tm('l=\\dfrac{\\pi\\cdot10\\cdot90}{180}=5\\pi\\approx15{,}7')} m. Chu vi ${tm('P=15{,}7+20=35{,}7')} m.`});}
+  return QC({text:'Khi giữ nguyên góc ở tâm và tăng bán kính hình quạt lên 2 lần thì diện tích hình quạt',opts:['tăng 4 lần','tăng 2 lần','không đổi','giảm 2 lần'],ans:'tăng 4 lần',hint:'Diện tích hình quạt tỉ lệ với bình phương bán kính.',sol:`Vì ${tm('S=\\dfrac{\\pi R^2n}{360}')}, thay ${tm('R')} bởi ${tm('2R')} làm diện tích ${tb('tăng 4 lần')}.`});
+};
+
+const gSq6=lv=>{
+  const [Rr,r,n,k]=pick(ANN_SEC), outer=Rr*Rr*n/360, inner=r*r*n/360;
+  const text=`Một khu trang trí có dạng hình quạt vành khuyên tâm ${tm('O')}, bán kính ngoài ${tm(`${Rr}`)} m, bán kính trong ${tm(`${r}`)} m và góc ở tâm ${tm(`${n}^\\circ`)}.`;
+  const steps=[
+   {tag:'Chọn công thức',ask:'Diện tích phần trang trí được tính bằng',opts:['Diện tích quạt lớn trừ diện tích quạt nhỏ','Diện tích hai quạt cộng lại','Diện tích vành khuyên đầy đủ','Chu vi quạt lớn trừ chu vi quạt nhỏ'],ans:'Diện tích quạt lớn trừ diện tích quạt nhỏ',hint:'Hai hình quạt đồng tâm và có cùng góc ở tâm.'},
+   {tag:'Quạt lớn',ask:`Điền hệ số của ${tm('\\pi')} trong diện tích quạt lớn.`,tpl:'[_]'+tm('\\pi')+' m²',ans:[outer],hint:`Dùng ${tm('S=\\pi R^2n/360')}.`},
+   {tag:'Quạt nhỏ',ask:`Điền hệ số của ${tm('\\pi')} trong diện tích quạt nhỏ.`,tpl:'[_]'+tm('\\pi')+' m²',ans:[inner],hint:'Dùng bán kính trong.'},
+   {tag:'Kết quả',ask:`Điền hệ số của ${tm('\\pi')} trong diện tích phần trang trí.`,tpl:'[_]'+tm('\\pi')+' m²',ans:[k],hint:'Lấy diện tích quạt lớn trừ diện tích quạt nhỏ.'}
+  ];
+  return QS({direct:lv===3,text,steps:lv===1?steps.slice(0,3):steps,hint:'Tách hình quạt vành khuyên thành quạt lớn trừ quạt nhỏ.',sol:`Diện tích quạt lớn là ${tm(`${outer}\\pi`)} m², quạt nhỏ là ${tm(`${inner}\\pi`)} m². Diện tích cần tìm: ${tm(`${outer}\\pi-${inner}\\pi=${k}\\pi`)} m².`});
+};
+
+lesson(6,'on-thi-hinh-quat-vanh-khuyen','Hình học 3. Hình quạt tròn và hình vành khuyên','Ôn tuyển sinh từ cơ bản đến nâng cao: độ dài cung; diện tích quạt; vành khuyên; quạt vành khuyên; chu vi, hình ghép và bài toán thực tế.',[gSq1,gSq2,gSq3,gSq4,gSq5,gSq6]);
+}
+
 })();
 
 </script>
@@ -6336,7 +6540,7 @@ lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp s�
 const LEVELS=[{n:'Mức 1',d:'Làm quen'},{n:'Mức 2',d:'Luyện tập'},{n:'Mức 3',d:'Thử thách'}];
 let S={grade:null,lesson:null,lv:1,qs:[]};
 // Móc nối cho account.js (đăng nhập, thú cưng). Không có Account thì bỏ qua.
-const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}try{if(typeof Present!=='undefined')Present.on(n,...a)}catch(e){console.error(e)}};
+const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}try{if(typeof Present!=='undefined')Present.on(n,...a)}catch(e){console.error(e)}try{if(typeof Game!=='undefined'&&Game.on)Game.on(n,...a)}catch(e){console.error(e)}};
 const PRAISE=['Giỏi quá!','Chính xác!','Tuyệt vời!','Đúng rồi, con làm tốt lắm!','Xuất sắc!'];
 const norm=s=>String(s).replace(/[\s .]/g,'').replace(',','.').toUpperCase();
 // Đáp án thập phân: nhận cả "0,6" và "0.6" (bàn phím iPad tiếng Anh dùng dấu chấm); với đáp án nguyên, dấu chấm vẫn là dấu tách nghìn.
@@ -6512,6 +6716,7 @@ let tT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('sh
 
 /* ---------- Điều hướng: #/  ·  #/lop4  ·  #/lop4/bai/ma-bai/2 ---------- */
 function route(){
+  if(typeof Game!=='undefined'&&Game.route())return;
   if(typeof StudentTest!=='undefined'&&StudentTest.route())return;
   const m=location.hash.match(/^#\/([\w-]+)(?:\/bai\/([\w-]+)(?:\/(\d))?)?/);
   const g=m&&App.grades.find(x=>x.id===m[1]);
