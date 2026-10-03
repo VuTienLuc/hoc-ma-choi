@@ -69,3 +69,50 @@ Lecture.addPractice('lop11', 'on-tap-c1', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   PHIẾU LUYỆN TẬP – Toán 11 · Bài 6. Cấp số cộng  (10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 4 dạng như bài giảng)
+   ===================================================================== */
+(() => {
+const m = tm, f = (a, b) => `\\dfrac{${a}}{${b}}`;
+Lecture.addPractice('lop11', 'bai-6', [
+ {dang:'Nhận biết cấp số cộng', items:[
+  {de:`Dãy số ${m('u_n = 7 - 2n')} có phải cấp số cộng không? Nếu có, tìm ${m('u_1')} và công sai ${m('d')}.`,
+   sol:[`Tính hiệu: ${m('u_{n+1} - u_n = [7 - 2(n + 1)] - (7 - 2n) = -2')}.`, `Hiệu là hằng số, không chứa ${m('n')}, nên dãy là cấp số cộng với công sai ${m('d = -2')}.`, `${m('u_1 = 7 - 2\\cdot 1 = 5')}.`],
+   ans:`Là cấp số cộng với ${tb('u_1 = 5,\\ d = -2')}.`},
+  {de:`Dãy số ${m('u_n = n^2 + 1')} có phải cấp số cộng không? Vì sao?`,
+   sol:[`Tính hiệu: ${m('u_{n+1} - u_n = [(n + 1)^2 + 1] - (n^2 + 1) = 2n + 1')}.`, `Hiệu còn chứa ${m('n')} nên không phải hằng số; chẳng hạn ${m('u_2 - u_1 = 3')} còn ${m('u_3 - u_2 = 5')}.`],
+   ans:`${tb('Không')} phải cấp số cộng (hiệu hai số hạng liên tiếp thay đổi theo ${m('n')}).`},
+ ]},
+ {dang:'Tìm số hạng, số hạng tổng quát', items:[
+  {de:`Cấp số cộng ${m('(u_n)')} có ${m('u_1 = 3,\\ d = -2')}. Tìm số hạng tổng quát và tính ${m('u_{15}')}.`,
+   sol:[`Công thức: ${m('u_n = u_1 + (n - 1)d')}.`, `${m('u_n = 3 + (n - 1)(-2) = 5 - 2n')}.`, `${m('u_{15} = 5 - 2\\cdot 15 = -25')}.`],
+   ans:`${tb('u_n = 5 - 2n,\\ u_{15} = -25')}.`},
+  {de:`Cấp số cộng ${m('(u_n)')} có ${m('u_4 = 11')} và ${m('u_9 = 31')}. Tìm ${m('u_1,\\ d')} và số hạng tổng quát.`,
+   sol:[`Viết theo ${m('u_1')} và ${m('d')}: ${m('\\begin{cases} u_1 + 3d = 11 \\\\ u_1 + 8d = 31 \\end{cases}')}.`, `Trừ vế theo vế: ${m('5d = 20 \\Rightarrow d = 4')}.`, `${m('u_1 = 11 - 3\\cdot 4 = -1')}; ${m('u_n = -1 + (n - 1)\\cdot 4 = 4n - 5')}.`],
+   ans:`${tb('u_1 = -1,\\ d = 4,\\ u_n = 4n - 5')}.`},
+  {hard:true, de:`Cấp số cộng ${m('(u_n)')} có ${m('u_1 + u_5 = 14')} và ${m('u_2\\cdot u_4 = 45')}. Tìm ${m('u_1')} và công sai ${m('d')}.`,
+   sol:[`${m('u_1 + u_5 = 2u_3')} (tính chất cấp số cộng) nên ${m('2u_3 = 14 \\Rightarrow u_3 = 7')}.`, `${m('u_2 = 7 - d,\\ u_4 = 7 + d')} nên ${m('u_2 u_4 = 49 - d^2 = 45 \\Rightarrow d^2 = 4 \\Rightarrow d = \\pm 2')}.`, `${m('d = 2')}: ${m('u_1 = u_3 - 2d = 3')}. &nbsp; ${m('d = -2')}: ${m('u_1 = u_3 - 2d = 11')}.`],
+   ans:`${tb('u_1 = 3,\\ d = 2')} hoặc ${tb('u_1 = 11,\\ d = -2')}.`},
+ ]},
+ {dang:'Tính tổng n số hạng đầu', items:[
+  {de:`Tính tổng ${m('S = 2 + 5 + 8 + \\cdots + 101')}.`,
+   sol:[`Đây là cấp số cộng ${m('u_1 = 2,\\ d = 3,\\ u_n = 101')}.`, `Số số hạng: ${m('n = \\dfrac{101 - 2}{3} + 1 = 34')}.`, `${m('S = \\dfrac{n(u_1 + u_n)}{2} = \\dfrac{34\\cdot 103}{2} = 17\\cdot 103')}.`],
+   ans:`${tb('S = 1\\,751')}.`},
+  {de:`Cấp số cộng có ${m('u_1 = -4,\\ d = 3')}. Tính ${m('S_{15}')}.`,
+   sol:[`Biết ${m('u_1, d')} nên dùng ${m('S_n = \\dfrac{n\\,[2u_1 + (n - 1)d]}{2}')}.`, `${m('S_{15} = \\dfrac{15\\,[2\\cdot(-4) + 14\\cdot 3]}{2} = \\dfrac{15\\cdot 34}{2}')}.`],
+   ans:`${tb('S_{15} = 255')}.`},
+  {hard:true, de:`Tổng ${m('n')} số hạng đầu của một cấp số cộng là ${m('S_n = 2n^2 + 3n')}. Tìm ${m('u_1,\\ d')} và số hạng tổng quát.`,
+   sol:[`${m('u_1 = S_1 = 2 + 3 = 5')}.`, `${m('u_1 + u_2 = S_2 = 8 + 6 = 14')} nên ${m('u_2 = 9')}, suy ra ${m('d = u_2 - u_1 = 4')}.`, `${m('u_n = 5 + (n - 1)\\cdot 4 = 4n + 1')}.`, `Thử lại: ${m('\\dfrac{n\\,[2\\cdot 5 + (n - 1)\\cdot 4]}{2} = 2n^2 + 3n')} (đúng).`],
+   ans:`${tb('u_1 = 5,\\ d = 4,\\ u_n = 4n + 1')}.`},
+ ]},
+ {dang:'Bài toán thực tế', items:[
+  {de:`Một người tập chạy: ngày đầu chạy ${m('2')} km, mỗi ngày sau chạy thêm ${m('0{,}5')} km so với ngày trước. Hỏi ngày thứ ${m('10')} chạy bao nhiêu km và cả ${m('10')} ngày chạy tổng cộng bao nhiêu km?`,
+   sol:[`Quãng đường mỗi ngày lập cấp số cộng ${m('u_1 = 2,\\ d = 0{,}5,\\ n = 10')}.`, `${m('u_{10} = 2 + 9\\cdot 0{,}5 = 6{,}5')} (km).`, `${m('S_{10} = \\dfrac{10\\,(2 + 6{,}5)}{2} = 42{,}5')} (km).`],
+   ans:`Ngày thứ 10 chạy ${tb('6{,}5')} km; tổng cộng ${tb('42{,}5')} km.`},
+  {hard:true, de:`Một nhân viên được thưởng: tháng đầu ${m('4')} triệu đồng, mỗi tháng sau hơn tháng trước ${m('0{,}3')} triệu đồng. Sau ít nhất bao nhiêu tháng thì tổng tiền thưởng nhận được đạt từ ${m('60')} triệu đồng trở lên?`,
+   sol:[`Tiền thưởng các tháng lập cấp số cộng ${m('u_1 = 4,\\ d = 0{,}3')}; tổng ${m('S_n = \\dfrac{n\\,[8 + 0{,}3(n - 1)]}{2}')}.`, `Yêu cầu ${m('S_n \\ge 60 \\Leftrightarrow 0{,}3n^2 + 7{,}7n - 120 \\ge 0')}, tức ${m('3n^2 + 77n - 1\\,200 \\ge 0')}.`, `Giải bất phương trình (hoặc thử): ${m('S_{10} = \\dfrac{10\\,(8 + 2{,}7)}{2} = 53{,}5 \\lt 60')}, còn ${m('S_{11} = \\dfrac{11\\,(8 + 3)}{2} = 60{,}5 \\ge 60')}.`],
+   ans:`Sau ít nhất ${tb('11')} tháng.`},
+ ]},
+]);
+})();

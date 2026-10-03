@@ -130,4 +130,40 @@ Lecture.addSgk('lop11', 'bai-5', [
      <li>Chỉ làm tròn ở kết quả cuối để tránh sai số tích luỹ.</li></ul>` +
      box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 5. Dãy số.')},
 ]);
+Lecture.addSgk('lop11', 'bai-6', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 6. Cấp số cộng', sub:'Các dạng vận dụng, câu khó của bài – lời giải ngắn gọn',
+   points:['Chèn số vào giữa hai số để được cấp số cộng.', 'Ba góc của tam giác vuông lập thành cấp số cộng.', 'Tổng các số chia hết cho một số cho trước.', 'Bài toán thực tế: trồng cây theo hàng, tiền lương tăng đều.', 'Lưu ý: đề ghi tóm tắt theo dạng bài vận dụng của Bài 6; số bài và số trang SGK thầy đối chiếu với sách in trước khi dùng.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba công thức cần dùng',
+   body: box(`${m('u_n = u_1 + (n - 1)d')} &nbsp;·&nbsp; ${m('S_n = \\dfrac{n(u_1 + u_n)}{2} = \\dfrac{n\\,[2u_1 + (n - 1)d]}{2}')}.`) +
+     `<ol class="lk-steps"><li>Chèn ${m('k')} số giữa ${m('a')} và ${m('b')}: có ${m('k + 2')} số hạng, công sai ${m('d = \\dfrac{b - a}{k + 1}')}.</li><li>Ba số ${m('a - d,\\ a,\\ a + d')} lập cấp số cộng: tổng bằng ${m('3a')}.</li><li>Bài thực tế: nhận ra đại lượng tăng (giảm) <b>đều</b> rồi gọi ${m('u_1, d, n')}.</li></ol>` +
+     note(`Đếm số số hạng: ${m('n = \\dfrac{u_n - u_1}{d} + 1')} (đừng quên cộng ${m('1')}).`)},
+
+  {kind:'vd', tag:'Bài 6 · Vận dụng 1', label:'Câu 1', de:`Giữa hai số ${m('3')} và ${m('23')} hãy chèn thêm ${m('3')} số để được một cấp số cộng gồm ${m('5')} số hạng. Viết cấp số cộng đó.`,
+   sol:[`Cấp số cộng có ${m('u_1 = 3,\\ u_5 = 23')} (tất cả ${m('5')} số hạng).`, `${m('u_5 = u_1 + 4d \\Rightarrow 23 = 3 + 4d \\Rightarrow d = 5')}.`, `Các số hạng: ${m('3,\\ 8,\\ 13,\\ 18,\\ 23')}.`],
+   ans:`Ba số cần chèn là ${tb('8;\\ 13;\\ 18')} (công sai ${m('d = 5')}).`},
+
+  {kind:'vd', tag:'Bài 6 · Vận dụng 2', label:'Câu 2', de:`Ba góc của một tam giác vuông lập thành một cấp số cộng. Tìm số đo ba góc đó.`,
+   sol:[`Gọi ba góc theo thứ tự là ${m('a - d,\\ a,\\ a + d')} với ${m('d \\gt 0')}.`, `Tổng ba góc: ${m('3a = 180^\\circ \\Rightarrow a = 60^\\circ')}.`, `Tam giác vuông nên góc lớn nhất ${m('a + d = 90^\\circ \\Rightarrow d = 30^\\circ')}.`],
+   ans:`Ba góc là ${tb('30^\\circ,\\ 60^\\circ,\\ 90^\\circ')}.`},
+
+  {kind:'vd', tag:'Bài 6 · Vận dụng 3', label:'Câu 3', de:`Tính tổng tất cả các số nguyên dương chia hết cho ${m('3')} và không vượt quá ${m('200')}.`,
+   sol:[`Các số đó: ${m('3,\\ 6,\\ 9,\\ \\ldots,\\ 198')} lập cấp số cộng ${m('u_1 = 3,\\ d = 3,\\ u_n = 198')}.`, `Số số hạng: ${m('n = \\dfrac{198 - 3}{3} + 1 = 66')}.`, `${m('S_{66} = \\dfrac{66\\,(3 + 198)}{2} = 33\\cdot 201 = 6\\,633')}.`],
+   ans:`${tb('6\\,633')}.`},
+
+  {kind:'vd', tag:'Bài 6 · Vận dụng 4', label:'Câu 4', de:`Người ta trồng ${m('465')} cây theo hình tam giác: hàng thứ nhất ${m('1')} cây, hàng thứ hai ${m('2')} cây, hàng thứ ba ${m('3')} cây, … Hỏi có bao nhiêu hàng cây?`,
+   sol:[`Số cây các hàng lập cấp số cộng ${m('u_1 = 1,\\ d = 1')}; gọi ${m('n')} là số hàng thì ${m('S_n = \\dfrac{n(n + 1)}{2} = 465')}.`, `${m('n^2 + n - 930 = 0 \\Leftrightarrow (n - 30)(n + 31) = 0')}.`, `${m('n \\gt 0')} nên ${m('n = 30')}. Thử lại: ${m('\\dfrac{30\\cdot 31}{2} = 465')}.`],
+   ans:`Có ${tb('30')} hàng cây.`},
+
+  {kind:'vd', tag:'Bài 6 · Vận dụng 5', label:'Câu 5', de:`Một người đi làm: tháng đầu lương ${m('6')} triệu đồng, mỗi tháng sau tăng ${m('0{,}2')} triệu đồng so với tháng trước. Hỏi lương tháng thứ ${m('36')} là bao nhiêu và tổng thu nhập sau ${m('3')} năm là bao nhiêu?`,
+   sol:[`Lương các tháng lập cấp số cộng ${m('u_1 = 6,\\ d = 0{,}2,\\ n = 36')}.`, `${m('u_{36} = 6 + 35\\cdot 0{,}2 = 13')} (triệu đồng).`, `${m('S_{36} = \\dfrac{36\\,(6 + 13)}{2} = 18\\cdot 19 = 342')} (triệu đồng).`],
+   ans:`Lương tháng thứ 36 là ${tb('13')} triệu đồng; tổng sau 3 năm là ${tb('342')} triệu đồng.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp khi giải các bài này',
+   body:`<ul><li>Nhầm ${m('u_n = u_1 + nd')} (đúng là ${m('(n - 1)d')}).</li>
+     <li>Đếm thiếu một số hạng: quên cộng ${m('1')} trong ${m('n = \\dfrac{u_n - u_1}{d} + 1')}.</li>
+     <li>Chèn ${m('k')} số mà chia công sai cho ${m('k')} thay vì ${m('k + 1')}.</li>
+     <li>Dùng ${m('S_n')} khi chưa biết ${m('u_n')} mà không đổi sang công thức theo ${m('u_1, d')}.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 6. Cấp số cộng.')},
+]);
 })();
