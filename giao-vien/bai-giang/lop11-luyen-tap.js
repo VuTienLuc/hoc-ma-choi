@@ -116,3 +116,50 @@ Lecture.addPractice('lop11', 'bai-6', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   PHIẾU LUYỆN TẬP – Toán 11 · Bài 5. Dãy số  (10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 4 dạng như bài giảng)
+   ===================================================================== */
+(() => {
+const m = tm;
+Lecture.addPractice('lop11', 'bai-5', [
+ {dang:'Tính các số hạng của dãy số', items:[
+  {de:`Cho dãy số ${m('u_n = n^2 + 2n')}. Tính ${m('u_3')}, ${m('u_{10}')} và cho biết số ${m('143')} là số hạng thứ mấy của dãy.`,
+   sol:[`Thay ${m('n = 3')} và ${m('n = 10')} vào công thức: ${m('u_3 = 3^2 + 2\\cdot 3 = 15')}; ${m('u_{10} = 10^2 + 2\\cdot 10 = 120')}.`, `${m('u_n = 143')} nên ${m('n^2 + 2n - 143 = 0')}, tức ${m('(n - 11)(n + 13) = 0')}.`, `Vì ${m('n \\in \\mathbb{N}^*')} nên loại ${m('n = -13')}, chọn ${m('n = 11')}.`],
+   ans:`${tb('u_3 = 15,\\ u_{10} = 120')}; số ${m('143')} là số hạng thứ ${tb('11')}.`},
+  {de:`Cho dãy số ${m('(u_n)')} xác định bởi ${m('u_1 = 1')} và ${m('u_{n+1} = 2u_n + 3')} với mọi ${m('n \\ge 1')}. Tính năm số hạng đầu của dãy.`,
+   sol:[`Dãy cho bằng hệ thức truy hồi nên tính lần lượt từng số hạng, ${m('u_1 = 1')}.`, `${m('u_2 = 2\\cdot 1 + 3 = 5')}; &nbsp; ${m('u_3 = 2\\cdot 5 + 3 = 13')}.`, `${m('u_4 = 2\\cdot 13 + 3 = 29')}; &nbsp; ${m('u_5 = 2\\cdot 29 + 3 = 61')}.`],
+   ans:`${tb('1;\\ 5;\\ 13;\\ 29;\\ 61')}.`},
+ ]},
+ {dang:'Dự đoán số hạng tổng quát', items:[
+  {de:`Dự đoán số hạng tổng quát của dãy số ${m('2,\\ 5,\\ 10,\\ 17,\\ 26,\\ \\ldots')}`,
+   sol:[`Viết kèm chỉ số: ${m('u_1 = 2,\\ u_2 = 5,\\ u_3 = 10,\\ u_4 = 17,\\ u_5 = 26')}.`, `Mỗi số hạng lớn hơn một bình phương đúng một đơn vị: ${m('2 = 1^2 + 1,\\ 5 = 2^2 + 1,\\ 10 = 3^2 + 1,\\ 17 = 4^2 + 1')}.`, `Thử lại: ${m('u_5 = 5^2 + 1 = 26')} (đúng).`],
+   ans:`${tb('u_n = n^2 + 1')}.`},
+  {de:`Dự đoán số hạng tổng quát của dãy số ${m('\\dfrac{1}{2},\\ \\dfrac{2}{5},\\ \\dfrac{3}{8},\\ \\dfrac{4}{11},\\ \\ldots')}`,
+   sol:[`Tử số của các số hạng là ${m('1, 2, 3, 4')}, tức là ${m('n')}.`, `Mẫu số ${m('2, 5, 8, 11')} tăng đều mỗi lần ${m('3')} đơn vị, bắt đầu từ ${m('2')}, nên mẫu là ${m('2 + 3(n - 1) = 3n - 1')}.`, `Thử lại: ${m('u_4 = \\dfrac{4}{3\\cdot 4 - 1} = \\dfrac{4}{11}')} (đúng).`],
+   ans:`${tb('u_n = \\dfrac{n}{3n - 1}')}.`},
+  {hard:true, de:`Cho dãy số ${m('u_1 = 3,\\ u_{n+1} = 2u_n - 1')}. Tính bốn số hạng đầu tiếp theo, dự đoán số hạng tổng quát ${m('u_n')} rồi kiểm tra lại bằng hệ thức truy hồi.`,
+   sol:[`${m('u_2 = 2\\cdot 3 - 1 = 5')}; ${m('u_3 = 2\\cdot 5 - 1 = 9')}; ${m('u_4 = 2\\cdot 9 - 1 = 17')}; ${m('u_5 = 2\\cdot 17 - 1 = 33')}.`, `Bớt mỗi số hạng đi ${m('1')}: ${m('2, 4, 8, 16, 32')} chính là ${m('2^1, 2^2, 2^3, 2^4, 2^5')}. Dự đoán ${m('u_n = 2^n + 1')}.`, `Kiểm tra: ${m('u_1 = 2^1 + 1 = 3')} (đúng). Nếu ${m('u_n = 2^n + 1')} thì ${m('2u_n - 1 = 2(2^n + 1) - 1 = 2^{n+1} + 1 = u_{n+1}')}, khớp hệ thức truy hồi.`],
+   ans:`Bốn số hạng tiếp theo: ${tb('5;\\ 9;\\ 17;\\ 33')}; số hạng tổng quát ${tb('u_n = 2^n + 1')}.`},
+ ]},
+ {dang:'Xét tính tăng, giảm của dãy số', items:[
+  {de:`Xét tính tăng, giảm của dãy số ${m('u_n = 5 - 3n')}.`,
+   sol:[`Tính hiệu: ${m('u_{n+1} - u_n = [5 - 3(n + 1)] - (5 - 3n) = -3')}.`, `${m('-3 \\lt 0')} với mọi ${m('n \\in \\mathbb{N}^*')}, tức ${m('u_{n+1} \\lt u_n')}.`],
+   ans:`Dãy số ${tb('giảm')}.`},
+  {de:`Xét tính tăng, giảm của dãy số ${m('u_n = \\dfrac{2n + 1}{n + 1}')}.`,
+   sol:[`Tách phần nguyên: ${m('u_n = \\dfrac{2(n + 1) - 1}{n + 1} = 2 - \\dfrac{1}{n + 1}')}.`, `${m('u_{n+1} - u_n = \\dfrac{1}{n + 1} - \\dfrac{1}{n + 2} = \\dfrac{1}{(n + 1)(n + 2)}')}.`, `Hiệu này ${m('\\gt 0')} với mọi ${m('n \\in \\mathbb{N}^*')}.`],
+   ans:`Dãy số ${tb('tăng')}.`},
+  {hard:true, de:`Xét tính tăng, giảm của dãy số ${m('u_n = n^2 - 4n')}.`,
+   sol:[`Tính hiệu: ${m('u_{n+1} - u_n = [(n + 1)^2 - 4(n + 1)] - (n^2 - 4n) = 2n - 3')}.`, `Với ${m('n = 1')}: hiệu bằng ${m('-1 \\lt 0')}, tức ${m('u_2 = -4 \\lt u_1 = -3')}.`, `Với ${m('n = 2')}: hiệu bằng ${m('1 \\gt 0')}, tức ${m('u_3 = -3 \\gt u_2 = -4')}.`, `Hiệu đổi dấu nên dãy không luôn tăng và không luôn giảm.`],
+   ans:`Dãy số ${tb('không tăng, không giảm')}.`},
+ ]},
+ {dang:'Xét tính bị chặn của dãy số', items:[
+  {de:`Chứng minh dãy số ${m('u_n = \\dfrac{3n + 1}{n + 2}')} bị chặn.`,
+   sol:[`Tách phần nguyên: ${m('u_n = \\dfrac{3(n + 2) - 5}{n + 2} = 3 - \\dfrac{5}{n + 2}')}.`, `Vì ${m('\\dfrac{5}{n + 2} \\gt 0')} nên ${m('u_n \\lt 3')}: dãy bị chặn trên.`, `${m('u_{n+1} - u_n = \\dfrac{5}{n + 2} - \\dfrac{5}{n + 3} = \\dfrac{5}{(n + 2)(n + 3)} \\gt 0')} nên dãy tăng, suy ra ${m('u_n \\ge u_1 = \\dfrac{4}{3}')}: dãy bị chặn dưới.`],
+   ans:`${tb('\\dfrac{4}{3} \\le u_n \\lt 3')} với mọi ${m('n')}: dãy số bị chặn.`},
+  {hard:true, de:`Chứng minh dãy số ${m('u_n = \\dfrac{n}{n^2 + 1}')} bị chặn.`,
+   sol:[`Vì ${m('n \\gt 0')} và ${m('n^2 + 1 \\gt 0')} nên ${m('u_n \\gt 0')}: dãy bị chặn dưới bởi ${m('0')}.`, `Có ${m('(n - 1)^2 \\ge 0 \\Rightarrow n^2 + 1 \\ge 2n')}.`, `Chia hai vế cho ${m('2(n^2 + 1) \\gt 0')}: ${m('u_n = \\dfrac{n}{n^2 + 1} \\le \\dfrac{1}{2}')}, dấu bằng khi ${m('n = 1')}.`],
+   ans:`${tb('0 \\lt u_n \\le \\dfrac{1}{2}')}: dãy số bị chặn.`},
+ ]},
+]);
+})();
