@@ -174,3 +174,50 @@ Lecture.addPractice('lop10', 'bai-5', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   PHIẾU LUYỆN TẬP – Toán 10 · Bài 6. Hệ thức lượng trong tam giác  (10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 4 dạng như bài giảng)
+   ===================================================================== */
+(() => {
+const m = tm;
+Lecture.addPractice('lop10', 'bai-6', [
+ {dang:'Định lí côsin: tính cạnh, tính góc', items:[
+  {de:`Cho tam giác ${m('ABC')} có ${m('AB = 3,\\ AC = 5')} và ${m('\\widehat{A} = 120^\\circ')}. Tính độ dài cạnh ${m('BC')}.`,
+   sol:[`Biết hai cạnh và góc xen giữa nên dùng định lí côsin: ${m('BC^2 = AB^2 + AC^2 - 2\\cdot AB\\cdot AC\\cdot\\cos A')}.`, `${m('\\cos 120^\\circ = -\\dfrac{1}{2}')} nên ${m('BC^2 = 9 + 25 - 2\\cdot 3\\cdot 5\\cdot\\left(-\\dfrac{1}{2}\\right) = 9 + 25 + 15 = 49')}.`, `${m('BC \\gt 0')} nên ${m('BC = 7')}.`],
+   ans:`${tb('BC = 7')}.`},
+  {de:`Cho tam giác ${m('ABC')} có ${m('AB = 8,\\ BC = 7,\\ CA = 5')}. Tính số đo góc ${m('A')}.`,
+   sol:[`Biết ba cạnh nên dùng hệ quả của định lí côsin: ${m('\\cos A = \\dfrac{AB^2 + AC^2 - BC^2}{2\\cdot AB\\cdot AC}')}.`, `${m('\\cos A = \\dfrac{64 + 25 - 49}{2\\cdot 8\\cdot 5} = \\dfrac{40}{80} = \\dfrac{1}{2}')}.`, `Vì ${m('0^\\circ \\lt A \\lt 180^\\circ')} và ${m('\\cos A = \\dfrac{1}{2}')} nên ${m('\\widehat{A} = 60^\\circ')}.`],
+   ans:`${tb('\\widehat{A} = 60^\\circ')}.`},
+ ]},
+ {dang:'Định lí sin: tính cạnh, góc, bán kính R', items:[
+  {de:`Cho tam giác ${m('ABC')} có ${m('BC = 8,\\ \\widehat{A} = 45^\\circ,\\ \\widehat{B} = 60^\\circ')}. Tính ${m('\\widehat{C}')}, cạnh ${m('AC')} và bán kính ${m('R')} của đường tròn ngoại tiếp.`,
+   sol:[`Tổng ba góc bằng ${m('180^\\circ')} nên ${m('\\widehat{C} = 180^\\circ - 45^\\circ - 60^\\circ = 75^\\circ')}.`, `Định lí sin: ${m('\\dfrac{AC}{\\sin B} = \\dfrac{BC}{\\sin A}')}, suy ra ${m('AC = \\dfrac{8\\cdot\\sin 60^\\circ}{\\sin 45^\\circ} = \\dfrac{8\\cdot\\frac{\\sqrt{3}}{2}}{\\frac{\\sqrt{2}}{2}} = 4\\sqrt{6}')}.`, `${m('R = \\dfrac{BC}{2\\sin A} = \\dfrac{8}{2\\cdot\\frac{\\sqrt{2}}{2}} = 4\\sqrt{2}')}.`],
+   ans:`${tb('\\widehat{C} = 75^\\circ,\\ AC = 4\\sqrt{6},\\ R = 4\\sqrt{2}')}.`},
+  {de:`Tam giác ${m('ABC')} nội tiếp đường tròn bán kính ${m('R = 5')} và có ${m('\\widehat{B} = 60^\\circ')}. Tính độ dài cạnh ${m('AC')}.`,
+   sol:[`Định lí sin: ${m('\\dfrac{AC}{\\sin B} = 2R')}, nên ${m('AC = 2R\\sin B')}.`, `${m('AC = 2\\cdot 5\\cdot\\sin 60^\\circ = 10\\cdot\\dfrac{\\sqrt{3}}{2} = 5\\sqrt{3}')}.`],
+   ans:`${tb('AC = 5\\sqrt{3}')}.`},
+  {hard:true, de:`Tam giác ${m('ABC')} có ${m('BC = 5,\\ CA = 5\\sqrt{2}')} và ${m('\\widehat{A} = 30^\\circ')}. Tính số đo góc ${m('B')}. Có bao nhiêu tam giác thoả mãn đề bài?`,
+   sol:[`Định lí sin: ${m('\\dfrac{CA}{\\sin B} = \\dfrac{BC}{\\sin A}')}, nên ${m('\\sin B = \\dfrac{CA\\cdot\\sin A}{BC} = \\dfrac{5\\sqrt{2}\\cdot\\frac{1}{2}}{5} = \\dfrac{\\sqrt{2}}{2}')}.`, `Với ${m('0^\\circ \\lt B \\lt 180^\\circ')} có hai góc cùng ${m('\\sin B = \\dfrac{\\sqrt{2}}{2}')}: ${m('B = 45^\\circ')} hoặc ${m('B = 135^\\circ')}.`, `Kiểm tra tổng hai góc: ${m('30^\\circ + 45^\\circ = 75^\\circ \\lt 180^\\circ')} và ${m('30^\\circ + 135^\\circ = 165^\\circ \\lt 180^\\circ')}, cả hai đều chấp nhận được (góc ${m('C')} lần lượt là ${m('105^\\circ')} và ${m('15^\\circ')}).`],
+   ans:`${tb('\\widehat{B} = 45^\\circ')} hoặc ${tb('\\widehat{B} = 135^\\circ')}; có ${tb('2')} tam giác thoả mãn.`},
+ ]},
+ {dang:'Diện tích tam giác, bán kính R, r', items:[
+  {de:`Cho tam giác có ba cạnh ${m('a = 9,\\ b = 10,\\ c = 17')}. Tính diện tích ${m('S')}, bán kính nội tiếp ${m('r')} và bán kính ngoại tiếp ${m('R')}.`,
+   sol:[`Nửa chu vi ${m('p = \\dfrac{9 + 10 + 17}{2} = 18')}.`, `Công thức Heron: ${m('S = \\sqrt{p(p - a)(p - b)(p - c)} = \\sqrt{18\\cdot 9\\cdot 8\\cdot 1} = \\sqrt{1\\,296} = 36')}.`, `${m('r = \\dfrac{S}{p} = \\dfrac{36}{18} = 2')}; &nbsp; ${m('R = \\dfrac{abc}{4S} = \\dfrac{9\\cdot 10\\cdot 17}{4\\cdot 36} = \\dfrac{85}{8}')}.`],
+   ans:`${tb('S = 36,\\ r = 2,\\ R = \\dfrac{85}{8}')}.`},
+  {de:`Tính diện tích tam giác ${m('ABC')} có ${m('AB = 12,\\ AC = 5')} và ${m('\\widehat{A} = 150^\\circ')}.`,
+   sol:[`Biết hai cạnh và góc xen giữa: ${m('S = \\dfrac{1}{2}\\cdot AB\\cdot AC\\cdot\\sin A')}.`, `${m('\\sin 150^\\circ = \\sin 30^\\circ = \\dfrac{1}{2}')} nên ${m('S = \\dfrac{1}{2}\\cdot 12\\cdot 5\\cdot\\dfrac{1}{2} = 15')}.`],
+   ans:`${tb('S = 15')} (đơn vị diện tích).`},
+  {hard:true, de:`Tam giác ${m('ABC')} có ${m('AB = 6,\\ AC = 8')}, góc ${m('A')} nhọn và diện tích ${m('S = 12\\sqrt{3}')}. Tính số đo góc ${m('A')} và độ dài cạnh ${m('BC')}.`,
+   sol:[`${m('S = \\dfrac{1}{2}\\cdot AB\\cdot AC\\cdot\\sin A')} nên ${m('12\\sqrt{3} = \\dfrac{1}{2}\\cdot 6\\cdot 8\\cdot\\sin A = 24\\sin A')}, suy ra ${m('\\sin A = \\dfrac{\\sqrt{3}}{2}')}.`, `Góc ${m('A')} nhọn nên ${m('\\widehat{A} = 60^\\circ')} (loại ${m('120^\\circ')}).`, `Định lí côsin: ${m('BC^2 = 36 + 64 - 2\\cdot 6\\cdot 8\\cdot\\dfrac{1}{2} = 52')}, suy ra ${m('BC = 2\\sqrt{13}')}.`],
+   ans:`${tb('\\widehat{A} = 60^\\circ,\\ BC = 2\\sqrt{13}')}.`},
+ ]},
+ {dang:'Bài toán thực tế', items:[
+  {de:`Để đo khoảng cách từ bờ sông đến cái cây ${m('C')} ở bờ bên kia, người ta chọn hai điểm ${m('A, B')} trên bờ này với ${m('AB = 200')} m, đo được ${m('\\widehat{CAB} = 60^\\circ')} và ${m('\\widehat{CBA} = 45^\\circ')}. Tính khoảng cách ${m('AC')} (làm tròn đến hàng phần mười).`,
+   sol:[`Trong tam giác ${m('ABC')}: ${m('\\widehat{C} = 180^\\circ - 60^\\circ - 45^\\circ = 75^\\circ')}.`, `Định lí sin: ${m('\\dfrac{AC}{\\sin B} = \\dfrac{AB}{\\sin C}')}, nên ${m('AC = \\dfrac{200\\cdot\\sin 45^\\circ}{\\sin 75^\\circ}')}.`, `${m('\\sin 75^\\circ = \\dfrac{\\sqrt{6} + \\sqrt{2}}{4}')} nên ${m('AC = \\dfrac{200\\cdot\\frac{\\sqrt{2}}{2}\\cdot 4}{\\sqrt{6} + \\sqrt{2}} = \\dfrac{400}{\\sqrt{3} + 1} = 200(\\sqrt{3} - 1) \\approx 146{,}4')} (m).`],
+   ans:`${tb('AC = 200(\\sqrt{3} - 1) \\approx 146{,}4')} m.`},
+  {hard:true, de:`Để đo chiều cao tháp ${m('CD')} (${m('D')} là chân tháp), người ta chọn hai điểm ${m('A, B')} thẳng hàng với ${m('D')}, ${m('B')} nằm giữa ${m('A')} và ${m('D')}, ${m('AB = 30')} m. Đo được góc nâng ${m('\\widehat{CAD} = 30^\\circ')} và ${m('\\widehat{CBD} = 45^\\circ')}. Tính chiều cao tháp (làm tròn đến hàng phần mười).`,
+   sol:[`${m('\\widehat{CBD} = 45^\\circ')} là góc ngoài của tam giác ${m('ABC')} tại ${m('B')} nên ${m('\\widehat{ABC} = 135^\\circ')} và ${m('\\widehat{ACB} = 180^\\circ - 30^\\circ - 135^\\circ = 15^\\circ')}.`, `Định lí sin trong tam giác ${m('ABC')}: ${m('\\dfrac{BC}{\\sin A} = \\dfrac{AB}{\\sin C}')}, nên ${m('BC = \\dfrac{30\\cdot\\sin 30^\\circ}{\\sin 15^\\circ} = \\dfrac{15}{\\sin 15^\\circ} = 15(\\sqrt{6} + \\sqrt{2})')} (vì ${m('\\sin 15^\\circ = \\dfrac{\\sqrt{6} - \\sqrt{2}}{4}')}).`, `Tam giác ${m('CBD')} vuông tại ${m('D')} có ${m('\\widehat{CBD} = 45^\\circ')}: ${m('CD = BC\\cdot\\sin 45^\\circ = 15(\\sqrt{6} + \\sqrt{2})\\cdot\\dfrac{\\sqrt{2}}{2} = 15(\\sqrt{3} + 1) \\approx 41{,}0')} (m).`],
+   ans:`${tb('CD = 15(\\sqrt{3} + 1) \\approx 41{,}0')} m.`},
+ ]},
+]);
+})();

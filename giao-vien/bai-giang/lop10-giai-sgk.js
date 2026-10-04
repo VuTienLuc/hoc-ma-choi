@@ -300,3 +300,48 @@ Lecture.addSgk('lop10', 'bai-5', [
      box('Giao về nhà: các bài còn lại cuối Bài 5 (SGK tr. 37); luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 5.')},
 ]);
 })();
+
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – Toán 10 · Bài 6. Hệ thức lượng trong tam giác (SGK tập 1: Luyện tập 4 tr. 41; Bài 3.5 – 3.7 tr. 42)
+   ===================================================================== */
+(() => {
+const m = tm;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+
+Lecture.addSgk('lop10', 'bai-6', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 6. Hệ thức lượng trong tam giác', sub:'Các câu vận dụng – SGK tập 1, trang 41 – 42',
+   points:['Luyện tập 4 (tr. 41): biết một cạnh và hai góc, tính diện tích bằng định lí sin.', 'Bài 3.5 (tr. 42): biết ba cạnh, tính ' + m('\\cos A') + ', diện tích ' + m('S') + ' và bán kính nội tiếp ' + m('r') + '.',
+     'Bài 3.6 (tr. 42): biết một cạnh và hai góc, tính ' + m('R, b, c') + '.', 'Bài 3.7 (tr. 42): giải tam giác và tính diện tích khi biết hai góc và một cạnh.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Chọn công thức theo dữ kiện',
+   body: box(`<b>Biết ba cạnh:</b> dùng ${m('\\cos A = \\dfrac{b^2 + c^2 - a^2}{2bc}')}, công thức Heron hoặc ${m('S = \\dfrac{1}{2}bc\\sin A')}; sau đó ${m('r = \\dfrac{S}{p}')}, ${m('R = \\dfrac{abc}{4S}')}.`) +
+     `<ol class="lk-steps"><li>Biết hai góc: tính góc còn lại bằng ${m('A + B + C = 180^\\circ')}.</li><li>Biết một cạnh và hai góc: định lí sin ${m('\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C} = 2R')}.</li><li>Có hai cạnh và góc xen giữa: ${m('S = \\dfrac{1}{2}bc\\sin A')}.</li></ol>` +
+     note(`Đề SGK yêu cầu kết quả gần đúng thì làm tròn ở bước cuối; các bước giữa nên giữ dạng căn hoặc nhiều chữ số thập phân.`)},
+
+  {kind:'vd', tag:'SGK tr. 41 · Luyện tập 4', label:'Luyện tập 4', de:`Tính diện tích tam giác ${m('ABC')} có ${m('b = 2,\\ \\widehat{B} = 30^\\circ,\\ \\widehat{C} = 45^\\circ')}.`,
+   sol:[`${m('\\widehat{A} = 180^\\circ - 30^\\circ - 45^\\circ = 105^\\circ')}.`, `Định lí sin: ${m('\\dfrac{c}{\\sin C} = \\dfrac{b}{\\sin B}')}, nên ${m('c = \\dfrac{2\\sin 45^\\circ}{\\sin 30^\\circ} = \\dfrac{2\\cdot\\frac{\\sqrt{2}}{2}}{\\frac{1}{2}} = 2\\sqrt{2}')}.`,
+     `${m('\\sin 105^\\circ = \\sin 75^\\circ = \\dfrac{\\sqrt{6} + \\sqrt{2}}{4}')}.`, `${m('S = \\dfrac{1}{2}bc\\sin A = \\dfrac{1}{2}\\cdot 2\\cdot 2\\sqrt{2}\\cdot\\dfrac{\\sqrt{6} + \\sqrt{2}}{4} = \\dfrac{\\sqrt{12} + 2}{2} = \\sqrt{3} + 1')}.`],
+   ans:`${tb('S = 1 + \\sqrt{3}')} (đơn vị diện tích).`},
+
+  {kind:'vd', tag:'SGK tr. 42 · Bài 3.5', label:'Bài 3.5', fig:triSVG({a:6,b:5,c:8,la:'6',lb:'5',lc:'8',gA:'A'}), figAt:1, de:`Cho tam giác ${m('ABC')} có ${m('a = 6,\\ b = 5,\\ c = 8')}. Tính ${m('\\cos A')}, diện tích ${m('S')} và bán kính đường tròn nội tiếp ${m('r')}.`,
+   sol:[`Hệ quả định lí côsin: ${m('\\cos A = \\dfrac{b^2 + c^2 - a^2}{2bc} = \\dfrac{25 + 64 - 36}{2\\cdot 5\\cdot 8} = \\dfrac{53}{80}')}.`,
+     `${m('\\sin A \\gt 0')} nên ${m('\\sin A = \\sqrt{1 - \\left(\\dfrac{53}{80}\\right)^2} = \\dfrac{\\sqrt{3\\,591}}{80} = \\dfrac{3\\sqrt{399}}{80}')}.`,
+     `${m('S = \\dfrac{1}{2}bc\\sin A = \\dfrac{1}{2}\\cdot 5\\cdot 8\\cdot\\dfrac{3\\sqrt{399}}{80} = \\dfrac{3\\sqrt{399}}{4} \\approx 14{,}98')}. (Kiểm tra bằng Heron: ${m('p = 9{,}5')}, ${m('S = \\sqrt{9{,}5\\cdot 3{,}5\\cdot 4{,}5\\cdot 1{,}5} \\approx 14{,}98')}.)`,
+     `${m('r = \\dfrac{S}{p} = \\dfrac{14{,}98}{9{,}5} \\approx 1{,}58')}.`],
+   ans:`${tb('\\cos A = \\dfrac{53}{80}')}; &nbsp; ${tb('S = \\dfrac{3\\sqrt{399}}{4} \\approx 14{,}98')}; &nbsp; ${tb('r \\approx 1{,}58')}.`},
+
+  {kind:'vd', tag:'SGK tr. 42 · Bài 3.6', label:'Bài 3.6', de:`Cho tam giác ${m('ABC')} có ${m('a = 10,\\ \\widehat{A} = 45^\\circ,\\ \\widehat{B} = 70^\\circ')}. Tính ${m('R,\\ b,\\ c')}.`,
+   sol:[`${m('\\widehat{C} = 180^\\circ - 45^\\circ - 70^\\circ = 65^\\circ')}.`, `Định lí sin: ${m('2R = \\dfrac{a}{\\sin A} = \\dfrac{10}{\\sin 45^\\circ} = 10\\sqrt{2}')}, nên ${m('R = 5\\sqrt{2} \\approx 7{,}07')}.`,
+     `${m('b = 2R\\sin B = 10\\sqrt{2}\\cdot\\sin 70^\\circ \\approx 13{,}29')}.`, `${m('c = 2R\\sin C = 10\\sqrt{2}\\cdot\\sin 65^\\circ \\approx 12{,}82')}.`],
+   ans:`${tb('R = 5\\sqrt{2} \\approx 7{,}07')}; &nbsp; ${tb('b \\approx 13{,}29')}; &nbsp; ${tb('c \\approx 12{,}82')}.`},
+
+  {kind:'vd', tag:'SGK tr. 42 · Bài 3.7', label:'Bài 3.7', de:`Giải tam giác ${m('ABC')} và tính diện tích tam giác đó, biết ${m('\\widehat{A} = 15^\\circ,\\ \\widehat{B} = 130^\\circ,\\ c = 6')}.`,
+   sol:[`${m('\\widehat{C} = 180^\\circ - 15^\\circ - 130^\\circ = 35^\\circ')}.`, `Định lí sin: ${m('\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C} = \\dfrac{6}{\\sin 35^\\circ} \\approx 10{,}46')}.`,
+     `${m('a = 10{,}46\\cdot\\sin 15^\\circ \\approx 2{,}71')}; &nbsp; ${m('b = 10{,}46\\cdot\\sin 130^\\circ \\approx 8{,}01')}.`, `${m('S = \\dfrac{1}{2}ca\\sin B = \\dfrac{1}{2}\\cdot 6\\cdot 2{,}71\\cdot\\sin 130^\\circ \\approx 6{,}22')}.`],
+   ans:`${tb('\\widehat{C} = 35^\\circ,\\ a \\approx 2{,}71,\\ b \\approx 8{,}01')}; &nbsp; ${tb('S \\approx 6{,}22')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Dùng định lí sin để tìm góc mà quên xét khả năng góc tù (${m('\\sin B = \\sin(180^\\circ - B)')}); thường kiểm tra bằng tổng ba góc.</li><li>Làm tròn quá sớm ở các bước giữa nên đáp số cuối lệch.</li><li>Nhầm góc xen giữa khi dùng ${m('S = \\dfrac{1}{2}bc\\sin A')}: góc phải nằm giữa hai cạnh đã dùng.</li></ul>` +
+     box('Giao về nhà: các bài tập còn lại cuối Bài 6 và Ôn tập chương III; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 6.')},
+]);
+})();
