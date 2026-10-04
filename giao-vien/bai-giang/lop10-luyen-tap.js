@@ -221,3 +221,53 @@ Lecture.addPractice('lop10', 'bai-6', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   CHƯƠNG III. ÔN TẬP CHƯƠNG III (Bài 5 – Bài 6)
+   10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 4 dạng: giá trị lượng giác · giải tam giác · diện tích R r · thực tế.
+   ===================================================================== */
+(() => {
+const m = tm;
+
+Lecture.addPractice('lop10', 'on-tap-c3', [
+ {dang:'Dạng 1. Giá trị lượng giác của góc từ 0° đến 180°', items:[
+  {de:`Không dùng máy tính, tính ${m('P = \\sin 150^\\circ + \\cos 120^\\circ + \\tan 135^\\circ')}.`,
+   sol:[`${m('\\sin 150^\\circ = \\sin 30^\\circ = \\dfrac{1}{2}')} (hai góc bù nhau).`, `${m('\\cos 120^\\circ = -\\cos 60^\\circ = -\\dfrac{1}{2}')}; ${m('\\tan 135^\\circ = -\\tan 45^\\circ = -1')}.`,
+     `${m('P = \\dfrac{1}{2} - \\dfrac{1}{2} - 1')}.`], ans:`${tb('P = -1')}.`},
+  {de:`Cho ${m('\\sin\\alpha = \\dfrac{3}{5}')} với ${m('90^\\circ \\lt \\alpha \\lt 180^\\circ')}. Tính ${m('\\cos\\alpha')} và ${m('\\tan\\alpha')}.`,
+   sol:[`${m('\\cos^2\\alpha = 1 - \\sin^2\\alpha = 1 - \\dfrac{9}{25} = \\dfrac{16}{25}')}.`, `Góc ${m('\\alpha')} tù nên ${m('\\cos\\alpha \\lt 0')}, suy ra ${m('\\cos\\alpha = -\\dfrac{4}{5}')}.`,
+     `${m('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha} = \\dfrac{3}{5}:\\left(-\\dfrac{4}{5}\\right) = -\\dfrac{3}{4}')}.`], ans:`${tb('\\cos\\alpha = -\\dfrac{4}{5};\\ \\tan\\alpha = -\\dfrac{3}{4}')}.`},
+ ]},
+ {dang:'Dạng 2. Định lí côsin, định lí sin – giải tam giác', items:[
+  {de:`Tam giác ${m('ABC')} có ${m('\\widehat{A} = 60^\\circ,\\ b = 8,\\ c = 3')}. Tính ${m('a')} và ${m('\\cos B')}; góc ${m('B')} nhọn hay tù?`,
+   sol:[`${m('a^2 = b^2 + c^2 - 2bc\\cos A = 64 + 9 - 2\\cdot 8\\cdot 3\\cdot\\dfrac{1}{2} = 49')} ⇒ ${m('a = 7')}.`,
+     `${m('\\cos B = \\dfrac{a^2 + c^2 - b^2}{2ac} = \\dfrac{49 + 9 - 64}{2\\cdot 7\\cdot 3} = -\\dfrac{1}{7}')}.`, `${m('\\cos B \\lt 0')} nên ${m('B')} là góc tù.`],
+   ans:`${tb('a = 7;\\ \\cos B = -\\dfrac{1}{7}')}; ${m('B')} tù.`},
+  {de:`Tam giác ${m('ABC')} có ${m('\\widehat{A} = 45^\\circ,\\ \\widehat{B} = 60^\\circ,\\ a = 4\\sqrt{2}')}. Tính ${m('R')} và ${m('b')}.`,
+   sol:[`${m('2R = \\dfrac{a}{\\sin A} = \\dfrac{4\\sqrt{2}}{\\frac{\\sqrt{2}}{2}} = 8')} ⇒ ${m('R = 4')}.`, `${m('b = 2R\\sin B = 8\\cdot\\dfrac{\\sqrt{3}}{2} = 4\\sqrt{3}')}.`], ans:`${tb('R = 4;\\ b = 4\\sqrt{3}')}.`},
+  {hard:true, de:`Tam giác ${m('ABC')} có ${m('AB = 6,\\ AC = 10')}, trung tuyến ${m('AM = 7')}. Tính ${m('BC')} và số đo góc ${m('A')}.`,
+   sol:[`Công thức trung tuyến: ${m('AM^2 = \\dfrac{2(AB^2 + AC^2) - BC^2}{4}')} ⇒ ${m('196 = 2\\cdot 136 - BC^2')} ⇒ ${m('BC^2 = 76')}.`,
+     `${m('\\cos A = \\dfrac{AB^2 + AC^2 - BC^2}{2\\cdot AB\\cdot AC} = \\dfrac{136 - 76}{120} = \\dfrac{1}{2}')}.`], ans:`${tb('BC = 2\\sqrt{19}')}; ${tb('\\widehat{A} = 60^\\circ')}.`},
+ ]},
+ {dang:'Dạng 3. Diện tích, bán kính đường tròn ngoại tiếp, nội tiếp', items:[
+  {de:`Tam giác ${m('ABC')} có ${m('a = 13,\\ b = 14,\\ c = 15')}. Tính ${m('S')}, ${m('R')}, ${m('r')}.`,
+   sol:[`${m('p = \\dfrac{13 + 14 + 15}{2} = 21')}; Heron: ${m('S = \\sqrt{21\\cdot 8\\cdot 7\\cdot 6} = 84')}.`, `${m('R = \\dfrac{abc}{4S} = \\dfrac{2\\,730}{336} = \\dfrac{65}{8}')}.`, `${m('r = \\dfrac{S}{p} = \\dfrac{84}{21} = 4')}.`],
+   ans:`${tb('S = 84;\\ R = \\dfrac{65}{8};\\ r = 4')}.`, lines:3},
+  {de:`Tam giác ${m('ABC')} có góc ${m('A')} nhọn, ${m('AB = 7,\\ AC = 8')} và diện tích ${m('S = 14\\sqrt{3}')}. Tính ${m('BC')}.`,
+   sol:[`${m('S = \\dfrac{1}{2}\\cdot AB\\cdot AC\\cdot\\sin A')} ⇒ ${m('\\sin A = \\dfrac{14\\sqrt{3}}{28} = \\dfrac{\\sqrt{3}}{2}')}.`, `Góc ${m('A')} nhọn nên ${m('\\widehat{A} = 60^\\circ')}.`,
+     `${m('BC^2 = 49 + 64 - 2\\cdot 7\\cdot 8\\cdot\\dfrac{1}{2} = 57')}.`], ans:`${tb('BC = \\sqrt{57} \\approx 7{,}55')}.`},
+  {hard:true, de:`Tam giác ${m('ABC')} có ${m('\\widehat{B} = 60^\\circ,\\ \\widehat{C} = 45^\\circ,\\ AC = 10')}. Tính ${m('BC')}, ${m('R')}, ${m('S')} (làm tròn hai chữ số thập phân).`,
+   sol:[`${m('\\widehat{A} = 180^\\circ - 60^\\circ - 45^\\circ = 75^\\circ')}.`, `${m('2R = \\dfrac{AC}{\\sin B} = \\dfrac{10}{\\frac{\\sqrt{3}}{2}} = \\dfrac{20}{\\sqrt{3}}')} ⇒ ${m('R = \\dfrac{10\\sqrt{3}}{3} \\approx 5{,}77')}.`,
+     `${m('BC = 2R\\sin A \\approx 11{,}55\\cdot 0{,}9659 \\approx 11{,}15')}.`, `${m('S = \\dfrac{1}{2}\\cdot BC\\cdot AC\\cdot\\sin C \\approx \\dfrac{1}{2}\\cdot 11{,}15\\cdot 10\\cdot \\dfrac{\\sqrt{2}}{2} \\approx 39{,}43')}.`],
+   ans:`${tb('BC \\approx 11{,}15;\\ R \\approx 5{,}77;\\ S \\approx 39{,}43')}.`},
+ ]},
+ {dang:'Dạng 4. Bài toán thực tế', items:[
+  {de:`Hai tàu rời cảng cùng lúc theo hai hướng hợp nhau góc ${m('60^\\circ')}, tốc độ ${m('20')} km/h và ${m('30')} km/h. Sau 2 giờ hai tàu cách nhau bao nhiêu kilômét?`,
+   sol:[`Sau 2 giờ: ${m('OA = 40')} km, ${m('OB = 60')} km, ${m('\\widehat{AOB} = 60^\\circ')}.`, `${m('AB^2 = 40^2 + 60^2 - 2\\cdot 40\\cdot 60\\cdot\\cos 60^\\circ = 2\\,800')}.`], ans:`${tb('AB = 20\\sqrt{7} \\approx 52{,}9')} km.`},
+  {hard:true, de:`Để đo khoảng cách từ điểm ${m('A')} đến cây ${m('C')} ở bên kia sông, người ta chọn điểm ${m('B')} cùng bờ với ${m('A')} sao cho ${m('AB = 40')} m, đo được ${m('\\widehat{CAB} = 40^\\circ,\\ \\widehat{CBA} = 70^\\circ')}. Tính ${m('AC')}, ${m('BC')} và diện tích tam giác ${m('ABC')} (làm tròn một chữ số thập phân).`,
+   sol:[`${m('\\widehat{C} = 180^\\circ - 40^\\circ - 70^\\circ = 70^\\circ')} nên tam giác ${m('ABC')} cân tại ${m('A')}.`, `${m('AC = \\dfrac{AB\\sin B}{\\sin C} = 40')} m; ${m('BC = \\dfrac{AB\\sin A}{\\sin C} = \\dfrac{40\\sin 40^\\circ}{\\sin 70^\\circ} \\approx 27{,}4')} m.`,
+     `Góc xen giữa hai cạnh ${m('AB, AC')} là ${m('\\widehat{A} = 40^\\circ')}: ${m('S = \\dfrac{1}{2}\\cdot 40\\cdot 40\\cdot\\sin 40^\\circ \\approx 514{,}2')}.`],
+   ans:`${tb('AC = 40')} m; ${tb('BC \\approx 27{,}4')} m; ${tb('S \\approx 514{,}2')} m².`},
+ ]},
+]);
+})();

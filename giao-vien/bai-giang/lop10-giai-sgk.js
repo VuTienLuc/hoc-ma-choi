@@ -309,9 +309,9 @@ const m = tm;
 const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
 
 Lecture.addSgk('lop10', 'bai-6', [
-  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 6. Hệ thức lượng trong tam giác', sub:'Các câu vận dụng – SGK tập 1, trang 41 – 42',
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 6. Hệ thức lượng trong tam giác', sub:'Các câu vận dụng – SGK tập 1, trang 41 – 43',
    points:['Luyện tập 4 (tr. 41): biết một cạnh và hai góc, tính diện tích bằng định lí sin.', 'Bài 3.5 (tr. 42): biết ba cạnh, tính ' + m('\\cos A') + ', diện tích ' + m('S') + ' và bán kính nội tiếp ' + m('r') + '.',
-     'Bài 3.6 (tr. 42): biết một cạnh và hai góc, tính ' + m('R, b, c') + '.', 'Bài 3.7 (tr. 42): giải tam giác và tính diện tích khi biết hai góc và một cạnh.']},
+     'Bài 3.6 (tr. 42): biết một cạnh và hai góc, tính ' + m('R, b, c') + '.', 'Bài 3.7 (tr. 42): giải tam giác và tính diện tích khi biết hai góc và một cạnh.', 'Bài 3.8 – 3.10 (tr. 42 – 43): bài toán thực tế – tàu đánh cá, cột ăng-ten, bề rộng hòn đảo.']},
 
   {kind:'kt', tag:'Nhắc nhanh', title:'Chọn công thức theo dữ kiện',
    body: box(`<b>Biết ba cạnh:</b> dùng ${m('\\cos A = \\dfrac{b^2 + c^2 - a^2}{2bc}')}, công thức Heron hoặc ${m('S = \\dfrac{1}{2}bc\\sin A')}; sau đó ${m('r = \\dfrac{S}{p}')}, ${m('R = \\dfrac{abc}{4S}')}.`) +
@@ -340,8 +340,85 @@ Lecture.addSgk('lop10', 'bai-6', [
      `${m('a = 10{,}46\\cdot\\sin 15^\\circ \\approx 2{,}71')}; &nbsp; ${m('b = 10{,}46\\cdot\\sin 130^\\circ \\approx 8{,}01')}.`, `${m('S = \\dfrac{1}{2}ca\\sin B = \\dfrac{1}{2}\\cdot 6\\cdot 2{,}71\\cdot\\sin 130^\\circ \\approx 6{,}22')}.`],
    ans:`${tb('\\widehat{C} = 35^\\circ,\\ a \\approx 2{,}71,\\ b \\approx 8{,}01')}; &nbsp; ${tb('S \\approx 6{,}22')}.`},
 
+  {kind:'vd', tag:'SGK tr. 42 · Bài 3.8', label:'Bài 3.8', de:`Tàu đánh cá rời cảng ${m('A')} theo hướng ${m('S70^\\circ E')} với vận tốc ${m('70')} km/h. Sau 90 phút động cơ hỏng, tàu trôi theo hướng nam với vận tốc ${m('8')} km/h. Sau 2 giờ nữa tàu neo ở đảo ${m('C')}. Tính khoảng cách ${m('AC')} và hướng từ ${m('A')} đến ${m('C')}.`,
+   sol:[`Đoạn đầu: ${m('AB = 70\\cdot 1{,}5 = 105')} km. Đoạn trôi: ${m('BC = 8\\cdot 2 = 16')} km.`,
+     `Đường thẳng đứng (hướng nam–bắc) tại ${m('B')} tạo với ${m('BA')} một góc ${m('70^\\circ')} nên ${m('\\widehat{ABC} = 180^\\circ - 70^\\circ = 110^\\circ')}.`,
+     `${m('AC^2 = 105^2 + 16^2 - 2\\cdot 105\\cdot 16\\cos 110^\\circ \\approx 12\\,430{,}2')} ⇒ ${m('AC \\approx 111{,}5')} km.`,
+     `${m('\\sin\\widehat{CAB} = \\dfrac{BC\\sin 110^\\circ}{AC} \\approx 0{,}135')} ⇒ ${m('\\widehat{CAB} \\approx 7{,}8^\\circ')}. Đảo nằm gần hướng nam hơn: ${m('70^\\circ - 7{,}8^\\circ \\approx 62{,}2^\\circ')}.`],
+   ans:`${tb('AC \\approx 111{,}5')} km, hướng ${tb('S62{,}2^\\circ E')} (xấp xỉ). <i>Đề tóm tắt theo SGK – thầy đối chiếu số liệu với sách.</i>`},
+
+  {kind:'vd', tag:'SGK tr. 43 · Bài 3.9', label:'Bài 3.9', de:`Trên nóc tòa nhà có cột ăng-ten cao ${m('5')} m. Từ vị trí quan sát ${m('A')} cao ${m('7')} m so với mặt đất, nhìn thấy đỉnh ${m('B')} và chân ${m('C')} của cột với các góc ${m('50^\\circ')} và ${m('40^\\circ')} so với phương nằm ngang. a) Tính các góc của tam giác ${m('ABC')}. b) Tính chiều cao tòa nhà.`,
+   sol:[`a) ${m('\\widehat{BAC} = 50^\\circ - 40^\\circ = 10^\\circ')}; ${m('\\widehat{CBA} = 90^\\circ - 50^\\circ = 40^\\circ')}; ${m('\\widehat{ACB} = 180^\\circ - 10^\\circ - 40^\\circ = 130^\\circ')}.`,
+     `b) Định lí sin trong tam giác ${m('ABC')} (${m('BC = 5')}): ${m('AC = \\dfrac{BC\\sin B}{\\sin A} = \\dfrac{5\\sin 40^\\circ}{\\sin 10^\\circ} \\approx 18{,}51')} m.`,
+     `Chân cột ${m('C')} cao hơn ${m('A')}: ${m('AC\\sin 40^\\circ \\approx 11{,}90')} m, nên tòa nhà cao ${m('7 + 11{,}90 \\approx 18{,}9')} m.`,
+     `Kiểm tra: ${m('AB = \\dfrac{5\\sin 130^\\circ}{\\sin 10^\\circ} \\approx 22{,}06')}; đỉnh ${m('B')} cao ${m('7 + 22{,}06\\sin 50^\\circ \\approx 23{,}9')} m, trừ cột ${m('5')} m còn ${m('18{,}9')} m ✓.`],
+   ans:`a) ${tb('10^\\circ,\\ 40^\\circ,\\ 130^\\circ')}; b) ${tb('\\approx 18{,}9')} m. <i>Một số trang giải trên mạng ghi khác; kết quả này đã kiểm bằng hai cách.</i>`},
+
+  {kind:'vd', tag:'SGK tr. 43 · Bài 3.10', label:'Bài 3.10', de:`Từ bãi biển Vũng Chùa (Quảng Bình) ngắm được Đảo Yến. Hãy đề xuất cách xác định bề rộng của hòn đảo theo chiều ngắm.`,
+   sol:[`Đặt hai cọc ${m('A, B')} trên bờ, đo ${m('AB')}; gọi ${m('H, K')} là hai mép đảo theo chiều ngắm.`,
+     `Ngắm ${m('H')} từ ${m('A')} và ${m('B')}: đo ${m('\\widehat{BAH},\\ \\widehat{ABH}')}; định lí sin trong ${m('\\triangle ABH')} cho ${m('AH')}.`,
+     `Ngắm ${m('K')} từ ${m('A')} và một cọc thứ ba ${m('C')} (đo ${m('AC')}): đo ${m('\\widehat{CAK},\\ \\widehat{ACK}')}; định lí sin trong ${m('\\triangle ACK')} cho ${m('AK')}.`,
+     `Đo ${m('\\widehat{HAK}')} (hoặc suy ra từ các góc đã đo), áp dụng định lí côsin trong ${m('\\triangle AHK')}: ${m('HK^2 = AH^2 + AK^2 - 2\\,AH\\cdot AK\\cos\\widehat{HAK}')}.`],
+   ans:`Bề rộng đảo là ${tb('HK')} tính bằng định lí sin (hai lần) rồi định lí côsin. <i>Bài mở – nhiều cách đo đúng.</i>`},
+
   {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
    body:`<ul><li>Dùng định lí sin để tìm góc mà quên xét khả năng góc tù (${m('\\sin B = \\sin(180^\\circ - B)')}); thường kiểm tra bằng tổng ba góc.</li><li>Làm tròn quá sớm ở các bước giữa nên đáp số cuối lệch.</li><li>Nhầm góc xen giữa khi dùng ${m('S = \\dfrac{1}{2}bc\\sin A')}: góc phải nằm giữa hai cạnh đã dùng.</li></ul>` +
      box('Giao về nhà: các bài tập còn lại cuối Bài 6 và Ôn tập chương III; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 6.')},
+]);
+})();
+
+/* =====================================================================
+   ÔN TẬP CHƯƠNG III – Bài tập cuối chương III (SGK tập 1, tr. 44): Bài 3.12 – 3.17
+   ===================================================================== */
+(() => {
+const m = tm;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+
+Lecture.addSgk('lop10', 'on-tap-c3', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Ôn tập chương III', sub:'Bài tập cuối chương III – SGK tập 1, trang 44',
+   points:['Trắc nghiệm: Bài 3.12 (tam giác có góc ' + m('B = 135^\\circ') + '), Bài 3.13 (khẳng định đúng).', 'Bài 3.14: tính giá trị biểu thức lượng giác. Bài 3.15: giải tam giác, tính ' + m('R, S, r') + '.',
+     'Bài 3.16 – 3.17: chứng minh công thức trung tuyến và quan hệ giữa góc và cạnh.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Công thức cần dùng',
+   body: box(`${m('\\sin(180^\\circ - \\alpha) = \\sin\\alpha')}, ${m('\\cos(180^\\circ - \\alpha) = -\\cos\\alpha')}; &nbsp; ${m('a^2 = b^2 + c^2 - 2bc\\cos A')}; &nbsp; ${m('\\dfrac{a}{\\sin A} = 2R')}; &nbsp; ${m('S = \\dfrac{1}{2}bc\\sin A = pr = \\dfrac{abc}{4R}')}.`) +
+     note('Bài 3.12, 3.13 là trắc nghiệm: dưới đây ghi mệnh đề đúng, thầy đối chiếu với chữ cái A–D trong sách.')},
+
+  {kind:'vd', tag:'SGK tr. 44 · Bài 3.12', label:'Bài 3.12', de:`Cho tam giác ${m('ABC')} có ${m('\\widehat{B} = 135^\\circ')}. Chọn công thức đúng: a) diện tích ${m('S')}; b) bán kính ${m('R')}; c) ${m('b^2')}.`,
+   sol:[`a) ${m('S = \\dfrac{1}{2}ca\\sin B = \\dfrac{1}{2}ca\\sin 135^\\circ = \\dfrac{\\sqrt{2}}{4}ca')}.`, `b) ${m('2R = \\dfrac{b}{\\sin 135^\\circ} = b\\sqrt{2}')} ⇒ ${m('R = \\dfrac{\\sqrt{2}}{2}b')}.`,
+     `c) ${m('b^2 = c^2 + a^2 - 2ca\\cos 135^\\circ = c^2 + a^2 + \\sqrt{2}\\,ca')}.`],
+   ans:`${tb('S = \\dfrac{\\sqrt{2}}{4}ca')}; &nbsp; ${tb('R = \\dfrac{\\sqrt{2}}{2}b')}; &nbsp; ${tb('b^2 = c^2 + a^2 - 2ca\\cos 135^\\circ')}.`},
+
+  {kind:'vd', tag:'SGK tr. 44 · Bài 3.13', label:'Bài 3.13', de:`Cho tam giác ${m('ABC')}. Khẳng định nào đúng? a) ${m('S = \\dfrac{abc}{4r}')}; ${m('r = \\dfrac{2S}{a + b + c}')}; ${m('a^2 = b^2 + c^2 + 2bc\\cos A')}; ${m('S = r(a + b + c)')}. b) ${m('\\sin A = \\sin(B + C)')}; ${m('\\cos A = \\cos(B + C)')}; ${m('\\cos A \\gt 0')}; ${m('\\sin A \\le 0')}.`,
+   sol:[`a) Từ ${m('S = pr = \\dfrac{a + b + c}{2}\\,r')} suy ra ${m('r = \\dfrac{2S}{a + b + c}')}. Công thức ${m('S = \\dfrac{abc}{4R}')} dùng bán kính ngoại tiếp ${m('R')}, không phải ${m('r')}; định lí côsin có dấu <b>trừ</b>; ${m('S = r(a + b + c)')} thiếu hệ số ${m('\\dfrac{1}{2}')}.`,
+     `b) ${m('A = 180^\\circ - (B + C)')} nên ${m('\\sin A = \\sin(B + C)')}; còn ${m('\\cos A = -\\cos(B + C)')}. Góc ${m('A')} có thể tù (${m('\\cos A \\lt 0')}) và luôn có ${m('\\sin A \\gt 0')}.`],
+   ans:`a) ${tb('r = \\dfrac{2S}{a + b + c}')}; &nbsp; b) ${tb('\\sin A = \\sin(B + C)')}.`},
+
+  {kind:'vd', tag:'SGK tr. 44 · Bài 3.14', label:'Bài 3.14', de:`Tính: a) ${m('M = \\sin 45^\\circ\\cos 45^\\circ + \\sin 30^\\circ')}; b) ${m('N = \\sin 60^\\circ\\cos 30^\\circ + \\dfrac{1}{2}\\sin 45^\\circ\\cos 45^\\circ')}; c) ${m('P = 1 + \\tan^2 60^\\circ')}; d) ${m('Q = \\dfrac{1}{\\sin^2 120^\\circ} - \\cot^2 120^\\circ')}.`,
+   sol:[`a) ${m('M = \\dfrac{\\sqrt{2}}{2}\\cdot\\dfrac{\\sqrt{2}}{2} + \\dfrac{1}{2} = \\dfrac{1}{2} + \\dfrac{1}{2} = 1')}.`, `b) ${m('N = \\dfrac{\\sqrt{3}}{2}\\cdot\\dfrac{\\sqrt{3}}{2} + \\dfrac{1}{2}\\cdot\\dfrac{1}{2} = \\dfrac{3}{4} + \\dfrac{1}{4} = 1')}.`,
+     `c) ${m('P = 1 + (\\sqrt{3})^2 = 4')}.`, `d) ${m('\\sin 120^\\circ = \\dfrac{\\sqrt{3}}{2}')}, ${m('\\cot 120^\\circ = -\\dfrac{1}{\\sqrt{3}}')}: ${m('Q = \\dfrac{4}{3} - \\dfrac{1}{3} = 1')}.`],
+   ans:`${tb('M = 1;\\ N = 1;\\ P = 4;\\ Q = 1')}.`},
+
+  {kind:'vd', tag:'SGK tr. 44 · Bài 3.15', label:'Bài 3.15', de:`Tam giác ${m('ABC')} có ${m('\\widehat{B} = 60^\\circ,\\ \\widehat{C} = 45^\\circ,\\ AC = 10')}. Tính ${m('BC')}, ${m('R')}, ${m('S')}, ${m('r')}.`,
+   sol:[`${m('\\widehat{A} = 75^\\circ')}. Định lí sin: ${m('2R = \\dfrac{AC}{\\sin B} = \\dfrac{20}{\\sqrt{3}}')} ⇒ ${m('R = \\dfrac{10\\sqrt{3}}{3} \\approx 5{,}77')}.`,
+     `${m('BC = 2R\\sin A \\approx 11{,}55\\cdot\\sin 75^\\circ \\approx 11{,}15')}; ${m('AB = 2R\\sin C \\approx 8{,}16')}.`,
+     `${m('S = \\dfrac{1}{2}\\cdot BC\\cdot AC\\cdot\\sin C \\approx \\dfrac{1}{2}\\cdot 11{,}15\\cdot 10\\cdot\\dfrac{\\sqrt{2}}{2} \\approx 39{,}43')}.`,
+     `${m('p = \\dfrac{11{,}15 + 10 + 8{,}16}{2} \\approx 14{,}66')}, nên ${m('r = \\dfrac{S}{p} \\approx 2{,}69')}.`],
+   ans:`${tb('BC \\approx 11{,}15;\\ R \\approx 5{,}77;\\ S \\approx 39{,}43;\\ r \\approx 2{,}69')}.`},
+
+  {kind:'vd', tag:'SGK tr. 44 · Bài 3.16', label:'Bài 3.16', de:`Tam giác ${m('ABC')} có trung tuyến ${m('AM')}. Chứng minh: a) ${m('\\cos\\widehat{AMB} + \\cos\\widehat{AMC} = 0')}; b) ${m('MA^2 + MB^2 - AB^2 = 2MA\\cdot MB\\cos\\widehat{AMB}')} và ${m('MA^2 + MC^2 - AC^2 = 2MA\\cdot MC\\cos\\widehat{AMC}')}; c) ${m('MA^2 = \\dfrac{2(AB^2 + AC^2) - BC^2}{4}')}.`,
+   sol:[`a) ${m('\\widehat{AMB} + \\widehat{AMC} = 180^\\circ')} (kề bù) nên ${m('\\cos\\widehat{AMC} = -\\cos\\widehat{AMB}')}.`,
+     `b) Định lí côsin trong ${m('\\triangle AMB')}: ${m('AB^2 = MA^2 + MB^2 - 2MA\\cdot MB\\cos\\widehat{AMB}')}; tương tự trong ${m('\\triangle AMC')}.`,
+     `c) Đặt ${m('MB = MC = \\dfrac{BC}{2}')}. Cộng hai đẳng thức ở b): ${m('2MA^2 + 2\\cdot\\dfrac{BC^2}{4} - (AB^2 + AC^2) = 2MA\\cdot\\dfrac{BC}{2}(\\cos\\widehat{AMB} + \\cos\\widehat{AMC}) = 0')}.`,
+     `Suy ra ${m('MA^2 = \\dfrac{AB^2 + AC^2}{2} - \\dfrac{BC^2}{4} = \\dfrac{2(AB^2 + AC^2) - BC^2}{4}')}.`],
+   ans:`${tb('MA^2 = \\dfrac{2(AB^2 + AC^2) - BC^2}{4}')} (công thức đường trung tuyến).`},
+
+  {kind:'vd', tag:'SGK tr. 44 · Bài 3.17', label:'Bài 3.17', de:`Tam giác ${m('ABC')}. Chứng minh: a) góc ${m('A')} nhọn thì ${m('b^2 + c^2 \\gt a^2')}; b) góc ${m('A')} tù thì ${m('b^2 + c^2 \\lt a^2')}; c) góc ${m('A')} vuông thì ${m('b^2 + c^2 = a^2')}.`,
+   sol:[`Định lí côsin: ${m('a^2 = b^2 + c^2 - 2bc\\cos A')}, tức ${m('b^2 + c^2 - a^2 = 2bc\\cos A')}.`, `${m('2bc \\gt 0')} nên dấu của ${m('b^2 + c^2 - a^2')} là dấu của ${m('\\cos A')}.`,
+     `${m('A')} nhọn: ${m('\\cos A \\gt 0')} ⇒ ${m('b^2 + c^2 \\gt a^2')}. ${m('A')} tù: ${m('\\cos A \\lt 0')} ⇒ ${m('b^2 + c^2 \\lt a^2')}. ${m('A')} vuông: ${m('\\cos A = 0')} ⇒ ${m('b^2 + c^2 = a^2')} (định lí Pythagore).`],
+   ans:`Dấu của ${tb('b^2 + c^2 - a^2')} trùng dấu của ${tb('\\cos A')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Quên rằng ${m('\\cos')}, ${m('\\tan')}, ${m('\\cot')} của góc tù <b>âm</b>, còn ${m('\\sin')} luôn dương.</li><li>Nhầm ${m('R')} (ngoại tiếp) với ${m('r')} (nội tiếp) trong các công thức diện tích.</li><li>Viết sai dấu trong định lí côsin khi góc tù.</li></ul>` +
+     box('Bài 3.11 (Hình 3.19, đường hầm) thuộc Bài 6 – chưa đưa vào bộ này vì cần đối chiếu hình trong sách.')},
 ]);
 })();

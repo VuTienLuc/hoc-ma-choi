@@ -513,3 +513,259 @@ Em đo khoảng cách giữa hai vật mà không đi thẳng tới được (ha
 | Exit 3 | $48$ |
 | Về nhà | Hai lần đo $BC$ xấp xỉ nhau |
 `);
+
+/* =====================================================================
+   TOÁN 10 · ÔN TẬP CHƯƠNG III (Bài 5 – Bài 6) – tiết ôn tập
+   ===================================================================== */
+Lecture.addSheet('lop10', 'on-tap-c3', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 10 · Ôn tập chương III. Hệ thức lượng trong tam giác
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+> Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Tiết ôn tập: câu nào làm chưa tốt là chỗ em cần ôn thêm, không phải lỗi của em.
+
+## 1. Vào lớp làm ngay (Do Now) – 4 phút
+
+**Câu 1** *(bài trước – Bài 6)*. Tam giác $ABC$ có $a = 6$, $b = 5$, $c = 7$. Tính $\cos C$. Đáp số: ………………………
+
+**Câu 2** *(Bài 5)*. Tính $\sin 135^\circ$ và $\tan 120^\circ$. Đáp số: ………………………
+
+**Câu 3** *(chủ đề trước – Chương II)*. Điểm $(2;1)$ có thuộc miền nghiệm của bất phương trình $x + 2y \ge 5$ không? Đáp số: ………………………
+
+**Câu 4** *(năm trước – Toán 9)*. Tam giác $ABC$ vuông tại $A$ có $AB = 6$, $AC = 8$. Tính $\sin B$. Đáp số: ……………………
+
+## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+
+Ba tam giác với dữ kiện khác nhau và kết quả đã tính:
+
+| Tam giác | Đã biết | Kết quả |
+|---|---|---|
+| $T_1$ | $b = 8$, $c = 3$, $\widehat{A} = 60^\circ$ | $a = 7$ |
+| $T_2$ | $\widehat{A} = 45^\circ$, $\widehat{B} = 60^\circ$, $a = 4\sqrt{2}$ | $R = 4$, $b = 4\sqrt{3}$ |
+| $T_3$ | $a = 13$, $b = 14$, $c = 15$ | $S = 84$ |
+
+**Em nhận thấy:** …………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Với mỗi bộ dữ kiện của tam giác, em nên bắt đầu bằng công thức nào, và vì sao?
+
+## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+
+**Câu A.** Tam giác $ABC$ có $a = 2$, $c = 3$, $\widehat{B} = 135^\circ$. Diện tích $S$ bằng
+
+A. $3\sqrt{2}$
+
+B. $-\dfrac{3\sqrt{2}}{2}$
+
+C. $\dfrac{3\sqrt{2}}{2}$
+
+D. $3$
+
+**Câu B.** Tam giác $ABC$ có $a = 6$, $\widehat{A} = 45^\circ$. Bán kính $R$ của đường tròn ngoại tiếp là
+
+A. $6$
+
+B. $6\sqrt{2}$
+
+C. $3$
+
+D. $3\sqrt{2}$
+
+## 4. Luyện tập xen kẽ (10 phút)
+
+**Câu 1 ★.** Tính $\sin 120^\circ\cdot\cos 150^\circ$. Đáp số: ………………………
+
+**Câu 2 ★.** Cho $\cos\alpha = -\dfrac{5}{13}$ với $0^\circ \lt \alpha \lt 180^\circ$. Tính $\tan\alpha$. Đáp số: ………………………
+
+**Câu 3 ★★.** Tam giác có ba cạnh $5$, $12$, $13$. Tính bán kính nội tiếp $r$. Đáp số: ………………………
+
+**Câu 4 ★★.** Tam giác $ABC$ có $\widehat{A} = 30^\circ$, $\widehat{B} = 45^\circ$, $a = 6$. Tính $b$. Đáp số: ………………………
+
+**Câu 5 ★★.** Tam giác $ABC$ có $AB = 4$, $AC = 5$, $\widehat{A} = 120^\circ$. Tính $BC$. Đáp số: ………………………
+
+**Câu 6 ★★★.** Tam giác $ABC$ có $AB = 5$, $AC = 7$, $BC = 8$. Tính độ dài trung tuyến $AM$. Đáp số: ………………………
+
+**Câu 7 ★★★.** Hai cọc $A$, $B$ trên bờ sông cách nhau $50$ m; từ $A$, $B$ ngắm cây $C$ bên kia sông được $\widehat{CAB} = 60^\circ$, $\widehat{CBA} = 75^\circ$. Tính $AC$ (làm tròn một chữ số thập phân). Đáp số: ………………………
+
+## 5. Tìm lỗi sai (3 phút)
+
+> **Bài toán.** Tam giác $ABC$ có $\widehat{B} = 135^\circ$, $a = 2$, $c = 3$. Tính $b$.
+>
+> **Lời giải của bạn X:** $b^2 = 2^2 + 3^2 - 2\cdot 2\cdot 3\cdot\cos 135^\circ = 13 - 12\cdot\dfrac{\sqrt{2}}{2} = 13 - 6\sqrt{2}$, nên $b = \dfrac{13 - 6\sqrt{2}}{2}$.
+
+Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp (4 phút)
+
+**Câu 1** *(trắc nghiệm)*. Tam giác $ABC$ có $a = 7$, $b = 5$, $c = 8$. Số đo góc $A$ là
+
+A. $30^\circ$
+
+B. $60^\circ$
+
+C. $120^\circ$
+
+D. $45^\circ$
+
+**Câu 2** *(đúng/sai)*. Tam giác $ABC$ có $a = 13$, $b = 14$, $c = 15$. Mỗi ý em ghi Đ hoặc S:
+
+a) Diện tích $S = 84$. ……
+
+b) Bán kính nội tiếp $r = 4$. ……
+
+c) Bán kính ngoại tiếp $R = \dfrac{65}{4}$. ……
+
+d) Tam giác có một góc tù. ……
+
+**Câu 3** *(trả lời ngắn)*. Tam giác $ABC$ có $a = 6$, $\widehat{A} = 30^\circ$. Đường kính $2R$ của đường tròn ngoại tiếp bằng: …………
+
+## 7. Một phút suy ngẫm
+
+*Trong chương này, loại bài nào em còn chưa chắc nhất, và em sẽ làm gì để chắc hơn?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+
+Em đo chiều cao cột cờ (hoặc một cây cao) ở trường mà không leo lên. Đứng ở hai vị trí $A$, $B$ thẳng hàng với chân cột và đo $AB$, rồi đo hai góc nhìn tới đỉnh cột bằng ứng dụng đo góc. Dùng định lí sin để tính chiều cao, làm với **hai** khoảng cách $AB$ khác nhau rồi so sánh. **Sản phẩm:** ảnh chụp lúc đo và bảng tính, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Ôn tập chương III. Hệ thức lượng trong tam giác
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương III. Hệ thức lượng trong tam giác · Ôn tập chương III** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con, học sinh không dùng điện thoại trên lớp; tiết ôn tập chương.
+- Hai tình huống **[Minh họa]** (bảng ba tam giác ở mục mở đầu, bài đo chiều cao về nhà) do người soạn tự đặt, không trích từ SGK. Đề bài cuối chương III (Bài 3.12–3.17, tr. 44) thầy giao riêng, lời giải có trong mục **📘 Giải SGK**.
+- Phiếu bám bài giảng ôn tập: **Ví dụ tổng hợp** ($AB = 8$, $AC = 5$, $\widehat{A} = 60^\circ$) → mục mở đầu, Luyện tập 5; **Luyện tập Bài 1** (giá trị lượng giác của góc bù) → Do Now 2, Luyện tập 1–2; **Luyện tập Bài 2** (nhận dạng tam giác theo cạnh) → Exit ticket 1–2; bài toán thực tế → Luyện tập 7, bài về nhà.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **hệ thống hóa kiến thức** (sơ đồ ghi nhớ) thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* huy động giá trị lượng giác của góc từ $0^\circ$ đến $180^\circ$, định lí côsin; thấy nhu cầu phân loại dữ kiện để chọn công thức.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng ba tam giác.
+- *Sản phẩm:* bài Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* chọn đúng công thức theo dữ kiện; tính cạnh, góc, $S$, $R$, $r$, trung tuyến; phát hiện lỗi điển hình (dấu của $\cos$ góc tù, quên khai căn, nhầm $R$ với $2R$).
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài đo chiều cao.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; ảnh đo và bảng tính.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình, giáo viên đi quanh |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hệ thống hóa kiến thức** | *Giáo viên tự dạy theo bài giảng: sơ đồ ghi nhớ, ví dụ tổng hợp* |
+| ~15 | Câu hỏi bản lề A, B (Mục 3), nằm trong phần trên | Dừng sau khi nhắc công thức diện tích và định lí sin; giơ thẻ (2 phút) |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Câu 1–7, làm cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) và Bài 3.12–3.17 | |
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Truy xuất trước khi ôn giúp nhớ lâu; tự chấm không lấy điểm.
+- **Tổ chức theo 5512:** (1) chiếu 4 câu, nói rõ "không lấy điểm"; (2) làm một mình 3 phút; (3) chiếu đáp án, học sinh tự chấm bằng bút khác màu; (4) nhận xét: câu 1 là hệ quả định lí côsin, câu 2 là góc bù.
+- **Đáp án:**
+  1. $\cos C = \dfrac{a^2 + b^2 - c^2}{2ab} = \dfrac{36 + 25 - 49}{60} = \dfrac{1}{5}$.
+  2. $\sin 135^\circ = \dfrac{\sqrt{2}}{2}$; $\tan 120^\circ = -\sqrt{3}$.
+  3. Không, vì $2 + 2\cdot 1 = 4 \lt 5$.
+  4. $BC = 10$; $\sin B = \dfrac{AC}{BC} = \dfrac{4}{5}$.
+- **Lỗi dự kiến:** câu 1 đặt nhầm cạnh đối diện góc $C$ (dùng $a^2 + c^2 - b^2$); câu 2 bỏ dấu âm của $\tan 120^\circ$; câu 3 so sánh sai chiều: kết luận "$4 \ge 5$"; câu 4 chọn $\dfrac{3}{5}$ (nhầm với $\cos B$).
+- **Ít công nghệ:** giấy nháp. **Công cụ số:** Plickers hoặc Azota.
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.** Không có câu trả lời "đúng" nên học sinh yếu cũng tham gia được.
+- **Tổ chức theo 5512:** (1) chiếu bảng; (2) ghi cá nhân 1 phút, chia sẻ với bạn cùng bàn; (3) gọi 3–4 em, ghi lên bảng; (4) chốt: $T_1$ biết hai cạnh và góc xen giữa → côsin; $T_2$ biết hai góc và một cạnh → sin; $T_3$ biết ba cạnh → Heron.
+- **Đáp án gợi ý:** mỗi tam giác có một kiểu dữ kiện khác nhau; kết quả hỏi cũng khác ($a$; $R$, $b$; $S$).
+- **Lỗi dự kiến:** học sinh chỉ nêu "số khác nhau" → hỏi "em đã biết những gì trong mỗi dòng?".
+- **Ít công nghệ:** bảng. **Công cụ số:** GeoGebra dựng ba tam giác (không bắt buộc).
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Vừa.** Mỗi phương án nhiễu ứng với một lỗi có thật.
+- **Tổ chức theo 5512:** (1) chiếu, dặn "chưa trả lời vội"; (2) 45 giây, ghi lên bảng con; (3) giơ cùng lúc; (4) nếu từ $20\%$ trở lên sai thì giảng lại.
+- **Đáp án:** Câu A chọn **C**; Câu B chọn **D**.
+- **Giải thích nhiễu – Câu A:** $S = \dfrac{1}{2}ac\sin B = \dfrac{1}{2}\cdot 2\cdot 3\cdot\dfrac{\sqrt{2}}{2} = \dfrac{3\sqrt{2}}{2}$. A (quên $\dfrac{1}{2}$); B (dùng $\cos 135^\circ$ thay $\sin 135^\circ$); D (bỏ $\sin B$).
+- **Giải thích nhiễu – Câu B:** $2R = \dfrac{a}{\sin A} = 6\sqrt{2}$, $R = 3\sqrt{2}$. A ($R = a$); B (nhầm $2R$ với $R$); C (chia đôi mà quên $\sin A$).
+- **Ít công nghệ:** bảng con. **Công cụ số:** Plickers.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Mạnh** (Rohrer 2020: $60{,}7\%$ so với $37{,}6\%$, $d = 0{,}83$). Trộn dạng để học sinh phải nhận ra dạng trước khi giải. Báo trước là sẽ thấy khó hơn.
+- **Tổ chức theo 5512:** (1) phát phiếu, giải thích ký hiệu ★; (2) cá nhân 6 phút; (3) đối chiếu cặp đôi 2 phút; (4) chữa các câu nhiều em sai (thường là câu 3, 6, 7).
+- **Đáp án và lời giải ngắn:**
+  1. $\sin 120^\circ\cdot\cos 150^\circ = \dfrac{\sqrt{3}}{2}\cdot\left(-\dfrac{\sqrt{3}}{2}\right) = -\dfrac{3}{4}$.
+  2. $\sin\alpha = \sqrt{1 - \dfrac{25}{169}} = \dfrac{12}{13}$ (vì $\sin\alpha \gt 0$); $\tan\alpha = \dfrac{12/13}{-5/13} = -\dfrac{12}{5}$.
+  3. $p = 15$, $S = \sqrt{15\cdot 10\cdot 3\cdot 2} = 30$ (tam giác vuông: $\dfrac{1}{2}\cdot 5\cdot 12 = 30$), $r = \dfrac{S}{p} = 2$.
+  4. $b = \dfrac{a\sin B}{\sin A} = \dfrac{6\cdot\frac{\sqrt{2}}{2}}{\frac{1}{2}} = 6\sqrt{2}$.
+  5. $BC^2 = 16 + 25 - 2\cdot 4\cdot 5\cdot\left(-\dfrac{1}{2}\right) = 61$ nên $BC = \sqrt{61}$.
+  6. $AM^2 = \dfrac{2(25 + 49) - 64}{4} = 21$ nên $AM = \sqrt{21}$.
+  7. $\widehat{C} = 45^\circ$; $AC = \dfrac{AB\sin B}{\sin C} = \dfrac{50\sin 75^\circ}{\sin 45^\circ} = 25(\sqrt{3} + 1) \approx 68{,}3$ m.
+- **Lỗi dự kiến:** câu 1 quên dấu âm của $\cos 150^\circ$; câu 2 quên chọn dấu của $\cos$ khi suy $\sin$, hoặc đảo $\tan$ thành $\dfrac{\cos}{\sin}$; câu 3 dùng $r = \dfrac{S}{a + b + c}$ (thiếu nhân $2$); câu 4 đảo $\sin A$, $\sin B$; câu 5 dùng $\cos 120^\circ = \dfrac{1}{2}$; câu 6 quên chia $4$ hoặc quên khai căn; câu 7 quên tính góc $C$ trước.
+- **Ít công nghệ:** giấy và bảng. **Công cụ số:** GeoGebra kiểm tra bằng dựng hình.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Vừa – Mạnh** (EEF 2022).
+- **Tổ chức theo 5512:** (1) chiếu lời giải ẩn tên; (2) tìm lỗi 1 phút; (3) 2–3 em nêu, khen phần đúng trước (chọn đúng định lí côsin là đúng); (4) chốt hai lỗi.
+- **Đáp án:** lỗi 1: $\cos 135^\circ = -\dfrac{\sqrt{2}}{2}$ nên $b^2 = 13 + 6\sqrt{2}$. Lỗi 2: từ $b^2$ phải khai căn chứ không chia $2$. Kết quả đúng: $b = \sqrt{13 + 6\sqrt{2}} \approx 4{,}64$.
+- **Lỗi dự kiến:** học sinh chỉ thấy lỗi khai căn; hỏi "$\cos$ của góc tù âm hay dương?".
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.** Viết đúng dạng câu đề tốt nghiệp (trắc nghiệm, đúng/sai, trả lời ngắn); chữa lại ở đầu tiết sau.
+- **Tổ chức theo 5512:** (1) phát phiếu; (2) 3 phút làm một mình; (3) thu phiếu; (4) phân loại theo Mục 5.
+- **Đáp án:** Câu 1: **B** ($\cos A = \dfrac{25 + 64 - 49}{2\cdot 5\cdot 8} = \dfrac{1}{2}$). Câu 2: a) Đ ($p = 21$, $S = 84$); b) Đ ($r = \dfrac{84}{21} = 4$); c) S ($R = \dfrac{abc}{4S} = \dfrac{2\,730}{336} = \dfrac{65}{8}$); d) S (góc đối diện cạnh $15$: $\cos C = \dfrac{169 + 196 - 225}{2\cdot 13\cdot 14} \gt 0$ nên tam giác nhọn). Câu 3: **12** ($2R = \dfrac{6}{1/2}$).
+- **Lỗi dự kiến:** Câu 1 chọn C vì quên chia $2bc$ hoặc dùng sai cạnh; Câu 2 c) chọn Đ vì ghi nhầm $4S$ thành $2S$; Câu 2 d) kết luận theo độ dài cạnh mà không tính $\cos$; Câu 3 trả lời $6$ (nhầm $2R$ với $R$).
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- **Bằng chứng: Mạnh** (EEF: khoảng $+ 8$ tháng tiến bộ). Học sinh viết một câu, không chấm điểm; giáo viên đọc nhanh vài phiếu để biết em nào cần kèm. Gợi ý trả lời tốt: nêu cụ thể dạng (chọn định lí, dấu của $\cos$ góc tù, công thức $R, r$) và cách ôn (làm lại câu sai, nhờ bạn giảng).
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** dùng định lí sin để đo gián tiếp chiều cao; lập bảng tính.
+- **Đáp án gợi ý:** với $AB = d$, góc nhìn $\alpha$ tại $A$ (xa hơn) và $\beta$ tại $B$ ($\alpha \lt \beta$): $BH = \dfrac{d\sin\alpha\sin\beta}{\sin(\beta - \alpha)}$ (cộng chiều cao mắt nếu cần); hai khoảng cách khác nhau cho chiều cao gần nhau.
+- **Tiêu chí nộp:** ảnh đo rõ, bảng tính có công thức, nhận xét sai số.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm Bài 3.16, 3.17 (chứng minh) |
+| 2. Sai hết | 0–1 câu đúng | Ôn lại nhóm nhỏ: lập bảng "dữ kiện → công thức" cùng học sinh, làm lại Luyện tập 1–5 |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh 5 phút đầu tiết sau bằng đúng câu bị sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Chương IV):** (1) một câu về tam giác bị sai nhiều nhất trong Exit ticket; (2) tính $\sin 150^\circ$ và $\cos 120^\circ$; (3) một câu về vectơ ở lớp 10 theo kế hoạch chương IV.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát bảng công thức rút gọn (côsin, sin, $S = \dfrac{1}{2}bc\sin A$, $S = pr$); Câu 5 phát mẫu chưa hoàn chỉnh "$BC^2 = 4^2 + 5^2 - 2\cdot 4\cdot 5\cdot\cos\ \ldots = \ \ldots$"; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *tam giác $ABC$ có $AB = 6$, $AC = 10$, trung tuyến $AM = 7$; tìm $BC$ và số đo góc $A$.* (Gợi ý: công thức trung tuyến cho $BC^2 = 76$; $\cos A = \dfrac{1}{2}$ nên $\widehat{A} = 60^\circ$.)
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dựng ba tam giác $T_1$, $T_2$, $T_3$ trong GeoGebra và kiểm tra các kết quả của bảng mở đầu (sản phẩm số: ảnh chụp màn hình có chú thích).
+- **Địa chỉ 2:** bài về nhà lập bảng tính công thức chiều cao theo hai góc nhìn và so sánh hai lần đo.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $\dfrac{1}{5}$ |
+| Do Now 2 | $\dfrac{\sqrt{2}}{2};\ -\sqrt{3}$ |
+| Do Now 3 | Không |
+| Do Now 4 | $\dfrac{4}{5}$ |
+| Mở đầu | Mỗi tam giác có kiểu dữ kiện khác nhau → côsin, sin, Heron |
+| Bản lề A | C |
+| Bản lề B | D |
+| Luyện tập 1 | $-\dfrac{3}{4}$ |
+| Luyện tập 2 | $-\dfrac{12}{5}$ |
+| Luyện tập 3 | $2$ |
+| Luyện tập 4 | $6\sqrt{2}$ |
+| Luyện tập 5 | $\sqrt{61}$ |
+| Luyện tập 6 | $\sqrt{21}$ |
+| Luyện tập 7 | $\approx 68{,}3$ m |
+| Tìm lỗi sai | $b = \sqrt{13 + 6\sqrt{2}} \approx 4{,}64$ |
+| Exit 1 | B |
+| Exit 2 | a) Đ · b) Đ · c) S · d) S |
+| Exit 3 | $12$ |
+| Về nhà | Hai lần đo chiều cao gần nhau |
+`);
