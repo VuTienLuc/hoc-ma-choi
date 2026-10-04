@@ -243,3 +243,60 @@ Lecture.addSgk('lop10', 'on-tap-c2', [
      box('Luyện thêm: web <b>Học mà chơi</b> – Toán 10, Ôn tập chương II.')},
 ]);
 })();
+
+/* =====================================================================
+   CHƯƠNG III. BÀI 5. GIÁ TRỊ LƯỢNG GIÁC CỦA MỘT GÓC TỪ 0° ĐẾN 180° – SGK tập 1, trang 37 (Bài 3.1 – 3.4)
+   Đề ghi theo bản tra cứu; thầy đối chiếu lại câu chữ với SGK in. Mở rộng ở Bài 3.4 do người soạn thêm.
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const R2 = '\\dfrac{\\sqrt{2}}{2}', T3 = '\\dfrac{\\sqrt{3}}{3}', H = '\\dfrac{1}{2}';
+
+Lecture.addSgk('lop10', 'bai-5', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 5. Giá trị lượng giác của một góc từ 0° đến 180°', sub:'Các câu vận dụng, câu khó – SGK tập 1, trang 37 (Bài 3.1 – 3.4)',
+   points:['Bài 3.1 (tr. 37): tính giá trị biểu thức với góc đặc biệt và góc bù nhau.', 'Bài 3.2 (tr. 37): rút gọn biểu thức bằng quan hệ hai góc bù nhau.',
+     'Bài 3.3 (tr. 37): chứng minh ba hệ thức lượng giác cơ bản.', 'Bài 3.4 (tr. 37): biết ' + m('\\tan\\alpha') + ', tính giá trị biểu thức bằng cách chia cả tử và mẫu.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba kĩ năng cần dùng',
+   body: box(`<b>Góc bù nhau:</b> ${m('\\sin(180^\\circ - \\alpha) = \\sin\\alpha')}; ${m('\\cos,\\ \\tan,\\ \\cot')} của góc bù thì <b>đổi dấu</b>.`) +
+     `<ol class="lk-steps"><li>Đưa góc tù về góc nhọn bù với nó, rồi tra bảng giá trị đặc biệt.</li><li>Biểu thức có ${m('\\sin\\alpha,\\ \\cos\\alpha')} cùng bậc và biết ${m('\\tan\\alpha')}: chia cả tử và mẫu cho ${m('\\cos\\alpha')} (hoặc ${m('\\cos^2\\alpha')}).</li><li>Chứng minh: dùng ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')} rồi chia hai vế.</li></ol>` +
+     note(`Cẩn thận dấu khi nhân hai nhóm số có căn; viết từng giá trị ra trước rồi mới nhân.`)},
+
+  {kind:'vd', tag:'SGK tr. 37 · Bài 3.1a', label:'Bài 3.1a', de:`Không dùng máy tính, tính giá trị biểu thức ${d('A = (2\\sin 30^\\circ + \\cos 135^\\circ - 3\\tan 150^\\circ)\\cdot(\\cos 180^\\circ - \\cot 60^\\circ)')}`,
+   sol:[`${m(`\\sin 30^\\circ = ${H}`)}; ${m(`\\cos 135^\\circ = -${R2}`)}; ${m(`\\tan 150^\\circ = -${T3}`)}; ${m('\\cos 180^\\circ = -1')}; ${m(`\\cot 60^\\circ = ${T3}`)}.`,
+     `Thừa số thứ nhất: ${m(`2\\cdot ${H} - ${R2} - 3\\cdot\\left(-${T3}\\right) = 1 - ${R2} + \\sqrt{3}`)}.`,
+     `Thừa số thứ hai: ${m(`-1 - ${T3}`)}.`,
+     `${m(`A = -\\left(1 - ${R2} + \\sqrt{3}\\right)\\left(1 + ${T3}\\right) = -\\left(2 + \\dfrac{4\\sqrt{3}}{3} - ${R2} - \\dfrac{\\sqrt{6}}{6}\\right)`)}.`],
+   ans:`${tb('A = -\\dfrac{12 + 8\\sqrt{3} - 3\\sqrt{2} - \\sqrt{6}}{6}')}.`},
+
+  {kind:'vd', tag:'SGK tr. 37 · Bài 3.1b, c', label:'Bài 3.1b, c', de:`Tính: b) ${m('B = \\sin^2 90^\\circ + \\cos^2 120^\\circ + \\cos^2 0^\\circ - \\tan^2 60^\\circ + \\cot^2 135^\\circ')}; &nbsp; c) ${m('C = \\cos 60^\\circ\\cdot\\sin 30^\\circ + \\cos^2 30^\\circ')}.`,
+   sol:[`b) ${m('\\sin 90^\\circ = 1')}; ${m(`\\cos 120^\\circ = -${H}`)} nên ${m('\\cos^2 120^\\circ = \\dfrac{1}{4}')}; ${m('\\cos 0^\\circ = 1')}; ${m('\\tan^2 60^\\circ = 3')}; ${m('\\cot 135^\\circ = -1')} nên ${m('\\cot^2 135^\\circ = 1')}.`,
+     `${m('B = 1 + \\dfrac{1}{4} + 1 - 3 + 1 = \\dfrac{1}{4}')}.`,
+     `c) ${m(`C = ${H}\\cdot ${H} + \\left(\\dfrac{\\sqrt{3}}{2}\\right)^2 = \\dfrac{1}{4} + \\dfrac{3}{4}`)}.`],
+   ans:`${tb('B = \\dfrac{1}{4}')}; &nbsp; ${tb('C = 1')}.`},
+
+  {kind:'vd', tag:'SGK tr. 37 · Bài 3.2', label:'Bài 3.2', de:`Đơn giản các biểu thức: a) ${m('\\sin 100^\\circ + \\sin 80^\\circ + \\cos 16^\\circ + \\cos 164^\\circ')}; &nbsp; b) ${m('2\\sin(180^\\circ - \\alpha)\\cot\\alpha - \\cos(180^\\circ - \\alpha)\\tan\\alpha\\cot(180^\\circ - \\alpha)')} (với ${m('0^\\circ \\lt \\alpha \\lt 90^\\circ')}).`,
+   sol:[`a) ${m('100^\\circ + 80^\\circ = 180^\\circ')} nên ${m('\\sin 100^\\circ = \\sin 80^\\circ')}; ${m('16^\\circ + 164^\\circ = 180^\\circ')} nên ${m('\\cos 164^\\circ = -\\cos 16^\\circ')}. Biểu thức bằng ${m('2\\sin 80^\\circ')}.`,
+     `b) ${m('\\sin(180^\\circ - \\alpha) = \\sin\\alpha')}; ${m('\\cos(180^\\circ - \\alpha) = -\\cos\\alpha')}; ${m('\\cot(180^\\circ - \\alpha) = -\\cot\\alpha')}.`,
+     `${m('2\\sin\\alpha\\cdot\\dfrac{\\cos\\alpha}{\\sin\\alpha} - (-\\cos\\alpha)\\cdot\\tan\\alpha\\cdot(-\\cot\\alpha) = 2\\cos\\alpha - \\cos\\alpha\\cdot(\\tan\\alpha\\cot\\alpha)')}.`,
+     `Vì ${m('\\tan\\alpha\\cot\\alpha = 1')} nên biểu thức bằng ${m('2\\cos\\alpha - \\cos\\alpha')}.`],
+   ans:`a) ${tb('2\\sin 80^\\circ')}; &nbsp; b) ${tb('\\cos\\alpha')}.`},
+
+  {kind:'vd', tag:'SGK tr. 37 · Bài 3.3', label:'Bài 3.3', fig:halfCircleSVG(135), figAt:1, de:`Chứng minh các hệ thức: a) ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}; b) ${m('1 + \\tan^2\\alpha = \\dfrac{1}{\\cos^2\\alpha}')} (${m('\\alpha \\ne 90^\\circ')}); c) ${m('1 + \\cot^2\\alpha = \\dfrac{1}{\\sin^2\\alpha}')} (${m('0^\\circ \\lt \\alpha \\lt 180^\\circ')}).`,
+   sol:[`a) Lấy ${m('M(x_0;\\,y_0)')} trên nửa đường tròn đơn vị với ${m('\\widehat{xOM} = \\alpha')}: ${m('x_0 = \\cos\\alpha,\\ y_0 = \\sin\\alpha')}. Vì ${m('OM = 1')} nên ${m('x_0^2 + y_0^2 = 1')}, tức là ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}.`,
+     `b) ${m('\\alpha \\ne 90^\\circ')} nên ${m('\\cos\\alpha \\ne 0')}. Chia hai vế của hệ thức a) cho ${m('\\cos^2\\alpha')}: ${m('\\tan^2\\alpha + 1 = \\dfrac{1}{\\cos^2\\alpha}')}.`,
+     `c) ${m('\\sin\\alpha \\ne 0')} khi ${m('0^\\circ \\lt \\alpha \\lt 180^\\circ')}. Chia hai vế của hệ thức a) cho ${m('\\sin^2\\alpha')}: ${m('1 + \\cot^2\\alpha = \\dfrac{1}{\\sin^2\\alpha}')}.`],
+   ans:`Cả ba hệ thức được chứng minh.`},
+
+  {kind:'vd', tag:'SGK tr. 37 · Bài 3.4', label:'Bài 3.4', de:`Cho góc ${m('\\alpha')} (${m('0^\\circ \\lt \\alpha \\lt 180^\\circ')}) với ${m('\\tan\\alpha = 3')}. Tính ${m('P = \\dfrac{2\\sin\\alpha - 3\\cos\\alpha}{3\\sin\\alpha + 2\\cos\\alpha}')}. <i>(Mở rộng: tính ${m('\\sin^2\\alpha')} và ${m('\\sin\\alpha\\cos\\alpha')}.)</i>`,
+   sol:[`${m('\\tan\\alpha = 3')} xác định nên ${m('\\cos\\alpha \\ne 0')}: chia cả tử và mẫu cho ${m('\\cos\\alpha')}.`,
+     `${m('P = \\dfrac{2\\tan\\alpha - 3}{3\\tan\\alpha + 2} = \\dfrac{2\\cdot 3 - 3}{3\\cdot 3 + 2} = \\dfrac{3}{11}')}.`,
+     `Mở rộng: ${m('\\cos^2\\alpha = \\dfrac{1}{1 + \\tan^2\\alpha} = \\dfrac{1}{10}')} nên ${m('\\sin^2\\alpha = 1 - \\dfrac{1}{10} = \\dfrac{9}{10}')}; ${m('\\tan\\alpha \\gt 0')} nên ${m('\\cos\\alpha \\gt 0')} và ${m('\\sin\\alpha\\cos\\alpha = \\tan\\alpha\\cdot\\cos^2\\alpha = \\dfrac{3}{10}')}.`],
+   ans:`${tb('P = \\dfrac{3}{11}')}; mở rộng: ${tb('\\sin^2\\alpha = \\dfrac{9}{10},\\ \\sin\\alpha\\cos\\alpha = \\dfrac{3}{10}')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Quên đổi dấu ${m('\\cos,\\ \\tan,\\ \\cot')} khi chuyển sang góc bù (chỉ ${m('\\sin')} giữ nguyên).</li><li>Khi khai căn từ ${m('\\sin^2\\alpha,\\ \\cos^2\\alpha')}, quên xét dấu theo loại góc.</li><li>Chia tử và mẫu cho ${m('\\cos\\alpha')} mà quên chia hạng tử tự do (không có ${m('\\cos\\alpha')}).</li></ul>` +
+     box('Giao về nhà: các bài còn lại cuối Bài 5 (SGK tr. 37); luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 5.')},
+]);
+})();

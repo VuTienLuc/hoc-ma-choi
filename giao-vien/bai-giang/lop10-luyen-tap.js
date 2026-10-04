@@ -119,3 +119,58 @@ Lecture.addPractice('lop10', 'on-tap-c2', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   CHƯƠNG III. BÀI 5. GIÁ TRỊ LƯỢNG GIÁC CỦA MỘT GÓC TỪ 0° ĐẾN 180°
+   10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 3 dạng của bài giảng (không nhắc lại lý thuyết).
+   ===================================================================== */
+(() => {
+const m = tm;
+const R2 = '\\dfrac{\\sqrt{2}}{2}', R3 = '\\dfrac{\\sqrt{3}}{2}', T3 = '\\dfrac{\\sqrt{3}}{3}', H = '\\dfrac{1}{2}';
+
+Lecture.addPractice('lop10', 'bai-5', [
+ {dang:'Dạng 1. Tính giá trị lượng giác của góc đặc biệt, góc bù nhau', items:[
+  {de:`Không dùng máy tính, tính ${m('\\sin 135^\\circ')}, ${m('\\cos 150^\\circ')}, ${m('\\tan 120^\\circ')}, ${m('\\cot 150^\\circ')}.`,
+   sol:[`${m('135^\\circ = 180^\\circ - 45^\\circ')} nên ${m(`\\sin 135^\\circ = \\sin 45^\\circ = ${R2}`)}.`,
+     `${m(`\\cos 150^\\circ = -\\cos 30^\\circ = -${R3}`)}.`,
+     `${m('\\tan 120^\\circ = -\\tan 60^\\circ = -\\sqrt{3}')}; ${m('\\cot 150^\\circ = -\\cot 30^\\circ = -\\sqrt{3}')}.`],
+   ans:`${tb(`${R2};\\ -${R3};\\ -\\sqrt{3};\\ -\\sqrt{3}`)}.`, lines:3},
+  {de:`Tính ${m('A = \\cos 135^\\circ + \\sin 45^\\circ + \\sqrt{3}\\tan 150^\\circ')}.`,
+   sol:[`${m(`\\cos 135^\\circ = -${R2}`)}; ${m(`\\sin 45^\\circ = ${R2}`)}; ${m(`\\tan 150^\\circ = -${T3}`)}.`,
+     `${m(`A = -${R2} + ${R2} + \\sqrt{3}\\cdot\\left(-${T3}\\right) = 0 - 1`)}.`], ans:`${tb('A = -1')}.`},
+  {de:`Tìm các góc ${m('\\alpha')} với ${m('0^\\circ \\le \\alpha \\le 180^\\circ')} biết: a) ${m(`\\sin\\alpha = ${R3}`)}; &nbsp; b) ${m(`\\cos\\alpha = -${H}`)}.`,
+   sol:[`a) ${m(`\\sin 60^\\circ = ${R3}`)} và hai góc bù nhau có cùng sin nên ${m('\\alpha = 60^\\circ')} hoặc ${m('\\alpha = 120^\\circ')}.`,
+     `b) ${m('\\cos\\alpha \\lt 0')} nên ${m('\\alpha')} tù; ${m(`\\cos 60^\\circ = ${H}`)} nên ${m('\\alpha = 180^\\circ - 60^\\circ = 120^\\circ')} (mỗi giá trị cos chỉ ứng với một góc).`],
+   ans:`a) ${tb('60^\\circ \\text{ hoặc } 120^\\circ')}; b) ${tb('120^\\circ')}.`, lines:3},
+ ]},
+ {dang:'Dạng 2. Biết một giá trị lượng giác, tính các giá trị còn lại', items:[
+  {de:`Cho ${m('\\sin\\alpha = \\dfrac{5}{13}')} với ${m('90^\\circ \\lt \\alpha \\lt 180^\\circ')}. Tính ${m('\\cos\\alpha,\\ \\tan\\alpha,\\ \\cot\\alpha')}.`,
+   sol:[`${m('\\cos^2\\alpha = 1 - \\dfrac{25}{169} = \\dfrac{144}{169}')}.`, `${m('\\alpha')} tù nên ${m('\\cos\\alpha \\lt 0')}: ${m('\\cos\\alpha = -\\dfrac{12}{13}')}.`,
+     `${m('\\tan\\alpha = \\dfrac{5}{13} : \\left(-\\dfrac{12}{13}\\right) = -\\dfrac{5}{12}')}; ${m('\\cot\\alpha = -\\dfrac{12}{5}')}.`],
+   ans:`${tb('\\cos\\alpha = -\\dfrac{12}{13},\\ \\tan\\alpha = -\\dfrac{5}{12},\\ \\cot\\alpha = -\\dfrac{12}{5}')}.`},
+  {de:`Cho ${m('\\tan\\alpha = -\\dfrac{3}{4}')} với ${m('0^\\circ \\lt \\alpha \\lt 180^\\circ')}. Tính ${m('\\cos\\alpha')} và ${m('\\sin\\alpha')}.`,
+   sol:[`${m('\\dfrac{1}{\\cos^2\\alpha} = 1 + \\tan^2\\alpha = 1 + \\dfrac{9}{16} = \\dfrac{25}{16}')} nên ${m('\\cos^2\\alpha = \\dfrac{16}{25}')}.`,
+     `${m('\\tan\\alpha \\lt 0')} nên ${m('\\alpha')} tù, ${m('\\cos\\alpha \\lt 0')}: ${m('\\cos\\alpha = -\\dfrac{4}{5}')}.`,
+     `${m('\\sin\\alpha = \\tan\\alpha\\cdot\\cos\\alpha = \\left(-\\dfrac{3}{4}\\right)\\cdot\\left(-\\dfrac{4}{5}\\right) = \\dfrac{3}{5}')}.`],
+   ans:`${tb('\\cos\\alpha = -\\dfrac{4}{5},\\ \\sin\\alpha = \\dfrac{3}{5}')}.`},
+  {hard:true, de:`Cho ${m('\\cot\\alpha = -3')} với ${m('0^\\circ \\lt \\alpha \\lt 180^\\circ')}. Tính ${m('P = \\dfrac{2\\sin\\alpha + \\cos\\alpha}{\\sin\\alpha - 3\\cos\\alpha}')}.`,
+   sol:[`${m('\\cot\\alpha = -3')} nên ${m('\\sin\\alpha \\ne 0')}; chia cả tử và mẫu cho ${m('\\sin\\alpha')}.`,
+     `${m('P = \\dfrac{2 + \\cot\\alpha}{1 - 3\\cot\\alpha} = \\dfrac{2 - 3}{1 + 9}')}.`], ans:`${tb('P = -\\dfrac{1}{10}')}.`},
+ ]},
+ {dang:'Dạng 3. Tính giá trị biểu thức, rút gọn, chứng minh đẳng thức', items:[
+  {de:`Tính ${m('B = \\cos 20^\\circ + \\cos 40^\\circ + \\cos 140^\\circ + \\cos 160^\\circ')}.`,
+   sol:[`${m('20^\\circ + 160^\\circ = 180^\\circ')} nên ${m('\\cos 160^\\circ = -\\cos 20^\\circ')}.`, `${m('40^\\circ + 140^\\circ = 180^\\circ')} nên ${m('\\cos 140^\\circ = -\\cos 40^\\circ')}.`,
+     `${m('B = \\cos 20^\\circ + \\cos 40^\\circ - \\cos 40^\\circ - \\cos 20^\\circ = 0')}.`], ans:`${tb('B = 0')}.`},
+  {de:`Rút gọn ${m('C = \\sin(180^\\circ - \\alpha)\\cdot\\cot\\alpha - \\cos(180^\\circ - \\alpha)')} (với ${m('0^\\circ \\lt \\alpha \\lt 90^\\circ')}).`,
+   sol:[`${m('\\sin(180^\\circ - \\alpha) = \\sin\\alpha')}; ${m('\\cos(180^\\circ - \\alpha) = -\\cos\\alpha')}.`,
+     `${m('C = \\sin\\alpha\\cdot\\dfrac{\\cos\\alpha}{\\sin\\alpha} + \\cos\\alpha = \\cos\\alpha + \\cos\\alpha')}.`], ans:`${tb('C = 2\\cos\\alpha')}.`},
+  {hard:true, de:`Chứng minh rằng với ${m('0^\\circ \\lt \\alpha \\lt 180^\\circ')}, ${m('\\alpha \\ne 90^\\circ')}: ${m('\\tan^2\\alpha - \\sin^2\\alpha = \\tan^2\\alpha\\cdot\\sin^2\\alpha')}.`,
+   sol:[`Vế trái ${m('= \\dfrac{\\sin^2\\alpha}{\\cos^2\\alpha} - \\sin^2\\alpha = \\sin^2\\alpha\\cdot\\dfrac{1 - \\cos^2\\alpha}{\\cos^2\\alpha}')}.`,
+     `Vì ${m('1 - \\cos^2\\alpha = \\sin^2\\alpha')} nên vế trái ${m('= \\sin^2\\alpha\\cdot\\dfrac{\\sin^2\\alpha}{\\cos^2\\alpha} = \\sin^2\\alpha\\cdot\\tan^2\\alpha')} = vế phải (điều phải chứng minh).`]},
+  {hard:true, de:`Cho ${m('0^\\circ \\lt \\alpha \\lt 180^\\circ')} và ${m('\\sin\\alpha + \\cos\\alpha = \\dfrac{4}{3}')}. Tính ${m('\\sin\\alpha\\cos\\alpha')} và ${m('\\sin^3\\alpha + \\cos^3\\alpha')}.`,
+   sol:[`Bình phương: ${m('1 + 2\\sin\\alpha\\cos\\alpha = \\dfrac{16}{9}')} nên ${m('\\sin\\alpha\\cos\\alpha = \\dfrac{7}{18}')}.`,
+     `${m('\\sin^3\\alpha + \\cos^3\\alpha = (\\sin\\alpha + \\cos\\alpha)(1 - \\sin\\alpha\\cos\\alpha) = \\dfrac{4}{3}\\cdot\\dfrac{11}{18}')}.`],
+   ans:`${tb('\\sin\\alpha\\cos\\alpha = \\dfrac{7}{18};\\ \\sin^3\\alpha + \\cos^3\\alpha = \\dfrac{22}{27}')}.`},
+ ]},
+]);
+})();
