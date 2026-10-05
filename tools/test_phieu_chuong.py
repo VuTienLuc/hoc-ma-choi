@@ -33,7 +33,7 @@ async def main():
     h = await render('lop11', 'Chương II', out, {'ex': 'hide'}, 'h.pdf')
     c1 = await render('lop11', 'Chương II', out, {'cols': 1}, 'c1.pdf')
     nl = await render('lop11', 'Chương II', out, {'ln': False}, 'nl.pdf')
-    chk(a['pages'] == 5 and nl['pages'] == 4, f"Chương II: có dòng kẻ {a['pages']} trang (3 tờ), không dòng kẻ {nl['pages']} trang (2 tờ)")
+    chk(4 <= nl['pages'] < a['pages'] <= 7, f"Chương II: có dòng kẻ {a["pages"]} trang, không dòng kẻ {nl["pages"]} trang")
     import subprocess
     txt = subprocess.run(['pdftotext', a['pdf'], '-'], capture_output=True, text=True).stdout
     chk('dòng kẻ' in txt, 'tiêu đề phiếu nhắc dòng kẻ làm bài')

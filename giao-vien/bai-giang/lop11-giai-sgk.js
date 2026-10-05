@@ -167,3 +167,47 @@ Lecture.addSgk('lop11', 'bai-6', [
      box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 6. Cấp số cộng.')},
 ]);
 })();
+
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – Toán 11 · Bài 7. Cấp số nhân (câu vận dụng, câu khó) – đề ghi tóm tắt, thầy đối chiếu số bài/số trang với sách in
+   ===================================================================== */
+(() => {
+const m = tm;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+Lecture.addSgk('lop11', 'bai-7', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 7. Cấp số nhân', sub:'Các dạng vận dụng, câu khó của bài – lời giải ngắn gọn',
+   points:['Chèn số vào giữa hai số để được cấp số nhân.', 'Ba số lập thành cấp số nhân: tổng và tích cho trước.', 'Tìm ' + m('x') + ' để ba biểu thức lập thành cấp số nhân.', 'Tổng nhiều số hạng với công bội nhỏ hơn 1.', 'Bài toán thực tế: dân số, lãi kép.', 'Lưu ý: đề ghi tóm tắt theo dạng bài vận dụng của Bài 7; số bài và số trang SGK thầy đối chiếu với sách in trước khi dùng.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Công thức cần dùng',
+   body: box(`${m('u_n = u_1 q^{n-1}')} &nbsp;·&nbsp; ${m('S_n = \\dfrac{u_1(1 - q^n)}{1 - q}\\ (q \\ne 1)')} &nbsp;·&nbsp; ${m('a, b, c')} lập cấp số nhân ⇔ ${m('b^2 = ac')}.`) +
+     `<ol class="lk-steps"><li>Chèn ${m('k')} số giữa ${m('a')} và ${m('b')}: có ${m('k + 2')} số hạng, ${m('b = a\\,q^{k+1}')}.</li><li>Ba số lập cấp số nhân: gọi ${m('\\dfrac{a}{q},\\ a,\\ aq')} thì tích bằng ${m('a^3')}.</li><li>Tăng ${m('r\\%')} mỗi kì: ${m('A_n = A_0(1 + r)^n')}.</li></ol>` +
+     note(`Số mũ của ${m('q')} là ${m('n - 1')}, không phải ${m('n')}.`)},
+
+  {kind:'vd', tag:'Bài 7 · Vận dụng 1', label:'Câu 1', de:`Giữa hai số ${m('3')} và ${m('24')} hãy chèn thêm hai số để được một cấp số nhân gồm bốn số hạng. Viết cấp số nhân đó.`,
+   sol:[`Cấp số nhân có ${m('u_1 = 3,\\ u_4 = 24')}.`, `${m('u_4 = u_1 q^3 \\Rightarrow 24 = 3q^3 \\Rightarrow q^3 = 8 \\Rightarrow q = 2')}.`, `Các số hạng: ${m('3,\\ 6,\\ 12,\\ 24')}.`],
+   ans:`Hai số cần chèn là ${tb('6;\\ 12')} (công bội ${m('q = 2')}).`},
+
+  {kind:'vd', tag:'Bài 7 · Vận dụng 2', label:'Câu 2', de:`Ba số lập thành một cấp số nhân có tổng bằng ${m('21')} và tích bằng ${m('216')}. Tìm ba số đó.`,
+   sol:[`Gọi ba số là ${m('\\dfrac{a}{q},\\ a,\\ aq')}. Tích: ${m('a^3 = 216 \\Rightarrow a = 6')}.`, `Tổng: ${m('\\dfrac{6}{q} + 6 + 6q = 21 \\Leftrightarrow 2q^2 - 5q + 2 = 0 \\Rightarrow q = 2')} hoặc ${m('q = \\dfrac{1}{2}')}.`, `${m('q = 2')}: ${m('3,\\ 6,\\ 12')}. &nbsp; ${m('q = \\dfrac{1}{2}')}: ${m('12,\\ 6,\\ 3')}.`],
+   ans:`Ba số là ${tb('3,\\ 6,\\ 12')} (hoặc theo thứ tự ngược lại ${m('12,\\ 6,\\ 3')}).`},
+
+  {kind:'vd', tag:'Bài 7 · Vận dụng 3', label:'Câu 3', de:`Tìm ${m('x')} để ba số ${m('x - 1,\\ x + 1,\\ 2x + 5')} theo thứ tự lập thành một cấp số nhân.`,
+   sol:[`Điều kiện: ${m('(x + 1)^2 = (x - 1)(2x + 5)')}.`, `${m('x^2 + 2x + 1 = 2x^2 + 3x - 5 \\Leftrightarrow x^2 + x - 6 = 0')}.`, `${m('(x - 2)(x + 3) = 0 \\Rightarrow x = 2')} hoặc ${m('x = -3')}.`, `Thử lại: ${m('x = 2')} cho ${m('1,\\ 3,\\ 9')} (${m('q = 3')}); ${m('x = -3')} cho ${m('-4,\\ -2,\\ -1')} (${m('q = \\dfrac{1}{2}')}).`],
+   ans:`${tb('x = 2')} hoặc ${tb('x = -3')}.`},
+
+  {kind:'vd', tag:'Bài 7 · Vận dụng 4', label:'Câu 4', de:`Tính tổng ${m('S = 1 + \\dfrac{1}{2} + \\dfrac{1}{4} + \\cdots + \\dfrac{1}{2^9}')}.`,
+   sol:[`Cấp số nhân ${m('u_1 = 1,\\ q = \\dfrac{1}{2}')}; các số mũ từ ${m('0')} đến ${m('9')} nên có ${m('n = 10')} số hạng.`, `${m('S = \\dfrac{1 - \\left(\\dfrac{1}{2}\\right)^{10}}{1 - \\dfrac{1}{2}} = 2\\left(1 - \\dfrac{1}{1\\,024}\\right) = \\dfrac{1\\,023}{512}')}.`],
+   ans:`${tb('S = \\dfrac{1\\,023}{512}')}.`},
+
+  {kind:'vd', tag:'Bài 7 · Vận dụng 5', label:'Câu 5', de:`Dân số một tỉnh hiện nay là ${m('1{,}2')} triệu người, mỗi năm tăng ${m('1{,}5\\%')}. Hỏi sau ${m('10')} năm dân số tỉnh đó khoảng bao nhiêu? (làm tròn đến hàng phần trăm triệu người)`,
+   sol:[`Dân số các năm lập cấp số nhân với số hạng đầu ${m('1{,}2')} và công bội ${m('q = 1 + 1{,}5\\% = 1{,}015')}.`, `Sau ${m('10')} năm: ${m('1{,}2\\cdot 1{,}015^{10} \\approx 1{,}39')} (triệu người).`],
+   ans:`Khoảng ${tb('1{,}39')} triệu người.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp khi giải các bài này',
+   body:`<ul><li>Viết ${m('u_n = u_1 q^n')} (đúng là ${m('q^{n-1}')}).</li>
+     <li>Đếm sai số số hạng khi tính tổng: các số mũ từ ${m('0')} đến ${m('k')} có ${m('k + 1')} số hạng.</li>
+     <li>Giải ${m('b^2 = ac')} chỉ lấy một nghiệm mà quên thử lại điều kiện của đề.</li>
+     <li>Lấy lãi suất ${m('r\\%')} làm công bội thay vì ${m('1 + r\\%')}.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 7. Cấp số nhân.')},
+]);
+})();

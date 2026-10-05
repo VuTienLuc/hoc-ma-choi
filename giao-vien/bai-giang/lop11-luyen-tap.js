@@ -163,3 +163,50 @@ Lecture.addPractice('lop11', 'bai-5', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   PHIẾU LUYỆN TẬP – Toán 11 · Bài 7. Cấp số nhân  (10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 4 dạng như bài giảng)
+   ===================================================================== */
+(() => {
+const m = tm;
+Lecture.addPractice('lop11', 'bai-7', [
+ {dang:'Nhận biết cấp số nhân', items:[
+  {de:`Dãy số ${m('u_n = 5\\cdot(-2)^n')} có phải cấp số nhân không? Nếu có, tìm ${m('u_1')} và công bội ${m('q')}.`,
+   sol:[`Tính thương: ${m('\\dfrac{u_{n+1}}{u_n} = \\dfrac{5\\cdot(-2)^{n+1}}{5\\cdot(-2)^n} = -2')}.`, `Thương là hằng số, không chứa ${m('n')}, nên dãy là cấp số nhân với công bội ${m('q = -2')}.`, `${m('u_1 = 5\\cdot(-2) = -10')}.`],
+   ans:`Là cấp số nhân với ${tb('u_1 = -10,\\ q = -2')}.`},
+  {de:`Dãy số ${m('u_n = 2^n + 1')} có phải cấp số nhân không? Vì sao?`,
+   sol:[`Tính ba số hạng đầu: ${m('u_1 = 3,\\ u_2 = 5,\\ u_3 = 9')}.`, `${m('\\dfrac{u_2}{u_1} = \\dfrac{5}{3}')} còn ${m('\\dfrac{u_3}{u_2} = \\dfrac{9}{5}')}; hai thương khác nhau.`],
+   ans:`${tb('Không')} phải cấp số nhân (thương hai số hạng liên tiếp thay đổi).`},
+ ]},
+ {dang:'Tìm số hạng, số hạng tổng quát', items:[
+  {de:`Cấp số nhân ${m('(u_n)')} có ${m('u_1 = 3,\\ q = -2')}. Tìm số hạng tổng quát và tính ${m('u_6')}.`,
+   sol:[`Công thức: ${m('u_n = u_1\\cdot q^{n-1}')}.`, `${m('u_n = 3\\cdot(-2)^{n-1}')}.`, `${m('u_6 = 3\\cdot(-2)^5 = 3\\cdot(-32)')}.`],
+   ans:`${tb('u_n = 3\\cdot(-2)^{n-1},\\ u_6 = -96')}.`},
+  {de:`Cấp số nhân ${m('(u_n)')} có ${m('u_2 = -6')} và ${m('u_5 = 162')}. Tìm ${m('u_1,\\ q')} và số hạng tổng quát.`,
+   sol:[`Viết theo ${m('u_1')} và ${m('q')}: ${m('\\begin{cases} u_1 q = -6 \\\\ u_1 q^4 = 162 \\end{cases}')}.`, `Chia vế theo vế: ${m('q^3 = \\dfrac{162}{-6} = -27 \\Rightarrow q = -3')}.`, `${m('u_1 = \\dfrac{-6}{-3} = 2')}; ${m('u_n = 2\\cdot(-3)^{n-1}')}.`],
+   ans:`${tb('u_1 = 2,\\ q = -3,\\ u_n = 2\\cdot(-3)^{n-1}')}.`},
+  {hard:true, de:`Cấp số nhân ${m('(u_n)')} có các số hạng dương, ${m('u_1 + u_3 = 10')} và ${m('u_2 + u_4 = 20')}. Tìm ${m('u_1')}, công bội ${m('q')} và số hạng tổng quát.`,
+   sol:[`${m('u_1 + u_3 = u_1(1 + q^2) = 10')} và ${m('u_2 + u_4 = u_1 q\\,(1 + q^2) = 20')}.`, `Chia vế theo vế (${m('1 + q^2 \\ne 0')}): ${m('q = \\dfrac{20}{10} = 2')}.`, `${m('u_1(1 + 4) = 10 \\Rightarrow u_1 = 2')}; ${m('u_n = 2\\cdot 2^{n-1} = 2^n')}.`, `Thử lại: ${m('u_1 + u_3 = 2 + 8 = 10')}, ${m('u_2 + u_4 = 4 + 16 = 20')} (đúng).`],
+   ans:`${tb('u_1 = 2,\\ q = 2,\\ u_n = 2^n')}.`},
+ ]},
+ {dang:'Tính tổng n số hạng đầu', items:[
+  {de:`Tính tổng ${m('S = 3 + 6 + 12 + \\cdots + 768')}.`,
+   sol:[`Đây là cấp số nhân ${m('u_1 = 3,\\ q = 2,\\ u_n = 768')}.`, `${m('768 = 3\\cdot 2^8')} nên ${m('n - 1 = 8')}, tức ${m('n = 9')} số hạng.`, `${m('S = \\dfrac{u_1(1 - q^n)}{1 - q} = \\dfrac{3(1 - 2^9)}{1 - 2} = 3\\cdot 511')}.`],
+   ans:`${tb('S = 1\\,533')}.`},
+  {de:`Cấp số nhân có ${m('u_1 = 81,\\ q = \\dfrac{1}{3}')}. Tính ${m('S_5')}.`,
+   sol:[`Áp dụng ${m('S_n = \\dfrac{u_1(1 - q^n)}{1 - q}')} với ${m('n = 5')}.`, `${m('q^5 = \\dfrac{1}{243}')} nên ${m('S_5 = \\dfrac{81\\left(1 - \\dfrac{1}{243}\\right)}{1 - \\dfrac{1}{3}} = \\dfrac{\\dfrac{242}{3}}{\\dfrac{2}{3}} = 121')}.`, `Kiểm tra: ${m('81 + 27 + 9 + 3 + 1 = 121')}.`],
+   ans:`${tb('S_5 = 121')}.`},
+  {hard:true, de:`Cấp số nhân có ${m('u_1 = 1')} và công bội ${m('q = 2')}. Tìm số nguyên dương ${m('n')} nhỏ nhất để ${m('S_n \\gt 1\\,000')}.`,
+   sol:[`${m('S_n = \\dfrac{1\\cdot(1 - 2^n)}{1 - 2} = 2^n - 1')}.`, `${m('S_n \\gt 1\\,000 \\Leftrightarrow 2^n \\gt 1\\,001')}.`, `Thử: ${m('2^9 = 512 \\lt 1\\,001')} còn ${m('2^{10} = 1\\,024 \\gt 1\\,001')}; vì ${m('2^n')} tăng nên ${m('n = 10')} là số nhỏ nhất.`],
+   ans:`${tb('n = 10')}.`},
+ ]},
+ {dang:'Bài toán thực tế', items:[
+  {de:`Một quả bóng được thả từ độ cao ${m('8')} m. Mỗi lần chạm đất, bóng nảy lên đến ${m('\\dfrac{3}{4}')} độ cao của lần rơi trước. Tính độ cao bóng nảy lên sau lần chạm đất thứ ${m('4')}.`,
+   sol:[`Độ cao sau mỗi lần nảy lập cấp số nhân với ${m('u_0 = 8')}, công bội ${m('q = \\dfrac{3}{4}')}.`, `Sau lần thứ ${m('4')}: ${m('8\\cdot\\left(\\dfrac{3}{4}\\right)^4 = 8\\cdot\\dfrac{81}{256} = \\dfrac{81}{32}')}.`],
+   ans:`${tb('\\dfrac{81}{32} \\approx 2{,}53')} m.`},
+  {hard:true, de:`Một mẫu có ${m('500')} vi khuẩn; cứ mỗi giờ số vi khuẩn tăng gấp đôi. Sau ít nhất bao nhiêu giờ thì số vi khuẩn vượt ${m('100\\,000')}?`,
+   sol:[`Số vi khuẩn sau ${m('n')} giờ: ${m('500\\cdot 2^n')} (cấp số nhân công bội ${m('2')}).`, `Yêu cầu ${m('500\\cdot 2^n \\gt 100\\,000 \\Leftrightarrow 2^n \\gt 200')}.`, `Thử: ${m('2^7 = 128 \\lt 200')} (${m('64\\,000')} vi khuẩn), còn ${m('2^8 = 256 \\gt 200')} (${m('128\\,000')} vi khuẩn).`],
+   ans:`Sau ít nhất ${tb('8')} giờ.`},
+ ]},
+]);
+})();
