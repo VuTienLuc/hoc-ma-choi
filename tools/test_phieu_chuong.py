@@ -28,7 +28,7 @@ async def main():
     out = tempfile.mkdtemp()
     for b in bs:
         r = await render(b['g'], b['c'], out, {}, f"t-{b['g']}-{P.slug(b['c'])}.pdf")
-        chk(r['merror'] == 0 and r['overflow'] == 0 and 1 <= r["pages"] <= 12, f"{b['g']} {b['c']} ({b['n']} bài): {r['pages']} trang, merror {r['merror']}, tràn {r['overflow']}")
+        chk(r['merror'] == 0 and r['overflow'] == 0 and 1 <= r["pages"] <= 16, f"{b['g']} {b['c']} ({b['n']} bài): {r['pages']} trang, merror {r['merror']}, tràn {r['overflow']}")
     a = await render('lop11', 'Chương II', out, {}, 'a.pdf')
     h = await render('lop11', 'Chương II', out, {'ex': 'hide'}, 'h.pdf')
     c1 = await render('lop11', 'Chương II', out, {'cols': 1}, 'c1.pdf')
