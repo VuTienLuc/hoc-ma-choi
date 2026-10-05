@@ -40,7 +40,14 @@ const StudentTest = (() => {
   function shell(t, g, body){
     document.title = `${t.title} – ${g.name}`;
     $('#app').innerHTML = `${userBar()}<div class="toolbar"><a class="back" href="#/${g.id}">← Các bài ${g.name}</a>${themeBtn()}</div>${body}${foot()}`;
-    bindTheme(); if(typeof Account !== 'undefined' && Account.bindLogout) Account.bindLogout(); typeset($('#app'));
+    bindTheme(); if(typeof Account !== 'undefined' && Account.bindLogout) Account.bindLogout(); teacherBar(t); typeset($('#app'));
+  }
+  // Tài khoản giáo viên: hàng nút ▶ chiếu từng mã đề trên lớp (học sinh không thấy; cần lecture.js + test-deck.js)
+  function teacherBar(t){
+    if(typeof Account === 'undefined' || !Account.isTeacher || !Account.isTeacher() || typeof TestDeck === 'undefined' || typeof Lecture === 'undefined') return;
+    const bar = $('#app .toolbar'); if(!bar) return;
+    bar.insertAdjacentHTML('afterend', `<div class="td-bar card"><b>📽️ Trình chiếu trên lớp</b><span>${t.codes.map((c, i) => `<button class="btn ${i ? '' : 'primary '}small" data-tdplay="${i}">▶ Mã ${esc(c)}</button>`).join('')}</span></div>`);
+    $$('[data-tdplay]').forEach(b => b.onclick = () => Lecture.open(TestDeck.deck(t, +b.dataset.tdplay), 0));
   }
   function intro(t, g){
     const m = meta(t), old = store.get(stateKey(t));
