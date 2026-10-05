@@ -21,6 +21,12 @@ const KiemTra = (() => {
   function build(t, ci){
     const r = rng(`${t.grade}|${t.id}|${t.codes[ci]}`);
     const sh = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    if(t.like){                                   // Bộ đề "đổi vị trí phương án": giữ nguyên câu hỏi, thứ tự câu, ý Đ/S và Phần III của đề gốc cùng số thứ tự mã; chỉ xáo lại phương án A–D
+      const b = build(TESTS.find(x => x.grade === t.grade && x.id === t.like), ci), n = b.mc.length; let letters;
+      for(let k = 0; k < 500; k++){ letters = sh(b.mc.map((_, i) => i % 4)); if(letters.every((l, i) => l !== b.mc[i].a)) break; }   // đáp án mỗi câu đổi sang chữ khác đề gốc
+      const mc = b.mc.map((x, i) => { const right = x.opts[x.a], opts = sh(x.opts.filter((_, j) => j !== x.a)); opts.splice(letters[i], 0, right); return {...x, opts, a:letters[i]}; });
+      return {code:t.codes[ci], mc, tf:b.tf, essay:b.essay};
+    }
     const order = sh(t.mc.map((x, i) => ({...(typeof x === 'function' ? x(ci) : x), src:i + 1})));
     const letters = sh(order.map((_, i) => i % 4));                       // rải đều đáp án A/B/C/D
     const mc = order.map((x, i) => { const k = letters[i], opts = sh(x.opts.slice(1)); opts.splice(k, 0, x.opts[0]); return {...x, opts, a:k}; });

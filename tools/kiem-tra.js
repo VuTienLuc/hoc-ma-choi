@@ -226,10 +226,14 @@ const KT = vm.runInContext('typeof KiemTra !== "undefined" ? KiemTra : null', T)
   if (!Array.isArray(t.bai) || !t.bai.length) err(w0, 'thiếu danh sách bai (dùng cho ma trận)');
   const tot = t.mc.length * (t.mcPt || .25) + t.tf.length + t.essay.reduce((a, e) => a + e.pts, 0);
   if (Math.abs(tot - 10) > 1e-9) err(w0, `tổng điểm = ${tot} (phải bằng 10: Phần I theo mcPt (mặc định 0,25)/câu, Phần II 1/câu, Phần III theo pts)`);
-  const orders = new Set();
+  const orders = new Set(); const ABCD_ = 'ABCD';
   (t.codes || []).forEach((code, ci) => { const w1 = `${w0} mã ${code}`; let v;
     try { v = KT.build(t, ci); } catch (e) { return err(w1, 'lỗi khi trộn đề: ' + e.message); }
     orders.add(v.mc.map(x => x.src).join(','));
+    if (t.like) { const bt = KT.TESTS.find(x => x.grade === t.grade && x.id === t.like), b = bt ? KT.build(bt, ci) : null;
+      if (!b) err(w1, `like="${t.like}" không tìm thấy đề gốc`); else {
+        v.mc.forEach((x, i) => { const y = b.mc[i]; if (x.q !== y.q || x.opts[x.a] !== y.opts[y.a] || [...x.opts].sort().join('|') !== [...y.opts].sort().join('|')) err(w1, `bộ đổi phương án: câu ${i + 1} khác đề gốc`); if (x.a === y.a) err(w1, `bộ đổi phương án: câu ${i + 1} đáp án vẫn ở chữ ${ABCD_[x.a]}`); if (x.opts.join('|') === y.opts.join('|')) err(w1, `bộ đổi phương án: câu ${i + 1} không đổi thứ tự phương án`); });
+        if (JSON.stringify(v.tf) !== JSON.stringify(b.tf) || JSON.stringify(v.essay) !== JSON.stringify(b.essay)) err(w1, 'bộ đổi phương án: Phần II/III phải giống đề gốc'); } }
     v.mc.forEach((x, i) => { const w = `${w1} Phần I câu ${i + 1} (gốc ${x.src})`;
       if (!x.q || !Array.isArray(x.opts) || x.opts.length !== 4) err(w, 'cần q và đúng 4 phương án'); else if (new Set(x.opts).size !== 4) err(w, 'có phương án trùng nhau');
       if (!(x.bai >= 1 && x.bai <= (t.bai || []).length)) err(w, 'bai phải là số thứ tự bài trong t.bai');

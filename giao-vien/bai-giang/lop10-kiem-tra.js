@@ -31,7 +31,7 @@ const lpSolve = (a1, b1, c1, a2, b2, c2, p, q) => {
   return {pts, best, max:p * best[0] + q * best[1]};
 };
 
-KiemTra.add({
+const C2 = {
   grade:'lop10', id:'c2', title:'Kiểm tra chương II', chapter:'Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn',
   subject:'TOÁN 10', book:'Kết nối tri thức với cuộc sống', time:45, codes:['101', '102', '103', '104'], mcPt:0.5, short:true,
   levels:['Nhận biết – Thông hiểu', 'Thông hiểu – Vận dụng thấp', 'Vận dụng'],
@@ -109,5 +109,8 @@ KiemTra.add({
       return { de:`Tính diện tích (đơn vị diện tích) của miền nghiệm của hệ bất phương trình ${m(`\\begin{cases}x \\ge 0 \\\\ y \\ge 1 \\\\ x + 2y \\le ${c}\\end{cases}`)}.`,
         rows:[[`Miền nghiệm là tam giác có ba đỉnh ${m('(0;\\ 1)')}, ${m(`(${c - 2};\\ 1)`)}, ${m(`(0;\\ ${c / 2})`)}, vuông tại ${m('(0;\\ 1)')}, hai cạnh góc vuông dài ${m(c - 2)} và ${m(c / 2 - 1)}. Diện tích ${m(`\\dfrac{1}{2}\\cdot ${c - 2}\\cdot ${c / 2 - 1}`)}. Đáp số: <b>${S}</b>.`, 1]] }; }},
   ],
-});
+};
+KiemTra.add(C2);
+/* Bộ 2 (mã 201–204): CÙNG câu hỏi, cùng thứ tự câu, cùng ý Đ/S và Phần III với bộ 1 (201 ↔ 101, 202 ↔ 102, …); chỉ đổi vị trí phương án A–D (đáp án mỗi câu đổi sang chữ khác). */
+KiemTra.add({...C2, id:'c2b', title:'Kiểm tra chương II (Bộ 2 – đổi vị trí phương án)', set:'Bộ 2', codes:['201', '202', '203', '204'], like:'c2'});
 })();
