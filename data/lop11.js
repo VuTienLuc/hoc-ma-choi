@@ -499,6 +499,180 @@ const g5d = lv => {   // dãy bị chặn
              : `${tb(`u_n = ${good[0]}`)} không bị chặn vì ${good[2].startsWith('u_n')?tm('u_n')+good[2].slice(3):good[2]}; các dãy còn lại đều bị chặn.`});
 };
 
+/* ---------------- BÀI 5 (LUYỆN TẬP THÊM). DÃY SỐ ---------------- */
+const pcoef = c => tpoly([c[0],'n^2'],[c[1],'n'],[c[2],'']) || '0';
+const evc = (c,x) => c[0]*x*x + c[1]*x + c[2];
+const shiftc = (c,k) => [c[0], 2*c[0]*k + c[1], c[0]*k*k + c[1]*k + c[2]];
+const addc = (c,k) => [c[0], c[1], c[2]+k];
+const uniqC = (good, ws) => { const seen = new Set([pcoef(good)]), o = []; for(const w of ws){ const t = pcoef(w); if(!seen.has(t)){ seen.add(t); o.push(w) } } return o; };
+
+const g5e = lv => {   // số a là số hạng thứ mấy
+  if(lv===1){ const a=nz(2,6), b=R(-9,9), k=R(5,20), v=a*k+b, e=tpoly([a,'n'],[b,'']);
+    return QB({text:`Cho dãy số ${tm('(u_n)')} với ${tm(`u_n = ${e}`)}. Số ${tm(v)} là số hạng thứ mấy của dãy?`, tpl:`Số ${tm(v)} là số hạng thứ [_] của dãy.`, ans:[k],
+      hint:`Số ${tm(v)} là một số hạng của dãy khi phương trình ${tm(`u_n = ${v}`)} có nghiệm ${tm('n')} là số nguyên dương. Hãy giải phương trình đó.`,
+      sol:`${tm(`u_n = ${v} ${EQ2} ${e} = ${v} ${EQ2} n = ${k}`)}. ${tm('n = '+k)} là số nguyên dương nên ${tm(v)} là số hạng thứ ${tb(k)}.`}); }
+  if(lv===2){ const t=R(1,2), k=R(4,15);
+    if(t===1){ const c=nz(-9,9), v=k*k+c; return QB({text:`Cho dãy số ${tm('(u_n)')} với ${tm(`u_n = n^2 ${sgnT(c)}${Math.abs(c)}`)}. Số ${tm(v)} là số hạng thứ mấy của dãy?`, tpl:`Số ${tm(v)} là số hạng thứ [_] của dãy.`, ans:[k],
+      hint:`Giải ${tm(`n^2 = ${v-c}`)} và chỉ nhận nghiệm ${tm('n')} nguyên dương.`, sol:`${tm(`u_n = ${v} ${EQ2} n^2 = ${v-c} ${EQ2} n = ${k}`)} (loại ${tm(`n = ${-k}`)} vì ${tm('n')} phải dương). Số ${tm(v)} là số hạng thứ ${tb(k)}.`}); }
+    const v=k*(k+1); return QB({text:`Cho dãy số ${tm('(u_n)')} với ${tm('u_n = n(n+1)')}. Số ${tm(v)} là số hạng thứ mấy của dãy?`, tpl:`Số ${tm(v)} là số hạng thứ [_] của dãy.`, ans:[k],
+      hint:`Giải ${tm(`n(n+1) = ${v}`)}, hoặc để ý ${tm(v)} là tích của hai số tự nhiên liên tiếp.`, sol:`${tm(`${v} = ${k}\\cdot ${k+1}`)} nên ${tm(`n(n+1) = ${v}`)} cho ${tm(`n = ${k}`)}. Số ${tm(v)} là số hạng thứ ${tb(k)}.`}); }
+  const fs=[['n(n+1)',n=>n*(n+1),R(6,25)],['n^2-1',n=>n*n-1,R(6,25)],['n^2+2n',n=>n*n+2*n,R(6,25)],['2^n+1',n=>2**n+1,R(4,10)]], [s,f,k]=pick(fs), good=f(k);
+  const set=new Set([...Array(400)].map((_,i)=>f(i+1))), cand=shuffle([-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]).map(d=>good+d).filter(x=>!set.has(x)&&x>0).slice(0,3);
+  return QC({text:`Số nào sau đây là một số hạng của dãy số ${tm('(u_n)')} với ${tm(`u_n = ${s}`)}?`, opts:[good,...cand].map(x=>tm(x)), ans:tm(good),
+    hint:`Với mỗi số, giải phương trình ${tm('u_n = \\text{số đó}')}: chỉ chọn số cho nghiệm ${tm('n')} nguyên dương. Số gần giống một số hạng chưa chắc là số hạng!`,
+    sol:`${tm(`u_{${k}} = ${good}`)} nên ${tb(good)} là số hạng thứ ${k}. Với ba số còn lại, phương trình ${tm('u_n = \\text{số đó}')} không có nghiệm nguyên dương (các số hạng liền kề là ${tm(`${f(k-1)}`)} và ${tm(`${f(k+1)}`)}).`});
+};
+const g5f = lv => {   // viết u_{n+1}, u_{n-1}, u_{2n}... theo n
+  let f, text, good, ws;
+  if(lv===1){ const a=nz(-5,5), b=R(-8,8); f=[0,a,b]; text=`u_{n+1}`; good=shiftc(f,1); ws=[addc(f,1), shiftc(f,-1), addc(f,evc(f,1))]; }
+  else if(lv===2){ f=[R(1,3),R(-6,6),R(-5,5)]; const k=pick([1,2]); text=`u_{n+${k}}`; good=shiftc(f,k); ws=[addc(f,k), shiftc(f,-k), addc(f,evc(f,k)), [f[0],f[1]+k,f[2]]]; }
+  else { f=[R(1,3),R(-6,6),R(-5,5)]; if(Math.random()<.5){ text=`u_{2n}`; good=[4*f[0],2*f[1],f[2]]; ws=[[2*f[0],2*f[1],2*f[2]],[4*f[0],f[1],f[2]],[2*f[0],2*f[1],f[2]],[4*f[0],2*f[1],2*f[2]]]; }
+    else { text=`u_{n+1} - u_n`; good=[0,2*f[0],f[0]+f[1]]; ws=[[0,0,f[1]],[0,2*f[0],f[1]],[0,2*f[0],f[0]-f[1]],[0,f[0],f[0]+f[1]]]; } }
+  const w3 = uniqC(good, ws).slice(0,3); while(w3.length<3) w3.push(addc(good, w3.length+1));
+  const un = pcoef(f);
+  return QC({text:`Cho dãy số ${tm('(u_n)')} với ${tm(`u_n = ${un}`)}. Khi đó ${tm(text)} bằng`, opts:[good,...w3].map(c=>tm(pcoef(c))), ans:tm(pcoef(good)),
+    hint:lv===3&&text==='u_{n+1} - u_n'?`Tính ${tm('u_{n+1}')} bằng cách thay mọi ${tm('n')} trong công thức bởi ${tm('n+1')}, khai triển rồi trừ cho ${tm('u_n')}.`:`Thay <b>mọi</b> chữ ${tm('n')} trong công thức của ${tm('u_n')} bởi biểu thức trong chỉ số, rồi khai triển. ${tm('u_{n+1}')} khác ${tm('u_n + 1')}!`,
+    sol:lv===3&&text==='u_{n+1} - u_n'?`${tm(`u_{n+1} = ${pcoef(shiftc(f,1))}`)}, nên ${tm(`u_{n+1} - u_n = `)}${tb(pcoef(good))}.`:`Thay mỗi chữ ${tm('n')} trong công thức của ${tm('u_n')} bởi ${tm(text.slice(2).replace(/[{}]/g,''))} rồi khai triển: ${tm(`${text} = `)}${tb(pcoef(good))}.`});
+};
+const g5g = lv => {   // truy hồi nâng cao
+  if(lv===1){ const a=R(-3,5), c=R(1,3), K=5, vals=[a]; for(let i=1;i<K;i++) vals.push(vals[i-1]+c*i);
+    return QB({text:`Cho dãy số ${tm('(u_n)')} xác định bởi ${td(`\\begin{cases}u_1 = ${a}\\\\ u_{n+1} = u_n + ${c===1?'':c}n\\ \\ (n \\ge 1)\\end{cases}`)}Tính ${tm(u(K))}.`, tpl:blankU(K), ans:[vals[K-1]],
+      hint:`Lần lượt cho ${tm('n = 1, 2, 3, 4')}: ${tm('u_2 = u_1 + …')}, rồi ${tm('u_3')} từ ${tm('u_2')}, … (số cộng thêm ở mỗi bước thay đổi theo ${tm('n')}).`,
+      sol:vals.slice(1).map((v,i)=>tm(`${u(i+2)} = ${u(i+1)} + ${c===1?'':c}\\cdot ${i+1} = ${vals[i]} + ${c*(i+1)} = ${v}`)).join('; ')+`. Vậy ${tb(`${u(K)} = ${vals[K-1]}`)}.`}); }
+  if(lv===2){ const p=pick([1,1,2]), q=pick([1,-1]), a=R(1,3), b=R(1,4), K=6, vals=[a,b]; for(let i=2;i<K;i++) vals.push(p*vals[i-1]+q*vals[i-2]);
+    const rec=`${p===1?'':p}u_{n+1} ${q>0?'+':'-'} u_n`;
+    return QB({text:`Cho dãy số ${tm('(u_n)')} xác định bởi ${td(`\\begin{cases}u_1 = ${a},\\ u_2 = ${b}\\\\ u_{n+2} = ${rec}\\ \\ (n \\ge 1)\\end{cases}`)}Tính ${tm(u(K))}.`, tpl:blankU(K), ans:[vals[K-1]],
+      hint:`Mỗi số hạng (từ ${tm('u_3')}) được tính từ <b>hai</b> số hạng đứng ngay trước nó; cho ${tm('n = 1')} để có ${tm('u_3')}, rồi ${tm('n = 2')} để có ${tm('u_4')}, …`,
+      sol:vals.slice(2).map((v,i)=>tm(`${u(i+3)} = ${p===1?'':p+'\\cdot '}${tp(vals[i+1])} ${q>0?'+':'-'} ${tp(vals[i])} = ${v}`)).join('; ')+`. Vậy ${tb(`${u(K)} = ${vals[K-1]}`)}.`}); }
+  let a,k,vals; do{ a=pick([-2,-1,2,3]); k=R(1,3); vals=[a]; for(let i=1;i<4;i++) vals.push(vals[i-1]**2-k) }while(Math.abs(vals[3])>20000);
+  return QB({text:`Cho dãy số ${tm('(u_n)')} xác định bởi ${td(`\\begin{cases}u_1 = ${a}\\\\ u_{n+1} = u_n^2 - ${k}\\ \\ (n \\ge 1)\\end{cases}`)}Tính ${tm('u_4')}.`, tpl:blankU(4), ans:[vals[3]],
+    hint:`Bình phương số hạng trước rồi trừ ${tm(k)}. Chú ý ${tm(`(-3)^2 = 9`)} (bình phương của số âm là số dương).`,
+    sol:vals.slice(1).map((v,i)=>tm(`${u(i+2)} = ${tp(vals[i])}^2 - ${k} = ${vals[i]**2} - ${k} = ${v}`)).join('; ')+`. Vậy ${tb(`u_4 = ${vals[3]}`)}.`});
+};
+const g5h = lv => {   // từ hệ thức truy hồi đến công thức số hạng tổng quát
+  const step=(it,n)=>it.next(n), terms=it=>{const t=[it.u1];for(let n=1;n<6;n++)t.push(it.next(t[n-1],n));return t}, same=(a,b)=>a.every((x,i)=>x===b[i]);
+  let it;
+  if(lv===1){ const a=R(-3,5), d=nz(-4,5); it={rec:`u_{n+1} = u_n ${d>0?'+':'-'} ${Math.abs(d)}`, u1:a, next:x=>x+d, good:[tpoly([d,'n'],[a-d,'']),n=>d*n+a-d],
+      ws:[[tpoly([d,'n'],[a,'']),n=>d*n+a],[tpoly([a,'n'],[d,'']),n=>a*n+d],[tpoly([d,'n'],[a+d,'']),n=>d*n+a+d],[tpoly([d,'n'],[-a,'']),n=>d*n-a]]}; }
+  else if(lv===2){ const a=nz(-3,4), q=pick([2,3,-2]); it={rec:`u_{n+1} = ${q===-2?'-2':q}u_n`, u1:a, next:x=>x*q, good:[`${a}\\cdot ${tp(q)}^{n-1}`,n=>a*q**(n-1)],
+      ws:[[`${a}\\cdot ${tp(q)}^{n}`,n=>a*q**n],[`${tp(q)}\\cdot ${tp(a)}^{n-1}`,n=>q*a**(n-1)],[`${a}\\cdot ${tp(q)}\\cdot (n-1)`,n=>a*q*(n-1)],[`${a}+${tp(q)}(n-1)`,n=>a+q*(n-1)]]}; }
+  else { const c=R(1,5), t=R(1,3);
+    if(t===1) it={rec:`u_{n+1} = u_n + 2n + 1`, u1:c, next:(x,n)=>x+2*n+1, good:[`n^2 ${sgnT(c-1)}${Math.abs(c-1)}`.replace(/ \+ 0$/,''),n=>n*n+c-1],
+      ws:[[`n^2 ${sgnT(c)}${Math.abs(c)}`,n=>n*n+c],[`2n ${sgnT(c-2)}${Math.abs(c-2)}`.replace(/ \+ 0$/,''),n=>2*n+c-2],[`2^n ${sgnT(c-2)}${Math.abs(c-2)}`.replace(/ \+ 0$/,''),n=>2**n+c-2]]};
+    else if(t===2) it={rec:`u_{n+1} = u_n + 2n`, u1:c, next:(x,n)=>x+2*n, good:[`n^2 - n ${sgnT(c)}${c}`,n=>n*n-n+c],
+      ws:[[`n^2 ${sgnT(c)}${c}`,n=>n*n+c],[`2n ${sgnT(c-2)}${Math.abs(c-2)}`.replace(/ \+ 0$/,''),n=>2*n+c-2],[`2^n ${sgnT(c-2)}${Math.abs(c-2)}`.replace(/ \+ 0$/,''),n=>2**n+c-2]]};
+    else it={rec:`u_{n+1} = u_n + n + 1`, u1:c, next:(x,n)=>x+n+1, good:[`${tf('n(n+1)',2)} ${sgnT(c-1)}${Math.abs(c-1)}`.replace(/ \+ 0$/,''),n=>n*(n+1)/2+c-1],
+      ws:[[`n^2 ${sgnT(c)}${c}`.replace(/ \+ 0$/,''),n=>n*n+c-1+1],[`2n ${sgnT(c-1)}${Math.abs(c-1)}`.replace(/ \+ 0$/,''),n=>2*n+c-1],[`2^n ${sgnT(c-2)}${Math.abs(c-2)}`.replace(/ \+ 0$/,''),n=>2**n+c-2]]}; }
+  const tv=terms(it), fromF=f=>[1,2,3,4,5,6].map(n=>f(n));
+  if(!same(tv,fromF(it.good[1]))) throw new Error('g5h good sai');
+  const ws=it.ws.filter(w=>!same(tv,fromF(w[1]))).slice(0,3); if(ws.length<3) throw new Error('g5h thiếu nhiễu');
+  return QC({text:`Dãy số ${tm('(u_n)')} xác định bởi ${td(`\\begin{cases}u_1 = ${it.u1}\\\\ ${it.rec}\\ \\ (n \\ge 1)\\end{cases}`)}có số hạng tổng quát là`, opts:[it.good,...ws].map(w=>tm(`u_n = ${w[0]}`)), ans:tm(`u_n = ${it.good[0]}`),
+    hint:`Tính vài số hạng đầu bằng hệ thức truy hồi (${tm('u_2, u_3, u_4')}) rồi thử từng công thức. Công thức đúng phải khớp <b>tất cả</b> các số hạng, không chỉ ${tm('u_1')}.`,
+    sol:`Từ hệ thức truy hồi: ${tm(lst(tv.slice(0,5)))}. Chỉ có ${tb(`u_n = ${it.good[0]}`)} cho đúng các số hạng này; các công thức còn lại sai ở ${tm('u_2')} hoặc ${tm('u_3')} hoặc ${tm('u_4')}.`});
+};
+const g5i = lv => {   // dãy cho bằng mô tả
+  if(lv===1){ const m=R(3,9), r=R(1,m-1), k=R(6,15), v=m*(k-1)+r;
+    return QB({text:`Các số tự nhiên chia cho ${m} dư ${r} được viết theo thứ tự tăng dần thành một dãy số ${tm(`${r}, ${r+m}, ${r+2*m},`)}… Tìm số hạng thứ ${k} của dãy.`, tpl:`Số hạng thứ ${k} là [_].`, ans:[v],
+      hint:`Hai số hạng liên tiếp hơn kém nhau ${m}. Số hạng thứ ${k} bằng số hạng đầu cộng ${tm(`${k-1}`)} lần ${m}.`, sol:`${tm(`u_{${k}} = ${r} + (${k}-1)\\cdot ${m} = ${r} + ${(k-1)*m} = `)}${tb(v)}.`}); }
+  if(lv===2){ const m=pick([4,5,6,7,9]), r=R(1,m-1), k=R(120,520), T=m*(k-1)+r;
+    return QB({text:`Các số tự nhiên chia cho ${m} dư ${r} được viết theo thứ tự tăng dần thành một dãy số. Số ${tm(T)} là số hạng thứ mấy của dãy?`, tpl:`Số ${tm(T)} là số hạng thứ [_] của dãy.`, ans:[k],
+      hint:`Số hạng thứ ${tm('n')} của dãy là ${tm(`${m}(n-1) + ${r}`)}. Giải phương trình ${tm(`${m}(n-1) + ${r} = ${T}`)}.`, sol:`${tm(`u_n = ${m}(n-1) + ${r}`)}. ${tm(`${m}(n-1) + ${r} = ${T} ${EQ2} n - 1 = ${(T-r)/m} ${EQ2} n = ${k}`)}. Số ${tm(T)} là số hạng thứ ${tb(k)}.`}); }
+  const m=pick([7,8,11,12,13]), first=Math.ceil(100/m)*m, cnt=Math.floor(999/m)-Math.ceil(100/m)+1;
+  return QB({text:`Các số tự nhiên có ba chữ số chia hết cho ${m}, xếp theo thứ tự tăng dần, tạo thành một dãy số hữu hạn. Dãy này có bao nhiêu số hạng?`, tpl:`Dãy có [_] số hạng.`, ans:[cnt],
+    hint:`Tìm số hạng đầu (số nhỏ nhất ≥ 100 chia hết cho ${m}) và số hạng cuối (số lớn nhất ≤ 999 chia hết cho ${m}), rồi đếm các bội của ${m} giữa chúng.`,
+    sol:`Số hạng đầu ${tm(first)} = ${tm(`${m}\\cdot ${first/m}`)}; số hạng cuối ${tm(`${m*Math.floor(999/m)}`)} = ${tm(`${m}\\cdot ${Math.floor(999/m)}`)}. Số bội là ${tm(`${Math.floor(999/m)} - ${first/m} + 1 = `)}${tb(cnt)}.`});
+};
+
+const g5j = lv => {   // đếm số hạng thoả điều kiện
+  let text, ans, sol, hint;
+  if(lv===1){ const a=R(2,6), b=-R(8,45), e=tpoly([a,'n'],[b,'']); let c=0; for(let n=1;n<500;n++) if(a*n+b<0) c++; ans=c;
+    text=`Dãy số ${tm('(u_n)')} với ${tm(`u_n = ${e}`)} có bao nhiêu số hạng âm?`; hint=`Giải bất phương trình ${tm('u_n \\lt 0')} với ${tm('n')} là số nguyên dương.`;
+    sol=`${tm(`${e} \\lt 0 ${EQ2} n \\lt ${tf(-b,a)}`)}. Các số nguyên dương ${tm('n')} thoả mãn: ${tm(`n = 1, 2, \\ldots, ${c}`)}, tức có ${tb(c)} số hạng âm.`; }
+  else if(lv===2){ const c0=R(10,80), t=R(0,40); let c=0; for(let n=1;n<500;n++) if(n*n-c0<t) c++; ans=c;
+    text=`Dãy số ${tm('(u_n)')} với ${tm(`u_n = n^2 - ${c0}`)} có bao nhiêu số hạng nhỏ hơn ${tm(t)}?`; hint=`Giải ${tm(`n^2 - ${c0} \\lt ${t}`)}, tức ${tm(`n^2 \\lt ${c0+t}`)}, với ${tm('n')} nguyên dương.`;
+    sol=`${tm(`n^2 \\lt ${c0+t}`)} nên ${tm(`n \\le ${c}`)} (vì ${tm(`${c}^2 = ${c*c} \\lt ${c0+t}`)} còn ${tm(`${c+1}^2 = ${(c+1)**2} \\ge ${c0+t}`)}). Có ${tb(c)} số hạng.`; }
+  else { const k=R(2,7), [p,q]=pick([[1,2],[2,3],[3,4],[4,5]]); let c=0; for(let n=1;n<3000;n++) if(n*q<p*(n+k)) c++; ans=c;
+    text=`Dãy số ${tm('(u_n)')} với ${tm(`u_n = ${tf('n',`n+${k}`)}`)} có bao nhiêu số hạng nhỏ hơn ${tm(tf(p,q))}?`; hint=`Vì ${tm(`n + ${k} \\gt 0`)}, có thể nhân chéo: ${tm(`${tf('n',`n+${k}`)} \\lt ${tf(p,q)} ${EQ2} ${q}n \\lt ${p}(n+${k})`)}. Giải bất phương trình rồi đếm số nguyên dương ${tm('n')}.`;
+    const dq=q-p; sol=`${tm(`${q}n \\lt ${p}n + ${p*k} ${EQ2} ${dq===1?'':dq}n \\lt ${p*k} ${EQ2} n \\lt ${dq===1?p*k:tf(p*k,dq)}`)}. Số nguyên dương ${tm('n')} thoả mãn: ${tm(`1, 2, \\ldots, ${c}`)} nên có ${tb(c)} số hạng.`; }
+  return QB({text, tpl:`Có [_] số hạng.`, ans:[ans], hint, sol});
+};
+const g5k = lv => {   // tham số để dãy tăng
+  let text, ans, sol, hint;
+  const incr=(f,lim)=>m=>{for(let n=1;n<=60;n++){const[a,b]=f(m,n),[c,d]=f(m,n+1);if(!(c*b>a*d))return false}return true};
+  if(lv===1){ const k=R(1,6), c=R(-5,5), ok=incr((m,n)=>[(m-k)*n+c,1]); let r; for(let m=-30;m<=30;m++) if(ok(m)){r=m;break}
+    text=`Tìm giá trị nguyên nhỏ nhất của tham số ${tm('m')} để dãy số ${tm('(u_n)')} với ${tm(`u_n = (m - ${k})n ${sgnT(c)}${Math.abs(c)}`.replace(/ \+ 0$/,''))} là dãy số tăng.`; ans=r; hint=`Tính ${tm('u_{n+1} - u_n')}; dãy tăng khi hiệu này dương với mọi ${tm('n')}.`;
+    sol=`${tm(`u_{n+1} - u_n = (m - ${k})`)}. Dãy tăng ${tm(`${EQ2} m - ${k} \\gt 0 ${EQ2} m \\gt ${k}`)}. Số nguyên nhỏ nhất là ${tb(r)}.`; }
+  else if(lv===2){ const a=R(1,4), ok=incr((m,n)=>[a*n*n-m*n,1]); let r; for(let m=30;m>=-30;m--) if(ok(m)){r=m;break}
+    text=`Tìm giá trị nguyên lớn nhất của tham số ${tm('m')} để dãy số ${tm('(u_n)')} với ${tm(`u_n = ${a===1?'':a}n^2 - mn`)} là dãy số tăng.`; ans=r; hint=`Tính ${tm('u_{n+1} - u_n')} (khai triển ${tm('(n+1)^2')}), rồi tìm điều kiện của ${tm('m')} để hiệu dương với <b>mọi</b> ${tm('n \\ge 1')} – xét giá trị ${tm('n')} nhỏ nhất.`;
+    sol=`${tm(`u_{n+1} - u_n = ${a===1?'':a}(2n+1) - m = ${2*a}n + ${a} - m`)}. Biểu thức này tăng theo ${tm('n')} nên chỉ cần dương tại ${tm('n = 1')}: ${tm(`${3*a} - m \\gt 0 ${EQ2} m \\lt ${3*a}`)}. Số nguyên lớn nhất là ${tb(r)}.`; }
+  else { const k=R(2,6), ok=incr((m,n)=>[n+m,n+k]); let r; for(let m=30;m>=-30;m--) if(ok(m)){r=m;break}
+    text=`Tìm giá trị nguyên lớn nhất của tham số ${tm('m')} để dãy số ${tm('(u_n)')} với ${tm(`u_n = ${tf('n+m',`n+${k}`)}`)} là dãy số tăng.`; ans=r; hint=`Quy đồng ${tm('u_{n+1} - u_n')} (mẫu ${tm(`(n+${k})(n+${k+1})`)} luôn dương) và xét dấu tử số.`;
+    sol=`${tm(`u_{n+1} - u_n = ${tf(`(n+1+m)(n+${k}) - (n+m)(n+${k+1})`,`(n+${k})(n+${k+1})`)} = ${tf(`${k} - m`,`(n+${k})(n+${k+1})`)}`)}. Mẫu dương nên dãy tăng ${tm(`${EQ2} ${k} - m \\gt 0 ${EQ2} m \\lt ${k}`)}. Số nguyên lớn nhất là ${tb(r)}.`; }
+  return QB({text, tpl:blankV('m'), ans:[ans], hint, sol});
+};
+const BCAT = {B:'Bị chặn (cả trên và dưới)', D:'Bị chặn dưới nhưng không bị chặn trên', U:'Bị chặn trên nhưng không bị chặn dưới', N:'Không bị chặn trên và không bị chặn dưới'};
+const BEX = {
+  B:['\\dfrac{1}{n}','(-1)^n','\\dfrac{n}{n+1}','\\dfrac{1}{2^n}','\\dfrac{2n+1}{n+2}','(-1)^n+\\dfrac{1}{n}'],
+  D:['n^2','2^n','3n-1','\\sqrt{n}','n(n+1)','\\dfrac{n^2+1}{n}','(1+(-1)^n)n'],
+  U:['1-n^2','5-n','-2^n','-n^2','10-3n','-\\sqrt{n}'],
+  N:['(-1)^n n','(-1)^n n^2','(-1)^n\\cdot 2n','n\\cos(n\\pi)'],
+};
+const WHY = {B:'mọi số hạng nằm giữa hai số cố định', D:'các số hạng lớn lên vô hạn nhưng không nhỏ hơn số hạng nhỏ nhất của dãy', U:'các số hạng nhỏ đi vô hạn nhưng không lớn hơn số hạng lớn nhất của dãy', N:'các số hạng ở vị trí chẵn tiến tới +∞, ở vị trí lẻ tiến tới −∞'};
+const g5l = lv => {   // chặn trên, chặn dưới
+  const cats = lv===1 ? ['B','D','U'] : ['B','D','U','N'], c=pick(cats), pool = lv===3 ? BEX[c] : BEX[c].slice(0,4), e=pick(pool);
+  return QC({text:`Dãy số ${tm('(u_n)')} với ${tm(`u_n = ${e}`)} là dãy số nào sau đây?`, opts:['B','D','U','N'].map(k=>BCAT[k]), ans:BCAT[c], keepOrder:true,
+    hint:`Hỏi hai điều: các số hạng có thể lớn tuỳ ý không (chặn trên)? có thể nhỏ tuỳ ý không (chặn dưới)? Thử vài số hạng với ${tm('n')} lớn.`,
+    sol:`${tm(`u_n = ${e}`)}: ${WHY[c]}. Vậy dãy <b>${BCAT[c].toLowerCase()}</b>.`});
+};
+const g5m = lv => {   // giá trị lớn nhất, nhỏ nhất của dãy
+  let text, ans, sol, hint;
+  if(lv===1){ const a=R(2,9), b=R(-9,9), c=[1,-2*a,a*a+b]; let mn=1e9; for(let n=1;n<300;n++) mn=Math.min(mn,evc(c,n)); ans=mn;
+    text=`Tìm giá trị nhỏ nhất của dãy số ${tm('(u_n)')} với ${tm(`u_n = ${pcoef(c)}`)}.`; hint=`Viết lại ${tm('u_n')} dưới dạng ${tm('(n - a)^2 + b')} (hằng đẳng thức) rồi xét xem ${tm('n')} nguyên dương có nhận được giá trị ${tm('a')} không.`;
+    sol=`${tm(`u_n = (n - ${a})^2 ${sgnT(b)}${Math.abs(b)}`.replace(/ \+ 0$/,''))} ${tm(`\\ge ${b}`)}, dấu “=” xảy ra khi ${tm(`n = ${a}`)} (nguyên dương). Giá trị nhỏ nhất là ${tb(b)}.`; }
+  else if(lv===2){ const k=pick([3,5,7,9,11,13,15]), c=[1,-k,0]; let mn=1e9; for(let n=1;n<300;n++) mn=Math.min(mn,evc(c,n)); ans=mn;
+    text=`Tìm giá trị nhỏ nhất của dãy số ${tm('(u_n)')} với ${tm(`u_n = n^2 - ${k}n`)}.`; hint=`Hàm ${tm(`n^2 - ${k}n`)} nhỏ nhất tại ${tm(`n = ${tf(k,2)}`)} – không phải số nguyên! Hãy so sánh các số hạng ứng với hai số nguyên gần nhất.`;
+    const n1=(k-1)/2, n2=(k+1)/2; sol=`Đỉnh ở ${tm(`n = ${tf(k,2)}`)} nên xét ${tm(`n = ${n1}`)} và ${tm(`n = ${n2}`)}: ${tm(`u_{${n1}} = ${evc(c,n1)}`)}, ${tm(`u_{${n2}} = ${evc(c,n2)}`)}. Giá trị nhỏ nhất là ${tb(mn)}.`; }
+  else { const k=R(3,12), c0=R(-5,9), c=[-1,k,c0]; let mx=-1e9; for(let n=1;n<300;n++) mx=Math.max(mx,evc(c,n)); ans=mx;
+    text=`Tìm giá trị lớn nhất của dãy số ${tm('(u_n)')} với ${tm(`u_n = -n^2 + ${k}n ${sgnT(c0)}${Math.abs(c0)}`.replace(/ \+ 0$/,''))}.`; hint=`Tìm ${tm('n')} làm ${tm(`-n^2 + ${k}n`)} lớn nhất (đỉnh parabol ${tm(`n = ${tf(k,2)}`)}); nếu đỉnh không nguyên thì so sánh hai số nguyên gần nhất.`;
+    const n0=Math.round(k/2); sol=`Đỉnh ở ${tm(`n = ${k%2?tf(k,2):k/2}`)}; xét ${k%2?`${tm(`n = ${(k-1)/2}`)} và ${tm(`n = ${(k+1)/2}`)} (hai số hạng bằng nhau)`:tm(`n = ${n0}`)}: ${tm(`u_{${n0}} = ${evc(c,n0)}`)}. Giá trị lớn nhất là ${tb(mx)}.`; }
+  return QB({text, tpl:`Giá trị cần tìm là [_].`, ans:[ans], hint, sol});
+};
+const STM = [
+  [true, 'Mọi dãy số tăng đều bị chặn dưới.', 'dãy tăng thì $u_n \\ge u_1$ với mọi $n$, nên bị chặn dưới bởi $u_1$'],
+  [true, 'Mọi dãy số giảm đều bị chặn trên.', 'dãy giảm thì $u_n \\le u_1$ với mọi $n$, nên bị chặn trên bởi $u_1$'],
+  [true, 'Dãy số bị chặn trên và bị chặn dưới thì là dãy số bị chặn.', 'đó chính là định nghĩa dãy số bị chặn'],
+  [true, 'Dãy số $u_n = (-1)^n$ bị chặn nhưng không tăng, không giảm.', '$-1 \\le (-1)^n \\le 1$ và các số hạng lần lượt là $-1, 1, -1, 1,$ …'],
+  [true, 'Dãy số $u_n = n$ là dãy tăng nhưng không bị chặn trên.', '$u_{n+1} - u_n = 1 \\gt 0$ và $n$ lớn tuỳ ý'],
+  [true, 'Dãy số $u_n = -n$ là dãy giảm nhưng không bị chặn dưới.', '$u_{n+1} - u_n = -1 \\lt 0$ và $-n$ nhỏ tuỳ ý'],
+  [false, 'Mọi dãy số tăng đều bị chặn trên.', 'phản ví dụ $u_n = n$ là dãy tăng nhưng không bị chặn trên'],
+  [false, 'Mọi dãy số giảm đều bị chặn dưới.', 'phản ví dụ $u_n = -n$ là dãy giảm nhưng không bị chặn dưới'],
+  [false, 'Mọi dãy số bị chặn đều là dãy số tăng hoặc dãy số giảm.', 'phản ví dụ $u_n = (-1)^n$ bị chặn nhưng không tăng, không giảm'],
+  [false, 'Dãy số không tăng thì là dãy số giảm.', 'phản ví dụ $u_n = (-1)^n$ không tăng cũng không giảm; dãy hằng $u_n = 5$ cũng vậy'],
+  [false, 'Dãy số $u_n = \\dfrac{1}{n}$ là dãy số tăng.', '$\\dfrac{1}{n+1} \\lt \\dfrac{1}{n}$ nên $u_{n+1} \\lt u_n$: dãy giảm'],
+  [false, 'Dãy số có $u_2 \\gt u_1$ thì là dãy số tăng.', 'chỉ so sánh hai số hạng đầu thì chưa đủ; cần $u_{n+1} \\gt u_n$ với <b>mọi</b> $n$'],
+];
+const dl = t => t.replace(/\$([^$]+)\$/g, (_, x) => tm(x));
+const g5n = lv => {   // khẳng định đúng / sai
+  const askTrue = lv!==3, T = STM.filter(s=>s[0]), F = STM.filter(s=>!s[0]), good = pick(askTrue?T:F), others = shuffle(askTrue?F:T).slice(0,3);
+  return QC({text:`Khẳng định nào sau đây là <b>${askTrue?'đúng':'sai'}</b>?`, opts:[good,...others].map(s=>dl(s[1])), ans:dl(good[1]),
+    hint:askTrue?`Với mỗi khẳng định, thử tìm phản ví dụ (ví dụ ${tm('u_n = n')}, ${tm('u_n = (-1)^n')}, ${tm('u_n = -n')}). Khẳng định có phản ví dụ là sai.`:`Ba khẳng định còn lại luôn đúng; tìm khẳng định có phản ví dụ (ví dụ ${tm('u_n = n')}, ${tm('u_n = (-1)^n')}).`,
+    sol:`Chọn: <b>${dl(good[1])}</b> – vì ${dl(good[2])}. ${askTrue?'Ba khẳng định còn lại đều có phản ví dụ nên sai.':'Ba khẳng định còn lại đều đúng.'}`});
+};
+const g5o = lv => {   // thực tế
+  if(lv===1){ const a=R(5,20), d=R(2,6), k=R(8,20), v=a+(k-1)*d;
+    return QB({text:`Bạn An đọc sách: ngày đầu đọc ${a} trang, mỗi ngày sau đọc nhiều hơn ngày liền trước ${d} trang. Hỏi ngày thứ ${k} bạn An đọc bao nhiêu trang?`, tpl:`Ngày thứ ${k} đọc [_] trang.`, ans:[v],
+      hint:`Gọi ${tm('u_n')} là số trang đọc ở ngày thứ ${tm('n')}: ${tm('u_1')} là số trang ngày đầu và ${tm('u_{n+1} = u_n + …')}. Từ ngày đầu đến ngày thứ ${k} có bao nhiêu lần “thêm”?`,
+      sol:`${tm(`u_1 = ${a},\\ u_{n+1} = u_n + ${d}`)}. Đến ngày thứ ${k} đã thêm ${tm(k-1)} lần: ${tm(`u_{${k}} = ${a} + ${k-1}\\cdot ${d} = `)}${tb(v)} (trang).`}); }
+  if(lv===2){ const a=R(2,9), k=R(4,9), v=a*2**k;
+    return QB({text:`Một mẻ cấy có ${a} vi khuẩn. Cứ sau mỗi giờ, số vi khuẩn tăng gấp đôi. Hỏi sau ${k} giờ có bao nhiêu vi khuẩn?`, tpl:`Sau ${k} giờ có [_] vi khuẩn.`, ans:[v],
+      hint:`Gọi ${tm('u_n')} là số vi khuẩn sau ${tm('n')} giờ (${tm('u_0')} là lúc đầu): ${tm('u_{n+1} = 2u_n')}. Tính lần lượt hoặc nhận ra quy luật nhân đôi.`,
+      sol:`${tm(`u_0 = ${a},\\ u_{n+1} = 2u_n`)} nên ${tm(`u_{${k}} = ${a}\\cdot 2^{${k}} = ${a}\\cdot ${2**k} = `)}${tb(v)}.`}); }
+  const k=R(6,14), v=k*(k+1)/2;
+  return QB({text:`Một tháp xếp cam: tầng trên cùng (tầng 1) có 1 quả; tầng ${tm('n+1')} có nhiều hơn tầng ${tm('n')} đúng ${tm('n + 1')} quả. Hỏi tầng thứ ${k} có bao nhiêu quả cam?`, tpl:`Tầng thứ ${k} có [_] quả.`, ans:[v],
+    hint:`Gọi ${tm('u_n')} là số cam ở tầng ${tm('n')}: ${tm('u_1 = 1')}, ${tm('u_{n+1} = u_n + (n+1)')}. Tính lần lượt, hoặc nhận ra quy luật ${tm('1, 3, 6, 10,')}…`,
+    sol:`${tm('u_1 = 1,\\ u_2 = 3,\\ u_3 = 6,\\ u_4 = 10,\\ \\ldots')} Số hạng tổng quát ${tm('u_n = 1 + 2 + 3 + \\ldots + n = ' + tf('n(n+1)', 2))}. Với ${tm(`n = ${k}`)}: ${tm(`${tf(`${k}\\cdot ${k+1}`,2)} = `)}${tb(v)}.`});
+};
+
 /* ---------------- BÀI 6. CẤP SỐ CỘNG ---------------- */
 const CSC = 'Cấp số cộng: mỗi số hạng (từ số hạng thứ hai) bằng số hạng đứng ngay trước cộng với một số không đổi ' + tm('d') + ' (công sai).';
 const nearMiss = a => { const b=a.slice(), i=R(2,a.length-1); b[i]=b[i]+pick([-1,1]); return b; };
@@ -649,6 +823,8 @@ const g7e = lv => {   // ba số lập thành cấp số nhân
 };
 
 lesson(2,'day-so','Bài 5. Dãy số','Tính số hạng (công thức, truy hồi); tìm số hạng tổng quát; dãy tăng, giảm; dãy bị chặn.',[g5a,g5b,g5c,g5d]);
+lesson(2,'day-so-luyen-tap-1','Bài 5. Dãy số – Luyện tập thêm 1','Cách cho dãy số: số hạng thứ mấy; viết u_{n+1}, u_{2n}; hệ thức truy hồi; từ truy hồi đến công thức; dãy cho bằng mô tả; bài toán thực tế.',[g5e,g5f,g5g,g5h,g5i,g5o]);
+lesson(2,'day-so-luyen-tap-2','Bài 5. Dãy số – Luyện tập thêm 2','Tính chất của dãy số: đếm số hạng thoả điều kiện; tham số để dãy tăng; chặn trên – chặn dưới; số hạng lớn nhất, nhỏ nhất; khẳng định đúng – sai.',[g5j,g5k,g5l,g5m,g5n]);
 lesson(2,'cap-so-cong','Bài 6. Cấp số cộng','Nhận biết; số hạng tổng quát; tổng n số hạng đầu; ba số lập thành cấp số cộng; bài toán thực tế.',[g6a,g6b,g6c,g6e,g6d]);
 lesson(2,'cap-so-nhan','Bài 7. Cấp số nhân','Nhận biết; số hạng tổng quát; tổng n số hạng đầu; ba số lập thành cấp số nhân; bài toán thực tế.',[g7a,g7b,g7c,g7e,g7d]);
 lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp số cộng, cấp số nhân và bài toán thực tế.',[g5a,g5c,g6b,g6c,g7b,g7c]);
