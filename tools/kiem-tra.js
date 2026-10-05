@@ -224,8 +224,8 @@ const KT = vm.runInContext('typeof KiemTra !== "undefined" ? KiemTra : null', T)
   ['grade', 'id', 'title', 'chapter', 'subject', 'time', 'school', 'year'].forEach(k => { if (!t[k]) err(w0, `thiếu trường ${k}`); });
   if (!Array.isArray(t.codes) || !t.codes.length || new Set(t.codes).size !== t.codes.length) err(w0, 'codes phải là danh sách mã đề khác nhau');
   if (!Array.isArray(t.bai) || !t.bai.length) err(w0, 'thiếu danh sách bai (dùng cho ma trận)');
-  const tot = t.mc.length * .25 + t.tf.length + t.essay.reduce((a, e) => a + e.pts, 0);
-  if (Math.abs(tot - 10) > 1e-9) err(w0, `tổng điểm = ${tot} (phải bằng 10: Phần I 0,25/câu, Phần II 1/câu, Phần III theo pts)`);
+  const tot = t.mc.length * (t.mcPt || .25) + t.tf.length + t.essay.reduce((a, e) => a + e.pts, 0);
+  if (Math.abs(tot - 10) > 1e-9) err(w0, `tổng điểm = ${tot} (phải bằng 10: Phần I theo mcPt (mặc định 0,25)/câu, Phần II 1/câu, Phần III theo pts)`);
   const orders = new Set();
   (t.codes || []).forEach((code, ci) => { const w1 = `${w0} mã ${code}`; let v;
     try { v = KT.build(t, ci); } catch (e) { return err(w1, 'lỗi khi trộn đề: ' + e.message); }

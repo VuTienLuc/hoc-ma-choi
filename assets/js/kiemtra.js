@@ -14,6 +14,7 @@ const KiemTra = (() => {
   const rng = s => { let h = 2166136261; for(const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
     return () => { h = h + 0x6D2B79F5 | 0; let x = Math.imul(h ^ h >>> 15, 1 | h); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; }; };
   const vn = x => String(x).replace('.', ',');
+  const mcP = t => t.mcPt || .25;                                            // điểm mỗi câu Phần I (mặc định 0,25; đề 10 câu dùng 0,5)
   const pt = x => vn((+x).toFixed(2).replace(/0+$/, '').replace(/\.$/, ''));   // 0,25 · 1 · 0,5
 
   /* ---------- Trộn một mã đề ---------- */
@@ -50,15 +51,15 @@ const KiemTra = (() => {
     const I = v.mc.map((x, i) => { const c = cols(x.opts);
       return `<div class="kt-q"><b>Câu ${i + 1}.</b> ${x.q}<div class="kt-opts c${c}">${x.opts.map((o, k) => `<span><b>${ABCD[k]}.</b> ${o}</span>`).join('')}</div></div>`; }).join('');
     const II = v.tf.map((x, i) => `<div class="kt-q"><b>Câu ${i + 1}.</b> ${x.stem}<div class="kt-tf">${x.items.map((it, k) => `<span><b>${'abcd'[k]})</b> ${it.text}</span>`).join('')}</div></div>`).join('');
-    const III = v.essay.map((x, i) => `<div class="kt-q"><b>Bài ${i + 1} (${pt(x.pts)} điểm).</b> ${x.de}</div>`).join('');
-    const sI = t.mc.length * .25, sII = t.tf.length, sIII = t.essay.reduce((s, e) => s + e.pts, 0);
+    const III = v.essay.map((x, i) => t.short ? `<div class="kt-q"><b>Câu ${i + 1} (${pt(x.pts)} điểm).</b> ${x.de} <span class="kt-fill">Đáp số: <i class="kt-dots"></i></span></div>` : `<div class="kt-q"><b>Bài ${i + 1} (${pt(x.pts)} điểm).</b> ${x.de}</div>`).join('');
+    const sI = t.mc.length * mcP(t), sII = t.tf.length, sIII = t.essay.reduce((s, e) => s + e.pts, 0);
     return `<article class="ws kt">${head(t, v.code, false)}
       <div class="kt-ans"><p class="kt-small"><b>Bảng trả lời Phần I, II</b> (học sinh ghi vào bảng; Phần III làm vào giấy kiểm tra):</p>${grid(t)}</div>
       <h3>Phần I. Trắc nghiệm nhiều phương án lựa chọn <small>(${pt(sI)} điểm)</small></h3>
       <p class="kt-small">Học sinh trả lời từ câu 1 đến câu ${t.mc.length}. Mỗi câu hỏi chỉ chọn <b>một</b> phương án.</p>${I}
       <h3>Phần II. Trắc nghiệm đúng sai <small>(${pt(sII)} điểm)</small></h3>
       <p class="kt-small">Học sinh trả lời từ câu 1 đến câu ${t.tf.length}. Trong mỗi ý a), b), c), d) ở mỗi câu, học sinh chọn <b>đúng (Đ)</b> hoặc <b>sai (S)</b>.</p>${II}
-      <h3>Phần III. Tự luận <small>(${pt(sIII)} điểm)</small></h3>${III}
+      <h3>Phần III. ${t.short ? 'Trắc nghiệm trả lời ngắn' : 'Tự luận'} <small>(${pt(sIII)} điểm)</small></h3>${t.short ? '<p class="kt-small">Học sinh ghi kết quả (không cần trình bày) vào chỗ trống; làm nháp ở mặt sau.</p>' : ''}${III}
       <p class="kt-end">———— HẾT ————<small>Học sinh không được sử dụng tài liệu. Giáo viên coi kiểm tra không giải thích gì thêm.</small></p></article>`;
   }
 
@@ -66,19 +67,19 @@ const KiemTra = (() => {
   function keyDoc(t){
     const nb = t.bai.length, cnt = (arr, get) => t.bai.map((_, b) => arr.filter(x => get(x) === b + 1).length);
     const mcB = cnt(t.mc.map((x, i) => typeof x === 'function' ? x(0) : x), x => x.bai), tfB = cnt(t.tf, x => x.bai), esB = t.bai.map((_, b) => t.essay.filter(e => e.bai === b + 1).reduce((s, e) => s + e.pts, 0));
-    const pts = t.bai.map((_, b) => mcB[b] * .25 + tfB[b] + esB[b]);
-    const matrix = `<table class="kt-mx"><tr><th rowspan="2">Nội dung</th><th>Phần I – TN 1 đáp án</th><th>Phần II – Đúng/Sai</th><th>Phần III – Tự luận</th><th rowspan="2">Tổng điểm</th></tr>
-        <tr><th>Nhận biết · số câu</th><th>Nhận biết · số câu (4 ý)</th><th>Vận dụng thực tế · số bài</th></tr>
+    const pts = t.bai.map((_, b) => mcB[b] * mcP(t) + tfB[b] + esB[b]);
+    const matrix = `<table class="kt-mx"><tr><th rowspan="2">Nội dung</th><th>Phần I – TN 1 đáp án</th><th>Phần II – Đúng/Sai</th><th>Phần III – ${t.short ? 'Trả lời ngắn' : 'Tự luận'}</th><th rowspan="2">Tổng điểm</th></tr>
+        <tr><th>${(t.levels||[])[0] || 'Nhận biết'} · số câu</th><th>${(t.levels||[])[1] || 'Nhận biết'} · số câu (4 ý)</th><th>${(t.levels||[])[2] || 'Vận dụng thực tế'} · số ${t.short ? 'câu' : 'bài'}</th></tr>
         ${t.bai.map((b, i) => `<tr><td class="kt-lft">${b}</td><td>${mcB[i] || ''}</td><td>${tfB[i] || ''}</td><td>${esB[i] ? t.essay.filter(e => e.bai === i + 1).length : ''}</td><td>${pt(pts[i])}</td></tr>`).join('')}
-        <tr><th class="kt-lft">Tổng</th><th>${t.mc.length} câu · ${pt(t.mc.length * .25)} đ</th><th>${t.tf.length} câu · ${t.tf.length} đ</th><th>${t.essay.length} bài · ${pt(t.essay.reduce((s, e) => s + e.pts, 0))} đ</th><th>${pt(pts.reduce((a, b) => a + b, 0))}</th></tr></table>`;
-    const scale = `<ul class="kt-scale"><li><b>Phần I:</b> mỗi câu đúng <b>0,25</b> điểm.</li>
+        <tr><th class="kt-lft">Tổng</th><th>${t.mc.length} câu · ${pt(t.mc.length * mcP(t))} đ</th><th>${t.tf.length} câu · ${t.tf.length} đ</th><th>${t.essay.length} ${t.short ? 'câu' : 'bài'} · ${pt(t.essay.reduce((s, e) => s + e.pts, 0))} đ</th><th>${pt(pts.reduce((a, b) => a + b, 0))}</th></tr></table>`;
+    const scale = `<ul class="kt-scale"><li><b>Phần I:</b> mỗi câu đúng <b>${pt(mcP(t))}</b> điểm.</li>
         <li><b>Phần II:</b> mỗi câu tối đa 1 điểm – đúng 1 ý: <b>0,1</b> đ; đúng 2 ý: <b>0,25</b> đ; đúng 3 ý: <b>0,5</b> đ; đúng cả 4 ý: <b>1</b> đ.</li>
-        <li><b>Phần III:</b> chấm theo hướng dẫn từng mã đề; học sinh làm cách khác đúng vẫn cho điểm tối đa phần đó.</li></ul>`;
+        <li><b>Phần III:</b> ${t.short ? 'mỗi câu đúng kết quả cho <b>1</b> điểm, sai kết quả không cho điểm.' : 'chấm theo hướng dẫn từng mã đề; học sinh làm cách khác đúng vẫn cho điểm tối đa phần đó.'}</li></ul>`;
     const one = ci => { const v = build(t, ci);
       return `<section class="kt-key"><h3>Mã đề ${v.code}</h3>
         <table class="kt-grid"><tr><th>Phần I</th>${v.mc.map((_, i) => `<td>${i + 1}</td>`).join('')}</tr><tr><th>Đáp án</th>${v.mc.map(x => `<td><b>${ABCD[x.a]}</b></td>`).join('')}</tr></table>
         <table class="kt-grid kt-tfk"><tr><th>Phần II</th>${v.tf.map((_, i) => `<td colspan="4">Câu ${i + 1}</td>`).join('')}</tr><tr><th>Ý</th>${v.tf.map(() => 'abcd'.split('').map(x => `<td>${x}</td>`).join('')).join('')}</tr><tr><th>Đáp án</th>${v.tf.map(x => x.items.map(it => `<td><b>${it.ok ? 'Đ' : 'S'}</b></td>`).join('')).join('')}</tr></table>
-        <table class="kt-rub"><tr><th>Phần III</th><th>Nội dung</th><th>Điểm</th></tr>${v.essay.map((e, i) => e.rows.map((r, k) => `<tr>${k === 0 ? `<td rowspan="${e.rows.length}"><b>Bài ${i + 1}</b><br>(${pt(e.pts)} đ)</td>` : ''}<td class="kt-lft">${r[0]}</td><td>${pt(r[1])}</td></tr>`).join('')).join('')}</table></section>`; };
+        <table class="kt-rub"><tr><th>Phần III</th><th>Nội dung</th><th>Điểm</th></tr>${v.essay.map((e, i) => e.rows.map((r, k) => `<tr>${k === 0 ? `<td rowspan="${e.rows.length}"><b>${t.short ? 'Câu' : 'Bài'} ${i + 1}</b><br>(${pt(e.pts)} đ)</td>` : ''}<td class="kt-lft">${r[0]}</td><td>${pt(r[1])}</td></tr>`).join('')).join('')}</table></section>`; };
     return `<article class="ws kt kt-da">${head(t, '', true)}
       <h3>1. Ma trận đề</h3>${matrix}<h3>2. Thang điểm</h3>${scale}<h3>3. Đáp án các mã đề</h3>${t.codes.map((_, ci) => one(ci)).join('')}
       <p class="kt-end">———— HẾT ————</p></article>`;
@@ -88,7 +89,7 @@ const KiemTra = (() => {
   const find = (g, id) => TESTS.find(t => t.grade === g && t.id === id);
   const section = gid => { const ts = TESTS.filter(t => t.grade === gid); if(!ts.length) return '';
     return `<section class="topic kt-sec"><h2><small>Kiểm tra</small>Đề kiểm tra in A4 (4 mã đề, đáp án riêng)</h2><ol class="lk-list">${ts.map(t => `<li><div class="lk-li"><b>${t.title} – ${t.subject}</b>
-      <small>${t.chapter} · ${t.time} phút · ${t.codes.length} mã đề (${t.codes.join(', ')}) · ${t.mc.length} câu trắc nghiệm + ${t.tf.length} câu đúng/sai + ${t.essay.length} bài tự luận</small></div>
+      <small>${t.chapter} · ${t.time} phút · ${t.codes.length} mã đề (${t.codes.join(', ')}) · ${t.mc.length} câu trắc nghiệm + ${t.tf.length} câu đúng/sai + ${t.essay.length} ${t.short ? 'câu trả lời ngắn' : 'bài tự luận'}</small></div>
       <div class="lk-acts"><a class="btn primary small" href="#/${gid}/kiem-tra/${t.id}/de">📄 Đề ${t.codes.length} mã</a><a class="btn small" href="#/${gid}/kiem-tra/${t.id}/da">🔑 Đáp án</a></div></li>`).join('')}</ol></section>`; };
 
   // Trả về true nếu đường link là trang kiểm tra (đã vẽ xong)
