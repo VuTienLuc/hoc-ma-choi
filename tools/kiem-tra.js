@@ -238,7 +238,8 @@ const KT = vm.runInContext('typeof KiemTra !== "undefined" ? KiemTra : null', T)
     v.tf.forEach((x, i) => { const w = `${w1} Phần II câu ${i + 1}`; if (!x.stem || x.items.length !== 4) err(w, 'cần stem và đúng 4 ý');
       if (x.items.every(it => it.ok) || x.items.every(it => !it.ok)) err(w, 'mỗi câu phải có cả ý Đ và ý S'); checkTex(w, x.stem); x.items.forEach(it => checkTex(w, it.text)); });
     v.essay.forEach((e, i) => { const w = `${w1} Phần III bài ${i + 1}`; if (!e.de || !Array.isArray(e.rows) || !e.rows.length) return err(w, 'make(ci) phải trả về {de, rows:[[nội dung, điểm], …]}');
-      const sp = e.rows.reduce((a, r) => a + r[1], 0); if (Math.abs(sp - e.pts) > 1e-9) err(w, `tổng điểm hướng dẫn chấm ${sp} ≠ pts ${e.pts}`); checkTex(w, e.de); e.rows.forEach(r => checkTex(w, r[0])); });
+      const sp = e.rows.reduce((a, r) => a + r[1], 0); if (Math.abs(sp - e.pts) > 1e-9) err(w, `tổng điểm hướng dẫn chấm ${sp} ≠ pts ${e.pts}`); checkTex(w, e.de); e.rows.forEach(r => checkTex(w, r[0]));
+      if (t.short) { const mm = e.rows.map(r => (r[0].match(/Đáp số: <b>([^<]*)<\/b>/) || [])[1]).filter(Boolean); if (!mm.length) err(w, 'đề trả lời ngắn: hướng dẫn chấm phải có "Đáp số: <b>…</b>"'); mm.forEach(x => { if (x.replace(/\s/g, '').length > 4) err(w, `đáp số trả lời ngắn "${x}" dài quá 4 kí tự`); }); } });
     try { checkTex(`${w1} (bản in)`, KT.paper(t, ci)); } catch (e) { err(w1, 'lỗi khi dựng bản in: ' + e.message); } });
   if ((t.codes || []).length > 1 && orders.size < t.codes.length) warn(w0, 'có hai mã đề trùng thứ tự câu Phần I');
   try { checkTex(`${w0} (đáp án)`, KT.keyDoc(t)); } catch (e) { err(w0, 'lỗi khi dựng đáp án: ' + e.message); } });
