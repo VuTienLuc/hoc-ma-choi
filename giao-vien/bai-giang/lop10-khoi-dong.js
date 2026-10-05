@@ -769,3 +769,258 @@ Em đo chiều cao cột cờ (hoặc một cây cao) ở trường mà không l
 | Exit 3 | $12$ |
 | Về nhà | Hai lần đo chiều cao gần nhau |
 `);
+
+Lecture.addSheet('lop10', 'on-tap-c2', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 10 · Ôn tập chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+> Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Tiết ôn tập: câu nào làm chưa tốt là chỗ em cần ôn thêm, không phải lỗi của em.
+
+## 1. Vào lớp làm ngay (Do Now) – 4 phút
+
+**Câu 1** *(Bài 3)*. Cặp số $(1;-2)$ có là nghiệm của bất phương trình $x - 2y \gt 4$ không? Đáp số: ………………………
+
+**Câu 2** *(Bài 3)*. Điểm $(3;0)$ có thuộc miền nghiệm của bất phương trình $2x + y \le 4$ không? Đáp số: ………………………
+
+**Câu 3** *(Bài 4)*. Cặp số $(4;2)$ có là nghiệm của hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+2y\le 8\\ 2x+y\le 10\end{cases}$ không? Đáp số: ………………
+
+**Câu 4** *(năm trước – Toán 9)*. Giải hệ phương trình $\begin{cases}x+2y=8\\ 2x+y=10\end{cases}$. Đáp số: ……………………
+
+## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+
+Ba bài toán thực tế quen thuộc, mỗi bài đã lập sẵn điều kiện:
+
+| Bài toán | Điều kiện đã lập | Câu hỏi |
+|---|---|---|
+| $T_1$: mua cam, táo với $300$ nghìn đồng | $30x + 50y \le 300$ | Mua được những cặp $(x;y)$ nào? |
+| $T_2$: xưởng làm hai loại sản phẩm, máy chạy **tối đa** | $x + 2y \le 8$, $2x + y \le 10$ | Lãi **lớn nhất** bao nhiêu? |
+| $T_3$: thức ăn cần **ít nhất** đạm, vitamin | $x + 2y \ge 8$, $2x + y \ge 10$ | Chi phí **nhỏ nhất** bao nhiêu? |
+
+**Em nhận thấy:** …………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Từ chữ "tối đa" hay "ít nhất" trong đề, em đoán được dấu của bất phương trình và miền nghiệm có bị chặn không?
+
+## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+
+**Câu A.** Cặp số nào là nghiệm của hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 5\end{cases}$?
+
+A. $(-1;4)$
+
+B. $(3;3)$
+
+C. $(6;-1)$
+
+D. $(2;3)$
+
+**Câu B.** Miền nghiệm là tứ giác $OABC$ với $O(0;0)$, $A(3;0)$, $B(2;2)$, $C(0;3)$. Giá trị lớn nhất của $F = x + 3y$ trên miền đó là
+
+A. $8$
+
+B. $9$
+
+C. $3$
+
+D. $12$
+
+## 4. Luyện tập xen kẽ (10 phút)
+
+**Câu 1 ★.** Cặp số $(-2;1)$ có là nghiệm của bất phương trình $3x - 2y \ge -9$ không? Đáp số: ………………………
+
+**Câu 2 ★.** Miền nghiệm của bất phương trình $2x + 3y \lt 6$ có chứa gốc $O$ không? Đường biên vẽ nét liền hay nét đứt? Đáp số: ………………………
+
+**Câu 3 ★★.** Bạn Nam có $120$ nghìn đồng, mua $x$ quyển vở ($8$ nghìn đồng/quyển) và $y$ cây bút ($5$ nghìn đồng/cây). Viết bất phương trình mô tả điều kiện của $x$, $y$. Đáp số: ………………………
+
+**Câu 4 ★★.** Hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 6\\ x\le 4\end{cases}$ có miền nghiệm là tứ giác với bốn đỉnh $O(0;0)$, $(4;0)$, $(4;2)$, $(0;6)$. Tìm giá trị lớn nhất của $F = 2x + y$ trên miền đó. Đáp số: ………………………
+
+**Câu 5 ★★.** Với miền nghiệm ở Câu 4, tìm giá trị nhỏ nhất của $F = x - y$. Đáp số: ………………………
+
+**Câu 6 ★★★.** Mỗi hộp bánh quy cần $2$ kg bột và $1$ kg đường; mỗi hộp bánh bông lan cần $1$ kg bột và $2$ kg đường. Tiệm có $40$ kg bột, $50$ kg đường. Lãi mỗi hộp bánh quy là $40$ nghìn đồng, mỗi hộp bánh bông lan là $30$ nghìn đồng. Làm bao nhiêu hộp mỗi loại để lãi lớn nhất? *Gợi ý: miền nghiệm có đỉnh $(10;20)$.* …………………………………………………
+
+……………………………………………………………………………………………………………………………………
+
+**Câu 7 ★★★.** Mỗi gói thức ăn loại I có $2$ đơn vị đạm, $1$ đơn vị canxi, giá $15$ nghìn đồng; mỗi gói loại II có $1$ đơn vị đạm, $3$ đơn vị canxi, giá $20$ nghìn đồng. Mỗi ngày cần **ít nhất** $8$ đơn vị đạm và $9$ đơn vị canxi. Chi phí thấp nhất là bao nhiêu? Đáp số: ………………………
+
+## 5. Tìm lỗi sai (3 phút)
+
+> **Bài toán.** Tìm giá trị lớn nhất của $F = 3x + y$ trên miền nghiệm của hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+2y\le 10\\ x\le 6\end{cases}$.
+>
+> **Lời giải của bạn X:** Miền nghiệm là tam giác có ba đỉnh $O(0;0)$, $A(6;0)$, $C(0;5)$. Ta có $F(O) = 0$, $F(A) = 18$, $F(C) = 5$. Vậy $F_{\max} = 18$.
+
+Lời giải có **một** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp (4 phút)
+
+**Câu 1** *(trắc nghiệm)*. Cặp số nào là nghiệm của bất phương trình $2x - y \gt 3$?
+
+A. $(2;1)$
+
+B. $(1;-1)$
+
+C. $(3;2)$
+
+D. $(0;-3)$
+
+**Câu 2** *(đúng/sai)*. Cho hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 4\end{cases}$ và $F = x + 2y$. Mỗi ý em ghi Đ hoặc S:
+
+a) Cặp số $(1;2)$ là nghiệm của hệ. ……
+
+b) Miền nghiệm là tam giác có ba đỉnh $O(0;0)$, $A(4;0)$, $B(4;4)$. ……
+
+c) $F$ đạt giá trị lớn nhất tại đỉnh $A(4;0)$. ……
+
+d) Giá trị lớn nhất của $F$ bằng $8$. ……
+
+**Câu 3** *(trả lời ngắn)*. Với $x$, $y$ thoả mãn $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 5\end{cases}$, giá trị lớn nhất của $F = 2x + 3y$ bằng: …………
+
+## 7. Một phút suy ngẫm
+
+*Trong chương này, bước nào em hay sai nhất: thử điểm, gạch miền, tìm đỉnh hay so sánh giá trị $F$? Em sẽ làm gì để chắc hơn?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+
+Gian hàng của lớp pha hai loại sinh tố. Mỗi ly sinh tố xoài cần $2$ phần trái cây và $1$ hộp sữa; mỗi ly sinh tố bơ cần $1$ phần trái cây và $2$ hộp sữa; lớp có $30$ phần trái cây và $30$ hộp sữa. Hãy: (a) lập hệ bất phương trình cho $x$, $y$ (số ly mỗi loại); (b) vẽ miền nghiệm bằng GeoGebra hoặc Desmos; (c) biết lãi mỗi ly xoài $12$ nghìn đồng, mỗi ly bơ $10$ nghìn đồng, tìm lãi lớn nhất. **Sản phẩm:** ảnh chụp màn hình miền nghiệm kèm lời giải, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Ôn tập chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn · Ôn tập chương II** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con, học sinh không dùng điện thoại trên lớp; tiết ôn tập chương.
+- Hai tình huống **[Minh họa]** (bảng ba bài toán ở mục mở đầu, bài sinh tố về nhà) do người soạn tự đặt, không trích từ SGK. Bài tập cuối chương II thầy giao riêng, lời giải có trong mục **📘 Giải SGK** của bài Ôn tập chương II.
+- Phiếu bám bài giảng ôn tập và Bài 3–4: **Ví dụ tổng hợp** (gói thức ăn, chi phí nhỏ nhất $160$ nghìn đồng, miền không bị chặn, đỉnh $B(4;2)$) → mở đầu $T_3$, Do Now 3–4, Luyện tập 7; **Bài 4 Ví dụ 2–4** (hệ $x + 2y \le 8$, $2x + y \le 10$, lãi lớn nhất) → mở đầu $T_2$, Luyện tập 4–6; **Bài 3 Ví dụ 6** (cô Lan mua cam, táo) → mở đầu $T_1$, Luyện tập 3; **Luyện tập Bài 1 và 2** → Do Now 1–2, Exit ticket.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **hệ thống hóa kiến thức** (sơ đồ ghi nhớ) thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* huy động cách thử điểm vào bất phương trình, kiểm tra nghiệm của hệ, giải hệ hai phương trình để tìm đỉnh; liên hệ từ khóa "tối đa / ít nhất" với dấu của bất phương trình.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng ba bài toán.
+- *Sản phẩm:* bài Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* kiểm tra nghiệm; viết bất phương trình từ tình huống; tìm GTLN, GTNN trên miền nghiệm bằng cách tính $F$ tại **mọi** đỉnh; giải bài toán lãi lớn nhất, chi phí nhỏ nhất; phát hiện lỗi bỏ sót đỉnh.
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài về nhà dùng phần mềm vẽ miền nghiệm.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; ảnh màn hình miền nghiệm.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình, giáo viên đi quanh |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hệ thống hóa kiến thức** | *Giáo viên tự dạy theo bài giảng: sơ đồ ghi nhớ, ví dụ tổng hợp* |
+| ~16 | Câu hỏi bản lề A, B (Mục 3), nằm trong phần trên | Dừng sau khi nhắc kiểm tra nghiệm của hệ và quy tắc "tính $F$ tại mọi đỉnh"; giơ thẻ (2 phút) |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Câu 1–7, làm cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) và bài tập cuối chương | |
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Truy xuất trước khi ôn giúp nhớ lâu; tự chấm không lấy điểm.
+- **Tổ chức theo 5512:** (1) chiếu 4 câu, nói rõ "không lấy điểm"; (2) làm một mình 3 phút; (3) chiếu đáp án, học sinh tự chấm bằng bút khác màu; (4) nhận xét: câu 3 và 4 chính là hai bước tìm đỉnh $B(4;2)$ của ví dụ hôm nay.
+- **Đáp án:**
+  1. Có, vì $1 - 2\cdot(-2) = 5 \gt 4$.
+  2. Không, vì $2\cdot 3 + 0 = 6 \gt 4$.
+  3. Có, vì $x + 2y = 8 \le 8$ và $2x + y = 10 \le 10$ (cả hai điều kiện $x \ge 0$, $y \ge 0$ đều thỏa).
+  4. $x = 4$, $y = 2$ (nhân đôi phương trình thứ nhất rồi trừ vế theo vế: $3y = 6$).
+- **Lỗi dự kiến:** câu 1 tính $1 - 2\cdot 2$ (bỏ dấu âm của $y$); câu 2 kết luận theo $3 \le 4$ (chỉ xét $x$); câu 3 chỉ kiểm tra một bất phương trình; câu 4 sai dấu khi trừ vế.
+- **Ít công nghệ:** giấy nháp. **Công cụ số:** Plickers hoặc Azota.
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.** Không có câu trả lời "đúng" nên học sinh yếu cũng tham gia được.
+- **Tổ chức theo 5512:** (1) chiếu bảng; (2) ghi cá nhân 1 phút, chia sẻ với bạn cùng bàn; (3) gọi 3–4 em, ghi lên bảng; (4) chốt: "tối đa / không quá" → dấu $\le$, miền thường bị chặn, hỏi $F_{\max}$; "ít nhất / không dưới" → dấu $\ge$, miền không bị chặn, hỏi $F_{\min}$.
+- **Đáp án gợi ý:** $T_2$ và $T_3$ cùng hai đường thẳng nhưng dấu ngược nhau nên miền nghiệm nằm ở hai phía; $T_1$ chỉ có một bất phương trình; $T_2$ cho lãi lớn nhất, $T_3$ cho chi phí nhỏ nhất.
+- **Lỗi dự kiến:** học sinh chỉ nêu "có số, có chữ" → hỏi "đề dùng từ nào để nói về giới hạn?".
+- **Ít công nghệ:** bảng. **Công cụ số:** GeoGebra vẽ miền nghiệm của $T_2$ và $T_3$ cạnh nhau (không bắt buộc).
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Vừa.** Mỗi phương án nhiễu ứng với một lỗi có thật.
+- **Tổ chức theo 5512:** (1) chiếu, dặn "chưa trả lời vội"; (2) 45 giây, ghi lên bảng con; (3) giơ cùng lúc; (4) nếu từ $20\%$ trở lên sai thì giảng lại.
+- **Đáp án:** Câu A chọn **D**; Câu B chọn **B**.
+- **Giải thích nhiễu – Câu A:** $(2;3)$: $x \ge 0$, $y \ge 0$, $2 + 3 = 5 \le 5$ đều đúng. A: $(-1;4)$ thỏa $x + y \le 5$ nhưng vi phạm $x \ge 0$ (quên điều kiện không âm); B: $(3;3)$ có $3 + 3 = 6 \gt 5$ (cộng sai hoặc không thử); C: $(6;-1)$ có tổng $5$ nhưng vi phạm $y \ge 0$.
+- **Giải thích nhiễu – Câu B:** $F(O) = 0$, $F(A) = 3$, $F(B) = 8$, $F(C) = 9$ nên $F_{\max} = 9$. A: chọn đỉnh $B$ vì tưởng đỉnh "giữa" là lớn nhất; C: chọn đỉnh $A$; D: lấy đỉnh $(3;3)$ rồi tính $3 + 3\cdot 3 = 12$ (điểm $(3;3)$ không thuộc miền nghiệm).
+- **Ít công nghệ:** bảng con. **Công cụ số:** Plickers.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Mạnh** (Rohrer 2020: $60{,}7\%$ so với $37{,}6\%$, $d = 0{,}83$). Trộn dạng để học sinh phải nhận ra dạng trước khi giải. Báo trước là sẽ thấy khó hơn.
+- **Tổ chức theo 5512:** (1) phát phiếu, giải thích ký hiệu ★; (2) cá nhân 6 phút; (3) đối chiếu cặp đôi 2 phút; (4) chữa các câu nhiều em sai (thường là câu 3, 6, 7).
+- **Đáp án và lời giải ngắn:**
+  1. Có: $3\cdot(-2) - 2\cdot 1 = -8 \ge -9$.
+  2. Có (vì $0 \lt 6$); nét đứt (dấu $\lt$ không lấy dấu bằng).
+  3. $8x + 5y \le 120$ (với $x, y$ là số tự nhiên).
+  4. $F(O) = 0$, $F(4;0) = 8$, $F(4;2) = 10$, $F(0;6) = 6$; $F_{\max} = 10$ tại $(4;2)$.
+  5. $F(O) = 0$, $F(4;0) = 4$, $F(4;2) = 2$, $F(0;6) = -6$; $F_{\min} = -6$ tại $(0;6)$.
+  6. Gọi $x$, $y$ là số hộp bánh quy, bông lan: $x, y \ge 0$, $2x + y \le 40$, $x + 2y \le 50$; $F = 40x + 30y$. Đỉnh $(0;0)$, $(20;0)$, $(10;20)$, $(0;25)$ cho $F = 0$, $800$, $1\,000$, $750$. Lãi lớn nhất $1\,000$ nghìn đồng khi làm $10$ hộp quy, $20$ hộp bông lan.
+  7. $x, y \ge 0$, $2x + y \ge 8$, $x + 3y \ge 9$; $F = 15x + 20y$. Đỉnh $(9;0)$, $(3;2)$, $(0;8)$ cho $F = 135$, $85$, $160$. Chi phí thấp nhất $85$ nghìn đồng (mua $3$ gói loại I, $2$ gói loại II).
+- **Lỗi dự kiến:** câu 1 quên đổi dấu khi nhân với số âm; câu 2 vẽ nét liền; câu 3 viết $8x + 5y = 120$ hoặc $\ge$; câu 4–5 chỉ tính $F$ tại ba đỉnh; câu 6 viết nhầm hệ số (hoán đổi bột và đường); câu 7 lấy dấu $\le$ thay vì $\ge$ nên vẽ sai miền.
+- **Ít công nghệ:** giấy và bảng. **Công cụ số:** GeoGebra hoặc Desmos kiểm tra bằng vẽ miền nghiệm.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Vừa – Mạnh** (EEF 2022).
+- **Tổ chức theo 5512:** (1) chiếu lời giải ẩn tên; (2) tìm lỗi 1 phút; (3) 2–3 em nêu, khen phần đúng trước (đã biết tính $F$ tại các đỉnh); (4) chốt lỗi.
+- **Đáp án:** miền nghiệm là **tứ giác** $OABC$ với thêm đỉnh $B(6;2)$ (giao của $x = 6$ và $x + 2y = 10$). $F(B) = 3\cdot 6 + 2 = 20 \gt 18$. Kết quả đúng: $F_{\max} = 20$ tại $B(6;2)$.
+- **Lỗi dự kiến:** học sinh nói "tính sai $F(A)$" → hỏi "em vẽ miền nghiệm thử xem có mấy đỉnh?".
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.** Viết đúng dạng câu đề tốt nghiệp (trắc nghiệm, đúng/sai, trả lời ngắn); chữa lại ở đầu tiết sau.
+- **Tổ chức theo 5512:** (1) phát phiếu; (2) 3 phút làm một mình; (3) thu phiếu; (4) phân loại theo Mục 5.
+- **Đáp án:** Câu 1: **C** (với $(3;2)$: $2\cdot 3 - 2 = 4 \gt 3$; các phương án A, B, D đều cho đúng $3$, nằm trên đường biên nên không thỏa dấu $\gt$). Câu 2: a) Đ ($1 + 2 = 3 \le 4$); b) S (đỉnh thứ ba phải là $B(0;4)$); c) S ($F(A) = 4 \lt F(0;4) = 8$); d) Đ ($F_{\max} = 8$ tại $(0;4)$). Câu 3: **15** (đỉnh $O$, $(5;0)$, $(0;5)$ cho $F = 0$, $10$, $15$).
+- **Lỗi dự kiến:** Câu 1 chọn $A$, $B$ hoặc $D$ vì quên dấu bằng không xảy ra; Câu 2 b) chọn Đ vì nhầm đỉnh; Câu 2 c) chọn Đ vì "$x$ lớn hơn"; Câu 3 trả lời $10$ (chỉ xét $(5;0)$).
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- **Bằng chứng: Mạnh** (EEF: khoảng $+ 8$ tháng tiến bộ). Học sinh viết một câu, không chấm điểm; giáo viên đọc nhanh vài phiếu để biết em nào cần kèm. Gợi ý trả lời tốt: nêu cụ thể bước hay sai (thử điểm gốc, nét đứt/liền, bỏ sót đỉnh) và cách ôn (vẽ lại miền nghiệm, nhờ bạn giảng).
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** lập hệ bất phương trình từ tình huống và dùng phần mềm kiểm tra miền nghiệm.
+- **Đáp án:** (a) $x, y \ge 0$, $2x + y \le 30$, $x + 2y \le 30$; (b) miền nghiệm là tứ giác có đỉnh $(0;0)$, $(15;0)$, $(10;10)$, $(0;15)$; (c) $F = 12x + 10y$ cho $0$, $180$, $220$, $150$, lãi lớn nhất $220$ nghìn đồng khi bán $10$ ly mỗi loại.
+- **Tiêu chí nộp:** ảnh miền nghiệm rõ, đủ đỉnh, bảng giá trị $F$ tại từng đỉnh.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài toán có đáp án khác nhau tại hai đỉnh (đáp án đạt tại cả đoạn thẳng) |
+| 2. Sai hết | 0–1 câu đúng | Ôn lại nhóm nhỏ: làm lại Ví dụ 2–4 của Bài 4 theo thứ tự "vẽ – tìm đỉnh – tính $F$" |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh 5 phút đầu tiết sau bằng đúng câu bị sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Chương III):** (1) một câu về miền nghiệm bị sai nhiều nhất trong Exit ticket; (2) tính $\sin 30^\circ$, $\cos 60^\circ$; (3) một câu về tam giác vuông ở Toán 9 để nối sang Bài 5.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát sẵn lưới tọa độ và bảng "đỉnh – $F$" để điền; Câu 6 phát mẫu hệ chưa hoàn chỉnh "$2x + y \le 40$, $x + 2y \le \ \ldots$"; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *đổi lãi thành $10$ nghìn đồng mỗi hộp bánh quy và $20$ nghìn đồng mỗi hộp bánh bông lan (Câu 6); lãi lớn nhất là bao nhiêu và đạt tại những phương án nào?* (Gợi ý: $F = 10(x + 2y)$ song song với cạnh $x + 2y = 50$; lãi lớn nhất $500$ nghìn đồng, đạt tại mọi điểm của đoạn nối $(10;20)$ và $(0;25)$, chẳng hạn các phương án nguyên $(10;20)$, $(8;21)$, $(6;22)$, $(4;23)$, $(2;24)$, $(0;25)$.)
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng GeoGebra hoặc Desmos vẽ miền nghiệm của $T_2$ và $T_3$, đối chiếu đỉnh với kết quả giải tay (sản phẩm số: ảnh chụp màn hình có chú thích đỉnh).
+- **Địa chỉ 2:** bài về nhà lập bảng tính giá trị $F$ tại các đỉnh của miền nghiệm.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | Có |
+| Do Now 2 | Không |
+| Do Now 3 | Có |
+| Do Now 4 | $x = 4$, $y = 2$ |
+| Mở đầu | "Tối đa" → $\le$, miền bị chặn, $F_{\max}$; "ít nhất" → $\ge$, miền không bị chặn, $F_{\min}$ |
+| Bản lề A | D |
+| Bản lề B | B |
+| Luyện tập 1 | Có |
+| Luyện tập 2 | Có; nét đứt |
+| Luyện tập 3 | $8x + 5y \le 120$ |
+| Luyện tập 4 | $10$ tại $(4;2)$ |
+| Luyện tập 5 | $-6$ tại $(0;6)$ |
+| Luyện tập 6 | $10$ hộp quy, $20$ hộp bông lan; lãi $1\,000$ nghìn đồng |
+| Luyện tập 7 | $85$ nghìn đồng |
+| Tìm lỗi sai | Thiếu đỉnh $B(6;2)$; $F_{\max} = 20$ |
+| Exit 1 | C |
+| Exit 2 | a) Đ · b) S · c) S · d) Đ |
+| Exit 3 | $15$ |
+| Về nhà | $x, y \ge 0$, $2x + y \le 30$, $x + 2y \le 30$; lãi lớn nhất $220$ nghìn đồng |
+`);
