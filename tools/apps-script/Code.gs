@@ -139,7 +139,7 @@ function pub_(raw) {
   try { p = JSON.parse(raw || '{}') || {}; } catch (err) {}
   const now = new Date(), d0 = Utilities.formatDate(now, TZ, 'yyyy-MM-dd'), d1 = Utilities.formatDate(new Date(now.getTime() - 864e5), TZ, 'yyyy-MM-dd');
   const streak = (p.last === d0 || p.last === d1) ? (Number(p.streak) || 0) : 0;
-  return { streak, best: Number(p.best) || 0, badges: Object.keys(p.badges || {}).length, xu: Number(p.xuTotal) || 0, wear: p.wear || {}, pets: p.pets || {} };
+  return { streak, best: Number(p.best) || 0, badges: Object.keys(p.badges || {}).length, xu: Number(p.xuTotal) || 0, wear: p.wear || {}, pets: p.pets || {}, stickers: p.stickers || {} };
 }
 
 /** Bảng xếp hạng: các bạn cùng lớp đã đăng nhập ít nhất một lần. */

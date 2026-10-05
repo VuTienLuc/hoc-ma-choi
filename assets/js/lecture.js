@@ -35,6 +35,7 @@ const Lecture = (() => {
   let routed = false;
   function home(){
     if(!routed){ routed = true; addEventListener('hashchange', () => { if(!el) home(); }); }
+    if(typeof Hub !== 'undefined' && Hub.route()) return;                   // #/goc-chung – Góc chung (xếp hạng, sticker) dùng chung với học sinh
     if(typeof KiemTra !== 'undefined' && KiemTra.route()) return;          // #/lop11/kiem-tra/<mã>/de|da – đề kiểm tra in A4
     const app = $('#app'), gs = grades().sort((a,b) => gradeNum(a) - gradeNum(b)), m = location.hash.match(/^#\/(lop\d+)/), g = m && gs.find(x => x.id === m[1]);
     const bar = (typeof Account !== 'undefined' ? Account.userBar() : '');

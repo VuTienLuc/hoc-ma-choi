@@ -63,7 +63,7 @@ const Account = (() => {
     if(!g) return;
     App.grades = [g]; CONFIG.upcoming = [];
     const h = location.hash.match(/^#\/([\w-]+)/);
-    if(!h || h[1] !== g.id) location.replace('#/' + g.id);
+    if(!h || (h[1] !== g.id && h[1] !== 'goc-chung')) location.replace('#/' + g.id);
   }
 
   /* ---- Màn hình đăng nhập ---- */
@@ -111,7 +111,7 @@ const Account = (() => {
     };
   }
   const isTeacher = () => !!user && !/\d/.test(user.lop);        // lớp không có chữ số (vd "GV") = giáo viên
-  const userBar = () => user ? `<div class="userbar"><span>👋 <b>${esc(user.name)}</b> · ${esc(user.lop)}</span>${isTeacher() && !/giao-vien/.test(location.pathname) ? '<a class="linkbtn" href="giao-vien/">📚 Bài giảng</a>' : ''}<button class="linkbtn" data-logout>Đăng xuất</button></div>` : '';
+  const userBar = () => user ? `<div class="userbar"><span>👋 <b>${esc(user.name)}</b> · ${esc(user.lop)}</span>${isTeacher() && !/giao-vien/.test(location.pathname) ? '<a class="linkbtn" href="giao-vien/">📚 Bài giảng</a>' : ''}<a class="linkbtn" href="#/goc-chung">🌟 Góc chung</a><button class="linkbtn" data-logout>Đăng xuất</button></div>` : '';
   const bindLogout = () => $$('[data-logout]').forEach(b => b.onclick = () => { if(queue().length) flush(); logout(); });
 
   /* ---- Sự kiện từ engine ---- */

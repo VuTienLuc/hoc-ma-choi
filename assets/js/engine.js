@@ -182,6 +182,7 @@ let tT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('sh
 
 /* ---------- Điều hướng: #/  ·  #/lop4  ·  #/lop4/bai/ma-bai/2 ---------- */
 function route(){
+  if(typeof Hub!=='undefined'&&Hub.route())return;
   if(typeof Game!=='undefined'&&Game.route())return;
   if(typeof StudentTest!=='undefined'&&StudentTest.route())return;
   const m=location.hash.match(/^#\/([\w-]+)(?:\/bai\/([\w-]+)(?:\/(\d))?)?/);

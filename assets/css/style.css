@@ -677,3 +677,10 @@ h1 .h1en{font-size:.55em;font-weight:600}
 
 /* Nhóm chủ đề trong menu (vd. Toán tư duy) */
 .grp-title{margin:28px 0 4px;padding:10px 14px;border-radius:12px;background:var(--card,#f4f1ff);font-size:1.15rem;border-left:5px solid #7c5cff}
+
+/* ---------- Góc chung (hub.js): menu dùng chung cho học sinh và giáo viên ---------- */
+.hub-tabs{margin:12px 0 6px} .hub-grades,.hub-classes{margin:4px 0}
+.hub-av{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--primary-soft);border:2px solid var(--line);font:800 18px/1 var(--f-head)}
+.hub-rank li{grid-template-columns:44px 48px 1fr auto}
+.hub-who{display:grid;gap:3px;min-width:0} .hub-icons{display:flex;flex-wrap:wrap;gap:2px;align-items:center} .hub-icons small{font-weight:700;color:var(--muted)}
+.hub-ic{font-size:22px;line-height:1;filter:grayscale(.15)} .hub-ic.rare{filter:drop-shadow(0 0 2px #4aa3ff)} .hub-ic.epic{filter:drop-shadow(0 0 3px #a06bff)} .hub-ic.legend{filter:drop-shadow(0 0 4px #ffbf1f)}
