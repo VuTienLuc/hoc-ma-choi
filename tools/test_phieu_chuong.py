@@ -32,7 +32,11 @@ async def main():
     a = await render('lop11', 'Chương II', out, {}, 'a.pdf')
     h = await render('lop11', 'Chương II', out, {'ex': 'hide'}, 'h.pdf')
     c1 = await render('lop11', 'Chương II', out, {'cols': 1}, 'c1.pdf')
-    chk(a['pages'] == 4, f"Chương II mặc định đúng 4 trang A4 (2 tờ hai mặt): {a['pages']}")
+    nl = await render('lop11', 'Chương II', out, {'ln': False}, 'nl.pdf')
+    chk(a['pages'] == 5 and nl['pages'] == 4, f"Chương II: có dòng kẻ {a['pages']} trang (3 tờ), không dòng kẻ {nl['pages']} trang (2 tờ)")
+    import subprocess
+    txt = subprocess.run(['pdftotext', a['pdf'], '-'], capture_output=True, text=True).stdout
+    chk('dòng kẻ' in txt, 'tiêu đề phiếu nhắc dòng kẻ làm bài')
     chk(h['pages'] <= a['pages'] and h['merror'] == 0, f"ẩn ví dụ: {h['pages']} trang")
     chk(c1['pages'] >= a['pages'] and c1['merror'] == 0, f"1 cột: {c1['pages']} trang")
     print('KẾT QUẢ:', 'ĐẠT ✓' if ok else 'CHƯA ĐẠT ✗'); sys.exit(0 if ok else 1)

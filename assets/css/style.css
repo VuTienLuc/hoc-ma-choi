@@ -730,6 +730,7 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .cs-sol,.cs-steps{margin:1pt 0;padding-left:12pt} .cs-sol li,.cs-steps li{margin:0}
 .cs-ans{font-weight:700} .cs-fig{max-width:48mm;margin:2pt auto} .cs-fig svg{width:100%;height:auto;max-height:40mm!important} .cs-blank{max-width:44mm}
 .cs .lk-box,.cs .lk-note{border-left:2pt solid var(--ink);background:none;padding:1pt 5pt;margin:2pt 0} .cs .lk-table{font-size:.95em} .cs .lk-body,.cs .cs-body{font-size:1em}
+.cs-lines{margin:1pt 0 2pt} .cs-lines i{height:6.6mm}
 .cs-ansl{list-style:none;margin:2pt 0;padding:0;column-count:1} .cs-ansl li{margin:0;break-inside:avoid}
 .cs mjx-container[display="true"]{margin:2pt 0!important}
 @page cs{size:A4;margin:9mm 10mm 10mm}

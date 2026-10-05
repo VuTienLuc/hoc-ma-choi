@@ -219,7 +219,7 @@ const Lecture = (() => {
      Gộp mọi bài của một chương thành MỘT tệp in: 2 cột, chữ nhỏ, không dòng kẻ, các bài nối liền (không ngắt trang giữa bài), đáp số dồn cuối phiếu.
      Mỗi bài: kiến thức trọng tâm → dạng bài (phương pháp + ví dụ) → bài luyện tập (phiếu luyện tập của bài, nếu chưa có thì dùng các bài “Luyện tập” trong bài giảng).
      Tuỳ chọn: ví dụ (kèm lời giải / chỉ đề + đáp số / ẩn), luyện tập, đáp số cuối phiếu, lời giải luyện tập (bản giáo viên), 1–2 cột, cỡ chữ. */
-  const CS_DEF = {kt:true, ex:'sol', pr:true, ansEnd:true, key:false, cols:2, fs:9.5};
+  const CS_DEF = {kt:true, ex:'sol', pr:true, ansEnd:true, key:false, cols:2, fs:9.5, ln:true};
   function chapterSheet(b, opt){
     document.body.classList.remove('gv-wide');
     const o = Object.assign({}, CS_DEF, chapterSheet.opt && chapterSheet.opt.b === b ? chapterSheet.opt.o : {}, opt || {}); chapterSheet.opt = {b, o};
@@ -241,7 +241,7 @@ const Lecture = (() => {
         items.forEach((x, i) => { x.lab = `${pre}.${i + 1}`; });
         if(items.length) h += `<h4 class="cs-sec">Bài luyện tập${l.practice ? ' <small>(★ = vận dụng)</small>' : ''}</h4>` + items.map(x => {
           const fig = x.draw ? `<div class="cs-fig cs-blank">${x.key ? '' : planeSVG(x.draw)}</div>` : figOf(x.fig);
-          return `<div class="cs-q"><p><b>${x.lab}${x.hard ? ' ★' : ''}.</b> ${x.de}</p>${fig}${o.key ? `<ol class="cs-sol">${(x.sol || []).map(y => `<li>${y}</li>`).join('')}</ol>` : ''}${o.key && x.ans ? `<p class="cs-ans">${x.ans}</p>` : ''}</div>`; }).join('');
+          return `<div class="cs-q"><p><b>${x.lab}${x.hard ? ' ★' : ''}.</b> ${x.de}</p>${fig}${o.key ? `<ol class="cs-sol">${(x.sol || []).map(y => `<li>${y}</li>`).join('')}</ol>` : ''}${o.key && x.ans ? `<p class="cs-ans">${x.ans}</p>` : ''}${o.ln && !o.key ? `<div class="ws-lines cs-lines">${'<i></i>'.repeat(x.hard ? 5 : 3)}</div>` : ''}</div>`; }).join('');
       }
       return {h, items};
     };
@@ -251,21 +251,21 @@ const Lecture = (() => {
     const h = `<header class="ws-head cs-head"><div class="ws-brand"><span>${brand}</span><span>${b.gradeName} · Kết nối tri thức</span></div>
         <h1>PHIẾU ÔN TẬP CHƯƠNG ${chNo}${o.key ? ' <small>(bản có lời giải)</small>' : ''}</h1><h2>${chName}</h2>
         <p class="ws-who">Họ và tên: <span class="ws-fill"></span> Lớp: <span class="ws-fill s"></span> Ngày: <span class="ws-fill s"></span></p>
-        <p class="cs-toc">Gồm: ${toc}. Kiến thức trọng tâm, ví dụ có lời giải và bài luyện tập cho từng bài; làm bài luyện tập vào vở.</p></header>
+        <p class="cs-toc">Gồm: ${toc}. Kiến thức trọng tâm, ví dụ có lời giải và bài luyện tập cho từng bài; ${o.ln ? 'làm bài luyện tập vào các dòng kẻ dưới mỗi bài (3 dòng; câu ★ 5 dòng), cần thêm thì làm vào vở' : 'làm bài luyện tập vào vở'}.</p></header>
       <div class="cs-cols">${blocks.map(x => x.h).join('')}${o.pr && o.ansEnd && !o.key && answers.length ? `<h3 class="cs-lesson">Đáp số bài luyện tập</h3><ul class="cs-ansl">${answers.map(x => `<li><b>${x.lab}</b> ${ansOf(x)}</li>`).join('')}</ul>` : ''}</div>
       <footer class="ws-foot">${brand} · ${b.gradeName} · Chương ${chNo}</footer>`;
     const chk = (id, t, on) => `<label class="ws-toggle"><input type="checkbox" id="${id}" ${on ? 'checked' : ''}> ${t}</label>`;
     $('#app').innerHTML = `<div class="toolbar ws-bar cs-bar"><button class="back linkbtn" id="wsBack">← Danh sách bài</button><div class="row">
         ${chk('csKt', 'Kiến thức', o.kt)}
         <label class="ws-toggle">Ví dụ <select id="csEx"><option value="sol" ${o.ex === 'sol' ? 'selected' : ''}>kèm lời giải</option><option value="ans" ${o.ex === 'ans' ? 'selected' : ''}>chỉ đề + đáp số</option><option value="hide" ${o.ex === 'hide' ? 'selected' : ''}>ẩn</option></select></label>
-        ${chk('csPr', 'Luyện tập', o.pr)}${chk('csAe', 'Đáp số cuối phiếu', o.ansEnd)}${chk('csKey', 'Kèm lời giải luyện tập (GV)', o.key)}
+        ${chk('csPr', 'Luyện tập', o.pr)}${chk('csLn', 'Dòng kẻ làm bài (3 · ★ 5)', o.ln)}${chk('csAe', 'Đáp số cuối phiếu', o.ansEnd)}${chk('csKey', 'Kèm lời giải luyện tập (GV)', o.key)}
         <label class="ws-toggle">Cột <select id="csCols"><option value="2" ${o.cols === 2 ? 'selected' : ''}>2</option><option value="1" ${o.cols === 1 ? 'selected' : ''}>1</option></select></label>
         <label class="ws-toggle">Chữ <select id="csFs">${[[9, 'nhỏ'], [9.5, 'vừa'], [10.5, 'lớn']].map(([v, t]) => `<option value="${v}" ${o.fs === v ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
         <span class="cs-pages" id="csPages"></span><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
       <article class="ws cs ${o.cols === 1 ? 'one' : ''}" style="--cs-fs:${o.fs}pt">${h}</article>`;
     const redo = k => chapterSheet(b, k);
     $('#wsBack').onclick = home; $('#csKt').onchange = e => redo({kt:e.target.checked}); $('#csEx').onchange = e => redo({ex:e.target.value}); $('#csPr').onchange = e => redo({pr:e.target.checked});
-    $('#csAe').onchange = e => redo({ansEnd:e.target.checked}); $('#csKey').onchange = e => redo({key:e.target.checked}); $('#csCols').onchange = e => redo({cols:+e.target.value}); $('#csFs').onchange = e => redo({fs:+e.target.value});
+    $('#csLn').onchange = e => redo({ln:e.target.checked}); $('#csAe').onchange = e => redo({ansEnd:e.target.checked}); $('#csKey').onchange = e => redo({key:e.target.checked}); $('#csCols').onchange = e => redo({cols:+e.target.value}); $('#csFs').onchange = e => redo({fs:+e.target.value});
     document.title = `Phiếu ôn tập chương ${chNo} – ${b.gradeName}`; scrollTo(0, 0);
     // ước lượng số trang A4 (cao in được ≈ 271mm) để thầy cô cân nhắc tiết kiệm giấy
     const pages = () => { const a = $('article.cs'), box = $('#csPages'); if(!a || !box) return; const mm = a.scrollHeight / (a.clientWidth / 190) * 1 / 3.7795; box.textContent = `≈ ${Math.max(1, Math.ceil(mm / 255))} trang A4 (${Math.max(1, Math.ceil(mm / 255 / 2))} tờ in 2 mặt)`; };

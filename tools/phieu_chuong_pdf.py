@@ -1,5 +1,5 @@
 """Xuất PDF 'Phiếu ôn tập cả chương' cho HỌC SINH (lecture.js › chapterSheet) bằng Chromium.
-Dùng: python3 tools/phieu_chuong_pdf.py lop11 "Chương II" [thư-mục-ra=/tmp] [--key] [--ex=sol|ans|hide] [--cols=2] [--fs=9.5] [--no-pr] [--no-kt]
+Dùng: python3 tools/phieu_chuong_pdf.py lop11 "Chương II" [thư-mục-ra=/tmp] [--key] [--ex=sol|ans|hide] [--cols=2] [--fs=9.5] [--no-pr] [--no-ln] [--no-kt]
 In ra đường dẫn PDF và số trang. (Trang giáo viên không cần đăng nhập vì tạm bỏ CONFIG.sheetAPI.)"""
 import sys, re, json, asyncio, pathlib, threading, http.server, functools, socketserver, subprocess
 from playwright.async_api import async_playwright
@@ -35,6 +35,7 @@ if __name__ == '__main__':
     for f in fl:
         if f == '--key': opt['key'] = True
         elif f == '--no-pr': opt['pr'] = False
+        elif f == '--no-ln': opt['ln'] = False
         elif f == '--no-kt': opt['kt'] = False
         elif f.startswith('--ex='): opt['ex'] = f[5:]
         elif f.startswith('--cols='): opt['cols'] = int(f[7:])
