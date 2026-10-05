@@ -782,3 +782,8 @@ h1 .h1en{font-size:.55em;font-weight:600}
 @keyframes stkhue{to{filter:drop-shadow(0 0 9px #8be9ff) drop-shadow(0 0 3px #ff9be3) hue-rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.sticker.got.t-silver:before,.sticker.got.t-gold:before,.sticker.got.t-plat:before,.sticker.got.t-diamond:before,.sticker-reward .sr-card:before,.sticker.got.t-diamond,.sticker.got.t-diamond .sticker-icon,.t-diamond.tchip,.t-diamond.tier-chip{animation:none!important}}
 .sticker.got.t-silver,.sticker.got.t-gold,.sticker.got.t-plat,.sticker.got.t-diamond{padding-top:28px;min-height:172px}
+/* Chiếu bài kiểm tra học sinh (test-deck.js) */
+.lk .td-opts{display:grid;grid-template-columns:1fr 1fr;gap:.35em 1.4em;margin-top:.7em}
+.lk .td-opts.one{grid-template-columns:1fr}
+.lk .td-tf{margin-top:.6em;display:grid;gap:.3em}
+@media(max-width:700px){.lk .td-opts{grid-template-columns:1fr}}

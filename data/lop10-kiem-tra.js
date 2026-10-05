@@ -361,7 +361,7 @@
   const PR = [['xưởng', 'sản phẩm loại I', 'sản phẩm loại II', 'máy A', 'máy B'], ['nhà máy', 'chiếc ghế', 'chiếc bàn', 'công đoạn cắt', 'công đoạn lắp'], ['trang trại', 'sào lúa', 'sào ngô', 'giờ máy cày', 'giờ tưới nước'], ['cửa hàng bánh', 'bánh loại I', 'bánh loại II', 'lò nướng', 'máy trộn']];
   B.shPrac = (r, ci, o) => { const lp = genLP(r, 2, false), c = PR[(ci + (o || 0)) % 4], u = ri(r, 2, 8), v = ri(r, 2, 8), [l1, l2] = lp.L, ans = Math.max(...vals(u, v, lp.V)), ci2 = ci;
     return {q: `Một ${c[0]} làm hai loại: ${c[1]} và ${c[2]}. Mỗi ${c[1]} cần ${l1[0]} giờ ${c[3]} và ${l2[0]} giờ ${c[4]}; mỗi ${c[2]} cần ${l1[1]} giờ ${c[3]} và ${l2[1]} giờ ${c[4]}. Mỗi ngày ${c[3]} làm tối đa ${l1[2]} giờ, ${c[4]} tối đa ${l2[2]} giờ. Lãi mỗi ${c[1]} là ${u} triệu đồng, mỗi ${c[2]} là ${v} triệu đồng. Lãi lớn nhất mỗi ngày là bao nhiêu triệu đồng?`, ans: String(ans),
-      sol: p(`Gọi ${M('x,y')} là số ${c[1]} và ${c[2]} làm trong một ngày. Điều kiện: ${M(SYS(lp.cons))}.`) + p(`Lãi: ${M(`F=${lin(u, v)}`)} (triệu đồng). Đỉnh của miền nghiệm: ${M(vTex(lp.V))}.`) + p(`${valSol(u, v, lp.V)}. Lãi lớn nhất là ${M(ans)} triệu đồng.`)}; };
+      sol: p(`Gọi ${M('x,y')} là số ${c[1]} và ${c[2]} làm trong một ngày. Điều kiện: ${M(lp.cons.map(conTex).join(',\\ '))}.`) + p(`Lãi: ${M(`F=${lin(u, v)}`)} (triệu đồng). Đỉnh của miền nghiệm: ${M(vTex(lp.V))}.`) + p(`${valSol(u, v, lp.V)}. Lãi lớn nhất là ${M(ans)} triệu đồng.`)}; };
 
   /* ================= GHÉP 5 BÀI ================= */
   const L = (n, i, f, ...a) => ci => f(R(n * 1009 + i * 37 + ci * 7 + 11), ci, ...a);

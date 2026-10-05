@@ -799,6 +799,11 @@ h1 .h1en{font-size:.55em;font-weight:600}
 @keyframes stkhue{to{filter:drop-shadow(0 0 9px #8be9ff) drop-shadow(0 0 3px #ff9be3) hue-rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.sticker.got.t-silver:before,.sticker.got.t-gold:before,.sticker.got.t-plat:before,.sticker.got.t-diamond:before,.sticker-reward .sr-card:before,.sticker.got.t-diamond,.sticker.got.t-diamond .sticker-icon,.t-diamond.tchip,.t-diamond.tier-chip{animation:none!important}}
 .sticker.got.t-silver,.sticker.got.t-gold,.sticker.got.t-plat,.sticker.got.t-diamond{padding-top:28px;min-height:172px}
+/* Chiếu bài kiểm tra học sinh (test-deck.js) */
+.lk .td-opts{display:grid;grid-template-columns:1fr 1fr;gap:.35em 1.4em;margin-top:.7em}
+.lk .td-opts.one{grid-template-columns:1fr}
+.lk .td-tf{margin-top:.6em;display:grid;gap:.3em}
+@media(max-width:700px){.lk .td-opts{grid-template-columns:1fr}}
 
 </style>
 <style>
@@ -3758,7 +3763,7 @@ const StudentTest = (() => {
   const PR = [['xưởng', 'sản phẩm loại I', 'sản phẩm loại II', 'máy A', 'máy B'], ['nhà máy', 'chiếc ghế', 'chiếc bàn', 'công đoạn cắt', 'công đoạn lắp'], ['trang trại', 'sào lúa', 'sào ngô', 'giờ máy cày', 'giờ tưới nước'], ['cửa hàng bánh', 'bánh loại I', 'bánh loại II', 'lò nướng', 'máy trộn']];
   B.shPrac = (r, ci, o) => { const lp = genLP(r, 2, false), c = PR[(ci + (o || 0)) % 4], u = ri(r, 2, 8), v = ri(r, 2, 8), [l1, l2] = lp.L, ans = Math.max(...vals(u, v, lp.V)), ci2 = ci;
     return {q: `Một ${c[0]} làm hai loại: ${c[1]} và ${c[2]}. Mỗi ${c[1]} cần ${l1[0]} giờ ${c[3]} và ${l2[0]} giờ ${c[4]}; mỗi ${c[2]} cần ${l1[1]} giờ ${c[3]} và ${l2[1]} giờ ${c[4]}. Mỗi ngày ${c[3]} làm tối đa ${l1[2]} giờ, ${c[4]} tối đa ${l2[2]} giờ. Lãi mỗi ${c[1]} là ${u} triệu đồng, mỗi ${c[2]} là ${v} triệu đồng. Lãi lớn nhất mỗi ngày là bao nhiêu triệu đồng?`, ans: String(ans),
-      sol: p(`Gọi ${M('x,y')} là số ${c[1]} và ${c[2]} làm trong một ngày. Điều kiện: ${M(SYS(lp.cons))}.`) + p(`Lãi: ${M(`F=${lin(u, v)}`)} (triệu đồng). Đỉnh của miền nghiệm: ${M(vTex(lp.V))}.`) + p(`${valSol(u, v, lp.V)}. Lãi lớn nhất là ${M(ans)} triệu đồng.`)}; };
+      sol: p(`Gọi ${M('x,y')} là số ${c[1]} và ${c[2]} làm trong một ngày. Điều kiện: ${M(lp.cons.map(conTex).join(',\\ '))}.`) + p(`Lãi: ${M(`F=${lin(u, v)}`)} (triệu đồng). Đỉnh của miền nghiệm: ${M(vTex(lp.V))}.`) + p(`${valSol(u, v, lp.V)}. Lãi lớn nhất là ${M(ans)} triệu đồng.`)}; };
 
   /* ================= GHÉP 5 BÀI ================= */
   const L = (n, i, f, ...a) => ci => f(R(n * 1009 + i * 37 + ci * 7 + 11), ci, ...a);
