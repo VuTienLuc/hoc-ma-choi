@@ -432,6 +432,333 @@ lesson(3,'gt3-so-nhieu-chu-so','✍️ Giải toán 3 bước: số có nhiều 
 lesson(4,'gt3-don-vi-do','✍️ Giải toán 3 bước: đơn vị đo đại lượng','Hiểu đề – Lập kế hoạch – Giải: tấn – tạ – kg, diện tích dm², phút – giây.',[gDvKl,gDvDt,gDvTg]);
 lesson(5,'gt3-cong-tru','✍️ Giải toán 3 bước: phép cộng, phép trừ','Hiểu đề – Lập kế hoạch – Giải: nhập – bán hàng, tổng và hiệu, dân số tăng – giảm.',[gCtNhapXuat,gCtTongHieu,gCtTangGiam]);
 lesson(6,'gt3-vuong-song-song','✍️ Giải toán 3 bước: hình thoi, hình bình hành','Hiểu đề – Lập kế hoạch – Giải: cạnh hình thoi, chu vi hình bình hành, hàng rào.',[gVgThoi,gVgBinhHanh,gVgHangRao]);
+
+/* ---- ✍️ Giải toán 3 bước – bài 2 (luyện thêm, đề khác) cho các chủ đề 1–6 ---- */
+const POS4 = ['đơn vị','chục','trăm','nghìn','chục nghìn','trăm nghìn'];
+const gOn2Xe = lv => {   // chia có dư, làm tròn lên
+  const k = pick(lv === 1 ? [30, 40, 45] : [35, 45, 48, 52]), q = R(lv === 1 ? 4 : 9, lv === 1 ? 12 : 30), r = R(1, k - 1), N = k * q + r, x = q + 1;
+  return h3(lv, {text:`Trường tổ chức cho <b>${fmt(N)} học sinh</b> đi tham quan. Mỗi xe chở nhiều nhất <b>${k} học sinh</b>. Hỏi cần dùng ít nhất bao nhiêu xe để chở hết số học sinh?`,
+    what:'Số xe ít nhất cần dùng', whatWrong:['Số học sinh mỗi xe chở', 'Số học sinh còn thừa', 'Tổng số học sinh đi tham quan'],
+    plan:`Chia ${fmt(N)} cho ${k} được thương và số dư; vì còn học sinh dư nên phải thêm 1 xe nữa`, planWrong:['Chia rồi lấy thương, bỏ phần dư', 'Chia rồi lấy số dư làm số xe', `Nhân ${fmt(N)} với ${k}`],
+    planHint:'Số học sinh còn dư vẫn phải có xe chở, nên số xe là thương cộng thêm 1 (khi phép chia có dư).',
+    chain1:`${fmt(N)} : ${k} = [_] (dư [_])<br>Số xe ít nhất: [_] (xe)`, chain2:`Thương của phép chia: [_]; số dư: [_]<br>Số xe ít nhất: [_] xe`, chainAns:[q, r, x], finTpl:'[_] xe', fin:x,
+    sol:BG(`${fmt(N)} : ${k} = ${q} (dư ${r})`, `${q} xe chở đủ ${fmt(q * k)} học sinh, còn ${r} học sinh nữa nên cần thêm 1 xe.`, `Số xe ít nhất: ${q} + 1 = ${x} (xe)`, `Đáp số: <b>${x} xe</b>.`)});
+};
+const gOn2Cay = lv => {   // nhân rồi trừ
+  const a = R(lv === 1 ? 8 : 15, lv === 1 ? 20 : 45), b = R(lv === 1 ? 4 : 6, lv === 1 ? 9 : 18), tot = a * b, c = R(Math.floor(tot / 4), Math.floor(tot * 3 / 4)), left = tot - c;
+  return h3(lv, {text:`Nhà trường định trồng cây thành <b>${b} hàng</b>, mỗi hàng <b>${a} cây</b>. Đến nay các bạn đã trồng được <b>${c} cây</b>. Hỏi còn phải trồng bao nhiêu cây nữa?`,
+    what:'Số cây còn phải trồng', whatWrong:['Số cây đã trồng', 'Số cây dự định trồng ở mỗi hàng', 'Tổng số cây dự định trồng'],
+    plan:`Tìm tổng số cây dự định trồng (${b} × ${a}), rồi lấy trừ đi số cây đã trồng`, planWrong:[`Lấy ${a} cộng ${b}, rồi trừ ${c}`, `Lấy ${c} chia cho ${b}`, `Lấy ${a} nhân ${b}, rồi cộng ${c}`],
+    planHint:'Muốn biết còn thiếu bao nhiêu phải biết dự định tất cả là bao nhiêu cây (số hàng × số cây mỗi hàng).',
+    chain1:`Tổng số cây dự định: ${b} × ${a} = [_] (cây)<br>Còn phải trồng: ${tot} − ${c} = [_] (cây)`, chain2:`Tổng số cây dự định: [_] cây<br>Còn phải trồng: [_] cây`, chainAns:[tot, left], finTpl:'[_] cây', fin:left,
+    sol:BG(`Tổng số cây dự định trồng: ${b} × ${a} = ${tot} (cây)`, `Số cây còn phải trồng: ${tot} − ${c} = ${left} (cây)`, `Đáp số: <b>${left} cây</b>.`)});
+};
+const gOn2Tuoi = lv => {   // tuổi mẹ, con sau n năm
+  const a = R(lv === 1 ? 6 : 7, lv === 1 ? 10 : 12), d = R(lv === 1 ? 24 : 22, lv === 1 ? 30 : 34), n = R(2, lv === 1 ? 5 : 9), m = a + d, now = a + m, after = now + 2 * n;
+  return h3(lv, {text:`Hiện nay con <b>${a} tuổi</b>, mẹ hơn con <b>${d} tuổi</b>. Hỏi sau <b>${n} năm</b> nữa, tổng số tuổi của hai mẹ con là bao nhiêu?`,
+    what:`Tổng số tuổi của hai mẹ con sau ${n} năm nữa`, whatWrong:['Tuổi của mẹ hiện nay', `Tổng số tuổi của hai mẹ con hiện nay`, `Tuổi của con sau ${n} năm nữa`],
+    plan:`Tìm tuổi mẹ hiện nay, tìm tổng số tuổi hiện nay, rồi cộng thêm ${n} × 2 (mỗi người thêm ${n} tuổi)`, planWrong:[`Lấy ${a} cộng ${d}, rồi cộng ${n}`, `Tìm tổng số tuổi hiện nay rồi chỉ cộng thêm ${n}`, `Lấy ${a} nhân ${n}, rồi cộng ${d}`],
+    planHint:'Sau mỗi năm, cả mẹ và con đều thêm 1 tuổi nên tổng số tuổi tăng thêm 2 mỗi năm.',
+    chain1:`Tuổi mẹ hiện nay: ${a} + ${d} = [_] (tuổi)<br>Tổng số tuổi hiện nay: ${a} + ${m} = [_] (tuổi)<br>Sau ${n} năm: ${now} + ${n} × 2 = [_] (tuổi)`, chain2:`Tuổi mẹ hiện nay: [_] tuổi<br>Tổng số tuổi hiện nay: [_] tuổi<br>Tổng số tuổi sau ${n} năm: [_] tuổi`, chainAns:[m, now, after], finTpl:'[_] tuổi', fin:after,
+    sol:BG(`Tuổi mẹ hiện nay: ${a} + ${d} = ${m} (tuổi)`, `Tổng số tuổi hiện nay: ${a} + ${m} = ${now} (tuổi)`, `Sau ${n} năm, mỗi người thêm ${n} tuổi: ${now} + ${n} × 2 = ${after} (tuổi)`, `Đáp số: <b>${after} tuổi</b>.`)});
+};
+const gGocBu = lv => {   // hai góc kề bù
+  const x = R(lv === 1 ? 4 : 5, lv === 1 ? 14 : 30) * 5, y = 180 - x, loai = y < 90 ? 'góc nhọn' : y === 90 ? 'góc vuông' : 'góc tù';
+  return h3(lv, {text:`Cho góc bẹt <b>xOz</b>. Vẽ tia <b>Oy</b> nằm giữa hai tia <b>Ox</b> và <b>Oz</b> sao cho góc <b>xOy</b> bằng <b>${x}°</b>. Hỏi góc <b>yOz</b> bằng bao nhiêu độ?`,
+    what:'Số đo của góc yOz', whatWrong:['Số đo của góc xOy', 'Số đo của góc xOz', 'Tổng số đo của góc xOy và góc yOz'],
+    plan:'Hai góc xOy và yOz ghép lại thành góc bẹt 180°, nên lấy 180° trừ đi số đo góc xOy', planWrong:[`Lấy 180° cộng ${x}°`, `Lấy ${x}° trừ 90°`, `Lấy 90° trừ ${x}°`],
+    planHint:'Góc bẹt bằng 180°. Tia Oy nằm giữa nên góc xOy + góc yOz = góc bẹt.',
+    chain1:`Số đo góc yOz: 180° − ${x}° = [_]°`, chain2:`Số đo góc yOz: [_]°`, chainAns:[y], finTpl:'[_]°', fin:y,
+    sol:BG(`Góc xOy + góc yOz = góc xOz = 180°`, `Góc yOz = 180° − ${x}° = ${y}° (${loai})`, `Đáp số: <b>${y}°</b>.`)});
+};
+const gGocPhut = lv => {   // kim phút
+  const p1 = R(0, lv === 1 ? 10 : 20), p2 = p1 + R(lv === 1 ? 5 : 8, lv === 1 ? 20 : 35), n = p2 - p1, deg = n * 6;
+  return h3(lv, {text:`Trên mặt đồng hồ, cứ sau <b>1 phút</b> thì kim phút quay được một góc <b>6°</b>. Hỏi từ lúc <b>${p1} phút</b> đến lúc <b>${p2} phút</b> (cùng một giờ), kim phút quay được một góc bao nhiêu độ?`,
+    what:'Số đo góc mà kim phút quay được', whatWrong:['Số phút đã trôi qua', 'Số đo góc mà kim giờ quay được', `Số đo góc lúc ${p2} phút`],
+    plan:`Tìm số phút đã trôi qua (${p2} − ${p1}), rồi nhân với 6°`, planWrong:[`Lấy ${p2} cộng ${p1}, rồi nhân 6°`, `Lấy ${p2} nhân ${p1}`, `Lấy 6° chia cho ${n}`],
+    planHint:'Mỗi phút kim phút quay 6°. Từ lúc đầu đến lúc sau đã trôi qua bao nhiêu phút?',
+    chain1:`Số phút đã trôi qua: ${p2} − ${p1} = [_] (phút)<br>Số đo góc kim phút quay: ${n} × 6° = [_]°`, chain2:`Số phút đã trôi qua: [_] phút<br>Số đo góc kim phút quay: [_]°`, chainAns:[n, deg], finTpl:'[_]°', fin:deg,
+    sol:BG(`Số phút đã trôi qua: ${p2} − ${p1} = ${n} (phút)`, `Kim phút quay được: ${n} × 6° = ${deg}°`, `Đáp số: <b>${deg}°</b>.`)});
+};
+const gGocVuong = lv => {   // góc vuông chia ba góc
+  const x = R(2, lv === 1 ? 4 : 6) * 5, y = R(2, lv === 1 ? 4 : 6) * 5, z = 90 - x - y;
+  return h3(lv, {text:`Góc vuông <b>AOB</b> được chia bởi hai tia <b>OC</b>, <b>OD</b> thành ba góc: <b>AOC</b>, <b>COD</b>, <b>DOB</b>. Biết góc <b>AOC</b> bằng <b>${x}°</b> và góc <b>COD</b> bằng <b>${y}°</b>. Hỏi góc <b>DOB</b> bằng bao nhiêu độ?`,
+    what:'Số đo của góc DOB', whatWrong:['Số đo của góc AOB', 'Số đo của góc AOD', 'Tổng số đo của góc AOC và góc COD'],
+    plan:'Góc vuông là 90°, nên lấy 90° trừ đi số đo góc AOC, rồi trừ tiếp số đo góc COD', planWrong:[`Lấy 180° trừ ${x}° rồi trừ ${y}°`, `Lấy ${x}° cộng ${y}°`, `Lấy ${x}° trừ ${y}° rồi trừ 90°`],
+    planHint:'Góc vuông có số đo bằng bao nhiêu độ (khác góc bẹt)? Ba góc nhỏ ghép lại thành góc vuông.',
+    chain1:`Số đo góc AOD: ${x}° + ${y}° = [_]°<br>Số đo góc DOB: 90° − ${x + y}° = [_]°`, chain2:`Số đo góc AOD: [_]°<br>Số đo góc DOB: [_]°`, chainAns:[x + y, z], finTpl:'[_]°', fin:z,
+    sol:BG(`Góc AOD = góc AOC + góc COD = ${x}° + ${y}° = ${x + y}°`, `Góc AOB là góc vuông = 90° nên góc DOB = 90° − ${x + y}° = ${z}°`, `Đáp số: <b>${z}°</b>.`)});
+};
+const gSo2Ba = lv => {   // ba nơi: hơn, kém, tổng
+  const A = R(lv === 1 ? 12 : 30, lv === 1 ? 40 : 90) * 1000 + R(0, 9) * 100, d1 = R(lv === 1 ? 3 : 8, lv === 1 ? 9 : 25) * 100 + R(0, 9) * 10, d2 = R(lv === 1 ? 2 : 4, lv === 1 ? 8 : 15) * 100, B = A + d1, C = B - d2, T = A + B + C;
+  return h3(lv, {text:`Thư viện xã có <b>${fmt(A)}</b> quyển sách. Thư viện huyện có nhiều hơn thư viện xã <b>${fmt(d1)}</b> quyển. Thư viện tỉnh có ít hơn thư viện huyện <b>${fmt(d2)}</b> quyển. Hỏi cả ba thư viện có bao nhiêu quyển sách?`,
+    what:'Tổng số quyển sách của cả ba thư viện', whatWrong:['Số quyển sách của thư viện huyện', 'Số quyển sách của thư viện tỉnh', 'Số quyển sách thư viện huyện hơn thư viện xã'],
+    plan:'Tìm số sách thư viện huyện (cộng), tìm số sách thư viện tỉnh (trừ), rồi cộng cả ba số', planWrong:[`Lấy ${fmt(A)} cộng ${fmt(d1)} cộng ${fmt(d2)}`, 'Tìm số sách thư viện tỉnh trước, rồi tìm thư viện huyện', `Lấy ${fmt(A)} nhân 3`],
+    planHint:'Thư viện tỉnh được so sánh với thư viện huyện, nên phải biết thư viện huyện trước.',
+    chain1:`Thư viện huyện: ${fmt(A)} + ${fmt(d1)} = [_] (quyển)<br>Thư viện tỉnh: ${fmt(B)} − ${fmt(d2)} = [_] (quyển)<br>Cả ba: ${fmt(A)} + ${fmt(B)} + ${fmt(C)} = [_] (quyển)`, chain2:`Thư viện huyện: [_] quyển<br>Thư viện tỉnh: [_] quyển<br>Cả ba thư viện: [_] quyển`, chainAns:[B, C, T], finTpl:'[_] quyển', fin:T,
+    sol:BG(`Thư viện huyện có: ${fmt(A)} + ${fmt(d1)} = ${fmt(B)} (quyển)`, `Thư viện tỉnh có: ${fmt(B)} − ${fmt(d2)} = ${fmt(C)} (quyển)`, `Cả ba thư viện có: ${fmt(A)} + ${fmt(B)} + ${fmt(C)} = ${fmt(T)} (quyển)`, `Đáp số: <b>${fmt(T)} quyển</b>.`)});
+};
+const gSo2Hang = lv => {   // giá trị chữ số
+  const ds = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 0].slice()).filter(x => true); let digs = ds.slice(0, 6); if (digs[0] === 0) digs = [digs[1], digs[0], ...digs.slice(2)];
+  const N = +digs.join(''), i = R(0, 5), j = (i + R(1, 5)) % 6, pi = 5 - i, pj = 5 - j;
+  const di = digs[i], dj = digs[j], vi = di * 10 ** pi, vj = dj * 10 ** pj, S = vi + vj;
+  if (di === 0 || dj === 0) return gSo2Hang(lv);
+  return h3(lv, {text:`Cho số <b>${fmt(N)}</b>. Hỏi tổng giá trị của chữ số <b>${di}</b> và giá trị của chữ số <b>${dj}</b> trong số đó là bao nhiêu?`,
+    what:`Tổng giá trị của chữ số ${di} và chữ số ${dj} trong số ${fmt(N)}`, whatWrong:[`Tổng của hai chữ số ${di} và ${dj}`, `Giá trị của chữ số ${di}`, `Giá trị của chữ số ${dj}`],
+    plan:`Xác định hàng của mỗi chữ số, tìm giá trị của từng chữ số (chữ số × giá trị của hàng), rồi cộng lại`, planWrong:[`Lấy ${di} cộng ${dj}`, `Lấy ${di} nhân ${dj}`, `Chỉ viết hai chữ số ${di} và ${dj} cạnh nhau thành một số`],
+    planHint:'Giá trị của một chữ số phụ thuộc vào hàng nó đứng: chữ số ở hàng trăm thì có giá trị gấp 100 lần chữ số đó.',
+    chain1:`Chữ số ${di} ở hàng ${POS4[pi]}: giá trị [_]<br>Chữ số ${dj} ở hàng ${POS4[pj]}: giá trị [_]<br>Tổng: ${fmt(vi)} + ${fmt(vj)} = [_]`, chain2:`Giá trị của chữ số ${di}: [_]<br>Giá trị của chữ số ${dj}: [_]<br>Tổng hai giá trị: [_]`, chainAns:[vi, vj, S], finTpl:'[_]', fin:S,
+    sol:BG(`Chữ số ${di} ở hàng ${POS4[pi]} nên có giá trị ${fmt(vi)}`, `Chữ số ${dj} ở hàng ${POS4[pj]} nên có giá trị ${fmt(vj)}`, `Tổng: ${fmt(vi)} + ${fmt(vj)} = ${fmt(S)}`, `Đáp số: <b>${fmt(S)}</b>.`)});
+};
+const gSo2Lt = lv => {   // ba số tự nhiên liên tiếp
+  const N = R(lv === 1 ? 20 : 1000, lv === 1 ? 900 : 99000) + (lv === 3 ? 100000 : 0), M2 = N - 1, Sm = N - 2, T = N + M2 + Sm;
+  return h3(lv, {text:`Ba số tự nhiên liên tiếp có số lớn nhất là <b>${fmt(N)}</b>. Hỏi tổng của ba số đó là bao nhiêu?`,
+    what:'Tổng của ba số tự nhiên liên tiếp', whatWrong:['Số lớn nhất trong ba số', 'Số bé nhất trong ba số', 'Hiệu của số lớn nhất và số bé nhất'],
+    plan:'Hai số liên tiếp hơn kém nhau 1 đơn vị: tìm số ở giữa, số bé nhất, rồi cộng ba số', planWrong:[`Lấy ${fmt(N)} nhân với 3`, `Lấy ${fmt(N)} cộng 1, cộng 2 rồi cộng ba số`, `Lấy ${fmt(N)} cộng ${fmt(N)} cộng ${fmt(N)}, rồi trừ 3`],
+    planHint:'Số liền trước kém số liền sau 1 đơn vị. Số lớn nhất là N thì hai số còn lại là N − 1 và N − 2.',
+    chain1:`Số ở giữa: ${fmt(N)} − 1 = [_]<br>Số bé nhất: ${fmt(M2)} − 1 = [_]<br>Tổng: ${fmt(N)} + ${fmt(M2)} + ${fmt(Sm)} = [_]`, chain2:`Số ở giữa: [_]<br>Số bé nhất: [_]<br>Tổng ba số: [_]`, chainAns:[M2, Sm, T], finTpl:'[_]', fin:T,
+    sol:BG(`Số ở giữa: ${fmt(N)} − 1 = ${fmt(M2)}`, `Số bé nhất: ${fmt(M2)} − 1 = ${fmt(Sm)}`, `Tổng ba số: ${fmt(N)} + ${fmt(M2)} + ${fmt(Sm)} = ${fmt(T)}`, `Đáp số: <b>${fmt(T)}</b>.`)});
+};
+const gDv2Bao = lv => {   // tạ → yến, chia bao
+  const b = pick([5, 10, 2]), N = R(lv === 1 ? 2 : 4, lv === 1 ? 12 : 40) * (b === 10 ? 1 : 1), yen = N * 10, q = yen / b;
+  return h3(lv, {text:`Cửa hàng có <b>${N} tạ</b> gạo, đóng đều vào các bao, mỗi bao <b>${b} yến</b>. Hỏi đóng được bao nhiêu bao gạo?`,
+    what:'Số bao gạo đóng được', whatWrong:[`Số yến gạo trong mỗi bao`, `Số tạ gạo của cửa hàng`, `Số ki-lô-gam gạo trong mỗi bao`],
+    plan:`Đổi ${N} tạ ra yến (1 tạ = 10 yến), rồi chia cho số yến trong mỗi bao`, planWrong:[`Lấy ${N} chia cho ${b} luôn`, `Đổi 1 tạ = 100 yến, rồi chia cho ${b}`, `Đổi ra yến rồi nhân với ${b}`],
+    planHint:'Hai số đo phải cùng đơn vị mới chia được. 1 tạ = 10 yến = 100 kg.',
+    chain1:`${N} tạ = [_] yến<br>Số bao gạo: ${yen} : ${b} = [_] (bao)`, chain2:`${N} tạ = [_] yến<br>Số bao gạo: [_] bao`, chainAns:[yen, q], finTpl:'[_] bao', fin:q,
+    sol:BG(`${N} tạ = ${yen} yến`, `Số bao gạo đóng được: ${yen} : ${b} = ${q} (bao)`, `Đáp số: <b>${q} bao</b>.`)});
+};
+const gDv2Gach = lv => {   // diện tích nền × giá
+  const a = R(lv === 1 ? 4 : 8, lv === 1 ? 9 : 15), b = R(3, lv === 1 ? 7 : 10), S = a * b, c = pick(lv === 1 ? [20000, 30000, 50000] : [45000, 65000, 85000, 120000]), tot = S * c;
+  return h3(lv, {text:`Nền một căn phòng hình chữ nhật dài <b>${a} m</b>, rộng <b>${b} m</b>. Người ta lát gạch, tiền công và gạch mỗi mét vuông là <b>${fmt(c)} đồng</b>. Hỏi lát cả nền phòng phải trả bao nhiêu tiền?`,
+    what:'Số tiền phải trả để lát cả nền phòng', whatWrong:['Diện tích nền phòng', 'Chu vi nền phòng', 'Số tiền lát mỗi mét vuông'],
+    plan:`Tính diện tích nền phòng (m²), rồi nhân với số tiền của mỗi mét vuông`, planWrong:[`Tính chu vi nền phòng rồi nhân với ${fmt(c)}`, `Lấy ${a} cộng ${b}, rồi nhân ${fmt(c)}`, `Tính diện tích nền phòng rồi chia cho ${fmt(c)}`],
+    planHint:'Tiền tính theo mét vuông (diện tích), không tính theo chiều dài các cạnh. Diện tích = dài × rộng.',
+    chain1:`Diện tích nền phòng: ${a} × ${b} = [_] (m²)<br>Số tiền: ${S} × ${fmt(c)} = [_] (đồng)`, chain2:`Diện tích nền phòng: [_] m²<br>Số tiền phải trả: [_] đồng`, chainAns:[S, tot], finTpl:'[_] đồng', fin:tot,
+    sol:BG(`Diện tích nền phòng: ${a} × ${b} = ${S} (m²)`, `Số tiền phải trả: ${S} × ${fmt(c)} = ${fmt(tot)} (đồng)`, `Đáp số: <b>${fmt(tot)} đồng</b>.`)});
+};
+const gDv2Hoc = lv => {   // giờ phút
+  const m = R(2, lv === 1 ? 4 : 6), h = R(1, 2), p = R(10, 50), per = h * 60 + p, tot = m * per;
+  return h3(lv, {text:`Bạn Mai ôn bài <b>${m} buổi</b>, mỗi buổi ôn <b>${h} giờ ${p} phút</b>. Hỏi bạn Mai ôn bài tất cả bao nhiêu phút?`,
+    what:'Tổng số phút bạn Mai ôn bài', whatWrong:['Số phút của một buổi ôn bài', 'Số giờ bạn Mai ôn bài', 'Số buổi bạn Mai ôn bài'],
+    plan:'Đổi thời gian một buổi ra phút (1 giờ = 60 phút), rồi nhân với số buổi', planWrong:[`Cộng ${h} + ${p}, rồi nhân với ${m}`, `Đổi 1 giờ = 100 phút, rồi nhân với ${m}`, `Lấy ${m} cộng với số phút của một buổi`],
+    planHint:'1 giờ = 60 phút. Trước hết đổi thời gian một buổi ra cùng một đơn vị (phút).',
+    chain1:`Một buổi: ${h} × 60 + ${p} = [_] (phút)<br>${m} buổi: ${per} × ${m} = [_] (phút)`, chain2:`Một buổi ôn: [_] phút<br>${m} buổi ôn: [_] phút`, chainAns:[per, tot], finTpl:'[_] phút', fin:tot,
+    sol:BG(`Một buổi ôn: ${h} × 60 + ${p} = ${per} (phút)`, `${m} buổi ôn: ${per} × ${m} = ${tot} (phút)`, `Đáp số: <b>${tot} phút</b>.`)});
+};
+const gCt2Lon = lv => {   // tổng hiệu → số lớn
+  const s = R(lv === 1 ? 20 : 60, lv === 1 ? 90 : 400), h = 2 * R(lv === 1 ? 3 : 8, lv === 1 ? 20 : 60), S = (2 * s + h) * 100, hh = h * 100, big = (s + h) * 100, w = Math.round(S + hh);
+  return h3(lv, {text:`An và Bình góp tiền mua sách được tất cả <b>${fmt(S)} đồng</b>. An góp nhiều hơn Bình <b>${fmt(hh)} đồng</b>. Hỏi An góp bao nhiêu tiền?`,
+    what:'Số tiền An góp', whatWrong:['Số tiền Bình góp', 'Tổng số tiền hai bạn góp', 'Số tiền An góp nhiều hơn Bình'],
+    plan:'Lấy tổng cộng hiệu rồi chia 2 (số lớn = (tổng + hiệu) : 2)', planWrong:['Lấy tổng trừ hiệu rồi chia 2', 'Lấy tổng cộng hiệu rồi nhân 2', 'Lấy tổng chia 2'],
+    planHint:'Biết tổng và hiệu: Số lớn = (tổng + hiệu) : 2; số bé = (tổng − hiệu) : 2. Hỏi số lớn hay số bé?',
+    chain1:`Hai lần số của An: ${fmt(S)} + ${fmt(hh)} = [_] (đồng)<br>Số tiền An góp: ${fmt(w)} : 2 = [_] (đồng)`, chain2:`Hai lần số tiền của An: [_] đồng<br>Số tiền An góp: [_] đồng`, chainAns:[w, big], finTpl:'[_] đồng', fin:big,
+    sol:BG(`Hai lần số tiền của An: ${fmt(S)} + ${fmt(hh)} = ${fmt(w)} (đồng)`, `An góp: ${fmt(w)} : 2 = ${fmt(big)} (đồng)`, `Đáp số: <b>${fmt(big)} đồng</b>.`)});
+};
+const gCt2Nhom = lv => {   // tính thuận tiện
+  const k = R(1, lv === 1 ? 4 : 8) * 1000, a = R(1, 9) * 100 + R(0, 4) * 10 + 50 + (lv > 1 ? 1000 * R(1, 6) : 0), c = k - (a % 1000), b = R(1, 9) * 100 + 50 + (lv > 1 ? 1000 * R(1, 6) : 0), d = 1000 * Math.ceil(b / 1000) - b + (lv > 1 ? 1000 * R(1, 3) : 0), s1 = a + c, s2 = b + d, T = s1 + s2;
+  if (c <= 0 || d <= 0) return gCt2Nhom(lv);
+  return h3(lv, {text:`Bốn tổ công nhân làm được lần lượt <b>${fmt(a)}</b>, <b>${fmt(b)}</b>, <b>${fmt(c)}</b> và <b>${fmt(d)}</b> sản phẩm. Hỏi cả bốn tổ làm được tất cả bao nhiêu sản phẩm? (Hãy ghép cặp để tính thuận tiện.)`,
+    what:'Tổng số sản phẩm của cả bốn tổ', whatWrong:['Số sản phẩm của tổ làm nhiều nhất', 'Số sản phẩm của hai tổ đầu', 'Số sản phẩm tổ làm nhiều hơn tổ làm ít'],
+    plan:`Ghép ${fmt(a)} với ${fmt(c)} và ${fmt(b)} với ${fmt(d)} vì mỗi cặp cho tổng tròn nghìn, rồi cộng hai kết quả`, planWrong:[`Ghép ${fmt(a)} với ${fmt(b)} rồi trừ cho ${fmt(c)}`, `Lấy ${fmt(a)} trừ ${fmt(c)}, ${fmt(b)} trừ ${fmt(d)} rồi cộng`, `Lấy ${fmt(a)} nhân ${fmt(b)}`],
+    planHint:'Tính chất kết hợp: ghép các số có tổng tròn chục, tròn trăm, tròn nghìn để tính nhẩm cho nhanh.',
+    chain1:`${fmt(a)} + ${fmt(c)} = [_]<br>${fmt(b)} + ${fmt(d)} = [_]<br>Tổng: ${fmt(s1)} + ${fmt(s2)} = [_]`, chain2:`Tổng của cặp thứ nhất: [_]<br>Tổng của cặp thứ hai: [_]<br>Tổng cả bốn tổ: [_]`, chainAns:[s1, s2, T], finTpl:'[_] sản phẩm', fin:T,
+    sol:BG(`(${fmt(a)} + ${fmt(c)}) + (${fmt(b)} + ${fmt(d)})`, `= ${fmt(s1)} + ${fmt(s2)} = ${fmt(T)} (sản phẩm)`, `Đáp số: <b>${fmt(T)} sản phẩm</b>.`)});
+};
+const gCt2Nguoc = lv => {   // tính ngược
+  const x = R(lv === 1 ? 500 : 2000, lv === 1 ? 5000 : 40000), p = R(lv === 1 ? 100 : 500, lv === 1 ? 900 : 9000), q = R(lv === 1 ? 100 : 500, lv === 1 ? 900 : 9000), r = x + p - q;
+  if (r <= 0) return gCt2Nguoc(lv);
+  return h3(lv, {text:`An nghĩ ra một số. Nếu cộng số đó với <b>${fmt(p)}</b> rồi trừ đi <b>${fmt(q)}</b> thì được kết quả là <b>${fmt(r)}</b>. Hỏi An đã nghĩ ra số nào?`,
+    what:'Số mà An đã nghĩ ra', whatWrong:['Kết quả sau khi tính', `Số được cộng thêm (${fmt(p)})`, `Số bị trừ đi (${fmt(q)})`],
+    plan:`Làm ngược lại: lấy kết quả cộng ${fmt(q)} (ngược với trừ), rồi trừ đi ${fmt(p)} (ngược với cộng)`, planWrong:[`Lấy kết quả trừ ${fmt(q)}, rồi trừ ${fmt(p)}`, `Lấy kết quả cộng ${fmt(q)}, rồi cộng ${fmt(p)}`, `Lấy kết quả cộng ${fmt(p)}, rồi trừ ${fmt(q)}`],
+    planHint:'Tính ngược từ cuối về đầu, mỗi phép tính đổi thành phép tính ngược lại (cộng ↔ trừ).',
+    chain1:`Trước khi trừ ${fmt(q)}: ${fmt(r)} + ${fmt(q)} = [_]<br>Số An nghĩ: ${fmt(r + q)} − ${fmt(p)} = [_]`, chain2:`Số trước khi trừ ${fmt(q)}: [_]<br>Số An đã nghĩ: [_]`, chainAns:[r + q, x], finTpl:'[_]', fin:x,
+    sol:BG(`Số trước khi trừ ${fmt(q)}: ${fmt(r)} + ${fmt(q)} = ${fmt(r + q)}`, `Số An nghĩ: ${fmt(r + q)} − ${fmt(p)} = ${fmt(x)}`, `Thử lại: ${fmt(x)} + ${fmt(p)} − ${fmt(q)} = ${fmt(r)} ✓`, `Đáp số: <b>${fmt(x)}</b>.`)});
+};
+const gVg2Cn = lv => {   // chu vi → chiều dài
+  const w = R(lv === 1 ? 6 : 15, lv === 1 ? 20 : 60), L = w + R(3, lv === 1 ? 15 : 40), P = 2 * (L + w), hf = L + w;
+  return h3(lv, {text:`Một mảnh đất hình chữ nhật có chu vi <b>${P} m</b>, chiều rộng <b>${w} m</b>. Hỏi chiều dài mảnh đất là bao nhiêu mét?`,
+    what:'Chiều dài của mảnh đất', whatWrong:['Chiều rộng của mảnh đất', 'Chu vi của mảnh đất', 'Diện tích của mảnh đất'],
+    plan:'Tìm nửa chu vi (chu vi chia 2), rồi lấy nửa chu vi trừ đi chiều rộng', planWrong:[`Lấy ${P} trừ ${w}`, `Lấy ${P} chia ${w}`, `Lấy chu vi chia 2, rồi cộng với chiều rộng`],
+    planHint:'Chu vi = (dài + rộng) × 2, nên nửa chu vi = dài + rộng. Biết rộng thì tìm được dài.',
+    chain1:`Nửa chu vi: ${P} : 2 = [_] (m)<br>Chiều dài: ${hf} − ${w} = [_] (m)`, chain2:`Nửa chu vi: [_] m<br>Chiều dài: [_] m`, chainAns:[hf, L], finTpl:'[_] m', fin:L,
+    sol:BG(`Nửa chu vi: ${P} : 2 = ${hf} (m)`, `Chiều dài: ${hf} − ${w} = ${L} (m)`, `Đáp số: <b>${L} m</b>.`)});
+};
+const gVg2Thoi = lv => {   // hình thoi → hình chữ nhật
+  const c = R(lv === 1 ? 6 : 12, lv === 1 ? 20 : 40), w = R(Math.ceil(c / 2), c + Math.floor(c / 2) - 1), L = 2 * c - w, pp = 4 * c;
+  return h3(lv, {text:`Một khung dây thép hình thoi có cạnh <b>${c} cm</b>. Người ta uốn lại sợi dây đó (vừa hết) thành khung hình chữ nhật có chiều rộng <b>${w} cm</b>. Hỏi chiều dài khung hình chữ nhật là bao nhiêu xăng-ti-mét?`,
+    what:'Chiều dài của khung hình chữ nhật', whatWrong:['Chu vi của khung hình thoi', 'Chiều rộng của khung hình chữ nhật', 'Độ dài mỗi cạnh của khung hình thoi'],
+    plan:'Tìm chu vi hình thoi (cạnh × 4) cũng là chu vi hình chữ nhật, tìm nửa chu vi, rồi trừ chiều rộng', planWrong:[`Lấy ${c} trừ ${w}`, `Lấy ${c} nhân 2, rồi cộng ${w}`, `Lấy chu vi hình thoi trừ chiều rộng ${w}`],
+    planHint:'Uốn lại vừa hết sợi dây nên chu vi hai hình bằng nhau. Hình thoi có 4 cạnh bằng nhau.',
+    chain1:`Chu vi hình thoi: ${c} × 4 = [_] (cm)<br>Nửa chu vi: ${pp} : 2 = [_] (cm)<br>Chiều dài: ${2 * c} − ${w} = [_] (cm)`, chain2:`Chu vi (hình thoi và hình chữ nhật): [_] cm<br>Nửa chu vi: [_] cm<br>Chiều dài: [_] cm`, chainAns:[pp, 2 * c, L], finTpl:'[_] cm', fin:L,
+    sol:BG(`Chu vi khung hình thoi: ${c} × 4 = ${pp} (cm)`, `Nửa chu vi hình chữ nhật: ${pp} : 2 = ${2 * c} (cm)`, `Chiều dài: ${2 * c} − ${w} = ${L} (cm)`, `Đáp số: <b>${L} cm</b>.`)});
+};
+const gVg2Bh = lv => {   // chu vi hình bình hành → cạnh kề
+  const a = R(lv === 1 ? 6 : 15, lv === 1 ? 20 : 55), b = a + R(2, lv === 1 ? 12 : 30), P = 2 * (a + b), hf = a + b;
+  return h3(lv, {text:`Một hình bình hành có chu vi <b>${P} cm</b>, một cạnh dài <b>${a} cm</b>. Hỏi cạnh liên tiếp với cạnh đó dài bao nhiêu xăng-ti-mét?`,
+    what:'Độ dài cạnh liên tiếp với cạnh đã cho', whatWrong:['Chu vi của hình bình hành', 'Độ dài cạnh đã cho', 'Tổng độ dài hai cạnh liên tiếp (nửa chu vi)'],
+    plan:'Tìm nửa chu vi (tổng hai cạnh liên tiếp), rồi lấy nửa chu vi trừ đi cạnh đã biết', planWrong:[`Lấy ${P} trừ ${a}`, `Lấy ${P} chia 4`, `Lấy chu vi chia 2, rồi cộng với ${a}`],
+    planHint:'Hình bình hành có các cạnh đối bằng nhau: chu vi = (hai cạnh liên tiếp cộng lại) × 2.',
+    chain1:`Nửa chu vi: ${P} : 2 = [_] (cm)<br>Cạnh còn lại: ${hf} − ${a} = [_] (cm)`, chain2:`Nửa chu vi: [_] cm<br>Cạnh liên tiếp: [_] cm`, chainAns:[hf, b], finTpl:'[_] cm', fin:b,
+    sol:BG(`Nửa chu vi: ${P} : 2 = ${hf} (cm)`, `Cạnh liên tiếp dài: ${hf} − ${a} = ${b} (cm)`, `Đáp số: <b>${b} cm</b>.`)});
+};
+
+lesson(1,'gt3b-on-tap','✍️ Giải toán 3 bước (bài 2): ôn tập và bổ sung','Hiểu đề – Lập kế hoạch – Giải: chia có dư (số xe), nhân rồi trừ (trồng cây), tuổi mẹ và con.',[gOn2Xe,gOn2Cay,gOn2Tuoi]);
+lesson(2,'gt3b-goc','✍️ Giải toán 3 bước (bài 2): góc và đơn vị đo góc','Hiểu đề – Lập kế hoạch – Giải: hai góc kề bù, kim phút đồng hồ quay, góc vuông chia thành ba góc.',[gGocBu,gGocPhut,gGocVuong]);
+lesson(3,'gt3b-so-nhieu-chu-so','✍️ Giải toán 3 bước (bài 2): số có nhiều chữ số','Hiểu đề – Lập kế hoạch – Giải: hơn – kém rồi tổng, giá trị của chữ số, ba số tự nhiên liên tiếp.',[gSo2Ba,gSo2Hang,gSo2Lt]);
+lesson(4,'gt3b-don-vi-do','✍️ Giải toán 3 bước (bài 2): đơn vị đo đại lượng','Hiểu đề – Lập kế hoạch – Giải: tạ – yến, diện tích m² và tiền lát nền, giờ – phút.',[gDv2Bao,gDv2Gach,gDv2Hoc]);
+lesson(5,'gt3b-cong-tru','✍️ Giải toán 3 bước (bài 2): phép cộng, phép trừ','Hiểu đề – Lập kế hoạch – Giải: tìm số lớn khi biết tổng và hiệu, tính thuận tiện, tính ngược.',[gCt2Lon,gCt2Nhom,gCt2Nguoc]);
+lesson(6,'gt3b-vuong-song-song','✍️ Giải toán 3 bước (bài 2): hình thoi, hình bình hành','Hiểu đề – Lập kế hoạch – Giải: tìm cạnh khi biết chu vi, hình thoi uốn thành hình chữ nhật.',[gVg2Cn,gVg2Thoi,gVg2Bh]);
+
+/* ---- ✍️ Giải toán 3 bước cho học kì 2 (chủ đề 8–12) ---- */
+const gH8Gao = lv => {
+  const t = pick([5, 10, 20]), m = R(2, lv === 1 ? 5 : 9), x = R(lv === 1 ? 20 : 40, lv === 1 ? 80 : 150), bán = m * x, c = R(lv === 1 ? 4 : 8, lv === 1 ? 12 : 30), còn = c * t, n = bán + còn;
+  return h3(lv, {text:`Cửa hàng nhập <b>${fmt(n)} kg</b> gạo. Trong <b>${m} ngày</b>, mỗi ngày bán <b>${x} kg</b>. Số gạo còn lại được đóng đều vào các túi, mỗi túi <b>${t} kg</b>. Hỏi đóng được bao nhiêu túi?`,
+    what:'Số túi gạo đóng được', whatWrong:['Số ki-lô-gam gạo đã bán', 'Số ki-lô-gam gạo còn lại', 'Số ki-lô-gam gạo trong mỗi túi'],
+    plan:`Tìm số gạo đã bán (${m} × ${x}), tìm số gạo còn lại (trừ), rồi chia cho ${t} kg mỗi túi`, planWrong:[`Lấy ${fmt(n)} chia ${t}`, `Lấy ${fmt(n)} trừ ${x}, rồi chia ${t}`, `Lấy số gạo đã bán chia ${t}`],
+    planHint:'Chỉ số gạo còn lại (sau khi bán) mới được đóng túi. Cần biết đã bán bao nhiêu trước.',
+    chain1:`Gạo đã bán: ${m} × ${x} = [_] (kg)<br>Gạo còn lại: ${fmt(n)} − ${fmt(bán)} = [_] (kg)<br>Số túi: ${fmt(còn)} : ${t} = [_] (túi)`, chain2:`Gạo đã bán: [_] kg<br>Gạo còn lại: [_] kg<br>Số túi gạo: [_] túi`, chainAns:[bán, còn, c], finTpl:'[_] túi', fin:c,
+    sol:BG(`Gạo đã bán: ${m} × ${x} = ${fmt(bán)} (kg)`, `Gạo còn lại: ${fmt(n)} − ${fmt(bán)} = ${fmt(còn)} (kg)`, `Số túi gạo: ${fmt(còn)} : ${t} = ${c} (túi)`, `Đáp số: <b>${c} túi</b>.`)});
+};
+const gH8Tbc = lv => {
+  const a = R(lv === 1 ? 20 : 40, lv === 1 ? 60 : 90), b = R(lv === 1 ? 20 : 40, lv === 1 ? 60 : 90), avg = R(Math.max(a, b) - 5 > 10 ? 25 : 30, lv === 1 ? 70 : 100), tot = 3 * avg, c = tot - a - b;
+  if (c <= 0) return gH8Tbc(lv);
+  return h3(lv, {text:`Ba tháng đầu năm, một cửa hàng bán trung bình mỗi tháng <b>${avg} chiếc</b> quạt. Tháng 1 bán <b>${a} chiếc</b>, tháng 2 bán <b>${b} chiếc</b>. Hỏi tháng 3 cửa hàng bán được bao nhiêu chiếc quạt?`,
+    what:'Số quạt bán được trong tháng 3', whatWrong:['Số quạt bán trung bình mỗi tháng', 'Tổng số quạt bán trong ba tháng', 'Tổng số quạt bán trong tháng 1 và tháng 2'],
+    plan:`Tìm tổng số quạt ba tháng (${avg} × 3), rồi trừ đi số quạt tháng 1 và tháng 2`, planWrong:[`Lấy ${avg} trừ ${a} và ${b}`, `Lấy ${a} cộng ${b}, rồi chia 3`, `Lấy ${a} cộng ${b} cộng ${avg}`],
+    planHint:'Trung bình cộng = tổng : số số hạng, nên tổng = trung bình cộng × số số hạng.',
+    chain1:`Tổng số quạt ba tháng: ${avg} × 3 = [_] (chiếc)<br>Tháng 1 và tháng 2: ${a} + ${b} = [_] (chiếc)<br>Tháng 3: ${tot} − ${a + b} = [_] (chiếc)`, chain2:`Tổng số quạt ba tháng: [_] chiếc<br>Hai tháng đầu: [_] chiếc<br>Tháng 3: [_] chiếc`, chainAns:[tot, a + b, c], finTpl:'[_] chiếc', fin:c,
+    sol:BG(`Tổng số quạt ba tháng: ${avg} × 3 = ${tot} (chiếc)`, `Tháng 1 và tháng 2 bán: ${a} + ${b} = ${a + b} (chiếc)`, `Tháng 3 bán: ${tot} − ${a + b} = ${c} (chiếc)`, `Đáp số: <b>${c} chiếc</b>.`)});
+};
+const gH8Hang = lv => {
+  const a = R(lv === 1 ? 2 : 3, lv === 1 ? 6 : 12) * 10, n = R(lv === 1 ? 3 : 5, lv === 1 ? 6 : 12);
+  const k2 = pick([2, 5]);
+  return h3(lv, {text:`Một đội công nhân làm đường, mỗi ngày làm được <b>${a} m</b>. Trong <b>${n} ngày</b> đội làm được một đoạn đường rồi chia đều đoạn đường đó cho <b>${k2} tổ</b>. Hỏi mỗi tổ được giao làm bao nhiêu mét đường?`,
+    what:'Số mét đường mỗi tổ được giao', whatWrong:[`Số mét đường đội làm trong ${n} ngày`, 'Số mét đường đội làm trong một ngày', 'Số tổ của đội'],
+    plan:`Tìm số mét đường làm trong ${n} ngày (${a} × ${n}), rồi chia đều cho ${k2} tổ`, planWrong:[`Lấy ${a} chia ${k2}`, `Lấy ${a} cộng ${n}, rồi chia ${k2}`, `Lấy ${a} nhân ${k2}`],
+    planHint:'Muốn chia cho các tổ phải biết cả đoạn đường dài bao nhiêu.',
+    chain1:`Đoạn đường làm trong ${n} ngày: ${a} × ${n} = [_] (m)<br>Mỗi tổ: ${a * n} : ${k2} = [_] (m)`, chain2:`Đoạn đường làm trong ${n} ngày: [_] m<br>Mỗi tổ được giao: [_] m`, chainAns:[a * n, a * n / k2], finTpl:'[_] m', fin:a * n / k2,
+    sol:BG(`Đoạn đường làm trong ${n} ngày: ${a} × ${n} = ${a * n} (m)`, `Mỗi tổ được giao: ${a * n} : ${k2} = ${a * n / k2} (m)`, `Đáp số: <b>${a * n / k2} m</b>.`)});
+};
+const gH9Tb = lv => {
+  const avg = R(lv === 1 ? 20 : 30, lv === 1 ? 50 : 80), d = [R(1, 9), R(1, 9), R(1, 9)], v = [avg - d[0], avg + d[0] - d[1], avg + d[1] - d[2], avg + d[2]];
+  const T = v[0] + v[1] + v[2] + v[3];
+  return h3(lv, {text:`Biểu đồ cột cho biết số quyển sách bốn tổ lớp 4A quyên góp: Tổ 1 được <b>${v[0]}</b> quyển, tổ 2 được <b>${v[1]}</b> quyển, tổ 3 được <b>${v[2]}</b> quyển, tổ 4 được <b>${v[3]}</b> quyển. Hỏi trung bình mỗi tổ quyên góp được bao nhiêu quyển sách?`,
+    what:'Số quyển sách trung bình mỗi tổ quyên góp', whatWrong:['Tổng số quyển sách của cả bốn tổ', 'Số quyển sách của tổ nhiều nhất', 'Số quyển sách của tổ ít nhất'],
+    plan:'Tìm tổng số quyển sách của cả bốn tổ, rồi chia cho 4', planWrong:['Lấy số sách của tổ nhiều nhất chia 4', 'Lấy tổng số sách chia 3', 'Lấy số sách của tổ nhiều nhất cộng tổ ít nhất'],
+    planHint:'Trung bình cộng của 4 số bằng tổng của 4 số chia cho 4.',
+    chain1:`Tổng số sách: ${v[0]} + ${v[1]} + ${v[2]} + ${v[3]} = [_] (quyển)<br>Trung bình mỗi tổ: ${T} : 4 = [_] (quyển)`, chain2:`Tổng số sách: [_] quyển<br>Trung bình mỗi tổ: [_] quyển`, chainAns:[T, avg * 1 + 0 === T / 4 ? avg : T / 4], finTpl:'[_] quyển', fin:T / 4,
+    sol:BG(`Tổng số sách: ${v[0]} + ${v[1]} + ${v[2]} + ${v[3]} = ${T} (quyển)`, `Trung bình mỗi tổ: ${T} : 4 = ${T / 4} (quyển)`, `Đáp số: <b>${T / 4} quyển</b>.`)});
+};
+const gH9Hon = lv => {
+  const v = shuffle([R(20, 40), R(41, 60), R(61, 90)].slice()), lo = Math.min(...v), hi = Math.max(...v), mi = v.reduce((a, b) => a + b) - lo - hi, dif = hi - lo;
+  return h3(lv, {text:`Biểu đồ cột cho biết số xe đạp cửa hàng bán trong ba tháng: tháng 1 bán <b>${v[0]}</b> chiếc, tháng 2 bán <b>${v[1]}</b> chiếc, tháng 3 bán <b>${v[2]}</b> chiếc. Hỏi tháng bán nhiều nhất bán hơn tháng bán ít nhất bao nhiêu chiếc xe đạp?`,
+    what:'Số xe tháng nhiều nhất bán hơn tháng ít nhất', whatWrong:['Tổng số xe bán trong ba tháng', 'Số xe bán được trong tháng nhiều nhất', 'Số xe trung bình mỗi tháng'],
+    plan:'Đọc biểu đồ để tìm số xe nhiều nhất và ít nhất, rồi lấy số lớn trừ số bé', planWrong:['Cộng số xe nhiều nhất với số xe ít nhất', 'Lấy số xe tháng 3 trừ số xe tháng 1', 'Cộng cả ba số rồi chia 3'],
+    planHint:'"Hơn bao nhiêu" nghĩa là tìm hiệu của hai số: số lớn − số bé.',
+    chain1:`Số xe nhiều nhất: [_] (chiếc)<br>Số xe ít nhất: [_] (chiếc)<br>Hơn nhau: ${hi} − ${lo} = [_] (chiếc)`, chain2:`Số xe nhiều nhất: [_] chiếc<br>Số xe ít nhất: [_] chiếc<br>Hơn nhau: [_] chiếc`, chainAns:[hi, lo, dif], finTpl:'[_] chiếc', fin:dif,
+    sol:BG(`Số xe nhiều nhất: ${hi} chiếc; số xe ít nhất: ${lo} chiếc`, `Hơn nhau: ${hi} − ${lo} = ${dif} (chiếc)`, `Đáp số: <b>${dif} chiếc</b>.`)});
+};
+const gH9Xu = lv => {
+  const n = R(lv === 1 ? 20 : 30, lv === 1 ? 40 : 80), a = R(Math.floor(n * 0.2), Math.floor(n * 0.45)), b = n - a, dif = b - a;
+  return h3(lv, {text:`Bình tung một đồng xu <b>${n} lần</b> và kiểm đếm kết quả. Mặt sấp xuất hiện <b>${a} lần</b>, các lần còn lại là mặt ngửa. Hỏi mặt ngửa xuất hiện nhiều hơn mặt sấp bao nhiêu lần?`,
+    what:'Số lần mặt ngửa xuất hiện nhiều hơn mặt sấp', whatWrong:['Số lần mặt ngửa xuất hiện', 'Số lần mặt sấp xuất hiện', 'Tổng số lần tung đồng xu'],
+    plan:`Tìm số lần mặt ngửa (${n} − ${a}), rồi lấy số lần mặt ngửa trừ số lần mặt sấp`, planWrong:[`Lấy ${n} trừ ${a}`, `Lấy ${n} cộng ${a}`, `Lấy ${a} chia ${n}`],
+    planHint:'Mỗi lần tung chỉ có một trong hai kết quả: sấp hoặc ngửa. Số lần ngửa = tổng số lần − số lần sấp.',
+    chain1:`Số lần mặt ngửa: ${n} − ${a} = [_] (lần)<br>Ngửa nhiều hơn sấp: ${b} − ${a} = [_] (lần)`, chain2:`Số lần mặt ngửa: [_] lần<br>Ngửa nhiều hơn sấp: [_] lần`, chainAns:[b, dif], finTpl:'[_] lần', fin:dif,
+    sol:BG(`Số lần mặt ngửa: ${n} − ${a} = ${b} (lần)`, `Mặt ngửa nhiều hơn mặt sấp: ${b} − ${a} = ${dif} (lần)`, `Đáp số: <b>${dif} lần</b>.`)});
+};
+const gH10Banh = lv => {
+  const d = R(lv === 1 ? 6 : 8, lv === 1 ? 10 : 16), a = R(1, Math.floor(d / 3)), b = R(1, Math.floor(d / 3)), left = d - a - b;
+  return h3(lv, {text:`Cô giáo chia một chiếc bánh thành <b>${d} phần bằng nhau</b>. An ăn <b>${a} phần</b>, Bình ăn <b>${b} phần</b>. Hỏi còn lại bao nhiêu phần bánh? Còn lại bằng phân số nào của chiếc bánh?`,
+    what:`Số phần bánh còn lại (trong ${d} phần)`, whatWrong:['Số phần bánh An ăn', 'Số phần bánh hai bạn đã ăn', `Số phần bánh cô chia (${d} phần)`],
+    plan:`Tìm số phần hai bạn đã ăn (${a} + ${b}), rồi lấy ${d} trừ đi số đó`, planWrong:[`Lấy ${d} cộng ${a} cộng ${b}`, `Lấy ${d} trừ ${a}`, `Lấy ${a} nhân ${b}`],
+    planHint:`Cả chiếc bánh là ${d} phần bằng nhau (tức ${F(d, d)}). Phần còn lại = tổng số phần − số phần đã ăn.`,
+    chain1:`Số phần đã ăn: ${a} + ${b} = [_] (phần)<br>Số phần còn lại: ${d} − ${a + b} = [_] (phần)`, chain2:`Số phần hai bạn đã ăn: [_] phần<br>Số phần còn lại: [_] phần`, chainAns:[a + b, left], finTpl:'[_] phần', fin:left,
+    sol:BG(`Số phần bánh đã ăn: ${a} + ${b} = ${a + b} (phần)`, `Số phần bánh còn lại: ${d} − ${a + b} = ${left} (phần)`, `Còn lại ${F(left, d)} chiếc bánh.`, `Đáp số: <b>${left} phần</b>.`)});
+};
+const gH10Rg = lv => {
+  const g = pick(lv === 1 ? [2, 3, 5] : [4, 6, 7, 9]), p0 = pick([1, 2, 3, 4, 5, 7]), q0 = pick([2, 3, 5, 7, 8, 9, 10, 11]).valueOf();
+  const gcd2 = (a, b) => b ? gcd2(b, a % b) : a; if (p0 >= q0 || gcd2(p0, q0) !== 1) return gH10Rg(lv);
+  const p = p0 * g, q = q0 * g, S = p0 + q0;
+  return h3(lv, {text:`Rút gọn phân số ${F(p, q)} thành phân số tối giản. Hỏi tổng của tử số và mẫu số của phân số tối giản đó là bao nhiêu?`,
+    what:`Tổng tử số và mẫu số của phân số tối giản của ${F(p, q)}`, whatWrong:[`Tổng của ${p} và ${q}`, 'Tử số của phân số tối giản', 'Mẫu số của phân số tối giản'],
+    plan:'Tìm một số tự nhiên lớn nhất mà cả tử số và mẫu số cùng chia hết, chia cả hai cho số đó, rồi cộng tử số mới với mẫu số mới', planWrong:['Chia tử số cho mẫu số rồi cộng', 'Chia chỉ tử số cho số chung, giữ nguyên mẫu số', 'Cộng cả tử số và mẫu số với cùng một số'],
+    planHint:'Rút gọn là chia cả tử số và mẫu số cho cùng một số tự nhiên lớn hơn 1 để được phân số bằng nó.',
+    chain1:`Chia cả tử số và mẫu số cho ${g}<br>Tử số mới: ${p} : ${g} = [_]<br>Mẫu số mới: ${q} : ${g} = [_]<br>Tổng: ${p0} + ${q0} = [_]`, chain2:`Tử số mới: [_]<br>Mẫu số mới: [_]<br>Tổng của tử số và mẫu số mới: [_]`, chainAns:[p0, q0, S], finTpl:'[_]', fin:S,
+    sol:BG(`${F(p, q)} = ${F(p + ' : ' + g, q + ' : ' + g)} = ${F(p0, q0)} (đã tối giản vì ${p0} và ${q0} không cùng chia hết cho số nào lớn hơn 1)`, `Tổng tử số và mẫu số: ${p0} + ${q0} = ${S}`, `Đáp số: <b>${S}</b>.`)});
+};
+const gH10Ss = lv => {
+  const m = R(2, lv === 1 ? 4 : 7), d = 2 * m, b = pick([...Array(d - 1).keys()].map(x => x + 1).filter(x => x !== m)), dif = Math.abs(m - b), more = m > b ? 'An' : 'Bình';
+  return h3(lv, {text:`Một chiếc bánh được cắt thành <b>${d} phần bằng nhau</b>. An ăn <b>${F(1, 2)}</b> chiếc bánh, Bình ăn <b>${b} phần</b>. Hỏi ${more} ăn nhiều hơn bạn kia bao nhiêu phần bánh (tính theo phần của chiếc bánh đã cắt)?`,
+    what:`Số phần bánh mà ${more} ăn nhiều hơn bạn kia`, whatWrong:['Số phần bánh An ăn', 'Số phần bánh Bình ăn', 'Tổng số phần bánh hai bạn ăn'],
+    plan:`Đổi ${F(1, 2)} chiếc bánh ra số phần (${d} : 2), rồi so sánh với ${b} phần và tìm hiệu`, planWrong:[`Lấy ${d} cộng ${b}`, `Coi An ăn 1 phần, rồi so sánh với ${b}`, `Lấy ${d} nhân ${b}`],
+    planHint:`${F(1, 2)} chiếc bánh là một nửa, tức bằng một nửa của ${d} phần.`,
+    chain1:`An ăn: ${d} : 2 = [_] (phần)<br>Bình ăn: ${b} phần<br>Hơn nhau: [_] (phần)`, chain2:`Số phần An ăn: [_] phần<br>Số phần Bình ăn: ${b} phần<br>Hơn nhau: [_] phần`, chainAns:[m, dif], finTpl:'[_] phần', fin:dif,
+    sol:BG(`An ăn ${F(1, 2)} chiếc bánh = ${d} : 2 = ${m} (phần)`, `Bình ăn ${b} phần.`, `${m > b ? 'An' : 'Bình'} ăn nhiều hơn: ${Math.max(m, b)} − ${Math.min(m, b)} = ${dif} (phần)`, `Đáp số: <b>${dif} phần</b>.`)});
+};
+const gH11Son = lv => {
+  const d = R(lv === 1 ? 8 : 10, lv === 1 ? 12 : 20), a = R(2, Math.floor(d / 3)), b = R(2, Math.floor(d / 3)), left = d - a - b;
+  return h3(lv, {text:`Một thùng sơn được chia thành <b>${d} phần bằng nhau</b>. Buổi sáng người thợ dùng <b>${F(a, d)}</b> thùng, buổi chiều dùng <b>${F(b, d)}</b> thùng. Hỏi còn lại bao nhiêu phần trong ${d} phần của thùng sơn?`,
+    what:'Số phần sơn còn lại (tính theo phần bằng nhau của thùng)', whatWrong:['Số phần sơn dùng buổi sáng', 'Số phần sơn dùng cả hai buổi', `Tổng số phần của thùng sơn (${d} phần)`],
+    plan:`Cộng hai phân số cùng mẫu số (cộng các tử số) được phần sơn đã dùng, rồi lấy ${F(d, d)} trừ đi`, planWrong:[`Cộng cả tử số và mẫu số của hai phân số`, `Lấy ${F(a, d)} trừ ${F(b, d)}`, `Lấy ${F(d, d)} cộng ${F(a, d)} và ${F(b, d)}`],
+    planHint:`Cùng mẫu số thì cộng, trừ các tử số và giữ nguyên mẫu số. Cả thùng sơn là ${F(d, d)}.`,
+    chain1:`Đã dùng: ${F(a, d)} + ${F(b, d)} = ${F(a + b, d)}, tức là [_] (phần)<br>Còn lại: ${d} − ${a + b} = [_] (phần)`, chain2:`Số phần sơn đã dùng: [_] phần<br>Số phần sơn còn lại: [_] phần`, chainAns:[a + b, left], finTpl:'[_] phần', fin:left,
+    sol:BG(`Đã dùng: ${F(a, d)} + ${F(b, d)} = ${F(a + b, d)}`, `Còn lại: ${F(d, d)} − ${F(a + b, d)} = ${F(left, d)} (thùng sơn)`, `Đáp số: <b>${left} phần</b> (tức ${F(left, d)} thùng).`)});
+};
+const gH11Voi = lv => {
+  const k = R(2, lv === 1 ? 4 : 6), d = 2 * k, b = R(1, d - k - 1 || 1), tot = k + b;
+  if (tot >= d) return gH11Voi(lv);
+  return h3(lv, {text:`Một bể nước chia thành <b>${d} phần bằng nhau</b>. Sau 1 giờ, vòi thứ nhất chảy được <b>${F(1, 2)}</b> bể, vòi thứ hai chảy được <b>${F(b, d)}</b> bể. Hỏi sau 1 giờ cả hai vòi chảy được bao nhiêu phần trong ${d} phần của bể?`,
+    what:'Số phần của bể mà cả hai vòi chảy được sau 1 giờ', whatWrong:['Số phần vòi thứ nhất chảy được', 'Số phần vòi thứ hai chảy được', `Số phần của cả bể (${d} phần)`],
+    plan:`Quy đồng: đổi ${F(1, 2)} bể thành số phần của ${d} phần, rồi cộng với phần của vòi thứ hai`, planWrong:[`Cộng ${F(1, 2)} với ${F(b, d)} bằng cách cộng tử số và cộng mẫu số`, `Lấy ${F(b, d)} trừ ${F(1, 2)}`, `Coi ${F(1, 2)} là 1 phần rồi cộng ${b}`],
+    planHint:`Hai phân số khác mẫu số phải quy đồng trước khi cộng. ${F(1, 2)} = ${F('…', d)}.`,
+    chain1:`Vòi thứ nhất: ${d} : 2 = [_] (phần)<br>Vòi thứ hai: ${b} phần<br>Cả hai vòi: ${k} + ${b} = [_] (phần)`, chain2:`Số phần vòi thứ nhất chảy: [_] phần<br>Số phần vòi thứ hai chảy: ${b} phần<br>Cả hai vòi: [_] phần`, chainAns:[k, tot], finTpl:'[_] phần', fin:tot,
+    sol:BG(`${F(1, 2)} = ${F(k, d)} (chia cả bể thành ${d} phần, vòi thứ nhất chảy ${k} phần)`, `Cả hai vòi: ${F(k, d)} + ${F(b, d)} = ${F(tot, d)} (bể)`, `Đáp số: <b>${tot} phần</b>.`)});
+};
+const gH11Vuon = lv => {
+  const d = pick([5, 6, 8, 10]), a = R(1, 3), b = R(1, d - a - 1), per = R(lv === 1 ? 20 : 40, lv === 1 ? 60 : 120), A = d * per, ao = d - a - b, S = ao * per;
+  if (ao <= 0) return gH11Vuon(lv);
+  return h3(lv, {text:`Một mảnh vườn rộng <b>${fmt(A)} m²</b>. Người ta trồng hoa trên <b>${F(a, d)}</b> diện tích, trồng rau trên <b>${F(b, d)}</b> diện tích, phần còn lại đào ao. Hỏi diện tích phần đào ao là bao nhiêu mét vuông?`,
+    what:'Diện tích phần đào ao', whatWrong:['Diện tích phần trồng hoa', 'Diện tích phần trồng rau', 'Diện tích cả mảnh vườn'],
+    plan:`Tìm số phần (trong ${d} phần) dành cho ao, tìm diện tích của mỗi phần, rồi nhân lên`, planWrong:[`Lấy ${fmt(A)} nhân ${F(a, d)} nhân ${F(b, d)}`, `Lấy ${F(a, d)} cộng ${F(b, d)} rồi nhân ${fmt(A)}`, `Lấy ${fmt(A)} trừ ${a} trừ ${b}`],
+    planHint:`Cả mảnh vườn là ${d} phần bằng nhau. Số phần của ao = ${d} − (số phần hoa + số phần rau).`,
+    chain1:`Số phần dành cho ao: ${d} − ${a} − ${b} = [_] (phần)<br>Diện tích mỗi phần: ${fmt(A)} : ${d} = [_] (m²)<br>Diện tích ao: ${per} × ${ao} = [_] (m²)`, chain2:`Số phần dành cho ao: [_] phần<br>Diện tích mỗi phần: [_] m²<br>Diện tích ao: [_] m²`, chainAns:[ao, per, S], finTpl:'[_] m²', fin:S,
+    sol:BG(`Số phần dành cho ao: ${d} − ${a} − ${b} = ${ao} (phần), tức ${F(ao, d)} diện tích`, `Diện tích mỗi phần: ${fmt(A)} : ${d} = ${fmt(per)} (m²)`, `Diện tích ao: ${fmt(per)} × ${ao} = ${fmt(S)} (m²)`, `Đáp số: <b>${fmt(S)} m²</b>.`)});
+};
+const gH12Sach = lv => {
+  const d = pick([3, 4, 5, 6, 8]), a = R(1, d - 1), q = R(lv === 1 ? 6 : 12, lv === 1 ? 14 : 30), n = d * q, toan = a * q, khac = n - toan;
+  return h3(lv, {text:`Tủ sách của lớp có <b>${n} quyển</b>, trong đó <b>${F(a, d)}</b> số sách là sách Toán. Hỏi tủ sách có bao nhiêu quyển sách không phải sách Toán?`,
+    what:'Số quyển sách không phải sách Toán', whatWrong:['Số quyển sách Toán', 'Tổng số sách của tủ sách', 'Số quyển sách trong mỗi phần'],
+    plan:`Tìm ${F(a, d)} của ${n} quyển để biết số sách Toán, rồi lấy tổng số sách trừ đi`, planWrong:[`Lấy ${n} chia ${a}, rồi nhân ${d}`, `Tìm ${F(a, d)} của ${n} rồi cộng với ${n}`, `Lấy ${n} trừ ${a} trừ ${d}`],
+    planHint:`Tìm ${F(a, d)} của một số: chia số đó cho ${d} rồi nhân với ${a}.`,
+    chain1:`Mỗi phần: ${n} : ${d} = [_] (quyển)<br>Sách Toán: ${q} × ${a} = [_] (quyển)<br>Sách khác: ${n} − ${toan} = [_] (quyển)`, chain2:`Số quyển trong mỗi phần: [_] quyển<br>Số quyển sách Toán: [_] quyển<br>Số quyển sách khác: [_] quyển`, chainAns:[q, toan, khac], finTpl:'[_] quyển', fin:khac,
+    sol:BG(`Mỗi phần có: ${n} : ${d} = ${q} (quyển)`, `Sách Toán: ${q} × ${a} = ${toan} (quyển)`, `Sách không phải sách Toán: ${n} − ${toan} = ${khac} (quyển)`, `Đáp số: <b>${khac} quyển</b>.`)});
+};
+const gH12Km = lv => {
+  const d = pick([3, 4, 5]), e = pick([2, 3, 4]), a = R(1, d - 1), L0 = d * e * R(lv === 1 ? 3 : 5, lv === 1 ? 6 : 12), x = L0 / d * a, rest = L0 - x, c = R(1, e - 1), y = rest / e * c;
+  return h3(lv, {text:`Một người đi xe đạp quãng đường dài <b>${L0} km</b>. Ngày thứ nhất đi được <b>${F(a, d)}</b> quãng đường. Ngày thứ hai đi được <b>${F(c, e)}</b> quãng đường còn lại. Hỏi ngày thứ hai người đó đi được bao nhiêu ki-lô-mét?`,
+    what:'Số ki-lô-mét đi được trong ngày thứ hai', whatWrong:['Số ki-lô-mét đi được trong ngày thứ nhất', 'Số ki-lô-mét còn lại sau ngày thứ nhất', 'Cả quãng đường'],
+    plan:`Tìm ${F(a, d)} của ${L0} km (ngày thứ nhất), tìm quãng đường còn lại, rồi tìm ${F(c, e)} của quãng đường còn lại`, planWrong:[`Tìm ${F(c, e)} của ${L0} km`, `Lấy ${F(a, d)} cộng ${F(c, e)}, rồi nhân ${L0}`, `Tìm ${F(c, e)} của quãng đường đã đi ngày thứ nhất`],
+    planHint:`"${F(c, e)} quãng đường còn lại" là phân số của quãng đường còn lại, không phải của cả quãng đường.`,
+    chain1:`Ngày thứ nhất: ${L0} : ${d} × ${a} = [_] (km)<br>Còn lại: ${L0} − ${x} = [_] (km)<br>Ngày thứ hai: ${rest} : ${e} × ${c} = [_] (km)`, chain2:`Ngày thứ nhất đi: [_] km<br>Quãng đường còn lại: [_] km<br>Ngày thứ hai đi: [_] km`, chainAns:[x, rest, y], finTpl:'[_] km', fin:y,
+    sol:BG(`Ngày thứ nhất đi: ${L0} : ${d} × ${a} = ${x} (km)`, `Quãng đường còn lại: ${L0} − ${x} = ${rest} (km)`, `Ngày thứ hai đi: ${rest} : ${e} × ${c} = ${y} (km)`, `Đáp số: <b>${y} km</b>.`)});
+};
+const gH12Chai = lv => {
+  const d = pick([2, 4, 5]), n = R(3, lv === 1 ? 10 : 24), chai = n * d, gia = R(lv === 1 ? 2 : 3, lv === 1 ? 5 : 9) * 1000, tien = chai * gia;
+  return h3(lv, {text:`Một thùng chứa <b>${n} lít</b> nước mắm, được rót đầy vào các chai, mỗi chai chứa <b>${F(1, d)} lít</b>. Mỗi chai bán được <b>${fmt(gia)} đồng</b>. Hỏi bán hết số chai đó thì được bao nhiêu tiền?`,
+    what:'Số tiền bán hết số chai nước mắm', whatWrong:['Số chai nước mắm rót được', 'Số lít nước mắm trong thùng', 'Số tiền bán một lít nước mắm'],
+    plan:`Chia ${n} lít cho ${F(1, d)} lít (nhân ${n} với ${d}) để biết số chai, rồi nhân với giá mỗi chai`, planWrong:[`Lấy ${n} chia ${d}, rồi nhân giá mỗi chai`, `Lấy ${n} nhân ${F(1, d)}, rồi nhân giá mỗi chai`, `Lấy ${n} cộng ${d}, rồi nhân giá mỗi chai`],
+    planHint:`Chia cho một phân số = nhân với phân số đảo ngược: ${n} : ${F(1, d)} = ${n} × ${d}.`,
+    chain1:`Số chai: ${n} : ${F(1, d)} = ${n} × ${d} = [_] (chai)<br>Số tiền: ${chai} × ${fmt(gia)} = [_] (đồng)`, chain2:`Số chai rót được: [_] chai<br>Số tiền bán được: [_] đồng`, chainAns:[chai, tien], finTpl:'[_] đồng', fin:tien,
+    sol:BG(`Số chai: ${n} : ${F(1, d)} = ${n} × ${d} = ${chai} (chai)`, `Số tiền: ${chai} × ${fmt(gia)} = ${fmt(tien)} (đồng)`, `Đáp số: <b>${fmt(tien)} đồng</b>.`)});
+};
+
+lesson(8,'gt3-nhan-chia','✍️ Giải toán 3 bước: nhân, chia, trung bình cộng','Hiểu đề – Lập kế hoạch – Giải: bán gạo rồi đóng túi, tìm số hạng khi biết trung bình cộng, chia đều đoạn đường.',[gH8Gao,gH8Tbc,gH8Hang]);
+lesson(9,'gt3-thong-ke','✍️ Giải toán 3 bước: biểu đồ cột và kiểm đếm','Hiểu đề – Lập kế hoạch – Giải: trung bình cộng từ biểu đồ, hơn – kém giữa các cột, kiểm đếm tung đồng xu.',[gH9Tb,gH9Hon,gH9Xu]);
+lesson(10,'gt3-phan-so','✍️ Giải toán 3 bước: phân số','Hiểu đề – Lập kế hoạch – Giải: phần còn lại của chiếc bánh, rút gọn phân số, so sánh số phần.',[gH10Banh,gH10Rg,gH10Ss]);
+lesson(11,'gt3-cong-tru-ps','✍️ Giải toán 3 bước: cộng, trừ phân số','Hiểu đề – Lập kế hoạch – Giải: thùng sơn, hai vòi nước, chia mảnh vườn.',[gH11Son,gH11Voi,gH11Vuon]);
+lesson(12,'gt3-nhan-chia-ps','✍️ Giải toán 3 bước: phân số của một số, nhân chia phân số','Hiểu đề – Lập kế hoạch – Giải: tủ sách, quãng đường hai ngày, rót nước mắm vào chai.',[gH12Sach,gH12Km,gH12Chai]);
 /* =====================================================================
    🧠 TOÁN TƯ DUY – PHÉP CỘNG VÀ PHÉP TRỪ (song ngữ Việt – Anh, có kiến thức trọng tâm)
    6 bài theo danh mục thầy tổng hợp từ NotebookLM (Singapore Math Grade 2+/4+, Collins Cambridge…):
