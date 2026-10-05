@@ -34,17 +34,36 @@ function renderPicker(){
   (CONFIG.upcoming||[]).forEach(n=>{h+=`<div class="tile grade soon" aria-disabled="true"><b class="gname">${n}</b><span>Sắp có</span></div>`});
   app.innerHTML=h+`</div>`+foot();bindTheme();hook('picker');
 }
+const fold=x=>String(x).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').toLowerCase();
+const ST_TXT={todo:'Chưa làm',doing:'Đang làm',done:'Hoàn thành'};
+const stOf=(pct,any)=>pct>=100?'done':any?'doing':'todo';
+const stChip=st=>`<span class="chip st-${st}">${st==='done'?'✓ ':''}${ST_TXT[st]}</span>`;
+const pbar=pct=>`<span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span>`;
+function lessonTile(l){const s=lessonStars(l.id),pct=Math.round(s/9*100),st=stOf(pct,s>0);
+  return `<a class="tile les st-${st}" data-st="${st}" data-n="${fold(l.name)}" href="${lessonHref(l)}"><span class="les-top"><b>${l.name}</b>${stChip(st)}</span><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(s/3))}</span>${pbar(pct)}</a>`}
+let HF={q:'',st:'all'};
 function renderHome(){
-  const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g);
+  const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g),max=gradeMaxStars(g),gp=max?Math.round(total/max*100):0;
   const hks=[...new Set(g.topics.map(t=>t.hk))];
-  let h=`<div class="toolbar">${App.grades.length>1||(CONFIG.upcoming||[]).length?`<a class="back" href="#/">← Chọn lớp</a>`:`<span class="pill">${g.name} · ${g.book}</span>`}<div class="row"><span class="stat">⭐ ${total} / ${gradeMaxStars(g)} sao</span>${themeBtn()}</div></div>
-  <span class="pill">${g.subject} ${g.name.replace('Lớp ','')} · ${g.book}</span>
-  <h1>Con muốn ôn bài nào hôm nay?</h1><p class="lead">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
-  ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}`;
-  let lastGrp='';[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>(a.grp?1:0)-(b.grp?1:0)).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id),tests=typeof StudentTest!=='undefined'?StudentTest.tiles(g.id,t.id):'';if(!ls.length&&!tests)return;
+  const doneN=g.lessons.filter(l=>lessonStars(l.id)>0).length;
+  const topics=[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>(a.grp?1:0)-(b.grp?1:0));
+  const vis=topics.flatMap(t=>g.lessons.filter(l=>l.t===t.id)),next=vis.find(l=>{const x=lessonStars(l.id);return x>0&&x<9})||vis.find(l=>!lessonStars(l.id));
+  const cnt={all:vis.length,todo:0,doing:0,done:0};vis.forEach(l=>{const x=lessonStars(l.id);cnt[stOf(Math.round(x/9*100),x>0)]++});
+  let h=`<div class="toolbar">${App.grades.length>1||(CONFIG.upcoming||[]).length?`<a class="back" href="#/">← Chọn lớp</a>`:`<span class="pill">${g.name} · ${g.book}</span>`}<div class="row"><span class="stat">⭐ ${total}/${max}</span>${themeBtn()}</div></div>
+  <span class="pill hide-sm">${g.subject} ${g.name.replace('Lớp ','')} · ${g.book}</span>
+  <h1 class="home-h">Con muốn ôn bài nào hôm nay?</h1><p class="lead hide-sm">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
+  <section class="overall card" aria-label="Tiến độ chung"><div class="ov-top"><b>Hoàn thành ${gp}%</b><span>${doneN}/${g.lessons.length} bài đã làm</span></div><span class="pbar big"><i style="width:${gp}%"></i></span></section>
+  ${next?`<a class="next-btn" href="${lessonHref(next)}"><span>▶ ${lessonStars(next.id)>0?'Làm tiếp':'Bắt đầu'}</span><b>${next.name}</b></a>`:''}
+  ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}
+  <div class="finder"><input id="fq" type="search" placeholder="🔍 Tìm bài (vd: phân số, hàm số…)" autocomplete="off" value="${HF.q.replace(/"/g,'&quot;')}" aria-label="Tìm bài"><div class="chips" role="group" aria-label="Lọc theo tiến độ">${[['all','Tất cả'],['todo','Chưa làm'],['doing','Đang làm'],['done','Xong']].map(([k,n])=>`<button class="fchip" data-f="${k}" aria-pressed="${HF.st===k}">${n} <small>${cnt[k]}</small></button>`).join('')}</div></div>`;
+  let lastGrp='';topics.forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id),tests=typeof StudentTest!=='undefined'?StudentTest.tiles(g.id,t.id):'';if(!ls.length&&!tests)return;
     if((t.grp||'')!==lastGrp){lastGrp=t.grp||'';if(lastGrp)h+=`<h2 class="grp-title">${lastGrp}</h2>`}
-    h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}${tests}</div></section>`});
-  app.innerHTML=h+foot();hook('home',g);
+    const dn=ls.filter(l=>lessonStars(l.id)>0).length;
+    h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}<em class="tcount">${dn}/${ls.length}</em></h2><div class="grid">${ls.map(lessonTile).join('')}${tests}</div></section>`});
+  app.innerHTML=h+`<p class="empty" id="fempty" hidden>Không có bài nào khớp. Thử bỏ bớt từ khóa hoặc chọn “Tất cả”.</p>`+foot();hook('home',g);
+  if(matchMedia('(max-width:600px)').matches){const ov=$('.overall'),extra=[];for(let n=ov&&ov.previousElementSibling;n&&!n.matches('.lead,h1,.pill,.toolbar');n=n.previousElementSibling)extra.unshift(n);if(extra.length){const d=document.createElement('details');d.className='petfold card';d.innerHTML='<summary>🐣 Thú cưng · nhiệm vụ hôm nay</summary>';extra.forEach(n=>d.appendChild(n));ov.after(d)}}
+  const apply=()=>{const q=fold(HF.q.trim());let any=false;$$('.topic').forEach(sec=>{let n=0;$$('.tile',sec).forEach(t=>{const ok=(HF.st==='all'||t.dataset.st===HF.st)&&(!q||(t.dataset.n||'').includes(q));t.hidden=!ok;if(ok)n++});sec.hidden=!n;if(n)any=true});$('#fempty').hidden=any;$$('[data-f]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===HF.st))};
+  $('#fq').oninput=e=>{HF.q=e.target.value;apply()};$$('[data-f]').forEach(b=>b.onclick=()=>{HF.st=b.dataset.f;apply()});apply();
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }
 const hasSound=()=>typeof Sound!=='undefined';

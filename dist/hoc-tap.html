@@ -806,6 +806,43 @@ h1 .h1en{font-size:.55em;font-weight:600}
 @media(max-width:700px){.lk .td-opts{grid-template-columns:1fr}}
 .td-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;padding:.7rem 1rem;margin:0 0 1rem}.td-bar span{display:flex;flex-wrap:wrap;gap:.5rem}
 
+/* ===== Trang chọn bài (học sinh): tiến độ, lọc, tìm kiếm, gọn trên điện thoại ===== */
+.overall{padding:14px 16px;margin:14px 0 12px}
+.ov-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.ov-top b{font:800 20px/1.2 var(--f-head)}.ov-top span{color:var(--muted);font-size:14px}
+.pbar{display:block;height:10px;border-radius:99px;background:color-mix(in srgb,var(--line) 14%,var(--surface));border:1.5px solid var(--line);overflow:hidden;flex:1}
+.pbar i{display:block;height:100%;background:var(--primary);border-radius:99px;min-width:0;transition:width .3s}
+.pbar.big{height:14px}
+.prog{display:flex;align-items:center;gap:8px}.pct{font:700 13px/1 var(--f-body);min-width:38px;text-align:right;color:var(--muted)}
+.st-done .pbar i{background:var(--ok,#2e9e5b)}
+.chip{font:700 12px/1 var(--f-body);padding:5px 9px;border-radius:99px;border:1.5px solid var(--line);white-space:nowrap;background:var(--surface);color:var(--muted)}
+.chip.st-doing{background:color-mix(in srgb,var(--star,#f4b400) 30%,var(--surface));color:var(--ink)}
+.chip.st-done{background:color-mix(in srgb,var(--ok,#2e9e5b) 28%,var(--surface));color:var(--ink)}
+.les-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.tile.les.st-todo{border-style:dashed}
+.tdesc{font-size:13px;color:var(--muted);line-height:1.4}
+.next-btn{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--bg);background:var(--ink);border-radius:var(--r-md);padding:12px 16px;margin:0 0 14px;box-shadow:var(--shadow-sm)}
+.next-btn span{font-size:13px;opacity:.85}.next-btn b{font-size:17px;line-height:1.3}
+.finder{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px;margin-top:12px;display:grid;gap:8px}
+.finder input{width:100%;min-height:48px;border:2.5px solid var(--line);border-radius:var(--r-pill);padding:0 18px;font:600 16px var(--f-body);background:var(--surface);color:var(--ink)}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.chips::-webkit-scrollbar{display:none}
+.fchip{flex:0 0 auto;min-height:40px;padding:0 14px;border:2px solid var(--line);border-radius:99px;background:var(--surface);color:var(--ink);font:700 14px var(--f-body)}
+.fchip small{opacity:.7;margin-left:2px}.fchip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.tcount{margin-left:auto;font:700 13px/1 var(--f-body);color:var(--muted);font-style:normal;white-space:nowrap}
+.empty{text-align:center;color:var(--muted);padding:30px 10px}
+.tile[hidden],.topic[hidden]{display:none}
+@media (max-width:600px){
+  .hide-sm{display:none}.home-h{font-size:24px;margin:6px 0 0}
+  .overall{padding:10px 12px;margin:10px 0}.ov-top b{font-size:17px}
+  .topic{margin-top:18px}.topic h2{font-size:18px;flex-wrap:wrap;gap:4px 8px}
+  .grid{grid-template-columns:1fr;gap:8px}
+  .tile.les{min-height:0;padding:10px 12px;gap:6px;box-shadow:2px 2px 0 var(--line)}
+  .tile.les b{font-size:16px}.tile .meta{font-size:13px}
+  .tabs{display:flex}.tabs button{flex:1;padding:6px 8px}
+}
+.petfold{padding:0;margin:0 0 12px}.petfold>summary{padding:12px 16px;font:800 16px var(--f-head);cursor:pointer;min-height:48px;display:flex;align-items:center}
+.petfold[open]>summary{border-bottom:2px solid var(--line)}.petfold>*:not(summary){margin-left:12px;margin-right:12px}
+
 </style>
 <style>
 /* HỌC MÀ CHƠI – giao diện ngang cho iPad, đấu máy, hai người và phòng cả lớp */
@@ -3594,7 +3631,8 @@ const StudentTest = (() => {
   function stars(grade){ return TESTS.filter(t => t.grade === grade).reduce((n, t) => n + (Number(store.get(starKey(t))) || 0), 0); }
   function tiles(grade, topic){
     return TESTS.filter(t => t.grade === grade && t.topic === topic).map(t => { const m = meta(t), st = Number(store.get(starKey(t))) || 0;
-      return `<a class="tile test-tile" href="#/${t.grade}/kiem-tra/${t.id}"><b>📝 ${esc(t.title)}</b><span>${t.time} phút · ${t.mc.length} câu chọn đáp án · ${t.tf.length} câu đúng–sai · ${t.short.length} câu trả lời ngắn</span><span class="meta"><span>${m.attempts ? `Đã làm ${m.attempts} lần · Cao nhất ${vn(m.best)}/10` : 'Chưa làm bài'}</span>${starsHTML(st)}</span></a>`;
+      const fold = x => String(x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').toLowerCase(), pct = Math.round(st / 3 * 100), sk = pct >= 100 ? 'done' : m.attempts ? 'doing' : 'todo', lab = {todo:'Chưa làm', doing:'Đang làm', done:'✓ Hoàn thành'}[sk];
+      return `<a class="tile test-tile les st-${sk}" data-st="${sk}" data-n="${fold(t.title + ' kiem tra')}" href="#/${t.grade}/kiem-tra/${t.id}"><span class="les-top"><b>📝 ${esc(t.title)}</b><span class="chip st-${sk}">${lab}</span></span><span class="tdesc">${t.time} phút · ${t.mc.length} chọn đáp án · ${t.tf.length} đúng–sai · ${t.short.length} trả lời ngắn</span><span class="meta"><span>${m.attempts ? `Đã làm ${m.attempts} lần · Cao nhất ${vn(m.best)}/10` : 'Chưa làm bài'}</span>${starsHTML(st)}</span><span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span></a>`;
     }).join('');
   }
   function blankState(t, ci, attempts){
@@ -9165,17 +9203,36 @@ function renderPicker(){
   (CONFIG.upcoming||[]).forEach(n=>{h+=`<div class="tile grade soon" aria-disabled="true"><b class="gname">${n}</b><span>Sắp có</span></div>`});
   app.innerHTML=h+`</div>`+foot();bindTheme();hook('picker');
 }
+const fold=x=>String(x).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').toLowerCase();
+const ST_TXT={todo:'Chưa làm',doing:'Đang làm',done:'Hoàn thành'};
+const stOf=(pct,any)=>pct>=100?'done':any?'doing':'todo';
+const stChip=st=>`<span class="chip st-${st}">${st==='done'?'✓ ':''}${ST_TXT[st]}</span>`;
+const pbar=pct=>`<span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span>`;
+function lessonTile(l){const s=lessonStars(l.id),pct=Math.round(s/9*100),st=stOf(pct,s>0);
+  return `<a class="tile les st-${st}" data-st="${st}" data-n="${fold(l.name)}" href="${lessonHref(l)}"><span class="les-top"><b>${l.name}</b>${stChip(st)}</span><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(s/3))}</span>${pbar(pct)}</a>`}
+let HF={q:'',st:'all'};
 function renderHome(){
-  const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g);
+  const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g),max=gradeMaxStars(g),gp=max?Math.round(total/max*100):0;
   const hks=[...new Set(g.topics.map(t=>t.hk))];
-  let h=`<div class="toolbar">${App.grades.length>1||(CONFIG.upcoming||[]).length?`<a class="back" href="#/">← Chọn lớp</a>`:`<span class="pill">${g.name} · ${g.book}</span>`}<div class="row"><span class="stat">⭐ ${total} / ${gradeMaxStars(g)} sao</span>${themeBtn()}</div></div>
-  <span class="pill">${g.subject} ${g.name.replace('Lớp ','')} · ${g.book}</span>
-  <h1>Con muốn ôn bài nào hôm nay?</h1><p class="lead">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
-  ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}`;
-  let lastGrp='';[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>(a.grp?1:0)-(b.grp?1:0)).forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id),tests=typeof StudentTest!=='undefined'?StudentTest.tiles(g.id,t.id):'';if(!ls.length&&!tests)return;
+  const doneN=g.lessons.filter(l=>lessonStars(l.id)>0).length;
+  const topics=[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>(a.grp?1:0)-(b.grp?1:0));
+  const vis=topics.flatMap(t=>g.lessons.filter(l=>l.t===t.id)),next=vis.find(l=>{const x=lessonStars(l.id);return x>0&&x<9})||vis.find(l=>!lessonStars(l.id));
+  const cnt={all:vis.length,todo:0,doing:0,done:0};vis.forEach(l=>{const x=lessonStars(l.id);cnt[stOf(Math.round(x/9*100),x>0)]++});
+  let h=`<div class="toolbar">${App.grades.length>1||(CONFIG.upcoming||[]).length?`<a class="back" href="#/">← Chọn lớp</a>`:`<span class="pill">${g.name} · ${g.book}</span>`}<div class="row"><span class="stat">⭐ ${total}/${max}</span>${themeBtn()}</div></div>
+  <span class="pill hide-sm">${g.subject} ${g.name.replace('Lớp ','')} · ${g.book}</span>
+  <h1 class="home-h">Con muốn ôn bài nào hôm nay?</h1><p class="lead hide-sm">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
+  <section class="overall card" aria-label="Tiến độ chung"><div class="ov-top"><b>Hoàn thành ${gp}%</b><span>${doneN}/${g.lessons.length} bài đã làm</span></div><span class="pbar big"><i style="width:${gp}%"></i></span></section>
+  ${next?`<a class="next-btn" href="${lessonHref(next)}"><span>▶ ${lessonStars(next.id)>0?'Làm tiếp':'Bắt đầu'}</span><b>${next.name}</b></a>`:''}
+  ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}
+  <div class="finder"><input id="fq" type="search" placeholder="🔍 Tìm bài (vd: phân số, hàm số…)" autocomplete="off" value="${HF.q.replace(/"/g,'&quot;')}" aria-label="Tìm bài"><div class="chips" role="group" aria-label="Lọc theo tiến độ">${[['all','Tất cả'],['todo','Chưa làm'],['doing','Đang làm'],['done','Xong']].map(([k,n])=>`<button class="fchip" data-f="${k}" aria-pressed="${HF.st===k}">${n} <small>${cnt[k]}</small></button>`).join('')}</div></div>`;
+  let lastGrp='';topics.forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id),tests=typeof StudentTest!=='undefined'?StudentTest.tiles(g.id,t.id):'';if(!ls.length&&!tests)return;
     if((t.grp||'')!==lastGrp){lastGrp=t.grp||'';if(lastGrp)h+=`<h2 class="grp-title">${lastGrp}</h2>`}
-    h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}</h2><div class="grid">${ls.map(l=>`<a class="tile" href="${lessonHref(l)}"><b>${l.name}</b><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(lessonStars(l.id)/3))}</span></a>`).join('')}${tests}</div></section>`});
-  app.innerHTML=h+foot();hook('home',g);
+    const dn=ls.filter(l=>lessonStars(l.id)>0).length;
+    h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}<em class="tcount">${dn}/${ls.length}</em></h2><div class="grid">${ls.map(lessonTile).join('')}${tests}</div></section>`});
+  app.innerHTML=h+`<p class="empty" id="fempty" hidden>Không có bài nào khớp. Thử bỏ bớt từ khóa hoặc chọn “Tất cả”.</p>`+foot();hook('home',g);
+  if(matchMedia('(max-width:600px)').matches){const ov=$('.overall'),extra=[];for(let n=ov&&ov.previousElementSibling;n&&!n.matches('.lead,h1,.pill,.toolbar');n=n.previousElementSibling)extra.unshift(n);if(extra.length){const d=document.createElement('details');d.className='petfold card';d.innerHTML='<summary>🐣 Thú cưng · nhiệm vụ hôm nay</summary>';extra.forEach(n=>d.appendChild(n));ov.after(d)}}
+  const apply=()=>{const q=fold(HF.q.trim());let any=false;$$('.topic').forEach(sec=>{let n=0;$$('.tile',sec).forEach(t=>{const ok=(HF.st==='all'||t.dataset.st===HF.st)&&(!q||(t.dataset.n||'').includes(q));t.hidden=!ok;if(ok)n++});sec.hidden=!n;if(n)any=true});$('#fempty').hidden=any;$$('[data-f]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===HF.st))};
+  $('#fq').oninput=e=>{HF.q=e.target.value;apply()};$$('[data-f]').forEach(b=>b.onclick=()=>{HF.st=b.dataset.f;apply()});apply();
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }
 const hasSound=()=>typeof Sound!=='undefined';

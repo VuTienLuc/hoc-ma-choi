@@ -29,7 +29,8 @@ const StudentTest = (() => {
   function stars(grade){ return TESTS.filter(t => t.grade === grade).reduce((n, t) => n + (Number(store.get(starKey(t))) || 0), 0); }
   function tiles(grade, topic){
     return TESTS.filter(t => t.grade === grade && t.topic === topic).map(t => { const m = meta(t), st = Number(store.get(starKey(t))) || 0;
-      return `<a class="tile test-tile" href="#/${t.grade}/kiem-tra/${t.id}"><b>📝 ${esc(t.title)}</b><span>${t.time} phút · ${t.mc.length} câu chọn đáp án · ${t.tf.length} câu đúng–sai · ${t.short.length} câu trả lời ngắn</span><span class="meta"><span>${m.attempts ? `Đã làm ${m.attempts} lần · Cao nhất ${vn(m.best)}/10` : 'Chưa làm bài'}</span>${starsHTML(st)}</span></a>`;
+      const fold = x => String(x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').toLowerCase(), pct = Math.round(st / 3 * 100), sk = pct >= 100 ? 'done' : m.attempts ? 'doing' : 'todo', lab = {todo:'Chưa làm', doing:'Đang làm', done:'✓ Hoàn thành'}[sk];
+      return `<a class="tile test-tile les st-${sk}" data-st="${sk}" data-n="${fold(t.title + ' kiem tra')}" href="#/${t.grade}/kiem-tra/${t.id}"><span class="les-top"><b>📝 ${esc(t.title)}</b><span class="chip st-${sk}">${lab}</span></span><span class="tdesc">${t.time} phút · ${t.mc.length} chọn đáp án · ${t.tf.length} đúng–sai · ${t.short.length} trả lời ngắn</span><span class="meta"><span>${m.attempts ? `Đã làm ${m.attempts} lần · Cao nhất ${vn(m.best)}/10` : 'Chưa làm bài'}</span>${starsHTML(st)}</span><span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span></a>`;
     }).join('');
   }
   function blankState(t, ci, attempts){
