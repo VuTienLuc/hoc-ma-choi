@@ -10,7 +10,7 @@ const TestDeck = (() => {
   const optsHtml = o => `<div class="td-opts${o.some(x => x.replace(/<[^>]+>/g, '').length > 42) ? ' one' : ''}">${o.map((x, i) => `<div><b>${ABCD[i]}.</b> ${x}</div>`).join('')}</div>`;
   function deck(t, ci){
     const q = StudentTest.build(t, ci), mcPt = t.mcPt ?? .25, tfPt = t.tfPt ?? 1, shPt = t.shortPt ?? .5, tag = (p, i, x) => `Phần ${p} · Câu ${i + 1}${x ? ' · ' + x : ''}`;
-    const slides = [{kind:'title', tag:`Toán 10 · Mã đề ${q.code}`, title:t.title, sub:`Thời gian ${t.time} phút`,
+    const slides = [{kind:'title', tag:`Toán ${String(t.grade).replace(/\D/g, "")} · Mã đề ${q.code}`, title:t.title, sub:`Thời gian ${t.time} phút`,
       points:[`Phần I: ${q.mc.length} câu trắc nghiệm (${vn(mcPt)} đ/câu)`, `Phần II: ${q.tf.length} câu đúng–sai (${vn(tfPt)} đ/câu, mỗi câu 4 ý)`, `Phần III: ${q.short.length} câu trả lời ngắn (${vn(shPt)} đ/câu)`]}];
     q.mc.forEach((x, i) => slides.push({kind:'lt', plainSol:true, tag:tag('I', i, x.level), label:`Câu ${i + 1}`, de:x.q + optsHtml(x.opts), sol:steps(x.sol), ans:`Đáp án: <b>${ABCD[x.a]}</b>`}));
     q.tf.forEach((x, i) => slides.push({kind:'lt', plainSol:true, tag:tag('II', i), label:`Câu ${i + 1}`,
