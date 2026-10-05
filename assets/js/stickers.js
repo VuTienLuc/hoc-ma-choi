@@ -39,5 +39,14 @@ const StickerDB = (() => {
     common:{name:'Dễ thương', icon:'💚', weight:8}, rare:{name:'Hiếm', icon:'💙', weight:4},
     epic:{name:'Sử thi', icon:'💜', weight:2}, legend:{name:'Huyền thoại', icon:'💛', weight:1},
   };
-  return {STICKERS, RARITY};
+  /* HẠNG KIM LOẠI – cùng một sticker mở lại nhiều lần thì BIẾN ĐỔI: ×2 Bạc · ×3 Vàng · ×5 Bạch kim · ×8 Kim cương (suy ra từ số lần, không lưu thêm dữ liệu). */
+  const TIERS = [
+    {k:'silver',  min:2, name:'Bạc',       icon:'🥈'},
+    {k:'gold',    min:3, name:'Vàng',      icon:'🥇'},
+    {k:'plat',    min:5, name:'Bạch kim',  icon:'💠'},
+    {k:'diamond', min:8, name:'Kim cương', icon:'💎'},
+  ];
+  const tierOf = n => { n = Number(n) || 0; let t = null; TIERS.forEach(x => { if(n >= x.min) t = x; }); return t; };   // null = bản thường
+  const nextTier = n => { n = Number(n) || 0; return TIERS.find(x => x.min > n) || null; };
+  return {STICKERS, RARITY, TIERS, tierOf, nextTier};
 })();

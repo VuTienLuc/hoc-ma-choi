@@ -13,6 +13,7 @@ const Hub = (() => {
   const register = t => { const i = TABS.findIndex(x => x.id === t.id); if(i >= 0) TABS[i] = t; else TABS.push(t); TABS.sort((a, b) => (a.order ?? 50) - (b.order ?? 50)); };   // order nhỏ hơn = đứng trước (mặc định 50)
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const SD = () => (typeof StickerDB !== 'undefined' ? StickerDB : {STICKERS:[], RARITY:{}});
+  const tierOf = n => (typeof StickerDB !== 'undefined' && StickerDB.tierOf ? StickerDB.tierOf(n) : null);
   const uniq = r => SD().STICKERS.filter(x => ((r && r.stickers) || {})[x.id] > 0).length;
   const total = r => Object.values((r && r.stickers) || {}).reduce((n, v) => n + (Number(v) || 0), 0);
   const isTeacher = () => typeof Account !== 'undefined' && Account.isTeacher && Account.isTeacher();
@@ -104,12 +105,12 @@ const Hub = (() => {
     const opened = S.filter(x => owners[x.id].length).length, times = c.rows.reduce((t, r) => t + c.total(r), 0);
     const top = c.rows.filter(r => c.uniq(r) > 0).sort((a, b) => (c.uniq(b) - c.uniq(a)) || (c.total(b) - c.total(a)) || String(a.name).localeCompare(String(b.name), 'vi'));
     const icons = r => { const mine = S.filter(x => ((r.stickers || {})[x.id] || 0) > 0).sort((a, b) => W[b.r] - W[a.r]);
-      return mine.slice(0, 14).map(x => `<span class="hub-ic ${x.r}" title="${c.esc(x.name)}${r.stickers[x.id] > 1 ? ' ×' + r.stickers[x.id] : ''}">${x.icon}</span>`).join('') + (mine.length > 14 ? `<small>+${mine.length - 14}</small>` : ''); };
+      return mine.slice(0, 14).map(x => { const tr = tierOf(r.stickers[x.id]); return `<span class="hub-ic ${x.r}${tr ? ' t-' + tr.k : ''}" title="${c.esc(x.name)}${r.stickers[x.id] > 1 ? ' ×' + r.stickers[x.id] : ''}${tr ? ' · bản ' + tr.name : ''}">${x.icon}</span>`; }).join('') + (mine.length > 14 ? `<small>+${mine.length - 14}</small>` : ''); };
     const groups = [...new Set(S.map(x => x.group))];
     box.innerHTML = `<section class="sticker-head"><div><small>BỘ SƯU TẬP CỦA LỚP ${c.esc(c.lop)}</small><h3>${opened === S.length ? '🌟 Cả lớp đã mở đủ sticker!' : `Cả lớp đã mở ${opened}/${S.length} loại sticker`}</h3><p>Mỗi lần làm đúng tuyệt đối <b>6/6</b> là mở được một sticker. Cùng nhau sưu tập nhé!</p></div><div class="sticker-score"><b>${times}</b><span>lần đạt<br>6/6</span></div></section>
       <h3>🏅 Bạn sưu tập nhiều nhất</h3>${top.length ? `<ol class="rank hub-rank hub-stk">${top.map((r, i) => `<li class="${r.me ? 'me' : ''}"><span class="rk">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</span><span class="rp hub-av">${c.esc((String(r.name).trim().split(/\s+/).pop() || '?').charAt(0).toUpperCase())}</span><span class="hub-who"><b>${c.esc(r.name)}${r.me ? ' (em)' : ''}</b><span class="hub-icons">${icons(r)}</span></span><span class="rv">🎟️ ${c.uniq(r)}/${S.length}</span></li>`).join('')}</ol>` : note('Chưa có bạn nào mở sticker. Chinh phục một bộ 6/6 để mở sticker đầu tiên! 🎁')}
-      ${groups.map(g => `<h3>${c.esc(g)}</h3><div class="sticker-grid">${S.filter(x => x.group === g).map(x => { const n = owners[x.id].length, rr = R[x.r] || {name:'', icon:''};
-        return `<div class="sticker ${n ? 'got' : ''} ${x.r}" title="${n ? c.esc(owners[x.id].map(r => r.name).join(', ')) : 'Chưa bạn nào mở'}"><span class="sticker-icon">${n ? x.icon : '❔'}</span><b>${n ? c.esc(x.name) : 'Chưa ai mở'}</b><small>${n ? `${rr.icon} ${rr.name} · ${n} bạn` : 'Đang chờ ai đó mở'}</small></div>`; }).join('')}</div>`).join('')}`;
+      ${groups.map(g => `<h3>${c.esc(g)}</h3><div class="sticker-grid">${S.filter(x => x.group === g).map(x => { const n = owners[x.id].length, rr = R[x.r] || {name:'', icon:''}, tr = tierOf(Math.max(0, ...owners[x.id].map(r => r.stickers[x.id] || 0)));
+        return `<div class="sticker ${n ? 'got' : ''} ${x.r}${tr ? ' t-' + tr.k + ' shine' : ''}" title="${n ? c.esc(owners[x.id].map(r => r.name).join(', ')) : 'Chưa bạn nào mở'}">${tr ? `<i class="tchip t-${tr.k}">${tr.icon} ${tr.name}</i>` : ''}<span class="sticker-icon">${n ? x.icon : '❔'}</span><b>${n ? c.esc(x.name) : 'Chưa ai mở'}</b><small>${n ? `${rr.icon} ${rr.name} · ${n} bạn` : 'Đang chờ ai đó mở'}</small></div>`; }).join('')}</div>`).join('')}`;
   }});
 
   return { register, route, load, TABS, state:st };

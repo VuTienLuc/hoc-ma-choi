@@ -155,10 +155,18 @@ const Play = (() => {
   }
 
   /* ---------- Bộ sưu tập sticker: thưởng riêng cho một bộ đúng tuyệt đối 6/6 ---------- */
-  const {STICKERS, RARITY} = StickerDB;      // danh mục sticker dùng chung: assets/js/stickers.js
+  const {STICKERS, RARITY, TIERS, tierOf, nextTier} = StickerDB;      // danh mục sticker dùng chung: assets/js/stickers.js
   const stickerCount = s => Object.values(s.stickers || {}).reduce((n, v) => n + (Number(v) || 0), 0);
   const stickerUnique = s => STICKERS.filter(x => (s.stickers || {})[x.id] > 0).length;
+  const tierLegend = s => `<section class="tier-legend" aria-label="Hạng sticker"><b>Hạng sticker</b>${TIERS.map(t => { const k = STICKERS.filter(x => tierOf((s.stickers || {})[x.id]) === t).length;
+    return `<span class="tier-chip t-${t.k}">${t.icon} ${t.name} <small>×${t.min}</small>${k ? ` · <b>${k}</b>` : ''}</span>`; }).join('<i>→</i>')}</section>`;
   function chooseSticker(s){
+    // Từ khi đã có ≥ 3 loại: 35% lượt là “nâng cấp” một sticker đang có (ưu tiên cái ít lần nhất) để biến đổi Bạc → Vàng → Bạch kim → Kim cương
+    const owned = STICKERS.filter(x => (s.stickers[x.id] || 0) > 0 && (s.stickers[x.id] || 0) < TIERS[TIERS.length - 1].min + 2);
+    if(owned.length >= 3 && Math.random() < .35){
+      const lo = Math.min(...owned.map(x => s.stickers[x.id])), pool = owned.filter(x => s.stickers[x.id] <= lo + 1);
+      return pool[Math.floor(Math.random()*pool.length)];
+    }
     const missing = STICKERS.filter(x => !s.stickers[x.id]), source = missing.length ? missing : STICKERS, bag = [];
     source.forEach(x => { for(let i=0; i<RARITY[x.r].weight; i++) bag.push(x); });
     return bag[Math.floor(Math.random()*bag.length)];
@@ -166,9 +174,9 @@ const Play = (() => {
   function showSticker(x, count, isNew, g){
     if(typeof document === 'undefined' || !document.body) return;
     const old = document.querySelector('#stickerReward'); if(old) old.remove();
-    const el = document.createElement('div'); el.id = 'stickerReward'; el.className = `sticker-reward ${x.r}`; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true');
+    const el = document.createElement('div'); el.id = 'stickerReward'; const tr = tierOf(count), nx = nextTier(count); el.className = `sticker-reward ${x.r}${tr ? ' t-' + tr.k : ''}`; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true');
     el.innerHTML = `<div class="sr-spark" aria-hidden="true">✨ ⭐ 💫 ✨ ⭐</div><div class="sr-card"><div class="sr-perfect">6/6 TUYỆT ĐỐI!</div><div class="sr-icon">${x.icon}</div>
-      <span class="sr-rarity">${RARITY[x.r].icon} ${RARITY[x.r].name}</span><h2>${x.name}</h2><p>${isNew ? 'Sticker mới đã vào Phòng truyền thống!' : `Sticker trùng đã được nâng lên bản lấp lánh ×${count}!`}</p>
+      <span class="sr-rarity">${RARITY[x.r].icon} ${RARITY[x.r].name}</span>${tr ? `<span class="tier-chip t-${tr.k}">${tr.icon} Bản ${tr.name}</span>` : ''}<h2>${x.name}</h2><p>${isNew ? 'Sticker mới đã vào Phòng truyền thống!' : (tr && tr.min === count ? `Biến đổi thành công! Sticker lên <b>bản ${tr.name}</b> lấp lánh ×${count}.` : `Sticker được nâng ×${count}${tr ? ` (bản ${tr.name})` : ''}.`)}${!isNew && nx ? ` Còn ${nx.min - count} lần nữa để lên ${nx.icon} ${nx.name}.` : ''}</p>
       <div class="row"><button class="btn primary" data-see>🏛️ Xem phòng Sticker</button><button class="btn" data-close>Tiếp tục học</button></div></div>`;
     document.body.appendChild(el); document.body.classList.add('noscroll');
     const close = () => { el.remove(); if(!document.querySelector('#petHome')) document.body.classList.remove('noscroll'); };
@@ -379,10 +387,10 @@ const Play = (() => {
     if(TAB === 'sticker'){
       const got = stickerUnique(s), total = stickerCount(s), last = STICKERS.find(x => x.id === s.stickerLast);
       const groups = [...new Set(STICKERS.map(x => x.group))];
-      body.innerHTML = `<section class="sticker-head"><div><small>PHÒNG TRUYỀN THỐNG CỦA EM</small><h3>${got === STICKERS.length ? '🌟 Bộ sưu tập đã đủ!' : `Đã mở ${got}/${STICKERS.length} sticker`}</h3><p>Mỗi lần làm đúng tuyệt đối <b>6/6</b>, em được mở một sticker bất ngờ. Sticker chưa có luôn được ưu tiên.</p></div><div class="sticker-score"><b>${total}</b><span>lần đạt<br>6/6</span></div></section>
+      body.innerHTML = `<section class="sticker-head"><div><small>PHÒNG TRUYỀN THỐNG CỦA EM</small><h3>${got === STICKERS.length ? '🌟 Bộ sưu tập đã đủ!' : `Đã mở ${got}/${STICKERS.length} sticker`}</h3><p>Mỗi lần làm đúng tuyệt đối <b>6/6</b>, em được mở một sticker bất ngờ. Sticker chưa có luôn được ưu tiên; đôi khi em được <b>nâng cấp</b> sticker đã có để biến đổi sang 🥈 Bạc → 🥇 Vàng → 💠 Bạch kim → 💎 Kim cương.</p></div><div class="sticker-score"><b>${total}</b><span>lần đạt<br>6/6</span></div></section>
         ${last ? `<div class="sticker-latest"><span>${last.icon}</span><div><small>STICKER MỚI NHẤT</small><b>${last.name}</b></div></div>` : '<div class="sticker-empty">🎁 Hãy chinh phục một bộ 6/6 để mở sticker đầu tiên nhé!</div>'}
-        ${groups.map(group => `<h3>${group}</h3><div class="sticker-grid">${STICKERS.filter(x => x.group === group).map(x => { const n = Number(s.stickers[x.id]) || 0, rr = RARITY[x.r];
-          return `<div class="sticker ${n?'got':''} ${x.r} ${n>1?'shine':''}" title="${n?x.name:'Sticker bí mật'}"><span class="sticker-icon">${n?x.icon:'❔'}</span><b>${n?x.name:'Chưa mở khóa'}</b><small>${n?`${rr.icon} ${rr.name}${n>1?` · ×${n}`:''}`:'Đạt 6/6 để mở'}</small></div>`; }).join('')}</div>`).join('')}`;
+        ${tierLegend(s)}${groups.map(group => `<h3>${group}</h3><div class="sticker-grid">${STICKERS.filter(x => x.group === group).map(x => { const n = Number(s.stickers[x.id]) || 0, rr = RARITY[x.r], tr = tierOf(n);
+          return `<div class="sticker ${n?'got':''} ${x.r} ${tr ? 't-' + tr.k + ' shine' : ''}" title="${n?x.name:'Sticker bí mật'}">${tr ? `<i class="tchip t-${tr.k}">${tr.icon} ${tr.name}</i>` : ''}<span class="sticker-icon">${n?x.icon:'❔'}</span><b>${n?x.name:'Chưa mở khóa'}</b><small>${n?`${rr.icon} ${rr.name}${n>1?` · ×${n}`:''}`:'Đạt 6/6 để mở'}</small></div>`; }).join('')}</div>`).join('')}`;
     }
     if(TAB === 'rank') drawRank(body);
   }
