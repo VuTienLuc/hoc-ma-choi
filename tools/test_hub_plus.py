@@ -44,6 +44,16 @@ async def handle(route):
     elif a == 'bonus': M['bonus'] += 1; body = {'ok': True, 'stars': 1}
     else: body = {'ok': True}
     await route.fulfill(status=200, content_type='application/json', body=json.dumps(body))
+BANK_JS = r"""(async()=>{
+  for(const id of ['lop8','lop9','lop11']) if(!App.grades.some(x=>x.id===id)){ await new Promise(r=>{const s=document.createElement('script');s.src='../data/'+id+'.js';s.onload=r;s.onerror=r;document.head.appendChild(s)}) }
+  let n=0, bad=[];
+  for(const gr of App.grades.filter(x=>/^lop(8|9|10|11)$/.test(x.id))) for(const l of gr.lessons) for(const lv of [1,2,3]){
+    const d = Hub.plus.drawFromBank(l, lv); if(!d) continue; n++;
+    const all = d.q + d.opts.join('') + d.exp;
+    if(!d.q || d.opts.some(o=>!o) || d.opts['ABCD'.indexOf(d.ans)]===undefined || /<[a-z\/]/i.test(all) || all.indexOf('\\(')>=0 || (d.q.match(/\$/g)||[]).length%2) bad.push(gr.id+':'+l.id+':'+lv);
+  }
+  return {n, bad: bad.slice(0,5)};
+})()"""
 async def main():
   res = []; ok = lambda n, c: res.append(bool(c)) or print(('✓ ' if c else '✗ ') + n)
   async with async_playwright() as p:
@@ -137,6 +147,15 @@ async def main():
     await go(pg, url, 'ask', 1800)
     ok('Giáo viên: có biểu mẫu đăng câu hỏi + danh sách câu đã đăng', await pg.query_selector('#qaPost') and len(await pg.query_selector_all('.hub-q-t')) == 1)
     st = (await pg.inner_text('.hub-q-t')).replace('\n', ' '); ok(f'Giáo viên: thống kê trả lời {st[-60:]}', '1</b>' in await pg.inner_html('.hub-q-t') and 'bạn trả lời' in st)
+    await pg.wait_for_timeout(1200)
+    ok('Ngân hàng: nạp danh sách bài của khối 10 (trang giáo viên tự nạp data/lop10.js)', await pg.evaluate("document.querySelectorAll('#qaBai option').length>=5") and not await pg.evaluate("document.querySelector('#qaDraw').disabled"))
+    await pg.click('#qaDraw'); await pg.wait_for_timeout(300)
+    f = await pg.evaluate("({q:qaQ.value, o:[0,1,2,3].map(i=>document.getElementById('qaO'+i).value), a:document.querySelector('input[name=qaAns]:checked').value, e:qaE.value})")
+    ok(f'Bốc câu: tự điền câu hỏi, các phương án, đáp án, giải thích ({f["q"][:40]}…)', f['q'] and sum(1 for x in f['o'] if x) >= 2 and f['o']['ABCD'.index(f['a'])] and f['e'] and '\\(' not in f['q'] and '<' not in f['q'])
+    bad = await pg.evaluate(BANK_JS)
+    ok(f'Ngân hàng: bốc thử mọi bài lớp 8–11 × 3 mức ({bad["n"]} câu) – đủ phương án, đáp án hợp lệ, không sót thẻ/LaTeX lẻ', bad['n'] > 50 and not bad['bad'])
+    await pg.screenshot(path='/tmp/hubplus-bank.png', full_page=True)
+    await pg.evaluate("[qaQ,qaO0,qaO1,qaO2,qaO3,qaE].forEach(x=>x.value='')")
     await pg.click('#qaPost'); await pg.wait_for_timeout(300); ok('Thiếu nội dung → nhắc, không gửi', 'Cần câu hỏi' in await pg.inner_text('#qaMsg') and not M['posted'])
     await pg.fill('#qaQ', 'Câu mới $x^2$?'); await pg.fill('#qaO0', 'Đáp 1'); await pg.fill('#qaO1', 'Đáp 2'); await pg.check('input[name=qaAns][value="B"]'); await pg.select_option('#qaS', '3'); await pg.select_option('#qaT', '')
     await pg.click('#qaPost'); await pg.wait_for_timeout(1500)

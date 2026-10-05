@@ -732,6 +732,8 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .hub-rev li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:2px solid var(--line);border-radius:12px} .hub-rev li.due{border-color:var(--primary);background:var(--primary-soft)} .hub-rev li div{display:grid}
 .hub-race li{grid-template-columns:44px 1fr auto} .hub-race .hub-who{width:100%}
 
+.hub-bank{padding:10px 12px;margin:0 0 10px;border:2px dashed var(--line);border-radius:14px;background:var(--primary-soft)} .hub-bank .hub-row{align-items:end}
+
 </style>
 <style>
 /* HỌC MÀ CHƠI – giao diện ngang cho iPad, đấu máy, hai người và phòng cả lớp */
@@ -2694,6 +2696,33 @@ const Hub = (() => {
 
   /* ================= ❓ Câu hỏi của thầy ================= */
   const LET = ['A', 'B', 'C', 'D'];
+
+  /* ---- Ngân hàng bài tập: bốc một câu TRẮC NGHIỆM (không hình) từ data/<khối>.js thành câu hỏi của thầy ----
+     HTML của câu → văn bản thường: công thức \( … \) đổi thành $…$, phân số tiểu học a/b, bỏ thẻ; đáp án đúng đổi thành chữ A–D, lời giải thành phần giải thích. */
+  const plain = html => {
+    html = String(html ?? '').replace(/\\\(([\s\S]+?)\\\)/g, (m, x) => '$' + x + '$').replace(/\\\[([\s\S]+?)\\\]/g, (m, x) => '$' + x + '$');
+    const d = document.createElement('div'); d.innerHTML = html;
+    d.querySelectorAll('.fr').forEach(f => f.replaceWith([...f.children].map(x => x.textContent.trim()).join('/')));
+    d.querySelectorAll('svg,script,style').forEach(x => x.remove());
+    return d.textContent.replace(/\s+/g, ' ').trim();
+  };
+  function drawFromBank(l, lv){
+    for(let k = 0; k < 60; k++){
+      let q; try{ q = l.gens[Math.floor(Math.random() * l.gens.length)](lv); }catch(e){ continue; }
+      if(!q || q.kind !== 'choice' || q.fig || !q.opts || q.opts.length < 2 || q.opts.length > 4) continue;
+      const out = {q:plain(q.text + (q.expr ? ' ' + q.expr : '')), opts:q.opts.map(plain), ans:LET[q.correct], exp:plain(q.sol)};
+      if(!out.q || out.q.length > 800 || out.opts.some(o => !o || o.length > 300) || new Set(out.opts).size !== out.opts.length || !out.ans) continue;
+      out.exp = out.exp.slice(0, 600); return out;
+    }
+    return null;
+  }
+  const needGrade = gid => new Promise(res => {
+    if(typeof App === 'undefined') return res(null);
+    const g = App.grades.find(x => x.id === gid); if(g) return res(g);
+    const sc = document.createElement('script'); sc.src = `${SITE ? '../' : ''}data/${gid}.js`;
+    sc.onload = () => res(App.grades.find(x => x.id === gid) || null); sc.onerror = () => res(null); document.head.appendChild(sc);
+  });
+  Hub.plus = {drawFromBank, plain};                                      // để kiểm thử
   Hub.register({id:'ask', order:30, icon:'❓', label:'Câu hỏi của thầy', async render(box, c){
     box.innerHTML = note('Đang tải…');
     const r = await get('qList'); if(!live(box)) return; if(!r || !r.ok){ fail(box, r); return; }
@@ -2701,6 +2730,7 @@ const Hub = (() => {
     if(r.teacher){
       const g = gradeNum(c.lop), tgt = q => !q.target ? 'mọi lớp' : /^\d+$/.test(q.target) ? 'khối ' + q.target : 'lớp ' + q.target;
       box.innerHTML = `<section class="hub-card"><h3>✍️ Đăng câu hỏi mới</h3>
+        <div class="hub-bank"><b>🎲 Lấy nhanh từ ngân hàng bài tập</b><div class="hub-row"><label class="hub-f">Bài<select id="qaBai"><option value="">Đang nạp ngân hàng…</option></select></label><label class="hub-f">Mức<select id="qaLv"><option value="1">1 · Làm quen</option><option value="2" selected>2 · Luyện tập</option><option value="3">3 · Thử thách</option></select></label><div class="hub-f"><span>&nbsp;</span><button type="button" class="btn" id="qaDraw" disabled>🎲 Bốc câu</button></div></div><p class="note-line" id="qaBankMsg">Chọn bài và mức, bấm Bốc câu: ô bên dưới tự điền. Thầy xem lại rồi bấm Đăng; bấm Bốc câu lần nữa để đổi câu khác.</p></div>
         <label class="hub-f">Câu hỏi (công thức viết trong $…$)<textarea id="qaQ" rows="3" maxlength="800" placeholder="Ví dụ: Giá trị của $\\sin 150^\\circ$ bằng?"></textarea></label>
         <div class="hub-opts-in">${LET.map((l, i) => `<label class="hub-f"><span><input type="radio" name="qaAns" value="${l}" ${i === 0 ? 'checked' : ''}> ${l} (đáp án đúng)</span><input id="qaO${i}" maxlength="300" placeholder="Phương án ${l}"></label>`).join('')}</div>
         <label class="hub-f">Giải thích (hiện sau khi em trả lời)<textarea id="qaE" rows="2" maxlength="600"></textarea></label>
@@ -2712,6 +2742,21 @@ const Hub = (() => {
           <p class="hub-qt">${mtx(q.q)}</p><ol class="hub-ol">${q.opts.map((o, i) => o ? `<li class="${LET[i] === q.ans ? 'ok' : ''}">${LET[i]}. ${mtx(o)}</li>` : '').join('')}</ol>
           <p class="note-line">📊 <b>${q.answered}</b> bạn trả lời · <b>${q.correct}</b> đúng${q.answered ? ` (${Math.round(q.correct / q.answered * 100)}%)` : ''}</p>${q.open ? `<button class="linkbtn" data-qclose="${esc(q.id)}">Đóng câu hỏi</button>` : ''}</article>`).join('') : note('Chưa có câu hỏi nào.')}`;
       typeset(box);
+      const bankMsg = t => { box.querySelector('#qaBankMsg').innerHTML = t; };
+      needGrade('lop' + gradeNum(c.lop)).then(g => {
+        const sel = box.querySelector('#qaBai'); if(!sel || !live(box)) return;
+        if(!g){ sel.innerHTML = '<option value="">Khối này chưa có ngân hàng bài</option>'; return; }
+        const tp = g.topics.map(t => ({t, ls:g.lessons.filter(l => l.t === t.id)})).filter(x => x.ls.length);
+        sel.innerHTML = tp.map(({t, ls}) => `<optgroup label="${esc(t.name)}">${ls.map(l => `<option value="${esc(l.id)}">${esc(l.name)}</option>`).join('')}</optgroup>`).join('');
+        const btn = box.querySelector('#qaDraw'); btn.disabled = false;
+        btn.onclick = () => {
+          const l = g.lessons.find(x => x.id === sel.value), d = l && drawFromBank(l, +box.querySelector('#qaLv').value);
+          if(!d){ bankMsg('Bài này chưa có câu trắc nghiệm phù hợp (không hình). Thầy chọn bài hoặc mức khác nhé.'); return; }
+          box.querySelector('#qaQ').value = d.q; LET.forEach((_, i) => { box.querySelector('#qaO' + i).value = d.opts[i] || ''; });
+          box.querySelector(`input[name=qaAns][value="${d.ans}"]`).checked = true; box.querySelector('#qaE').value = d.exp;
+          bankMsg(`✅ Đã điền câu từ «${esc(l.name)}», mức ${box.querySelector('#qaLv').value}. Xem lại rồi bấm <b>Đăng câu hỏi</b>.`);
+        };
+      });
       const msg = (t, ok) => { const m = box.querySelector('#qaMsg'); m.className = 'fb show ' + (ok ? 'sol' : 'note'); m.innerHTML = t; };
       box.querySelector('#qaPost').onclick = async ev => {
         const b = ev.currentTarget, opts = LET.map((_, i) => box.querySelector('#qaO' + i).value.trim()), ans = box.querySelector('input[name=qaAns]:checked').value;

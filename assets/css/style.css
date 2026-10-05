@@ -714,3 +714,5 @@ h1 .h1en{font-size:.55em;font-weight:600}
 @media(max-width:700px){.hub-path li{grid-template-columns:1fr auto}.hub-path .hub-lv{grid-column:1/-1}}
 .hub-rev li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:2px solid var(--line);border-radius:12px} .hub-rev li.due{border-color:var(--primary);background:var(--primary-soft)} .hub-rev li div{display:grid}
 .hub-race li{grid-template-columns:44px 1fr auto} .hub-race .hub-who{width:100%}
+
+.hub-bank{padding:10px 12px;margin:0 0 10px;border:2px dashed var(--line);border-radius:14px;background:var(--primary-soft)} .hub-bank .hub-row{align-items:end}
