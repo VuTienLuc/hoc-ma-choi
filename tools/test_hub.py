@@ -49,7 +49,7 @@ async def main():
     ok('Học sinh: thanh người dùng có nút 🌟 Góc chung', '#/goc-chung' in link)
     await pg.goto(url + '#/goc-chung'); await pg.reload(); await pg.wait_for_timeout(1500)
     ok('Học sinh: vào #/goc-chung không bị đưa về trang lớp', '#/goc-chung' in pg.url and await pg.query_selector('.hub-tabs'))
-    tabs = await txt(pg, '.hub-tabs button'); ok(f'Học sinh: các tab {tabs}', len(tabs) >= 2 and 'Xếp hạng' in tabs[0] and 'Sticker' in tabs[1])
+    tabs = await txt(pg, '.hub-tabs button'); ok(f'Học sinh: các tab {tabs}', len(tabs) >= 2 and 'Xếp hạng' in tabs[0] and any('Sticker' in t for t in tabs))
     ok('Học sinh: không có chọn khối/lớp khác (chỉ lớp mình)', not await pg.query_selector('.hub-grades') and not await pg.query_selector('.hub-classes'))
     names = await txt(pg, '.hub-rank li b'); ok(f'Học sinh: xếp theo sao {names}', names[:3] == ['Trần Bình (em)', 'Nguyễn An', 'Lê Châu'] and 'Võ Em' not in ' '.join(names))
     await pg.click('[data-hub-sort="stk"]'); await pg.wait_for_timeout(300)

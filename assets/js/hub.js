@@ -2,7 +2,7 @@
    Hub – “🌟 GÓC CHUNG”: menu riêng cho HỌC SINH và GIÁO VIÊN cùng xem (đường link #/goc-chung[/<tab>]).
    - Học sinh: xem lớp của mình (Account.rank → máy chủ action 'rank').
    - Giáo viên (tài khoản lớp không có chữ số, vd "GV"): chọn khối → chọn lớp (Account.rankAll → action 'rankAll').
-   - Mỗi mục là một TAB đăng ký bằng Hub.register({id, icon, label, render(box, ctx)}). Hiện có: 🏆 Xếp hạng lớp · 🎟️ Sticker của lớp.
+   - Mỗi mục là một TAB đăng ký bằng Hub.register({id, icon, label, render(box, ctx)}). Hiện có: 🏆 Xếp hạng lớp · 🎟️ Sticker của lớp · (hub-plus.js) 🎯 Hôm nay & Thử thách · ❓ Câu hỏi của thầy · 🔥 Bài hot tuần · 🗺️ Lộ trình · 🔁 Ôn bài cũ · 🏁 Đua lớp. Tab có thể đặt order (nhỏ = đứng trước).
      Thêm tính năng mới = viết một hàm render rồi gọi Hub.register(...) (xem cuối tệp); không phải sửa phần khung.
    - ctx đưa cho render: {role:'student'|'teacher', lop, cls:{lop,rows}, rows, hasSticker, esc, STICKERS, RARITY, uniq(r), reload()}.
      Mỗi dòng rows: {name, stars, streak, best, badges, xu, stickers:{id:số lần}, me?, joined?}.
@@ -10,7 +10,7 @@
    ===================================================================== */
 const Hub = (() => {
   const TABS = [];
-  const register = t => { const i = TABS.findIndex(x => x.id === t.id); if(i >= 0) TABS[i] = t; else TABS.push(t); };
+  const register = t => { const i = TABS.findIndex(x => x.id === t.id); if(i >= 0) TABS[i] = t; else TABS.push(t); TABS.sort((a, b) => (a.order ?? 50) - (b.order ?? 50)); };   // order nhỏ hơn = đứng trước (mặc định 50)
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const SD = () => (typeof StickerDB !== 'undefined' ? StickerDB : {STICKERS:[], RARITY:{}});
   const uniq = r => SD().STICKERS.filter(x => ((r && r.stickers) || {})[x.id] > 0).length;
@@ -84,20 +84,20 @@ const Hub = (() => {
   }
 
   /* ---------- TAB 1: 🏆 Xếp hạng lớp ---------- */
-  const SORTS = [['stars','⭐ Sao'],['streak','🔥 Chuỗi'],['badges','🏅 Huy hiệu'],['stk','🎟️ Sticker'],['xu','🪙 Xu']];
+  const SORTS = [['stars','⭐ Sao'],['wk','📈 Tuần này'],['streak','🔥 Chuỗi'],['badges','🏅 Huy hiệu'],['stk','🎟️ Sticker'],['xu','🪙 Xu']];
   const val = (r, k) => k === 'stk' ? uniq(r) : (Number(r[k]) || 0);
-  register({id:'rank', icon:'🏆', label:'Xếp hạng lớp', render(box, c){
+  register({id:'rank', order:10, icon:'🏆', label:'Xếp hạng lớp', render(box, c){
     const k = c.state.sort, list = c.rows.slice().sort((a, b) => (val(b, k) - val(a, k)) || (val(b, 'stars') - val(a, 'stars')) || String(a.name).localeCompare(String(b.name), 'vi'));
     const off = c.all.filter(r => r.joined === false);
     box.innerHTML = `<div class="gr-sort">${SORTS.map(([id, t]) => `<button class="btn small ${k === id ? 'primary' : ''}" data-hub-sort="${id}">${t}</button>`).join('')}</div>
       <div class="gr-stats"><span>Lớp <b>${c.esc(c.lop)}</b></span><span><b>${list.length}</b> bạn tham gia</span><span><b>${list.reduce((t, r) => t + (Number(r.stars) || 0), 0)}</b> ⭐ cả lớp</span></div>
-      ${list.length ? `<ol class="rank hub-rank">${list.map((r, i) => `<li class="${r.me ? 'me' : ''}"><span class="rk">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</span><span class="rp hub-av">${c.esc((String(r.name).trim().split(/\s+/).pop() || '?').charAt(0).toUpperCase())}</span><b>${c.esc(r.name)}${r.me ? ' (em)' : ''}</b><span class="rv">${SORTS.find(s => s[0] === k)[1].split(' ')[0]} ${val(r, k)}</span></li>`).join('')}</ol>` : note('Lớp này chưa có bạn nào đăng nhập.')}
+      ${list.length ? `<ol class="rank hub-rank">${list.map((r, i) => `<li class="${r.me ? 'me' : ''}"><span class="rk">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</span><span class="rp hub-av">${c.esc((String(r.name).trim().split(/\s+/).pop() || '?').charAt(0).toUpperCase())}</span><b>${c.esc(r.name)}${r.me ? ' (em)' : ''}</b><span class="rv">${SORTS.find(s => s[0] === k)[1].split(' ')[0]} ${k === 'wk' ? '+' : ''}${val(r, k)}</span></li>`).join('')}</ol>` : note('Lớp này chưa có bạn nào đăng nhập.')}
       ${off.length ? `<details class="gr-off"><summary>Chưa đăng nhập (${off.length})</summary><p>${off.map(r => c.esc(r.name)).join(', ')}</p></details>` : ''}`;
     box.querySelectorAll('[data-hub-sort]').forEach(b => b.onclick = () => { c.state.sort = b.dataset.hubSort; c.redraw(); });
   }});
 
   /* ---------- TAB 2: 🎟️ Sticker của lớp ---------- */
-  register({id:'sticker', icon:'🎟️', label:'Sticker của lớp', render(box, c){
+  register({id:'sticker', order:80, icon:'🎟️', label:'Sticker của lớp', render(box, c){
     const S = c.STICKERS, R = c.RARITY, W = {legend:4, epic:3, rare:2, common:1};
     if(!c.hasSticker){ box.innerHTML = note('Máy chủ chưa gửi dữ liệu sticker: thầy cô dán <b>Code.gs</b> mới (hàm <code>pub_</code> có <code>stickers</code>) vào Apps Script rồi triển khai lại.'); return; }
     const owners = {}; S.forEach(x => owners[x.id] = c.rows.filter(r => ((r.stickers || {})[x.id] || 0) > 0));

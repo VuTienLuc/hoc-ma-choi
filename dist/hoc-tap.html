@@ -702,6 +702,36 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .hub-who{display:grid;gap:3px;min-width:0} .hub-icons{display:flex;flex-wrap:wrap;gap:2px;align-items:center} .hub-icons small{font-weight:700;color:var(--muted)}
 .hub-ic{font-size:22px;line-height:1;filter:grayscale(.15)} .hub-ic.rare{filter:drop-shadow(0 0 2px #4aa3ff)} .hub-ic.epic{filter:drop-shadow(0 0 3px #a06bff)} .hub-ic.legend{filter:drop-shadow(0 0 4px #ffbf1f)}
 
+/* ---------- Góc chung: tab thi đua & gắn bài học (hub-plus.js) ---------- */
+.hub-tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;scrollbar-width:thin} .hub-tabs button{flex:0 0 auto;white-space:nowrap}
+.hub-card{background:var(--surface);border:2.5px solid var(--line);border-radius:var(--r-card,18px);box-shadow:6px 6px 0 var(--line);padding:14px 16px;margin:14px 0}
+.hub-card h3{margin:0 0 8px} .hub-card h3 small{font-weight:600;color:var(--muted);font-size:.8em} .hub-card p{margin:6px 0}
+.hub-bar{height:12px;border-radius:99px;background:var(--primary-soft);border:2px solid var(--line);overflow:hidden;margin:6px 0} .hub-bar i{display:block;height:100%;background:var(--primary);border-radius:99px;transition:width .4s}
+.hub-bar.ok i{background:var(--ok,var(--ok))}
+.hub-q{list-style:none;padding:0;margin:8px 0;display:grid;gap:8px} .hub-q li{display:grid;grid-template-columns:32px 1fr auto;gap:10px;align-items:center} .hub-q li.done b{text-decoration:line-through;opacity:.7} .hub-q small{color:var(--muted);font-weight:700}
+.hub-reward{padding:8px 12px;border-radius:12px;background:var(--primary-soft);border:2px dashed var(--line);font-weight:600} .hub-reward.got{background:var(--ok-soft);border-style:solid}
+.hub-goal{margin:8px 0} .hub-stops{display:flex;justify-content:space-between;font-size:22px;filter:grayscale(1);} .hub-stops span{display:grid;justify-items:center;opacity:.45} .hub-stops span.on{filter:none;opacity:1} .hub-stops small{font-size:12px;font-weight:700}
+.hub-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px} .hub-chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 4px;border:2px solid var(--line);border-radius:99px;background:var(--surface);font-weight:600} .hub-chip.me{background:var(--primary-soft)} .hub-chip b{color:var(--primary)}
+.hub-av.s{width:26px;height:26px;font-size:13px;font-style:normal}
+.hub-f{display:grid;gap:4px;font-weight:600;margin:8px 0} .hub-f textarea,.hub-f input:not([type=radio]),.hub-f select{font:inherit;padding:8px 10px;border:2px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);width:100%;box-sizing:border-box}
+.hub-opts-in{display:grid;grid-template-columns:1fr 1fr;gap:0 12px} .hub-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0 12px}
+@media(max-width:700px){.hub-opts-in,.hub-row{grid-template-columns:1fr}}
+.hub-qh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap} .hub-qh small{color:var(--muted);font-weight:700} .hub-qt{font-size:1.15em;font-weight:600}
+.hub-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0} @media(max-width:700px){.hub-opts{grid-template-columns:1fr}}
+.hub-opt{min-height:52px;text-align:left;padding:8px 12px;border:2.5px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);font:600 17px/1.3 var(--f-body);cursor:pointer} .hub-opt b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--primary-soft);margin-right:6px}
+.hub-opt.sel{background:var(--primary-soft);border-color:var(--primary)} .hub-opt.ok{background:var(--ok-soft);border-color:var(--ok)} .hub-opt.no{background:var(--bad-soft);border-color:var(--bad)}
+.hub-res{padding:8px 12px;border-radius:12px;border:2px solid var(--line)} .hub-res.ok{background:var(--ok-soft)} .hub-res.no{background:var(--warn-soft)}
+.hub-ol{list-style:none;padding:0;margin:6px 0;display:grid;gap:4px} .hub-ol li.ok{font-weight:800;color:var(--ok)} .hub-q-t.closed{opacity:.7}
+.hub-hot,.hub-path,.hub-rev{list-style:none;padding:0;margin:6px 0;display:grid;gap:8px}
+.hub-hot li{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:8px 10px;border:2px solid var(--line);border-radius:12px} .hub-hot li a,.hub-hot li>span:first-child{display:grid;color:inherit;text-decoration:none} .hub-hot small,.hub-path small,.hub-rev small{color:var(--muted);font-weight:600;font-size:.82em}
+.hub-pct{display:grid;justify-items:end;font:800 20px/1 var(--f-head)} .hub-pct small{font:600 12px/1.2 var(--f-body)} .hub-pct.r{color:var(--bad)} .hub-pct.y{color:var(--warn)} .hub-pct.g{color:var(--ok)}
+.hub-path li{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:6px 10px;border:2px solid var(--line);border-radius:12px} .hub-path li a{display:flex;gap:8px;align-items:center;color:inherit;text-decoration:none;min-height:40px} .hub-path li.full{background:var(--ok-soft)} .hub-path li.next{border-color:var(--primary);box-shadow:3px 3px 0 var(--primary)}
+.hub-lv{display:flex;gap:4px} .hub-lv i{font-style:normal;min-width:34px;text-align:center;padding:2px 6px;border-radius:99px;border:1.5px solid var(--line);color:var(--muted);font-weight:700;font-size:13px} .hub-lv i.on{color:var(--warn);background:var(--warn-soft)}
+.hub-cls{white-space:nowrap}
+@media(max-width:700px){.hub-path li{grid-template-columns:1fr auto}.hub-path .hub-lv{grid-column:1/-1}}
+.hub-rev li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:2px solid var(--line);border-radius:12px} .hub-rev li.due{border-color:var(--primary);background:var(--primary-soft)} .hub-rev li div{display:grid}
+.hub-race li{grid-template-columns:44px 1fr auto} .hub-race .hub-who{width:100%}
+
 </style>
 <style>
 /* HỌC MÀ CHƠI – giao diện ngang cho iPad, đấu máy, hai người và phòng cả lớp */
@@ -832,6 +862,11 @@ const CONFIG = {
   // Để trống '' thì không cần đăng nhập (thú cưng vẫn chạy, tiến độ lưu trên máy).
   // Cách tạo: xem tools/apps-script/HUONG-DAN.md
   sheetAPI: 'https://script.google.com/macros/s/AKfycby1RmiJhPBLC5z24W9LQgCwRShTipZvHf6tn0xiJUwzNSiQCmmXfJndypWlZr1MONGf/exec',
+
+  // GÓC CHUNG – Thử thách tuần của lớp: mục tiêu ⭐ mới mỗi tuần cho MỖI bạn (cả lớp = số này × số bạn đã tham gia);
+  // weeklyReward = phần thưởng thầy cô hứa khi cả lớp đạt (để '' thì không hiện).
+  weeklyPerStudent: 6,
+  weeklyReward: '',
 
   // Khi đăng nhập, học sinh chỉ thấy bộ đề của khối mình, nhận theo SỐ ĐẦU trong tên lớp:
   // "10A12" → Lớp 10, "9A" → Lớp 9. Lớp không có số (vd "GV") thấy tất cả. Đặt false để tắt.
@@ -1447,6 +1482,8 @@ const Account = (() => {
   }
   const rank = () => api({action:'rank', token:user.token});
   const rankAll = grade => api({action:'rankAll', token:user.token, grade});   // giáo viên: mọi lớp của một khối
+const call = (action, body) => user ? api({...(body || {}), action, token:user.token}) : Promise.reject(new Error('login'));   // gọi action bất kỳ của máy chủ (Góc chung dùng)
+const bonus = play => call('bonus', {play});   // thưởng ⭐ khi xong cả 3 nhiệm vụ ngày (máy chủ tự kiểm tra)
   const P = () => typeof Play !== 'undefined';
   function expired(){ toastSafe('Phiên đăng nhập đã hết hạn, em đăng nhập lại nhé.'); setTimeout(logout, 1500); }
   function logout(){ LS.del('hoctap:session'); user = null; location.hash = '#/'; location.reload(); }
@@ -1537,7 +1574,7 @@ const Account = (() => {
     }
   }
   addEventListener('online', flush);
-  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, rankAll, gradeOfClass, isTeacher, userBar, bindLogout };
+  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, rankAll, call, bonus, gradeOfClass, isTeacher, userBar, bindLogout };
 })();
 
 /* =====================================================================
@@ -1747,7 +1784,7 @@ const Play = (() => {
   const uid = () => (typeof Account !== 'undefined' && Account.user) ? `${Account.user.lop}|${Account.user.user}` : '';
   const blankStats = () => ({correct:0, sets:0, three:0, run:0, bestRun:0, fed:0, played:0, bought:0});
   const blank = () => ({v:1, ts:0, xu:0, xuTotal:0, food:3, no:80, vui:80, t:Date.now(), lastPlay:0,
-    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}, stickers:{}, stickerTotal:0, stickerLast:'',
+    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}, stickers:{}, stickerTotal:0, stickerLast:'', rev:{}, bonusDay:'',
     absence:{base:'', applied:0, lost:0, caps:{}, lastLoss:null}});
   let S = null, who = null;
 
@@ -1755,7 +1792,7 @@ const Play = (() => {
   function st(){
     if(S && who === uid()) return S;
     who = uid(); const d = store.get(KEY) || {};
-    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {}; S.mastery = S.mastery || {}; S.stickers = S.stickers || {};
+    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {}; S.mastery = S.mastery || {}; S.stickers = S.stickers || {}; S.rev = S.rev || {};
     S.absence = Object.assign({base:'', applied:0, lost:0, caps:{}, lastLoss:null}, d.absence || {}); S.absence.caps = S.absence.caps || {};
     tick(); rollQuests(); return S;
   }
@@ -1858,6 +1895,31 @@ const Play = (() => {
       it.p = setTo != null ? Math.max(it.p, setTo) : it.p + add;
       if(it.p >= Qd.n){ it.p = Qd.n; it.done = true; S.qDone++; S.xu += Qd.xu; S.xuTotal += Qd.xu; S.food += Qd.food;
         note(`🎯 Xong nhiệm vụ: ${Qd.text}! +${Qd.xu} 🪙${Qd.food?` +${Qd.food} 🍖`:''}`); } }
+    if(S.q.list.length && S.q.list.every(i => i.done)) claimDay();
+  }
+  /* Xong cả 3 nhiệm vụ ngày → +1 ⭐ thưởng (máy chủ kiểm tra rồi ghi vào tổng sao; hiện ở Góc chung) + 20 🪙. Mỗi ngày một lần. */
+  let bonusBusy = false;
+  function claimDay(){
+    if(bonusBusy || typeof Account === 'undefined' || !Account.user || !Account.bonus || (Account.isTeacher && Account.isTeacher())) return;
+    const d = today(); if(S.bonusDay === d) return; bonusBusy = true;
+    setTimeout(() => { Account.bonus(snapshot()).then(r => {
+      if(r && r.ok){ S.bonusDay = d; if(r.stars){ S.xu += 20; S.xuTotal += 20; note('🎉 Xong cả 3 nhiệm vụ! +1 ⭐ thưởng (xem ở 🌟 Góc chung) · +20 🪙'); } save(false); }
+    }).catch(() => {}).finally(() => { bonusBusy = false; }); }, 500);
+  }
+
+  /* ---------- Ôn bài cũ: bộ chưa trọn điểm được hẹn ôn lại sau 1 → 3 → 7 ngày ----------
+     Ôn đúng hạn mà trọn điểm: +15 🪙 và sang mốc tiếp theo; xong mốc 7 ngày là “nhớ chắc”. Chưa trọn thì hẹn lại ngày mai. */
+  const REV_GAP = [1, 3, 7], REV_MAX = 30;
+  const addDays = (d, k) => { const x = new Date(d + 'T12:00:00'); x.setDate(x.getDate() + k); return `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`; };
+  function reviewDone(g, l, lv, pts, n){
+    const s = st(), k = `${g.id}:${l.id}:${lv}`, d = today(), it = s.rev[k];
+    if(pts < n){ s.rev[k] = {g:g.id, l:l.id, lv, nm:l.name, box:0, due:addDays(d, REV_GAP[0])}; }
+    else if(it && it.due <= d){
+      it.box = (Number(it.box) || 0) + 1; s.xu += 15; s.xuTotal += 15;
+      if(it.box >= REV_GAP.length){ delete s.rev[k]; note('🎓 Em đã nhớ chắc bài này! +15 🪙'); }
+      else { it.due = addDays(d, REV_GAP[it.box]); note(`🔁 Ôn bài cũ thành công! +15 🪙 · hẹn ôn lại sau ${REV_GAP[it.box]} ngày`); }
+    }
+    const keys = Object.keys(s.rev); if(keys.length > REV_MAX) keys.sort((a, b) => String(s.rev[a].due).localeCompare(String(s.rev[b].due))).slice(0, keys.length - REV_MAX).forEach(x => delete s.rev[x]);
   }
 
   /* ---------- Bộ sưu tập sticker: thưởng riêng cho một bộ đúng tuyệt đối 6/6 ---------- */
@@ -2010,12 +2072,13 @@ const Play = (() => {
         s.absence.base = d; s.absence.applied = 0; s.absence.lost = 0; s.absence.lastLoss = null;
         if(s.streak > 1) note(`🔥 Chuỗi ${s.streak} ngày học liên tiếp! Giỏi quá!`); }
       if(food) note(`🍖 +${food} hạt cho thú cưng${bonus ? ` · +${bonus} 🪙 thưởng 3 sao` : ''}`);
+      reviewDone(g, l, lv, pts, n);
       quest('bo1'); quest('bo3'); if(stars === 3) quest('sao3'); if(lv >= 2) quest('muc2');
       const lk = `${g.id}:${l.id}`; if(!s.seen[lk]){ s.seen[lk] = 1; quest('moi'); }
       if(n === 6 && pts === 6) awardSticker(g);
       checkBadges(); save(false); updateMini();
     }
-    if(ev === 'home') decorateHome(a);
+    if(ev === 'home'){ decorateHome(a); if(s.q.list.length && s.q.list.every(i => i.done)) claimDay(); }
     if(ev === 'lesson'){
       updateMini(); const warning = inactivityHTML(a, true), toolbar = $('.toolbar'); if(warning && toolbar) toolbar.insertAdjacentHTML('afterend', warning);
     }
@@ -2108,7 +2171,7 @@ const Play = (() => {
   }
 
   addEventListener('hashchange', () => { const m = $('#petHome'); if(m){ m.remove(); document.body.classList.remove('noscroll'); } });
-  return { on, look, bgSVG, accSVG, snapshot, adopt, checkInactivity, inactivityInfo, progressValue, hasStarCap, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
+  return { on, look, bgSVG, today, addDays, accSVG, snapshot, adopt, checkInactivity, inactivityInfo, progressValue, hasStarCap, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
 })();
 
 </script>
@@ -2437,7 +2500,7 @@ Game.addTopic({
    Hub – “🌟 GÓC CHUNG”: menu riêng cho HỌC SINH và GIÁO VIÊN cùng xem (đường link #/goc-chung[/<tab>]).
    - Học sinh: xem lớp của mình (Account.rank → máy chủ action 'rank').
    - Giáo viên (tài khoản lớp không có chữ số, vd "GV"): chọn khối → chọn lớp (Account.rankAll → action 'rankAll').
-   - Mỗi mục là một TAB đăng ký bằng Hub.register({id, icon, label, render(box, ctx)}). Hiện có: 🏆 Xếp hạng lớp · 🎟️ Sticker của lớp.
+   - Mỗi mục là một TAB đăng ký bằng Hub.register({id, icon, label, render(box, ctx)}). Hiện có: 🏆 Xếp hạng lớp · 🎟️ Sticker của lớp · (hub-plus.js) 🎯 Hôm nay & Thử thách · ❓ Câu hỏi của thầy · 🔥 Bài hot tuần · 🗺️ Lộ trình · 🔁 Ôn bài cũ · 🏁 Đua lớp. Tab có thể đặt order (nhỏ = đứng trước).
      Thêm tính năng mới = viết một hàm render rồi gọi Hub.register(...) (xem cuối tệp); không phải sửa phần khung.
    - ctx đưa cho render: {role:'student'|'teacher', lop, cls:{lop,rows}, rows, hasSticker, esc, STICKERS, RARITY, uniq(r), reload()}.
      Mỗi dòng rows: {name, stars, streak, best, badges, xu, stickers:{id:số lần}, me?, joined?}.
@@ -2445,7 +2508,7 @@ Game.addTopic({
    ===================================================================== */
 const Hub = (() => {
   const TABS = [];
-  const register = t => { const i = TABS.findIndex(x => x.id === t.id); if(i >= 0) TABS[i] = t; else TABS.push(t); };
+  const register = t => { const i = TABS.findIndex(x => x.id === t.id); if(i >= 0) TABS[i] = t; else TABS.push(t); TABS.sort((a, b) => (a.order ?? 50) - (b.order ?? 50)); };   // order nhỏ hơn = đứng trước (mặc định 50)
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const SD = () => (typeof StickerDB !== 'undefined' ? StickerDB : {STICKERS:[], RARITY:{}});
   const uniq = r => SD().STICKERS.filter(x => ((r && r.stickers) || {})[x.id] > 0).length;
@@ -2519,20 +2582,20 @@ const Hub = (() => {
   }
 
   /* ---------- TAB 1: 🏆 Xếp hạng lớp ---------- */
-  const SORTS = [['stars','⭐ Sao'],['streak','🔥 Chuỗi'],['badges','🏅 Huy hiệu'],['stk','🎟️ Sticker'],['xu','🪙 Xu']];
+  const SORTS = [['stars','⭐ Sao'],['wk','📈 Tuần này'],['streak','🔥 Chuỗi'],['badges','🏅 Huy hiệu'],['stk','🎟️ Sticker'],['xu','🪙 Xu']];
   const val = (r, k) => k === 'stk' ? uniq(r) : (Number(r[k]) || 0);
-  register({id:'rank', icon:'🏆', label:'Xếp hạng lớp', render(box, c){
+  register({id:'rank', order:10, icon:'🏆', label:'Xếp hạng lớp', render(box, c){
     const k = c.state.sort, list = c.rows.slice().sort((a, b) => (val(b, k) - val(a, k)) || (val(b, 'stars') - val(a, 'stars')) || String(a.name).localeCompare(String(b.name), 'vi'));
     const off = c.all.filter(r => r.joined === false);
     box.innerHTML = `<div class="gr-sort">${SORTS.map(([id, t]) => `<button class="btn small ${k === id ? 'primary' : ''}" data-hub-sort="${id}">${t}</button>`).join('')}</div>
       <div class="gr-stats"><span>Lớp <b>${c.esc(c.lop)}</b></span><span><b>${list.length}</b> bạn tham gia</span><span><b>${list.reduce((t, r) => t + (Number(r.stars) || 0), 0)}</b> ⭐ cả lớp</span></div>
-      ${list.length ? `<ol class="rank hub-rank">${list.map((r, i) => `<li class="${r.me ? 'me' : ''}"><span class="rk">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</span><span class="rp hub-av">${c.esc((String(r.name).trim().split(/\s+/).pop() || '?').charAt(0).toUpperCase())}</span><b>${c.esc(r.name)}${r.me ? ' (em)' : ''}</b><span class="rv">${SORTS.find(s => s[0] === k)[1].split(' ')[0]} ${val(r, k)}</span></li>`).join('')}</ol>` : note('Lớp này chưa có bạn nào đăng nhập.')}
+      ${list.length ? `<ol class="rank hub-rank">${list.map((r, i) => `<li class="${r.me ? 'me' : ''}"><span class="rk">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</span><span class="rp hub-av">${c.esc((String(r.name).trim().split(/\s+/).pop() || '?').charAt(0).toUpperCase())}</span><b>${c.esc(r.name)}${r.me ? ' (em)' : ''}</b><span class="rv">${SORTS.find(s => s[0] === k)[1].split(' ')[0]} ${k === 'wk' ? '+' : ''}${val(r, k)}</span></li>`).join('')}</ol>` : note('Lớp này chưa có bạn nào đăng nhập.')}
       ${off.length ? `<details class="gr-off"><summary>Chưa đăng nhập (${off.length})</summary><p>${off.map(r => c.esc(r.name)).join(', ')}</p></details>` : ''}`;
     box.querySelectorAll('[data-hub-sort]').forEach(b => b.onclick = () => { c.state.sort = b.dataset.hubSort; c.redraw(); });
   }});
 
   /* ---------- TAB 2: 🎟️ Sticker của lớp ---------- */
-  register({id:'sticker', icon:'🎟️', label:'Sticker của lớp', render(box, c){
+  register({id:'sticker', order:80, icon:'🎟️', label:'Sticker của lớp', render(box, c){
     const S = c.STICKERS, R = c.RARITY, W = {legend:4, epic:3, rare:2, common:1};
     if(!c.hasSticker){ box.innerHTML = note('Máy chủ chưa gửi dữ liệu sticker: thầy cô dán <b>Code.gs</b> mới (hàm <code>pub_</code> có <code>stickers</code>) vào Apps Script rồi triển khai lại.'); return; }
     const owners = {}; S.forEach(x => owners[x.id] = c.rows.filter(r => ((r.stickers || {})[x.id] || 0) > 0));
@@ -2548,6 +2611,194 @@ const Hub = (() => {
   }});
 
   return { register, route, load, TABS, state:st };
+})();
+
+</script>
+<script>/* assets/js/hub-plus.js */
+/* =====================================================================
+   Hub-plus – các tab “thi đua” và “gắn với bài học” của 🌟 Góc chung (đăng ký bằng Hub.register, xem hub.js).
+   Nạp SAU hub.js (cả trang học sinh lẫn trang giáo viên).
+   Tab: 🎯 Hôm nay & Thử thách (nhiệm vụ ngày, thử thách tuần của lớp, Vua tiến bộ)
+        ❓ Câu hỏi của thầy (giáo viên đăng, học sinh trả lời trong hạn → ⭐ thưởng)
+        🔥 Bài hot tuần (bài lớp làm nhiều nhất / cần ôn nhất 7 ngày qua)
+        🗺️ Lộ trình (các bài của khối, sao của em, bao nhiêu bạn đã làm)
+        🔁 Ôn bài cũ (bộ chưa trọn điểm hẹn ôn lại sau 1 → 3 → 7 ngày; dữ liệu nằm ở Play.state.rev)
+        🏁 Đua lớp (các lớp cùng khối: sao mới trung bình mỗi bạn trong tuần)
+   Máy chủ: action hot, race, qList, qAnswer, qPost, qClose, bonus (tools/apps-script/Code.gs). Dữ liệu mỗi em: pub_ có thêm wk (sao tăng tuần này) và qd (nhiệm vụ đã xong hôm nay).
+   ===================================================================== */
+(() => {
+  if(typeof Hub === 'undefined') return;
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const note = h => `<p class="note-line">${h}</p>`;
+  const OLD = 'Máy chủ chưa có chức năng này: thầy cô dán <b>Code.gs</b> mới vào Apps Script rồi triển khai lại.';
+  const isT = () => typeof Account !== 'undefined' && Account.isTeacher && Account.isTeacher();
+  const SITE = /giao-vien/.test(location.pathname) ? '../index.html' : '';           // trang giáo viên không có engine bài học → liên kết sang trang học sinh
+  const hasApp = () => typeof App !== 'undefined' && App.grades && App.grades.length;
+  const play = () => (typeof Play !== 'undefined' && Play.state) ? Play.state : null;
+  const num = (r, k) => Number(r && r[k]) || 0;
+  const initial = n => esc((String(n).trim().split(/\s+/).pop() || '?').charAt(0).toUpperCase());
+  const bar = (pct, cls = '') => `<div class="hub-bar ${cls}"><i style="width:${Math.max(0, Math.min(100, Math.round(pct)))}%"></i></div>`;
+  const typeset = el => { try{ if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(() => {}); }catch(e){} };
+  const weekLabel = () => { const d = new Date(), dow = (d.getDay() + 6) % 7, a = new Date(d.getFullYear(), d.getMonth(), d.getDate() - dow), b = new Date(a.getFullYear(), a.getMonth(), a.getDate() + 6);
+    const f = x => `${x.getDate()}/${x.getMonth() + 1}`; return `${f(a)} – ${f(b)}`; };
+  const mtx = s => esc(s).replace(/\$([^$]+)\$/g, '\\($1\\)');                    // văn bản giáo viên gõ: $…$ → công thức MathJax \( … \)
+  const gradeNum = s => (String(s || '').match(/\d{1,2}/) || [''])[0];
+
+  /* ---------- Gọi máy chủ (nhớ 45 giây; lỗi → thông báo thân thiện) ---------- */
+  const cache = {};
+  const bust = () => Object.keys(cache).forEach(k => delete cache[k]);
+  async function get(action, body){
+    const k = action + JSON.stringify(body || {}), c = cache[k];
+    if(c && Date.now() - c.t < 45000) return c.r;
+    let r; try{ r = await Account.call(action, body); }catch(e){ r = {ok:false, msg:'Chưa tải được dữ liệu. Kiểm tra mạng rồi bấm ↻ Tải lại.'}; }
+    if(r && r.ok) cache[k] = {t:Date.now(), r};
+    return r;
+  }
+  const fail = (box, r) => { box.innerHTML = note(r && /không hợp lệ/.test(r.msg || '') ? OLD : esc((r && r.msg) || 'Chưa tải được dữ liệu.')); };
+  const live = box => box.isConnected;                                  // tab đã bị đổi sang tab khác chưa?
+  const lessonLink = (gradeName, lessonName) => {
+    if(!hasApp()) return '';
+    const g = App.grades.find(x => x.name === gradeName), l = g && g.lessons.find(x => x.name === lessonName);
+    return l ? `${SITE}#/${g.id}/bai/${l.id}` : '';
+  };
+
+  /* ================= 🎯 Hôm nay & Thử thách ================= */
+  Hub.register({id:'quest', order:20, icon:'🎯', label:'Hôm nay & Thử thách', render(box, c){
+    const S = play(), rows = c.rows, hasWk = c.all.some(r => r.wk !== undefined), per = Number(CONFIG.weeklyPerStudent) || 6;
+    const doneNow = r => (r.me && S && S.q && typeof Play !== 'undefined' && S.q.day === Play.today()) ? S.q.list.filter(i => i.done).length : num(r, 'qd');
+    let h = '';
+    if(c.role === 'student' && S && S.q && S.q.list.length){
+      const got = typeof Play !== 'undefined' && S.bonusDay === Play.today();
+      h += `<section class="hub-card"><h3>🎯 Nhiệm vụ của em hôm nay</h3><ul class="qlist hub-q">${S.q.list.map(it => { const Q = Play.QUESTS[it.id];
+        return `<li class="${it.done ? 'done' : ''}"><span class="qi">${it.done ? '✅' : '🎯'}</span><div><b>${esc(Q.text)}</b>${bar(it.p / Q.n * 100)}</div><small>${it.p}/${Q.n}</small></li>`; }).join('')}</ul>
+        <p class="hub-reward ${got ? 'got' : ''}">${got ? '🎉 Em đã nhận thưởng hôm nay: <b>+1 ⭐ và +20 🪙</b>' : 'Xong <b>cả 3 nhiệm vụ</b> hôm nay: thưởng <b>+1 ⭐</b> và <b>+20 🪙</b>!'}</p></section>`;
+    }
+    if(!hasWk){ box.innerHTML = h + note(OLD); return; }
+    const any = rows.filter(r => doneNow(r) > 0).length, all3 = rows.filter(r => doneNow(r) >= 3).length;
+    h += `<section class="hub-card"><h3>📅 Lớp ${esc(c.lop)} hôm nay</h3><div class="gr-stats"><span><b>${any}</b>/${rows.length} bạn đã xong ≥ 1 nhiệm vụ</span><span><b>${all3}</b> bạn xong cả 3 🎉</span></div>${bar(rows.length ? any / rows.length * 100 : 0)}</section>`;
+    const total = rows.reduce((t, r) => t + num(r, 'wk'), 0), goal = Math.max(1, per * rows.length), pct = Math.min(100, Math.round(total / goal * 100));
+    const stops = [[25, '🌱'], [50, '🌿'], [75, '🌳'], [100, '🏆']];
+    const help = rows.filter(r => num(r, 'wk') > 0).sort((a, b) => num(b, 'wk') - num(a, 'wk') || String(a.name).localeCompare(String(b.name), 'vi'));
+    h += `<section class="hub-card"><h3>🚩 Thử thách tuần của lớp <small>(${weekLabel()})</small></h3>
+      <p>Cả lớp cùng góp <b>⭐ mới</b> trong tuần. Mục tiêu: <b>${goal} ⭐</b> (mỗi bạn ${per} ⭐). Mỗi bạn góp được bao nhiêu cũng quý!</p>
+      <div class="hub-goal">${bar(pct, pct >= 100 ? 'ok' : '')}<div class="hub-stops">${stops.map(([p, e]) => `<span class="${pct >= p ? 'on' : ''}">${e}<small>${p}%</small></span>`).join('')}</div></div>
+      <div class="gr-stats"><span><b>${total}</b>/${goal} ⭐</span><span><b>${help.length}</b>/${rows.length} bạn đã góp</span></div>
+      ${pct >= 100 ? `<p class="hub-reward got">🎊 Cả lớp đã chinh phục thử thách tuần!${CONFIG.weeklyReward ? ' Phần thưởng: <b>' + esc(CONFIG.weeklyReward) + '</b>' : ''}</p>` : (CONFIG.weeklyReward ? `<p class="hub-reward">Phần thưởng khi đạt: <b>${esc(CONFIG.weeklyReward)}</b></p>` : '')}
+      ${help.length ? `<div class="hub-chips">${help.map(r => `<span class="hub-chip ${r.me ? 'me' : ''}"><i class="hub-av s">${initial(r.name)}</i>${esc(r.name)}${r.me ? ' (em)' : ''} <b>+${num(r, 'wk')}⭐</b></span>`).join('')}</div>` : note('Tuần này chưa có sao mới. Bạn đầu tiên làm một bộ sẽ mở màn nhé! 🚀')}</section>`;
+    const top = help.slice(0, 3), me = rows.find(r => r.me);
+    h += `<section class="hub-card"><h3>👑 Vua tiến bộ tuần này</h3><p>Xếp theo <b>số ⭐ tăng thêm trong tuần</b>, nên bạn mới học vẫn có cơ hội đứng đầu.</p>
+      ${top.length ? `<ol class="rank hub-rank">${top.map((r, i) => `<li class="${r.me ? 'me' : ''}"><span class="rk">${['🥇', '🥈', '🥉'][i]}</span><span class="rp hub-av">${initial(r.name)}</span><b>${esc(r.name)}${r.me ? ' (em)' : ''}</b><span class="rv">📈 +${num(r, 'wk')}⭐</span></li>`).join('')}</ol>` : note('Chưa có ai lên bảng tuần này.')}
+      ${me ? `<p class="note-line">Tuần này em đã tăng <b>+${num(me, 'wk')} ⭐</b>.</p>` : ''}</section>`;
+    box.innerHTML = h;
+  }});
+
+  /* ================= ❓ Câu hỏi của thầy ================= */
+  const LET = ['A', 'B', 'C', 'D'];
+  Hub.register({id:'ask', order:30, icon:'❓', label:'Câu hỏi của thầy', async render(box, c){
+    box.innerHTML = note('Đang tải…');
+    const r = await get('qList'); if(!live(box)) return; if(!r || !r.ok){ fail(box, r); return; }
+    const refresh = async () => { bust(); await Hub.load(true).catch(() => {}); c.redraw(); };
+    if(r.teacher){
+      const g = gradeNum(c.lop), tgt = q => !q.target ? 'mọi lớp' : /^\d+$/.test(q.target) ? 'khối ' + q.target : 'lớp ' + q.target;
+      box.innerHTML = `<section class="hub-card"><h3>✍️ Đăng câu hỏi mới</h3>
+        <label class="hub-f">Câu hỏi (công thức viết trong $…$)<textarea id="qaQ" rows="3" maxlength="800" placeholder="Ví dụ: Giá trị của $\\sin 150^\\circ$ bằng?"></textarea></label>
+        <div class="hub-opts-in">${LET.map((l, i) => `<label class="hub-f"><span><input type="radio" name="qaAns" value="${l}" ${i === 0 ? 'checked' : ''}> ${l} (đáp án đúng)</span><input id="qaO${i}" maxlength="300" placeholder="Phương án ${l}"></label>`).join('')}</div>
+        <label class="hub-f">Giải thích (hiện sau khi em trả lời)<textarea id="qaE" rows="2" maxlength="600"></textarea></label>
+        <div class="hub-row"><label class="hub-f">Dành cho<select id="qaT">${g ? `<option value="${g}">Cả khối ${g}</option>` : ''}<option value="${esc(c.lop)}">Chỉ lớp ${esc(c.lop)}</option><option value="">Mọi lớp</option></select></label>
+          <label class="hub-f">Thưởng<select id="qaS"><option value="1">1 ⭐</option><option value="2">2 ⭐</option><option value="3">3 ⭐</option></select></label>
+          <label class="hub-f">Hạn<select id="qaD"><option value="1">Hết hôm nay</option><option value="2" selected>2 ngày</option><option value="3">3 ngày</option><option value="7">1 tuần</option></select></label></div>
+        <div class="fb" id="qaMsg"></div><button class="btn primary" id="qaPost">📣 Đăng câu hỏi</button></section>
+        <h3>Các câu đã đăng</h3>${r.items.length ? r.items.map(q => `<article class="hub-card hub-q-t ${q.open ? '' : 'closed'}"><div class="hub-qh"><span class="pill">${q.open ? '🟢 Đang mở' : '⚪ Đã đóng'}</span><small>${esc(tgt(q))} · hạn ${esc(q.due || '—')} · ${q.stars}⭐</small></div>
+          <p class="hub-qt">${mtx(q.q)}</p><ol class="hub-ol">${q.opts.map((o, i) => o ? `<li class="${LET[i] === q.ans ? 'ok' : ''}">${LET[i]}. ${mtx(o)}</li>` : '').join('')}</ol>
+          <p class="note-line">📊 <b>${q.answered}</b> bạn trả lời · <b>${q.correct}</b> đúng${q.answered ? ` (${Math.round(q.correct / q.answered * 100)}%)` : ''}</p>${q.open ? `<button class="linkbtn" data-qclose="${esc(q.id)}">Đóng câu hỏi</button>` : ''}</article>`).join('') : note('Chưa có câu hỏi nào.')}`;
+      typeset(box);
+      const msg = (t, ok) => { const m = box.querySelector('#qaMsg'); m.className = 'fb show ' + (ok ? 'sol' : 'note'); m.innerHTML = t; };
+      box.querySelector('#qaPost').onclick = async ev => {
+        const b = ev.currentTarget, opts = LET.map((_, i) => box.querySelector('#qaO' + i).value.trim()), ans = box.querySelector('input[name=qaAns]:checked').value;
+        const q = box.querySelector('#qaQ').value.trim();
+        if(!q || opts.filter(Boolean).length < 2 || !opts[LET.indexOf(ans)]){ msg('Cần câu hỏi, ít nhất 2 phương án và ô đáp án đúng không để trống.'); return; }
+        b.disabled = true;
+        try{ const res = await Account.call('qPost', {q, opts, ans, exp:box.querySelector('#qaE').value.trim(), stars:+box.querySelector('#qaS').value, days:+box.querySelector('#qaD').value, target:box.querySelector('#qaT').value});
+          if(!res.ok) throw new Error(res.msg); await refresh(); }
+        catch(e){ msg(esc(e.message || 'Chưa đăng được, thử lại nhé.')); b.disabled = false; }
+      };
+      box.querySelectorAll('[data-qclose]').forEach(b => b.onclick = async () => { b.disabled = true; try{ await Account.call('qClose', {id:b.dataset.qclose}); }catch(e){} refresh(); });
+      return;
+    }
+    const mark = q => `<div class="hub-res ${q.mine.ok ? 'ok' : 'no'}"><b>${q.mine.ok ? `✅ Chính xác!${q.stars ? ` Em được +${q.stars} ⭐` : ''}` : `❌ Chưa đúng. Đáp án là ${esc(q.ans)}.`}</b>${q.exp ? `<p>${mtx(q.exp)}</p>` : ''}</div>`;
+    box.innerHTML = r.items.length ? r.items.map(q => `<article class="hub-card hub-qa" data-q="${esc(q.id)}"><div class="hub-qh"><span class="pill">❓ Thầy hỏi</span><small>${q.stars ? `Đúng được +${q.stars} ⭐ · ` : ''}hạn ${esc(q.due || '—')}</small></div>
+        <p class="hub-qt">${mtx(q.q)}</p><div class="hub-opts">${q.opts.map((o, i) => o ? `<button type="button" class="hub-opt ${q.mine ? (LET[i] === q.ans ? 'ok' : LET[i] === q.mine.pick ? 'no' : '') : ''}" data-pick="${LET[i]}" ${q.mine ? 'disabled' : ''}><b>${LET[i]}</b> ${mtx(o)}</button>` : '').join('')}</div>
+        ${q.mine ? mark(q) : `<div class="fb" data-msg></div><button class="btn primary" data-send disabled>Gửi đáp án</button>`}</article>`).join('')
+      : note('Hôm nay thầy chưa có câu hỏi mới. Em ghé lại sau nhé! 🌤️') + note('Khi thầy đăng câu hỏi, em chọn đáp án đúng trong hạn là được <b>⭐ thưởng</b>. Mỗi câu chỉ trả lời một lần.');
+    typeset(box);
+    box.querySelectorAll('.hub-qa').forEach(card => {
+      let pick = '', send = card.querySelector('[data-send]'); if(!send) return;
+      card.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => { pick = b.dataset.pick; card.querySelectorAll('[data-pick]').forEach(x => x.classList.toggle('sel', x === b)); send.disabled = false; });
+      send.onclick = async () => {
+        send.disabled = true; const m = card.querySelector('[data-msg]');
+        try{ const res = await Account.call('qAnswer', {id:card.dataset.q, pick}); if(!res.ok) throw new Error(res.msg);
+          if(res.stars && typeof Play !== 'undefined' && Play.state){ try{ toast(`🎉 Chính xác! +${res.stars} ⭐ thưởng`); }catch(e){} }
+          await refresh(); }
+        catch(e){ m.className = 'fb show note'; m.textContent = e.message || 'Chưa gửi được, thử lại nhé.'; send.disabled = false; }
+      };
+    });
+  }});
+
+  /* ================= 🔥 Bài hot tuần ================= */
+  Hub.register({id:'hot', order:40, icon:'🔥', label:'Bài hot tuần', async render(box, c){
+    box.innerHTML = note('Đang tải…');
+    const r = await get('hot', c.role === 'teacher' ? {lop:c.lop} : {}); if(!live(box)) return; if(!r || !r.ok){ fail(box, r); return; }
+    const item = (x, right) => { const href = lessonLink(x.grade, x.lesson);
+      return `<li>${href ? `<a href="${esc(href)}">` : '<span>'}<b>${esc(x.lesson)}</b><small>${esc(x.grade)}</small>${href ? '</a>' : '</span>'}${right}</li>`; };
+    const weak = r.week.filter(x => x.sets >= 2).sort((a, b) => a.pct - b.pct || b.sets - a.sets).slice(0, 5), most = r.week.slice().sort((a, b) => b.sets - a.sets || b.students - a.students).slice(0, 5);
+    box.innerHTML = `<p class="note-line">Số liệu 7 ngày qua của lớp <b>${esc(r.lop)}</b>${c.role === 'student' ? '. Bấm vào bài để ôn ngay.' : '. Gợi ý cho thầy cô: bài nào điểm thấp thì nên chữa lại trên lớp.'}</p>
+      <section class="hub-card"><h3>📉 Cần ôn lại <small>(điểm trung bình thấp nhất)</small></h3>${weak.length ? `<ul class="hub-hot">${weak.map(x => item(x, `<span class="hub-pct ${x.pct >= 80 ? 'g' : x.pct >= 60 ? 'y' : 'r'}">${x.pct}%<small>${x.sets} bộ · ${x.students} bạn</small></span>`)).join('')}</ul>` : note('Chưa đủ dữ liệu (cần bài có từ 2 bộ làm trở lên).')}</section>
+      <section class="hub-card"><h3>🔥 Được làm nhiều nhất</h3>${most.length ? `<ul class="hub-hot">${most.map(x => item(x, `<span class="hub-pct n">${x.sets}<small>bộ · ${x.students} bạn</small></span>`)).join('')}</ul>` : note('Tuần này lớp chưa làm bộ nào. Em mở đầu nhé! 🚀')}</section>`;
+  }});
+
+  /* ================= 🗺️ Lộ trình ================= */
+  Hub.register({id:'path', order:50, icon:'🗺️', label:'Lộ trình', async render(box, c){
+    if(!hasApp()){ box.innerHTML = note(`Lộ trình hiển thị trên trang học sinh: <a href="../index.html#/goc-chung/path">mở Góc chung bên trang học sinh</a>.`); return; }
+    const teacher = c.role === 'teacher', gid = teacher ? c.state.gid : Account.gradeOfClass(Account.user.lop), g = App.grades.find(x => x.id === gid);
+    if(!g){ box.innerHTML = note('Chưa có nội dung cho khối này.'); return; }
+    box.innerHTML = note('Đang tải…');
+    const r = await get('hot', teacher ? {lop:c.lop} : {}); if(!live(box)) return;
+    const cnt = {}, size = r && r.ok ? r.size : 0; if(r && r.ok) r.all.forEach(x => { cnt[x.grade + '|' + x.lesson] = x.students; });
+    const stars = l => [1, 2, 3].map(lv => Math.max(0, Math.min(3, Number(store.get(`hoctap:${g.id}:${l.id}:${lv}`)) || 0)));
+    let total = 0, next = null; const lessons = g.lessons.map(l => { const s = stars(l), sum = s[0] + s[1] + s[2]; total += sum; if(!next && s.some(x => x < 3) && !teacher) next = l; return {l, s, sum}; });
+    const topics = g.topics.map(t => ({t, items:lessons.filter(x => x.l.t === t.id)})).filter(x => x.items.length);
+    box.innerHTML = `${teacher ? '' : `<section class="hub-card"><h3>🗺️ Hành trình ${esc(g.name)} của em</h3><div class="gr-stats"><span><b>${total}</b>/${g.lessons.length * 9} ⭐</span><span><b>${lessons.filter(x => x.sum >= 9).length}</b>/${g.lessons.length} bài đủ 9⭐</span></div>${bar(total / (g.lessons.length * 9) * 100)}${next ? `<p class="note-line">👉 Bài em nên làm tiếp: <a href="${esc(SITE + '#/' + g.id + '/bai/' + next.id)}"><b>${esc(next.name)}</b></a></p>` : ''}</section>`}
+      ${r && r.ok ? '' : note(r && /không hợp lệ/.test(r.msg || '') ? OLD : 'Chưa tải được số bạn đã làm của lớp.')}
+      ${topics.map(({t, items}) => `<section class="hub-card"><h3>${esc(t.name)} <small>HK${t.hk || ''}</small></h3><ul class="hub-path">${items.map(({l, s, sum}) => { const n = cnt[g.name + '|' + l.name];
+        return `<li class="${sum >= 9 ? 'full' : sum > 0 ? 'part' : ''} ${next === l.id || next === l ? 'next' : ''}"><a href="${esc(SITE + '#/' + g.id + '/bai/' + l.id)}"><span class="hub-dot">${sum >= 9 ? '🏆' : sum > 0 ? '⭐' : '○'}</span><b>${esc(l.name)}</b></a>
+          ${teacher ? '' : `<span class="hub-lv">${s.map((x, i) => `<i class="${x ? 'on' : ''}" title="Mức ${i + 1}">${'★'.repeat(x) || '–'}</i>`).join('')}</span>`}
+          ${r && r.ok ? `<small class="hub-cls">${n || 0}/${size} bạn</small>` : ''}</li>`; }).join('')}</ul></section>`).join('')}`;
+  }});
+
+  /* ================= 🔁 Ôn bài cũ ================= */
+  Hub.register({id:'review', order:60, icon:'🔁', label:'Ôn bài cũ', render(box, c){
+    const S = play();
+    if(c.role === 'teacher' || !S){ box.innerHTML = note('Mục này dành cho học sinh: bộ nào chưa trọn điểm sẽ được hẹn ôn lại sau 1 → 3 → 7 ngày.'); return; }
+    const d = Play.today(), list = Object.entries(S.rev || {}).map(([k, v]) => ({k, ...v})).sort((a, b) => String(a.due).localeCompare(String(b.due)) || String(a.nm).localeCompare(String(b.nm), 'vi'));
+    const due = list.filter(x => x.due <= d), later = list.filter(x => x.due > d);
+    const dm = s => String(s).split('-').reverse().slice(0, 2).join('/');
+    const row = (x, isDue) => { const g = hasApp() && App.grades.find(y => y.id === x.g);
+      return `<li class="${isDue ? 'due' : ''}"><span class="hub-dot">${isDue ? '🔔' : '⏳'}</span><div><b>${esc(x.nm || x.l)}</b><small>${g ? esc(g.name) + ' · ' : ''}Mức ${x.lv} · lần ôn thứ ${(Number(x.box) || 0) + 1}/3</small></div>
+        ${isDue ? `<a class="btn small primary" href="${esc(SITE + '#/' + x.g + '/bai/' + x.l + '/' + x.lv)}">Ôn ngay →</a>` : `<span class="hub-pct n">${dm(x.due)}</span>`}</li>`; };
+    box.innerHTML = `<section class="hub-card"><h3>🔁 Ôn bài cũ</h3><p>Bộ nào em chưa làm trọn điểm sẽ được hẹn ôn lại <b>sau 1 → 3 → 7 ngày</b> để nhớ lâu. Ôn đúng hạn mà trọn điểm: <b>+15 🪙</b> mỗi lần. Xong mốc 7 ngày là em đã <b>nhớ chắc</b>! 🎓</p></section>
+      <section class="hub-card"><h3>🔔 Đến hạn ôn <small>(${due.length})</small></h3>${due.length ? `<ul class="hub-rev">${due.map(x => row(x, true)).join('')}</ul>` : note('Hôm nay em không có bài nào cần ôn. Giỏi lắm! 🌟')}</section>
+      ${later.length ? `<section class="hub-card"><h3>⏳ Sắp tới <small>(${later.length})</small></h3><ul class="hub-rev">${later.map(x => row(x, false)).join('')}</ul></section>` : ''}`;
+  }});
+
+  /* ================= 🏁 Đua lớp ================= */
+  Hub.register({id:'race', order:70, icon:'🏁', label:'Đua lớp', async render(box, c){
+    box.innerHTML = note('Đang tải…');
+    const r = await get('race', c.role === 'teacher' ? {grade:gradeNum(c.state.gid)} : {}); if(!live(box)) return; if(!r || !r.ok){ fail(box, r); return; }
+    const list = r.classes.map(x => ({...x, avg:x.size ? x.wk / x.size : 0, part:x.size ? x.active / x.size * 100 : 0})).sort((a, b) => b.avg - a.avg || b.part - a.part || String(a.lop).localeCompare(String(b.lop), 'vi', {numeric:true}));
+    const best = Math.max(0.01, ...list.map(x => x.avg));
+    box.innerHTML = `<section class="hub-card"><h3>🏁 Đua lớp tuần này <small>(${weekLabel()})</small></h3><p>Xếp theo <b>⭐ mới trung bình mỗi bạn</b> (tính theo sĩ số), nên lớp đông hay ít người đều công bằng. Cả lớp cùng góp sao nhé!</p></section>
+      ${list.length ? `<ol class="rank hub-rank hub-race">${list.map((x, i) => `<li class="${x.lop === r.mine ? 'me' : ''}"><span class="rk">${i < 3 && x.wk > 0 ? ['🥇', '🥈', '🥉'][i] : i + 1}</span><span class="hub-who"><b>Lớp ${esc(x.lop)}${x.lop === r.mine ? ' (lớp em)' : ''}</b>${bar(x.avg / best * 100)}<small>${x.active}/${x.size} bạn có sao mới · ${x.wk} ⭐ cả lớp</small></span><span class="rv">${(Math.round(x.avg * 10) / 10).toString().replace('.', ',')} ⭐/bạn</span></li>`).join('')}</ol>` : note('Chưa có lớp nào của khối này.')}`;
+  }});
 })();
 
 </script>

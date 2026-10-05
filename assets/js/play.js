@@ -16,7 +16,7 @@ const Play = (() => {
   const uid = () => (typeof Account !== 'undefined' && Account.user) ? `${Account.user.lop}|${Account.user.user}` : '';
   const blankStats = () => ({correct:0, sets:0, three:0, run:0, bestRun:0, fed:0, played:0, bought:0});
   const blank = () => ({v:1, ts:0, xu:0, xuTotal:0, food:3, no:80, vui:80, t:Date.now(), lastPlay:0,
-    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}, stickers:{}, stickerTotal:0, stickerLast:'',
+    streak:0, best:0, last:'', owned:[], wear:{}, q:{day:'', list:[]}, qDone:0, badges:{}, st:blankStats(), seen:{}, mastery:{}, stickers:{}, stickerTotal:0, stickerLast:'', rev:{}, bonusDay:'',
     absence:{base:'', applied:0, lost:0, caps:{}, lastLoss:null}});
   let S = null, who = null;
 
@@ -24,7 +24,7 @@ const Play = (() => {
   function st(){
     if(S && who === uid()) return S;
     who = uid(); const d = store.get(KEY) || {};
-    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {}; S.mastery = S.mastery || {}; S.stickers = S.stickers || {};
+    S = Object.assign(blank(), d); S.st = Object.assign(blankStats(), d.st || {}); S.wear = S.wear || {}; S.mastery = S.mastery || {}; S.stickers = S.stickers || {}; S.rev = S.rev || {};
     S.absence = Object.assign({base:'', applied:0, lost:0, caps:{}, lastLoss:null}, d.absence || {}); S.absence.caps = S.absence.caps || {};
     tick(); rollQuests(); return S;
   }
@@ -127,6 +127,31 @@ const Play = (() => {
       it.p = setTo != null ? Math.max(it.p, setTo) : it.p + add;
       if(it.p >= Qd.n){ it.p = Qd.n; it.done = true; S.qDone++; S.xu += Qd.xu; S.xuTotal += Qd.xu; S.food += Qd.food;
         note(`🎯 Xong nhiệm vụ: ${Qd.text}! +${Qd.xu} 🪙${Qd.food?` +${Qd.food} 🍖`:''}`); } }
+    if(S.q.list.length && S.q.list.every(i => i.done)) claimDay();
+  }
+  /* Xong cả 3 nhiệm vụ ngày → +1 ⭐ thưởng (máy chủ kiểm tra rồi ghi vào tổng sao; hiện ở Góc chung) + 20 🪙. Mỗi ngày một lần. */
+  let bonusBusy = false;
+  function claimDay(){
+    if(bonusBusy || typeof Account === 'undefined' || !Account.user || !Account.bonus || (Account.isTeacher && Account.isTeacher())) return;
+    const d = today(); if(S.bonusDay === d) return; bonusBusy = true;
+    setTimeout(() => { Account.bonus(snapshot()).then(r => {
+      if(r && r.ok){ S.bonusDay = d; if(r.stars){ S.xu += 20; S.xuTotal += 20; note('🎉 Xong cả 3 nhiệm vụ! +1 ⭐ thưởng (xem ở 🌟 Góc chung) · +20 🪙'); } save(false); }
+    }).catch(() => {}).finally(() => { bonusBusy = false; }); }, 500);
+  }
+
+  /* ---------- Ôn bài cũ: bộ chưa trọn điểm được hẹn ôn lại sau 1 → 3 → 7 ngày ----------
+     Ôn đúng hạn mà trọn điểm: +15 🪙 và sang mốc tiếp theo; xong mốc 7 ngày là “nhớ chắc”. Chưa trọn thì hẹn lại ngày mai. */
+  const REV_GAP = [1, 3, 7], REV_MAX = 30;
+  const addDays = (d, k) => { const x = new Date(d + 'T12:00:00'); x.setDate(x.getDate() + k); return `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`; };
+  function reviewDone(g, l, lv, pts, n){
+    const s = st(), k = `${g.id}:${l.id}:${lv}`, d = today(), it = s.rev[k];
+    if(pts < n){ s.rev[k] = {g:g.id, l:l.id, lv, nm:l.name, box:0, due:addDays(d, REV_GAP[0])}; }
+    else if(it && it.due <= d){
+      it.box = (Number(it.box) || 0) + 1; s.xu += 15; s.xuTotal += 15;
+      if(it.box >= REV_GAP.length){ delete s.rev[k]; note('🎓 Em đã nhớ chắc bài này! +15 🪙'); }
+      else { it.due = addDays(d, REV_GAP[it.box]); note(`🔁 Ôn bài cũ thành công! +15 🪙 · hẹn ôn lại sau ${REV_GAP[it.box]} ngày`); }
+    }
+    const keys = Object.keys(s.rev); if(keys.length > REV_MAX) keys.sort((a, b) => String(s.rev[a].due).localeCompare(String(s.rev[b].due))).slice(0, keys.length - REV_MAX).forEach(x => delete s.rev[x]);
   }
 
   /* ---------- Bộ sưu tập sticker: thưởng riêng cho một bộ đúng tuyệt đối 6/6 ---------- */
@@ -279,12 +304,13 @@ const Play = (() => {
         s.absence.base = d; s.absence.applied = 0; s.absence.lost = 0; s.absence.lastLoss = null;
         if(s.streak > 1) note(`🔥 Chuỗi ${s.streak} ngày học liên tiếp! Giỏi quá!`); }
       if(food) note(`🍖 +${food} hạt cho thú cưng${bonus ? ` · +${bonus} 🪙 thưởng 3 sao` : ''}`);
+      reviewDone(g, l, lv, pts, n);
       quest('bo1'); quest('bo3'); if(stars === 3) quest('sao3'); if(lv >= 2) quest('muc2');
       const lk = `${g.id}:${l.id}`; if(!s.seen[lk]){ s.seen[lk] = 1; quest('moi'); }
       if(n === 6 && pts === 6) awardSticker(g);
       checkBadges(); save(false); updateMini();
     }
-    if(ev === 'home') decorateHome(a);
+    if(ev === 'home'){ decorateHome(a); if(s.q.list.length && s.q.list.every(i => i.done)) claimDay(); }
     if(ev === 'lesson'){
       updateMini(); const warning = inactivityHTML(a, true), toolbar = $('.toolbar'); if(warning && toolbar) toolbar.insertAdjacentHTML('afterend', warning);
     }
@@ -377,5 +403,5 @@ const Play = (() => {
   }
 
   addEventListener('hashchange', () => { const m = $('#petHome'); if(m){ m.remove(); document.body.classList.remove('noscroll'); } });
-  return { on, look, bgSVG, accSVG, snapshot, adopt, checkInactivity, inactivityInfo, progressValue, hasStarCap, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
+  return { on, look, bgSVG, today, addDays, accSVG, snapshot, adopt, checkInactivity, inactivityInfo, progressValue, hasStarCap, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
 })();

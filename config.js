@@ -30,6 +30,11 @@ const CONFIG = {
   // Cách tạo: xem tools/apps-script/HUONG-DAN.md
   sheetAPI: 'https://script.google.com/macros/s/AKfycby1RmiJhPBLC5z24W9LQgCwRShTipZvHf6tn0xiJUwzNSiQCmmXfJndypWlZr1MONGf/exec',
 
+  // GÓC CHUNG – Thử thách tuần của lớp: mục tiêu ⭐ mới mỗi tuần cho MỖI bạn (cả lớp = số này × số bạn đã tham gia);
+  // weeklyReward = phần thưởng thầy cô hứa khi cả lớp đạt (để '' thì không hiện).
+  weeklyPerStudent: 6,
+  weeklyReward: '',
+
   // Khi đăng nhập, học sinh chỉ thấy bộ đề của khối mình, nhận theo SỐ ĐẦU trong tên lớp:
   // "10A12" → Lớp 10, "9A" → Lớp 9. Lớp không có số (vd "GV") thấy tất cả. Đặt false để tắt.
   lockGrade: true,

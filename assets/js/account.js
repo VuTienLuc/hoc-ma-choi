@@ -49,6 +49,8 @@ const Account = (() => {
   }
   const rank = () => api({action:'rank', token:user.token});
   const rankAll = grade => api({action:'rankAll', token:user.token, grade});   // giáo viên: mọi lớp của một khối
+const call = (action, body) => user ? api({...(body || {}), action, token:user.token}) : Promise.reject(new Error('login'));   // gọi action bất kỳ của máy chủ (Góc chung dùng)
+const bonus = play => call('bonus', {play});   // thưởng ⭐ khi xong cả 3 nhiệm vụ ngày (máy chủ tự kiểm tra)
   const P = () => typeof Play !== 'undefined';
   function expired(){ toastSafe('Phiên đăng nhập đã hết hạn, em đăng nhập lại nhé.'); setTimeout(logout, 1500); }
   function logout(){ LS.del('hoctap:session'); user = null; location.hash = '#/'; location.reload(); }
@@ -139,7 +141,7 @@ const Account = (() => {
     }
   }
   addEventListener('online', flush);
-  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, rankAll, gradeOfClass, isTeacher, userBar, bindLogout };
+  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, rankAll, call, bonus, gradeOfClass, isTeacher, userBar, bindLogout };
 })();
 
 /* =====================================================================

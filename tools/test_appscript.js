@@ -43,10 +43,41 @@ const okAll = RA.ok && RA.classes.length===2 && c1.rows.length===4 && an.stars==
   && c1.rows.find(r=>r.name==='Đỗ Dũng').joined===false && c1.rows.find(r=>r.name==='Lê Châu').stars===2 && !RA.classes.some(c=>c.lop==='9A')
   && call({action:'rankAll',token:L.token,grade:10}).code==='teacher' && call({action:'rankAll',token:'xx',grade:10}).code==='auth';
 console.log('Bảng xếp hạng cho giáo viên:', okAll?'ĐẠT':'LỖI');
+
+/* ---- Góc chung: sao tuần · bài hot · đua lớp · câu hỏi của thầy · thưởng 3 nhiệm vụ ---- */
+const wkOf=name=>call({action:'rank',token:L.token}).rows.find(r=>r.name===name);
+const w0=wkOf('Nguyễn Văn An'), wc=wkOf('Lê Châu');
+const okWeek = w0.wk===4 && wc.wk===2 && wkOf('Trần Bình').wk===0;
+const okQ0 = call({action:'qPost',token:L.token,q:'x',opts:['a','b'],ans:'A'}).code==='teacher' && call({action:'qPost',token:G.token,q:'',opts:['a'],ans:'A'}).ok===false;
+const P1=call({action:'qPost',token:G.token,q:'Câu thử $x^2$?',opts:['Một','Hai','Ba','Bốn'],ans:'B',exp:'Vì hai',stars:2,target:'10',days:2});
+const ql=call({action:'qList',token:L.token}), qa1=call({action:'qAnswer',token:L.token,id:P1.id,pick:'B'}), qa2=call({action:'qAnswer',token:L3.token,id:P1.id,pick:'A'});
+const qdup=call({action:'qAnswer',token:L.token,id:P1.id,pick:'A'}), q9=call({action:'qList',token:K.token}), q9a=call({action:'qAnswer',token:K.token,id:P1.id,pick:'B'});
+const qt=call({action:'qList',token:G.token}), after=call({action:'rank',token:L.token}).rows.find(r=>r.name==='Nguyễn Văn An');
+const okQ = P1.ok && ql.items.length===1 && ql.items[0].ans===undefined && ql.items[0].mine===undefined && qa1.ok && qa1.correct && qa1.stars===2 && qa1.exp==='Vì hai'
+  && qa2.ok && !qa2.correct && qa2.stars===0 && qa2.ans==='B' && qdup.dup && qdup.correct && qdup.stars===0 && q9.items.length===0 && q9a.ok===false
+  && qt.teacher && qt.items[0].answered===2 && qt.items[0].correct===1 && qt.items[0].ans==='B' && after.stars===6 && after.wk===6
+  && call({action:'qList',token:L.token}).items[0].mine.ok===true && call({action:'qAnswer',token:L.token,id:'khong-co',pick:'A'}).ok===false;
+const CL=call({action:'qClose',token:G.token,id:P1.id}), okClose = CL.ok && call({action:'qList',token:L.token}).items.length===0 && call({action:'qClose',token:L.token,id:P1.id}).code==='teacher';
+const q3=call({action:'qPost',token:G.token,q:'Câu cho cả trường',opts:['a','b'],ans:'A'}), okAll3 = q3.ok && call({action:'qList',token:K.token}).items.length===1;
+const dd=new Date().toISOString().slice(0,10), done3=[{id:'bo1',p:1,done:true},{id:'dung10',p:10,done:true},{id:'an',p:1,done:true}];
+const bNo=call({action:'bonus',token:L3.token,play:JSON.stringify({q:{day:dd,list:[{id:'bo1',done:true},{id:'an',done:false},{id:'dung10',done:true}]}})});
+const bOld=call({action:'bonus',token:L3.token,play:JSON.stringify({q:{day:'2020-01-01',list:done3}})});
+const bOk=call({action:'bonus',token:L.token,play:JSON.stringify({streak:4,last:d0,badges:{a:1,b:1},xuTotal:120,q:{day:dd,list:done3}})}), bDup=call({action:'bonus',token:L.token,play:JSON.stringify({streak:4,last:d0,badges:{a:1,b:1},xuTotal:120,q:{day:dd,list:done3}})});
+const an2=call({action:'rank',token:L.token}).rows.find(r=>r.name==='Nguyễn Văn An');
+const okBonus = bNo.ok===false && bOld.ok===false && bOk.ok && bOk.stars===1 && bDup.dup && bDup.stars===0 && an2.stars===7 && an2.wk===7 && an2.qd===3 && an2.streak===4
+  && call({action:'bonus',token:G.token,play:'{}'}).ok===false && sheets.TienDo.rows[0][9]==='Tuần (tự động)';
+const H1=call({action:'hot',token:L.token}), H2=call({action:'hot',token:G.token,lop:'10A1'}), b2=H1.week.find(x=>x.lesson==='Bài 2'), b1=H1.week.find(x=>x.lesson==='Bài 1');
+const okHot = H1.ok && H1.lop==='10A1' && H1.week.length===2 && b2.pct===50 && b1.pct===100 && b2.students===1 && H1.all.length===2 && H1.size>=4
+  && H2.ok && H2.week.length===2 && call({action:'hot',token:G.token}).ok===false && call({action:'hot',token:'xx'}).code==='auth';
+const R1=call({action:'race',token:L.token}), R2=call({action:'race',token:G.token,grade:10}), rc=R1.classes.find(c=>c.lop==='10A1'), sumWk=call({action:'rank',token:L.token}).rows.reduce((t,r)=>t+r.wk,0);
+const okRace = R1.ok && R1.mine==='10A1' && R1.classes.length===2 && !R1.classes.some(c=>c.lop==='9A') && rc.wk===sumWk && rc.joined===3 && rc.active===2 && rc.size>=rc.joined
+  && R2.ok && R2.mine==='' && R2.classes.length===2 && call({action:'race',token:G.token}).ok===false && call({action:'race',token:'xx'}).code==='auth';
+console.log('Sao tuần:',okWeek?'ĐẠT':'LỖI','| Câu hỏi của thầy:',okQ&&okQ0&&okClose&&okAll3?'ĐẠT':'LỖI','| Thưởng 3 nhiệm vụ:',okBonus?'ĐẠT':'LỖI','| Bài hot:',okHot?'ĐẠT':'LỖI','| Đua lớp:',okRace?'ĐẠT':'LỖI');
+const okHub = okWeek && okQ0 && okQ && okClose && okAll3 && okBonus && okHot && okRace;
 capNhatTongHop();
 const t=sheets.TongHop;
 t.rows.forEach((r,i)=>console.log(String(i+1).padStart(2), (t.bg[i+1]||'').padEnd(8), r.filter(x=>x!=='').join(' | ')));
 console.log('DangNhap:', sheets.DangNhap.rows.slice(1).map(r=>r.slice(1).join('/')).join(' ; '));
-const ok = okPlay && okAll && triggers.length===1 && sheets.DangNhap.rows.length===7 && ['#e2f4e8','#f8d7da','#fff3cd'].every(c=>Object.values(t.bg).includes(c))
+const ok = okPlay && okAll && okHub && triggers.length===1 && sheets.DangNhap.rows.length===7 && ['#e2f4e8','#f8d7da','#fff3cd'].every(c=>Object.values(t.bg).includes(c))
   && !call({action:'login',lop:'10A1',user:'10a1_01',pass:'sai'}).ok && call({action:'save',token:'xx',key:'a',stars:1}).code==='auth';
 console.log('KẾT QUẢ:', ok ? 'ĐẠT ✓' : 'CHƯA ĐẠT ✗'); process.exit(ok?0:1);
