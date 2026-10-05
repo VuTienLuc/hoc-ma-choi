@@ -128,9 +128,11 @@ if (studentTestFiles.length) {
   (ST ? ST.TESTS : []).forEach(t => { const w0 = `bài kiểm tra học sinh ${t.grade}/${t.id}`; nST++;
     if (!t.grade || !t.id || !t.title || !t.topic || !t.time) err(w0, 'thiếu grade/id/title/topic/time');
     if (!Array.isArray(t.codes) || t.codes.length !== 4 || new Set(t.codes).size !== 4) err(w0, 'phải có đúng 4 mã đề khác nhau');
-    if (!Array.isArray(t.mc) || t.mc.length !== 12) err(w0, 'Phần I phải có đúng 12 câu');
-    if (!Array.isArray(t.tf) || t.tf.length !== 3) err(w0, 'Phần II phải có đúng 3 câu');
-    if (!Array.isArray(t.short) || t.short.length !== 6) err(w0, 'Phần III phải có đúng 6 câu');
+    const NC = t.counts || {mc: 12, tf: 3, short: 6};     // bài rút gọn khai báo counts + mcPt/tfPt/shortPt (tổng điểm phải = 10)
+    if (!Array.isArray(t.mc) || t.mc.length !== NC.mc) err(w0, `Phần I phải có đúng ${NC.mc} câu`);
+    if (!Array.isArray(t.tf) || t.tf.length !== NC.tf) err(w0, `Phần II phải có đúng ${NC.tf} câu`);
+    if (!Array.isArray(t.short) || t.short.length !== NC.short) err(w0, `Phần III phải có đúng ${NC.short} câu`);
+    if (t.counts) { const tot = NC.mc * (t.mcPt ?? .25) + NC.tf * (t.tfPt ?? 1) + NC.short * (t.shortPt ?? .5); if (Math.abs(tot - 10) > 1e-9) err(w0, `bài rút gọn phải có tổng điểm thô = 10 (đang ${tot})`); }
     (t.codes || []).forEach((code, ci) => { let v; const w1 = `${w0} mã ${code}`;
       try { v = ST.build(t, ci); } catch (e) { return err(w1, 'lỗi khi dựng đề: ' + e.message); }
       const cnt = [0, 0, 0, 0];

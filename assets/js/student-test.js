@@ -51,7 +51,7 @@ const StudentTest = (() => {
     shell(t, g, `<section class="card test-intro"><span class="pill">KIỂM TRA CHƯƠNG ${chapter}</span><h1>${esc(t.title)}</h1>
       <p class="lead">${esc(lead)}</p>
       <div class="test-facts"><span>⏱️ <b>${t.time} phút</b></span><span>🔘 <b>${t.mc.length}</b> câu chọn đáp án</span><span>✅ <b>${t.tf.length}</b> câu đúng–sai</span><span>⌨️ <b>${t.short.length}</b> câu trả lời ngắn</span></div>
-      <div class="test-rules"><h3>Quy định làm bài</h3><ul><li>Không có gợi ý và không hiện đáp án trước khi nộp bài.</li><li>Bài được lưu tự động trên thiết bị; tải lại trang vẫn tiếp tục đúng mã đề và thời gian còn lại.</li><li>Câu đúng–sai chấm theo số ý đúng; điểm thô tối đa 9 và được quy đổi về thang 10.</li><li>Sau khi nộp, em được xem đáp án và lời giải chi tiết từng bước.</li></ul></div>
+      <div class="test-rules"><h3>Quy định làm bài</h3><ul><li>Không có gợi ý và không hiện đáp án trước khi nộp bài.</li><li>Bài được lưu tự động trên thiết bị; tải lại trang vẫn tiếp tục đúng mã đề và thời gian còn lại.</li><li>Câu đúng–sai chấm theo số ý đúng; điểm thô tối đa ${vn(rawMax(t))} và được quy đổi về thang 10.</li><li>Sau khi nộp, em được xem đáp án và lời giải chi tiết từng bước.</li></ul></div>
       ${m.attempts ? `<p class="test-best">Kết quả tốt nhất: <b>${vn(m.best)}/10</b> · ${starsHTML(m.bestStars)}</p>` : ''}
       <button class="btn primary big" id="testStart">Bắt đầu làm bài</button></section>`);
     $('#testStart').onclick = () => { const mm = meta(t), ci = mm.attempts % t.codes.length, s = blankState(t, ci, mm.attempts + 1); mm.attempts++; store.set(metaKey(t), mm); store.set(stateKey(t), s); exam(t, g, s); };
@@ -69,8 +69,8 @@ const StudentTest = (() => {
     const mc = q.mc.map((x,i)=>`<article class="card test-q" id="mc${i+1}"><div class="qhead"><span class="badge">Câu ${i+1}</span><span class="chip">${esc(x.level||'Nhận biết')}</span></div><div class="qtext">${x.q}</div><div class="test-options">${x.opts.map((o,k)=>`<button data-mc="${i}" data-v="${k}" aria-pressed="${s.mc[i]===k}"><b>${ABCD[k]}.</b> ${o}</button>`).join('')}</div></article>`).join('');
     const tf = q.tf.map((x,i)=>`<article class="card test-q" id="tf${i+1}"><div class="qhead"><span class="badge">Câu ${i+1}</span><span class="chip">Đúng–sai</span></div><div class="qtext">${x.stem}</div><div class="test-tf">${x.items.map((it,k)=>`<div><span><b>${'abcd'[k]})</b> ${it.text}</span><span class="tf-buttons"><button data-tf="${i}" data-it="${k}" data-v="1" aria-pressed="${s.tf[i][k]===true}">Đúng</button><button data-tf="${i}" data-it="${k}" data-v="0" aria-pressed="${s.tf[i][k]===false}">Sai</button></span></div>`).join('')}</div></article>`).join('');
     const sh = q.short.map((x,i)=>`<article class="card test-q" id="sr${i+1}"><div class="qhead"><span class="badge">Câu ${i+1}</span><span class="chip">Trả lời ngắn</span></div><div class="qtext">${x.q}</div><label class="test-short">Đáp án <input data-short="${i}" value="${esc(s.short[i])}" inputmode="decimal" autocomplete="off" aria-label="Đáp án câu ${i+1} phần III"></label></article>`).join('');
-    shell(t, g, `<div class="test-head card"><div><small>MÃ ĐỀ</small><b>${s.code}</b></div><div><small>ĐÃ TRẢ LỜI</small><b id="testCount">${answered}/${total}</b></div><div class="test-clock" id="testClock" aria-live="polite">60:00</div></div>${navHTML(q,s)}
-      <section class="test-part"><h2>Phần I. Trắc nghiệm nhiều phương án lựa chọn</h2><p>Mỗi câu chỉ chọn một phương án. Mỗi câu đúng được 0,25 điểm.</p>${mc}</section>
+    shell(t, g, `<div class="test-head card"><div><small>MÃ ĐỀ</small><b>${s.code}</b></div><div><small>ĐÃ TRẢ LỜI</small><b id="testCount">${answered}/${total}</b></div><div class="test-clock" id="testClock" aria-live="polite">${t.time}:00</div></div>${navHTML(q,s)}
+      <section class="test-part"><h2>Phần I. Trắc nghiệm nhiều phương án lựa chọn</h2><p>Mỗi câu chỉ chọn một phương án. Mỗi câu đúng được ${vn(W(t).mc)} điểm.</p>${mc}</section>
       <section class="test-part"><h2>Phần II. Trắc nghiệm đúng–sai</h2><p>Với mỗi ý a), b), c), d), em chọn Đúng hoặc Sai.</p>${tf}</section>
       <section class="test-part"><h2>Phần III. Trắc nghiệm trả lời ngắn</h2><p>Nhập kết quả cuối cùng. Có thể dùng dấu phẩy hoặc dấu chấm cho số thập phân.</p>${sh}</section>
       <section class="card test-submit"><p>Bài làm được lưu tự động. Hãy kiểm tra các câu còn trống trước khi nộp.</p><button class="btn primary big" id="testSubmit">Nộp bài</button></section>`);
@@ -88,16 +88,21 @@ const StudentTest = (() => {
     q.short.forEach((_,i)=>{const a=$(`[data-jump="sr${i+1}"]`);if(a)a.classList.toggle('done',!!String(s.short[i]).trim())});
   }
   function shortOK(value, ans){ return typeof matchOne === 'function' ? matchOne(value, ans) : String(value).trim() === String(ans); }
-  function grade(q,s){
-    const mcOK=q.mc.map((x,i)=>s.mc[i]===x.a), mcPts=mcOK.filter(Boolean).length*.25;
-    const tfOK=q.tf.map((x,i)=>x.items.map((it,k)=>s.tf[i][k]===it.ok)), tfCount=tfOK.map(a=>a.filter(Boolean).length), scale=[0,.1,.25,.5,1], tfPts=tfCount.reduce((n,k)=>n+scale[k],0);
-    const shortOKs=q.short.map((x,i)=>shortOK(s.short[i],x.ans)), shortPts=shortOKs.filter(Boolean).length*.5;
-    const raw=round(mcPts+tfPts+shortPts), score=round(raw*10/9,1), st=score>=8.5?3:score>=7?2:score>=5?1:0;
-    return {mcOK,mcPts,tfOK,tfCount,tfPts,shortOK:shortOKs,shortPts,raw,score,stars:st};
+  /* Thang điểm mỗi bài: mặc định 12 TN × 0,25 + 3 đúng–sai × 1 + 6 TLN × 0,5 = 9 điểm thô (quy về 10).
+     Bài rút gọn khai báo mcPt / tfPt / shortPt (vd 8 TN × 0,5 + 2 ĐS × 1 + 4 TLN × 1 = 10 điểm). */
+  const W = t => ({mc: t.mcPt ?? .25, tf: t.tfPt ?? 1, sh: t.shortPt ?? .5});
+  const maxOf = (t, q) => { const w = W(t); return {mc: q.mc.length * w.mc, tf: q.tf.length * w.tf, sh: q.short.length * w.sh}; };
+  const rawMax = t => { const m = maxOf(t, build(t, 0)); return m.mc + m.tf + m.sh; };
+  function grade(q,s,t){
+    const mcOK=q.mc.map((x,i)=>s.mc[i]===x.a), mcPts=mcOK.filter(Boolean).length*W(t).mc;
+    const tfOK=q.tf.map((x,i)=>x.items.map((it,k)=>s.tf[i][k]===it.ok)), tfCount=tfOK.map(a=>a.filter(Boolean).length), scale=[0,.1,.25,.5,1], tfPts=round(tfCount.reduce((n,k)=>n+scale[k],0)*W(t).tf);
+    const shortOKs=q.short.map((x,i)=>shortOK(s.short[i],x.ans)), shortPts=shortOKs.filter(Boolean).length*W(t).sh;
+    const raw=round(mcPts+tfPts+shortPts), mx=maxOf(t,q), maxRaw=mx.mc+mx.tf+mx.sh, score=round(raw*10/maxRaw,1), st=score>=8.5?3:score>=7?2:score>=5?1:0;
+    return {mcOK,mcPts,tfOK,tfCount,tfPts,shortOK:shortOKs,shortPts,raw,score,stars:st,max:{...mx,raw:maxRaw}};
   }
   function submit(t,g,s,q,auto){
     const missing=totalCommands(q)-countAnswered(s);if(!auto&&missing&&!confirm(`Em còn ${missing} ý hoặc câu chưa trả lời. Em vẫn muốn nộp bài?`))return;
-    clearInterval(timer);s.submitted=true;s.submittedAt=Date.now();s.result=grade(q,s);store.set(stateKey(t),s);
+    clearInterval(timer);s.submitted=true;s.submittedAt=Date.now();s.result=grade(q,s,t);store.set(stateKey(t),s);
     const m=meta(t);if(s.result.score>m.best)m.best=s.result.score;if(s.result.stars>m.bestStars)m.bestStars=s.result.stars;store.set(metaKey(t),m);
     const prev=Number(store.get(starKey(t)))||0;if(s.result.stars>prev)store.set(starKey(t),s.result.stars);
     if(!s.rewarded){s.rewarded=true;store.set(stateKey(t),s);try{if(typeof Account!=='undefined'&&Account.on)Account.on('done',{g,l:{id:`kiem-tra-${t.id}`,name:t.title},lv:1,st:s.result.stars,pts:s.result.score,n:10})}catch(e){console.error(e)}}
@@ -105,11 +110,11 @@ const StudentTest = (() => {
   }
   const mark = ok => `<span class="test-mark ${ok?'ok':'bad'}">${ok?'✓ Đúng':'✗ Chưa đúng'}</span>`;
   function result(t,g,s,note=''){
-    clearInterval(timer);const q=build(t,s.ci),r=s.result||grade(q,s),used=Math.max(0,(s.submittedAt||Date.now())-s.startedAt),mins=Math.floor(used/60000),secs=Math.floor(used/1000)%60;
+    clearInterval(timer);const q=build(t,s.ci),r=s.result||grade(q,s,t),used=Math.max(0,(s.submittedAt||Date.now())-s.startedAt),mins=Math.floor(used/60000),secs=Math.floor(used/1000)%60;
     const mc=q.mc.map((x,i)=>`<article class="card test-review ${r.mcOK[i]?'ok':'bad'}"><h3>Câu ${i+1}. ${mark(r.mcOK[i])}</h3><div class="qtext">${x.q}</div><p>Em chọn: <b>${s.mc[i]==null?'Chưa trả lời':ABCD[s.mc[i]]}</b> · Đáp án: <b>${ABCD[x.a]}</b></p><div class="test-solution"><b>Lời giải</b>${x.sol}</div></article>`).join('');
     const tf=q.tf.map((x,i)=>`<article class="card test-review"><h3>Câu ${i+1}. Đúng ${r.tfCount[i]}/4 ý · ${vn([0,.1,.25,.5,1][r.tfCount[i]])} điểm</h3><div class="qtext">${x.stem}</div>${x.items.map((it,k)=>`<div class="review-tf ${r.tfOK[i][k]?'ok':'bad'}"><p><b>${'abcd'[k]})</b> ${it.text}</p><small>Em chọn: ${s.tf[i][k]==null?'chưa trả lời':s.tf[i][k]?'Đúng':'Sai'} · Đáp án: <b>${it.ok?'Đúng':'Sai'}</b></small><div>${it.sol}</div></div>`).join('')}</article>`).join('');
     const sh=q.short.map((x,i)=>`<article class="card test-review ${r.shortOK[i]?'ok':'bad'}"><h3>Câu ${i+1}. ${mark(r.shortOK[i])}</h3><div class="qtext">${x.q}</div><p>Em trả lời: <b>${esc(s.short[i]||'Chưa trả lời')}</b> · Đáp án: <b>${esc(Array.isArray(x.ans)?x.ans[0]:x.ans)}</b></p><div class="test-solution"><b>Lời giải</b>${x.sol}</div></article>`).join('');
-    shell(t,g,`${note?`<div class="fb show note test-timeout">${note}</div>`:''}<section class="card test-result"><span class="pill">KẾT QUẢ MÃ ${s.code}</span><div class="result-score"><b>${vn(r.score)}</b><span>/10</span></div>${starsHTML(r.stars)}<h1>${r.score>=8.5?'Xuất sắc!':r.score>=7?'Làm tốt lắm!':r.score>=5?'Em đã đạt yêu cầu':'Em cần ôn lại một số dạng'}</h1><div class="result-parts"><span>Phần I <b>${vn(r.mcPts)}/3</b></span><span>Phần II <b>${vn(r.tfPts)}/3</b></span><span>Phần III <b>${vn(r.shortPts)}/3</b></span><span>Thời gian <b>${mins}:${String(secs).padStart(2,'0')}</b></span></div><p>Điểm thô ${vn(r.raw)}/9 được quy đổi về thang 10.</p><div class="row"><button class="btn primary" id="testAgain">Làm mã đề khác</button><a class="btn" href="#/${g.id}">Về danh sách bài</a></div></section>
+    shell(t,g,`${note?`<div class="fb show note test-timeout">${note}</div>`:''}<section class="card test-result"><span class="pill">KẾT QUẢ MÃ ${s.code}</span><div class="result-score"><b>${vn(r.score)}</b><span>/10</span></div>${starsHTML(r.stars)}<h1>${r.score>=8.5?'Xuất sắc!':r.score>=7?'Làm tốt lắm!':r.score>=5?'Em đã đạt yêu cầu':'Em cần ôn lại một số dạng'}</h1><div class="result-parts"><span>Phần I <b>${vn(r.mcPts)}/${vn(r.max?r.max.mc:3)}</b></span><span>Phần II <b>${vn(r.tfPts)}/${vn(r.max?r.max.tf:3)}</b></span><span>Phần III <b>${vn(r.shortPts)}/${vn(r.max?r.max.sh:3)}</b></span><span>Thời gian <b>${mins}:${String(secs).padStart(2,'0')}</b></span></div><p>Điểm thô ${vn(r.raw)}/${vn(r.max?r.max.raw:9)} được quy đổi về thang 10.</p><div class="row"><button class="btn primary" id="testAgain">Làm mã đề khác</button><a class="btn" href="#/${g.id}">Về danh sách bài</a></div></section>
       <section class="test-part test-review-part"><h2>Phần I – Đáp án và lời giải</h2>${mc}</section><section class="test-part test-review-part"><h2>Phần II – Đáp án và lời giải</h2>${tf}</section><section class="test-part test-review-part"><h2>Phần III – Đáp án và lời giải</h2>${sh}</section>`);
     $('#testAgain').onclick=()=>{if(confirm('Bắt đầu mã đề mới? Kết quả tốt nhất vẫn được giữ lại.')){store.set(stateKey(t),null);intro(t,g)}};
   }

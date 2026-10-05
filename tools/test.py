@@ -52,7 +52,7 @@ async (REPS) => {
      document.querySelector('#testSubmit').click();
      const score=document.querySelector('.result-score b');
      if(!score||score.textContent.trim()!=='10')out.bad.push(['bài kiểm tra học sinh: làm đúng toàn bộ nhưng không được 10 điểm',t.id,q.code,score&&score.textContent]);
-     if(document.querySelectorAll('.test-review').length!==21)out.bad.push(['bài kiểm tra học sinh: trang lời giải không đủ 21 câu',t.id,q.code]);
+     if(document.querySelectorAll('.test-review').length!==q.mc.length+q.tf.length+q.short.length)out.bad.push(['bài kiểm tra học sinh: trang lời giải không đủ câu',t.id,q.code]);
     }
     if(seen.size!==4)out.bad.push(['bài kiểm tra học sinh: chưa luân phiên đủ bốn mã đề',t.id,[...seen]]);
    }
