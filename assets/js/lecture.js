@@ -48,11 +48,13 @@ const Lecture = (() => {
     } else {
       app.innerHTML = bar + `<div class="toolbar"><a class="back" href="#/">← Chọn lớp</a><span class="pill">${g.name} · Bài giảng</span></div>
         <div class="lk-2col"><div class="lk-lessons"><h1>${g.name}</h1>` + g.books.map(([b, bi]) => `<section class="topic"><h2><small>${b.chapter.split('.')[0]}</small>${b.chapter.split('.').slice(1).join('.').trim()}</h2>
+          <div class="lk-ch-acts"><button class="btn small" data-cs="${bi}" title="Một file in tiết kiệm giấy cho học sinh: kiến thức, ví dụ, bài luyện tập của mọi bài trong chương">📘 Phiếu cả chương (học sinh)</button></div>
           <ol class="lk-list">${b.lessons.map((l, li) => `<li><div class="lk-li"><b>${l.name}</b><small>${l.desc || ''} · ${l.slides.length} trang · ${l.slides.filter(s => s.kind === 'vd').length} ví dụ${l.practice ? ` · ${l.practice.reduce((t, g) => t + g.items.length, 0)} bài luyện tập` : ''}${l.sgk ? ` · giải ${l.sgk.filter(x => x.kind === 'vd').length} câu SGK` : ''}</small></div>
             <div class="lk-acts">${canPresent() ? `<button class="btn primary small" data-play="${bi}:${li}" title="Trình chiếu toàn màn hình">▶ Chiếu</button>` : ''}<button class="btn small" data-prev="${bi}:${li}" title="Xem dạng trang, in được">📄 Xem</button><button class="btn small" data-ws="${bi}:${li}" title="Phiếu học tập in A4">📝 Phiếu</button>${l.practice ? `<button class="btn small" data-pr="${bi}:${li}" title="Phiếu luyện tập: cơ bản → vận dụng">🏋️ Luyện tập</button>` : ''}${l.sgk ? `<button class="btn small" data-sgk="${bi}:${li}" title="Giải các câu vận dụng, câu khó trong SGK">📘 Giải SGK</button>` : ''}${l.sheet ? `<button class="btn small" data-kd="${bi}:${li}" title="Phiếu học tập trên lớp: khởi động – củng cố, kèm gợi ý sư phạm">📋 Phiếu trên lớp</button>` : ''}</div></li>`).join('')}</ol></section>`).join('') + (typeof KiemTra !== 'undefined' ? KiemTra.section(g.id) : '') + `</div><aside class="lk-rank card" id="lkRank" aria-label="Bảng xếp hạng học sinh"></aside></div><p class="foot">${CONFIG.author}</p>`;
       if(typeof GvRank !== 'undefined') GvRank.mount($('#lkRank'), g.id);
       $$('[data-play]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.play.split(':'); open(BOOKS[bi].lessons[li], 0); });
       $$('[data-prev]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.prev.split(':'); preview(BOOKS[bi], BOOKS[bi].lessons[li]); });
+      $$('[data-cs]').forEach(b => b.onclick = () => chapterSheet(BOOKS[b.dataset.cs]));
       $$('[data-ws]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.ws.split(':'); worksheet(BOOKS[bi], BOOKS[bi].lessons[li], false); });
       $$('[data-pr]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.pr.split(':'); practice(BOOKS[bi], BOOKS[bi].lessons[li], false); });
       $$('[data-kd]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.kd.split(':'); classSheet(BOOKS[bi], BOOKS[bi].lessons[li], 'all'); });
@@ -212,6 +214,70 @@ const Lecture = (() => {
     document.title = `Phiếu học tập – ${l.name}`; scrollTo(0, 0);
   }
 
+
+  /* ---------- Phiếu CẢ CHƯƠNG cho HỌC SINH (tiết kiệm in ấn) ----------
+     Gộp mọi bài của một chương thành MỘT tệp in: 2 cột, chữ nhỏ, không dòng kẻ, các bài nối liền (không ngắt trang giữa bài), đáp số dồn cuối phiếu.
+     Mỗi bài: kiến thức trọng tâm → dạng bài (phương pháp + ví dụ) → bài luyện tập (phiếu luyện tập của bài, nếu chưa có thì dùng các bài “Luyện tập” trong bài giảng).
+     Tuỳ chọn: ví dụ (kèm lời giải / chỉ đề + đáp số / ẩn), luyện tập, đáp số cuối phiếu, lời giải luyện tập (bản giáo viên), 1–2 cột, cỡ chữ. */
+  const CS_DEF = {kt:true, ex:'sol', pr:true, ansEnd:true, key:false, cols:2, fs:9.5};
+  function chapterSheet(b, opt){
+    document.body.classList.remove('gv-wide');
+    const o = Object.assign({}, CS_DEF, chapterSheet.opt && chapterSheet.opt.b === b ? chapterSheet.opt.o : {}, opt || {}); chapterSheet.opt = {b, o};
+    const brand = CONFIG.brand || CONFIG.siteName, heads = b.chapter.split('.'), chNo = heads[0].replace(/^Chương\s*/i, '').trim(), chName = heads.slice(1).join('.').trim();
+    const figOf = (f, blank) => f ? `<div class="cs-fig">${f}</div>` : '';
+    const lessonBlock = l => {
+      const S = l.slides, m = l.name.match(/Bài\s*(\d+)/), pre = m ? m[1] : 'ÔT', kts = S.filter(x => x.kind === 'kt'), groups = [];
+      S.forEach(x => { if(x.kind === 'method') groups.push({m:x, vd:[]}); else if(x.kind === 'vd') (groups[groups.length - 1] || (groups[0] = {m:null, vd:[]})).vd.push(x); });
+      let vi = 0, h = `<h3 class="cs-lesson">${l.name}</h3>`;
+      if(o.kt && kts.length) h += `<h4 class="cs-sec">Kiến thức trọng tâm</h4>` + kts.map((x, i) => `<div class="cs-kt"><h5>${i + 1}. ${x.title}</h5><div class="cs-body">${x.body || ''}${figOf(x.fig)}</div></div>`).join('');
+      if(o.ex !== 'hide' && groups.length){
+        h += `<h4 class="cs-sec">Dạng bài và ví dụ</h4>` + groups.map((g, gi) => (g.m ? `<div class="cs-dang"><h5>Dạng ${gi + 1}. ${g.m.title}</h5>${o.kt ? `<ol class="cs-steps">${(g.m.steps || []).map(x => `<li>${x}</li>`).join('')}</ol>` : ''}</div>` : '')
+          + g.vd.map(x => `<div class="cs-q"><p><b>VD${++vi}.</b> ${x.de}</p>${figOf(x.fig)}${o.ex === 'sol' ? `<ol class="cs-sol">${(x.sol || []).map(y => `<li>${y}</li>`).join('')}</ol>` : ''}${x.ans ? `<p class="cs-ans">${x.ans}</p>` : ''}</div>`).join('')).join('');
+      }
+      let items = [];
+      if(o.pr){
+        if(l.practice) items = prItems(l).map(x => ({...x, hard:!!x.hard}));
+        else items = S.filter(x => x.kind === 'lt').map(x => ({...x, hard:false}));
+        items.forEach((x, i) => { x.lab = `${pre}.${i + 1}`; });
+        if(items.length) h += `<h4 class="cs-sec">Bài luyện tập${l.practice ? ' <small>(★ = vận dụng)</small>' : ''}</h4>` + items.map(x => {
+          const fig = x.draw ? `<div class="cs-fig cs-blank">${x.key ? '' : planeSVG(x.draw)}</div>` : figOf(x.fig);
+          return `<div class="cs-q"><p><b>${x.lab}${x.hard ? ' ★' : ''}.</b> ${x.de}</p>${fig}${o.key ? `<ol class="cs-sol">${(x.sol || []).map(y => `<li>${y}</li>`).join('')}</ol>` : ''}${o.key && x.ans ? `<p class="cs-ans">${x.ans}</p>` : ''}</div>`; }).join('');
+      }
+      return {h, items};
+    };
+    const ansOf = x => x.ans || ((x.sol && x.sol.length) ? x.sol[x.sol.length - 1] : '');    // đáp số: trường ans, thiếu thì lấy bước kết luận cuối của lời giải
+    const blocks = b.lessons.map(lessonBlock), answers = blocks.flatMap(x => x.items).filter(ansOf);
+    const toc = b.lessons.map(l => l.name.replace(/\.\s.*$/, '').replace(/^Ôn tập chương.*/, 'Ôn tập')).join(' · ');
+    const h = `<header class="ws-head cs-head"><div class="ws-brand"><span>${brand}</span><span>${b.gradeName} · Kết nối tri thức</span></div>
+        <h1>PHIẾU ÔN TẬP CHƯƠNG ${chNo}${o.key ? ' <small>(bản có lời giải)</small>' : ''}</h1><h2>${chName}</h2>
+        <p class="ws-who">Họ và tên: <span class="ws-fill"></span> Lớp: <span class="ws-fill s"></span> Ngày: <span class="ws-fill s"></span></p>
+        <p class="cs-toc">Gồm: ${toc}. Kiến thức trọng tâm, ví dụ có lời giải và bài luyện tập cho từng bài; làm bài luyện tập vào vở.</p></header>
+      <div class="cs-cols">${blocks.map(x => x.h).join('')}${o.pr && o.ansEnd && !o.key && answers.length ? `<h3 class="cs-lesson">Đáp số bài luyện tập</h3><ul class="cs-ansl">${answers.map(x => `<li><b>${x.lab}</b> ${ansOf(x)}</li>`).join('')}</ul>` : ''}</div>
+      <footer class="ws-foot">${brand} · ${b.gradeName} · Chương ${chNo}</footer>`;
+    const chk = (id, t, on) => `<label class="ws-toggle"><input type="checkbox" id="${id}" ${on ? 'checked' : ''}> ${t}</label>`;
+    $('#app').innerHTML = `<div class="toolbar ws-bar cs-bar"><button class="back linkbtn" id="wsBack">← Danh sách bài</button><div class="row">
+        ${chk('csKt', 'Kiến thức', o.kt)}
+        <label class="ws-toggle">Ví dụ <select id="csEx"><option value="sol" ${o.ex === 'sol' ? 'selected' : ''}>kèm lời giải</option><option value="ans" ${o.ex === 'ans' ? 'selected' : ''}>chỉ đề + đáp số</option><option value="hide" ${o.ex === 'hide' ? 'selected' : ''}>ẩn</option></select></label>
+        ${chk('csPr', 'Luyện tập', o.pr)}${chk('csAe', 'Đáp số cuối phiếu', o.ansEnd)}${chk('csKey', 'Kèm lời giải luyện tập (GV)', o.key)}
+        <label class="ws-toggle">Cột <select id="csCols"><option value="2" ${o.cols === 2 ? 'selected' : ''}>2</option><option value="1" ${o.cols === 1 ? 'selected' : ''}>1</option></select></label>
+        <label class="ws-toggle">Chữ <select id="csFs">${[[9, 'nhỏ'], [9.5, 'vừa'], [10.5, 'lớn']].map(([v, t]) => `<option value="${v}" ${o.fs === v ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+        <span class="cs-pages" id="csPages"></span><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
+      <article class="ws cs ${o.cols === 1 ? 'one' : ''}" style="--cs-fs:${o.fs}pt">${h}</article>`;
+    const redo = k => chapterSheet(b, k);
+    $('#wsBack').onclick = home; $('#csKt').onchange = e => redo({kt:e.target.checked}); $('#csEx').onchange = e => redo({ex:e.target.value}); $('#csPr').onchange = e => redo({pr:e.target.checked});
+    $('#csAe').onchange = e => redo({ansEnd:e.target.checked}); $('#csKey').onchange = e => redo({key:e.target.checked}); $('#csCols').onchange = e => redo({cols:+e.target.value}); $('#csFs').onchange = e => redo({fs:+e.target.value});
+    document.title = `Phiếu ôn tập chương ${chNo} – ${b.gradeName}`; scrollTo(0, 0);
+    // ước lượng số trang A4 (cao in được ≈ 271mm) để thầy cô cân nhắc tiết kiệm giấy
+    const pages = () => { const a = $('article.cs'), box = $('#csPages'); if(!a || !box) return; const mm = a.scrollHeight / (a.clientWidth / 190) * 1 / 3.7795; box.textContent = `≈ ${Math.max(1, Math.ceil(mm / 255))} trang A4 (${Math.max(1, Math.ceil(mm / 255 / 2))} tờ in 2 mặt)`; };
+    // công thức riêng một dòng rộng hơn cột → thu nhỏ vừa cột (zoom), chạy sau khi MathJax vẽ xong
+    const fit = () => { const L = $$('article.cs .mxd'); L.forEach(e => { e.style.zoom = ''; }); L.forEach(e => { if(e.scrollWidth > e.clientWidth + 1) e.style.zoom = String(Math.max(.55, (e.clientWidth - 1) / e.scrollWidth)); });
+      const I = $$('article.cs mjx-container').filter(e => !e.closest('.mxd')); I.forEach(e => { e.style.zoom = ''; });
+      I.forEach(e => { const host = e.closest('li,.cs-q,p,div'); const av = host ? host.clientWidth - 4 : 0; const w = e.getBoundingClientRect().width; if(av > 40 && w > av) e.style.zoom = String(Math.max(.55, av / w)); }); pages(); };
+    chapterSheet.fit = fit;
+    if(window.MathJax && MathJax.startup) MathJax.startup.promise.then(() => MathJax.typesetPromise([$('article.cs')])).then(fit, fit);
+    setTimeout(fit, 700); setTimeout(fit, 1800);
+  }
+
   /* ---------- Phiếu luyện tập (bỏ lý thuyết; cơ bản → vận dụng, theo từng dạng như bài giảng) ----------
      I. Cơ bản: các dạng lần lượt · II. Vận dụng ★. Bản kèm lời giải thay dòng kẻ bằng lời giải. Có thể chiếu từng bài. */
   const prItems = l => { let n = 0; const out = [];
@@ -322,5 +388,5 @@ const Lecture = (() => {
     if(!window.__kdPrint){ window.__kdPrint = true; addEventListener('beforeprint', () => { const r = $('.kd-a'); if(r) kdFit(r); }); }
   }
 
-  return { add, addPractice, addSgk, addSheet, classSheet, mdToHtml, sgkDeck, home, open, preview, worksheet, practice, practiceDeck, BOOKS };
+  return { add, addPractice, addSgk, addSheet, classSheet, mdToHtml, sgkDeck, home, open, preview, worksheet, practice, practiceDeck, chapterSheet, BOOKS };
 })();
