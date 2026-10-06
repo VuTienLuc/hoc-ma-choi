@@ -2,7 +2,7 @@
 Chạy:  python3 tools/test.py            (kiểm tra các lớp trong config.js + file mẫu)
 Cần:   pip install playwright  &&  playwright install chromium   (trên máy cá nhân)
 """
-import asyncio, pathlib, sys
+import asyncio, json, pathlib, sys
 from playwright.async_api import async_playwright
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 10
@@ -134,7 +134,16 @@ async def main():
     for x in r['bad'][:20]: print('  ✗', x)
     for x in r['errs'][:10]: print('  ! lỗi JS', x)
     for x in errs[:5]: print('  ! lỗi trang', x)
-    ok = not r['bad'] and not r['errs'] and not errs
-    print('KẾT QUẢ:', 'ĐẠT ✓' if ok else f"CHƯA ĐẠT ✗ ({len(r['bad'])} câu lỗi)")
+    static_bad=[]
+    game_src=(ROOT/'assets/js/game.js').read_text()
+    for token in ["gameMode==='race'",'drawClassRace','classRaceTrackHTML','studentRaceBody','slice(0,8)','concat([sorted[place-1]])']:
+      if token not in game_src: static_bad.append('Đường đua cả lớp thiếu '+token)
+    rules=json.loads((ROOT/'firebase-database.rules.json').read_text())['rules']['rooms']['$code']
+    meta_rule=rules['meta']['.validate']; player_rule=rules['players']['$uid']['.validate']
+    if "val() >= 10" not in meta_rule or "gameMode" not in meta_rule: static_bad.append('Firebase Rules chưa cho phép phòng đua 10 vòng')
+    if any(x not in player_rule for x in ['distance','combo','energy','nitro']): static_bad.append('Firebase Rules thiếu kiểm tra trạng thái xe')
+    for x in static_bad: print('  ✗',x)
+    ok = not r['bad'] and not r['errs'] and not errs and not static_bad
+    print('KẾT QUẢ:', 'ĐẠT ✓' if ok else f"CHƯA ĐẠT ✗ ({len(r['bad'])+len(static_bad)} lỗi)")
     await b.close(); sys.exit(0 if ok else 1)
 asyncio.run(main())

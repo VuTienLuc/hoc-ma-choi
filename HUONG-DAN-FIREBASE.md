@@ -13,3 +13,7 @@
 9. Kiểm tra bằng hai thiết bị: tài khoản giáo viên tạo phòng; tài khoản học sinh nhập mã sáu ký tự; giáo viên bấm **Bắt đầu**.
 
 Không đưa tệp khóa quản trị Firebase hoặc tài khoản dịch vụ vào dự án. Cấu hình Web App trong `config.js` được phép xuất hiện trên trang web; quyền truy cập được bảo vệ bằng Authentication và Database Rules.
+
+## Cập nhật cho Đường đua cả lớp
+
+Đường đua Toán học dùng phòng 10 vòng. Sau khi cập nhật mã nguồn, mở **Firebase Console → Realtime Database → Rules**, chép lại toàn bộ nội dung mới của `firebase-database.rules.json` và bấm **Publish**. Nếu chưa đăng lại Rules, Firebase sẽ từ chối tạo phòng đua 10 vòng.
