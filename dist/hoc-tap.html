@@ -1570,7 +1570,8 @@ const Account = (() => {
   async function api(body){
     const r = await fetch(API(), { method:'POST', body: JSON.stringify(body), redirect:'follow' });
     if(!r.ok) throw new Error('HTTP '+r.status);
-    return r.json();
+    const t = await r.text();
+    try{ return JSON.parse(t); }catch(e){ throw new Error('Máy chủ Apps Script trả về trang lỗi (không phải dữ liệu) – thường do Code.gs gặp lỗi hoặc bản triển khai chưa cho “Bất kỳ ai” truy cập'); }
   }
   const queue = () => LS.get('hoctap:queue') || [];
   async function flush(){
@@ -2686,7 +2687,7 @@ const Hub = (() => {
     try{ classes = await load(force); }
     catch(e){ frame(note(e.message === 'teacher' ? 'Chỉ tài khoản giáo viên mới xem được nhiều lớp.'
       : e.message === 'old' || /không hợp lệ/.test(e.message) ? 'Máy chủ chưa có chức năng này: thầy cô dán <b>Code.gs</b> mới vào Apps Script rồi triển khai lại.'
-      : 'Chưa tải được dữ liệu. Kiểm tra mạng rồi bấm tải lại.') + `<button class="linkbtn" data-hub-reload>↻ Tải lại</button>`);
+      : 'Chưa tải được dữ liệu. Kiểm tra mạng rồi bấm tải lại.<br><small>Chi tiết: ' + esc(e.message || e) + '</small>') + `<button class="linkbtn" data-hub-reload>↻ Tải lại</button>`);
       const b = document.querySelector('[data-hub-reload]'); if(b) b.onclick = () => show(true); return; }
     if(!classes.some(c => c.lop === st.lop)) st.lop = classes[0] && classes[0].lop;
     const cls = classes.find(c => c.lop === st.lop) || {lop:'', rows:[]}, teacher = isTeacher();

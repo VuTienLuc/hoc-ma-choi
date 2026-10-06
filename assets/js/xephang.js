@@ -50,7 +50,7 @@ const GvRank = (() => {
       if(!box || !box.isConnected) return;
       const msg = e.message === 'teacher' ? 'Chỉ tài khoản giáo viên mới xem được bảng xếp hạng.'
         : e.message === 'old' || /không hợp lệ/.test(e.message) ? 'Máy chủ chưa có chức năng này: thầy cô dán <b>Code.gs</b> mới vào Apps Script rồi triển khai lại (Quản lý bản triển khai → Chỉnh sửa → Phiên bản mới).'
-        : 'Chưa tải được bảng xếp hạng. Kiểm tra mạng rồi bấm tải lại.';
+        : 'Chưa tải được bảng xếp hạng. Kiểm tra mạng rồi bấm tải lại.<br><small>Chi tiết: ' + esc(e.message || e) + '</small>';
       box.innerHTML = head('Tải lại') + `<p class="note-line">${msg}</p>`; bindReload();
     }
   }

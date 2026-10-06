@@ -26,7 +26,8 @@ const Account = (() => {
   async function api(body){
     const r = await fetch(API(), { method:'POST', body: JSON.stringify(body), redirect:'follow' });
     if(!r.ok) throw new Error('HTTP '+r.status);
-    return r.json();
+    const t = await r.text();
+    try{ return JSON.parse(t); }catch(e){ throw new Error('Máy chủ Apps Script trả về trang lỗi (không phải dữ liệu) – thường do Code.gs gặp lỗi hoặc bản triển khai chưa cho “Bất kỳ ai” truy cập'); }
   }
   const queue = () => LS.get('hoctap:queue') || [];
   async function flush(){
