@@ -19,6 +19,7 @@
    - Chạy riêng một lớp, nhiều lần sinh câu hơn: `node tools/kiem-tra.js 80 lop8`.
 4. Máy có Python + Playwright thì chạy thêm `python3 tools/test.py` (chấm thật trong trình duyệt) và các test ở mục 5.
 5. Chạy `python3 tools/build.py` để tạo `dist/hoc-tap.html`.
+6. **Tự đăng lên web (thầy đã cho phép từ 06/10/2026):** khi `kiem-tra.js` và `test.py` ĐẠT thì commit và `git push origin HEAD:main` luôn (Vercel tự cập nhật sau ~1 phút), không chờ thầy bấm nút “Đăng Học mà chơi lên web”. Có lỗi thì KHÔNG đăng. Nếu GitHub có bản mới do người khác sửa cùng chỗ thì hợp bản (giữ cả hai) rồi kiểm tra lại trước khi đăng.
 6. Báo cáo cho thầy bằng tiếng Việt, gọi là "thầy", ngắn gọn theo mục 8.
 
 **Quy tắc làm ĐẦY ĐỦ (bắt buộc – thầy cần sản phẩm dùng được ngay, không phải bản nháp):**
