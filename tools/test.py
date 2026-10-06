@@ -108,6 +108,14 @@ async (REPS) => {
       for(let i=0;i<3&&document.querySelector('[data-adv-o]');i++){const gate=document.querySelector('.adv-gate');if(gate)gate.click();document.querySelector('[data-adv-o="'+((advQs[i].correct+1)%4)+'"]').click();const nx=document.querySelector('#advNext');if(nx)nx.click()}
       if(!document.querySelector('.adv-result'))out.bad.push(['Phiêu lưu Toán 10: phòng luyện lại không kết thúc bình thường'])}}
    }finally{Date.now=realNow}
+   location.hash='#/game/game-lop10-on-tap-c1';Game.route();
+   const race=document.querySelector('[data-race]');
+   if(!race)out.bad.push(['Đường đua Toán học: thiếu lối vào ở chủ đề Toán 10']);
+   else{race.click();await new Promise(ok=>setTimeout(ok,300));
+    if(!document.querySelector('#gameArena.race-bg')||document.querySelectorAll('[data-race-car]').length!==4||document.querySelectorAll('[data-race-o]').length!==4)out.bad.push(['Đường đua Toán học: không dựng đủ đường đua, bốn xe và bốn đáp án']);
+    for(let i=0;i<10&&document.querySelector('[data-race-o]');i++){document.querySelector('[data-race-o]').click();const nx=document.querySelector('#raceNext');if(!nx){out.bad.push(['Đường đua Toán học: không chuyển được vòng',i+1]);break}nx.click()}
+    if(!document.querySelector('.race-result')||document.querySelectorAll('.race-podium>div').length!==4)out.bad.push(['Đường đua Toán học: thiếu trang về đích hoặc bảng xếp hạng bốn xe']);
+    const rex=document.querySelector('#raceExit');if(rex)rex.click()}
    out.game=true;
   }catch(e){out.errs.push(['Học mà chơi',String(e)])}
  }
