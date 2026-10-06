@@ -422,4 +422,43 @@ Lecture.addPractice('lop9','on-thi-hinh-quat-vanh-khuyen',[
   {hard:true,de:`Một hình vành khuyên có diện tích ${m('96\\pi')} cm². Bán kính ngoài hơn bán kính trong ${m('4')} cm. Tính hai bán kính.`,sol:[`Gọi bán kính ngoài, trong lần lượt là ${m('R,r')}. Ta có ${m('R-r=4')}.`,`Từ diện tích: ${m('R^2-r^2=96')}, hay ${m('(R-r)(R+r)=96')}.`,`Thay ${m('R-r=4')} được ${m('R+r=24')}. Giải hệ ${m('R-r=4,\\ R+r=24')} được ${m('R=14,r=10')}.`],ans:`Bán kính ngoài ${tb('14')} cm; bán kính trong ${tb('10')} cm.`},
  ]},
 ]);
+
+/* ---------- Đại số 1. Hàm số y = ax² và đồ thị – 5 dạng × 2 câu tương tự ---------- */
+Lecture.addPractice('lop9','on-thi-ham-so-parabol',[
+ {dang:'Điểm thuộc parabol, tìm a, tìm m',items:[
+  {de:`Cho ${m('(P):\\; y = -2x^2')}. Trong các điểm ${m('A(2;\\,-8)')}, ${m('B(-1;\\,2)')}, ${m('C(3;\\,-12)')}, ${m('D(-2;\\,8)')}, điểm nào thuộc ${m('(P)')}?`,
+   sol:[`Với ${m('x = 2')}: ${m('y = -2\\cdot 2^2 = -8')}, khớp với ${m('A')}.`,`${m('B')}: ${m('y(-1) = -2')} (khác ${m('2')}); ${m('C')}: ${m('y(3) = -18')} (khác ${m('-12')}); ${m('D')}: ${m('y(-2) = -8')} (khác ${m('8')}).`],ans:`Chỉ ${tb('A(2;\\,-8)')} thuộc ${m('(P)')}.`,lines:2},
+  {hard:true,de:`Biết ${m('(P):\\; y = ax^2')} đi qua ${m('A(-2;\\,-12)')}. a) Tìm ${m('a')}. b) Tìm ${m('m')} để điểm ${m('B(m;\\,-27)')} thuộc ${m('(P)')}.`,
+   sol:[`a) Thay ${m('x = -2,\\ y = -12')}: ${m('-12 = a\\cdot 4')}, suy ra ${m('a = -3')}.`,`b) ${m('(P):\\; y = -3x^2')}. ${m('B')} thuộc ${m('(P)')} nên ${m('-27 = -3m^2')}, tức ${m('m^2 = 9')}.`],ans:`a) ${tb('a = -3')}. b) ${tb('m = 3')} hoặc ${tb('m = -3')}.`,lines:3},
+ ]},
+ {dang:'Bảng giá trị và vẽ đồ thị',items:[
+  {de:`Lập bảng giá trị với ${m('x = -4;\\,-2;\\,0;\\,2;\\,4')} và vẽ đồ thị ${m('(P):\\; y = \\dfrac{1}{2}x^2')}.`,
+   draw:{x:[-4,4],y:[-1,8]},fig:ParabFig(1,2,[[-4,8],[-2,2],[0,0],[2,2],[4,8]]),
+   sol:[`Bảng giá trị: ${m('x = -4;\\,-2;\\,0;\\,2;\\,4')} cho ${m('y = 8;\\,2;\\,0;\\,2;\\,8')}.`,`Chấm các điểm rồi nối bằng đường cong trơn, nhận ${m('Oy')} làm trục đối xứng.`],ans:`${tb('(P)')} là parabol quay lên, đỉnh ${tb('O')}.`,lines:3},
+  {de:`Lập bảng giá trị với ${m('x = -3;\\,-2;\\,-1;\\,0;\\,1;\\,2;\\,3')} và vẽ đồ thị ${m('(P):\\; y = -x^2')}.`,
+   draw:{x:[-3,3],y:[-9,1]},fig:ParabFig(-1,1,[[-3,-9],[-2,-4],[-1,-1],[0,0],[1,-1],[2,-4],[3,-9]]),
+   sol:[`Bảng giá trị: ${m('x = -3;\\,-2;\\,-1;\\,0;\\,1;\\,2;\\,3')} cho ${m('y = -9;\\,-4;\\,-1;\\,0;\\,-1;\\,-4;\\,-9')}.`,`Chấm các điểm và nối thành parabol quay xuống, đi qua ${m('O')}.`],ans:`${tb('(P)')} là parabol quay xuống, đỉnh ${tb('O')}.`,lines:3},
+ ]},
+ {dang:'Tính chất của đồ thị, so sánh giá trị hàm số',items:[
+  {de:`Cho hàm số ${m('y = -2x^2')}. Không dùng máy tính, so sánh ${m('y(-3)')} và ${m('y(2)')}.`,
+   sol:[`${m('a = -2 \\lt 0')} nên ${m('x^2')} càng lớn thì ${m('y')} càng nhỏ.`,`${m('(-3)^2 = 9 \\gt 2^2 = 4')}, do đó ${m('y(-3) \\lt y(2)')}. (Kiểm tra: ${m('-18 \\lt -8')}.)`],ans:`${tb('y(-3) \\lt y(2)')}.`,lines:2},
+  {hard:true,de:`Cho hàm số ${m('y = 3x^2')}. a) So sánh ${m('y(-4)')} và ${m('y(3)')}. b) Với giá trị nào của ${m('x')} thì hàm số đạt giá trị nhỏ nhất? Giá trị nhỏ nhất bằng bao nhiêu?`,
+   sol:[`a) ${m('a = 3 \\gt 0')}, ${m('(-4)^2 = 16 \\gt 3^2 = 9')} nên ${m('y(-4) \\gt y(3)')} (${m('48 \\gt 27')}).`,`b) ${m('y = 3x^2 \\ge 0')} với mọi ${m('x')}, dấu bằng khi ${m('x = 0')}.`],ans:`a) ${tb('y(-4) \\gt y(3)')}. b) ${tb('y_{\\min} = 0')} khi ${tb('x = 0')}.`,lines:3},
+ ]},
+ {dang:'Đọc đồ thị, tìm hệ số a',items:[
+  {de:`Parabol ${m('(P):\\; y = ax^2')} được vẽ như hình, đi qua ${m('A')}. Tìm ${m('a')} và tính tung độ của điểm ${m('B')} thuộc ${m('(P)')} có hoành độ ${m('4')}.`,
+   fig:ParabFig(1,2,[[2,2,'A']]),
+   sol:[`Từ hình, ${m('A(2;\\,2)')}. Thay vào ${m('y = ax^2')}: ${m('2 = a\\cdot 4')}, suy ra ${m('a = \\dfrac{1}{2}')}.`,`Với ${m('x = 4')}: ${m('y = \\dfrac{1}{2}\\cdot 16 = 8')}.`],ans:`${tb('a = \\dfrac{1}{2}')}; ${tb('y_B = 8')}.`,lines:3},
+  {de:`Parabol ${m('(P):\\; y = ax^2')} được vẽ như hình, đi qua ${m('A')}. Tìm ${m('a')} và tính tung độ của điểm ${m('B')} thuộc ${m('(P)')} có hoành độ ${m('3')}.`,
+   fig:ParabFig(-1,1,[[-2,-4,'A']]),
+   sol:[`Từ hình, ${m('A(-2;\\,-4)')}. Thay vào ${m('y = ax^2')}: ${m('-4 = a\\cdot 4')}, suy ra ${m('a = -1')}.`,`Với ${m('x = 3')}: ${m('y = -1\\cdot 3^2 = -9')}.`],ans:`${tb('a = -1')}; ${tb('y_B = -9')}.`,lines:2},
+ ]},
+ {dang:'Tìm điểm thuộc parabol theo điều kiện',items:[
+  {de:`Cho ${m('(P):\\; y = 2x^2')}. Tìm các điểm thuộc ${m('(P)')} có tung độ bằng ${m('8')}.`,
+   sol:[`Gọi ${m('M(x;\\,8)')} thuộc ${m('(P)')}: ${m('2x^2 = 8')}, suy ra ${m('x^2 = 4')}, tức ${m('x = \\pm 2')}.`],ans:`${tb('M_1(2;\\,8)')} và ${tb('M_2(-2;\\,8)')}.`,lines:3},
+  {hard:true,de:`Cho ${m('(P):\\; y = \\dfrac{1}{2}x^2')}. Tìm điểm ${m('N')} khác gốc toạ độ thuộc ${m('(P)')} có tung độ gấp ${m('3')} lần hoành độ.`,
+   sol:[`${m('N(x;\\,y)')} thuộc ${m('(P)')} nên ${m('y = \\dfrac{1}{2}x^2')}; theo đề ${m('y = 3x')}.`,`${m('\\dfrac{1}{2}x^2 = 3x \\Leftrightarrow x(x - 6) = 0')}. Vì ${m('N \\ne O')} nên ${m('x \\ne 0')}, suy ra ${m('x = 6')}.`,`${m('y = 3\\cdot 6 = 18')}.`],ans:`${tb('N(6;\\,18)')}.`,lines:3},
+ ]},
+]);
+
 })();

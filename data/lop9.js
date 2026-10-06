@@ -1416,7 +1416,7 @@ const aTerm = (p,q) => q===1 ? (p===1?'':p===-1?'-':String(p)) : (p<0?'-':'')+tf
 const aTxt  = (p,q) => q===1 ? String(p) : (p<0?'-':'')+tf(Math.abs(p),q);
 const aMul  = (p,q) => q===1 ? tp(p) : (p<0?'-':'')+tf(Math.abs(p),q);
 const fnStr = (p,q) => `y = ${aTerm(p,q)}x^2`;
-const parab = (p,q) => tm(`(P):\; ${fnStr(p,q)}`);
+const parab = (p,q) => tm(`(P):\\; ${fnStr(p,q)}`);
 const yAt   = (p,q,x) => p*x*x/q;
 const okX   = q => [-4,-3,-2,-1,0,1,2,3,4].filter(x => (x*x)%q===0);
 const ptS   = (x,y) => `(${x};\\,${y})`;
@@ -1453,9 +1453,9 @@ const gHs1 = lv => {
   }
   if(Math.random()<0.5){
     const a=pick([-4,-3,-2,-1,1,2,3,4]), x0=pick([-4,-3,-2,2,3,4]), y0=a*x0*x0;
-    return QB({text:`Biết parabol ${tm('(P):\; y = ax^2')} đi qua điểm ${tm('A'+ptS(x0,y0))}. Tính hệ số ${tm('a')}.`,tpl:`${tm('a =')} [_]`,ans:[a],
+    return QB({text:`Biết parabol ${tm('(P):\\; y = ax^2')} đi qua điểm ${tm('A'+ptS(x0,y0))}. Tính hệ số ${tm('a')}.`,tpl:`${tm('a =')} [_]`,ans:[a],
       hint:`Điểm ${tm('A')} thuộc ${tm('(P)')} nên toạ độ của ${tm('A')} thoả mãn phương trình ${tm('y = ax^2')}. Thay vào rồi giải phương trình ẩn ${tm('a')}.`,
-      sol:`Thay ${tm(`x = ${x0},\; y = ${y0}`)} vào ${tm('y = ax^2')}: ${tm(`${y0} = a\\cdot${tp(x0)}^2 = ${x0*x0}a`)}. Suy ra ${tb('a = '+a)}.`});
+      sol:`Thay ${tm(`x = ${x0},\\; y = ${y0}`)} vào ${tm('y = ax^2')}: ${tm(`${y0} = a\\cdot${tp(x0)}^2 = ${x0*x0}a`)}. Suy ra ${tb('a = '+a)}.`});
   }
   const a=pick([-3,-1,1,3]), x1=pick([-3,-1,1,3]), v=a*x1*x1, m=(v-1)/2;
   return QB({text:`Tìm ${tm('m')} để điểm ${tm('B'+`(${x1};\\,2m + 1)`)} thuộc parabol ${parab(a,1)}.`,tpl:`${tm('m =')} [_]`,ans:[m],
@@ -1469,9 +1469,9 @@ const gHs2 = lv => {
   const r=lv===1?2:4, n=lv===3?4:3;
   const xs=shuffle(okX(q).filter(t=>Math.abs(t)<=r)).slice(0,n).sort((u,v)=>u-v), ys=xs.map(t=>yAt(p,q,t));
   return QB({text:`Cho hàm số ${tm(fnStr(p,q))}. Hoàn thành bảng giá trị để chuẩn bị vẽ đồ thị.`,
-    tpl:xs.map(t=>`${tm(`x = ${t}:\; y =`)} [_]`).join(' &emsp; '), ans:ys,
+    tpl:xs.map(t=>`${tm(`x = ${t}:\\; y =`)} [_]`).join(' &emsp; '), ans:ys,
     hint:`Thay từng giá trị của ${tm('x')} vào công thức ${tm('y = ax^2')}: bình phương ${tm('x')} trước, rồi nhân với ${tm('a')}.`,
-    sol:xs.map((t,i)=>`${tm(`x = ${t}:\; y = ${aMul(p,q)}\\cdot${tp(t)}^2 =`)} ${tb(String(ys[i]))}`).join('<br>')+`<br>Các điểm ${xs.map((t,i)=>tm(ptS(t,ys[i]))).join(', ')} nằm trên đồ thị.`});
+    sol:xs.map((t,i)=>`${tm(`x = ${t}:\\; y = ${aMul(p,q)}\\cdot${tp(t)}^2 =`)} ${tb(String(ys[i]))}`).join('<br>')+`<br>Các điểm ${xs.map((t,i)=>tm(ptS(t,ys[i]))).join(', ')} nằm trên đồ thị.`});
 };
 
 /* Dạng 3. Tính chất của đồ thị và so sánh giá trị hàm số */
@@ -1504,12 +1504,12 @@ const gHs4 = lv => {
   if(lv<3){
     let others=shuffle(POOL.filter(([u,v])=>!(u===p&&v===q)&&!(u===-p&&v===q))).slice(0,2);
     const opts=[[p,q],[-p,q],...others].map(([u,v])=>tm(`a = ${aTxt(u,v)}`));
-    return QC({text:`Parabol ${tm('(P):\; y = ax^2')} được vẽ như hình và đi qua điểm ${tm('A')}. Hệ số ${tm('a')} bằng bao nhiêu?`,fig,opts,ans:tm(`a = ${aTxt(p,q)}`),
+    return QC({text:`Parabol ${tm('(P):\\; y = ax^2')} được vẽ như hình và đi qua điểm ${tm('A')}. Hệ số ${tm('a')} bằng bao nhiêu?`,fig,opts,ans:tm(`a = ${aTxt(p,q)}`),
       hint:`Đọc toạ độ điểm ${tm('A')} trên lưới ô vuông. Điểm ${tm('A')} thuộc ${tm('(P)')} nên toạ độ của nó thoả mãn ${tm('y = ax^2')}.`,
       sol:`Từ hình, ${tm('A'+ptS(x0,y0))}. Thay vào ${tm('y = ax^2')}: ${tm(`${y0} = a\\cdot${tp(x0)}^2 = ${x0*x0}a`)}. Suy ra ${tb(`a = ${aTxt(p,q)}`)}.`});
   }
   const x1=pick(okX(q).filter(t=>t&&Math.abs(t)!==Math.abs(x0))), y1=yAt(p,q,x1);
-  return QB({text:`Parabol ${tm('(P):\; y = ax^2')} được vẽ như hình và đi qua điểm ${tm('A')}. Tính tung độ của điểm ${tm('B')} thuộc ${tm('(P)')} có hoành độ ${tm('x = '+x1)}.`,fig,tpl:`${tm('y_B =')} [_]`,ans:[y1],
+  return QB({text:`Parabol ${tm('(P):\\; y = ax^2')} được vẽ như hình và đi qua điểm ${tm('A')}. Tính tung độ của điểm ${tm('B')} thuộc ${tm('(P)')} có hoành độ ${tm('x = '+x1)}.`,fig,tpl:`${tm('y_B =')} [_]`,ans:[y1],
     hint:`Đọc toạ độ ${tm('A')} từ lưới để tìm ${tm('a')} trước, sau đó thay hoành độ của ${tm('B')} vào hàm số.`,
     sol:`Từ hình, ${tm('A'+ptS(x0,y0))}, nên ${tm(`a = ${aTxt(p,q)}`)} và ${tm(fnStr(p,q))}. Với ${tm('x = '+x1)}: ${tm(`y = ${aMul(p,q)}\\cdot${tp(x1)}^2`)} ${tb('= '+y1)}.`});
 };

@@ -527,7 +527,11 @@ body.noscroll{overflow:hidden}
 /* Phiếu luyện tập */
 .pr-legend{margin:5pt 0 0;font-size:10pt;text-align:center}
 .ws h3 small{font-weight:600;text-transform:none;letter-spacing:0}
-.ws .pr-dang{margin:8pt 0 2pt;font-style:italic}
+.ws .pr-dang{margin:8pt 0 2pt;font-style:italic;break-after:avoid}
+.ws.pr .ws-fig:not(.ws-blank) svg{max-height:31mm!important}
+.ws.pr .ws-fig.ws-blank svg{max-height:37mm!important}
+.ws.pr .ws-lines i{height:7.2mm}
+@media print{.ws.pr{font-size:10.5pt}.ws.pr .ws-lines i{height:7mm}.ws.pr .ws h3,.ws.pr h3{margin-top:8pt}}
 /* Hình đường tròn */
 .sv-fill{fill:var(--shade);fill-opacity:.35;stroke:none}
 .sv-arc{fill:none;stroke:var(--primary);stroke-width:5;stroke-linecap:round}
