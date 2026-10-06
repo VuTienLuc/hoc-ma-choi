@@ -211,7 +211,7 @@ function rankAll_(b) {
     if (x) { try { prog = JSON.parse(x[6] || '{}') || {}; } catch (err) {} }
     const keys = Object.keys(prog).filter(k => k.indexOf(gid + ':') === 0);
     const stars = keys.reduce((t, k) => t + (Number(prog[k]) || 0), 0);
-    const lessons = new Set(keys.filter(k => Number(prog[k]) > 0).map(k => k.split(':')[1])).size;
+    const lessons = new Set(keys.filter(k => Number(prog[k]) > 0 && String(k.split(':')[1]).indexOf('game-') !== 0).map(k => k.split(':')[1])).size;   // sao trò chơi (game-…) cộng vào ⭐ nhưng không tính là bài
     const last = !x || !x[5] ? '' : (x[5] instanceof Date ? Utilities.formatDate(x[5], TZ, 'dd/MM/yyyy') : norm_(x[5]).slice(0, 10));
     (classes[s.lop] = classes[s.lop] || []).push(Object.assign({ name: s.name, user: s.user, stars, lessons, joined: !!x, last }, pub_(x ? x[8] : '', x)));
   });

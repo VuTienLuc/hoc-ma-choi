@@ -48,6 +48,11 @@ const Account = (() => {
     if(!API() || !user || playBusy) return; playBusy = true;
     api({action:'play', token:user.token, play}).then(r => { if(!r.ok && r.code==='auth') expired(); }).catch(() => {}).finally(() => playBusy = false);
   }
+  /* Sao của trò chơi (Game): ghi vào tiến độ như một bài tên game-<chủ đề> để máy chủ cộng vào ⭐ của khối */
+  function saveStars(gid, key, stars, lesson){
+    const g = App.grades.find(x => x.id === gid);
+    if(user && g){ send({ key, stars, setStars: stars, score: stars, total: 3, grade: g.name, lesson, level: '', gradeStars: gradeStars(g), pet: Pet.name(g, Pet.stage(g)), summary: Pet.summary(), play: P() ? Play.snapshot() : '' }); try{ Pet.check(g) }catch(e){} }
+  }
   const rank = () => api({action:'rank', token:user.token});
   const rankAll = grade => api({action:'rankAll', token:user.token, grade});   // giáo viên: mọi lớp của một khối
 const call = (action, body) => user ? api({...(body || {}), action, token:user.token}) : Promise.reject(new Error('login'));   // gọi action bất kỳ của máy chủ (Góc chung dùng)
@@ -142,7 +147,7 @@ const bonus = play => call('bonus', {play});   // thưởng ⭐ khi xong cả 3 
     }
   }
   addEventListener('online', flush);
-  return { gate, on, get user(){ return user }, logout, flush, syncPlay, rank, rankAll, call, bonus, gradeOfClass, isTeacher, userBar, bindLogout };
+  return { gate, on, get user(){ return user }, logout, flush, syncPlay, saveStars, rank, rankAll, call, bonus, gradeOfClass, isTeacher, userBar, bindLogout };
 })();
 
 /* =====================================================================

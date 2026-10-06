@@ -253,3 +253,5 @@ Khi có thể, chụp màn hình ở kích thước iPad dọc 820×1180 và nga
 
 ## 8. Khi báo cáo lại cho giáo viên
 Viết ngắn gọn: đã thêm hoặc sửa gì (lớp, bài, số dạng), kết quả `test.py` (số câu đã thử, ĐẠT hay không), những gì thầy cần tự kiểm tra (tên bài so với mục lục SGK). Không kể lại từng bước kỹ thuật.
+
+**Sao của trò chơi (`game.js`):** mỗi chủ đề game tối đa 3 ⭐ (kết quả tốt nhất: đúng ≥50% = 1⭐, ≥75% = 2⭐, ≥90% = 3⭐; chơi với máy, phiêu lưu Toán 10 và phòng cả lớp tính cho học sinh, giáo viên và chế độ 2 người không tính). Lưu ở khóa `hoctap:<khối>:game-<chủ đề>:1`, `gradeStars()`/`gradeMaxStars()` trong `engine.js` cộng qua `Game.stars()/maxStars()`; `Account.saveStars()` gửi lên máy chủ bằng action `save` nên xếp hạng, thú cưng và Góc chung dùng chung. `Code.gs` không tính khóa `game-…` là một “bài”. `Code.gs` ở gốc và `tools/apps-script/Code.gs` phải giống hệt nhau.

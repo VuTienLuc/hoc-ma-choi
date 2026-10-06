@@ -22,8 +22,9 @@ function starsHTML(k,max=3){return `<span class="stars" aria-label="${k} trên $
 const bestKey=(id,lv,g=S.grade)=>`hoctap:${g.id}:${id}:${lv}`;
 const lessonStars=(id,g=S.grade)=>[1,2,3].reduce((s,lv)=>s+(store.get(bestKey(id,lv,g))||0),0);
 const testStars=g=>typeof StudentTest!=='undefined'?StudentTest.stars(g.id):0;
-const gradeStars=g=>g.lessons.reduce((s,l)=>s+lessonStars(l.id,g),0)+testStars(g);
-const gradeMaxStars=g=>g.lessons.length*9+(typeof StudentTest!=='undefined'?StudentTest.maxStars(g.id):0);
+const gameStars=g=>typeof Game!=='undefined'&&Game.stars?Game.stars(g.id):0;
+const gradeStars=g=>g.lessons.reduce((s,l)=>s+lessonStars(l.id,g),0)+testStars(g)+gameStars(g);
+const gradeMaxStars=g=>g.lessons.length*9+(typeof StudentTest!=='undefined'?StudentTest.maxStars(g.id):0)+(typeof Game!=='undefined'&&Game.maxStars?Game.maxStars(g.id):0);
 const lessonHref=(l,lv)=>`#/${S.grade.id}/bai/${l.id}${lv?'/'+lv:''}`;
 const foot=()=>`<p class="foot">${CONFIG.author}</p>`;
 
