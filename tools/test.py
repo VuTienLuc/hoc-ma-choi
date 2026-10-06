@@ -80,20 +80,23 @@ async (REPS) => {
    for(const T of Game.TOPICS){location.hash='#/game/'+T.id;Game.route();const ab=document.querySelector('[data-adventure]');
     if(!ab){out.bad.push(['Phiêu lưu: chủ đề '+T.id+' thiếu lối vào']);continue}
     ab.click();await new Promise(ok=>setTimeout(ok,250));
-    for(let i=0;i<9&&document.querySelector('[data-adv-o]');i++){document.querySelector('[data-adv-o]').click();const nx=document.querySelector('#advNext');if(!nx){out.bad.push(['Phiêu lưu: '+T.id+' không chuyển được cổng',i+1]);break}nx.click()}
+    for(let i=0;i<9&&document.querySelector('[data-adv-o]');i++){const gate=document.querySelector('.adv-gate');if(gate)gate.click();document.querySelector('[data-adv-o]').click();const nx=document.querySelector('#advNext');if(!nx){out.bad.push(['Phiêu lưu: '+T.id+' không chuyển được cổng',i+1]);break}nx.click()}
     if(!document.querySelector('.adv-result'))out.bad.push(['Phiêu lưu: '+T.id+' không ra trang tổng kết']);
     const ex=document.querySelector('#advExit');if(ex)ex.click()}
    const realNow=Date.now;Date.now=()=>12345;const advQs=Game.build('game-lop10-on-tap-c1','12345-adventure',9);
    const playAdv=async(pickRight)=>{location.hash='#/game/game-lop10-on-tap-c1';Game.route();const adv=document.querySelector('[data-adventure]');
     if(!adv){out.bad.push(['Phiêu lưu Toán 10: thiếu lối vào']);return null}
     adv.click();await new Promise(ok=>setTimeout(ok,300));
-    if(!document.querySelector('#gameArena.adventure-bg')||document.querySelectorAll('[data-adv-o]').length!==4){out.bad.push(['Phiêu lưu Toán 10: không dựng được cổng câu hỏi']);return null}
-    let n=0;for(let i=0;i<9&&document.querySelector('[data-adv-o]');i++){const q=advQs[i],k=pickRight?q.correct:(q.correct+1)%4;document.querySelector('[data-adv-o="'+k+'"]').click();n++;const next=document.querySelector('#advNext');if(!next){out.bad.push(['Phiêu lưu Toán 10: không chuyển được cổng',i+1]);return null}next.click()}
+    if(!document.querySelector('#gameArena.adventure-bg')||document.querySelectorAll('[data-adv-o]').length!==4){out.bad.push(['Phiêu lưu Toán 10: không dựng được cảnh chạy']);return null}
+    if(!document.querySelector('.adv-challenge[hidden]'))out.bad.push(['Phiêu lưu Toán 10: câu hỏi hiện trước khi gặp chướng ngại lớn'])
+    let n=0;for(let i=0;i<9&&document.querySelector('[data-adv-o]');i++){const gate=document.querySelector('.adv-gate');if(gate)gate.click();if(document.querySelector('.adv-challenge[hidden]'))out.bad.push(['Phiêu lưu Toán 10: chạm chướng ngại nhưng câu hỏi chưa hiện',i+1]);const q=advQs[i],k=pickRight?q.correct:(q.correct+1)%4;document.querySelector('[data-adv-o="'+k+'"]').click();n++;const next=document.querySelector('#advNext');if(!next){out.bad.push(['Phiêu lưu Toán 10: không chuyển được cổng',i+1]);return null}next.click()}
     return n};
    try{
+    const food0=(typeof Play!=='undefined'&&Play.state)?Play.state.food:0,xu0=(typeof Play!=='undefined'&&Play.state)?Play.state.xu:0;
     const nRight=await playAdv(true);
     if(nRight!==null&&(nRight!==9||!document.querySelector('.adv-result-numbers')||/Hết tim/.test(document.querySelector('.adv-result h1').textContent)))out.bad.push(['Phiêu lưu Toán 10: trả lời đúng hết mà không về trang tổng kết thắng']);
     if(nRight===9){const sk='hoctap:lop10:game-game-lop10-on-tap-c1:1';if(store.get(sk)!==3)out.bad.push(['Phiêu lưu Toán 10: đúng hết 9 cổng mà chưa được 3 sao vào xếp hạng',store.get(sk)]);
+     if(typeof Play!=='undefined'&&Play.state&&(Play.state.food!==food0+3||Play.state.xu!==xu0+5))out.bad.push(['Phiêu lưu: sao trò chơi chưa thưởng đúng 3 🍖 + 5 🪙 cho thú cưng',Play.state.food-food0,Play.state.xu-xu0]);
      if(!document.querySelector('.game-stars'))out.bad.push(['Phiêu lưu Toán 10: thiếu dòng sao trên trang tổng kết']);
      const g10=App.grades.find(x=>x.id==='lop10');if(g10&&typeof Game.stars==='function'&&Game.stars('lop10')<3)out.bad.push(['Sao trò chơi không được cộng vào Game.stars']);
      if(g10&&gradeStars(g10)<3)out.bad.push(['Sao trò chơi không được cộng vào gradeStars']);store.set(sk,0)}
@@ -102,7 +105,7 @@ async (REPS) => {
     if(nWrong!==null){if(nWrong!==3)out.bad.push(['Phiêu lưu Toán 10: sai 3 câu mà chưa hết tim (số cổng đã chơi)',nWrong]);
      const h=document.querySelector('.adv-result h1');if(!h||!/Hết tim/.test(h.textContent)||document.querySelectorAll('.adv-review article').length!==3)out.bad.push(['Phiêu lưu Toán 10: hết tim nhưng không vào phòng luyện đủ 3 câu sai']);
      const retry=document.querySelector('#advRetry');if(!retry)out.bad.push(['Phiêu lưu Toán 10: thiếu nút Luyện lại câu sai']);else{retry.click();await new Promise(ok=>setTimeout(ok,300));
-      for(let i=0;i<3&&document.querySelector('[data-adv-o]');i++){document.querySelector('[data-adv-o="'+((advQs[i].correct+1)%4)+'"]').click();const nx=document.querySelector('#advNext');if(nx)nx.click()}
+      for(let i=0;i<3&&document.querySelector('[data-adv-o]');i++){const gate=document.querySelector('.adv-gate');if(gate)gate.click();document.querySelector('[data-adv-o="'+((advQs[i].correct+1)%4)+'"]').click();const nx=document.querySelector('#advNext');if(nx)nx.click()}
       if(!document.querySelector('.adv-result'))out.bad.push(['Phiêu lưu Toán 10: phòng luyện lại không kết thúc bình thường'])}}
    }finally{Date.now=realNow}
    out.game=true;

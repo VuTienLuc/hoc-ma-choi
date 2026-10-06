@@ -411,5 +411,7 @@ const Play = (() => {
   }
 
   addEventListener('hashchange', () => { const m = $('#petHome'); if(m){ m.remove(); document.body.classList.remove('noscroll'); } });
-  return { on, look, bgSVG, today, addDays, accSVG, snapshot, adopt, checkInactivity, inactivityInfo, progressValue, hasStarCap, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
+  /* Thưởng ngoài bài học (vd. sao từ trò chơi): cộng hạt 🍖 và xu 🪙 cho thú cưng rồi báo bằng thông điệp. */
+  function reward(food, xu, msg){ const s = st(); const f = Math.max(0, food|0), x = Math.max(0, xu|0); s.food += f; s.xu += x; s.xuTotal += x; save(false); if(msg) note(msg); }
+  return { on, look, reward, bgSVG, today, addDays, accSVG, snapshot, adopt, checkInactivity, inactivityInfo, progressValue, hasStarCap, open, mastery, get state(){ return st(); }, reset(){ S = null; }, ITEMS, BADGES, QUESTS, STICKERS, feed, playWith, buy, wear };
 })();
