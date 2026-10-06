@@ -1406,4 +1406,144 @@ const gSq6=lv=>{
 lesson(6,'on-thi-hinh-quat-vanh-khuyen','Hình học 3. Hình quạt tròn và hình vành khuyên','Ôn tuyển sinh từ cơ bản đến nâng cao: độ dài cung; diện tích quạt; vành khuyên; quạt vành khuyên; chu vi, hình ghép và bài toán thực tế.',[gSq1,gSq2,gSq3,gSq4,gSq5,gSq6]);
 }
 
+/* =====================================================================
+   ÔN THI TUYỂN SINH VÀO LỚP 10 – ĐẠI SỐ 1. HÀM SỐ y = ax² VÀ ĐỒ THỊ
+   (Bài 1 của cấu trúc đề TP.HCM 2026–2027: vẽ đồ thị y = ax², tìm điểm thuộc đồ thị)
+   Luôn chọn a và x trước, tính y sau → mọi đáp số đều nguyên.
+   ===================================================================== */
+{
+const aTerm = (p,q) => q===1 ? (p===1?'':p===-1?'-':String(p)) : (p<0?'-':'')+tf(Math.abs(p),q);
+const aTxt  = (p,q) => q===1 ? String(p) : (p<0?'-':'')+tf(Math.abs(p),q);
+const aMul  = (p,q) => q===1 ? tp(p) : (p<0?'-':'')+tf(Math.abs(p),q);
+const fnStr = (p,q) => `y = ${aTerm(p,q)}x^2`;
+const parab = (p,q) => tm(`(P):\; ${fnStr(p,q)}`);
+const yAt   = (p,q,x) => p*x*x/q;
+const okX   = q => [-4,-3,-2,-1,0,1,2,3,4].filter(x => (x*x)%q===0);
+const ptS   = (x,y) => `(${x};\\,${y})`;
+const parabSVG = (p,q,pts) => {
+  const a=p/q, m=Math.max(2,...pts.map(t=>Math.abs(t[0]))), ymax=Math.max(Math.ceil(Math.abs(a)*m*m),...pts.map(t=>Math.abs(t[1])));
+  const U=26, W=(2*m+2)*U, ytop=a>0?ymax+1:1, H=(ymax+2)*U;
+  const X=x=>(x+m+1)*U, Y=y=>(ytop-y)*U;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Parabol y = ax²" style="max-height:340px">`;
+  for(let x=-m-1;x<=m+1;x++) s+=`<line class="sv-grid" x1="${X(x)}" y1="0" x2="${X(x)}" y2="${H}"/>`;
+  for(let y=Math.ceil(ytop-ymax-2);y<=ytop;y++) s+=`<line class="sv-grid" x1="0" y1="${Y(y)}" x2="${W}" y2="${Y(y)}"/>`;
+  s+=`<line class="sv-axis" x1="0" y1="${Y(0)}" x2="${W}" y2="${Y(0)}"/><line class="sv-axis" x1="${X(0)}" y1="0" x2="${X(0)}" y2="${H}"/>`;
+  s+=`<text class="sv-txt" x="${W-12}" y="${Y(0)+(a>0?-6:16)}" font-size="14">x</text><text class="sv-txt" x="${X(0)+7}" y="13" font-size="14">y</text><text class="sv-muted" x="${X(0)-5}" y="${Y(0)+(a>0?14:-5)}" font-size="12" text-anchor="end">O</text>`;
+  for(let x=-m;x<=m;x++) if(x) s+=`<text class="sv-muted" x="${X(x)}" y="${Y(0)+(a>0?14:-5)}" font-size="11" text-anchor="middle">${x}</text>`;
+  for(let y=Math.ceil(ytop-ymax-2);y<ytop;y++) if(y) s+=`<text class="sv-muted" x="${X(0)-5}" y="${Y(y)+4}" font-size="11" text-anchor="end">${y}</text>`;
+  let d=''; for(let i=-m*20;i<=m*20;i++){const x=i/20; d+=(d?'L':'M')+X(x).toFixed(1)+' '+Y(a*x*x).toFixed(1);}
+  s+=`<path class="sv-ink" fill="none" stroke-width="2.6" d="${d}"/>`;
+  pts.forEach(([x,y,l])=>{s+=`<circle class="sv-dot" cx="${X(x)}" cy="${Y(y)}" r="4.5"/><text class="sv-txt" x="${X(x)+8}" y="${Y(y)-8}" font-size="15">${l}</text>`});
+  return s+'</svg>';
+};
+const POOL = [[1,1],[2,1],[3,1],[-1,1],[-2,1],[-3,1],[1,2],[-1,2],[1,4],[-1,4]];
+
+/* Dạng 1. Điểm nào thuộc parabol / tìm a, tìm m để điểm thuộc parabol */
+const gHs1 = lv => {
+  if(lv<3){
+    const [p,q]=pick(lv===1?[[1,1],[2,1],[3,1],[-1,1],[-2,1]]:[[-1,1],[-2,1],[-3,1],[1,2],[-1,2],[3,1],[1,4]]);
+    const x=pick(okX(q).filter(t=>t!==0)), y=yAt(p,q,x), on=(px,py)=>p*px*px===q*py;
+    const cand=[[x,-y],[x,y+1],[x,y-1],[x+1,y],[x-1,y],[x,y*2]];
+    const lin=p*x/q; if(Number.isInteger(lin)) cand.unshift([x,lin]);
+    let W=uniqBy(cand).filter(([px,py])=>!on(px,py)&&!(px===x&&py===y)); W=lv===1?W.slice(0,3):shuffle(W).slice(0,3);
+    return QC({text:`Cho parabol ${parab(p,q)}. Điểm nào sau đây thuộc ${tm('(P)')}?`,
+      opts:[ptS(x,y),...W.map(([px,py])=>ptS(px,py))].map(tm), ans:tm(ptS(x,y)),
+      hint:`Điểm ${tm('(x_0;\\,y_0)')} thuộc ${tm('(P)')} khi thay ${tm('x = x_0')} vào hàm số ta được đúng ${tm('y_0')}. Hãy thay từng điểm.`,
+      sol:`Thay ${tm('x = '+x)} vào ${tm(fnStr(p,q))}: ${tm(`y = ${aMul(p,q)}\\cdot${tp(x)}^2 = ${y}`)}. Vậy điểm ${tb(ptS(x,y))} thuộc ${tm('(P)')}; các điểm còn lại có tung độ không bằng ${tm(String(y))}.`});
+  }
+  if(Math.random()<0.5){
+    const a=pick([-4,-3,-2,-1,1,2,3,4]), x0=pick([-4,-3,-2,2,3,4]), y0=a*x0*x0;
+    return QB({text:`Biết parabol ${tm('(P):\; y = ax^2')} đi qua điểm ${tm('A'+ptS(x0,y0))}. Tính hệ số ${tm('a')}.`,tpl:`${tm('a =')} [_]`,ans:[a],
+      hint:`Điểm ${tm('A')} thuộc ${tm('(P)')} nên toạ độ của ${tm('A')} thoả mãn phương trình ${tm('y = ax^2')}. Thay vào rồi giải phương trình ẩn ${tm('a')}.`,
+      sol:`Thay ${tm(`x = ${x0},\; y = ${y0}`)} vào ${tm('y = ax^2')}: ${tm(`${y0} = a\\cdot${tp(x0)}^2 = ${x0*x0}a`)}. Suy ra ${tb('a = '+a)}.`});
+  }
+  const a=pick([-3,-1,1,3]), x1=pick([-3,-1,1,3]), v=a*x1*x1, m=(v-1)/2;
+  return QB({text:`Tìm ${tm('m')} để điểm ${tm('B'+`(${x1};\\,2m + 1)`)} thuộc parabol ${parab(a,1)}.`,tpl:`${tm('m =')} [_]`,ans:[m],
+    hint:`Điểm thuộc ${tm('(P)')} thì toạ độ nghiệm đúng phương trình của ${tm('(P)')}. Thay hoành độ vào để tính tung độ rồi cho bằng ${tm('2m + 1')}.`,
+    sol:`Thay ${tm('x = '+x1)} vào ${tm(fnStr(a,1))}: ${tm(`y = ${aMul(a,1)}\\cdot${tp(x1)}^2 = ${v}`)}. Điểm ${tm('B')} thuộc ${tm('(P)')} nên ${tm(`2m + 1 = ${v}`)}, suy ra ${tb('m = '+m)}.`});
+};
+
+/* Dạng 2. Lập bảng giá trị để vẽ đồ thị */
+const gHs2 = lv => {
+  const [p,q]=pick(lv===1?[[1,1],[2,1],[-1,1],[3,1]]:lv===2?[[-2,1],[-3,1],[1,2],[-1,2]]:[[1,2],[-1,2],[1,4],[-1,4],[-3,1]]);
+  const r=lv===1?2:4, n=lv===3?4:3;
+  const xs=shuffle(okX(q).filter(t=>Math.abs(t)<=r)).slice(0,n).sort((u,v)=>u-v), ys=xs.map(t=>yAt(p,q,t));
+  return QB({text:`Cho hàm số ${tm(fnStr(p,q))}. Hoàn thành bảng giá trị để chuẩn bị vẽ đồ thị.`,
+    tpl:xs.map(t=>`${tm(`x = ${t}:\; y =`)} [_]`).join(' &emsp; '), ans:ys,
+    hint:`Thay từng giá trị của ${tm('x')} vào công thức ${tm('y = ax^2')}: bình phương ${tm('x')} trước, rồi nhân với ${tm('a')}.`,
+    sol:xs.map((t,i)=>`${tm(`x = ${t}:\; y = ${aMul(p,q)}\\cdot${tp(t)}^2 =`)} ${tb(String(ys[i]))}`).join('<br>')+`<br>Các điểm ${xs.map((t,i)=>tm(ptS(t,ys[i]))).join(', ')} nằm trên đồ thị.`});
+};
+
+/* Dạng 3. Tính chất của đồ thị và so sánh giá trị hàm số */
+const gHs3 = lv => {
+  const [p,q]=pick(POOL), pos=p>0;
+  if(lv===1){
+    const good = pos ? `Đồ thị nằm phía trên trục hoành, nhận trục ${tm('Oy')} làm trục đối xứng`
+                     : `Đồ thị nằm phía dưới trục hoành, nhận trục ${tm('Oy')} làm trục đối xứng`;
+    const wrong=[ pos ? `Đồ thị nằm phía dưới trục hoành, nhận trục ${tm('Oy')} làm trục đối xứng` : `Đồ thị nằm phía trên trục hoành, nhận trục ${tm('Oy')} làm trục đối xứng`,
+      `Đồ thị là đường thẳng đi qua gốc toạ độ ${tm('O')}`,
+      `Đồ thị nhận trục ${tm('Ox')} làm trục đối xứng`];
+    return QC({text:`Cho hàm số ${tm(fnStr(p,q))}. Khẳng định nào về đồ thị ${tm('(P)')} là <b>đúng</b>?`,opts:[good,...wrong],ans:good,
+      hint:`Đồ thị ${tm('y = ax^2')} là parabol đỉnh ${tm('O')}. Hãy xét dấu của ${tm('a')} để biết parabol quay lên hay quay xuống.`,
+      sol:`Vì ${tm(pos?'a \\gt 0':'a \\lt 0')} nên ${tb(pos?'(P) nằm phía trên trục hoành (quay bề lõm lên)':'(P) nằm phía dưới trục hoành (quay bề lõm xuống)')} và nhận ${tm('Oy')} làm trục đối xứng vì ${tm('(-x)^2 = x^2')}.`});
+  }
+  let x1,x2;
+  if(lv===2){ x1=R(1,3); x2=x1+R(1,2); if(Math.random()<.5){[x1,x2]=[-x2,-x1];} }
+  else { do{ x1=-R(2,4); x2=R(1,4);}while(Math.abs(x1)===x2); if(Math.random()<.5)[x1,x2]=[x2,x1]; }
+  const v1=p*x1*x1/q, v2=p*x2*x2/q;
+  return QCmp(`Cho hàm số ${tm(fnStr(p,q))}. So sánh hai giá trị hàm số (không cần dùng máy tính).`, tm(`y(${x1})`), tm(`y(${x2})`), v1, v2,
+    {hint:`Giá trị ${tm('y')} chỉ phụ thuộc ${tm('x^2')}. Hãy so sánh ${tm('x^2')} của hai giá trị, rồi xét dấu của ${tm('a')} (${tm('a \\gt 0')}: ${tm('x^2')} càng lớn thì ${tm('y')} càng lớn).`,
+     sol:`${tm(`y(${x1}) = ${aMul(p,q)}\\cdot${tp(x1)}^2 = ${v1}`)}; ${tm(`y(${x2}) = ${aMul(p,q)}\\cdot${tp(x2)}^2 = ${v2}`)}. Vậy ${tb(`y(${x1}) ${op_(cmp(v1,v2))} y(${x2})`)}.`});
+};
+
+/* Dạng 4. Đọc đồ thị, xác định hệ số a và tính tung độ điểm khác */
+const gHs4 = lv => {
+  const pool = lv===1?[[1,1],[2,1],[-1,1],[-2,1]]:[[1,2],[-1,2],[3,1],[-3,1],[2,1],[-2,1],[1,4],[-1,4]];
+  const [p,q]=pick(pool), x0=pick(okX(q).filter(t=>t&&Math.abs(t)<=(lv===1?2:4))), y0=yAt(p,q,x0);
+  const fig=parabSVG(p,q,[[x0,y0,'A']]);
+  if(lv<3){
+    let others=shuffle(POOL.filter(([u,v])=>!(u===p&&v===q)&&!(u===-p&&v===q))).slice(0,2);
+    const opts=[[p,q],[-p,q],...others].map(([u,v])=>tm(`a = ${aTxt(u,v)}`));
+    return QC({text:`Parabol ${tm('(P):\; y = ax^2')} được vẽ như hình và đi qua điểm ${tm('A')}. Hệ số ${tm('a')} bằng bao nhiêu?`,fig,opts,ans:tm(`a = ${aTxt(p,q)}`),
+      hint:`Đọc toạ độ điểm ${tm('A')} trên lưới ô vuông. Điểm ${tm('A')} thuộc ${tm('(P)')} nên toạ độ của nó thoả mãn ${tm('y = ax^2')}.`,
+      sol:`Từ hình, ${tm('A'+ptS(x0,y0))}. Thay vào ${tm('y = ax^2')}: ${tm(`${y0} = a\\cdot${tp(x0)}^2 = ${x0*x0}a`)}. Suy ra ${tb(`a = ${aTxt(p,q)}`)}.`});
+  }
+  const x1=pick(okX(q).filter(t=>t&&Math.abs(t)!==Math.abs(x0))), y1=yAt(p,q,x1);
+  return QB({text:`Parabol ${tm('(P):\; y = ax^2')} được vẽ như hình và đi qua điểm ${tm('A')}. Tính tung độ của điểm ${tm('B')} thuộc ${tm('(P)')} có hoành độ ${tm('x = '+x1)}.`,fig,tpl:`${tm('y_B =')} [_]`,ans:[y1],
+    hint:`Đọc toạ độ ${tm('A')} từ lưới để tìm ${tm('a')} trước, sau đó thay hoành độ của ${tm('B')} vào hàm số.`,
+    sol:`Từ hình, ${tm('A'+ptS(x0,y0))}, nên ${tm(`a = ${aTxt(p,q)}`)} và ${tm(fnStr(p,q))}. Với ${tm('x = '+x1)}: ${tm(`y = ${aMul(p,q)}\\cdot${tp(x1)}^2`)} ${tb('= '+y1)}.`});
+};
+
+/* Dạng 5. Tìm điểm thuộc parabol thoả điều kiện cho trước (Bài 1b của đề thi) */
+const gHs5 = lv => {
+  if(lv===1){
+    const [p,q]=pick([[1,1],[2,1],[3,1],[-1,1],[-2,1]]), x0=R(2,5), y0=yAt(p,q,x0);
+    if(Math.random()<.5) return QB({text:`Điểm ${tm('M')} thuộc parabol ${parab(p,q)}, có tung độ bằng ${tm(String(y0))} và nằm bên phải trục tung. Tìm hoành độ của ${tm('M')}.`,tpl:`${tm('x_M =')} [_]`,ans:[x0],
+      hint:`Thay tung độ vào phương trình ${tm('y = ax^2')} để được phương trình ẩn ${tm('x')}; chú ý ${tm('M')} nằm bên phải trục tung.`,
+      sol:`Thay ${tm('y = '+y0)}: ${tm(`${aTerm(p,q)}x^2 = ${y0}`)}, suy ra ${tm(`x^2 = ${x0*x0}`)}, tức ${tm(`x = \\pm ${x0}`)}. ${tm('M')} nằm bên phải trục tung nên ${tb('x_M = '+x0)}.`});
+    return QB({text:`Điểm ${tm('N')} thuộc parabol ${parab(p,q)} và cách trục tung ${tm(String(x0))} đơn vị. Tính tung độ của ${tm('N')}.`,tpl:`${tm('y_N =')} [_]`,ans:[y0],
+      hint:`Điểm cách trục tung ${tm('d')} đơn vị có hoành độ ${tm('x = \\pm d')}. Hai hoành độ đối nhau cho cùng một tung độ.`,
+      sol:`Hoành độ của ${tm('N')} là ${tm(`x = \\pm ${x0}`)}. Thay vào ${tm(fnStr(p,q))}: ${tm(`y = ${aMul(p,q)}\\cdot${x0}^2`)} ${tb('= '+y0)}.`});
+  }
+  const q=pick(lv===2?[1,2]:[1,2]), p=pick(q===1?[1,2,3,-1,-2,-3]:[1,-1]), mag=q===1?R(2,lv===2?5:6):pick(lv===2?[2,4]:[2,4,6]);
+  const x0=(p>0?1:-1)*mag, k=p*x0/q, y0=yAt(p,q,x0);
+  if(lv===2) return QB({text:`Tìm hoành độ của điểm ${tm('M')} khác gốc toạ độ, thuộc parabol ${parab(p,q)}, biết tung độ của ${tm('M')} gấp ${tm(String(k))} lần hoành độ.`,tpl:`${tm('x_M =')} [_]`,ans:[x0],
+    hint:`Điểm ${tm('M(x;\\,y)')} thuộc ${tm('(P)')} nên ${tm('y = ax^2')}. Kết hợp điều kiện tung độ gấp ${tm('k')} lần hoành độ để lập phương trình ẩn ${tm('x')}, chú ý ${tm('x \\ne 0')}.`,
+    sol:`Gọi ${tm('M(x;\\,y)')}, ${tm('x \\ne 0')}. Có ${tm(`y = ${aTerm(p,q)}x^2`)} và ${tm(`y = ${k}x`)}, nên ${tm(`${aTerm(p,q)}x^2 = ${k}x`)}. Chia hai vế cho ${tm('x')}: ${tm(`${aTerm(p,q)}x = ${k}`)}. Vậy ${tb('x_M = '+x0)}.`});
+  const eq=`${aTerm(p,q)}x^2 = ${k}x`;
+  return QS({direct:true,text:`Parabol ${parab(p,q)}. Điểm ${tm('M')} khác gốc toạ độ thuộc ${tm('(P)')} và có tung độ gấp ${tm(String(k))} lần hoành độ. Tính tung độ của ${tm('M')}.`,
+    hint:`Lập phương trình ẩn ${tm('x')} từ hai điều kiện, giải (loại ${tm('x = 0')}), rồi tính tung độ.`,
+    steps:[
+      {tag:'Kế hoạch',ask:`${tm('M(x;\\,y)')} thuộc ${tm('(P)')} và ${tm(`y = ${k}x`)}. Phương trình ẩn ${tm('x')} là:`,
+       opts:[eq,`${aTerm(p,q)}x = ${k}x^2`,`${aTerm(p,q)}x^2 = ${k}`,`${aTerm(p,q)}x^2 + ${k}x = 0`].map(tm),ans:tm(eq),
+       hint:`Tung độ của ${tm('M')} vừa bằng ${tm('ax^2')} (vì ${tm('M \\in (P)')}) vừa bằng ${tm(`${k}x`)}.`},
+      {tag:'Giải',ask:`Giải phương trình (${tm('x \\ne 0')}):`,tpl:`${tm('x =')} [_]`,ans:[x0],hint:`Chuyển vế, đặt ${tm('x')} làm nhân tử chung và loại nghiệm ${tm('x = 0')}.`},
+      {tag:'Đáp số',ask:`Tính tung độ của ${tm('M')}:`,tpl:`${tm('y_M =')} [_]`,ans:[y0],hint:`Thay hoành độ vừa tìm vào ${tm(fnStr(p,q))}.`}
+    ],
+    sol:`${tm('M \\in (P)')} nên ${tm(`y = ${aTerm(p,q)}x^2`)}; theo đề ${tm(`y = ${k}x`)}. Suy ra ${tm(eq)}, ${tm('x \\ne 0')} nên ${tm(`${aTerm(p,q)}x = ${k}`)}, được ${tm('x = '+x0)}. Tung độ ${tm(`y = ${k}\\cdot${tp(x0)}`)} ${tb('= '+y0)}.`});
+};
+
+lesson(6,'on-thi-ham-so-parabol','Đại số 1. Hàm số y = ax² và đồ thị','Ôn tuyển sinh Bài 1 (1,5 điểm): giá trị hàm số, bảng giá trị để vẽ đồ thị, tính chất parabol, đọc đồ thị tìm a, tìm điểm thuộc đồ thị theo điều kiện.',[gHs1,gHs2,gHs3,gHs4,gHs5]);
+}
+
 })();
