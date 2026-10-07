@@ -28,7 +28,7 @@ const CONFIG = {
   // ĐĂNG NHẬP THEO LỚP (tuỳ chọn): dán địa chỉ Web App của Google Apps Script vào đây.
   // Để trống '' thì không cần đăng nhập (thú cưng vẫn chạy, tiến độ lưu trên máy).
   // Cách tạo: xem tools/apps-script/HUONG-DAN.md
-  sheetAPI: 'https://script.google.com/macros/s/AKfycbxQnc-SCD57T9-2j45vvB-J5s0Mu6TmZotsxumnZrozPqbmo3zzXBaTVPoFCF_rDvv8/exec',
+  sheetAPI: 'https://script.google.com/macros/s/AKfycbzPfRVdoY7DS5kbN2x7DXVsP4LZPF6BLq24YiCDrwCIA-ej3dKQCBVEFoy3KJmSkcx1/exec',
 
   // GÓC CHUNG – Thử thách tuần của lớp: mục tiêu ⭐ mới mỗi tuần cho MỖI bạn (cả lớp = số này × số bạn đã tham gia);
   // weeklyReward = phần thưởng thầy cô hứa khi cả lớp đạt (để '' thì không hiện).

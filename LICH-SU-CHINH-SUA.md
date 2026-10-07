@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-07 – Đổi địa chỉ Apps Script (CONFIG.sheetAPI)
+
+- **Yêu cầu của thầy:** Cập nhật web sang URL Apps Script mới (bản triển khai mới).
+- **Kết quả:** `sheetAPI` trong `config.js` trỏ tới `.../AKfycbzPfRV…SKcx1/exec`; dựng lại `dist/hoc-tap.html`. Chưa gọi thử được Apps Script thật từ môi trường của Claude.
+- **Tệp thay đổi:** `config.js`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `python3 tools/test.py`, `python3 tools/test_thidua_nhom.py`, `python3 tools/build.py` → ĐẠT
+- **Việc thủ công:** Bản Apps Script mới phải chứa `Code.gs` mới nhất (có `rankAll`) và quyền truy cập "Bất kỳ ai"; thử đăng nhập giáo viên và Chia nhóm trên web.
+
 ### 2026-10-07 – Chia nhóm từ danh sách lớp và Ngôi sao hy vọng
 
 - **Yêu cầu của thầy:** Chia nhóm phải lấy học sinh từ danh sách có sẵn. Giáo viên có thể bật chế độ Ngôi sao hy vọng; mỗi đội chỉ được đặt một lần, đúng nhân ba điểm và sai bị trừ ba lần điểm.
