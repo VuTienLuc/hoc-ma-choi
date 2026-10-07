@@ -3,6 +3,7 @@
 > File này dành cho AI (Claude, ChatGPT/Codex, Gemini…). Hãy đọc hết trước khi sửa bất cứ thứ gì trong thư mục.
 > `AGENTS.md` (ChatGPT/Codex đọc) và `CLAUDE.md` (Claude đọc) có **nội dung giống hệt nhau** – sửa tệp này thì sửa luôn tệp kia.
 > Người dùng là giáo viên (thầy Vũ Tiến Lực). Trả lời bằng tiếng Việt và gọi người dùng là "thầy".
+> Sau khi đọc tệp này, phải đọc `LICH-SU-CHINH-SUA.md` để biết các thay đổi gần đây, kiểm thử đã chạy và việc ngoài mã nguồn còn phải thực hiện.
 
 ## 0. DÀNH CHO CHATGPT / CODEX / MỌI AI – ĐỌC TRƯỚC KHI SỬA
 
@@ -20,7 +21,8 @@
 4. Máy có Python + Playwright thì chạy thêm `python3 tools/test.py` (chấm thật trong trình duyệt) và các test ở mục 5.
 5. Chạy `python3 tools/build.py` để tạo `dist/hoc-tap.html`.
 6. **Tự đăng lên web (thầy đã cho phép từ 06/10/2026):** khi `kiem-tra.js` và `test.py` ĐẠT thì commit và `git push origin HEAD:main` luôn (Vercel tự cập nhật sau ~1 phút), không chờ thầy bấm nút “Đăng Học mà chơi lên web”. Có lỗi thì KHÔNG đăng. Nếu GitHub có bản mới do người khác sửa cùng chỗ thì hợp bản (giữ cả hai) rồi kiểm tra lại trước khi đăng.
-6. Báo cáo cho thầy bằng tiếng Việt, gọi là "thầy", ngắn gọn theo mục 8.
+7. **Ghi lịch sử:** thêm một mục mới ở đầu phần “Các lần thay đổi” trong `LICH-SU-CHINH-SUA.md`, gồm yêu cầu, kết quả, tệp sửa, lệnh kiểm thử và việc thủ công còn lại. Không xoá lịch sử cũ.
+8. Báo cáo cho thầy bằng tiếng Việt, gọi là "thầy", ngắn gọn theo mục 8.
 
 **Quy tắc làm ĐẦY ĐỦ (bắt buộc – thầy cần sản phẩm dùng được ngay, không phải bản nháp):**
 - Làm **trọn** yêu cầu trong một lần; không dừng giữa chừng để hỏi "có muốn làm tiếp không". Chỉ hỏi khi yêu cầu thật sự mơ hồ (vd không rõ chương, lớp).
