@@ -3419,7 +3419,7 @@ const Lecture = (() => {
   const teamEsc = x => String(x ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const teamCfg = () => { try{ return JSON.parse(localStorage.getItem('hoctap:lecture-teams')) || {}; }catch(e){ return {}; } };
   const teamSort = () => [...teamState.teams].sort((a,b) => b.score-a.score || b.stars-a.stars || a.name.localeCompare(b.name,'vi'));
-  const teamGrade = () => (BOOKS.find(b => b.lessons.includes(deck)) || {}).grade || '';
+  const teamGrade = () => deck ? (deck.grade || (BOOKS.find(b => b.lessons.includes(deck) || b.lessons.some(x => x.sgk && x.sgk === deck.slides)) || {}).grade || '') : '';
   const teamShuffle = a => { const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b };
   const TEAM_W_KEY='hoctap:lecture-team-w',TEAM_MIN=300;let teamFrac=(()=>{try{const x=+localStorage.getItem(TEAM_W_KEY);return x>=.2&&x<=.58?x:.28}catch(e){return .28}})();
   let teamRoster={grade:'',classes:null},teamRosterPromise=null;
@@ -3696,7 +3696,7 @@ const Lecture = (() => {
   // Chiếu phiếu luyện tập: mỗi bài một trang (đề + lời giải từng bước; hình cần vẽ hiện ở bước cuối).
   function practiceDeck(b, l){
     const all = prItems(l), cb = all.filter(s => !s.hard).length;
-    return { name: 'Luyện tập – ' + l.name, slides: [{kind:'title', tag:`${b.gradeName} · Phiếu luyện tập`, title:`Luyện tập: ${l.name}`, sub:'Từ cơ bản đến vận dụng',
+    return { grade: b.grade, name: 'Luyện tập – ' + l.name, slides: [{kind:'title', tag:`${b.gradeName} · Phiếu luyện tập`, title:`Luyện tập: ${l.name}`, sub:'Từ cơ bản đến vận dụng',
         points:[`Phần I: ${cb} bài cơ bản`, `Phần II: ${all.length - cb} bài vận dụng ★`]}]
       .concat(all.map(s => ({kind:'lt', tag:`${s.hard ? 'Vận dụng ★' : 'Cơ bản'} · Dạng ${s.gi + 1}`, label:`Bài ${s.n}`, de:s.de, sol:s.sol, ans:s.ans, fig:s.fig, figAt:s.draw ? (s.sol || []).length : undefined}))) };
   }

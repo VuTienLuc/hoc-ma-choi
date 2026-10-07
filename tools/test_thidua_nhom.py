@@ -21,6 +21,10 @@ async def main():
   async def cfg(route):
    text=re.sub(r"sheetAPI:\s*'[^']*'",f"sheetAPI: '{API}'",(ROOT/'config.js').read_text());await route.fulfill(body=text,content_type='application/javascript')
   await pg.route('**/config.js',cfg);await pg.goto(BASE);await pg.wait_for_timeout(700);await pg.select_option('#lgLop','GV');await pg.fill('#lgUser','gv');await pg.fill('#lgPass','p');await pg.click('#lgBtn');await pg.wait_for_timeout(700)
+  for kind,js in [('phiếu luyện tập','(()=>{const b=Lecture.BOOKS.find(b=>b.grade==="lop10"&&b.lessons.some(l=>l.practice));return Lecture.practiceDeck(b,b.lessons.find(l=>l.practice))})()'),('giải SGK','(()=>{const l=Lecture.BOOKS.filter(b=>b.grade==="lop10").flatMap(b=>b.lessons).find(l=>l.sgk);return Lecture.sgkDeck(l)})()')]:
+   await pg.evaluate("Lecture.open("+js+",0)");await pg.wait_for_timeout(300);await pg.evaluate('(()=>{try{localStorage.clear()}catch(e){}})()');await pg.click('[data-k="team"]',timeout=4000);await pg.wait_for_timeout(1200)
+   ok('Thi nhóm tải được danh sách lớp khi trình chiếu '+kind,await pg.locator('#lkTeamClass').count()==1)
+   await pg.keyboard.press('Escape');await pg.evaluate('(()=>{const e=document.querySelector("#lecture");if(e)e.remove()})()');await pg.wait_for_timeout(200)
   await pg.evaluate("Lecture.open(Lecture.BOOKS.find(b=>b.grade==='lop10').lessons[0],0)");await pg.wait_for_timeout(500)
   ok('Có nút Thi nhóm trong trình chiếu',await pg.locator('[data-k="team"]').count()==1)
   await pg.click('[data-k="team"]');await pg.wait_for_selector('#lkTeamClass')

@@ -42,6 +42,13 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
   - `python3 tools/build.py` → ĐẠT; tạo lại `dist/hoc-tap.html` (2.455 KB).
   - `git diff --check` → ĐẠT.
 - **Việc thầy cần làm thủ công:** Không có.
+### 2026-10-07 – Sửa lỗi "Không tải được danh sách có sẵn" ở Thi đua theo nhóm
+
+- **Yêu cầu của thầy:** Đã đăng nhập giáo viên nhưng bảng Chia nhóm báo "Danh sách lớp cần kết nối Google Sheet và tài khoản giáo viên".
+- **Kết quả:** Nguyên nhân là mã: khi trình chiếu **Phiếu luyện tập** hoặc **Giải SGK**, bài được tạo thành đối tượng mới nên `teamGrade()` không xác định được khối (rỗng) và từ chối tải danh sách. Đã sửa: `practiceDeck` mang theo `grade`, `teamGrade()` nhận ra cả bài giải SGK. Không liên quan Apps Script/`Code.gs`.
+- **Tệp thay đổi:** `assets/js/lecture.js`, `tools/test_thidua_nhom.py` (thêm 2 kiểm thử: phiếu luyện tập, giải SGK; đã xác nhận bản cũ không đạt), `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `test_thidua_nhom.py`, `test_lophoc.py`, `test.py`, `test_baigiang.py lop10` → ĐẠT
+- **Việc thủ công:** Tải lại trang (Ctrl+F5 / xóa bộ nhớ đệm) sau khi Vercel triển khai.
 
 ### 2026-10-07 – Đổi địa chỉ Apps Script (CONFIG.sheetAPI)
 
