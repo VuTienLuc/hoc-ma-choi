@@ -50,6 +50,13 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 - **Tệp thay đổi:** `config.js`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
 - **Kiểm thử:** `python3 tools/test.py`, `python3 tools/test_thidua_nhom.py`, `python3 tools/build.py` → ĐẠT
 - **Việc thủ công:** Bản Apps Script mới phải chứa `Code.gs` mới nhất (có `rankAll`) và quyền truy cập "Bất kỳ ai"; thử đăng nhập giáo viên và Chia nhóm trên web.
+### 2026-10-07 – Ôn thi vào 10, chủ đề 2: Phương trình bậc hai, điều kiện có nghiệm, hệ thức Viète
+
+- **Yêu cầu:** Soạn và đăng trọn bộ chủ đề 2 của kế hoạch ôn thi vào 10 TP.HCM (bài học sinh, bài giảng, phiếu luyện tập 2 trang A4 kèm PDF).
+- **Kết quả:** Thêm bài `on-thi-pt-bac-hai-viete` vào chương 6 Toán 9: 5 dạng × 3 mức (giải PT; biệt thức và số nghiệm; Viète và giá trị biểu thức; biết một nghiệm, lập PT mới; tham số m và hệ thức giữa hai nghiệm – mức 3 làm từng bước có loại nghiệm). Bài giảng 15 trang (3 kiến thức, 5 dạng có ví dụ, tổng kết). Phiếu luyện tập 10 bài (7 cơ bản + 3 ★); xuất PDF bản học sinh và bản có lời giải đều đúng 2 trang A4.
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9` → ĐẠT; `python3 tools/test.py` → ĐẠT (22.320 câu); `python3 tools/test_phieu_tren_lop.py` → ĐẠT (37/37); `python3 tools/test_luyentap.py` → ĐẠT; `python3 tools/test_baigiang.py lop9` → ĐẠT (456 trang); `python3 tools/test_congthuc.py` → ĐẠT (354 trang, 0 lỗi); `python3 tools/build.py` → ĐẠT. Đã kiểm số học các công thức Viète và bài tham số bằng nghiệm thực.
+- **Việc thủ công:** Không có.
 
 ### 2026-10-07 – Chia nhóm từ danh sách lớp và Ngôi sao hy vọng
 

@@ -8716,6 +8716,202 @@ const gHs5 = lv => {
 lesson(6,'on-thi-ham-so-parabol','Đại số 1. Hàm số y = ax² và đồ thị','Ôn tuyển sinh Bài 1 (1,5 điểm): giá trị hàm số, bảng giá trị để vẽ đồ thị, tính chất parabol, đọc đồ thị tìm a, tìm điểm thuộc đồ thị theo điều kiện.',[gHs1,gHs2,gHs3,gHs4,gHs5]);
 }
 
+/* =====================================================================
+   ÔN THI VÀO 10 – Đại số 2. Phương trình bậc hai: điều kiện có nghiệm, hệ thức Viète
+   Dạng 1 giải PT · Dạng 2 biệt thức/điều kiện nghiệm · Dạng 3 Viète – giá trị biểu thức
+   Dạng 4 biết một nghiệm, lập PT mới · Dạng 5 tham số m và hệ thức giữa hai nghiệm
+   ===================================================================== */
+{
+const sg = n => n<0 ? `- ${-n}` : `+ ${n}`;
+const isSq = n => n>=0 && Number.isInteger(Math.sqrt(n));
+const quad = (a,b,c) => `${tpoly([a,'x^2'],[b,'x'],[c,''])} = 0`;
+const pickSP = (smax,plo,phi,nonsq) => { for(let i=0;i<800;i++){ const S=R(-smax,smax), P=R(plo,phi), D=S*S-4*P; if(S&&P&&D>0&&!(nonsq&&isSq(D))) return [S,P]; } return [3,-1]; };
+const divisors = n => { const r=[]; for(let d=2;d<=n;d++) if(n%d===0) r.push(d); return r; };
+
+/* Dạng 1. Giải phương trình bậc hai (nghiệm nguyên) */
+const gPq1 = lv => {
+  let a,b,c,r1,r2,text,pre='';
+  if(lv<3){
+    a = lv===1 ? 1 : pick([2,3,4,-1,-2]);
+    do{ r1=R(-7,4); r2=R(-4,8); }while(r1>=r2 || r1*r2===0 || r1+r2===0);
+    b=-a*(r1+r2); c=a*r1*r2;
+    text=`Giải phương trình ${tm(quad(a,b,c))}. Ghi nghiệm nhỏ ${tm('x_1')} và nghiệm lớn ${tm('x_2')}.`;
+  } else {
+    let u,v,w;
+    do{ u=R(-5,5); v=R(-5,5); r1=R(-7,7); r2=-(u+v)-r1; w=u*v-r1*r2; }while(!u||!v||r1===r2||!w);
+    if(r1>r2) [r1,r2]=[r2,r1];
+    a=1; b=u+v; c=u*v-w;
+    const lin = k => `x ${k<0?'-':'+'} ${Math.abs(k)}`;
+    text=`Giải phương trình ${tm(`(${lin(u)})(${lin(v)}) = ${w}`)}. Ghi nghiệm nhỏ ${tm('x_1')} và nghiệm lớn ${tm('x_2')}.`;
+    pre=`Khai triển và chuyển vế: ${tm(`${tpoly([1,'x^2'],[u+v,'x'],[u*v,'']) } = ${w}`)}, tức ${tm(quad(a,b,c))}.<br>`;
+  }
+  const D=b*b-4*a*c, s=Math.abs(a)*(r2-r1), xa=(-b-s)/(2*a), xb=(-b+s)/(2*a);
+  return QB({text,tpl:`${tm('x_1 =')} [_] &emsp; ${tm('x_2 =')} [_]`,ans:[r1,r2],
+    hint: lv===3 ? `Khai triển vế trái, chuyển hết về một vế để có dạng ${tm('ax^2 + bx + c = 0')}, rồi tính ${tm('\\Delta = b^2 - 4ac')} và dùng công thức nghiệm.`
+                 : `Xác định ${tm('a,\\ b,\\ c')} (chú ý dấu), tính ${tm('\\Delta = b^2 - 4ac')} rồi dùng công thức nghiệm ${tm('x = \\dfrac{-b \\pm \\sqrt{\\Delta}}{2a}')}.`,
+    sol:`${pre}Phương trình có ${tm(`a = ${a},\\ b = ${b},\\ c = ${c}`)}.<br>`+
+      `${tm(`\\Delta = b^2 - 4ac = ${tp(b)}^2 - 4\\cdot${tp(a)}\\cdot${tp(c)} = ${D}`)}, ${tm(`\\Delta \\gt 0`)} nên phương trình có hai nghiệm phân biệt, ${tm(`\\sqrt{\\Delta} = ${s}`)}.<br>`+
+      `${tm(`x = \\dfrac{-b \\pm \\sqrt{\\Delta}}{2a}`)}: ${tm(`\\dfrac{${-b} - ${s}}{${2*a}} = ${xa}`)} và ${tm(`\\dfrac{${-b} + ${s}}{${2*a}} = ${xb}`)}.<br>`+
+      `Vậy ${tb('x_1 = '+r1)} và ${tb('x_2 = '+r2)}.`});
+};
+
+/* Dạng 2. Biệt thức Δ và điều kiện về số nghiệm */
+const gPq2 = lv => {
+  if(lv===1){
+    const kind=pick([0,1,2]); let a,b,c;
+    if(kind===1){ a=pick([1,2,3,-1,-2]); const r=pick([-4,-3,-2,-1,1,2,3,4]); b=-2*a*r; c=a*r*r; }
+    else for(;;){ a=pick([1,2,3,-1,-2]); b=R(-8,8); c=R(-8,8); if(!b||!c) continue; const D=b*b-4*a*c; if(kind===2?D>0:D<0) break; }
+    const D=b*b-4*a*c, good=['Vô nghiệm','Có nghiệm kép','Có hai nghiệm phân biệt'][kind];
+    const why=[`${tm('\\Delta \\lt 0')} nên phương trình vô nghiệm`,`${tm('\\Delta = 0')} nên phương trình có nghiệm kép`,`${tm('\\Delta \\gt 0')} nên phương trình có hai nghiệm phân biệt`][kind];
+    return QC({text:`Phương trình ${tm(quad(a,b,c))} có bao nhiêu nghiệm?`,opts:['Vô nghiệm','Có nghiệm kép','Có hai nghiệm phân biệt','Có vô số nghiệm'],ans:good,keepOrder:true,
+      hint:`Tính biệt thức ${tm('\\Delta = b^2 - 4ac')}, rồi xét dấu của ${tm('\\Delta')}: âm, bằng ${tm('0')} hay dương.`,
+      sol:`Có ${tm(`a = ${a},\\ b = ${b},\\ c = ${c}`)}. ${tm(`\\Delta = ${tp(b)}^2 - 4\\cdot${tp(a)}\\cdot${tp(c)} = ${D}`)}. Vì ${why}. Đáp án: <b>${good}</b>.`});
+  }
+  if(lv===2){
+    const v=pick(['A','B','C']);
+    if(v==='B'){
+      const t=pick([2,3,4,5,6]), c=pick(divisors(t*t)), m0=t*t/c, sgn=pick([-1,1]);
+      return QB({text:`Tìm ${tm('m')} để phương trình ${tm(`mx^2 ${sgn<0?'-':'+'} ${2*t}x + ${c} = 0`)} có nghiệm kép.`,tpl:`${tm('m =')} [_]`,ans:[m0],
+        hint:`Phương trình bậc hai ${tm('(m \\ne 0)')} có nghiệm kép khi ${tm('\\Delta = 0')} (hoặc ${tm('\\Delta\' = 0')}). Hãy lập ${tm('\\Delta')} theo ${tm('m')} rồi giải phương trình bậc nhất.`,
+        sol:`Phương trình bậc hai nên ${tm('m \\ne 0')}. Có ${tm(`a = m,\\ b = ${sgn*2*t},\\ c = ${c}`)}.<br>`+
+          `${tm(`\\Delta = ${tp(sgn*2*t)}^2 - 4\\cdot m\\cdot ${c} = ${4*t*t} - ${4*c}m`)}.<br>`+
+          `Nghiệm kép khi ${tm('\\Delta = 0')}: ${tm(`${4*t*t} - ${4*c}m = 0`)}, suy ra ${tm(`m = \\dfrac{${4*t*t}}{${4*c}}`)} ${tb('= '+m0)} (thoả ${tm('m \\ne 0')}).`});
+    }
+    const t=R(2,7), b=pick([-1,1])*2*t, bt=`x^2 ${b<0?'-':'+'} ${Math.abs(b)}x + m = 0`;
+    if(v==='A') return QB({text:`Tìm ${tm('m')} để phương trình ${tm(bt)} có nghiệm kép.`,tpl:`${tm('m =')} [_]`,ans:[t*t],
+      hint:`Nghiệm kép khi ${tm('\\Delta = 0')}. Lập ${tm('\\Delta = b^2 - 4ac')} theo ${tm('m')} rồi giải phương trình ẩn ${tm('m')}.`,
+      sol:`Có ${tm(`a = 1,\\ b = ${b},\\ c = m`)}. ${tm(`\\Delta = ${tp(b)}^2 - 4\\cdot1\\cdot m = ${b*b} - 4m`)}.<br>Nghiệm kép khi ${tm('\\Delta = 0')}: ${tm(`${b*b} - 4m = 0`)}, suy ra ${tb('m = '+t*t)}.`});
+    return QB({text:`Tìm số nguyên ${tm('m')} <b>lớn nhất</b> để phương trình ${tm(bt)} có hai nghiệm phân biệt.`,tpl:`${tm('m =')} [_]`,ans:[t*t-1],
+      hint:`Hai nghiệm phân biệt khi ${tm('\\Delta \\gt 0')}. Lập ${tm('\\Delta')} theo ${tm('m')}, giải bất phương trình rồi chọn số nguyên lớn nhất thoả mãn.`,
+      sol:`${tm(`\\Delta = ${tp(b)}^2 - 4\\cdot1\\cdot m = ${b*b} - 4m`)}. Hai nghiệm phân biệt khi ${tm('\\Delta \\gt 0')}: ${tm(`${b*b} - 4m \\gt 0`)}, tức ${tm(`m \\lt ${t*t}`)}.<br>Số nguyên lớn nhất thoả ${tm(`m \\lt ${t*t}`)} là ${tb('m = '+(t*t-1))}.`});
+  }
+  let r1,r2;
+  do{ r1=-R(1,5); r2=R(1,6); }while(r1+r2===0);
+  const s=r1+r2, p=r1*r2, cm = `${s===1?'':s===-1?'-':s}m ${sg(-p)}`;
+  return QB({text:`Tìm giá trị <b>dương</b> của ${tm('m')} để phương trình ${tm(`x^2 - 2mx + ${cm} = 0`)} có nghiệm kép.`,tpl:`${tm('m =')} [_]`,ans:[r2],
+    hint:`Nghiệm kép khi ${tm('\\Delta\' = 0')} (hoặc ${tm('\\Delta = 0')}). Lúc này ${tm('\\Delta')} là một biểu thức bậc hai theo ${tm('m')}: giải phương trình đó rồi chọn giá trị dương.`,
+    sol:`Có ${tm(`a = 1,\\ b = -2m,\\ c = ${cm}`)}, dùng ${tm(`\\Delta' = (b/2)^2 - ac`)} với ${tm('b/2 = -m')}.<br>`+
+      `${tm(`\\Delta' = (-m)^2 - 1\\cdot(${cm}) = ${tpoly([1,'m^2'],[-s,'m'],[p,''])}`)}.<br>`+
+      `Nghiệm kép khi ${tm("\\Delta' = 0")}: ${tm(`(m ${sg(-r1)})(m ${sg(-r2)}) = 0`)}, suy ra ${tm(`m = ${r1}`)} hoặc ${tm(`m = ${r2}`)}.<br>`+
+      `Chọn giá trị dương: ${tb('m = '+r2)}.`});
+};
+
+/* Dạng 3. Hệ thức Viète – tổng, tích, giá trị biểu thức (không giải phương trình) */
+const E2 = [
+  {t:'x_1^2 + x_2^2', tr:'(x_1 + x_2)^2 - 2x_1x_2', sub:(S,P)=>`${tp(S)}^2 - 2\\cdot${tp(P)}`, f:(S,P)=>S*S-2*P},
+  {t:'(x_1 + 1)(x_2 + 1)', tr:'x_1x_2 + (x_1 + x_2) + 1', sub:(S,P)=>`${tp(P)} + ${tp(S)} + 1`, f:(S,P)=>P+S+1},
+  {t:'x_1^2x_2 + x_1x_2^2', tr:'x_1x_2(x_1 + x_2)', sub:(S,P)=>`${tp(P)}\\cdot${tp(S)}`, f:(S,P)=>P*S},
+  {t:'(x_1 - 2)(x_2 - 2)', tr:'x_1x_2 - 2(x_1 + x_2) + 4', sub:(S,P)=>`${tp(P)} - 2\\cdot${tp(S)} + 4`, f:(S,P)=>P-2*S+4},
+  {t:'(x_1 - x_2)^2', tr:'(x_1 + x_2)^2 - 4x_1x_2', sub:(S,P)=>`${tp(S)}^2 - 4\\cdot${tp(P)}`, f:(S,P)=>S*S-4*P}
+];
+const E3 = [
+  {t:'x_1^3 + x_2^3', tr:'(x_1 + x_2)^3 - 3x_1x_2(x_1 + x_2)', sub:(S,P)=>`${tp(S)}^3 - 3\\cdot${tp(P)}\\cdot${tp(S)}`, f:(S,P)=>S*S*S-3*P*S},
+  {t:'(x_1^2 - 1)(x_2^2 - 1)', tr:'(x_1x_2)^2 - \\left[(x_1 + x_2)^2 - 2x_1x_2\\right] + 1', sub:(S,P)=>`${tp(P)}^2 - (${tp(S)}^2 - 2\\cdot${tp(P)}) + 1`, f:(S,P)=>P*P-(S*S-2*P)+1},
+  {t:'x_1^3x_2 + x_1x_2^3', tr:'x_1x_2\\left[(x_1 + x_2)^2 - 2x_1x_2\\right]', sub:(S,P)=>`${tp(P)}\\cdot(${tp(S)}^2 - 2\\cdot${tp(P)})`, f:(S,P)=>P*(S*S-2*P)},
+  {t:'(2x_1 + x_2)(2x_2 + x_1)', tr:'2(x_1 + x_2)^2 + x_1x_2', sub:(S,P)=>`2\\cdot${tp(S)}^2 + ${tp(P)}`, f:(S,P)=>2*S*S+P}
+];
+const gPq3 = lv => {
+  const a = lv===1 ? pick([1,1,2]) : lv===2 ? pick([1,1,2]) : pick([1,2,-1,3]);
+  const [S,P] = lv===1 ? pickSP(7,-8,8,false) : lv===2 ? pickSP(7,-8,8,true) : pickSP(5,-6,6,true);
+  const b=-a*S, c=a*P, D=b*b-4*a*c, pt=tm(quad(a,b,c));
+  const delta=`${tm(`\\Delta = ${tp(b)}^2 - 4\\cdot${tp(a)}\\cdot${tp(c)} = ${D} \\gt 0`)} nên phương trình có hai nghiệm phân biệt ${tm('x_1,\\,x_2')}`;
+  const viete=`Theo hệ thức Viète: ${tm(`x_1 + x_2 = -\\dfrac{b}{a} = ${S}`)} và ${tm(`x_1x_2 = \\dfrac{c}{a} = ${P}`)}`;
+  if(lv===1) return QB({text:`Cho phương trình ${pt} có hai nghiệm ${tm('x_1,\\,x_2')}. Không giải phương trình, tính tổng và tích hai nghiệm.`,
+    tpl:`${tm('x_1 + x_2 =')} [_] &emsp; ${tm('x_1x_2 =')} [_]`,ans:[S,P],
+    hint:`Kiểm tra ${tm('\\Delta \\ge 0')} rồi áp dụng hệ thức Viète: tổng bằng ${tm('-\\dfrac{b}{a}')}, tích bằng ${tm('\\dfrac{c}{a}')}.`,
+    sol:`${delta}.<br>${viete}: ${tb(`x_1 + x_2 = ${S}`)}, ${tb(`x_1x_2 = ${P}`)}.`});
+  const e = lv===2 ? pick(E2) : pick(E3), val=e.f(S,P);
+  return QB({text:`Cho phương trình ${pt} có hai nghiệm ${tm('x_1,\\,x_2')}. Không giải phương trình, tính ${tm('A = '+e.t)}.`,tpl:`${tm('A =')} [_]`,ans:[val],
+    hint:`Tìm ${tm('x_1 + x_2')} và ${tm('x_1x_2')} bằng hệ thức Viète, rồi biến đổi ${tm('A')} thành biểu thức chỉ chứa tổng và tích hai nghiệm.`,
+    sol:`${delta}.<br>${viete}.<br>Biến đổi: ${tm(`A = ${e.t} = ${e.tr}`)}.<br>Thay số: ${tm(`A = ${e.sub(S,P)}`)} ${tb('= '+val)}.`});
+};
+
+/* Dạng 4. Biết một nghiệm – tìm tham số, nghiệm còn lại; lập phương trình từ hai nghiệm mới */
+const gPq4 = lv => {
+  if(lv===1){
+    if(Math.random()<.5){
+      let r,b; do{ r=pick([-5,-4,-3,-2,-1,1,2,3,4,5]); b=pick([-6,-5,-4,-3,-2,-1,1,2,3,4,5,6]); }while(b===-r);
+      const m0=-r*r-b*r;
+      return QB({text:`Biết ${tm('x = '+r)} là một nghiệm của phương trình ${tm(`x^2 ${sg(b)}x + m = 0`)}. Tìm ${tm('m')}.`,tpl:`${tm('m =')} [_]`,ans:[m0],
+        hint:`Nếu ${tm('x_0')} là nghiệm của phương trình thì thay ${tm('x = x_0')} vào, hai vế bằng nhau. Giải phương trình ẩn ${tm('m')}.`,
+        sol:`Thay ${tm('x = '+r)} vào phương trình: ${tm(`${tp(r)}^2 ${sg(b*r)} + m = 0`)}, tức ${tm(`${r*r+b*r} + m = 0`)}. Suy ra ${tb('m = '+m0)}.`});
+    }
+    let r,b,m0,c; do{ r=pick([-3,-2,-1,1,2,3]); b=pick([-5,-4,-3,-2,-1,1,2,3,4,5]); m0=pick([-3,-2,-1,1,2,3]); c=-m0*r*r-b*r; }while(!c);
+    return QB({text:`Biết ${tm('x = '+r)} là một nghiệm của phương trình ${tm(`mx^2 ${sg(b)}x ${sg(c)} = 0`)} (${tm('m')} là tham số). Tìm ${tm('m')}.`,tpl:`${tm('m =')} [_]`,ans:[m0],
+      hint:`Thay ${tm('x = '+r)} vào phương trình để được phương trình bậc nhất ẩn ${tm('m')}.`,
+      sol:`Thay ${tm('x = '+r)}: ${tm(`m\\cdot${tp(r)}^2 ${sg(b*r)} ${sg(c)} = 0`)}, tức ${tm(`${r*r}m ${sg(b*r+c)} = 0`)}.<br>Suy ra ${tm(`${r*r}m = ${-(b*r+c)}`)}, vậy ${tb('m = '+m0)}.`});
+  }
+  if(lv===2){
+    let r,m0,k,c,S0; do{ r=pick([-4,-3,-2,-1,1,2,3,4]); m0=R(-4,5); k=pick([1,2,3,-1,-2]); S0=m0+k; c=S0*r-r*r; }while(!c||S0-r===r||S0-r===0||!S0);
+    const x2=S0-r;
+    return QB({text:`Cho phương trình ${tm(`x^2 - (m ${sg(k)})x ${sg(c)} = 0`)} (${tm('m')} là tham số) có một nghiệm ${tm('x_1 = '+r)}. Tìm ${tm('m')} và nghiệm còn lại ${tm('x_2')}.`,
+      tpl:`${tm('m =')} [_] &emsp; ${tm('x_2 =')} [_]`,ans:[m0,x2],
+      hint:`Thay ${tm('x_1 = '+r)} vào phương trình để tìm ${tm('m')}. Sau đó dùng hệ thức Viète (tổng hai nghiệm) để tìm ${tm('x_2')}.`,
+      sol:`Thay ${tm('x = '+r)}: ${tm(`${tp(r)}^2 - (m ${sg(k)})\\cdot${tp(r)} ${sg(c)} = 0`)}, suy ra ${tm(`(m ${sg(k)})\\cdot${tp(r)} = ${r*r+c}`)}, tức ${tm(`m ${sg(k)} = ${S0}`)}. Vậy ${tb('m = '+m0)}.<br>`+
+        `Khi đó tổng hai nghiệm là ${tm(`x_1 + x_2 = m ${sg(k)} = ${S0}`)} (Viète), nên ${tm(`x_2 = ${S0} - ${tp(r)}`)} ${tb('= '+x2)}.<br>Kiểm tra bằng tích: ${tm(`x_1x_2 = ${r}\\cdot${tp(x2)} = ${r*x2} = c`)} ✓.`});
+  }
+  const [S,P]=pickSP(5,-5,6,true), D=S*S-4*P, orig=tm(quad(1,-S,P));
+  const kind=pick(['sq','shift','dbl']);
+  let desc,S2,P2,how;
+  if(kind==='sq'){ desc=`${tm('x_1^2')} và ${tm('x_2^2')}`; S2=S*S-2*P; P2=P*P;
+    how=`${tm(`S' = x_1^2 + x_2^2 = (x_1 + x_2)^2 - 2x_1x_2 = ${tp(S)}^2 - 2\\cdot${tp(P)} = ${S2}`)}; ${tm(`P' = x_1^2x_2^2 = (x_1x_2)^2 = ${tp(P)}^2 = ${P2}`)}`; }
+  else if(kind==='shift'){ const k=pick([1,2,-1,-2]); desc=`${tm('x_1 '+sg(k))} và ${tm('x_2 '+sg(k))}`; S2=S+2*k; P2=P+k*S+k*k;
+    how=`${tm(`S' = (x_1 ${sg(k)}) + (x_2 ${sg(k)}) = (x_1 + x_2) ${sg(2*k)} = ${S2}`)}; ${tm(`P' = (x_1 ${sg(k)})(x_2 ${sg(k)}) = x_1x_2 ${sg(k)}(x_1 + x_2) + ${k*k} = ${P2}`)}`; }
+  else { desc=`${tm('2x_1')} và ${tm('2x_2')}`; S2=2*S; P2=4*P;
+    how=`${tm(`S' = 2x_1 + 2x_2 = 2(x_1 + x_2) = ${S2}`)}; ${tm(`P' = 2x_1\\cdot2x_2 = 4x_1x_2 = ${P2}`)}`; }
+  return QB({text:`Gọi ${tm('x_1,\\,x_2')} là hai nghiệm của phương trình ${orig}. Lập phương trình bậc hai ${tm('x^2 + bx + c = 0')} nhận ${desc} làm hai nghiệm (không giải phương trình ban đầu). Tìm ${tm('b')} và ${tm('c')}.`,
+    tpl:`${tm('b =')} [_] &emsp; ${tm('c =')} [_]`,ans:[-S2,P2],
+    hint:`Tìm tổng ${tm("S'")} và tích ${tm("P'")} của hai nghiệm mới bằng Viète (từ ${tm('x_1 + x_2')} và ${tm('x_1x_2')} của phương trình ban đầu). Phương trình cần lập là ${tm("x^2 - S'x + P' = 0")}.`,
+    sol:`${tm(`\\Delta = ${tp(-S)}^2 - 4\\cdot${tp(P)} = ${D} \\gt 0`)} nên phương trình ban đầu có hai nghiệm; Viète: ${tm(`x_1 + x_2 = ${S}`)}, ${tm(`x_1x_2 = ${P}`)}.<br>`+
+      `${how}.<br>Phương trình cần lập: ${tm(`x^2 - S'x + P' = 0`)}, tức ${tm(quad(1,-S2,P2))}. Vậy ${tb('b = '+(-S2))}, ${tb('c = '+P2)}.`});
+};
+
+/* Dạng 5. Tham số m và hệ thức giữa hai nghiệm (Bài 2b của đề thi) */
+const gPq5 = lv => {
+  if(lv===1){
+    let a,b,m0,t; do{ a=pick([-3,-2,-1,1,2,3]); b=pick([-4,-3,-2,-1,1,2,3,4]); m0=R(-4,5); t=m0+b; }while((m0+a)*(m0+a)-(m0+b)<=0);
+    const dl=(m0+a)*(m0+a)-(m0+b);
+    return QB({text:`Cho phương trình ${tm(`x^2 - 2(m ${sg(a)})x + m ${sg(b)} = 0`)} (${tm('m')} là tham số). Tìm ${tm('m')} để phương trình có hai nghiệm phân biệt ${tm('x_1,\\,x_2')} thoả ${tm(`x_1x_2 = ${t}`)}.`,tpl:`${tm('m =')} [_]`,ans:[m0],
+      hint:`Dùng Viète để viết ${tm('x_1x_2')} theo ${tm('m')}, giải phương trình tìm ${tm('m')}; sau đó thay lại để kiểm tra điều kiện hai nghiệm phân biệt ${tm("(\\Delta' \\gt 0)")}.`,
+      sol:`Theo Viète: ${tm(`x_1x_2 = \\dfrac{c}{a} = m ${sg(b)}`)}. Theo đề ${tm(`x_1x_2 = ${t}`)} nên ${tm(`m ${sg(b)} = ${t}`)}, suy ra ${tm('m = '+m0)}.<br>`+
+        `Kiểm tra điều kiện: ${tm(`\\Delta' = (m ${sg(a)})^2 - (m ${sg(b)})`)}; với ${tm('m = '+m0)}: ${tm(`\\Delta' = ${tp(m0+a)}^2 - ${tp(m0+b)} = ${dl} \\gt 0`)}, thoả mãn. Vậy ${tb('m = '+m0)}.`});
+  }
+  if(lv===2){
+    let u,b,k,m0,t; const kc=[1,3,4];
+    for(let i=0;i<500;i++){ u=pick([-3,-2,-1,1,2,3]); b=pick([-3,-2,-1,1,2,3]); k=pick(kc); m0=R(-4,5); const S0=2*m0+u, P0=m0+b; if(S0*S0-4*P0>0){ t=S0-k*P0; break; } }
+    const S0=2*m0+u, P0=m0+b, dl=S0*S0-4*P0, kk=k===1?'':String(k);
+    return QB({text:`Cho phương trình ${tm(`x^2 - (2m ${sg(u)})x + m ${sg(b)} = 0`)} (${tm('m')} là tham số). Tìm ${tm('m')} để phương trình có hai nghiệm phân biệt ${tm('x_1,\\,x_2')} thoả ${tm(`x_1 + x_2 - ${kk}x_1x_2 = ${t}`)}.`,tpl:`${tm('m =')} [_]`,ans:[m0],
+      hint:`Viết ${tm('x_1 + x_2')} và ${tm('x_1x_2')} theo ${tm('m')} bằng Viète, thay vào hệ thức của đề để được phương trình bậc nhất ẩn ${tm('m')}. Nhớ kiểm tra ${tm('\\Delta \\gt 0')} với giá trị ${tm('m')} tìm được.`,
+      sol:`Viète: ${tm(`x_1 + x_2 = 2m ${sg(u)}`)}, ${tm(`x_1x_2 = m ${sg(b)}`)}.<br>`+
+        `Thay vào hệ thức: ${tm(`(2m ${sg(u)}) - ${k===1?'':k}(m ${sg(b)}) = ${t}`)}, rút gọn: ${tm(`${tpoly([2-k,'m'],[u-k*b,''])} = ${t}`)}, suy ra ${tm('m = '+m0)}.<br>`+
+        `Kiểm tra: ${tm(`\\Delta = (2m ${sg(u)})^2 - 4(m ${sg(b)})`)}; với ${tm('m = '+m0)}: ${tm(`\\Delta = ${tp(S0)}^2 - 4\\cdot${tp(P0)} = ${dl} \\gt 0`)}, thoả mãn. Vậy ${tb('m = '+m0)}.`});
+  }
+  let a,mg,mb,t,k,ok=false;
+  for(let i=0;i<5000&&!ok;i++){ a=pick([-3,-2,-1,1,2,3]); mg=R(-5,5); mb=-4*a-mg; if(mg===mb) continue; t=R(-6,6); if(!t) continue;
+    k=2*a*a-t-mg*mb; if(k<1||k>30) continue; const D=m=>2*a*m+a*a-t; if(D(mg)>0&&D(mb)<0) ok=true; }
+  if(!ok){ a=1; mg=3; mb=-7; t=-2; k=2*a*a-t-mg*mb; }
+  const K=2*k, pt=`x^2 - 2(m ${sg(a)})x + m^2 ${sg(t)} = 0`, thr=tfrac(t-a*a,2*a), dir=a>0?'\\gt':'\\lt', lo=Math.min(mg,mb), hi=Math.max(mg,mb);
+  const good=`m ${dir} ${thr}`, ds=`${tpoly([2*a,'m'],[a*a-t,''])}`;
+  const bad=[`m ${a>0?'\\lt':'\\gt'} ${thr}`,`m ${a>0?'\\ge':'\\le'} ${thr}`,`m ${a>0?'\\le':'\\ge'} ${thr}`];
+  return QS({direct:true,text:`Cho phương trình ${tm(pt)} (${tm('m')} là tham số). Tìm ${tm('m')} để phương trình có hai nghiệm phân biệt ${tm('x_1,\\,x_2')} thoả ${tm(`x_1^2 + x_2^2 = ${K}`)}.`,
+    hint:`Bước 1: điều kiện ${tm("\\Delta' \\gt 0")}. Bước 2: ${tm('x_1^2 + x_2^2 = (x_1 + x_2)^2 - 2x_1x_2')} rồi thay Viète, giải phương trình ẩn ${tm('m')}. Bước 3: đối chiếu điều kiện, loại giá trị không thoả.`,
+    steps:[
+      {tag:'Điều kiện',ask:`Phương trình có hai nghiệm phân biệt khi ${tm("\\Delta' \\gt 0")}. Điều kiện của ${tm('m')} là:`,opts:[good,...bad].map(tm),ans:tm(good),
+       hint:`${tm(`\\Delta' = (m ${sg(a)})^2 - (m^2 ${sg(t)})`)} là biểu thức bậc nhất theo ${tm('m')}. Giải bất phương trình bậc nhất; chia cho số âm thì đổi chiều.`},
+      {tag:'Lập và giải',ask:`Từ Viète, ${tm(`x_1^2 + x_2^2 = (x_1 + x_2)^2 - 2x_1x_2 = ${K}`)} dẫn tới phương trình ẩn ${tm('m')}. Giải phương trình, ghi hai giá trị ${tm('m_1 \\lt m_2')}:`,tpl:`${tm('m_1 =')} [_] &emsp; ${tm('m_2 =')} [_]`,ans:[lo,hi],
+       hint:`Thay ${tm(`x_1 + x_2 = 2(m ${sg(a)})`)} và ${tm(`x_1x_2 = m^2 ${sg(t)}`)} vào, khai triển, đưa về phương trình bậc hai ẩn ${tm('m')} và giải.`},
+      {tag:'Đáp số',ask:`Đối chiếu với điều kiện ở bước 1, giá trị của ${tm('m')} thoả đề bài là:`,tpl:`${tm('m =')} [_]`,ans:[mg],hint:`Giá trị nào làm ${tm("\\Delta' \\gt 0")} thì nhận, giá trị còn lại thì loại.`}
+    ],
+    sol:`Viète: ${tm(`x_1 + x_2 = 2(m ${sg(a)})`)}, ${tm(`x_1x_2 = m^2 ${sg(t)}`)}.<br>`+
+      `<b>Điều kiện:</b> ${tm(`\\Delta' = (m ${sg(a)})^2 - (m^2 ${sg(t)}) = ${ds}`)}. Hai nghiệm phân biệt khi ${tm("\\Delta' \\gt 0")}, tức ${tm(good)}.<br>`+
+      `<b>Hệ thức:</b> ${tm(`x_1^2 + x_2^2 = (x_1 + x_2)^2 - 2x_1x_2 = 4(m ${sg(a)})^2 - 2(m^2 ${sg(t)}) = ${tpoly([2,'m^2'],[8*a,'m'],[4*a*a-2*t,''])}`)}.<br>`+
+      `Theo đề bằng ${tm(String(K))}: ${tm(`${tpoly([2,'m^2'],[8*a,'m'],[4*a*a-2*t-K,''])} = 0`)}, chia hai vế cho 2: ${tm(`${tpoly([1,'m^2'],[4*a,'m'],[2*a*a-t-k,''])} = 0`)}, suy ra ${tm(`m = ${lo}`)} hoặc ${tm(`m = ${hi}`)}.<br>`+
+      `<b>Đối chiếu:</b> với ${tm('m = '+mg)}: ${tm(`\\Delta' = ${2*a*mg+a*a-t} \\gt 0`)} (nhận); với ${tm('m = '+mb)}: ${tm(`\\Delta' = ${2*a*mb+a*a-t} \\lt 0`)} (loại). Vậy ${tb('m = '+mg)}.`});
+};
+
+lesson(6,'on-thi-pt-bac-hai-viete','Đại số 2. Phương trình bậc hai, điều kiện có nghiệm và hệ thức Viète','Ôn tuyển sinh Bài 2 (1,5 điểm): giải phương trình bậc hai, biệt thức và số nghiệm, hệ thức Viète và giá trị biểu thức, biết một nghiệm – lập phương trình mới, tham số m với hệ thức giữa hai nghiệm.',[gPq1,gPq2,gPq3,gPq4,gPq5]);
+}
+
 })();
 
 </script>

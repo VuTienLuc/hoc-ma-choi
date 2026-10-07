@@ -461,4 +461,38 @@ Lecture.addPractice('lop9','on-thi-ham-so-parabol',[
  ]},
 ]);
 
+
+/* ---------- Đại số 2. Phương trình bậc hai, điều kiện có nghiệm và Viète – 5 dạng × 2 câu tương tự ---------- */
+Lecture.addPractice('lop9','on-thi-pt-bac-hai-viete',[
+ {dang:'Giải phương trình bậc hai',items:[
+  {de:`Giải phương trình ${m('2x^2 - 7x + 3 = 0')}.`,
+   sol:[`Có ${m('a = 2,\\ b = -7,\\ c = 3')}. ${m('\\Delta = (-7)^2 - 4\\cdot2\\cdot3 = 49 - 24 = 25 \\gt 0')}, ${m('\\sqrt{\\Delta} = 5')}.`,`${m('x_1 = \\dfrac{7 - 5}{4} = \\dfrac{1}{2}')}; ${m('x_2 = \\dfrac{7 + 5}{4} = 3')}.`],ans:`${tb('x = \\dfrac{1}{2}')} hoặc ${tb('x = 3')}.`,lines:3},
+  {de:`Giải phương trình ${m('(x + 1)(x + 2) = 12')}.`,
+   sol:[`Khai triển: ${m('x^2 + 3x + 2 = 12')}, chuyển vế: ${m('x^2 + 3x - 10 = 0')}.`,`${m('\\Delta = 3^2 - 4\\cdot1\\cdot(-10) = 49 \\gt 0')}, ${m('\\sqrt{\\Delta} = 7')}.`,`${m('x_1 = \\dfrac{-3 - 7}{2} = -5')}; ${m('x_2 = \\dfrac{-3 + 7}{2} = 2')}.`],ans:`${tb('x = -5')} hoặc ${tb('x = 2')}.`,lines:4},
+ ]},
+ {dang:'Biệt thức Δ và điều kiện về số nghiệm',items:[
+  {de:`Tìm ${m('m')} để phương trình ${m('x^2 - 8x + m = 0')} có nghiệm kép. Tìm nghiệm kép đó.`,
+   sol:[`${m('\\Delta\' = (-4)^2 - 1\\cdot m = 16 - m')}.`,`Nghiệm kép khi ${m('\\Delta\' = 0')}, suy ra ${m('m = 16')}.`,`Nghiệm kép ${m('x = -\\dfrac{b}{2a} = \\dfrac{8}{2} = 4')}.`],ans:`${tb('m = 16')}, nghiệm kép ${tb('x = 4')}.`,lines:3},
+  {de:`Tìm ${m('m')} để phương trình ${m('mx^2 - 6x + 3 = 0')} có hai nghiệm phân biệt.`,
+   sol:[`Phương trình bậc hai nên ${m('m \\ne 0')}.`,`${m('\\Delta\' = (-3)^2 - m\\cdot3 = 9 - 3m')}. Hai nghiệm phân biệt khi ${m('\\Delta\' \\gt 0')}, tức ${m('m \\lt 3')}.`,`Kết hợp ${m('m \\ne 0')}.`],ans:`${tb('m \\lt 3')} và ${tb('m \\ne 0')}.`,lines:3},
+ ]},
+ {dang:'Hệ thức Viète: tổng, tích, giá trị biểu thức',items:[
+  {de:`Gọi ${m('x_1, x_2')} là hai nghiệm của ${m('x^2 - 7x + 5 = 0')}. Không giải phương trình, tính ${m('x_1 + x_2')}, ${m('x_1x_2')} và ${m('x_1^2 + x_2^2')}.`,
+   sol:[`${m('\\Delta = (-7)^2 - 4\\cdot1\\cdot5 = 29 \\gt 0')} nên phương trình có hai nghiệm phân biệt.`,`Viète: ${m('x_1 + x_2 = 7')}, ${m('x_1x_2 = 5')}.`,`${m('x_1^2 + x_2^2 = (x_1 + x_2)^2 - 2x_1x_2 = 7^2 - 2\\cdot5 = 39')}.`],ans:`${tb('x_1 + x_2 = 7')}; ${tb('x_1x_2 = 5')}; ${tb('x_1^2 + x_2^2 = 39')}.`,lines:4},
+  {hard:true,de:`Gọi ${m('x_1, x_2')} là hai nghiệm của ${m('x^2 - 3x - 5 = 0')}. Không giải phương trình, tính ${m('A = x_1^3 + x_2^3')} và ${m('B = (x_1^2 - 1)(x_2^2 - 1)')}.`,
+   sol:[`${m('\\Delta = (-3)^2 - 4\\cdot1\\cdot(-5) = 29 \\gt 0')}; Viète: ${m('S = x_1 + x_2 = 3')}, ${m('P = x_1x_2 = -5')}.`,`${m('A = S^3 - 3PS = 3^3 - 3\\cdot(-5)\\cdot3 = 27 + 45 = 72')}.`,`${m('B = (x_1x_2)^2 - (x_1^2 + x_2^2) + 1')}, với ${m('x_1^2 + x_2^2 = S^2 - 2P = 9 + 10 = 19')}.`,`${m('B = (-5)^2 - 19 + 1 = 7')}.`],ans:`${tb('A = 72')}; ${tb('B = 7')}.`,lines:5},
+ ]},
+ {dang:'Biết một nghiệm; lập phương trình từ nghiệm mới',items:[
+  {de:`Biết ${m('x = -2')} là một nghiệm của ${m('x^2 + 5x + m = 0')}. Tìm ${m('m')} và nghiệm còn lại.`,
+   sol:[`Thay ${m('x = -2')}: ${m('(-2)^2 + 5\\cdot(-2) + m = 0')}, tức ${m('-6 + m = 0')}, suy ra ${m('m = 6')}.`,`Viète: ${m('x_1 + x_2 = -5')} nên ${m('x_2 = -5 - (-2) = -3')} (kiểm tra: ${m('x_1x_2 = 6')} ✓).`],ans:`${tb('m = 6')}; nghiệm còn lại ${tb('x_2 = -3')}.`,lines:3},
+  {hard:true,de:`Gọi ${m('x_1, x_2')} là hai nghiệm của ${m('x^2 - 5x + 2 = 0')}. Lập phương trình bậc hai có <b>hệ số nguyên</b> nhận ${m('\\dfrac{1}{x_1}')} và ${m('\\dfrac{1}{x_2}')} làm nghiệm.`,
+   sol:[`${m('\\Delta = (-5)^2 - 4\\cdot1\\cdot2 = 17 \\gt 0')}; Viète: ${m('x_1 + x_2 = 5')}, ${m('x_1x_2 = 2')} (khác 0).`,`${m('S\' = \\dfrac{1}{x_1} + \\dfrac{1}{x_2} = \\dfrac{x_1 + x_2}{x_1x_2} = \\dfrac{5}{2}')}; ${m('P\' = \\dfrac{1}{x_1x_2} = \\dfrac{1}{2}')}.`,`Phương trình: ${m('x^2 - \\dfrac{5}{2}x + \\dfrac{1}{2} = 0')}; nhân hai vế với 2 để hệ số nguyên.`],ans:`${tb('2x^2 - 5x + 1 = 0')}.`,lines:4},
+ ]},
+ {dang:'Tham số m và hệ thức giữa hai nghiệm',items:[
+  {de:`Cho phương trình ${m('x^2 - (2m - 1)x + m - 1 = 0')}. Tìm ${m('m')} để phương trình có hai nghiệm ${m('x_1, x_2')} thoả ${m('x_1 + x_2 = 3x_1x_2')}.`,
+   sol:[`${m('\\Delta = (2m - 1)^2 - 4(m - 1) = 4m^2 - 8m + 5 = 4(m - 1)^2 + 1 \\gt 0')} với mọi ${m('m')}, nên phương trình luôn có hai nghiệm phân biệt.`,`Viète: ${m('x_1 + x_2 = 2m - 1')}, ${m('x_1x_2 = m - 1')}.`,`Theo đề: ${m('2m - 1 = 3(m - 1)')}, suy ra ${m('2m - 1 = 3m - 3')}, tức ${m('m = 2')}.`],ans:`${tb('m = 2')}.`,lines:5},
+  {hard:true,de:`Cho phương trình ${m('x^2 - 2(m + 1)x + m^2 - 2 = 0')}. Tìm ${m('m')} để phương trình có hai nghiệm phân biệt ${m('x_1, x_2')} thoả ${m('x_1^2 + x_2^2 = 18')}.`,
+   sol:[`Điều kiện: ${m('\\Delta\' = (m + 1)^2 - (m^2 - 2) = 2m + 3 \\gt 0')}, tức ${m('m \\gt -\\dfrac{3}{2}')}.`,`Viète: ${m('x_1 + x_2 = 2(m + 1)')}, ${m('x_1x_2 = m^2 - 2')}.`,`${m('x_1^2 + x_2^2 = (x_1 + x_2)^2 - 2x_1x_2 = 4(m + 1)^2 - 2(m^2 - 2) = 2m^2 + 8m + 8')}.`,`Theo đề: ${m('2m^2 + 8m + 8 = 18')}, chia 2: ${m('m^2 + 4m - 5 = 0')}, suy ra ${m('(m - 1)(m + 5) = 0')}, tức ${m('m = 1')} hoặc ${m('m = -5')}.`,`Đối chiếu ${m('m \\gt -\\dfrac{3}{2}')}: nhận ${m('m = 1')}, loại ${m('m = -5')}.`],ans:`${tb('m = 1')}.`,lines:8},
+ ]},
+]);
 })();
