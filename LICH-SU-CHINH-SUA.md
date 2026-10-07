@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-07 – Ôn thi 9 lên 10: thêm "Kiến thức cần nhớ · Lưu ý · Mẹo" cho học sinh
+
+- **Yêu cầu của thầy:** Ở phần chủ đề ôn tập 9 lên 10 của học sinh phải có kiến thức cần nhớ, lưu ý và mẹo để củng cố và làm bài.
+- **Kết quả:** Thêm thẻ 📘 (mở sẵn đầu trang bài) cho cả 5 chủ đề đã đăng: Hàm số y = ax², PT bậc hai – Viète, Tiếp tuyến, Góc ở tâm – góc nội tiếp, Hình quạt – vành khuyên. Mỗi chủ đề 3–4 mục: công thức/kiến thức cần nhớ, ⚠️ lưu ý lỗi hay mất điểm, 💡 mẹo. Engine hỗ trợ trường `warn` (ô vàng) và tiêu đề tiếng Việt cho bài không song ngữ. `kiem-tra.js` từ nay báo lỗi nếu chủ đề `on-thi-…` thiếu intro/lưu ý/mẹo. Đã cập nhật tác vụ đăng mỗi ngày để chủ đề 3–11 đều có phần này.
+- **Tệp thay đổi:** `data/lop9.js`, `assets/js/engine.js`, `assets/css/style.css`, `tools/kiem-tra.js`, `CLAUDE.md`, `AGENTS.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js`, `python3 tools/test.py`, `test_lophoc.py` → ĐẠT; đã chụp thử trang học sinh: công thức hiển thị đúng, không còn chữ tiếng Anh.
+- **Việc thủ công:** Thầy đối chiếu nội dung "phải chứng minh lại" ở các chủ đề hình học với hướng dẫn của Sở.
+
 ### 2026-10-07 – Toán 11 Bài 6: thêm 20 câu trắc nghiệm vào bài giảng
 
 - **Yêu cầu của thầy:** Trong bài giảng Bài 6. Cấp số cộng, tạo 20 trắc nghiệm đủ mức độ, củng cố kiến thức và vận dụng thực tế.

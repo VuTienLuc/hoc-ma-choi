@@ -269,3 +269,6 @@ Trong `game.js`, chủ đề game Toán 10 có thêm lối vào "🏁 Đường 
 
 ## Lịch sử chỉnh sửa dùng chung
 Trước khi sửa mã, đọc `LICH-SU-CHINH-SUA.md` (ChatGPT/Codex cũng ghi vào đó) và kiểm tra các thay đổi gần nhất. Sau mỗi yêu cầu hoàn thành, thêm một mục mới ở đầu "Các lần thay đổi" theo khuôn trong tệp (chỉ ghi ĐẠT khi đã chạy thật).
+
+## Chủ đề ôn thi vào 10: phải có "Kiến thức cần nhớ · Lưu ý · Mẹo" (thầy yêu cầu 07/10/2026)
+Mỗi chủ đề `on-thi-…` trong chương 6 của `data/lop9.js` phải có tham số thứ năm của `lesson(...)`: `{intro:[{t, b, warn, ex}, …]}` – thẻ 📘 hiện đầu trang bài của học sinh (mở sẵn). `t` = tiêu đề mục, `b` = kiến thức/công thức cần nhớ (HTML, công thức bằng `tm/td`), `warn` = ⚠️ lưu ý, lỗi hay mất điểm, `ex` = 💡 mẹo làm bài. Cần ≥ 3 mục, có ít nhất một `warn` và một `ex` (tools/kiem-tra.js kiểm tra). Với bài hình: ghi rõ kiến thức phải chứng minh lại, không viện dẫn trực tiếp. Bài không song ngữ (`bi` không bật) tự hiện tiêu đề tiếng Việt (có thể đổi bằng `introTitle`). Mẫu: khối “Đại số 2” và “Hình học 1” trong `data/lop9.js`.

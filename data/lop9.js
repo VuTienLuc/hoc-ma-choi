@@ -1278,7 +1278,12 @@ const gTs6 = lv => {
 };
 
 G.topics.push({id:6,hk:2,name:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học'});
-lesson(6,'on-thi-tiep-tuyen','Hình học 1. Tiếp tuyến của đường tròn','Ôn tuyển sinh từ cơ bản đến nâng cao: nhận biết và chứng minh tiếp tuyến; tính độ dài; hai tiếp tuyến; dây tiếp điểm; tiếp tuyến–cát tuyến; bài tổng hợp.',[gTs1,gTs2,gTs3,gTs4,gTs5,gTs6]);
+lesson(6,'on-thi-tiep-tuyen','Hình học 1. Tiếp tuyến của đường tròn','Ôn tuyển sinh từ cơ bản đến nâng cao: nhận biết và chứng minh tiếp tuyến; tính độ dài; hai tiếp tuyến; dây tiếp điểm; tiếp tuyến–cát tuyến; bài tổng hợp.',[gTs1,gTs2,gTs3,gTs4,gTs5,gTs6], {intro:[
+  {t:`Tiếp tuyến và bán kính`, b:`<ul><li>Tiếp tuyến của đường tròn vuông góc với bán kính tại tiếp điểm.</li><li>Đường thẳng ${tm('d')} tiếp xúc với ${tm('(O;R)')} khi và chỉ khi khoảng cách từ ${tm('O')} đến ${tm('d')} bằng ${tm('R')}.</li><li>Dấu hiệu: đường thẳng đi qua một điểm của đường tròn và vuông góc với bán kính tại điểm đó là tiếp tuyến.</li></ul>`, ex:`Thấy chữ “tiếp tuyến” hay “tiếp điểm”: nối ngay tâm với tiếp điểm để có góc vuông.`},
+  {t:`Hai tiếp tuyến cắt nhau`, b:`Từ ${tm('A')} vẽ hai tiếp tuyến ${tm('AB')}, ${tm('AC')} với ${tm('(O)')} (${tm('B')}, ${tm('C')} là tiếp điểm): ${tm('AB = AC')}; ${tm('AO')} là tia phân giác của ${tm('\\widehat{BAC}')} và của ${tm('\\widehat{BOC}')}; ${tm('AO \\perp BC')} tại trung điểm của ${tm('BC')}.`, warn:`Độ dài tiếp tuyến tính bằng định lí Pythagore trong tam giác vuông ${tm('OBA')}: ${tm('AB^2 = OA^2 - R^2')}. Hệ thức dạng ${tm('OH \\cdot OA = R^2')} (đường cao trong tam giác vuông) không được viện dẫn trực tiếp — phải chứng minh lại bằng tam giác đồng dạng.`},
+  {t:`Chứng minh một đường thẳng là tiếp tuyến`, b:`<ul><li>Cách 1: chỉ ra điểm ${tm('A')} thuộc đường tròn và ${tm('d \\perp OA')} tại ${tm('A')}.</li><li>Cách 2: chứng minh khoảng cách từ tâm ${tm('O')} đến ${tm('d')} bằng bán kính ${tm('R')}.</li></ul>`, warn:`Phải nói rõ “A thuộc đường tròn” và “vuông góc với bán kính”; không kết luận theo hình vẽ.`},
+  {t:`Mẹo làm bài hình`, b:`<ul><li>Vẽ hình đủ lớn, đúng điều kiện đề; ghi sẵn các cặp bằng nhau và góc vuông ngay trên hình.</li><li>Bài chứng minh nhiều câu: câu sau thường dùng kết quả câu trước — hãy tận dụng.</li><li>Tính độ dài: tìm một tam giác vuông chứa đoạn cần tính rồi dùng Pythagore.</li></ul>`}
+]});
 }
 /* =====================================================================
    ÔN THI TUYỂN SINH VÀO LỚP 10 – HÌNH HỌC 2. GÓC Ở TÂM, GÓC NỘI TIẾP
@@ -1340,7 +1345,12 @@ const gGa6=lv=>{
   return QS({direct:lv===3,text,steps,hint:lv<3?'Giao điểm trong: nửa tổng hai cung.':'Giao điểm ngoài: nửa hiệu hai cung.',sol:lv<3?`${tm(`${hatA('AEC')}=\\dfrac{${a}^\\circ+${b}^\\circ}{2}=${inside}^\\circ`)}.`:`Góc cần tìm bằng ${tm(`\\dfrac{${Math.max(a,b)}^\\circ-${Math.min(a,b)}^\\circ}{2}=${outside}^\\circ`)}.`});
 };
 
-lesson(6,'on-thi-goc-duong-tron','Hình học 2. Góc ở tâm, góc nội tiếp','Ôn tuyển sinh từ cơ bản đến nâng cao: cung và góc ở tâm; góc nội tiếp; đường kính; tứ giác nội tiếp; tiếp tuyến–dây; góc có đỉnh trong và ngoài đường tròn.',[gGa1,gGa2,gGa3,gGa4,gGa5,gGa6]);
+lesson(6,'on-thi-goc-duong-tron','Hình học 2. Góc ở tâm, góc nội tiếp','Ôn tuyển sinh từ cơ bản đến nâng cao: cung và góc ở tâm; góc nội tiếp; đường kính; tứ giác nội tiếp; tiếp tuyến–dây; góc có đỉnh trong và ngoài đường tròn.',[gGa1,gGa2,gGa3,gGa4,gGa5,gGa6], {intro:[
+  {t:`Góc ở tâm và góc nội tiếp`, b:`<ul><li>Góc ở tâm có số đo bằng số đo cung bị chắn.</li><li>Góc nội tiếp có số đo bằng <b>nửa</b> số đo cung bị chắn; các góc nội tiếp cùng chắn một cung thì bằng nhau.</li><li>Góc nội tiếp chắn nửa đường tròn là góc vuông; ngược lại, góc vuông nội tiếp thì chắn đường kính.</li></ul>`, ex:`Gặp góc ${tm('90^\\circ')} trong đường tròn, nghĩ ngay đến <b>đường kính</b>; gặp đường kính thì nghĩ ngay đến góc vuông ở điểm còn lại.`},
+  {t:`Tứ giác nội tiếp`, b:`<ul><li>Tứ giác nội tiếp có tổng hai góc đối bằng ${tm('180^\\circ')}; góc ngoài bằng góc trong của đỉnh đối diện.</li><li>Hai góc nội tiếp cùng chắn một cung thì bằng nhau — rất hay dùng để “chuyển góc”.</li></ul>`, warn:`Dấu hiệu nhận biết tứ giác nội tiếp không được viện dẫn trực tiếp: phải chứng minh lại (chỉ ra bốn đỉnh cùng cách đều một điểm, hoặc dựa vào định nghĩa).`},
+  {t:`Góc có đỉnh bên trong và bên ngoài đường tròn`, b:`<ul><li>Đỉnh bên trong: số đo góc bằng nửa <b>tổng</b> số đo hai cung bị chắn.</li><li>Đỉnh bên ngoài: số đo góc bằng nửa <b>hiệu</b> số đo hai cung bị chắn (cung lớn trừ cung nhỏ).</li></ul>`, warn:`Xác định đúng hai cung bị chắn và cung nào lớn hơn trước khi cộng hoặc trừ.`},
+  {t:`Mẹo làm bài`, b:`<ul><li>Mỗi lần ghi một góc, nêu rõ “chắn cung nào” — thầy cô chấm theo lập luận.</li><li>Chứng minh các góc bằng nhau: thử các góc nội tiếp cùng chắn một cung, hoặc cùng phụ với một góc.</li><li>Bài tính số đo góc: viết ra các cung đã biết, đổi sang góc theo “nội tiếp bằng nửa cung”.</li></ul>`, warn:`Không viện dẫn trực tiếp: đường kính vuông góc với dây thì đi qua trung điểm dây (phải chứng minh lại khi cần dùng).`}
+]});
 }
 
 /* =====================================================================
@@ -1403,7 +1413,11 @@ const gSq6=lv=>{
   return QS({direct:lv===3,text,steps:lv===1?steps.slice(0,3):steps,hint:'Tách hình quạt vành khuyên thành quạt lớn trừ quạt nhỏ.',sol:`Diện tích quạt lớn là ${tm(`${outer}\\pi`)} m², quạt nhỏ là ${tm(`${inner}\\pi`)} m². Diện tích cần tìm: ${tm(`${outer}\\pi-${inner}\\pi=${k}\\pi`)} m².`});
 };
 
-lesson(6,'on-thi-hinh-quat-vanh-khuyen','Hình học 3. Hình quạt tròn và hình vành khuyên','Ôn tuyển sinh từ cơ bản đến nâng cao: độ dài cung; diện tích quạt; vành khuyên; quạt vành khuyên; chu vi, hình ghép và bài toán thực tế.',[gSq1,gSq2,gSq3,gSq4,gSq5,gSq6]);
+lesson(6,'on-thi-hinh-quat-vanh-khuyen','Hình học 3. Hình quạt tròn và hình vành khuyên','Ôn tuyển sinh từ cơ bản đến nâng cao: độ dài cung; diện tích quạt; vành khuyên; quạt vành khuyên; chu vi, hình ghép và bài toán thực tế.',[gSq1,gSq2,gSq3,gSq4,gSq5,gSq6], {intro:[
+  {t:`Công thức cần thuộc`, b:`<ul><li>Chu vi hình tròn ${tm('C = 2\\pi R')}; diện tích ${tm('S = \\pi R^2')}.</li><li>Độ dài cung ${tm('n^\\circ')}: ${tm('l = \\dfrac{\\pi R n}{180}')}.</li><li>Diện tích hình quạt tròn: ${tm('S_q = \\dfrac{\\pi R^2 n}{360} = \\dfrac{lR}{2}')}.</li><li>Hình vành khuyên: ${tm('S = \\pi(R^2 - r^2) = \\pi(R - r)(R + r)')} với ${tm('R \\gt r')}.</li></ul>`, ex:`Hình quạt là phần ${tm('\\dfrac{n}{360}')} của hình tròn: độ dài cung ${tm('= \\dfrac{n}{360} \\cdot C')}, diện tích quạt ${tm('= \\dfrac{n}{360} \\cdot S')} — chỉ cần nhớ một tỉ số.`},
+  {t:`Lưu ý dễ sai`, b:`<ul><li>Chu vi hình quạt ${tm('= l + 2R')} (cung cộng hai bán kính), đừng chỉ lấy ${tm('l')}.</li><li>Đổi về cùng đơn vị trước khi tính; diện tích có đơn vị bình phương.</li><li>${tm('n')} là số đo <b>độ</b>; đủ một vòng là ${tm('360^\\circ')}.</li></ul>`, warn:`Đề cho “lấy ${tm('\\pi \\approx 3{,}14')}” thì dùng đúng giá trị đó và làm tròn theo yêu cầu; nếu không dặn, giữ nguyên ${tm('\\pi')} trong kết quả.`},
+  {t:`Bài toán ghép hình và thực tế`, b:`Tách hình phức tạp thành các hình quen thuộc (hình tròn, quạt, tam giác, hình chữ nhật). Diện tích phần tô = diện tích hình lớn trừ diện tích phần bỏ đi; vành khuyên là hiệu của hai hình tròn đồng tâm.`, ex:`Viết rõ từng bước: bán kính → công thức → thay số → kết quả kèm đơn vị. Kiểm tra bằng ước lượng: quạt ${tm('90^\\circ')} phải bằng đúng ${tm('\\dfrac14')} hình tròn.`}
+]});
 }
 
 /* =====================================================================
@@ -1543,7 +1557,12 @@ const gHs5 = lv => {
     sol:`${tm('M \\in (P)')} nên ${tm(`y = ${aTerm(p,q)}x^2`)}; theo đề ${tm(`y = ${k}x`)}. Suy ra ${tm(eq)}, ${tm('x \\ne 0')} nên ${tm(`${aTerm(p,q)}x = ${k}`)}, được ${tm('x = '+x0)}. Tung độ ${tm(`y = ${k}\\cdot${tp(x0)}`)} ${tb('= '+y0)}.`});
 };
 
-lesson(6,'on-thi-ham-so-parabol','Đại số 1. Hàm số y = ax² và đồ thị','Ôn tuyển sinh Bài 1 (1,5 điểm): giá trị hàm số, bảng giá trị để vẽ đồ thị, tính chất parabol, đọc đồ thị tìm a, tìm điểm thuộc đồ thị theo điều kiện.',[gHs1,gHs2,gHs3,gHs4,gHs5]);
+lesson(6,'on-thi-ham-so-parabol','Đại số 1. Hàm số y = ax² và đồ thị','Ôn tuyển sinh Bài 1 (1,5 điểm): giá trị hàm số, bảng giá trị để vẽ đồ thị, tính chất parabol, đọc đồ thị tìm a, tìm điểm thuộc đồ thị theo điều kiện.',[gHs1,gHs2,gHs3,gHs4,gHs5], {intro:[
+  {t:`Hàm số ${tm('y = ax^2')} và đồ thị`, b:`<ul><li>Hàm số ${tm('y = ax^2')} ${tm('(a \\ne 0)')} xác định với mọi ${tm('x')}; đồ thị là <b>parabol</b> ${tm('(P)')} có đỉnh ${tm('O(0;0)')}, nhận trục ${tm('Oy')} làm trục đối xứng.</li><li>${tm('a \\gt 0')}: bề lõm hướng lên, ${tm('y \\ge 0')}, ${tm('O')} là điểm thấp nhất; hàm số nghịch biến khi ${tm('x \\lt 0')}, đồng biến khi ${tm('x \\gt 0')}.</li><li>${tm('a \\lt 0')}: bề lõm hướng xuống, ${tm('y \\le 0')}, ${tm('O')} là điểm cao nhất; hàm số đồng biến khi ${tm('x \\lt 0')}, nghịch biến khi ${tm('x \\gt 0')}.</li></ul>`, warn:`Điểm ${tm('(x;y)')} và ${tm('(-x;y)')} cùng thuộc ${tm('(P)')} vì ${tm('(-x)^2 = x^2')}. Khi thay ${tm('x')} âm phải đặt trong ngoặc: ${tm('(-3)^2 = 9')}, không phải ${tm('-3^2 = -9')}.`},
+  {t:`Điểm thuộc đồ thị – tìm ${tm('a')}`, b:`Điểm ${tm('A(x_0;y_0)')} thuộc ${tm('(P)')}: ${tm('y = ax^2')} ${tm('\\Leftrightarrow')} ${tm('y_0 = a x_0^2')}. Biết một điểm (khác ${tm('O')}) thì tìm được ${tm('a = \\dfrac{y_0}{x_0^2}')}; biết ${tm('a')} và ${tm('x_0')} thì tính được ${tm('y_0')}.`, ex:`Đọc đồ thị: chọn điểm có tọa độ <b>nguyên, rõ ràng</b> (khác gốc ${tm('O')}), thay vào ${tm('y = ax^2')} để tìm ${tm('a')}, rồi kiểm tra lại bằng một điểm thứ hai.`},
+  {t:`Lập bảng giá trị và vẽ đồ thị`, b:`Chọn các giá trị ${tm('x')} đối xứng quanh ${tm('0')} (như ${tm('-2;\\ -1;\\ 0;\\ 1;\\ 2')}), tính ${tm('y')}, biểu diễn các điểm rồi nối bằng <b>đường cong trơn</b> đi qua ${tm('O')}.`, warn:`Không nối các điểm bằng đoạn thẳng; ${tm('O')} phải nằm đúng gốc tọa độ và đồ thị đối xứng qua ${tm('Oy')}. Nhớ ghi tên ${tm('(P)')} và các điểm đã dùng.`},
+  {t:`Tìm điểm theo điều kiện`, b:`Khi đề cho tung độ (hoặc hoành độ), thay vào phương trình ${tm('y = ax^2')} rồi giải. Giải ${tm('ax^2 = k')} có thể ra <b>hai nghiệm đối nhau</b> ${tm('x = \\pm\\sqrt{\\dfrac{k}{a}}')} — tức là hai điểm đối xứng qua ${tm('Oy')}.`, ex:`Trước khi giải hãy kiểm tra dấu: ${tm('a \\gt 0')} thì ${tm('y \\ge 0')}, ${tm('a \\lt 0')} thì ${tm('y \\le 0')}. Nếu tung độ trái dấu với ${tm('a')} thì không có điểm nào.`}
+]});
 }
 
 /* =====================================================================
@@ -1739,7 +1758,12 @@ const gPq5 = lv => {
       `<b>Đối chiếu:</b> với ${tm('m = '+mg)}: ${tm(`\\Delta' = ${2*a*mg+a*a-t} \\gt 0`)} (nhận); với ${tm('m = '+mb)}: ${tm(`\\Delta' = ${2*a*mb+a*a-t} \\lt 0`)} (loại). Vậy ${tb('m = '+mg)}.`});
 };
 
-lesson(6,'on-thi-pt-bac-hai-viete','Đại số 2. Phương trình bậc hai, điều kiện có nghiệm và hệ thức Viète','Ôn tuyển sinh Bài 2 (1,5 điểm): giải phương trình bậc hai, biệt thức và số nghiệm, hệ thức Viète và giá trị biểu thức, biết một nghiệm – lập phương trình mới, tham số m với hệ thức giữa hai nghiệm.',[gPq1,gPq2,gPq3,gPq4,gPq5]);
+lesson(6,'on-thi-pt-bac-hai-viete','Đại số 2. Phương trình bậc hai, điều kiện có nghiệm và hệ thức Viète','Ôn tuyển sinh Bài 2 (1,5 điểm): giải phương trình bậc hai, biệt thức và số nghiệm, hệ thức Viète và giá trị biểu thức, biết một nghiệm – lập phương trình mới, tham số m với hệ thức giữa hai nghiệm.',[gPq1,gPq2,gPq3,gPq4,gPq5], {intro:[
+  {t:`Giải phương trình bậc hai ${tm('ax^2 + bx + c = 0')} ${tm('(a \\ne 0)')}`, b:`<ul><li>${tm('\\Delta = b^2 - 4ac')}.</li><li>${tm('\\Delta \\lt 0')}: vô nghiệm; ${tm('\\Delta = 0')}: nghiệm kép ${tm('x = -\\dfrac{b}{2a}')}; ${tm('\\Delta \\gt 0')}: hai nghiệm ${tm('x_{1,2} = \\dfrac{-b \\pm \\sqrt{\\Delta}}{2a}')}.</li><li>Khi ${tm('b = 2b\\prime')}: ${tm('\\Delta\\prime = b\\prime^2 - ac')}, nghiệm ${tm('x_{1,2} = \\dfrac{-b\\prime \\pm \\sqrt{\\Delta\\prime}}{a}')}.</li></ul>`, warn:`“Có nghiệm” là ${tm('\\Delta \\ge 0')}; “có hai nghiệm phân biệt” là ${tm('\\Delta \\gt 0')}. Với phương trình chứa tham số, nhớ kiểm tra ${tm('a \\ne 0')} trước.`},
+  {t:`Hệ thức Viète`, b:`<ul><li>Nếu ${tm('\\Delta \\ge 0')}: ${tm('S = x_1 + x_2 = -\\dfrac{b}{a}')}, ${tm('P = x_1 x_2 = \\dfrac{c}{a}')}.</li><li>Nhẩm nghiệm: ${tm('a + b + c = 0')} thì ${tm('x_1 = 1,\\ x_2 = \\dfrac{c}{a}')}; ${tm('a - b + c = 0')} thì ${tm('x_1 = -1,\\ x_2 = -\\dfrac{c}{a}')}.</li><li>Hai số có tổng ${tm('S')} và tích ${tm('P')} là hai nghiệm của ${tm('X^2 - SX + P = 0')} (điều kiện ${tm('S^2 - 4P \\ge 0')}).</li></ul>`, warn:`Phải nêu điều kiện ${tm('\\Delta \\ge 0')} (hoặc ${tm('\\Delta \\gt 0')}) <b>trước khi</b> dùng Viète. Hay quên dấu trừ ở ${tm('S = -\\dfrac{b}{a}')}.`},
+  {t:`Biểu thức đối xứng hai nghiệm`, b:`<ul><li>${tm('x_1^2 + x_2^2 = S^2 - 2P')};  ${tm('(x_1 - x_2)^2 = S^2 - 4P')}.</li><li>${tm('\\dfrac{1}{x_1} + \\dfrac{1}{x_2} = \\dfrac{S}{P}')} ${tm('(P \\ne 0)')};  ${tm('x_1^3 + x_2^3 = S^3 - 3PS')}.</li></ul>`, ex:`Mọi biểu thức đối xứng đều đưa được về ${tm('S')} và ${tm('P')}. Thay ${tm('S')}, ${tm('P')} bằng số rồi mới tính — đừng tính từng nghiệm.`},
+  {t:`Phương trình có tham số ${tm('m')}`, b:`Quy trình: (1) điều kiện ${tm('a \\ne 0')} và ${tm('\\Delta')}; (2) viết ${tm('S')}, ${tm('P')} theo ${tm('m')}; (3) đưa hệ thức đề cho về ${tm('S')}, ${tm('P')} rồi giải tìm ${tm('m')}; (4) <b>đối chiếu điều kiện</b> và kết luận.`, warn:`Giải ra ${tm('m')} mà không thử lại điều kiện ${tm('\\Delta')} là lỗi mất điểm phổ biến nhất. Có thể phải loại bớt giá trị ${tm('m')}.`}
+]});
 }
 
 })();

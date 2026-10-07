@@ -109,6 +109,12 @@ else {
     const ids = new Set();
     g.lessons.forEach(l => {
       if (ids.has(l.id)) err(`${g.id}`, `trùng mã bài "${l.id}"`); ids.add(l.id);
+      if (/^on-thi-/.test(l.id)) {   // chủ đề ôn thi vào 10: bắt buộc có kiến thức cần nhớ + lưu ý + mẹo
+        const it = Array.isArray(l.intro) ? l.intro : [];
+        if (it.length < 3) err(`${g.id}/${l.id}`, 'chủ đề ôn thi cần intro: ≥ 3 mục kiến thức cần nhớ');
+        else if (!it.some(k => k.warn)) err(`${g.id}/${l.id}`, 'intro thiếu mục lưu ý (warn)');
+        else if (!it.some(k => k.ex)) err(`${g.id}/${l.id}`, 'intro thiếu mẹo làm bài (ex)');
+      }
       if (!g.topics.some(t => t.id === l.t)) err(`${g.id}/${l.id}`, `chủ đề ${l.t} chưa khai báo trong topics`);
       if (!Array.isArray(l.gens) || !l.gens.length) return err(`${g.id}/${l.id}`, 'không có dạng bài');
       l.gens.forEach((gen, gi) => { if (typeof gen !== 'function') return err(`${g.id}/${l.id}`, `dạng ${gi + 1} không phải hàm lv => câu hỏi`);

@@ -627,6 +627,7 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .kt-intro{padding:14px 18px;margin:6px 0 14px} .kt-intro>summary{cursor:pointer;font:700 19px/1.35 var(--f-head);list-style-position:outside}
 .kt-item{display:grid;gap:12px;padding:10px 0;border-top:1.5px dashed var(--line)} .kt-item:first-of-type{border-top:0}
 .kt-item h3{margin:0 0 4px;font:700 18px/1.35 var(--f-body)} .kt-b{font-size:18px;line-height:1.5} .kt-ex{margin-top:6px;padding:8px 12px;border-radius:12px;background:var(--primary-soft);font-size:17px}
+.kt-warn{margin-top:6px;padding:8px 12px;border-radius:12px;background:var(--warn-soft);border:1.5px solid var(--warn);color:inherit;font-size:17px}
 .kt-item .fig svg{max-height:170px;width:100%}
 @media (min-width:900px){.kt-item.has-fig{grid-template-columns:1fr 38%;align-items:center}}
 
