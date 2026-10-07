@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-07 – Claude rà soát phần ChatGPT/Codex đã làm
+
+- **Yêu cầu của thầy:** Kiểm tra lại code ChatGPT cùng làm trên dự án có lỗi không; từ nay luôn đọc và cập nhật tệp này.
+- **Kết quả:** Đọc mã Đường đua cả lớp (`game.js`), `firebase-database.rules.json`, ngăn kéo Thi đua theo nhóm. Không thấy lỗi chặn. Quy tắc Firebase khớp với mã (thầy ghi được điểm/quãng đường của học sinh; học sinh chỉ tự vào phòng khi còn ở sảnh, tự trả lời đúng câu hiện tại). Sao thưởng chỉ trao cho học sinh, một lần mỗi trận. Lưu ý nhỏ: học sinh vào phòng sau khi đã bắt đầu sẽ bị chặn (đúng thiết kế); tải lại trang giữa trận vẫn giữ điểm vì không ghi lại hồ sơ.
+- **Tệp thay đổi:** `LICH-SU-CHINH-SUA.md`, `CLAUDE.md`, `AGENTS.md`
+- **Kiểm thử:** `node tools/kiem-tra.js`, `python3 tools/test.py`, `test_thidua_nhom.py`, `test_lophoc.py`, `test_baigiang.py lop10`, `test_phieu_tren_lop.py` → ĐẠT (chạy trên d5b99b8)
+- **Việc thủ công:** Đăng lại Firebase Rules (từ mục Đường đua cả lớp) nếu chưa làm; thử Đường đua trên iPad thật.
+
 ### 2026-10-07 – Chuẩn hóa tệp lịch sử để Claude và Codex kiểm tra
 
 - **Yêu cầu của thầy:** Sau khi hoàn thành công việc, ghi lại lịch sử chỉnh sửa trong một tệp để Claude có thể đọc và hiểu toàn bộ quá trình thay đổi.

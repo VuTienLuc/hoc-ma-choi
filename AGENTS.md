@@ -265,3 +265,7 @@ Chương 6 của `data/lop9.js` ("Ôn thi tuyển sinh vào lớp 10 · Đại s
 
 ## Đường đua Toán học (Toán 10, do ChatGPT thêm 06/10/2026)
 Trong `game.js`, chủ đề game Toán 10 có thêm lối vào "🏁 Đường đua Toán học" (`startRace`, `drawRace`, `raceResult`): 10 vòng, 3 xe máy đối thủ, đúng thì tăng tốc, đủ 3 năng lượng thì có Nitro, cuối trận có "Trạm sửa lỗi kiến thức" và luyện lại câu sai. Sao tính như chế độ Chơi với máy (`awardStars` với 10 câu; chế độ luyện lại không tính sao). `tools/test.py` đã có test đường đua.
+
+
+## Lịch sử chỉnh sửa dùng chung
+Trước khi sửa mã, đọc `LICH-SU-CHINH-SUA.md` (ChatGPT/Codex cũng ghi vào đó) và kiểm tra các thay đổi gần nhất. Sau mỗi yêu cầu hoàn thành, thêm một mục mới ở đầu "Các lần thay đổi" theo khuôn trong tệp (chỉ ghi ĐẠT khi đã chạy thật).
