@@ -274,7 +274,7 @@ const Lecture = (() => {
     if(title && title.points) h += `<section><h3>I. Mục tiêu</h3><ul class="ws-goals">${title.points.map(p => `<li>${p}</li>`).join('')}</ul></section>`;
     if(kts.length) h += `<section><h3>II. Kiến thức trọng tâm</h3>${kts.map((s, i) => `<div class="ws-kt"><h4>${i+1}. ${s.title}</h4>${key ? `<div class="ws-key">${s.body || ''}</div>` : lines(Math.max(4, Math.min(7, Math.round(plain(s.body || '') / 80) + 2)))}</div>`).join('')}</section>`;
     if(groups.length) h += `<section><h3>III. Dạng bài và ví dụ</h3>${groups.map(g => `${g.m ? `<div class="ws-dang"><h4>Dạng ${++dang}. ${g.m.title}</h4>${key ? `<ol class="ws-steps">${(g.m.steps || []).map(x => `<li>${x}</li>`).join('')}</ol>` : `<p class="ws-hint">Phương pháp:</p>${lines(Math.max(2, (g.m.steps || []).length))}`}</div>` : ''}${g.vd.map(s => vdBlock(s, `Ví dụ ${++n}`)).join('')}`).join('')}</section>`;
-    const lt = S.filter(s => s.kind === 'lt');
+    const lt = S.filter(s => s.kind === 'lt' && !s.tn);
     if(lt.length) h += `<section><h3>IV. Luyện tập</h3>${lt.map((s, i) => vdBlock(s, `Bài ${i+1}`)).join('')}</section>`;
     h += `<footer class="ws-foot">${brand} · ${l.name}</footer>`;
     const app = $('#app');
@@ -308,7 +308,7 @@ const Lecture = (() => {
       let items = [];
       if(o.pr){
         if(l.practice) items = prItems(l).map(x => ({...x, hard:!!x.hard}));
-        else items = S.filter(x => x.kind === 'lt').map(x => ({...x, hard:false}));
+        else items = S.filter(x => x.kind === 'lt' && !x.tn).map(x => ({...x, hard:false}));
         items.forEach((x, i) => { x.lab = `${pre}.${i + 1}`; });
         if(items.length) h += `<h4 class="cs-sec">Bài luyện tập${l.practice ? ' <small>(★ = vận dụng)</small>' : ''}</h4>` + items.map(x => {
           const fig = x.draw ? `<div class="cs-fig cs-blank">${x.key ? '' : planeSVG(x.draw)}</div>` : figOf(x.fig);

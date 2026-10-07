@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-07 – Toán 11 Bài 6: thêm 20 câu trắc nghiệm vào bài giảng
+
+- **Yêu cầu của thầy:** Trong bài giảng Bài 6. Cấp số cộng, tạo 20 trắc nghiệm đủ mức độ, củng cố kiến thức và vận dụng thực tế.
+- **Kết quả:** Thêm 1 trang giới thiệu và 20 trang trắc nghiệm vào cuối phần luyện tập (trước "Tổng kết"): Câu 1–6 nhận biết, 7–12 thông hiểu, 13–17 vận dụng thực tế (hàng ghế, thu nhập, chạy bộ, xếp hộp, khoan giếng), 18–20 vận dụng cao. Mỗi câu có 4 phương án A–D (hai cột), lời giải từng bước và đáp án; đáp án A/B/C/D mỗi chữ 5 câu, không có 3 câu liên tiếp cùng chữ. Mọi đáp số đã kiểm tra lại bằng mã. Trang trắc nghiệm đánh dấu `tn:true` (kind `lt`) để **không** chen vào phiếu học tập in và phiếu theo chương.
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop11.js`, `assets/js/lecture.js` (bỏ `tn` khỏi phiếu in), `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js 5 lop11`, `python3 tools/test.py`, `test_baigiang.py lop11`, `test_phieu_tren_lop.py` → ĐẠT
+- **Việc thủ công:** Thầy đối chiếu các câu thực tế với lớp mình dạy; chưa lấy câu từ SGK/SBT nên không cần tra số trang.
+
 ### 2026-10-07 – Phóng to tên học sinh ở bảng chia nhóm theo lớp
 
 - **Yêu cầu của thầy:** Khi chia nhóm từ danh sách lớp có sẵn, màn hình đầu tiên phải hiển thị tên học sinh lớn nhất để nhìn từ xa; khi vào cuộc thi thì tên tự thu nhỏ.
