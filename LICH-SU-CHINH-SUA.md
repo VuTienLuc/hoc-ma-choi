@@ -24,6 +24,26 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-07 – Làm nổi bật số thứ tự và xác nhận Ngôi sao hy vọng
+
+- **Yêu cầu của thầy:** Khi chia nhóm ban đầu, số thứ tự phải lớn nhất để học sinh nhìn từ xa; Ngôi sao hy vọng đặt bên dưới và giáo viên bấm, xác nhận đội chọn thật dễ dàng.
+- **Kết quả đã làm:**
+  - Phóng lớn hàng số thứ tự lên 32 px ở kích thước trình chiếu kiểm thử, dùng chữ đậm, nền tương phản và căn giữa; đây là nội dung nổi bật nhất trong thẻ đội.
+  - Chuyển nút Ngôi sao hy vọng thành một hàng riêng bên dưới hàng chấm đúng/sai của từng đội.
+  - Khi giáo viên bấm Ngôi sao hy vọng, hiện khung hỏi lại rõ tên đội và số vòng cùng hai nút **Xác nhận** và **Hủy**.
+  - Chỉ ghi nhận quyền Ngôi sao hy vọng sau khi giáo viên bấm **Xác nhận**; khóa chấm đúng/sai của đội trong lúc hộp xác nhận đang mở để tránh nhầm thao tác.
+  - Một đội đã xác nhận sử dụng sẽ không thể chọn lần thứ hai; cách tính `+30/−30` giữ nguyên.
+  - Chuyển lời nhắc Ngôi sao hy vọng xuống dưới bảng chia nhóm ban đầu.
+- **Tệp đã sửa:** `assets/js/lecture.js`, `assets/css/style.css`, `tools/test_thidua_nhom.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:**
+  - `python3 tools/test_thidua_nhom.py` → ĐẠT; xác nhận chữ số 32 px, vị trí nút bên dưới, nội dung xác nhận đúng đội/vòng, chỉ áp dụng sau xác nhận và toàn bộ tính điểm/xếp hạng.
+  - `python3 tools/test_lophoc.py` → ĐẠT.
+  - `python3 tools/test.py` → ĐẠT; 22.320 câu đã thử.
+  - `node tools/kiem-tra.js` → ĐẠT; 36.375 lượt sinh câu, 660 trang bài giảng và 33 phiếu luyện tập.
+  - `python3 tools/build.py` → ĐẠT; tạo lại `dist/hoc-tap.html` (2.478 KB).
+  - `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-07 – Chia nhóm thi đua theo số thứ tự
 
 - **Yêu cầu của thầy:** Bổ sung cách chia nhóm theo số thứ tự; giáo viên chọn có bao nhiêu số, hệ thống lập bảng đưa từng số về đội và không cần dùng danh sách học sinh có sẵn.
