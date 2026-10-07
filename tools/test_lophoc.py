@@ -3,13 +3,14 @@
 Kiểm tra: mở → khung phải rộng ~1/3, bản chiếu co về bên trái và không tràn; kéo thanh dọc → đổi độ rộng, chữ co giãn lại;
 Ẩn → bản chiếu rộng lại; Mở lại / đóng rồi mở lại bài chiếu → còn nguyên nội dung; nhớ độ rộng.
 Chạy: python3 tools/test_lophoc.py   (ảnh: /tmp/lophoc-*.png)"""
-import threading, http.server, functools, socketserver, asyncio, pathlib, re, sys
+import threading, http.server, functools, socketserver, asyncio, pathlib, json, re, sys
 from playwright.async_api import async_playwright
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 http.server.SimpleHTTPRequestHandler.log_message = lambda *a: None
 srv = socketserver.TCPServer(('127.0.0.1', 0), functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT))); PORT = srv.server_address[1]
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 APP = re.search(r"classApp:\s*'([^']+)'", (ROOT/'config.js').read_text()).group(1)
+API = 'https://mock.example/lophoc'
 FAKE = '<!doctype html><meta charset=utf-8><title>Lớp học giả</title><body style="font:20px sans-serif"><h1>Lớp học (giả lập)</h1><input id=x placeholder="ghi chú"></body>'
 OVER = """(sel=>{const s=document.querySelector(sel);const over=s.scrollHeight>s.clientHeight+1||[s,...s.querySelectorAll('.lk-de,.lk-body,.lk-h,.lk-title,.pv-q,.pv-side,.pv-ans')].some(x=>x.scrollWidth>x.clientWidth+1);
   const pv=s.closest('.pv').getBoundingClientRect(),cp=document.querySelector('.cp');const c=cp&&!cp.hidden?cp.getBoundingClientRect():null;
@@ -21,11 +22,16 @@ async def main():
     pg = await br.new_page(viewport={'width': 1280, 'height': 720}); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
     async def fake(route): await route.fulfill(status=200, content_type='text/html', body=FAKE)
     await pg.route(APP.rstrip('/') + '/**', fake); await pg.route(APP, fake)
+    async def api(route):
+        body=json.loads(route.request.post_data or '{}'); action=body.get('action'); data={'ok':True,'classes':['GV']} if action=='classes' else {'ok':True,'token':'T','name':'Thầy kiểm thử','lop':'GV','user':'gv','progress':{}} if action=='login' else {'ok':True}
+        await route.fulfill(status=200,content_type='application/json',body=json.dumps(data))
+    await pg.route(API, api)
     async def cfg(route):
-        t = re.sub(r"sheetAPI:\s*'[^']*'", "sheetAPI: ''", (ROOT/'config.js').read_text()); await route.fulfill(body=t, content_type='application/javascript')
+        t = re.sub(r"sheetAPI:\s*'[^']*'", f"sheetAPI: '{API}'", (ROOT/'config.js').read_text()); await route.fulfill(body=t, content_type='application/javascript')
     await pg.route('**/config.js', cfg)
     # ---------- Bài giảng giáo viên ----------
-    await pg.goto(f'http://127.0.0.1:{PORT}/giao-vien/index.html#/lop9'); await pg.wait_for_timeout(900)
+    await pg.goto(f'http://127.0.0.1:{PORT}/giao-vien/index.html#/lop9'); await pg.wait_for_timeout(700)
+    await pg.select_option('#lgLop','GV'); await pg.fill('#lgUser','gv'); await pg.fill('#lgPass','p'); await pg.click('#lgBtn'); await pg.wait_for_timeout(700)
     await pg.evaluate("Lecture.open(Lecture.BOOKS.find(b=>b.grade==='lop9').lessons[1], 4)"); await pg.wait_for_timeout(700)
     await pg.keyboard.press('Enter'); await pg.wait_for_timeout(900)
     a = await pg.evaluate(OVER, '#lkSlide')

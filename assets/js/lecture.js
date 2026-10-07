@@ -21,7 +21,7 @@ const Lecture = (() => {
   const addSheet = (grade, id, md) => { const l = BOOKS.filter(b => b.grade === grade).flatMap(b => b.lessons).find(x => x.id === id);
     if(l) l.sheet = md; else console.warn('Không thấy bài', grade, id); };
   const sgkDeck = l => ({ name:'Giải bài tập SGK – ' + (l.sgkName || l.name), slides:l.sgk });
-  let deck = null, idx = 0, step = 0, dark = false, el = null;
+  let deck = null, idx = 0, step = 0, dark = false, el = null, teamState = null, teamPanel = null;
   const canPresent = () => typeof Account !== 'undefined' && typeof Account.isTeacher === 'function' && Account.isTeacher();
   function requireTeacher(){
     if(canPresent()) return true;
@@ -95,6 +95,38 @@ const Lecture = (() => {
   }
   const stepsOf = s => (s.sol || []).length;
 
+  /* ---------- Thi đua theo nhóm trong trình chiếu ---------- */
+  const teamEsc = x => String(x ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const teamCfg = () => { try{ return JSON.parse(localStorage.getItem('hoctap:lecture-teams')) || {}; }catch(e){ return {}; } };
+  const teamSort = () => [...teamState.teams].sort((a,b) => b.score-a.score || b.stars-a.stars || a.name.localeCompare(b.name,'vi'));
+  const TEAM_W_KEY='hoctap:lecture-team-w',TEAM_MIN=300;let teamFrac=(()=>{try{const x=+localStorage.getItem(TEAM_W_KEY);return x>=.2&&x<=.58?x:.28}catch(e){return .28}})();
+  const teamWidth = () => innerWidth<=850?innerWidth:Math.round(Math.min(Math.max(innerWidth*teamFrac,TEAM_MIN),innerWidth*.58));
+  function teamButton(){ const b = el && el.querySelector('[data-k="team"]'); if(!b) return; b.classList.toggle('on', !!teamPanel && !teamPanel.hidden); b.textContent = teamState ? `👥 Vòng ${teamState.round}/${teamState.rounds}` : '👥 Thi nhóm'; }
+  function teamApply(refit=true){if(!teamPanel||teamPanel.hidden||!el)return;const w=teamWidth();teamPanel.style.width=w+'px';el.style.setProperty('--team-w',w+'px');if(refit){fit();setTimeout(fit,120)}}
+  function teamBindGrip(){const g=teamPanel&&teamPanel.querySelector('.lk-team-grip');if(!g)return;g.onpointerdown=e=>{e.preventDefault();g.setPointerCapture(e.pointerId);teamPanel.classList.add('dragging')};g.onpointermove=e=>{if(!teamPanel.classList.contains('dragging')||innerWidth<=850)return;teamFrac=(innerWidth-e.clientX)/innerWidth;teamApply()};const end=()=>{if(!teamPanel.classList.contains('dragging'))return;teamPanel.classList.remove('dragging');teamFrac=teamWidth()/innerWidth;try{localStorage.setItem(TEAM_W_KEY,String(teamFrac))}catch(e){}teamApply()};g.onpointerup=end;g.onpointercancel=end;g.onkeydown=e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();e.stopPropagation();teamFrac+=e.key==='ArrowLeft'?.04:-.04;teamApply();try{localStorage.setItem(TEAM_W_KEY,String(teamWidth()/innerWidth))}catch(x){}}}
+  function teamFrame(html){teamPanel.innerHTML=`<div class="lk-team-grip" role="separator" aria-orientation="vertical" aria-label="Kéo để đổi độ rộng bảng nhóm" tabindex="0" title="Kéo sang trái hoặc phải để đổi độ rộng"><i></i></div><div class="lk-team-main">${html}</div>`;teamBindGrip();teamApply(false)}
+  function teamOpen(){
+    if(typeof ClassPanel !== 'undefined') ClassPanel.hide();
+    if(!teamPanel){ teamPanel=document.createElement('aside');teamPanel.className='lk-team-panel';teamPanel.setAttribute('aria-label','Thi đua theo nhóm');el.appendChild(teamPanel); }
+    teamPanel.hidden=false;el.classList.add('team-on');renderTeam();teamApply();teamButton();setTimeout(fit,500);
+  }
+  function teamHide(){ if(teamPanel) teamPanel.hidden=true;if(el)el.classList.remove('team-on');teamButton();fit();setTimeout(fit,250); }
+  function teamNameFields(n, vals=[]){ const box=teamPanel.querySelector('#lkTeamNames');if(!box)return;box.innerHTML=Array.from({length:n},(_,i)=>`<label>Đội ${i+1}<input data-team-name value="${teamEsc(vals[i]||`Nhóm ${i+1}`)}" maxlength="30"></label>`).join(''); }
+  function teamSetup(){
+    const c=teamCfg(),names=Array.isArray(c.names)&&c.names.length>=2?c.names:['Nhóm 1','Nhóm 2','Nhóm 3','Nhóm 4'],rounds=Math.max(1,Math.min(20,+c.rounds||5));
+    teamFrame(`<header><b>👥 Chia nhóm thi đua</b><button data-team-hide>✕</button></header><div class="lk-team-setup"><label>Tên lớp<input id="lkTeamClass" value="${teamEsc(c.className||'')}" maxlength="30" placeholder="Ví dụ: 10A1"></label><div class="lk-team-two"><label>Số đội<select id="lkTeamCount">${Array.from({length:7},(_,i)=>i+2).map(n=>`<option ${n===names.length?'selected':''}>${n}</option>`).join('')}</select></label><label>Số vòng<input id="lkTeamRounds" type="number" min="1" max="20" value="${rounds}"></label></div><div class="lk-team-names" id="lkTeamNames"></div><p>✓ Đúng: <b>+10 điểm · +1 ⭐</b> &nbsp; ✕ Sai: không cộng điểm.</p><button class="btn primary" id="lkTeamCreate">Hiện danh sách các đội →</button></div>`);
+    teamNameFields(names.length,names);teamPanel.querySelector('[data-team-hide]').onclick=teamHide;$('#lkTeamCount').onchange=e=>{const old=[...teamPanel.querySelectorAll('[data-team-name]')].map(x=>x.value);teamNameFields(+e.target.value,old)};$('#lkTeamCreate').onclick=()=>{const ns=[...teamPanel.querySelectorAll('[data-team-name]')].map((x,i)=>x.value.trim()||`Nhóm ${i+1}`),className=$('#lkTeamClass').value.trim(),rs=Math.max(1,Math.min(20,+$('#lkTeamRounds').value||1));teamState={className,rounds:rs,round:1,phase:'ready',teams:ns.map((name,i)=>({id:i,name,score:0,stars:0,results:[]}))};try{localStorage.setItem('hoctap:lecture-teams',JSON.stringify({className,rounds:rs,names:ns}))}catch(e){}renderTeam();teamButton()};
+  }
+  function teamDots(t){return `<div class="lk-team-rounds">${Array.from({length:teamState.rounds},(_,k)=>{const r=t.results[k],cur=k===teamState.round-1;return `<i class="${r||''} ${cur?'current':''}" title="Vòng ${k+1}${r==='right'?': Đúng':r==='wrong'?': Sai':''}">${r==='right'?'✓':r==='wrong'?'✕':k+1}</i>`}).join('')}</div>`}
+  function teamCards(play){ return teamState.teams.map((t,i)=>{const r=t.results[teamState.round-1];return `<article class="lk-team-card ${r||''}"><div class="lk-team-info"><span class="lk-team-color c${i%8}"></span><b>${teamEsc(t.name)}</b><small>${t.score}đ · ${t.stars}⭐</small></div>${teamDots(t)}${play?`<div class="lk-team-mark"><button data-team-mark="${i}:right" class="${r==='right'?'on':''}" aria-label="${teamEsc(t.name)} đúng" title="Đúng: +10 điểm, +1 sao">✓</button><button data-team-mark="${i}:wrong" class="${r==='wrong'?'on':''}" aria-label="${teamEsc(t.name)} sai" title="Sai: không cộng điểm">✕</button></div>`:''}</article>`}).join(''); }
+  function renderTeam(){
+    if(!teamPanel)return;if(!teamState)return teamSetup();const s=teamState;
+    if(s.phase==='ready'){teamFrame(`<header><b>👥 ${teamEsc(s.className||'Lớp học')}</b><button data-team-hide>✕</button></header><div class="lk-team-ready"><small>DANH SÁCH ĐỘI</small><h2>${s.teams.length} đội · ${s.rounds} vòng</h2><div class="lk-team-list">${teamCards(false)}</div><button class="btn primary" id="lkTeamStart">Bắt đầu vòng 1</button><button class="btn" id="lkTeamReset">Chia lại nhóm</button></div>`);teamPanel.querySelector('[data-team-hide]').onclick=teamHide;$('#lkTeamStart').onclick=()=>{s.phase='play';renderTeam()};$('#lkTeamReset').onclick=()=>{teamState=null;renderTeam();teamButton()};return}
+    if(s.phase==='play'){const done=s.teams.filter(t=>t.results[s.round-1]).length;teamFrame(`<header><b>🏁 Vòng ${s.round}/${s.rounds}</b><button data-team-hide>✕</button></header><div class="lk-team-play"><div class="lk-team-progress"><i style="width:${100*done/s.teams.length}%"></i></div><p>Đã chấm <b>${done}/${s.teams.length}</b> đội</p><div class="lk-team-list">${teamCards(true)}</div><button class="btn primary" id="lkTeamEnd" ${done<s.teams.length?'disabled':''}>Kết thúc vòng ${s.round} · Xem xếp hạng</button></div>`);teamPanel.querySelector('[data-team-hide]').onclick=teamHide;teamPanel.querySelectorAll('[data-team-mark]').forEach(b=>b.onclick=()=>{const [i,result]=b.dataset.teamMark.split(':');teamMark(+i,result)});$('#lkTeamEnd').onclick=()=>{s.phase='rank';renderTeam()};return}
+    const sorted=teamSort(),final=s.phase==='final';teamFrame(`<header><b>${final?'🏆 Chung cuộc':`📊 Xếp hạng vòng ${s.round}`}</b><button data-team-hide>✕</button></header><div class="lk-team-rank">${final?'<div class="lk-team-cup">🏆</div>':''}<ol>${sorted.map((t,i)=>`<li class="${i<3?'top top'+(i+1):''}"><em>${i+1}</em><span><b>${teamEsc(t.name)}</b><small>${t.stars} câu đúng</small></span><strong>${t.score}<small>điểm</small></strong>${teamDots(t)}</li>`).join('')}</ol>${final?`<h2>Chúc mừng ${teamEsc(sorted[0].name)}!</h2><button class="btn primary" id="lkTeamAgain">Cuộc thi mới</button>`:`<button class="btn primary" id="lkTeamNext">${s.round>=s.rounds?'Xem kết quả chung cuộc':`Bắt đầu vòng ${s.round+1}`}</button>`}<button class="btn" data-team-hide>Ẩn bảng thi đua</button></div>`);teamPanel.querySelectorAll('[data-team-hide]').forEach(b=>b.onclick=teamHide);const next=$('#lkTeamNext');if(next)next.onclick=()=>{if(s.round>=s.rounds)s.phase='final';else{s.round++;s.phase='play'}renderTeam();teamButton()};const again=$('#lkTeamAgain');if(again)again.onclick=()=>{teamState=null;renderTeam();teamButton()};
+  }
+  function teamMark(i,result){const s=teamState,t=s&&s.teams[i];if(!t||s.phase!=='play')return;const k=s.round-1,old=t.results[k];if(old==='right'){t.score-=10;t.stars--}t.results[k]=result;if(result==='right'){t.score+=10;t.stars++}renderTeam();teamButton()}
+
   /* ---------- Trình chiếu ---------- */
   function open(l, start){
     if(!requireTeacher()) return false;
@@ -105,7 +137,7 @@ const Lecture = (() => {
     el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Trình chiếu bài giảng');
     el.innerHTML = `<div class="pv-slide lk-slide" id="lkSlide"></div><div class="lk-menu" id="lkMenu" hidden></div>
       <div class="pv-bar"><button data-k="prev" aria-label="Trang trước">‹</button><span id="lkPos"></span><button data-k="next" aria-label="Tiếp">›</button>
-      <button data-k="menu">☰ Mục lục</button><span class="pv-sp"></span>${typeof ClassPanel !== 'undefined' ? ClassPanel.button() : ''}<button data-k="all">👁 Hiện lời giải</button>
+      <button data-k="menu">☰ Mục lục</button><span class="pv-sp"></span><button data-k="team" title="Chia nhóm và tính điểm thi đua">👥 Thi nhóm</button>${typeof ClassPanel !== 'undefined' ? ClassPanel.button() : ''}<button data-k="all">👁 Hiện lời giải</button>
       <button data-k="dark" aria-label="Đổi nền sáng/tối">🌓</button><button data-k="close" aria-label="Thoát">✕</button></div>`;
     document.body.appendChild(el); document.body.classList.add('noscroll');
     el.querySelectorAll('[data-k]').forEach(b => b.onclick = e => { e.stopPropagation(); act(b.dataset.k); });
@@ -125,7 +157,7 @@ const Lecture = (() => {
     document.removeEventListener('fullscreenchange', fsChange); document.removeEventListener('webkitfullscreenchange', fsChange);
     if(document.fullscreenElement || document.webkitFullscreenElement){ const x = document.exitFullscreen || document.webkitExitFullscreen; try{ const p = x.call(document); if(p && p.catch) p.catch(() => {}); }catch(e){} }
     if(typeof ClassPanel !== 'undefined') ClassPanel.detach();
-    el.remove(); el = null; document.body.classList.remove('noscroll');
+    el.remove(); el = null; teamPanel = null; teamState = null; document.body.classList.remove('noscroll');
   }
   function fsChange(){ if(el && !(document.fullscreenElement || document.webkitFullscreenElement)) close(); }
   function key(e){
@@ -137,6 +169,7 @@ const Lecture = (() => {
     else if(/^[mM]$/.test(k)) act('menu');
     else if(/^[tT]$/.test(k)) act('dark');
     else if(/^[lL]$/.test(k)) act('cls');
+    else if(/^[nN]$/.test(k)) act('team');
     else if(k === 'Home'){ idx = 0; step = 0; draw(); } else if(k === 'End'){ idx = deck.slides.length - 1; step = 0; draw(); }
   }
   function act(k){
@@ -145,7 +178,8 @@ const Lecture = (() => {
     if(k === 'prev'){ if(idx > 0){ idx--; step = 0; draw(); } }
     if(k === 'all'){ step = step >= stepsOf(s) ? 0 : stepsOf(s); draw(); }
     if(k === 'dark'){ dark = !dark; el.classList.toggle('dark', dark); }
-    if(k === 'cls' && typeof ClassPanel !== 'undefined') ClassPanel.toggle();
+    if(k === 'cls' && typeof ClassPanel !== 'undefined'){ teamHide(); ClassPanel.toggle(); }
+    if(k === 'team'){ if(teamPanel && !teamPanel.hidden) teamHide(); else teamOpen(); }
     if(k === 'menu'){ const m = $('#lkMenu'); m.hidden = !m.hidden; if(!m.hidden){
       m.innerHTML = `<h3>${deck.name}</h3><ol>${deck.slides.map((x, i) => `<li><button data-j="${i}" class="${i === idx ? 'on' : ''}"><span>${x.tag || ''}</span> ${strip(x.title || x.de || '')}</button></li>`).join('')}</ol>`;
       m.querySelectorAll('[data-j]').forEach(b => b.onclick = () => { idx = +b.dataset.j; step = 0; m.hidden = true; draw(); }); } }
@@ -178,7 +212,7 @@ const Lecture = (() => {
   /* Chữ to nhất mà vẫn vừa khung – tính cả các bước lời giải CHƯA hiện để khi hiện thêm chữ không bị nhảy cỡ. */
   function fit(){
     const s = $('#lkSlide'); if(!s) return;
-    const H = s.clientHeight, W = el ? el.clientWidth : innerWidth;   // bề rộng khung chiếu (hẹp lại khi mở khung Lớp học)
+    const H = s.clientHeight, W = s.clientWidth || (el ? el.clientWidth : innerWidth);   // bề rộng khung chiếu (hẹp lại khi mở khung Lớp học)
     let hi = Math.min(W / 13, 96), lo = 14;
     const fits = f => { s.style.setProperty('--fs', f + 'px'); return s.scrollHeight <= H + 1 && [s, ...s.querySelectorAll('.lk-de,.lk-body,.lk-h,.lk-title')].every(x => x.scrollWidth <= x.clientWidth + 1); };
     if(!fits(hi)){ for(let k = 0; k < 14; k++){ const m = (hi + lo) / 2; if(fits(m)) lo = m; else hi = m; } s.style.setProperty('--fs', Math.floor(lo) + 'px'); }
