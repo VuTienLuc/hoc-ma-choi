@@ -1,4 +1,4 @@
-"""Kiểm thử Thi đua theo nhóm: lấy danh sách lớp có sẵn, chia đều học sinh, Ngôi sao hy vọng, chấm điểm và kéo ngăn trình chiếu."""
+"""Kiểm thử Thi đua theo nhóm: chia theo số thứ tự hoặc danh sách lớp, Ngôi sao hy vọng, chấm điểm và kéo ngăn trình chiếu."""
 import threading, http.server, functools, socketserver, asyncio, pathlib, json, re, sys
 from playwright.async_api import async_playwright
 ROOT=pathlib.Path(__file__).resolve().parent.parent
@@ -24,6 +24,10 @@ async def main():
   await pg.evaluate("Lecture.open(Lecture.BOOKS.find(b=>b.grade==='lop10').lessons[0],0)");await pg.wait_for_timeout(500)
   ok('Có nút Thi nhóm trong trình chiếu',await pg.locator('[data-k="team"]').count()==1)
   await pg.click('[data-k="team"]');await pg.wait_for_selector('#lkTeamClass')
+  await pg.select_option('#lkTeamMethod','numbers');await pg.wait_for_selector('#lkTeamNumberTotal');await pg.locator('#lkTeamNumberTotal').evaluate("e=>e.value='10'");await pg.select_option('#lkTeamCount','3');await pg.fill('#lkTeamRounds','2')
+  await pg.click('#lkTeamCreate');number_groups=await pg.locator('.lk-team-members').all_inner_texts();number_ready=await pg.inner_text('.lk-team-ready')
+  ok('Chia 10 số thứ tự vào 3 đội cân bằng, không dùng tên học sinh',number_groups==['STT: 1, 4, 7, 10','STT: 2, 5, 8','STT: 3, 6, 9'] and '10 số thứ tự' in number_ready)
+  await pg.click('#lkTeamReset');await pg.select_option('#lkTeamMethod','roster');await pg.wait_for_selector('#lkTeamClass')
   opts=await pg.locator('#lkTeamClass option').all_inner_texts();ok('Lớp được lấy từ danh sách có sẵn của khối 10',opts==['10A1 · 9 học sinh','10A2 · 6 học sinh'])
   await pg.select_option('#lkTeamClass','10A1');await pg.select_option('#lkTeamCount','3');await pg.fill('#lkTeamRounds','2');await pg.check('#lkTeamHope')
   for i,name in enumerate(['Đội Sao','Đội Lửa','Đội Cầu Vồng']):await pg.locator('[data-team-name]').nth(i).fill(name)

@@ -24,6 +24,25 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-07 – Chia nhóm thi đua theo số thứ tự
+
+- **Yêu cầu của thầy:** Bổ sung cách chia nhóm theo số thứ tự; giáo viên chọn có bao nhiêu số, hệ thống lập bảng đưa từng số về đội và không cần dùng danh sách học sinh có sẵn.
+- **Kết quả đã làm:**
+  - Thêm mục **Cách chia nhóm** với hai lựa chọn: `Theo danh sách lớp có sẵn` và `Theo số thứ tự`.
+  - Ở chế độ số thứ tự, giáo viên chọn tổng số từ 2 đến 60, số đội từ 2 đến 8, số vòng và tên đội.
+  - Tự phân đều lần lượt các số vào đội. Ví dụ 10 số và 3 đội cho bảng: đội 1 có `1, 4, 7, 10`; đội 2 có `2, 5, 8`; đội 3 có `3, 6, 9`.
+  - Hiển thị bảng `STT` của từng đội trước khi bắt đầu; không tải và không phụ thuộc tên học sinh ở chế độ này.
+  - Giữ đầy đủ chấm đúng/sai, tính điểm, xếp hạng và Ngôi sao hy vọng cho cả hai cách chia.
+- **Tệp đã sửa:** `assets/js/lecture.js`, `tools/test_thidua_nhom.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:**
+  - `python3 tools/test_thidua_nhom.py` → ĐẠT; kiểm tra chia 10 số vào 3 đội, chuyển lại chia theo danh sách lớp, Ngôi sao hy vọng, xếp hạng, kéo ngăn và lỗi JavaScript.
+  - `python3 tools/test_lophoc.py` → ĐẠT.
+  - `python3 tools/test.py` → ĐẠT; 22.140 câu đã thử.
+  - `node tools/kiem-tra.js` → ĐẠT; 36.000 lượt sinh câu.
+  - `python3 tools/build.py` → ĐẠT; tạo lại `dist/hoc-tap.html` (2.455 KB).
+  - `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-07 – Đổi địa chỉ Apps Script (CONFIG.sheetAPI)
 
 - **Yêu cầu của thầy:** Cập nhật web sang URL Apps Script mới (bản triển khai mới).
