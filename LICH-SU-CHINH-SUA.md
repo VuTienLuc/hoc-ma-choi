@@ -24,6 +24,24 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-07 – Phóng to tên học sinh ở bảng chia nhóm theo lớp
+
+- **Yêu cầu của thầy:** Khi chia nhóm từ danh sách lớp có sẵn, màn hình đầu tiên phải hiển thị tên học sinh lớn nhất để nhìn từ xa; khi vào cuộc thi thì tên tự thu nhỏ.
+- **Kết quả đã làm:**
+  - Ở bảng chia nhóm ban đầu, danh sách tên học sinh dùng chữ đậm 22 px trong kiểm thử máy chiếu, căn giữa, nền xanh nhạt tương phản và lớn hơn tên đội.
+  - Giữ cách chia ngẫu nhiên, cân bằng và hiển thị đủ mọi học sinh trong từng đội.
+  - Khi bắt đầu cuộc thi, danh sách tên tự chuyển thành một dòng nhỏ 9 px dưới tên đội, có dấu rút gọn khi dài và vẫn xem được đầy đủ qua chú thích.
+  - Không thay đổi không gian chấm đúng/sai, kết quả vòng hoặc hàng Ngôi sao hy vọng bên dưới.
+- **Tệp đã sửa:** `assets/js/lecture.js`, `assets/css/style.css`, `tools/test_thidua_nhom.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:**
+  - `python3 tools/test_thidua_nhom.py` → ĐẠT; tên học sinh 22 px ở bảng chia nhóm, lớn hơn tên đội và tự thu nhỏ khi bắt đầu thi.
+  - `python3 tools/test_lophoc.py` → ĐẠT.
+  - `python3 tools/test.py` → ĐẠT; 22.320 câu đã thử.
+  - `node tools/kiem-tra.js` → ĐẠT; 36.375 lượt sinh câu, 660 trang bài giảng và 33 phiếu luyện tập.
+  - `python3 tools/build.py` → ĐẠT; tạo lại `dist/hoc-tap.html` (2.478 KB).
+  - `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-07 – Làm nổi bật số thứ tự và xác nhận Ngôi sao hy vọng
 
 - **Yêu cầu của thầy:** Khi chia nhóm ban đầu, số thứ tự phải lớn nhất để học sinh nhìn từ xa; Ngôi sao hy vọng đặt bên dưới và giáo viên bấm, xác nhận đội chọn thật dễ dàng.
