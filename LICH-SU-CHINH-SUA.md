@@ -32,6 +32,27 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 - **Kiểm thử:** `node tools/kiem-tra.js 5 lop11`, `python3 tools/test.py`, `test_baigiang.py lop11`, `test_phieu_tren_lop.py` → ĐẠT
 - **Việc thủ công:** Thầy đối chiếu các câu thực tế với lớp mình dạy; chưa lấy câu từ SGK/SBT nên không cần tra số trang.
 
+### 2026-10-07 – Bổ sung Đại sứ bất ngờ, Săn lỗi vàng và Thẻ quyền năng
+
+- **Yêu cầu của thầy:** Triển khai ba hình thức dạy học tích cực trong hệ thống thi đua nhóm: Đại sứ bất ngờ, Săn lỗi – Bắt lỗi vàng và Thẻ quyền năng Toán học.
+- **Kết quả đã làm:**
+  - Thêm ba tùy chọn bật/tắt ngay khi giáo viên thiết lập cuộc thi; lựa chọn được ghi nhớ cho lần sử dụng sau.
+  - **Đại sứ bất ngờ:** sau khi các đội thảo luận, giáo viên bấm một lần để bốc ngẫu nhiên một thành viên của mỗi đội; ưu tiên học sinh chưa làm đại sứ ở các vòng trước. Thẻ **Đổi đại sứ** có thể bốc lại người khác trong đội.
+  - **Săn lỗi vàng:** giáo viên có thể đổi từng vòng sang chế độ tìm và sửa lỗi trước khi chấm. Mỗi đội được chấm theo bốn mức rõ ràng: chưa đạt `0`, tìm được lỗi `10`, giải thích được lỗi `20`, sửa hoàn chỉnh `30`; bảng kết quả vòng và xếp hạng dùng đúng số điểm này.
+  - **Thẻ quyền năng:** mỗi đội có năm thẻ dùng một lần trong cả cuộc thi: Xin gợi ý, Thêm 30 giây, Loại một đáp án, Đổi đại sứ và Thách đấu. Mỗi lần dùng đều có hộp xác nhận ngay trong bảng trình chiếu, hiện rõ đội, tên thẻ và đội bị thách đấu nếu có; thẻ đã dùng tự khóa và lưu trạng thái trên thẻ đội.
+  - Giữ đầy đủ Ngôi sao hy vọng; trong vòng Săn lỗi, một lần đạt được nhân ba điểm khi đội đã đặt Ngôi sao hy vọng, còn mức chưa đạt bị trừ 30 điểm.
+  - Tránh hộp thoại trình duyệt để không làm thoát toàn màn hình khi giáo viên đang trình chiếu.
+- **Tệp đã sửa:** `assets/js/lecture.js`, `assets/css/style.css`, `tools/test_thidua_nhom.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:**
+  - `python3 tools/test_thidua_nhom.py` → ĐẠT; kiểm tra bốc đại sứ, đủ năm thẻ cho mỗi đội, xác nhận và khóa thẻ, đổi đại sứ, thêm thời gian, bốn mức Săn lỗi, tính điểm, xếp hạng, Ngôi sao hy vọng và không có lỗi JavaScript.
+  - `python3 tools/test_lophoc.py` → ĐẠT; bảng lớp học kéo, ẩn, mở lại và nội dung trình chiếu không tràn.
+  - `python3 tools/test.py` → ĐẠT; 22.320 câu đã thử.
+  - `python3 tools/test_baigiang.py lop10` → ĐẠT; 156 trang ở hai cỡ màn hình, không tràn, không lỗi, chữ tối thiểu 18 px.
+  - `node tools/kiem-tra.js` → ĐẠT; 36.375 lượt sinh câu, 13 bài kiểm tra học sinh, 11 chủ đề trò chơi, 681 trang bài giảng, 33 phiếu luyện tập và 4 đề kiểm tra.
+  - `python3 tools/build.py` → ĐẠT; tạo lại `dist/hoc-tap.html` (2.489 KB).
+  - `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-07 – Phóng to tên học sinh ở bảng chia nhóm theo lớp
 
 - **Yêu cầu của thầy:** Khi chia nhóm từ danh sách lớp có sẵn, màn hình đầu tiên phải hiển thị tên học sinh lớn nhất để nhìn từ xa; khi vào cuộc thi thì tên tự thu nhỏ.
