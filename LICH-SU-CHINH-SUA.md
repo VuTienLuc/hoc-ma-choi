@@ -24,6 +24,28 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-07 – Chia nhóm từ danh sách lớp và Ngôi sao hy vọng
+
+- **Yêu cầu của thầy:** Chia nhóm phải lấy học sinh từ danh sách có sẵn. Giáo viên có thể bật chế độ Ngôi sao hy vọng; mỗi đội chỉ được đặt một lần, đúng nhân ba điểm và sai bị trừ ba lần điểm.
+- **Kết quả đã làm:**
+  - Tải các lớp và toàn bộ học sinh có sẵn từ trang `HocSinh` thông qua dữ liệu bảng xếp hạng dành cho giáo viên; không nhập tên lớp thủ công.
+  - Cho giáo viên chọn lớp, số đội và số vòng; tự chia ngẫu nhiên, cân bằng toàn bộ học sinh, đồng thời cho phép chia lại ngẫu nhiên trước khi bắt đầu.
+  - Hiển thị thành viên của từng đội để giáo viên kiểm tra trước cuộc thi.
+  - Thêm lựa chọn bật Ngôi sao hy vọng. Mỗi đội chỉ được sử dụng ở một vòng trong cả cuộc thi; giáo viên phải đặt trước khi chấm.
+  - Vòng có Ngôi sao hy vọng: đúng nhận `+30` điểm, sai nhận `−30` điểm. Vòng thường giữ `+10` điểm khi đúng và `0` điểm khi sai.
+  - Đánh dấu vòng đã dùng Ngôi sao hy vọng trên thẻ đội và bảng xếp hạng; giữ giao diện gọn trong ngăn kéo bên phải.
+  - Sửa thời điểm tự co chữ sau khi kéo ngăn thi nhóm để trang chiếu không bị khuất nội dung.
+- **Tệp đã sửa:** `assets/js/lecture.js`, `assets/css/style.css`, `tools/test_thidua_nhom.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:**
+  - `python3 tools/test_thidua_nhom.py` → ĐẠT; kiểm tra danh sách hai lớp có sẵn, chia đủ 9 học sinh vào 3 đội, mỗi học sinh xuất hiện đúng một lần, điểm `+30/−30`, giới hạn một Ngôi sao hy vọng mỗi đội, xếp hạng, kéo ngăn và lỗi JavaScript.
+  - `python3 tools/test_lophoc.py` → ĐẠT.
+  - `python3 tools/test_baigiang.py lop10` → ĐẠT; 156 trang ở hai kích thước màn hình, không tràn và không lỗi.
+  - `python3 tools/test.py` → ĐẠT; 22.140 câu đã thử.
+  - `node tools/kiem-tra.js` → ĐẠT; 36.000 lượt sinh câu.
+  - `python3 tools/build.py` → ĐẠT; tạo lại `dist/hoc-tap.html` (2.452 KB).
+  - `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có; tính năng dùng trực tiếp danh sách học sinh đang có trong trang `HocSinh`.
+
 ### 2026-10-07 – Claude rà soát phần ChatGPT/Codex đã làm
 
 - **Yêu cầu của thầy:** Kiểm tra lại code ChatGPT cùng làm trên dự án có lỗi không; từ nay luôn đọc và cập nhật tệp này.
