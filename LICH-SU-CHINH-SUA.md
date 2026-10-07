@@ -32,6 +32,29 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 - **Kiểm thử:** `node tools/kiem-tra.js`, `python3 tools/test.py`, `test_lophoc.py` → ĐẠT; đã chụp thử trang học sinh: công thức hiển thị đúng, không còn chữ tiếng Anh.
 - **Việc thủ công:** Thầy đối chiếu nội dung "phải chứng minh lại" ở các chủ đề hình học với hướng dẫn của Sở.
 
+### 2026-10-07 – Thiết kế trò chơi Mở khóa kho báu cho thi đua nhóm
+
+- **Yêu cầu của thầy:** Thiết kế trò chơi **Mở khóa kho báu** có đồ họa đẹp mắt, phù hợp với ứng dụng “Học mà chơi”.
+- **Kết quả đã làm:**
+  - Thêm tùy chọn **🏝️ Mở khóa kho báu** trong phần thiết lập thi đua nhóm; lựa chọn được ghi nhớ và dùng được cho cả chia theo danh sách lớp lẫn chia theo số thứ tự.
+  - Mỗi lượt đội đạt yêu cầu nhận một chìa khóa. Nút **Mở kho báu** xuất hiện ngay dưới thẻ đội và hiện rõ số chìa khóa đang có.
+  - Tạo bản đồ biển–đảo bằng CSS nhẹ, không tải ảnh ngoài: bầu trời, mặt biển, các đảo, đường khám phá và 16 rương khóa; giữ phần câu hỏi lớn ở bên trái khi trình chiếu.
+  - Giáo viên chọn rương, xác nhận rõ tên đội và số rương rồi mới mở. Rương đã mở đổi trạng thái và không thể chọn lại.
+  - Mỗi rương chứa phần thưởng bí mật từ 5 đến 30 điểm: Túi xu vàng, Ngọc lục bảo, Hồng ngọc bí ẩn, Kim cương đại dương hoặc Kho báu huyền thoại.
+  - Hiện thẻ chúc mừng có hiệu ứng khi mở rương; cộng điểm ngay cho đội, sử dụng một chìa khóa và ghi riêng tổng thưởng kho báu bằng biểu tượng `🪙` trong bảng xếp hạng.
+  - Nếu giáo viên kết thúc vòng khi đội vẫn còn chìa khóa, bảng xếp hạng tiếp tục hiện nút mở kho báu; sau khi xem bản đồ có thể quay lại đúng màn hình xếp hạng.
+  - Cơ chế kho báu hoạt động đồng thời với chấm đúng/sai, Săn lỗi vàng, Ngôi sao hy vọng, Đại sứ bất ngờ và Thẻ quyền năng.
+- **Tệp đã sửa:** `assets/js/lecture.js`, `assets/css/style.css`, `tools/test_thidua_nhom.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:**
+  - `python3 tools/test_thidua_nhom.py` → ĐẠT; kiểm tra nhận chìa khóa, đủ 16 rương, đúng đội khám phá, xác nhận số rương, phần thưởng 5–30 điểm, sử dụng chìa khóa, cộng điểm và ghi thưởng trong xếp hạng.
+  - `python3 tools/test_lophoc.py` → ĐẠT; bảng trình chiếu co giãn, kéo, ẩn và mở lại không tràn.
+  - `python3 tools/test.py` → ĐẠT; 22.320 câu đã thử.
+  - `python3 tools/test_baigiang.py lop10` → ĐẠT; 156 trang ở hai cỡ màn hình, không tràn, không lỗi, chữ tối thiểu 18 px.
+  - `node tools/kiem-tra.js` → ĐẠT; 36.375 lượt sinh câu, 13 bài kiểm tra học sinh, 11 chủ đề trò chơi, 681 trang bài giảng, 33 phiếu luyện tập và 4 đề kiểm tra.
+  - `python3 tools/build.py` → ĐẠT; tạo lại `dist/hoc-tap.html` (2.511 KB).
+  - `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-07 – Toán 11 Bài 6: thêm 20 câu trắc nghiệm vào bài giảng
 
 - **Yêu cầu của thầy:** Trong bài giảng Bài 6. Cấp số cộng, tạo 20 trắc nghiệm đủ mức độ, củng cố kiến thức và vận dụng thực tế.
