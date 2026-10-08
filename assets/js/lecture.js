@@ -295,7 +295,7 @@ const Lecture = (() => {
                        : lines(Math.max(4, Math.min(10, (s.sol || []).length * 2 + (s.ans ? 1 : 0))));
       return `<div class="ws-q"><p><b>${lab}.</b> ${s.de}</p><div class="ws-row ${fig ? 'has-fig' : ''}"><div class="ws-work">${body}</div>${fig}</div></div>`; };
     h += `<header class="ws-head"><div class="ws-brand"><span>${brand}</span><span>${b.gradeName} · Kết nối tri thức</span></div>
-      <h1>PHIẾU HỌC TẬP${key ? ' <small>(bản có lời giải)</small>' : ''}</h1><h2>${l.name}</h2>
+      <h1>PHIẾU HỌC TẬP${key ? ' – LỜI GIẢI' : ''}</h1><h2>${l.name}</h2>
       <p class="ws-who">Họ và tên: <span class="ws-fill"></span> Lớp: <span class="ws-fill s"></span> Ngày: <span class="ws-fill s"></span></p></header>`;
     if(title && title.points) h += `<section><h3>I. Mục tiêu</h3><ul class="ws-goals">${title.points.map(p => `<li>${p}</li>`).join('')}</ul></section>`;
     if(kts.length) h += `<section><h3>II. Kiến thức trọng tâm</h3>${kts.map((s, i) => `<div class="ws-kt"><h4>${i+1}. ${s.title}</h4>${key ? `<div class="ws-key">${s.body || ''}</div>` : lines(Math.max(4, Math.min(7, Math.round(plain(s.body || '') / 80) + 2)))}</div>`).join('')}</section>`;
@@ -336,7 +336,7 @@ const Lecture = (() => {
         if(l.practice) items = prItems(l).map(x => ({...x, hard:!!x.hard}));
         else items = S.filter(x => x.kind === 'lt' && !x.tn).map(x => ({...x, hard:false}));
         items.forEach((x, i) => { x.lab = `${pre}.${i + 1}`; });
-        if(items.length) h += `<h4 class="cs-sec">Bài luyện tập${l.practice ? ' <small>(★ = vận dụng)</small>' : ''}</h4>` + items.map(x => {
+        if(items.length) h += `<h4 class="cs-sec">Bài luyện tập</h4>` + items.map(x => {
           const fig = x.draw ? `<div class="cs-fig cs-blank">${x.key ? '' : planeSVG(x.draw)}</div>` : figOf(x.fig);
           return `<div class="cs-q"><p><b>${x.lab}${x.hard ? ' ★' : ''}.</b> ${x.de}</p>${fig}${o.key ? `<ol class="cs-sol">${(x.sol || []).map(y => `<li>${y}</li>`).join('')}</ol>` : ''}${o.key && x.ans ? `<p class="cs-ans">${x.ans}</p>` : ''}${o.ln && !o.key ? `<div class="ws-lines cs-lines">${'<i></i>'.repeat(x.hard ? 5 : 3)}</div>` : ''}</div>`; }).join('');
       }
@@ -346,9 +346,9 @@ const Lecture = (() => {
     const blocks = b.lessons.map(lessonBlock), answers = blocks.flatMap(x => x.items).filter(ansOf);
     const toc = b.lessons.map(l => l.name.replace(/\.\s.*$/, '').replace(/^Ôn tập chương.*/, 'Ôn tập')).join(' · ');
     const h = `<header class="ws-head cs-head"><div class="ws-brand"><span>${brand}</span><span>${b.gradeName} · Kết nối tri thức</span></div>
-        <h1>PHIẾU ÔN TẬP CHƯƠNG ${chNo}${o.key ? ' <small>(bản có lời giải)</small>' : ''}</h1><h2>${chName}</h2>
+        <h1>PHIẾU ÔN TẬP CHƯƠNG ${chNo}${o.key ? ' – LỜI GIẢI' : ''}</h1><h2>${chName}</h2>
         <p class="ws-who">Họ và tên: <span class="ws-fill"></span> Lớp: <span class="ws-fill s"></span> Ngày: <span class="ws-fill s"></span></p>
-        <p class="cs-toc">Gồm: ${toc}. Kiến thức trọng tâm, ví dụ có lời giải và bài luyện tập cho từng bài; ${o.ln ? 'làm bài luyện tập vào các dòng kẻ dưới mỗi bài (3 dòng; câu ★ 5 dòng), cần thêm thì làm vào vở' : 'làm bài luyện tập vào vở'}.</p></header>
+        </header>
       <div class="cs-cols">${blocks.map(x => x.h).join('')}${o.pr && o.ansEnd && !o.key && answers.length ? `<h3 class="cs-lesson">Đáp số bài luyện tập</h3><ul class="cs-ansl">${answers.map(x => `<li><b>${x.lab}</b> ${ansOf(x)}</li>`).join('')}</ul>` : ''}</div>
       <footer class="ws-foot">${brand} · ${b.gradeName} · Chương ${chNo}</footer>`;
     const chk = (id, t, on) => `<label class="ws-toggle"><input type="checkbox" id="${id}" ${on ? 'checked' : ''}> ${t}</label>`;
@@ -389,10 +389,10 @@ const Lecture = (() => {
     const part = (list, head) => { if(!list.length) return ''; let h = `<section><h3>${head}</h3>`, gi = -1;
       list.forEach(s => { if(s.gi !== gi){ gi = s.gi; h += `<h4 class="pr-dang">Dạng ${gi + 1}. ${s.g.dang}</h4>`; } h += q(s); }); return h + '</section>'; };
     const h = `<header class="ws-head"><div class="ws-brand"><span>${brand}</span><span>${b.gradeName} · Kết nối tri thức</span></div>
-        <h1>PHIẾU LUYỆN TẬP${key ? ' <small>(bản có lời giải)</small>' : ''}</h1><h2>${l.name}</h2>
+        <h1>PHIẾU LUYỆN TẬP${key ? ' – LỜI GIẢI' : ''}</h1><h2>${l.name}</h2>
         <p class="ws-who">Họ và tên: <span class="ws-fill"></span> Lớp: <span class="ws-fill s"></span> Ngày: <span class="ws-fill s"></span></p>
-        <p class="pr-legend">Gồm <b>${all.length} bài</b>: ${cb.length} bài cơ bản (${pct(cb.length)}%) · ${vd.length} bài vận dụng ★ (${pct(vd.length)}%). Làm lần lượt từ Phần I đến Phần II.</p></header>`
-      + part(cb, `I. Bài tập cơ bản <small>(${cb.length} bài)</small>`) + part(vd, `II. Bài tập vận dụng ★ <small>(${vd.length} bài)</small>`)
+        </header>`
+      + part(cb, 'I. Bài tập cơ bản') + part(vd, 'II. Bài tập vận dụng ★')
       + `<footer class="ws-foot">${brand} · Luyện tập ${l.name}</footer>`;
     const present = canPresent();
     $('#app').innerHTML = `<div class="toolbar ws-bar"><button class="back linkbtn" id="wsBack">← Danh sách bài</button><div class="row">
@@ -469,7 +469,8 @@ const Lecture = (() => {
   function classSheet(b, l, part){ document.body.classList.remove('gv-wide');
     const [a, bb] = l.sheet.split(BREAK_RE);
     const secs = html => { const c = html.split(/(?=<h2>)/); return c[0] + c.slice(1).map(x => `<div class="kd-sec">${x}</div>`).join(''); };   // mỗi mục (## …) là một khối không bị ngắt giữa chừng khi in
-    const A = `<section class="kd-a">${secs(mdToHtml(a))}</section>`, B = `<section class="kd-b">${mdToHtml(bb)}</section>`;
+    const ttl = html => html.replace(/<h1>(.*?)\s+[–-]\s+(.*?)<\/h1>/, '<h1>$1</h1><p class="kd-sub">$2</p>');   // “PHIẾU HỌC TẬP – Toán 11 · Bài 5…” → tiêu đề + dòng tên bài
+    const A = `<section class="kd-a">${ttl(secs(mdToHtml(a)))}</section>`, B = `<section class="kd-b">${mdToHtml(bb)}</section>`;
     $('#app').innerHTML = `<div class="toolbar ws-bar"><button class="back linkbtn" id="kdBack">← Danh sách bài</button><div class="row">
         <label class="ws-toggle">Hiển thị <select id="kdPart"><option value="all">Cả hai phần</option><option value="A">Phần A – phiếu học sinh (2 trang)</option><option value="B">Phần B – gợi ý giáo viên</option></select></label>
         <button class="btn small" id="kdDl">⬇️ Tải Markdown</button><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>

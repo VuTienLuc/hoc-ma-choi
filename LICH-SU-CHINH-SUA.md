@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Phiếu in trong bài giảng giáo viên: bỏ câu chú thích, tiêu đề chuẩn
+
+- **Yêu cầu của thầy:** Sửa các phiếu trên lớp, phiếu in cho học sinh… không có những câu chú thích, để phiếu có tiêu đề chuẩn nhất trong bài giảng giáo viên.
+- **Kết quả:** (1) Phiếu trên lớp (Phần A, 8 phiếu Toán 10 và 11): tiêu đề “PHIẾU HỌC TẬP” và dòng tên bài bên dưới; bỏ khối chú thích đầu phiếu, thời lượng và nhãn giáo viên ở tiêu đề mục (“Do Now”, “4 phút”, “[Minh họa]”, “nộp tiết sau”, “khoanh rồi giơ thẻ”…), bỏ nhãn nhỏ sau số câu (“bài trước”, “bắc cầu vào bài mới”, “trắc nghiệm”…). Phần B (gợi ý giáo viên) giữ nguyên. (2) Phiếu luyện tập: bỏ dòng “Gồm N bài…” và số bài trong tiêu đề mục. (3) Phiếu ôn tập cả chương: bỏ dòng “Gồm: …” và chú thích “(★ = vận dụng)”. (4) Bản có lời giải ghi trong tiêu đề “– LỜI GIẢI” thay cho ghi chú trong ngoặc.
+- **Tệp thay đổi:** `assets/js/lecture.js`, `assets/css/style.css`, `giao-vien/bai-giang/lop10-khoi-dong.js`, `lop11-khoi-dong.js`, `CLAUDE.md`, `AGENTS.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `python3 tools/test_phieu_tren_lop.py` 37/37, `node tools/kiem-tra.js 5`, `python3 tools/test.py 1`, `python3 tools/build.py` → ĐẠT; `test_luyentap.py` lượt 1280×720 (35 phiếu, 415 trang chiếu) → ĐẠT, lượt 1024×768 chưa chờ kết quả cuối. `tools/test_phieu_chuong.py` không chạy được trên Python 3.11 (lỗi cú pháp f-string có sẵn từ trước); phiếu chương đã kiểm bằng `tools/phieu_chuong_pdf.py`.
+- **Việc thủ công:** Thầy xem lại một phiếu trên lớp và một phiếu luyện tập; muốn giữ lại câu nào thì báo em.
+
 ### 2026-10-08 – Sửa lỗi công thức trong phiếu PDF ô li (ôn thi vào 10, Đại số 3 Xác suất và các chủ đề khác)
 
 - **Yêu cầu của thầy:** Phiếu PDF in ra ở chủ đề ôn thi 9 lên 10 bị lỗi công thức toán, ví dụ bài Đại số 3. Xác suất của biến cố.

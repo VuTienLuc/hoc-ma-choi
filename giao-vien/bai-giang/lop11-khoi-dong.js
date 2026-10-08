@@ -4,25 +4,23 @@
    Bấm 📋 Phiếu trên lớp để xem/in PDF; ⬇️ Tải Markdown cho đúng nội dung dưới đây. Bám Ví dụ 1–6 của bài giảng lop11.js.
    Công thức viết trong $…$ (hàm xem chuyển sang MathJax). Ví dụ tự soạn ghi **[Minh họa]**.
    ===================================================================== */
-Lecture.addSheet('lop11', 'bai-5', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 11 · Bài 5. Dãy số
+Lecture.addSheet('lop11', 'bai-5', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 5. Dãy số
 
 **Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
 
-> Phiếu bám các **Ví dụ 1–6** của bài giảng. Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Bài khó hơn bài trước là dấu hiệu em đang học thật.
+## 1. Vào lớp làm ngay
 
-## 1. Vào lớp làm ngay (Do Now) – 4 phút
+**Câu 1.** Giải phương trình $\sin x=\dfrac12$. Đáp án: ………………………………………………
 
-**Câu 1** *(bài trước – Bài 4)*. Giải phương trình $\sin x=\dfrac12$. Đáp án: ………………………………………………
+**Câu 2.** Tập giá trị của hàm số $y=\sin x$ là: ……………………
 
-**Câu 2** *(chủ đề trước)*. Tập giá trị của hàm số $y=\sin x$ là: ……………………
-
-**Câu 3** *(Toán 10)*. Hàm số $y=3x-2$ đồng biến hay nghịch biến trên $\mathbb{R}$? Vì sao? ………………………………
+**Câu 3.** Hàm số $y=3x-2$ đồng biến hay nghịch biến trên $\mathbb{R}$? Vì sao? ………………………………
 
 ……………………………………………………………………………………………………………………………………
 
-**Câu 4** *(bắc cầu vào bài mới)*. Cho $f(x)=\dfrac{2x-1}{x+1}$. Tính $f(1),\ f(2),\ f(3)$: ……………………………
+**Câu 4.** Cho $f(x)=\dfrac{2x-1}{x+1}$. Tính $f(1),\ f(2),\ f(3)$: ……………………………
 
-## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+## 2. Tình huống mở đầu
 
 | Hàng | Các số (viết tiếp theo quy luật) |
 |---|---|
@@ -34,7 +32,7 @@ Lecture.addSheet('lop11', 'bai-5', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP 
 
 > **Câu hỏi của bài học:** Hàng nào đoán được ngay số thứ $100$? Làm thế nào *mô tả* mỗi hàng bằng ngôn ngữ toán học để tính được số thứ $n$ bất kì?
 
-## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+## 3. Câu hỏi bản lề
 
 **Câu A.** Cho dãy số $u_n=\dfrac{2n-1}{n+1}$. Số hạng $u_3$ bằng
 
@@ -56,9 +54,7 @@ C. $7$
 
 D. $17$
 
-## 4. Luyện tập xen kẽ (10 phút)
-
-Các câu **không** xếp theo dạng: đọc kĩ đề rồi chọn cách làm. (★ biết · ★★ hiểu · ★★★ vận dụng)
+## 4. Luyện tập xen kẽ
 
 **Câu 1 ★.** Cho $u_n=n^2-3n$. Tính $u_1,\ u_2,\ u_3,\ u_4,\ u_5$. Đáp số: ………………………………………
 
@@ -78,7 +74,7 @@ Các câu **không** xếp theo dạng: đọc kĩ đề rồi chọn cách làm
 
 ……………………………………………………………………………………………………………………………………
 
-## 5. Tìm lỗi sai (3 phút)
+## 5. Tìm lỗi sai
 
 Bạn An xét tính tăng, giảm của $u_n=3n-2$: *"$u_{n+1}-u_n=3(n+1)-2-3n-2=-1<0$. Vậy dãy số giảm."*
 
@@ -88,7 +84,7 @@ Bạn An xét tính tăng, giảm của $u_n=3n-2$: *"$u_{n+1}-u_n=3(n+1)-2-3n-2
 
 ……………………………………………………………………………………………………………………………………
 
-## 6. Phiếu ra khỏi lớp (4 phút)
+## 6. Phiếu ra khỏi lớp
 
 **Câu 1 (trắc nghiệm).** Cho $u_1=1,\ u_{n+1}=u_n+n$. Số hạng $u_4$ bằng
 
@@ -116,7 +112,7 @@ d) Dãy số đã cho bị chặn trên bởi $1$.  ☐ Đ ☐ S
 
 Bước nào trong bài hôm nay em sẽ **kiểm tra lại** nếu gặp trong đề thi? ……………………………………………………………………
 
-## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+## 8. Vận dụng về nhà
 
 Xếp các tam giác đều liên tiếp bằng que diêm: $1$ tam giác cần $3$ que, $2$ tam giác cần $5$ que, $3$ tam giác cần $7$ que, … Gọi $u_n$ là số que cần để xếp $n$ tam giác.
 
@@ -282,23 +278,21 @@ a) Viết $u_n$ bằng **công thức** theo $n$ và bằng **hệ thức truy h
 | Về nhà | a) $u_n=2n+1$; $u_{n+1}=u_n+2$ · b) $101$ · c) $49$ |
 `);
 
-Lecture.addSheet('lop11', 'bai-6', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 11 · Bài 6. Cấp số cộng
+Lecture.addSheet('lop11', 'bai-6', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 6. Cấp số cộng
 
 **Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
 
-> Phiếu bám các **Ví dụ 1–6** của bài giảng. Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Bài khó hơn bài trước là dấu hiệu em đang học thật.
+## 1. Vào lớp làm ngay
 
-## 1. Vào lớp làm ngay (Do Now) – 4 phút
+**Câu 1.** Cho $u_n=3n-2$. Tính $u_1,\ u_2,\ u_3$. Đáp án: ………………………………………
 
-**Câu 1** *(bài trước – Bài 5)*. Cho $u_n=3n-2$. Tính $u_1,\ u_2,\ u_3$. Đáp án: ………………………………………
+**Câu 2.** Dãy số $u_n=5-3n$ tăng hay giảm? Vì sao? ………………………………………………
 
-**Câu 2** *(bài trước – Bài 5)*. Dãy số $u_n=5-3n$ tăng hay giảm? Vì sao? ………………………………………………
+**Câu 3.** Giải phương trình $\tan x=1$. Đáp án: ………………………………………
 
-**Câu 3** *(chủ đề trước – Chương I)*. Giải phương trình $\tan x=1$. Đáp án: ………………………………………
+**Câu 4.** Giải hệ $\begin{cases}a+2d=7\\a+7d=22\end{cases}$. Đáp án: ………………………
 
-**Câu 4** *(năm trước – Toán 10, bắc cầu vào bài mới)*. Giải hệ $\begin{cases}a+2d=7\\a+7d=22\end{cases}$. Đáp án: ………………………
-
-## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+## 2. Tình huống mở đầu
 
 | Hàng | Các số (viết tiếp theo quy luật) |
 |---|---|
@@ -310,7 +304,7 @@ Lecture.addSheet('lop11', 'bai-6', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP 
 
 > **Câu hỏi của bài học:** Hai trong ba hàng có chung một kiểu quy luật. Đó là kiểu nào, và làm thế nào tính nhanh số thứ $100$ của hàng (a) mà không viết ra từng số?
 
-## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+## 3. Câu hỏi bản lề
 
 **Câu A.** Cấp số cộng $(u_n)$ có $u_1=3,\ d=4$. Số hạng $u_{20}$ bằng
 
@@ -332,9 +326,7 @@ C. $-6$
 
 D. $11$
 
-## 4. Luyện tập xen kẽ (10 phút)
-
-Các câu **không** xếp theo dạng: đọc kĩ đề rồi chọn cách làm. (★ biết · ★★ hiểu · ★★★ vận dụng)
+## 4. Luyện tập xen kẽ
 
 **Câu 1 ★.** Dãy $u_n=7-2n$ có là cấp số cộng không? Tìm $u_1$ và $d$. Đáp số: ………………………………………
 
@@ -352,7 +344,7 @@ Các câu **không** xếp theo dạng: đọc kĩ đề rồi chọn cách làm
 
 ……………………………………………………………………………………………………………………………………
 
-## 5. Tìm lỗi sai (3 phút)
+## 5. Tìm lỗi sai
 
 Bạn Bình tính $T=1+3+5+\cdots+99$: *"Có $99$ số hạng nên $T=\dfrac{99\,(1+99)}{2}=4\,950$."*
 
@@ -360,7 +352,7 @@ Bạn Bình tính $T=1+3+5+\cdots+99$: *"Có $99$ số hạng nên $T=\dfrac{99\
 
 **Lời giải đúng:** …………………………………………………………………………………
 
-## 6. Phiếu ra khỏi lớp (4 phút)
+## 6. Phiếu ra khỏi lớp
 
 **Câu 1 (trắc nghiệm).** Cấp số cộng có $u_1=-2,\ d=3$. Tổng $S_5$ bằng
 
@@ -388,7 +380,7 @@ d) $S_{10}=60$.  ☐ Đ ☐ S
 
 Bước nào trong bài hôm nay em sẽ **kiểm tra lại** nếu gặp trong đề thi? ……………………………………………………………………
 
-## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+## 8. Vận dụng về nhà
 
 Bạn An để dành tiền: tuần $1$ để dành $50$ nghìn đồng, mỗi tuần sau để dành nhiều hơn tuần trước $20$ nghìn đồng. Gọi $u_n$ là số tiền để dành ở tuần thứ $n$.
 
@@ -554,23 +546,21 @@ a) Viết $u_n$ theo $n$. b) Tuần thứ $30$ để dành bao nhiêu nghìn đ�
 | Về nhà | a) $u_n=20n+30$ · b) $630$ nghìn đồng · c) $29\,120$ nghìn đồng |
 `);
 
-Lecture.addSheet('lop11', 'bai-7', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 11 · Bài 7. Cấp số nhân
+Lecture.addSheet('lop11', 'bai-7', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 7. Cấp số nhân
 
 **Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
 
-> Phiếu bám các **Ví dụ 1–6** của bài giảng. Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Bài khó hơn bài trước là dấu hiệu em đang học thật.
+## 1. Vào lớp làm ngay
 
-## 1. Vào lớp làm ngay (Do Now) – 4 phút
+**Câu 1.** Cấp số cộng có $u_1=4,\ d=3$. Tính $u_5$. Đáp án: ………………………………………
 
-**Câu 1** *(bài trước – Bài 6)*. Cấp số cộng có $u_1=4,\ d=3$. Tính $u_5$. Đáp án: ………………………………………
+**Câu 2.** Cấp số cộng có $u_1=1,\ d=2$. Tính $S_{10}$. Đáp án: ………………………………………
 
-**Câu 2** *(bài trước – Bài 6)*. Cấp số cộng có $u_1=1,\ d=2$. Tính $S_{10}$. Đáp án: ………………………………………
+**Câu 3.** Cho $u_1=2,\ u_{n+1}=3u_n$. Tính $u_2,\ u_3,\ u_4$. Đáp án: ………………………………………
 
-**Câu 3** *(bài trước – Bài 5)*. Cho $u_1=2,\ u_{n+1}=3u_n$. Tính $u_2,\ u_3,\ u_4$. Đáp án: ………………………………………
+**Câu 4.** Giải phương trình $q^3=27$. Đáp án: ………………………
 
-**Câu 4** *(năm trước – Toán 10, bắc cầu vào bài mới)*. Giải phương trình $q^3=27$. Đáp án: ………………………
-
-## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+## 2. Tình huống mở đầu
 
 | Hàng | Các số (viết tiếp theo quy luật) |
 |---|---|
@@ -582,7 +572,7 @@ Lecture.addSheet('lop11', 'bai-7', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP 
 
 > **Câu hỏi của bài học:** Hàng (a) và (b) có chung một kiểu quy luật, khác hàng (c). Đó là kiểu nào, và làm thế nào tính nhanh số thứ $10$ của hàng (a) mà không viết ra từng số?
 
-## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+## 3. Câu hỏi bản lề
 
 **Câu A.** Cấp số nhân $(u_n)$ có $u_1=2,\ q=3$. Số hạng $u_6$ bằng
 
@@ -604,9 +594,7 @@ C. $-6$
 
 D. $3$
 
-## 4. Luyện tập xen kẽ (10 phút)
-
-Các câu **không** xếp theo dạng: đọc kĩ đề rồi chọn cách làm. (★ biết · ★★ hiểu · ★★★ vận dụng)
+## 4. Luyện tập xen kẽ
 
 **Câu 1 ★.** Dãy $u_n=3^{n+1}$ có là cấp số nhân không? Tìm $u_1$ và $q$. Đáp số: ………………………………………
 
@@ -624,7 +612,7 @@ Các câu **không** xếp theo dạng: đọc kĩ đề rồi chọn cách làm
 
 ……………………………………………………………………………………………………………………………………
 
-## 5. Tìm lỗi sai (3 phút)
+## 5. Tìm lỗi sai
 
 Bạn Bình tính $T=1+2+4+\cdots+2^6$: *"Có $6$ số hạng nên $T=\dfrac{1-2^6}{1-2}=63$."*
 
@@ -632,7 +620,7 @@ Bạn Bình tính $T=1+2+4+\cdots+2^6$: *"Có $6$ số hạng nên $T=\dfrac{1-2
 
 **Lời giải đúng:** …………………………………………………………………………………
 
-## 6. Phiếu ra khỏi lớp (4 phút)
+## 6. Phiếu ra khỏi lớp
 
 **Câu 1 (trắc nghiệm).** Cấp số nhân có $u_1=1,\ q=-2$. Tổng $S_5$ bằng
 
@@ -660,7 +648,7 @@ d) $S_3=9$.  ☐ Đ ☐ S
 
 Bước nào trong bài hôm nay em sẽ **kiểm tra lại** nếu gặp trong đề thi? ……………………………………………………………………
 
-## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+## 8. Vận dụng về nhà
 
 Gia đình bạn Hà gửi $80$ triệu đồng, kì hạn $1$ năm, lãi suất $7\%$/năm, lãi nhập gốc mỗi năm. Gọi $A_n$ là số tiền (triệu đồng) sau $n$ năm.
 

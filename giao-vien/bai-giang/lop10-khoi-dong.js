@@ -4,23 +4,21 @@
    Bấm 📋 Phiếu trên lớp để xem/in PDF; ⬇️ Tải Markdown cho đúng nội dung dưới đây. Bám Ví dụ 1–7 của bài giảng lop10.js.
    Công thức viết trong $…$ (hàm xem chuyển sang MathJax). Ví dụ tự soạn ghi **[Minh họa]**.
    ===================================================================== */
-Lecture.addSheet('lop10', 'bai-5', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 10 · Bài 5. Giá trị lượng giác của một góc từ $0^\circ$ đến $180^\circ$
+Lecture.addSheet('lop10', 'bai-5', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Bài 5. Giá trị lượng giác của một góc từ $0^\circ$ đến $180^\circ$
 
 **Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
 
-> Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Có câu thấy khó hơn bài trước là dấu hiệu em đang học thật.
+## 1. Vào lớp làm ngay
 
-## 1. Vào lớp làm ngay (Do Now) – 4 phút
+**Câu 1.** Cặp $(2;1)$ có là nghiệm của hệ $\begin{cases}x + y \le 4\\ x-y \ge 0\end{cases}$ không? Đáp án: ………………………
 
-**Câu 1** *(bài trước – Bài 4)*. Cặp $(2;1)$ có là nghiệm của hệ $\begin{cases}x + y \le 4\\ x-y \ge 0\end{cases}$ không? Đáp án: ………………………
+**Câu 2.** Viết mệnh đề phủ định của mệnh đề "$\forall x \in \mathbb{R},\ x^2 \ge 0$". Đáp án: ………………………………
 
-**Câu 2** *(chủ đề trước – Chương I)*. Viết mệnh đề phủ định của mệnh đề "$\forall x \in \mathbb{R},\ x^2 \ge 0$". Đáp án: ………………………………
+**Câu 3.** Tam giác $ABC$ vuông tại $A$, $AB = 3,\ AC = 4$. Tính $\sin B,\ \cos B,\ \tan B$. Đáp án: ………………………………
 
-**Câu 3** *(năm trước – Toán 9)*. Tam giác $ABC$ vuông tại $A$, $AB = 3,\ AC = 4$. Tính $\sin B,\ \cos B,\ \tan B$. Đáp án: ………………………………
+**Câu 4.** Điểm $M$ nằm trên nửa đường tròn tâm $O$ bán kính $1$ (phía trên trục hoành) và có hoành độ $\dfrac{3}{5}$. Tung độ của $M$ bằng: ……………………
 
-**Câu 4** *(bắc cầu vào bài mới)*. Điểm $M$ nằm trên nửa đường tròn tâm $O$ bán kính $1$ (phía trên trục hoành) và có hoành độ $\dfrac{3}{5}$. Tung độ của $M$ bằng: ……………………
-
-## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+## 2. Tình huống mở đầu
 
 | Góc $\alpha$ | $30^\circ$ | $150^\circ$ | $60^\circ$ | $120^\circ$ |
 |---|---|---|---|---|
@@ -31,7 +29,7 @@ Lecture.addSheet('lop10', 'bai-5', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP 
 
 > **Câu hỏi của bài học:** Tam giác vuông không có góc tù, vậy làm sao nói đến $\sin 150^\circ$ hay $\cos 120^\circ$? Vì sao hai góc cộng lại bằng $180^\circ$ lại cho cùng $\sin$ mà $\cos$ đối nhau?
 
-## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+## 3. Câu hỏi bản lề
 
 **Câu A.** Giá trị của $\sin 135^\circ$ là
 
@@ -53,7 +51,7 @@ C. $\alpha$ là góc tù và $\tan\alpha = -\dfrac{3}{4}$
 
 D. $\alpha$ là góc tù và $\tan\alpha = \dfrac{4}{3}$
 
-## 4. Luyện tập xen kẽ (10 phút)
+## 4. Luyện tập xen kẽ
 
 **Câu 1 ★.** Viết giá trị: $\sin 90^\circ =$ ………, $\cos 180^\circ =$ ………, $\tan 45^\circ =$ ………
 
@@ -61,7 +59,7 @@ D. $\alpha$ là góc tù và $\tan\alpha = \dfrac{4}{3}$
 
 **Câu 3 ★★.** Cho $\cos\alpha = -\dfrac{5}{13}$ và $0^\circ < \alpha < 180^\circ$. Tính $\sin\alpha$ và $\tan\alpha$. Đáp án: ………………………………
 
-**Câu 4 ★★** *(ôn Chương I)*. Cho $A = \{x \in \mathbb{R} \mid -1 \le x < 3\}$ và $B = (2;5]$. Tìm $A \cap B$. Đáp án: ………………………
+**Câu 4 ★★.** Cho $A = \{x \in \mathbb{R} \mid -1 \le x < 3\}$ và $B = (2;5]$. Tìm $A \cap B$. Đáp án: ………………………
 
 **Câu 5 ★★.** Với $0^\circ < \alpha < 180^\circ$, rút gọn $P = \dfrac{\sin(180^\circ-\alpha)}{\cos(90^\circ-\alpha)} + \cos(180^\circ-\alpha) + \cos\alpha$. Đáp án: ………………………
 
@@ -69,7 +67,7 @@ D. $\alpha$ là góc tù và $\tan\alpha = \dfrac{4}{3}$
 
 **Câu 7 ★★★.** Tìm $\alpha \in [0^\circ;180^\circ]$ biết $2\cos\alpha + \sqrt{3} = 0$. Đáp án: ………………………………
 
-## 5. Tìm lỗi sai (3 phút)
+## 5. Tìm lỗi sai
 
 > **Bài toán.** Cho $\sin\alpha = \dfrac{1}{3}$ và $\alpha$ là góc tù. Tính $\cos\alpha$.
 >
@@ -77,9 +75,9 @@ D. $\alpha$ là góc tù và $\tan\alpha = \dfrac{4}{3}$
 
 Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
 
-## 6. Phiếu ra khỏi lớp (4 phút)
+## 6. Phiếu ra khỏi lớp
 
-**Câu 1** *(trắc nghiệm)*. Cho $\alpha$ là góc tù và $\sin\alpha = \dfrac{4}{5}$. Giá trị của $\tan\alpha$ là
+**Câu 1.** Cho $\alpha$ là góc tù và $\sin\alpha = \dfrac{4}{5}$. Giá trị của $\tan\alpha$ là
 
 A. $\dfrac{4}{3}$
 
@@ -89,7 +87,7 @@ C. $-\dfrac{3}{4}$
 
 D. $\dfrac{3}{4}$
 
-**Câu 2** *(đúng/sai)*. Xét góc $\alpha = 135^\circ$. Mỗi ý em ghi Đ hoặc S:
+**Câu 2.** Xét góc $\alpha = 135^\circ$. Mỗi ý em ghi Đ hoặc S:
 
 a) $\sin\alpha > 0$. ……
 
@@ -99,13 +97,13 @@ c) $\tan\alpha = -1$. ……
 
 d) $\cot\alpha = 1$. ……
 
-**Câu 3** *(trả lời ngắn, ôn Bài 4)*. Miền nghiệm của hệ $\begin{cases}x \ge 0\\ y \ge 0\\ x + y \le 5\end{cases}$ là một tam giác. Diện tích tam giác đó bằng: …………
+**Câu 3.** Miền nghiệm của hệ $\begin{cases}x \ge 0\\ y \ge 0\\ x + y \le 5\end{cases}$ là một tam giác. Diện tích tam giác đó bằng: …………
 
 ## 7. Một phút suy ngẫm
 
 *Khi gặp góc tù trong đề thi, bước nào em sẽ kiểm tra lại đầu tiên: dấu của $\cos$, dấu của $\tan$ hay việc đổi sang góc bù?* ……………………………………………………………………
 
-## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+## 8. Vận dụng về nhà
 
 Em đo chiều cao của cột cờ (hoặc một tòa nhà) ở trường nhà em: dùng ứng dụng đo góc trên điện thoại (hoặc giác kế tự làm) đo **góc nâng** $\alpha$ từ mắt tới đỉnh, đo khoảng cách $d$ từ chỗ đứng tới chân cột, và chiều cao mắt $h_0$. Làm ở **hai** khoảng cách khác nhau, lập bảng tính (Excel hoặc Google Sheets) tính chiều cao $h = d\tan\alpha + h_0$ cho từng lần, rồi so sánh hai kết quả. **Sản phẩm:** ảnh chụp lúc đo và file bảng tính, nộp ở tiết học sau.
 
@@ -260,23 +258,21 @@ Em đo chiều cao của cột cờ (hoặc một tòa nhà) ở trường nhà 
    Bám Ví dụ 1–7 của bài giảng lop10.js (bai-6). Phần A in đúng 2 trang A4; Phần B gợi ý giáo viên.
    Ví dụ tự soạn ghi **[Minh họa]**.
    ===================================================================== */
-Lecture.addSheet('lop10', 'bai-6', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 10 · Bài 6. Hệ thức lượng trong tam giác
+Lecture.addSheet('lop10', 'bai-6', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Bài 6. Hệ thức lượng trong tam giác
 
 **Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
 
-> Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Có câu thấy khó hơn bài trước là dấu hiệu em đang học thật.
+## 1. Vào lớp làm ngay
 
-## 1. Vào lớp làm ngay (Do Now) – 4 phút
+**Câu 1.** Tính $\sin 150^\circ$ và $\cos 120^\circ$. Đáp số: ………………………
 
-**Câu 1** *(bài trước – Bài 5)*. Tính $\sin 150^\circ$ và $\cos 120^\circ$. Đáp số: ………………………
+**Câu 2.** Điểm $(1;1)$ có thuộc miền nghiệm của bất phương trình $2x + y \le 3$ không? Đáp số: ………………………
 
-**Câu 2** *(chủ đề trước – Chương II)*. Điểm $(1;1)$ có thuộc miền nghiệm của bất phương trình $2x + y \le 3$ không? Đáp số: ………………………
+**Câu 3.** Tam giác $ABC$ vuông tại $A$ có $BC = 10$, $\widehat{B} = 30^\circ$. Tính $AC$. Đáp số: ………………………
 
-**Câu 3** *(năm trước – Toán 9)*. Tam giác $ABC$ vuông tại $A$ có $BC = 10$, $\widehat{B} = 30^\circ$. Tính $AC$. Đáp số: ………………………
+**Câu 4.** Tam giác $ABC$ có $AB = 3$, $AC = 4$ và $\widehat{A} = 90^\circ$. Tính $BC$. Đáp số: ……………………
 
-**Câu 4** *(bắc cầu vào bài mới)*. Tam giác $ABC$ có $AB = 3$, $AC = 4$ và $\widehat{A} = 90^\circ$. Tính $BC$. Đáp số: ……………………
-
-## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+## 2. Tình huống mở đầu
 
 Tam giác $ABC$ có $AB = 3$, $AC = 4$ nhưng góc $A$ thay đổi:
 
@@ -289,7 +285,7 @@ Tam giác $ABC$ có $AB = 3$, $AC = 4$ nhưng góc $A$ thay đổi:
 
 > **Câu hỏi của bài học:** Khi biết hai cạnh và góc xen giữa mà góc đó không vuông, làm sao tính được cạnh thứ ba? Hệ thức nào thay cho định lí Pythagore?
 
-## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+## 3. Câu hỏi bản lề
 
 **Câu A.** Tam giác $ABC$ có $AB = 5$, $AC = 8$ và $\widehat{A} = 60^\circ$. Độ dài $BC$ là
 
@@ -311,7 +307,7 @@ C. $6\sqrt{2}$
 
 D. $12$
 
-## 4. Luyện tập xen kẽ (10 phút)
+## 4. Luyện tập xen kẽ
 
 **Câu 1 ★.** Tam giác $ABC$ có $AB = 7$, $AC = 15$ và $\widehat{A} = 60^\circ$. Tính $BC$. Đáp số: ………………………
 
@@ -319,7 +315,7 @@ D. $12$
 
 **Câu 3 ★★.** Tam giác có ba cạnh $6$, $25$, $29$. Tính diện tích $S$. Đáp số: ………………………
 
-**Câu 4 ★★** *(ôn Chương I)*. Cho $A = \{x \in \mathbb{R} \mid x \le 3\}$ và $B = (-2; +\infty)$. Tìm $A \cap B$. Đáp số: ………………………
+**Câu 4 ★★.** Cho $A = \{x \in \mathbb{R} \mid x \le 3\}$ và $B = (-2; +\infty)$. Tìm $A \cap B$. Đáp số: ………………………
 
 **Câu 5 ★★.** Tam giác $ABC$ có $AB = 3$, $AC = 5$, $BC = 7$. Tính số đo góc $A$. Đáp số: ………………………
 
@@ -327,7 +323,7 @@ D. $12$
 
 **Câu 7 ★★★.** Tam giác $ABC$ có $AB = 6$, $AC = 8$, diện tích $S = 12$ và góc $A$ tù. Tính số đo góc $A$. Đáp số: ………………………
 
-## 5. Tìm lỗi sai (3 phút)
+## 5. Tìm lỗi sai
 
 > **Bài toán.** Tam giác $ABC$ có $AB = 4$, $AC = 6$, $\widehat{A} = 120^\circ$. Tính $BC$.
 >
@@ -335,9 +331,9 @@ D. $12$
 
 Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
 
-## 6. Phiếu ra khỏi lớp (4 phút)
+## 6. Phiếu ra khỏi lớp
 
-**Câu 1** *(trắc nghiệm)*. Tam giác $ABC$ có $AB = 2$, $AC = 3$, $BC = 4$. Giá trị của $\cos A$ là
+**Câu 1.** Tam giác $ABC$ có $AB = 2$, $AC = 3$, $BC = 4$. Giá trị của $\cos A$ là
 
 A. $-\dfrac{1}{4}$
 
@@ -347,7 +343,7 @@ C. $-\dfrac{1}{2}$
 
 D. $\dfrac{29}{12}$
 
-**Câu 2** *(đúng/sai)*. Tam giác $ABC$ có $AB = 3$, $AC = 8$, $\widehat{A} = 60^\circ$. Mỗi ý em ghi Đ hoặc S:
+**Câu 2.** Tam giác $ABC$ có $AB = 3$, $AC = 8$, $\widehat{A} = 60^\circ$. Mỗi ý em ghi Đ hoặc S:
 
 a) $BC = 7$. ……
 
@@ -357,13 +353,13 @@ c) Bán kính $R = \dfrac{7\sqrt{3}}{3}$. ……
 
 d) Góc $B$ là góc nhọn. ……
 
-**Câu 3** *(trả lời ngắn)*. Tam giác có ba cạnh $10$, $10$, $12$ có diện tích bằng: …………
+**Câu 3.** Tam giác có ba cạnh $10$, $10$, $12$ có diện tích bằng: …………
 
 ## 7. Một phút suy ngẫm
 
 *Cho dữ kiện của một tam giác, em dựa vào điều gì để chọn định lí côsin hay định lí sin?* ……………………………………………………………………
 
-## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+## 8. Vận dụng về nhà
 
 Em đo khoảng cách giữa hai vật mà không đi thẳng tới được (hai cây ở hai bên ao, hai góc của sân trường). Chọn điểm $A$ đứng được tới cả hai vật $B$, $C$, đo $AB$, $AC$ bằng thước dây và đo góc $\widehat{BAC}$ bằng ứng dụng đo góc (hoặc giác kế tự làm). Lập bảng tính (Excel hoặc Google Sheets) tính $BC$ bằng định lí côsin, làm ở **hai** vị trí $A$ khác nhau rồi so sánh. **Sản phẩm:** ảnh chụp lúc đo và file bảng tính, nộp ở tiết học sau.
 
@@ -517,23 +513,21 @@ Em đo khoảng cách giữa hai vật mà không đi thẳng tới được (ha
 /* =====================================================================
    TOÁN 10 · ÔN TẬP CHƯƠNG III (Bài 5 – Bài 6) – tiết ôn tập
    ===================================================================== */
-Lecture.addSheet('lop10', 'on-tap-c3', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 10 · Ôn tập chương III. Hệ thức lượng trong tam giác
+Lecture.addSheet('lop10', 'on-tap-c3', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Ôn tập chương III. Hệ thức lượng trong tam giác
 
 **Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
 
-> Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Tiết ôn tập: câu nào làm chưa tốt là chỗ em cần ôn thêm, không phải lỗi của em.
+## 1. Vào lớp làm ngay
 
-## 1. Vào lớp làm ngay (Do Now) – 4 phút
+**Câu 1.** Tam giác $ABC$ có $a = 6$, $b = 5$, $c = 7$. Tính $\cos C$. Đáp số: ………………………
 
-**Câu 1** *(bài trước – Bài 6)*. Tam giác $ABC$ có $a = 6$, $b = 5$, $c = 7$. Tính $\cos C$. Đáp số: ………………………
+**Câu 2.** Tính $\sin 135^\circ$ và $\tan 120^\circ$. Đáp số: ………………………
 
-**Câu 2** *(Bài 5)*. Tính $\sin 135^\circ$ và $\tan 120^\circ$. Đáp số: ………………………
+**Câu 3.** Điểm $(2;1)$ có thuộc miền nghiệm của bất phương trình $x + 2y \ge 5$ không? Đáp số: ………………………
 
-**Câu 3** *(chủ đề trước – Chương II)*. Điểm $(2;1)$ có thuộc miền nghiệm của bất phương trình $x + 2y \ge 5$ không? Đáp số: ………………………
+**Câu 4.** Tam giác $ABC$ vuông tại $A$ có $AB = 6$, $AC = 8$. Tính $\sin B$. Đáp số: ……………………
 
-**Câu 4** *(năm trước – Toán 9)*. Tam giác $ABC$ vuông tại $A$ có $AB = 6$, $AC = 8$. Tính $\sin B$. Đáp số: ……………………
-
-## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+## 2. Tình huống mở đầu
 
 Ba tam giác với dữ kiện khác nhau và kết quả đã tính:
 
@@ -547,7 +541,7 @@ Ba tam giác với dữ kiện khác nhau và kết quả đã tính:
 
 > **Câu hỏi của bài học:** Với mỗi bộ dữ kiện của tam giác, em nên bắt đầu bằng công thức nào, và vì sao?
 
-## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+## 3. Câu hỏi bản lề
 
 **Câu A.** Tam giác $ABC$ có $a = 2$, $c = 3$, $\widehat{B} = 135^\circ$. Diện tích $S$ bằng
 
@@ -569,7 +563,7 @@ C. $3$
 
 D. $3\sqrt{2}$
 
-## 4. Luyện tập xen kẽ (10 phút)
+## 4. Luyện tập xen kẽ
 
 **Câu 1 ★.** Tính $\sin 120^\circ\cdot\cos 150^\circ$. Đáp số: ………………………
 
@@ -585,7 +579,7 @@ D. $3\sqrt{2}$
 
 **Câu 7 ★★★.** Hai cọc $A$, $B$ trên bờ sông cách nhau $50$ m; từ $A$, $B$ ngắm cây $C$ bên kia sông được $\widehat{CAB} = 60^\circ$, $\widehat{CBA} = 75^\circ$. Tính $AC$ (làm tròn một chữ số thập phân). Đáp số: ………………………
 
-## 5. Tìm lỗi sai (3 phút)
+## 5. Tìm lỗi sai
 
 > **Bài toán.** Tam giác $ABC$ có $\widehat{B} = 135^\circ$, $a = 2$, $c = 3$. Tính $b$.
 >
@@ -593,9 +587,9 @@ D. $3\sqrt{2}$
 
 Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
 
-## 6. Phiếu ra khỏi lớp (4 phút)
+## 6. Phiếu ra khỏi lớp
 
-**Câu 1** *(trắc nghiệm)*. Tam giác $ABC$ có $a = 7$, $b = 5$, $c = 8$. Số đo góc $A$ là
+**Câu 1.** Tam giác $ABC$ có $a = 7$, $b = 5$, $c = 8$. Số đo góc $A$ là
 
 A. $30^\circ$
 
@@ -605,7 +599,7 @@ C. $120^\circ$
 
 D. $45^\circ$
 
-**Câu 2** *(đúng/sai)*. Tam giác $ABC$ có $a = 13$, $b = 14$, $c = 15$. Mỗi ý em ghi Đ hoặc S:
+**Câu 2.** Tam giác $ABC$ có $a = 13$, $b = 14$, $c = 15$. Mỗi ý em ghi Đ hoặc S:
 
 a) Diện tích $S = 84$. ……
 
@@ -615,13 +609,13 @@ c) Bán kính ngoại tiếp $R = \dfrac{65}{4}$. ……
 
 d) Tam giác có một góc tù. ……
 
-**Câu 3** *(trả lời ngắn)*. Tam giác $ABC$ có $a = 6$, $\widehat{A} = 30^\circ$. Đường kính $2R$ của đường tròn ngoại tiếp bằng: …………
+**Câu 3.** Tam giác $ABC$ có $a = 6$, $\widehat{A} = 30^\circ$. Đường kính $2R$ của đường tròn ngoại tiếp bằng: …………
 
 ## 7. Một phút suy ngẫm
 
 *Trong chương này, loại bài nào em còn chưa chắc nhất, và em sẽ làm gì để chắc hơn?* ……………………………………………………………………
 
-## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+## 8. Vận dụng về nhà
 
 Em đo chiều cao cột cờ (hoặc một cây cao) ở trường mà không leo lên. Đứng ở hai vị trí $A$, $B$ thẳng hàng với chân cột và đo $AB$, rồi đo hai góc nhìn tới đỉnh cột bằng ứng dụng đo góc. Dùng định lí sin để tính chiều cao, làm với **hai** khoảng cách $AB$ khác nhau rồi so sánh. **Sản phẩm:** ảnh chụp lúc đo và bảng tính, nộp ở tiết học sau.
 
@@ -770,23 +764,21 @@ Em đo chiều cao cột cờ (hoặc một cây cao) ở trường mà không l
 | Về nhà | Hai lần đo chiều cao gần nhau |
 `);
 
-Lecture.addSheet('lop10', 'on-tap-c2', String.raw`# PHIẾU HỌC TẬP TRÊN LỚP – Toán 10 · Ôn tập chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn
+Lecture.addSheet('lop10', 'on-tap-c2', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Ôn tập chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn
 
 **Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
 
-> Trình bày vào vở nháp, ghi đáp số vào chỗ trống. Tiết ôn tập: câu nào làm chưa tốt là chỗ em cần ôn thêm, không phải lỗi của em.
+## 1. Vào lớp làm ngay
 
-## 1. Vào lớp làm ngay (Do Now) – 4 phút
+**Câu 1.** Cặp số $(1;-2)$ có là nghiệm của bất phương trình $x - 2y \gt 4$ không? Đáp số: ………………………
 
-**Câu 1** *(Bài 3)*. Cặp số $(1;-2)$ có là nghiệm của bất phương trình $x - 2y \gt 4$ không? Đáp số: ………………………
+**Câu 2.** Điểm $(3;0)$ có thuộc miền nghiệm của bất phương trình $2x + y \le 4$ không? Đáp số: ………………………
 
-**Câu 2** *(Bài 3)*. Điểm $(3;0)$ có thuộc miền nghiệm của bất phương trình $2x + y \le 4$ không? Đáp số: ………………………
+**Câu 3.** Cặp số $(4;2)$ có là nghiệm của hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+2y\le 8\\ 2x+y\le 10\end{cases}$ không? Đáp số: ………………
 
-**Câu 3** *(Bài 4)*. Cặp số $(4;2)$ có là nghiệm của hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+2y\le 8\\ 2x+y\le 10\end{cases}$ không? Đáp số: ………………
+**Câu 4.** Giải hệ phương trình $\begin{cases}x+2y=8\\ 2x+y=10\end{cases}$. Đáp số: ……………………
 
-**Câu 4** *(năm trước – Toán 9)*. Giải hệ phương trình $\begin{cases}x+2y=8\\ 2x+y=10\end{cases}$. Đáp số: ……………………
-
-## 2. Tình huống mở đầu – Nhận ra và thắc mắc (3 phút) **[Minh họa]**
+## 2. Tình huống mở đầu
 
 Ba bài toán thực tế quen thuộc, mỗi bài đã lập sẵn điều kiện:
 
@@ -800,7 +792,7 @@ Ba bài toán thực tế quen thuộc, mỗi bài đã lập sẵn điều ki�
 
 > **Câu hỏi của bài học:** Từ chữ "tối đa" hay "ít nhất" trong đề, em đoán được dấu của bất phương trình và miền nghiệm có bị chặn không?
 
-## 3. Câu hỏi bản lề – khoanh rồi giơ thẻ (2 phút)
+## 3. Câu hỏi bản lề
 
 **Câu A.** Cặp số nào là nghiệm của hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 5\end{cases}$?
 
@@ -822,7 +814,7 @@ C. $3$
 
 D. $12$
 
-## 4. Luyện tập xen kẽ (10 phút)
+## 4. Luyện tập xen kẽ
 
 **Câu 1 ★.** Cặp số $(-2;1)$ có là nghiệm của bất phương trình $3x - 2y \ge -9$ không? Đáp số: ………………………
 
@@ -840,7 +832,7 @@ D. $12$
 
 **Câu 7 ★★★.** Mỗi gói thức ăn loại I có $2$ đơn vị đạm, $1$ đơn vị canxi, giá $15$ nghìn đồng; mỗi gói loại II có $1$ đơn vị đạm, $3$ đơn vị canxi, giá $20$ nghìn đồng. Mỗi ngày cần **ít nhất** $8$ đơn vị đạm và $9$ đơn vị canxi. Chi phí thấp nhất là bao nhiêu? Đáp số: ………………………
 
-## 5. Tìm lỗi sai (3 phút)
+## 5. Tìm lỗi sai
 
 > **Bài toán.** Tìm giá trị lớn nhất của $F = 3x + y$ trên miền nghiệm của hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+2y\le 10\\ x\le 6\end{cases}$.
 >
@@ -848,9 +840,9 @@ D. $12$
 
 Lời giải có **một** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
 
-## 6. Phiếu ra khỏi lớp (4 phút)
+## 6. Phiếu ra khỏi lớp
 
-**Câu 1** *(trắc nghiệm)*. Cặp số nào là nghiệm của bất phương trình $2x - y \gt 3$?
+**Câu 1.** Cặp số nào là nghiệm của bất phương trình $2x - y \gt 3$?
 
 A. $(2;1)$
 
@@ -860,7 +852,7 @@ C. $(3;2)$
 
 D. $(0;-3)$
 
-**Câu 2** *(đúng/sai)*. Cho hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 4\end{cases}$ và $F = x + 2y$. Mỗi ý em ghi Đ hoặc S:
+**Câu 2.** Cho hệ $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 4\end{cases}$ và $F = x + 2y$. Mỗi ý em ghi Đ hoặc S:
 
 a) Cặp số $(1;2)$ là nghiệm của hệ. ……
 
@@ -870,13 +862,13 @@ c) $F$ đạt giá trị lớn nhất tại đỉnh $A(4;0)$. ……
 
 d) Giá trị lớn nhất của $F$ bằng $8$. ……
 
-**Câu 3** *(trả lời ngắn)*. Với $x$, $y$ thoả mãn $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 5\end{cases}$, giá trị lớn nhất của $F = 2x + 3y$ bằng: …………
+**Câu 3.** Với $x$, $y$ thoả mãn $\begin{cases}x\ge 0\\ y\ge 0\\ x+y\le 5\end{cases}$, giá trị lớn nhất của $F = 2x + 3y$ bằng: …………
 
 ## 7. Một phút suy ngẫm
 
 *Trong chương này, bước nào em hay sai nhất: thử điểm, gạch miền, tìm đỉnh hay so sánh giá trị $F$? Em sẽ làm gì để chắc hơn?* ……………………………………………………………………
 
-## 8. Vận dụng về nhà **[Minh họa]** – nộp tiết sau
+## 8. Vận dụng về nhà
 
 Gian hàng của lớp pha hai loại sinh tố. Mỗi ly sinh tố xoài cần $2$ phần trái cây và $1$ hộp sữa; mỗi ly sinh tố bơ cần $1$ phần trái cây và $2$ hộp sữa; lớp có $30$ phần trái cây và $30$ hộp sữa. Hãy: (a) lập hệ bất phương trình cho $x$, $y$ (số ly mỗi loại); (b) vẽ miền nghiệm bằng GeoGebra hoặc Desmos; (c) biết lãi mỗi ly xoài $12$ nghìn đồng, mỗi ly bơ $10$ nghìn đồng, tìm lãi lớn nhất. **Sản phẩm:** ảnh chụp màn hình miền nghiệm kèm lời giải, nộp ở tiết học sau.
 
