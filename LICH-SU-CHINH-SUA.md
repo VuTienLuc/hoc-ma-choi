@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Đổi địa chỉ Apps Script (sheetAPI)
+
+- **Yêu cầu của thầy:** Cập nhật `CONFIG.sheetAPI` sang bản triển khai Apps Script mới (đuôi `…GMKZMUtPh5Dx/exec`).
+- **Kết quả:** `config.js` trỏ tới URL mới; không còn URL cũ trong mã nguồn.
+- **Tệp thay đổi:** `config.js`
+- **Kiểm thử:** `python3 tools/test.py` → ĐẠT. Chưa gọi thử máy chủ thật (không truy cập được từ môi trường này).
+- **Việc thủ công:** Bản triển khai mới phải chứa `Code.gs` mới nhất, quyền "Anyone" và cùng Google Sheet với bản cũ; nếu không, tài khoản/tiến độ cũ sẽ không hiện.
+
 ### 2026-10-08 – Bảng tổng hợp tiến độ cả lớp + xuất Excel
 
 - **Yêu cầu của thầy:** "Có, hãy thêm bảng tổng hợp và xuất ra file Excel" (thống kê từng bài học sinh đã học / chưa học).
