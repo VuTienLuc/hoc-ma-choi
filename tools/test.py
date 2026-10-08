@@ -75,7 +75,7 @@ async (REPS) => {
     S.grade=g;renderHome();
     if(!document.querySelector('a[href="#/game-mini"]'))out.bad.push(['Game củng cố: thiếu menu riêng tại trang lớp',grade]);
     location.hash='#/game-mini';Game.route();
-    if(document.querySelectorAll('.mini-game-card').length!==3)out.bad.push(['Game củng cố: menu không đủ ba trò chơi',grade]);
+    if(document.querySelectorAll('.mini-game-card').length!==4)out.bad.push(['Game củng cố: menu không đủ bốn trò chơi',grade]);
     for(const style of ['fishing','fruit','balloon']){
      location.hash=`#/game-mini/${style}`;Game.route();
      const links=[...document.querySelectorAll('.game-topics a')].map(a=>a.getAttribute('href'));
@@ -88,6 +88,10 @@ async (REPS) => {
      if(buttons[0]){buttons[0].click();if(!document.querySelector('#miniNext'))out.bad.push(['Game củng cố: không hiện lời giải sau khi chọn',grade,style])}
      const miniExit=document.querySelector('#gameArena [data-exit]');if(miniExit)miniExit.click();
     }
+    location.hash=`#/game-mini/match/${topics[0].id}`;Game.route();document.querySelector('#miniStart').click();await new Promise(ok=>setTimeout(ok,700));
+    if(document.querySelectorAll('#gameArena [data-match-pos]').length!==24||document.querySelectorAll('#gameArena .match-tile.question').length!==12||document.querySelectorAll('#gameArena .match-tile.answer').length!==12)out.bad.push(['Pikachu Toán học: không dựng đủ 12 cặp',grade]);
+    if(!document.querySelector('#matchHint')||!document.querySelector('#matchShuffle')||!document.querySelector('#matchTime'))out.bad.push(['Pikachu Toán học: thiếu gợi ý, xáo hoặc đồng hồ',grade]);
+    const matchExit=document.querySelector('#gameArena [data-exit]');if(matchExit)matchExit.click();
    }
    S.grade=App.grades.find(g=>g.id==='lop9');renderHome();
    if(!document.querySelector('.game-entry'))out.bad.push(['Học mà chơi: thiếu lối vào ở trang lớp 9']);

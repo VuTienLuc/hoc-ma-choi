@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Pikachu Toán học nối câu hỏi với công thức
+
+- **Yêu cầu của thầy:** Sáng tạo game kiểu Pikachu cho môn Toán, trong đó câu hỏi và công thức được xếp thành các ô vuông như ảnh mẫu.
+- **Kết quả:** Thêm game thứ tư **⚡ Pikachu Toán học** vào Game củng cố của mọi lớp. Mỗi ván lấy 12 câu thông hiểu từ đúng ngân hàng chủ đề đã chọn và tạo 24 ô vuông: 12 câu hỏi màu xanh, 12 công thức hoặc đáp án màu vàng. Học sinh ghép một câu với đáp án tương ứng khi có đường đi qua ô trống và rẽ không quá hai lần; đường nối phát sáng trước khi hai ô biến mất. Game có 180 giây, điểm thưởng theo thời gian, phạt khi ghép sai, 3 lượt gợi ý, 3 lượt xáo, tự xáo miễn phí nếu hết nước đi và thưởng tối đa 3 sao. Khi chọn một ô, nội dung được phóng lớn ở thanh hướng dẫn để đọc rõ trên điện thoại. Lưới tự chuyển 4 × 6 trên điện thoại dọc và 6 × 4 trên màn hình ngang/iPad; dùng biểu tượng và đồ họa toán học riêng, không sao chép nhân vật trong ảnh mẫu.
+- **Tệp thay đổi:** `assets/js/game.js`, `assets/css/game.css`, `tools/test.py`, `tools/test_pikachu_toan.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.220 câu); `python3 tools/test_pikachu_toan.py` → ĐẠT, tự nối hoàn chỉnh 12/12 cặp và kiểm tra đường nối, gợi ý, xáo, kết quả, điện thoại dọc/ngang; `python3 tools/test_game_dienthoai.py` → ĐẠT; `python3 tools/build.py` → ĐẠT (2.698 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Đổi địa chỉ Apps Script (sheetAPI)
 
 - **Yêu cầu của thầy:** Cập nhật `CONFIG.sheetAPI` sang bản triển khai Apps Script mới (đuôi `…GMKZMUtPh5Dx/exec`).
