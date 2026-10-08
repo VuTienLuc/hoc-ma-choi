@@ -81,6 +81,7 @@ async (REPS) => {
      const buttons=[...document.querySelectorAll('#gameArena [data-mini-o]')];
      if(buttons.length!==4||!document.querySelector('.mini-question'))out.bad.push(['Game củng cố: không dựng đủ câu hỏi và đáp án',grade,style]);
      else if(buttons.some(b=>getComputedStyle(b).animationName==='none'))out.bad.push(['Game củng cố: đáp án chưa chuyển động',grade,style]);
+     else if(style==='fishing'&&buttons.some(b=>parseFloat(getComputedStyle(b).animationDuration)<9.5))out.bad.push(['Câu cá: tốc độ cá vẫn quá nhanh',grade]);
      if(buttons[0]){buttons[0].click();if(!document.querySelector('#miniNext'))out.bad.push(['Game củng cố: không hiện lời giải sau khi chọn',grade,style])}
      const miniExit=document.querySelector('#gameArena [data-exit]');if(miniExit)miniExit.click();
     }

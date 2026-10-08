@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Giảm tốc độ cá trong Câu cá Toán học
+
+- **Yêu cầu của thầy:** Cá đang bơi hơi nhanh, cần giảm tốc để học sinh kịp đọc và chọn đáp án.
+- **Kết quả:** Tăng thời gian một lượt bơi của bốn đáp án từ 6–8,55 giây lên 9,5–12,95 giây; chỉ thay đổi Câu cá Toán học, giữ nguyên tốc độ Chém trái cây và Bắn bóng đáp án. Bổ sung kiểm thử ngăn thời gian bơi thấp hơn 9,5 giây.
+- **Tệp thay đổi:** `assets/js/game.js`, `tools/test.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js`, `python3 tools/test.py`, `python3 tools/build.py`, `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Menu Game củng cố riêng và câu hỏi thông hiểu theo lớp
 
 - **Yêu cầu của thầy:** Tạo menu chơi game riêng; mỗi lớp dùng ngân hàng câu hỏi riêng ở mức độ thông hiểu.
