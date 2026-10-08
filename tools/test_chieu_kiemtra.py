@@ -24,6 +24,7 @@ async def main():
       await pg.goto(BASE); await pg.wait_for_timeout(700)
       await pg.select_option('#lgLop','10A12' if w==0 else 'GV'); await pg.fill('#lgUser','u'); await pg.fill('#lgPass','p'); await pg.click('#lgBtn'); await pg.wait_for_timeout(700)
       await pg.goto(BASE+'#/lop10'); await pg.wait_for_timeout(700)
+      if w!=0: await pg.evaluate("Lecture.foldAll(true)")
       keys=await pg.eval_on_selector_all('[data-tdeck]','els=>els.map(e=>e.dataset.tdeck)')
       if w==1280: ok(f'Trang lớp 10 có {len(keys)} nút chiếu (5 test + bài cuối chương × mã đề)', len(keys)>=24)
       for key in keys:

@@ -30,7 +30,7 @@ async def main():
       grades = await pg.evaluate("[...new Set(Lecture.BOOKS.filter(b=>b.lessons.some(l=>l.practice)).map(b=>b.grade))]")
       bad = []; tot = 0
       for g in grades:
-        await pg.goto(BASE + '#/' + g); await pg.wait_for_timeout(500)
+        await pg.goto(BASE + '#/' + g); await pg.wait_for_timeout(500); await pg.evaluate("Lecture.foldAll(true)")
         keys = await pg.eval_on_selector_all('[data-pr]', 'els=>els.map(e=>e.dataset.pr)')
         if W == 1280: ok(f'{g}: {len(keys)} bài giảng có nút “🏋️ Luyện tập”', len(keys) >= 1)
         for key in keys:

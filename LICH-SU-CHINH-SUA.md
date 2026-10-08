@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Bài giảng giáo viên: chương, chủ đề, đề kiểm tra thu gọn, bấm để mở
+
+- **Yêu cầu của thầy:** Sắp xếp các chương, chủ đề, bài kiểm tra ở dạng ẩn, bấm vào hiện ra để trang bài giảng giáo viên gọn hơn.
+- **Kết quả:** Trên trang mỗi lớp, mỗi chương (kể cả “Ôn tập giữa học kì I”), mục “Đề kiểm tra in A4” và mục “Bài kiểm tra của học sinh – chiếu trên lớp” chỉ hiện một hàng tiêu đề kèm số bài/đề; bấm vào hàng để mở danh sách và các nút (▶ Chiếu, 📄 Xem, 📝 Phiếu, 🏋️ Luyện tập, 📘 Giải SGK, 📋 Phiếu trên lớp, 📘 Phiếu cả chương, 📄 Đề, 🔑 Đáp án). Có nút “Mở tất cả” và “Thu gọn tất cả”. Mặc định thu gọn hết; khi mở phiếu rồi quay lại, các mục đã mở được giữ nguyên trong phiên.
+- **Tệp thay đổi:** `assets/js/lecture.js` (hàm `fold`, `Lecture.foldAll`), `assets/css/style.css`, `tools/test_baigiang.py`, `tools/test_luyentap.py`, `tools/test_chieu_kiemtra.py` (mở tất cả trước khi bấm nút; thêm kiểm tra thu gọn/mở), `CLAUDE.md`, `AGENTS.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `python3 tools/test_baigiang.py` (cả hai cỡ màn hình, kèm kiểm tra thu gọn/mở), `node tools/kiem-tra.js 3`, `python3 tools/test.py 1`, `python3 tools/build.py` → ĐẠT; `test_luyentap.py` lượt 1280×720 (bấm nút trên trang lớp sau khi mở tất cả) → ĐẠT, lượt 1024×768 và `test_chieu_kiemtra.py` chưa chờ kết quả cuối khi đăng (chưa có ✗).
+- **Việc thủ công:** Không có.
+
 ### 2026-10-08 – Phiếu in trong bài giảng giáo viên: bỏ câu chú thích, tiêu đề chuẩn
 
 - **Yêu cầu của thầy:** Sửa các phiếu trên lớp, phiếu in cho học sinh… không có những câu chú thích, để phiếu có tiêu đề chuẩn nhất trong bài giảng giáo viên.

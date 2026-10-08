@@ -34,16 +34,20 @@ async def main():
       if w==1280:
         ok(f'Tài khoản GV vào được, chọn lớp: {", ".join(tiles)}', len(tiles)>=2 and await pg.locator('[data-play]').count()==0); await pg.screenshot(path='/tmp/baigiang-0-home.png')
         await pg.click('a.tile.grade[href="#/lop8"]'); await pg.wait_for_timeout(500)
+        ok('Trang lớp: các chương thu gọn sẵn (không thấy nút ▶ Chiếu), bấm “Mở tất cả” thì hiện', await pg.locator('[data-play]:visible').count()==0 and await pg.locator('.lk-lessons section.fold').count()>=1 and await pg.locator('.lk-lessons section.fold.open').count()==0)
+        await pg.click('#foldAll'); await pg.wait_for_timeout(200); ok('Mở tất cả → hiện các nút bài giảng', await pg.locator('[data-play]:visible').count()>=1)
+        await pg.click('#foldNone'); await pg.wait_for_timeout(100); await pg.locator('.lk-lessons section.fold>h2').first.click(); ok('Bấm tiêu đề một chương → chỉ chương đó mở', await pg.locator('.lk-lessons section.fold.open').count()==1)
+        await pg.evaluate("Lecture.foldAll(true)")
         ids=await pg.eval_on_selector_all('[data-play]','els=>els.map(e=>e.dataset.play)')
         gs=await pg.evaluate("[...new Set(%s.map(k=>Lecture.BOOKS[k.split(':')[0]].grade))]"%json.dumps(ids))
         ok(f'Bấm Lớp 8 → chỉ hiện {len(ids)} bài giảng lớp 8', ids and gs==['lop8']); await pg.screenshot(path='/tmp/baigiang-0-lop8.png', full_page=True)
       plays=[]
       for gid in tiles:
         if len(sys.argv)>1 and gid not in sys.argv[1:]: continue
-        await pg.goto(BASE+'#/'+gid); await pg.wait_for_timeout(500)
+        await pg.goto(BASE+'#/'+gid); await pg.wait_for_timeout(500); await pg.evaluate("Lecture.foldAll(true)"); 
         plays+= [(gid,x) for x in await pg.eval_on_selector_all('[data-play]','els=>els.map(e=>e.dataset.play)')]
       for i,(gid,key) in enumerate(plays):
-        if not pg.url.endswith('#/'+gid): await pg.goto(BASE+'#/'+gid); await pg.wait_for_timeout(500)
+        if not pg.url.endswith('#/'+gid): await pg.goto(BASE+'#/'+gid); await pg.wait_for_timeout(500); await pg.evaluate("Lecture.foldAll(true)"); 
         await pg.click(f'[data-play="{key}"]'); await pg.wait_for_timeout(500)
         cnt=await pg.evaluate("(([b,l])=>Lecture.BOOKS[b].lessons[l].slides.length)(%s)"%json.dumps(key.split(':')))
         for k in range(cnt):
@@ -61,7 +65,7 @@ async def main():
         await pg.keyboard.press('Escape'); await pg.wait_for_timeout(200)
       # từng bước: bấm → hiện dần lời giải
       if w==1280:
-        await pg.goto(BASE+'#/lop10'); await pg.wait_for_timeout(500)
+        await pg.goto(BASE+'#/lop10'); await pg.wait_for_timeout(500); await pg.evaluate("Lecture.foldAll(true)"); 
         await pg.locator('[data-play]').nth(0).click(); await pg.wait_for_timeout(400)
         for _ in range(4): await pg.keyboard.press('ArrowRight'); await pg.wait_for_timeout(100)
         s1=await pg.evaluate("[document.querySelectorAll('#lkSlide .lk-solsteps li.on').length, document.getElementById('lkPos').textContent]")

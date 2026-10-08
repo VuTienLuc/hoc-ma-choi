@@ -32,6 +32,32 @@ const Lecture = (() => {
   /* ---------- Trang chủ giáo viên: chọn lớp → danh sách bài của lớp đó (#/lop8) ---------- */
   const grades = () => { const m = new Map(); BOOKS.forEach((b, bi) => { if(!m.has(b.grade)) m.set(b.grade, {id:b.grade, name:b.gradeName, books:[]}); m.get(b.grade).books.push([b, bi]); }); return [...m.values()]; };
   const gradeNum = g => +(g.id.match(/\d+/) || [0])[0];
+  /* Thu gọn: mỗi chương, “Đề kiểm tra in A4” và “Bài kiểm tra của học sinh” là một khối chỉ hiện tiêu đề; bấm vào tiêu đề để mở/đóng.
+     Trạng thái mở nhớ trong phiên (quay lại từ phiếu/bài xem vẫn giữ). Lecture.foldAll(true|false) mở/đóng tất cả (dùng cho nút “Mở tất cả” và kiểm thử). */
+  const foldOpen = new Set();
+  function fold(root, gid){
+    if(!root) return;
+    const secs = [...root.querySelectorAll(':scope > section.topic')];
+    secs.forEach((sec, i) => {
+      const h = sec.querySelector(':scope > h2'); if(!h) return;
+      const key = gid + ':' + i, body = document.createElement('div'); body.className = 'fold-body';
+      while(h.nextSibling) body.appendChild(h.nextSibling); sec.appendChild(body);
+      const n = body.querySelectorAll('.lk-list > li').length, kind = sec.classList.contains('kt-sec') ? 'đề' : 'bài';
+      sec.classList.add('fold'); sec.dataset.fold = key; h.classList.add('fold-h'); h.setAttribute('role', 'button'); h.tabIndex = 0;
+      h.insertAdjacentHTML('beforeend', `<span class="fold-n">${n} ${kind}</span><span class="fold-chev" aria-hidden="true">▸</span>`);
+      const set = on => { sec.classList.toggle('open', on); h.setAttribute('aria-expanded', on ? 'true' : 'false'); on ? foldOpen.add(key) : foldOpen.delete(key); };
+      set(foldOpen.has(key));
+      h.onclick = () => set(!sec.classList.contains('open'));
+      h.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); h.click(); } };
+    });
+    if(secs.length > 1){
+      const bar = document.createElement('div'); bar.className = 'fold-bar';
+      bar.innerHTML = '<button class="btn small" id="foldAll">Mở tất cả</button><button class="btn small" id="foldNone">Thu gọn tất cả</button>';
+      root.querySelector('h1').after(bar);
+      $('#foldAll').onclick = () => foldAll(true); $('#foldNone').onclick = () => foldAll(false);
+    }
+  }
+  function foldAll(on){ $$('.lk-lessons > section.fold').forEach(sec => { sec.classList.toggle('open', on); const h = sec.querySelector(':scope > .fold-h'); if(h) h.setAttribute('aria-expanded', on ? 'true' : 'false'); on ? foldOpen.add(sec.dataset.fold) : foldOpen.delete(sec.dataset.fold); }); }
   let routed = false;
   function home(){
     if(!routed){ routed = true; addEventListener('hashchange', () => { if(!el) home(); }); }
@@ -51,6 +77,7 @@ const Lecture = (() => {
           <div class="lk-ch-acts"><button class="btn small" data-cs="${bi}" title="Một file in tiết kiệm giấy cho học sinh: kiến thức, ví dụ, bài luyện tập của mọi bài trong chương">📘 Phiếu cả chương (học sinh)</button></div>
           <ol class="lk-list">${b.lessons.map((l, li) => `<li><div class="lk-li"><b>${l.name}</b><small>${l.desc || ''} · ${l.slides.length} trang · ${l.slides.filter(s => s.kind === 'vd').length} ví dụ${l.practice ? ` · ${l.practice.reduce((t, g) => t + g.items.length, 0)} bài luyện tập` : ''}${l.sgk ? ` · giải ${l.sgk.filter(x => x.kind === 'vd').length} câu SGK` : ''}</small></div>
             <div class="lk-acts">${canPresent() ? `<button class="btn primary small" data-play="${bi}:${li}" title="Trình chiếu toàn màn hình">▶ Chiếu</button>` : ''}<button class="btn small" data-prev="${bi}:${li}" title="Xem dạng trang, in được">📄 Xem</button><button class="btn small" data-ws="${bi}:${li}" title="Phiếu học tập in A4">📝 Phiếu</button>${l.practice ? `<button class="btn small" data-pr="${bi}:${li}" title="Phiếu luyện tập: cơ bản → vận dụng">🏋️ Luyện tập</button>` : ''}${l.sgk ? `<button class="btn small" data-sgk="${bi}:${li}" title="Giải các câu vận dụng, câu khó trong SGK">📘 Giải SGK</button>` : ''}${l.sheet ? `<button class="btn small" data-kd="${bi}:${li}" title="Phiếu học tập trên lớp: khởi động – củng cố, kèm gợi ý sư phạm">📋 Phiếu trên lớp</button>` : ''}</div></li>`).join('')}</ol></section>`).join('') + (typeof KiemTra !== 'undefined' ? KiemTra.section(g.id) : '') + (typeof TestDeck !== 'undefined' && typeof StudentTest !== 'undefined' ? TestDeck.section(g.id) : '') + `</div><aside class="lk-rank card" id="lkRank" aria-label="Bảng xếp hạng học sinh"></aside></div><p class="foot">${CONFIG.author}</p>`;
+      fold($('.lk-lessons'), g.id);
       if(typeof GvRank !== 'undefined') GvRank.mount($('#lkRank'), g.id);
       $$('[data-play]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.play.split(':'); open(BOOKS[bi].lessons[li], 0); });
       $$('[data-prev]').forEach(b => b.onclick = () => { const [bi, li] = b.dataset.prev.split(':'); preview(BOOKS[bi], BOOKS[bi].lessons[li]); });
@@ -486,5 +513,5 @@ const Lecture = (() => {
     if(!window.__kdPrint){ window.__kdPrint = true; addEventListener('beforeprint', () => { const r = $('.kd-a'); if(r) kdFit(r); }); }
   }
 
-  return { add, addPractice, addSgk, addSheet, classSheet, mdToHtml, sgkDeck, home, open, preview, worksheet, practice, practiceDeck, chapterSheet, BOOKS };
+  return { add, addPractice, addSgk, addSheet, foldAll, classSheet, mdToHtml, sgkDeck, home, open, preview, worksheet, practice, practiceDeck, chapterSheet, BOOKS };
 })();
