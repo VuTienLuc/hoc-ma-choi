@@ -495,4 +495,38 @@ Lecture.addPractice('lop9','on-thi-pt-bac-hai-viete',[
    sol:[`Điều kiện: ${m('\\Delta\' = (m + 1)^2 - (m^2 - 2) = 2m + 3 \\gt 0')}, tức ${m('m \\gt -\\dfrac{3}{2}')}.`,`Viète: ${m('x_1 + x_2 = 2(m + 1)')}, ${m('x_1x_2 = m^2 - 2')}.`,`${m('x_1^2 + x_2^2 = (x_1 + x_2)^2 - 2x_1x_2 = 4(m + 1)^2 - 2(m^2 - 2) = 2m^2 + 8m + 8')}.`,`Theo đề: ${m('2m^2 + 8m + 8 = 18')}, chia 2: ${m('m^2 + 4m - 5 = 0')}, suy ra ${m('(m - 1)(m + 5) = 0')}, tức ${m('m = 1')} hoặc ${m('m = -5')}.`,`Đối chiếu ${m('m \\gt -\\dfrac{3}{2}')}: nhận ${m('m = 1')}, loại ${m('m = -5')}.`],ans:`${tb('m = 1')}.`,lines:8},
  ]},
 ]);
+
+/* ---------- Đại số 3. Xác suất đơn giản – 5 dạng × 2 câu tương tự ---------- */
+Lecture.addPractice('lop9','on-thi-xac-suat',[
+ {dang:'Hộp bi, rút thẻ',items:[
+  {de:`Hộp chứa 5 viên bi đỏ, 4 viên bi xanh và 6 viên bi trắng, cùng kích thước. Lấy ngẫu nhiên 1 viên bi. Tính xác suất để viên bi lấy ra có màu xanh hoặc màu trắng.`,
+   sol:[`Tổng số bi: ${m('5 + 4 + 6 = 15')}, nên có 15 kết quả cùng khả năng.`,`Số kết quả thuận lợi: ${m('4 + 6 = 10')} (hai màu không có bi chung).`],ans:`${tb('P = \\dfrac{10}{15} = \\dfrac{2}{3}')}.`,lines:2},
+  {hard:true,de:`Hộp chứa 4 viên bi đỏ và 3 viên bi xanh, cùng kích thước. Lấy ngẫu nhiên <b>đồng thời</b> 2 viên bi. Tính xác suất để 2 viên bi lấy ra cùng màu.`,
+   sol:[`Số cặp bi (không kể thứ tự): ${m('\\dfrac{7\\cdot 6}{2} = 21')} kết quả cùng khả năng.`,`Cặp hai bi đỏ: ${m('\\dfrac{4\\cdot 3}{2} = 6')}; cặp hai bi xanh: ${m('\\dfrac{3\\cdot 2}{2} = 3')}. Số kết quả thuận lợi: ${m('6 + 3 = 9')}.`],ans:`${tb('P = \\dfrac{9}{21} = \\dfrac{3}{7}')}.`,lines:6},
+ ]},
+ {dang:'Xúc xắc',items:[
+  {de:`Tung hai con xúc xắc cân đối, đồng chất. Tính xác suất để tổng số chấm của hai mặt bằng 9.`,
+   sol:[`Có ${m('6\\cdot 6 = 36')} kết quả cùng khả năng.`,`Các cặp có tổng 9: ${m('(3;\\,6),(4;\\,5),(5;\\,4),(6;\\,3)')}, tức 4 kết quả.`],ans:`${tb('P = \\dfrac{4}{36} = \\dfrac{1}{9}')}.`,lines:2},
+  {de:`Tung hai con xúc xắc cân đối, đồng chất. Tính xác suất để có ít nhất một con xuất hiện mặt 6 chấm.`,
+   sol:[`Có 36 kết quả cùng khả năng. Biến cố đối: "không con nào ra 6", mỗi con có 5 mặt, nên có ${m('5\\cdot 5 = 25')} kết quả.`,`Số kết quả thuận lợi: ${m('36 - 25 = 11')}.`],ans:`${tb('P = \\dfrac{11}{36}')}.`,lines:2},
+ ]},
+ {dang:'Đồng xu và lập số',items:[
+  {de:`Tung ba đồng xu cân đối cùng một lúc. Tính xác suất để có đúng một đồng xu ra mặt ngửa.`,
+   sol:[`Có ${m('2\\cdot 2\\cdot 2 = 8')} kết quả cùng khả năng.`,`Thuận lợi: SSN, SNS, NSS, tức 3 kết quả.`],ans:`${tb('P = \\dfrac{3}{8}')}.`,lines:2},
+  {de:`Từ các chữ số 1, 3, 4, 6, 9 lập ngẫu nhiên một số tự nhiên có hai chữ số khác nhau. Tính xác suất để số lập được lớn hơn 40.`,
+   sol:[`Chữ số hàng chục có 5 cách, hàng đơn vị có 4 cách, nên có ${m('5\\cdot 4 = 20')} số.`,`Số lớn hơn 40 có hàng chục là 4, 6 hoặc 9, mỗi trường hợp có 4 cách chọn hàng đơn vị: ${m('3\\cdot 4 = 12')} số.`],ans:`${tb('P = \\dfrac{12}{20} = \\dfrac{3}{5}')}.`,lines:2},
+ ]},
+ {dang:'Thẻ đánh số từ 1 đến n',items:[
+  {de:`Hộp có 25 tấm thẻ giống nhau đánh số từ 1 đến 25. Rút ngẫu nhiên 1 thẻ. Tính xác suất để số trên thẻ là số nguyên tố.`,
+   sol:[`Có 25 kết quả cùng khả năng.`,`Các số nguyên tố từ 1 đến 25: 2, 3, 5, 7, 11, 13, 17, 19, 23, tức 9 thẻ (số 1 không nguyên tố).`],ans:`${tb('P = \\dfrac{9}{25}')}.`,lines:2},
+  {hard:true,de:`Hộp có 60 tấm thẻ giống nhau đánh số từ 1 đến 60. Rút ngẫu nhiên 1 thẻ. Tính xác suất để số trên thẻ chia hết cho 4 hoặc chia hết cho 6.`,
+   sol:[`Có 60 kết quả. Chia hết cho 4: ${m('\\dfrac{60}{4} = 15')} thẻ. Chia hết cho 6: ${m('\\dfrac{60}{6} = 10')} thẻ.`,`Chia hết cho cả 4 và 6 tức chia hết cho 12 (không phải 24): ${m('\\dfrac{60}{12} = 5')} thẻ, bị đếm hai lần.`,`Số kết quả thuận lợi: ${m('15 + 10 - 5 = 20')}. ${m('P = \\dfrac{20}{60} = \\dfrac{1}{3}')}.`],ans:`${tb('\\dfrac{1}{3}')}.`,lines:6},
+ ]},
+ {dang:'Xác suất thực nghiệm và tìm số bi',items:[
+  {de:`Hộp có ${m('x')} viên bi đỏ và 8 viên bi xanh, cùng kích thước. Biết xác suất lấy ngẫu nhiên được bi đỏ là ${m('\\dfrac{3}{7}')}. Tìm ${m('x')}.`,
+   sol:[`Tổng số bi: ${m('x + 8')}. Xác suất lấy bi đỏ: ${m('\\dfrac{x}{x + 8} = \\dfrac{3}{7}')}.`,`Nhân chéo: ${m('7x = 3(x + 8)')}, suy ra ${m('4x = 24')}, tức ${m('x = 6')} (thử lại: ${m('\\dfrac{6}{14} = \\dfrac{3}{7}')} ✓).`],ans:`${tb('x = 6')}.`,lines:2},
+  {hard:true,de:`Hộp có 4 viên bi đỏ và 8 viên bi xanh, cùng kích thước. Cần bỏ thêm vào hộp bao nhiêu viên bi đỏ (cùng loại) để xác suất lấy ngẫu nhiên được bi đỏ bằng ${m('\\dfrac{3}{5}')}?`,
+   sol:[`Gọi ${m('t')} là số bi đỏ thêm vào: có ${m('4 + t')} bi đỏ trong tổng ${m('12 + t')} bi.`,`${m('\\dfrac{4 + t}{12 + t} = \\dfrac{3}{5}')}. Nhân chéo: ${m('5(4 + t) = 3(12 + t)')}, tức ${m('20 + 5t = 36 + 3t')}.`,`Suy ra ${m('2t = 16')}, vậy ${m('t = 8')}.`],ans:`Thêm ${tb('8')} viên bi đỏ.`,lines:6},
+ ]},
+]);
 })();

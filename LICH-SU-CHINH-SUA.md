@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Ôn thi vào 10, chủ đề 3: Xác suất đơn giản (trọn bộ)
+
+- **Yêu cầu:** Đăng chủ đề ôn thi vào lớp 10 kế tiếp theo kế hoạch: Xác suất đơn giản (học sinh + bài giảng + phiếu luyện tập in 2 trang A4).
+- **Kết quả:** Thêm bài `on-thi-xac-suat` (Đại số 3) với 5 dạng × 3 mức (hộp bi · xúc xắc · đồng xu và lập số · thẻ đánh số · xác suất thực nghiệm, tìm số bi, thêm/bớt bi), có thẻ 📘 Kiến thức cần nhớ · Lưu ý · Mẹo (4 mục); 1 bài giảng (4 trang kiến thức, 5 dạng có ví dụ, tổng kết); phiếu luyện tập 10 bài (7 cơ bản + 3 ★) vừa 2 trang A4 cả bản học sinh lẫn bản có lời giải. Đã xuất 2 tệp PDF.
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9`, `python3 tools/test.py`, `python3 tools/test_phieu_tren_lop.py`, `python3 tools/test_baigiang.py lop9`, `python3 tools/build.py` → ĐẠT; PDF phiếu đo bằng `pdfinfo` đúng 2 trang.
+- **Việc thủ công:** Thầy xem lại cách trình bày xác suất (không gian mẫu, biến cố) so với hướng dẫn của Sở.
+
 ### 2026-10-07 – Ôn thi 9 lên 10: thêm "Kiến thức cần nhớ · Lưu ý · Mẹo" cho học sinh
 
 - **Yêu cầu của thầy:** Ở phần chủ đề ôn tập 9 lên 10 của học sinh phải có kiến thức cần nhớ, lưu ý và mẹo để củng cố và làm bài.

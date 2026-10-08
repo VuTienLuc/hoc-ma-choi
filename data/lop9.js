@@ -1766,4 +1766,185 @@ lesson(6,'on-thi-pt-bac-hai-viete','Đại số 2. Phương trình bậc hai, đ
 ]});
 }
 
+/* =====================================================================
+   ÔN THI VÀO 10 – Đại số 3. Xác suất của biến cố trong các mô hình đơn giản
+   Dạng 1 hộp bi · Dạng 2 xúc xắc · Dạng 3 đồng xu và ghép số · Dạng 4 thẻ đánh số
+   Dạng 5 xác suất thực nghiệm, tìm số phần tử, thêm/bớt bi
+   ===================================================================== */
+{
+const pr = (k,n) => { const g = gcd(k,n); return {frac:[k/g, n/g], mode:'simplest'}; };
+const pf = (k,n) => { const g = gcd(k,n); return g>1 ? `${tf(k,n)} = ${tf(k/g,n/g)}` : tf(k,n); };
+const PQ = tm('P =');
+const hintP = 'Xác suất bằng số kết quả thuận lợi chia cho số kết quả có thể xảy ra (các kết quả cùng khả năng). Rút gọn phân số.';
+const listS = a => a.join(', ');
+
+/* Dạng 1. Hộp bi: một bi, biến cố đối / "hoặc", hai bi lấy cùng lúc */
+const gXs1 = lv => {
+  if(lv===1){
+    const a=R(2,7), b=R(2,7), c=R(1,6), n=a+b+c, cnt=[a,b,c], nm=['đỏ','xanh','vàng'], i=pick([0,1,2]), k=cnt[i];
+    return QB({text:`Một hộp chứa ${a} viên bi đỏ, ${b} viên bi xanh và ${c} viên bi vàng, cùng kích thước và khối lượng. Lấy ngẫu nhiên 1 viên bi từ hộp. Tính xác suất để lấy được viên bi ${nm[i]}.`,
+      tpl:`${PQ} [F]`,ans:[pr(k,n)],hint:hintP,
+      sol:`Lấy 1 viên bi từ ${a} + ${b} + ${c} = ${n} viên nên có ${tb(n)} kết quả có thể xảy ra, khả năng như nhau.<br>Có ${k} viên bi ${nm[i]} nên có ${tb(k)} kết quả thuận lợi.<br>Vậy ${tm(`P = ${pf(k,n)}`)}.`});
+  }
+  if(lv===2){
+    const a=R(2,7), b=R(2,7), c=R(2,6), n=a+b+c, cnt=[a,b,c], nm=['đỏ','xanh','vàng'];
+    if(pick([0,1])===0){
+      const i=pick([0,1,2]), k=n-cnt[i];
+      return QB({text:`Một hộp chứa ${a} viên bi đỏ, ${b} viên bi xanh và ${c} viên bi vàng, cùng kích thước. Lấy ngẫu nhiên 1 viên bi. Tính xác suất để viên bi lấy ra <b>không phải</b> màu ${nm[i]}.`,
+        tpl:`${PQ} [F]`,ans:[pr(k,n)],hint:`Có thể đếm trực tiếp các viên bi còn lại, hoặc lấy 1 trừ xác suất của biến cố đối ("lấy được bi ${nm[i]}").`,
+        sol:`Có ${tb(n)} kết quả có thể xảy ra.<br>Biến cố đối "lấy được bi ${nm[i]}" có ${cnt[i]} kết quả, nên số kết quả thuận lợi là ${n} - ${cnt[i]} = ${tb(k)}.<br>Vậy ${tm(`P = ${pf(k,n)}`)} (cũng bằng ${tm(`1 - ${tf(cnt[i],n)}`)}).`});
+    }
+    const i=pick([0,1,2]), j=(i+pick([1,2]))%3, k=cnt[i]+cnt[j];
+    return QB({text:`Một hộp chứa ${a} viên bi đỏ, ${b} viên bi xanh và ${c} viên bi vàng, cùng kích thước. Lấy ngẫu nhiên 1 viên bi. Tính xác suất để lấy được viên bi màu ${nm[i]} <b>hoặc</b> màu ${nm[j]}.`,
+      tpl:`${PQ} [F]`,ans:[pr(k,n)],hint:`Hai màu khác nhau không có viên bi chung, nên số kết quả thuận lợi là tổng số bi của hai màu.`,
+      sol:`Có ${tb(n)} kết quả có thể xảy ra.<br>Số kết quả thuận lợi: ${cnt[i]} + ${cnt[j]} = ${tb(k)} (hai màu không có bi chung).<br>Vậy ${tm(`P = ${pf(k,n)}`)}.`});
+  }
+  const r=R(2,4), x=R(2,4), n=r+x, tot=n*(n-1)/2, same=r*(r-1)/2+x*(x-1)/2, diff=r*x;
+  const kind=pick(['same','diff']), k=kind==='same'?same:diff;
+  return QB({text:`Một hộp chứa ${r} viên bi đỏ và ${x} viên bi xanh, cùng kích thước. Lấy ngẫu nhiên <b>đồng thời</b> 2 viên bi từ hộp. Tính xác suất để 2 viên bi lấy ra ${kind==='same'?'<b>cùng màu</b>':'<b>khác màu</b>'}.`,
+    tpl:`${PQ} [F]`,ans:[pr(k,tot)],hint:`Lấy cùng lúc nên không phân biệt thứ tự: đếm số cặp bi có thể có, rồi đếm số cặp thuận lợi theo màu.`,
+    sol:`Mỗi cặp bi gồm 2 viên khác nhau và không kể thứ tự. Mỗi viên ghép với ${n - 1} viên còn lại, mỗi cặp bị đếm hai lần, nên số cặp là ${tm(`\\dfrac{${n}\\cdot ${n-1}}{2}`)} ${tb('= '+tot)} kết quả có thể xảy ra.<br>`+
+      (kind==='same'
+        ? `Cặp hai bi đỏ: ${tm(`\\dfrac{${r}\\cdot ${r-1}}{2} = ${r*(r-1)/2}`)}; cặp hai bi xanh: ${tm(`\\dfrac{${x}\\cdot ${x-1}}{2} = ${x*(x-1)/2}`)}. Số kết quả thuận lợi: ${r*(r-1)/2} + ${x*(x-1)/2} = ${tb(same)}.`
+        : `Cặp gồm một bi đỏ và một bi xanh: ${r}\\cdot ${x} cách chọn, tức ${tb(diff)} kết quả thuận lợi.`.replace(/\\cdot/g,'×'))+
+      `<br>Vậy ${tm(`P = ${pf(k,tot)}`)}.`});
+};
+
+/* Dạng 2. Xúc xắc: một con, hai con */
+const DICE2 = [];
+for(let a=1;a<=6;a++) for(let b=1;b<=6;b++) DICE2.push([a,b]);
+const gXs2 = lv => {
+  if(lv===1){
+    const ev=pick([
+      {d:'số chấm là số nguyên tố',s:[2,3,5]},{d:'số chấm chia hết cho 3',s:[3,6]},{d:'số chấm lớn hơn 4',s:[5,6]},
+      {d:'số chấm là số chẵn',s:[2,4,6]},{d:'số chấm nhỏ hơn 3',s:[1,2]},{d:'số chấm là số chính phương',s:[1,4]},
+      {d:'số chấm lớn hơn 1 và nhỏ hơn 5',s:[2,3,4]},{d:'số chấm không chia hết cho 2 và không chia hết cho 3',s:[1,5]}]);
+    return QB({text:`Tung một con xúc xắc cân đối, đồng chất một lần. Tính xác suất để mặt xuất hiện có ${ev.d}.`,
+      tpl:`${PQ} [F]`,ans:[pr(ev.s.length,6)],hint:hintP,
+      sol:`Các kết quả có thể xảy ra: ${tm('1;\\,2;\\,3;\\,4;\\,5;\\,6')}, tức ${tb(6)} kết quả, khả năng như nhau.<br>Kết quả thuận lợi: ${tm(listS(ev.s).replace(/, /g,';\\,'))}, tức ${tb(ev.s.length)} kết quả.<br>Vậy ${tm(`P = ${pf(ev.s.length,6)}`)}.`});
+  }
+  if(lv===2){
+    const s=pick([4,5,6,7,8,9,10]), fav=DICE2.filter(p=>p[0]+p[1]===s), k=fav.length;
+    return QB({text:`Tung hai con xúc xắc cân đối, đồng chất (phân biệt được, ví dụ một xanh, một đỏ). Tính xác suất để tổng số chấm của hai mặt xuất hiện bằng ${s}.`,
+      tpl:`${PQ} [F]`,ans:[pr(k,36)],hint:`Mỗi con có 6 kết quả; liệt kê các cặp (số chấm con thứ nhất; số chấm con thứ hai) có tổng cần tìm, cặp (1;2) khác cặp (2;1).`,
+      sol:`Mỗi con có 6 kết quả nên có ${tm('6 \\cdot 6')} = ${tb(36)} kết quả có thể xảy ra, khả năng như nhau.<br>Các cặp có tổng bằng ${s}: ${fav.map(p=>tm(`(${p[0]};\\,${p[1]})`)).join(', ')}, tức ${tb(k)} kết quả thuận lợi.<br>Vậy ${tm(`P = ${pf(k,36)}`)}.`});
+  }
+  const K=pick([
+    {d:'tích hai số chấm là số chẵn',f:p=>p[0]*p[1]%2===0,how:`Dùng biến cố đối "tích là số lẻ": chỉ xảy ra khi cả hai mặt đều lẻ, mỗi con có 3 mặt lẻ nên có ${tm('3 \\cdot 3 = 9')} kết quả. Số kết quả thuận lợi: 36 - 9 = `},
+    {d:'tích hai số chấm chia hết cho 3',f:p=>p[0]*p[1]%3===0,how:`Dùng biến cố đối "tích không chia hết cho 3": cả hai mặt đều không chia hết cho 3, mỗi con có 4 mặt (1, 2, 4, 5) nên có ${tm('4 \\cdot 4 = 16')} kết quả. Số kết quả thuận lợi: 36 - 16 = `},
+    {d:'hai mặt có số chấm khác nhau',f:p=>p[0]!==p[1],how:`Dùng biến cố đối "hai mặt giống nhau": có 6 kết quả ${tm('(1;\\,1),\\ldots,(6;\\,6)')}. Số kết quả thuận lợi: 36 - 6 = `},
+    {d:'có ít nhất một con xuất hiện mặt 6 chấm',f:p=>p[0]===6||p[1]===6,how:`Dùng biến cố đối "không con nào ra 6": mỗi con có 5 mặt nên có ${tm('5 \\cdot 5 = 25')} kết quả. Số kết quả thuận lợi: 36 - 25 = `},
+    {d:'tổng số chấm là số nguyên tố',f:p=>[2,3,5,7,11].includes(p[0]+p[1]),how:`Tổng nguyên tố có thể là 2, 3, 5, 7, 11 với số cặp lần lượt là 1, 2, 4, 6, 2. Số kết quả thuận lợi: 1 + 2 + 4 + 6 + 2 = `},
+    {d:'giá trị tuyệt đối của hiệu hai số chấm bằng 1',f:p=>Math.abs(p[0]-p[1])===1,how:`Các cặp ${tm('(1;\\,2),(2;\\,3),(3;\\,4),(4;\\,5),(5;\\,6)')} và 5 cặp đảo thứ tự. Số kết quả thuận lợi: 5 + 5 = `}]);
+  const k=DICE2.filter(K.f).length;
+  return QB({text:`Tung hai con xúc xắc cân đối, đồng chất (phân biệt được). Tính xác suất để ${K.d}.`,
+    tpl:`${PQ} [F]`,ans:[pr(k,36)],hint:`Có 36 kết quả. Với biến cố có "ít nhất" hoặc "chẵn", tính biến cố đối sẽ nhanh hơn rồi lấy 36 trừ đi.`,
+    sol:`Có ${tm('6 \\cdot 6')} = ${tb(36)} kết quả có thể xảy ra, khả năng như nhau.<br>${K.how}${tb(k)}.<br>Vậy ${tm(`P = ${pf(k,36)}`)}.`});
+};
+
+/* Dạng 3. Đồng xu (liệt kê) và lập số có hai chữ số khác nhau */
+const coinsAll = n => { let r=['']; for(let i=0;i<n;i++) r=r.flatMap(s=>[s+'S',s+'N']); return r; };
+const cnt = (s,ch) => s.split(ch).length-1;
+const gXs3 = lv => {
+  if(lv<=2){
+    const n=lv===1?2:3, all=coinsAll(n), tot=all.length;
+    const E = lv===1
+      ? [{d:'có ít nhất một đồng xu ra mặt sấp',f:s=>cnt(s,'S')>=1},{d:'hai đồng xu ra hai mặt giống nhau',f:s=>cnt(s,'S')===0||cnt(s,'S')===2},
+         {d:'có đúng một đồng xu ra mặt ngửa',f:s=>cnt(s,'N')===1},{d:'cả hai đồng xu đều ra mặt sấp',f:s=>cnt(s,'S')===2},{d:'có ít nhất một đồng xu ra mặt ngửa',f:s=>cnt(s,'N')>=1}]
+      : [{d:'có đúng hai đồng xu ra mặt sấp',f:s=>cnt(s,'S')===2},{d:'có ít nhất hai đồng xu ra mặt sấp',f:s=>cnt(s,'S')>=2},
+         {d:'có đúng một đồng xu ra mặt ngửa',f:s=>cnt(s,'N')===1},{d:'cả ba đồng xu ra cùng một mặt',f:s=>cnt(s,'S')===0||cnt(s,'S')===3},
+         {d:'có ít nhất một đồng xu ra mặt sấp',f:s=>cnt(s,'S')>=1}];
+    const e=pick(E), fav=all.filter(e.f), k=fav.length;
+    return QB({text:`Tung ${n===2?'hai':'ba'} đồng xu cân đối, đồng chất (phân biệt được) cùng một lúc. Kí hiệu S là mặt sấp, N là mặt ngửa. Tính xác suất để ${e.d}.`,
+      tpl:`${PQ} [F]`,ans:[pr(k,tot)],hint:`Liệt kê đầy đủ các kết quả theo thứ tự các đồng xu (ví dụ SN khác NS), rồi chọn ra các kết quả thoả đề.`,
+      sol:`Mỗi đồng xu có 2 mặt nên có ${tm(Array(n).fill('2').join(' \\cdot '))} = ${tb(tot)} kết quả có thể xảy ra: ${all.join(', ')}.<br>Kết quả thuận lợi: ${fav.join(', ')}, tức ${tb(k)} kết quả.<br>Vậy ${tm(`P = ${pf(k,tot)}`)}.`});
+  }
+  let digs,e,fav,all,k;
+  for(let t=0;t<400;t++){
+    const pool=[1,2,3,4,5,6,7,8,9]; digs=[]; while(digs.length<5){ const d=pick(pool); if(!digs.includes(d)) digs.push(d); } digs.sort((a,b)=>a-b);
+    all=[]; for(const a of digs) for(const b of digs) if(a!==b) all.push(10*a+b);
+    const T=pick([20,30,40,50,60,70]);
+    const E=[{d:'số lập được là số chẵn',f:v=>v%2===0},{d:`số lập được lớn hơn ${T}`,f:v=>v>T},{d:'số lập được chia hết cho 3',f:v=>v%3===0}];
+    if(digs.includes(5)) E.push({d:'số lập được chia hết cho 5',f:v=>v%5===0});
+    e=pick(E); fav=all.filter(e.f); k=fav.length;
+    if(k>=3&&k<=15) break;
+  }
+  return QB({text:`Từ năm chữ số ${digs.join(', ')}, lập ngẫu nhiên một số tự nhiên có hai chữ số khác nhau. Tính xác suất để ${e.d}.`,
+    tpl:`${PQ} [F]`,ans:[pr(k,20)],hint:`Chữ số hàng chục có 5 cách chọn, chữ số hàng đơn vị có 4 cách chọn (khác hàng chục). Liệt kê các số thoả đề.`,
+    sol:`Chữ số hàng chục có 5 cách chọn, hàng đơn vị có 4 cách (khác hàng chục) nên có ${tm('5 \\cdot 4')} = ${tb(20)} số, khả năng như nhau.<br>Các số thoả đề: ${fav.join(', ')}, tức ${tb(k)} số.<br>Vậy ${tm(`P = ${pf(k,20)}`)}.`});
+};
+
+/* Dạng 4. Thẻ đánh số từ 1 đến n */
+const PRIMES = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47];
+const gXs4 = lv => {
+  if(lv===1){
+    const n=R(20,40), a=pick([3,4,5,6,7]); const fav=[]; for(let v=a;v<=n;v+=a) fav.push(v); const k=fav.length;
+    return QB({text:`Một hộp có ${n} tấm thẻ giống nhau, đánh số từ 1 đến ${n}. Rút ngẫu nhiên 1 thẻ. Tính xác suất để số ghi trên thẻ chia hết cho ${a}.`,
+      tpl:`${PQ} [F]`,ans:[pr(k,n)],hint:`Liệt kê các số từ 1 đến ${n} chia hết cho ${a}: đó là các bội của ${a} không vượt quá ${n}.`,
+      sol:`Có ${tb(n)} thẻ nên có ${n} kết quả có thể xảy ra, khả năng như nhau.<br>Các số chia hết cho ${a}: ${fav.join(', ')}, tức ${tb(k)} thẻ.<br>Vậy ${tm(`P = ${pf(k,n)}`)}.`});
+  }
+  if(lv===2){
+    if(pick([0,1])===0){
+      const n=pick([20,25,30]), fav=PRIMES.filter(p=>p<=n), k=fav.length;
+      return QB({text:`Một hộp có ${n} tấm thẻ giống nhau, đánh số từ 1 đến ${n}. Rút ngẫu nhiên 1 thẻ. Tính xác suất để số ghi trên thẻ là số nguyên tố.`,
+        tpl:`${PQ} [F]`,ans:[pr(k,n)],hint:`Số 1 không phải số nguyên tố. Liệt kê các số nguyên tố không vượt quá ${n}.`,
+        sol:`Có ${tb(n)} kết quả có thể xảy ra.<br>Các số nguyên tố từ 1 đến ${n}: ${fav.join(', ')} (số 1 không phải số nguyên tố), tức ${tb(k)} thẻ.<br>Vậy ${tm(`P = ${pf(k,n)}`)}.`});
+    }
+    const n=R(30,50), fav=[]; for(let v=1;v*v<=n;v++) fav.push(v*v); const k=fav.length;
+    return QB({text:`Một hộp có ${n} tấm thẻ giống nhau, đánh số từ 1 đến ${n}. Rút ngẫu nhiên 1 thẻ. Tính xác suất để số ghi trên thẻ là số chính phương.`,
+      tpl:`${PQ} [F]`,ans:[pr(k,n)],hint:`Số chính phương là bình phương của một số nguyên; liệt kê các bình phương không vượt quá ${n}.`,
+      sol:`Có ${tb(n)} kết quả có thể xảy ra.<br>Các số chính phương từ 1 đến ${n}: ${fav.join(', ')}, tức ${tb(k)} thẻ.<br>Vậy ${tm(`P = ${pf(k,n)}`)}.`});
+  }
+  const ab=pick([[2,3],[2,5],[3,4],[3,5],[2,7],[4,5]]), a=ab[0], b=ab[1], n=R(30,60);
+  const na=Math.floor(n/a), nb=Math.floor(n/b), nab=Math.floor(n/(a*b)), k=na+nb-nab;
+  return QB({text:`Một hộp có ${n} tấm thẻ giống nhau, đánh số từ 1 đến ${n}. Rút ngẫu nhiên 1 thẻ. Tính xác suất để số ghi trên thẻ chia hết cho ${a} <b>hoặc</b> chia hết cho ${b}.`,
+    tpl:`${PQ} [F]`,ans:[pr(k,n)],hint:`Đếm số thẻ chia hết cho ${a}, số thẻ chia hết cho ${b}; số chia hết cho cả hai (bội của ${a*b}) bị đếm hai lần nên phải trừ đi một lần.`,
+    sol:`Có ${tb(n)} kết quả có thể xảy ra.<br>Chia hết cho ${a}: ${tm(`\\left\\lfloor\\dfrac{${n}}{${a}}\\right\\rfloor = ${na}`)} thẻ. Chia hết cho ${b}: ${tm(`\\left\\lfloor\\dfrac{${n}}{${b}}\\right\\rfloor = ${nb}`)} thẻ.<br>`+
+      `Chia hết cho cả ${a} và ${b} (tức chia hết cho ${a*b}): ${nab} thẻ, đã bị đếm hai lần.<br>Số kết quả thuận lợi: ${na} + ${nb} - ${nab} = ${tb(k)}.<br>Vậy ${tm(`P = ${pf(k,n)}`)}.`});
+};
+
+/* Dạng 5. Xác suất thực nghiệm; tìm số bi; thêm/bớt bi */
+const gXs5 = lv => {
+  if(lv===1){
+    if(pick([0,1])===0){
+      const n=pick([40,50,60,80,100]), k0=R(Math.round(n*0.2),Math.round(n*0.45)), ev=pick([0,1]);
+      const sc=[{c:`Lan tung một đồng xu ${n} lần liên tiếp, thấy mặt sấp xuất hiện ${k0} lần`,e:'mặt ngửa xuất hiện'},{c:`Kiểm tra ngẫu nhiên ${n} sản phẩm của một nhà máy, có ${k0} sản phẩm bị lỗi`,e:'sản phẩm đạt chuẩn (không lỗi)'}][ev];
+      const k=n-k0;
+      return QB({text:`${sc.c}. Tính xác suất thực nghiệm của biến cố "${sc.e}".`,tpl:`${PQ} [F]`,ans:[pr(k,n)],hint:`Xác suất thực nghiệm bằng số lần biến cố xảy ra chia cho tổng số lần thực hiện. Chú ý đề cho số lần của biến cố đối.`,
+        sol:`Tổng số lần thực hiện: ${tb(n)}.<br>Số lần "${sc.e}": ${n} - ${k0} = ${tb(k)}.<br>Xác suất thực nghiệm: ${tm(`P = ${pf(k,n)}`)}.`});
+    }
+    const cs=[R(4,15),R(4,15),R(4,15),R(4,15)], N=cs[0]+cs[1]+cs[2]+cs[3], nm=['đỏ','xanh','vàng','trắng'], i=pick([0,1,2,3]), j=(i+pick([1,2,3]))%4, k=cs[i]+cs[j];
+    return QB({text:`Một túi có bốn loại thẻ: đỏ, xanh, vàng, trắng. Bạn Nam rút ngẫu nhiên một thẻ, ghi màu rồi trả lại túi, làm như vậy nhiều lần. Kết quả: đỏ ${cs[0]} lần, xanh ${cs[1]} lần, vàng ${cs[2]} lần, trắng ${cs[3]} lần. Tính xác suất thực nghiệm của biến cố "rút được thẻ ${nm[i]} hoặc thẻ ${nm[j]}".`,
+      tpl:`${PQ} [F]`,ans:[pr(k,N)],hint:`Cộng các tần số để biết tổng số lần rút; số lần thuận lợi là tổng tần số của hai màu được hỏi.`,
+      sol:`Tổng số lần rút: ${cs.join(' + ')} = ${tb(N)}.<br>Số lần rút được thẻ ${nm[i]} hoặc ${nm[j]}: ${cs[i]} + ${cs[j]} = ${tb(k)}.<br>Xác suất thực nghiệm: ${tm(`P = ${pf(k,N)}`)}.`});
+  }
+  if(lv===2){
+    const b=R(3,9), x=R(2,9), n=x+b, g=gcd(x,n);
+    return QB({text:`Một hộp chứa ${tm('x')} viên bi đỏ và ${b} viên bi xanh, cùng kích thước. Lấy ngẫu nhiên 1 viên bi, xác suất lấy được bi đỏ là ${tm(tfrac(x,n))}. Tìm ${tm('x')}.`,
+      tpl:`${tm('x =')} [_]`,ans:[x],hint:`Viết xác suất lấy bi đỏ theo ${tm('x')} (tổng số bi là ${tm('x + '+b)}), cho bằng xác suất đề cho rồi giải phương trình (nhân chéo).`,
+      sol:`Tổng số bi: ${tm('x + '+b)}. Xác suất lấy bi đỏ: ${tm(`\\dfrac{x}{x + ${b}}`)}.<br>Theo đề: ${tm(`\\dfrac{x}{x + ${b}} = ${tf(x/g,n/g)}`)}. Nhân chéo: ${tm(`${n/g}x = ${x/g}(x + ${b})`)}, suy ra ${tm(`${n/g - x/g}x = ${x/g*b}`)}.<br>Vậy ${tb('x = '+x)} (kiểm tra: ${tm(`\\dfrac{${x}}{${n}} = ${tf(x/g,n/g)}`)} ✓).`});
+  }
+  // lv3: thêm bi đỏ hoặc bớt bi xanh để đạt xác suất cho trước
+  if(pick([0,1])===0){
+    let r,x,t,n,p,q; do{ r=R(2,6); x=R(4,9); t=R(1,6); n=r+x; const g=gcd(r+t,n+t); p=(r+t)/g; q=(n+t)/g; }while(q-p<1||q>16||(r+t)/(n+t)>=1);
+    return QB({text:`Một hộp chứa ${r} viên bi đỏ và ${x} viên bi xanh, cùng kích thước. Cần bỏ thêm vào hộp bao nhiêu viên bi đỏ (cùng loại) để xác suất lấy ngẫu nhiên được viên bi đỏ bằng ${tm(tf(p,q))}?`,
+      tpl:`Số viên bi đỏ cần thêm: [_]`,ans:[t],hint:`Gọi ${tm('t')} là số bi đỏ thêm vào: số bi đỏ là ${tm('r + t')} và tổng số bi cũng tăng thêm ${tm('t')}. Lập phương trình xác suất bằng ${tm(tf(p,q))} rồi nhân chéo.`,
+      sol:`Gọi ${tm('t')} là số bi đỏ thêm vào. Khi đó có ${tm(`${r} + t`)} bi đỏ trong tổng ${tm(`${n} + t`)} bi.<br>Theo đề: ${tm(`\\dfrac{${r} + t}{${n} + t} = ${tf(p,q)}`)}. Nhân chéo: ${tm(`${q}(${r} + t) = ${p}(${n} + t)`)}, tức ${tm(`${q*r} + ${q}t = ${p*n} + ${p}t`)}.<br>`+
+        `Suy ra ${tm(`${q - p}t = ${p*n - q*r}`)}, vậy ${tb('t = '+t)} viên (kiểm tra: ${tm(`\\dfrac{${r + t}}{${n + t}} = ${tf(p,q)}`)} ✓).`});
+  }
+  let r,x,t,n,p,q; do{ r=R(2,6); x=R(5,10); t=R(1,x-2); n=r+x; const g=gcd(r,n-t); p=r/g; q=(n-t)/g; }while(q-p<1||q>16);
+  return QB({text:`Một hộp chứa ${r} viên bi đỏ và ${x} viên bi xanh, cùng kích thước. Cần lấy ra khỏi hộp bao nhiêu viên bi xanh để xác suất lấy ngẫu nhiên được viên bi đỏ bằng ${tm(tf(p,q))}?`,
+    tpl:`Số viên bi xanh cần lấy ra: [_]`,ans:[t],hint:`Gọi ${tm('t')} là số bi xanh lấy ra: số bi đỏ không đổi, tổng số bi giảm ${tm('t')}. Lập phương trình xác suất bằng ${tm(tf(p,q))}.`,
+    sol:`Gọi ${tm('t')} là số bi xanh lấy ra. Khi đó còn ${r} bi đỏ trong tổng ${tm(`${n} - t`)} bi.<br>Theo đề: ${tm(`\\dfrac{${r}}{${n} - t} = ${tf(p,q)}`)}. Nhân chéo: ${tm(`${q}\\cdot ${r} = ${p}(${n} - t)`)}.<br>`+
+      `Suy ra ${tm(`${n} - t = ${q*r/p}`)}, vậy ${tb('t = '+t)} viên (kiểm tra: ${tm(`\\dfrac{${r}}{${n - t}} = ${tf(p,q)}`)} ✓).`});
+};
+
+lesson(6,'on-thi-xac-suat','Đại số 3. Xác suất của biến cố trong một số mô hình xác suất đơn giản','Ôn tuyển sinh: xác suất cổ điển với hộp bi, xúc xắc, đồng xu, thẻ đánh số; biến cố đối; xác suất thực nghiệm; tìm số phần tử khi biết xác suất.',[gXs1,gXs2,gXs3,gXs4,gXs5], {intro:[
+  {t:`Phép thử, không gian mẫu, biến cố`, b:`<ul><li><b>Phép thử</b>: hành động có nhiều kết quả, chưa biết trước (tung xúc xắc, rút thẻ, lấy bi…).</li><li><b>Không gian mẫu</b>: tập mọi kết quả có thể xảy ra; gọi ${tm('n')} là số phần tử.</li><li><b>Biến cố</b> ${tm('A')}: tập các kết quả <b>thuận lợi</b> cho ${tm('A')}; gọi ${tm('k')} là số phần tử.</li></ul>`, warn:`Chỉ dùng công thức cổ điển khi các kết quả có <b>khả năng xảy ra như nhau</b> (đồng xu, xúc xắc cân đối, đồng chất; các bi, thẻ cùng kích thước…). Đề thi thường nêu rõ điều này.`},
+  {t:`Công thức xác suất`, b:`<ul><li>${tm('P(A) = \\dfrac{k}{n}')} với ${tm('0 \\le P(A) \\le 1')}.</li><li>Biến cố đối ${tm('\\overline{A}')}: ${tm('P(\\overline{A}) = 1 - P(A)')}.</li><li>Hai biến cố không có kết quả chung: ${tm('P(A \\text{ hoặc } B) = P(A) + P(B)')}. Nếu có kết quả chung, số kết quả thuận lợi là ${tm('k_A + k_B - k_{A\\text{ và }B}')}.</li></ul>`, warn:`Đáp số viết dưới dạng <b>phân số rút gọn</b> (hoặc số thập phân đúng). Xác suất không bao giờ lớn hơn 1: nếu ra ${tm('\\gt 1')} là đã đếm sai.`, ex:`Gặp "<b>ít nhất</b>", "<b>không phải</b>", "<b>có</b>…" thì tính biến cố đối rồi lấy ${tm('1 -')} hoặc lấy ${tm('n -')}: nhanh và ít sót.`},
+  {t:`Cách đếm kết quả`, b:`<ul><li>1 xúc xắc: 6 kết quả. 2 xúc xắc phân biệt: ${tm('6 \\cdot 6 = 36')}. 2 đồng xu: 4; 3 đồng xu: 8.</li><li>Quy tắc nhân: làm hai việc nối tiếp, việc 1 có ${tm('p')} cách, việc 2 có ${tm('q')} cách thì có ${tm('p \\cdot q')} cách. Số có hai chữ số khác nhau từ 5 chữ số cho trước: ${tm('5 \\cdot 4 = 20')}.</li><li>Lấy 2 vật cùng lúc (không kể thứ tự): ${tm('\\dfrac{n(n-1)}{2}')} cặp.</li></ul>`, warn:`Hai xúc xắc (hay hai đồng xu) phân biệt thì cặp ${tm('(1;\\,2)')} và ${tm('(2;\\,1)')} là <b>hai</b> kết quả khác nhau. Lấy cùng lúc thì không kể thứ tự.`, ex:`Liệt kê có hệ thống (theo thứ tự tăng dần, hoặc lập bảng ${tm('6 \\times 6')}) rồi đếm; đếm xong hãy đếm lại bằng cách khác (đối, quy tắc nhân) để kiểm tra.`},
+  {t:`Xác suất thực nghiệm và bài toán tìm số`, b:`<ul><li>Xác suất thực nghiệm của ${tm('A')} = ${tm('\\dfrac{\\text{số lần } A \\text{ xảy ra}}{\\text{tổng số lần thực hiện}}')}.</li><li>Biết xác suất, tìm số phần tử: gọi ẩn, viết xác suất theo ẩn, cho bằng giá trị đề, <b>nhân chéo</b> và giải.</li><li>Thêm hoặc bớt phần tử: nhớ cả <b>tổng số</b> cũng thay đổi.</li></ul>`, warn:`Khi thêm ${tm('t')} bi đỏ, tử số tăng ${tm('t')} <b>và</b> mẫu số cũng tăng ${tm('t')} (không chỉ tăng tử số). Khi bớt bi xanh thì chỉ mẫu số giảm.`, ex:`Sau khi tìm được số cần tìm, hãy thay ngược vào để tính lại xác suất — 10 giây kiểm tra giúp tránh mất điểm.`}
+]});
+}
+
 })();
