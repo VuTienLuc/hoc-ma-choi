@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Tối ưu toàn bộ game cho điện thoại dọc và ngang
+
+- **Yêu cầu của thầy:** Sửa game để hoạt động tốt trên cả điện thoại.
+- **Kết quả:** Các trò Câu cá, Chém trái cây và Bắn bóng dùng bốn vùng đáp án ổn định, không còn chạy khuất mép màn hình; vẫn giữ chuyển động nhẹ 10,5 giây để tạo cảm giác sinh động và đủ thời gian đọc. Ở màn hình dọc, đáp án xếp một cột rồi thu thành lưới 2 × 2 khi hiện lời giải; ở điện thoại xoay ngang, câu hỏi và đáp án tự thu gọn theo chiều cao. Chế độ Đấu với máy cũng được thu gọn khi xoay ngang. Nút âm thanh được dời hoặc chừa khoảng trống để không che đáp án, lời giải hay nút chuyển câu; chiều cao dùng `100dvh` và vùng an toàn của thiết bị.
+- **Tệp thay đổi:** `assets/css/game.css`, `tools/test_game_dienthoai.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.220 câu); `python3 tools/test_game_dienthoai.py` → ĐẠT tại 390 × 844 và 844 × 390 cho ba mini game và Đấu với máy; `python3 tools/build.py` → ĐẠT (2.646 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Game Toán 10: Ôn tập Chương III với 20 câu công thức
 
 - **Yêu cầu của thầy:** Tạo nội dung game Ôn tập Chương III Toán 10 Kết nối tri thức, chủ yếu kiểm tra chọn công thức đúng về hệ thức lượng trong tam giác và giá trị lượng giác của góc từ 0° đến 180°, gồm 20 câu.

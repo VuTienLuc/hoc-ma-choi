@@ -130,3 +130,75 @@ body.game-active{overflow:hidden;background:#09142d}.game-active>.top,.game-acti
 @media(max-width:850px){.mini-game-menu{grid-template-columns:1fr}.mini-game-card{min-height:230px}.mini-game-card>span{font-size:4rem}.mini-menu-head,.mini-topic-head{padding:18px}.mini-answer{width:min(43vw,410px)}}
 @media (orientation:portrait), (max-width:650px){.mini-menu-head,.mini-topic-head{align-items:flex-start;gap:12px;margin:12px 0 18px;padding:14px;border-radius:20px;box-shadow:5px 5px 0 color-mix(in srgb,var(--primary) 20%,transparent)}.mini-menu-head>span,.mini-topic-head>span{flex-basis:62px;width:62px;height:62px;border-radius:18px;font-size:2.35rem}.mini-menu-head h1,.mini-topic-head h1{font-size:1.45rem}.mini-menu-head p,.mini-topic-head p{font-size:.86rem}.mini-game-card{min-height:205px;padding:18px}.mini-game-card>span{font-size:3.5rem}.mini-launch{margin:18px auto;padding:19px}.mini-launch-hero{font-size:4.6rem}.mini-head{grid-template-columns:auto minmax(0,1fr) auto auto}.mini-head b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mini-head span{font-size:.72rem}.mini-question{min-height:128px;max-height:31vh;padding:10px 12px}.mini-question>div{font-size:clamp(1.02rem,4.6vw,1.28rem)}.mini-field{min-height:310px}.mini-answer{grid-template-columns:35px minmax(0,1fr);width:46%;min-height:58px;padding:7px 9px;border-width:3px;font-size:clamp(.8rem,3.4vw,.98rem)}.mini-answer>b{font-size:1.65rem}.mini-fishing .mini-answer{left:-55%;animation-name:mini-swim-phone}.mini-fruit .mini-answer,.mini-balloon .mini-answer{width:45%}.mini-foot{display:block;min-height:58px;padding:7px}.mini-foot .ga-explain{max-height:23vh;overflow:auto;font-size:.82rem}.mini-foot .btn{width:100%;margin-top:6px}.mini-result-score{grid-template-columns:1fr 1fr}.mini-result-score span:last-child{grid-column:1/-1}}@keyframes mini-swim-phone{from{left:-55%}to{left:109%}}
 @media(prefers-reduced-motion:reduce){.mini-game-card>span,.mini-launch-hero,.mini-answer{animation-duration:10s!important}}
+
+/* Điện thoại: giữ toàn bộ đáp án trong vùng nhìn và tạo vùng chạm ổn định. */
+@media (orientation:portrait), (max-width:650px){
+  body.game-active{overscroll-behavior:none}
+  .game-arena{height:100dvh;min-height:100dvh;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+  .game-arena footer{padding-right:52px}
+  .mini-arena{overflow:hidden}
+  .mini-head{grid-template-columns:auto minmax(0,1fr) 46px;grid-template-rows:auto auto;gap:3px 7px;min-height:69px}
+  .mini-head>button{grid-column:1;grid-row:1/3;align-self:stretch}
+  .mini-head>b{grid-column:2;grid-row:1;text-align:left}
+  .mini-head>span{grid-column:2;grid-row:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+  .mini-head>time{grid-column:3;grid-row:1/3;align-self:center}
+  .mini-question{overflow:auto;min-height:112px;max-height:27dvh}
+  .mini-field{min-height:300px;padding:8px}
+  .mini-answers{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(4,minmax(58px,1fr));gap:8px;padding:8px}
+  .mini-answer,
+  .mini-fishing .mini-answer,
+  .mini-fruit .mini-answer,
+  .mini-balloon .mini-answer,
+  .mini-fruit .mini-answer.a0,.mini-fruit .mini-answer.a1,.mini-fruit .mini-answer.a2,.mini-fruit .mini-answer.a3,
+  .mini-balloon .mini-answer.a0,.mini-balloon .mini-answer.a1,.mini-balloon .mini-answer.a2,.mini-balloon .mini-answer.a3{
+    position:relative;inset:auto;right:auto;bottom:auto;left:auto;top:auto;width:100%;height:100%;min-height:58px;
+    animation:mini-phone-bob 10.5s ease-in-out var(--delay) infinite alternate!important;
+    transform:none
+  }
+  .mini-answer:active{animation-play-state:paused!important;transform:scale(.98)}
+  .mini-balloon .mini-answer{border-radius:22px}
+  .mini-balloon .mini-answer:after{display:none}
+  .mini-foot{min-height:56px;padding:7px 52px 7px 7px}
+  .mini-foot>p{font-size:.82rem;line-height:1.35}
+  .mini-reveal .mini-question{min-height:88px;max-height:21dvh}
+  .mini-reveal .mini-field{flex:0 0 150px;min-height:150px;padding:5px}
+  .mini-reveal .mini-answers{grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(52px,1fr));gap:6px;padding:5px}
+  .mini-reveal .mini-answer{grid-template-columns:30px minmax(0,1fr);min-height:52px;padding:5px 7px;font-size:clamp(.72rem,3.1vw,.88rem)}
+  .mini-reveal .mini-answer>b{font-size:1.35rem}
+  .mini-reveal .mini-foot{overflow-y:auto;max-height:29dvh}
+  .game-sound-float{right:max(7px,env(safe-area-inset-right));bottom:max(7px,env(safe-area-inset-bottom));width:41px;height:41px}
+}
+@keyframes mini-phone-bob{from{transform:translateX(-4px)}to{transform:translateX(4px)}}
+
+@media(max-width:370px){
+  .mini-head{grid-template-columns:auto minmax(0,1fr) 42px;gap:3px 5px}.mini-head>button{padding:7px 6px}.mini-head>b{font-size:.76rem}.mini-head>span{font-size:.65rem}.mini-head>time{width:40px}
+  .mini-question{min-height:102px;padding:8px}.mini-answer{min-height:54px}.mini-answers{grid-template-rows:repeat(4,minmax(54px,1fr));gap:6px;padding:6px}
+}
+
+/* Điện thoại xoay ngang: thu gọn theo chiều cao nhưng vẫn giữ bốn vùng chạm lớn. */
+@media (orientation:landscape) and (max-height:520px){
+  body.game-active{overscroll-behavior:none}
+  .game-arena{height:100dvh;min-height:100dvh;padding:6px max(9px,env(safe-area-inset-right)) 6px max(9px,env(safe-area-inset-left))}
+  .game-arena footer{padding-right:50px}
+  .mini-arena{overflow:hidden}
+  .mini-head{min-height:43px;gap:8px}.mini-head button{padding:6px 9px}.mini-head>b{font-size:.83rem}.mini-head>span{font-size:.72rem}.mini-head time{height:35px}
+  .mini-question{min-height:70px;max-height:25dvh;padding:6px 12px;overflow:auto}.mini-question small{margin-bottom:2px;padding:3px 10px;font-size:.7rem}.mini-question>div{font-size:clamp(.88rem,2.3vw,1.15rem)}
+  .mini-field{min-height:150px;padding:5px}
+  .mini-answers{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(55px,1fr));gap:7px;padding:6px}
+  .mini-answer,
+  .mini-fishing .mini-answer,
+  .mini-fruit .mini-answer,
+  .mini-balloon .mini-answer,
+  .mini-fruit .mini-answer.a0,.mini-fruit .mini-answer.a1,.mini-fruit .mini-answer.a2,.mini-fruit .mini-answer.a3,
+  .mini-balloon .mini-answer.a0,.mini-balloon .mini-answer.a1,.mini-balloon .mini-answer.a2,.mini-balloon .mini-answer.a3{
+    position:relative;inset:auto;right:auto;bottom:auto;left:auto;top:auto;width:100%;height:100%;min-height:55px;padding:5px 10px;
+    animation:mini-phone-bob 10.5s ease-in-out var(--delay) infinite alternate!important;transform:none;font-size:clamp(.75rem,1.75vw,.95rem)
+  }
+  .mini-answer>b{font-size:1.45rem}.mini-balloon .mini-answer{border-radius:22px}.mini-balloon .mini-answer:after{display:none}
+  .mini-foot{min-height:45px;padding:5px 50px 5px 7px}.mini-foot>p{font-size:.75rem}.mini-foot .ga-explain{max-height:20dvh;overflow:auto;padding:6px 9px;font-size:.74rem}.mini-foot .btn{min-height:38px;padding:6px 13px}
+  .mini-reveal .mini-field{min-height:115px}.game-sound-float{right:7px;bottom:7px;width:38px;height:38px;font-size:1rem}
+  .game-arena:not(.mini-arena) .ga-head{min-height:40px}.game-arena:not(.mini-arena) .ga-score{margin:2px auto;width:72%;font-size:.8rem}.game-arena:not(.mini-arena) .ga-score i{height:20px}.game-arena:not(.mini-arena) .ga-score b{font-size:1rem}
+  .game-arena:not(.mini-arena) .ga-question{flex:0 0 auto;min-height:70px;margin:3px auto 6px;padding:8px 14px;font-size:clamp(.88rem,2.1vw,1.12rem)}
+  .game-arena:not(.mini-arena) .ga-options{gap:7px}.game-arena:not(.mini-arena) .ga-options button{min-height:55px;padding:6px 10px}.game-arena:not(.mini-arena) .ga-bot{margin:4px;font-size:.8rem}
+  .game-arena:not(.mini-arena) footer{margin-top:4px}.game-arena:not(.mini-arena) .game-sound-float{top:55px;right:7px;bottom:auto}
+}
