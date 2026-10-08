@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Pikachu có ba mạng, Game Over và đáp số Bài 6 chữ lớn
+
+- **Yêu cầu của thầy:** Chọn sai ba lần thì Game Over, có âm thanh đúng–sai; riêng Hệ thức lượng trong tam giác, ô đáp án chỉ hiện số, bỏ biểu thức thay số và làm chữ số lớn, dễ nhìn.
+- **Kết quả:** Mỗi ván Pikachu bắt đầu với ba tim; ghép sai mất một tim, phát âm báo sai và lần sai thứ ba kết thúc ngay ở màn hình **Game Over – sai 3 lần**. Ghép đúng phát chuỗi âm báo đúng riêng. Nút âm thanh tiếp tục cho phép bật/tắt. Màn hình kết quả ghi số lần sai và có nút chơi lại. Cả 20 đáp án Bài 6 đã rút gọn thành số nguyên, phân số hoặc căn thức chính xác, không còn phép thay số; cỡ chữ ô đáp án màu vàng được tăng và giữ tối thiểu 18 px trên điện thoại. Chủ đề dành riêng cho Pikachu cũng được ẩn khỏi Phòng thi kiến thức thông thường.
+- **Tệp thay đổi:** `assets/js/game.js`, `assets/css/game.css`, `data/game-lop10.js`, `tools/test_pikachu_toan.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 100 lop10` → ĐẠT (19.200 lượt sinh câu); `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu); `python3 tools/test_pikachu_toan.py` → ĐẠT, kiểm tra ba tim, mất tim sau từng lần sai, Game Over ở lần thứ ba, chơi lại, nút âm thanh, đáp số không có dấu bằng, cỡ chữ tối thiểu 18 px và hoàn thành 12/12 cặp; `python3 tools/test_game_dienthoai.py` → ĐẠT; `python3 tools/test.py` → ĐẠT (23.220 câu); `python3 tools/build.py` → ĐẠT (2.704 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Ngân hàng Pikachu riêng cho Bài 6 Hệ thức lượng trong tam giác
 
 - **Yêu cầu của thầy:** Tạo bộ câu hỏi dành riêng cho Pikachu ở Bài 6; câu hỏi cho dữ kiện để áp dụng định lí sin, định lí côsin và công thức diện tích; đáp án phải trình bày phép thay số cùng kết quả và không được trùng nhau.

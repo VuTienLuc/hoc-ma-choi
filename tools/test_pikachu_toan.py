@@ -48,20 +48,41 @@ async def main():
             bad.append("Ngân hàng Bài 6 chưa đủ định lí sin, côsin và diện tích")
         if len(set(bank["results"])) != 20:
             bad.append("Ngân hàng Bài 6 còn đáp số trùng nhau")
-        if any("=" not in answer for answer in bank["answers"]):
-            bad.append("Có đáp án chưa trình bày phép thay số và kết quả")
+        if any("=" in answer for answer in bank["answers"]):
+            bad.append("Đáp số Bài 6 còn chứa biểu thức thay số")
         if any(not text.strip() for text in bank["texts"]):
             bad.append("Có câu hỏi Bài 6 bị trống")
-        layout = await phone.evaluate("""() => {const b=document.querySelector('.match-board').getBoundingClientRect(),tiles=[...document.querySelectorAll('.match-tile')];return {doc:document.documentElement.scrollWidth,width:innerWidth,cols:getComputedStyle(document.querySelector('.match-board')).gridTemplateColumns.split(' ').length,b:b.toJSON(),tiles:tiles.length,q:tiles.filter(x=>x.classList.contains('question')).length,a:tiles.filter(x=>x.classList.contains('answer')).length,overflow:tiles.filter(x=>x.querySelector('span').scrollHeight>x.querySelector('span').clientHeight+3||x.querySelector('span').scrollWidth>x.querySelector('span').clientWidth+3).length}}""")
+        layout = await phone.evaluate("""() => {const b=document.querySelector('.match-board').getBoundingClientRect(),tiles=[...document.querySelectorAll('.match-tile')],answers=tiles.filter(x=>x.classList.contains('answer'));return {doc:document.documentElement.scrollWidth,width:innerWidth,cols:getComputedStyle(document.querySelector('.match-board')).gridTemplateColumns.split(' ').length,b:b.toJSON(),tiles:tiles.length,q:tiles.filter(x=>x.classList.contains('question')).length,a:answers.length,answerSize:Math.min(...answers.map(x=>parseFloat(getComputedStyle(x).fontSize))),overflow:tiles.filter(x=>x.querySelector('span').scrollHeight>x.querySelector('span').clientHeight+3||x.querySelector('span').scrollWidth>x.querySelector('span').clientWidth+3).length}}""")
         if layout["tiles"] != 24 or layout["q"] != 12 or layout["a"] != 12:
             bad.append("Điện thoại dọc không dựng đủ 12 cặp")
         if layout["cols"] != 4 or layout["doc"] > layout["width"] + 1 or layout["b"]["right"] > layout["width"] + 1:
             bad.append("Lưới điện thoại dọc không vừa bốn cột")
         if layout["overflow"]:
             bad.append(f"Có {layout['overflow']} ô còn tràn nội dung")
-        board_answers = await phone.eval_on_selector_all(".match-tile.answer", "els => els.map(x => x.innerText.replace(/\\s+/g,''))")
+        if layout["answerSize"] < 16:
+            bad.append("Chữ số trong ô đáp án chưa đủ lớn")
+        board_answers = await phone.eval_on_selector_all(".match-tile.answer", "els => els.map(x => x.dataset.matchPair)")
         if len(set(board_answers)) != 12:
             bad.append("Một ván Pikachu Bài 6 còn có đáp án trùng nhau")
+        if await phone.locator("#matchLives").inner_text() != "❤️❤️❤️":
+            bad.append("Pikachu không khởi đầu với ba mạng")
+        if not await phone.locator("[data-game-sound]").count():
+            bad.append("Pikachu thiếu nút bật tắt âm thanh đúng sai")
+
+        for turn in range(3):
+            wrong = await phone.eval_on_selector_all(".match-tile.question:not(.removed)", "els => els.slice(0,2).map(x => +x.dataset.matchPos)")
+            await phone.evaluate("p => {document.querySelector(`[data-match-pos=\"${p[0]}\"]`).click();document.querySelector(`[data-match-pos=\"${p[1]}\"]`).click()}", wrong)
+            await phone.wait_for_timeout(650)
+            if turn < 2:
+                expected = "❤️" * (2 - turn) + "🖤" * (turn + 1)
+                if await phone.locator("#matchLives").inner_text() != expected:
+                    bad.append(f"Bộ đếm mạng sai sau lần chọn sai thứ {turn + 1}")
+        if not await phone.locator(".match-result").count() or "Game Over" not in await phone.locator(".match-result").inner_text():
+            bad.append("Chọn sai ba lần chưa kết thúc ván với Game Over")
+        else:
+            await phone.locator("#matchAgain").click()
+            await phone.wait_for_selector(".match-board")
+            await phone.wait_for_timeout(800)
 
         await phone.locator("#matchHint").click()
         hint_count = await phone.locator(".match-tile.hint").count()
