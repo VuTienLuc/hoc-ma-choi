@@ -313,6 +313,9 @@ b.ans mjx-container,b.ans{color:var(--primary)}
 
 /* Nút âm thanh + đổi giao diện */
 .tbtns{display:inline-flex;gap:8px;align-items:center}
+.lesson-monitor-btn{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:7px 12px;border:2px solid #7b61d1;border-radius:12px;background:#efeaff;color:#3a2677;font:800 .86rem var(--f-body);cursor:pointer}.lesson-monitor-btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px #5136a526}
+.lesson-monitor-overlay{position:fixed;inset:0;z-index:15000;display:grid;place-items:center;padding:18px;background:#081126d9;backdrop-filter:blur(7px)}.lesson-monitor-card{display:flex;flex-direction:column;width:min(1050px,96vw);max-height:94dvh;overflow:hidden;border:3px solid #8d73df;border-radius:26px;background:var(--surface);color:var(--ink);box-shadow:0 24px 80px #0009}.lesson-monitor-card>header{display:flex;align-items:center;gap:12px;padding:15px 18px;background:linear-gradient(115deg,#5f45bd,#8c6de3);color:#fff}.lesson-monitor-card>header>div{flex:1;min-width:0}.lesson-monitor-card>header small{font-size:.7rem;font-weight:900;letter-spacing:.13em;opacity:.82}.lesson-monitor-card h2{overflow:hidden;margin:2px 0 0;text-overflow:ellipsis;white-space:nowrap;font:900 clamp(1.2rem,2.5vw,1.75rem) var(--f-head)}.lesson-monitor-card>header button{display:grid;place-items:center;width:40px;height:40px;border:2px solid #ffffff88;border-radius:50%;background:#ffffff18;color:#fff;font:900 1.05rem var(--f-body);cursor:pointer}.lm-controls{display:flex;align-items:end;gap:10px;padding:12px 16px 6px}.lm-controls label{display:grid;flex:1;gap:4px;font-size:.78rem;font-weight:850}.lm-controls select{min-height:43px;padding:7px 10px;border:2px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);font:750 .95rem var(--f-body)}.lm-controls .btn{min-height:43px}.lm-note{margin:0 16px 9px;color:var(--muted);font-size:.78rem}.lesson-monitor-card>main{overflow:auto;padding:4px 16px 18px}.lm-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:4px 0 12px}.lm-summary span{display:grid;justify-items:center;padding:9px;border:2px solid var(--line);border-radius:14px;background:var(--bg)}.lm-summary b{font:900 1.5rem var(--f-head)}.lm-summary small{color:var(--muted);font-size:.72rem;font-weight:800}.lm-summary .todo{border-color:#e45e6b;background:#fff0f1}.lm-summary .doing{border-color:#e0a82b;background:#fff8dc}.lm-summary .done{border-color:#35a76e;background:#e9fbf2}.lm-group{margin-top:11px;border:2px solid var(--line);border-radius:16px;overflow:hidden}.lm-group>h3{display:flex;align-items:center;gap:7px;margin:0;padding:9px 12px;background:var(--bg);font:850 1rem var(--f-head)}.lm-group>h3 b{margin-left:auto}.lm-group>p{margin:0;padding:12px;color:var(--muted)}.lm-students{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:8px}.lm-students article{display:grid;grid-template-columns:minmax(125px,1fr) auto auto;align-items:center;gap:8px;padding:8px 10px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface)}.lm-students article>div:first-child{min-width:0}.lm-students strong,.lm-students small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lm-students strong{font-size:.86rem}.lm-students small{color:var(--muted);font-size:.67rem}.lm-levels{display:flex;gap:3px}.lm-level{padding:3px 5px;border-radius:7px;background:#dcf6e8;color:#17623d;font-size:.65rem;font-weight:850}.lm-level.empty{background:#eceff5;color:#788292}.lm-students em{min-width:44px;color:var(--primary);text-align:right;font-size:.72rem;font-style:normal;font-weight:900}.lm-todo{border-color:#e8a4aa}.lm-doing{border-color:#e4cb81}.lm-done{border-color:#83cda8}.dark .lm-summary .todo{background:#4c2328}.dark .lm-summary .doing{background:#4b3d17}.dark .lm-summary .done{background:#173e2b}.dark .lesson-monitor-btn{background:#3b2d73;color:#f0ebff}
+@media(max-width:700px){.lesson-monitor-btn span{display:none}.lesson-monitor-btn{width:42px;padding:7px;justify-content:center}.lesson-monitor-overlay{padding:7px}.lesson-monitor-card{width:100%;max-height:97dvh;border-radius:19px}.lesson-monitor-card>header{padding:11px 12px}.lm-controls{padding:9px 10px 5px}.lm-note{margin:0 10px 7px}.lesson-monitor-card>main{padding:3px 10px 12px}.lm-summary{gap:4px}.lm-summary span{padding:6px 2px}.lm-summary b{font-size:1.2rem}.lm-summary small{font-size:.62rem}.lm-students{grid-template-columns:1fr;padding:6px}.lm-students article{grid-template-columns:minmax(110px,1fr) auto}.lm-students article>em{grid-column:2;grid-row:1}.lm-levels{grid-column:1/3}.lm-level{flex:1;text-align:center}.lm-controls .btn{padding-inline:10px}}
 
 /* ===== Nhà thú cưng (play.js) ===== */
 .pet .acc-st{stroke:var(--pet-ink);stroke-width:1.6;stroke-linejoin:round}
@@ -5486,6 +5489,55 @@ svg{display:block;max-width:100%}
     $('#tdsBtn').onclick = () => print(g, l, false); $('#tdsBtnKey').onclick = () => print(g, l, true);
   }
   return { on, makeQs, sheetHTML, docHTML };
+})();
+
+</script>
+<script>/* assets/js/lesson-monitor.js */
+/* Theo dõi tiến độ từng bài – chỉ dành cho tài khoản giáo viên. */
+const LessonMonitor = (() => {
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const $ = (q, root=document) => root.querySelector(q);
+  const all = (q, root=document) => [...root.querySelectorAll(q)];
+  let current = null;
+
+  function close(){ const old=$('.lesson-monitor-overlay'); if(old) old.remove(); }
+  const stateName = s => s === 'done' ? 'Đã làm đủ 3 mức' : s === 'doing' ? 'Đã làm 1–2 mức' : 'Chưa làm';
+  const levelHTML = levels => levels.map((v,i) => `<span class="lm-level ${v === null ? 'empty' : 'has'}">M${i+1} ${v === null ? '—' : v+'⭐'}</span>`).join('');
+  function groupHTML(state, rows){
+    const icon=state==='done'?'✅':state==='doing'?'🟡':'🔴';
+    return `<section class="lm-group lm-${state}"><h3>${icon} ${stateName(state)} <b>${rows.length}</b></h3>${rows.length ? `<div class="lm-students">${rows.map(r => `<article><div><strong>${esc(r.name)}</strong><small>${esc(r.user)}${r.last?' · làm gần nhất '+esc(r.last):r.joined?' · chưa làm bài':' · chưa đăng nhập'}</small></div><div class="lm-levels">${levelHTML(r.levels)}</div><em>${r.stars}/9 ⭐</em></article>`).join('')}</div>` : '<p>Không có học sinh.</p>'}</section>`;
+  }
+  function drawClass(box, data, lop){
+    const cls=data.classes.find(c=>c.lop===lop)||data.classes[0]||{lop:'',rows:[]}, rows=cls.rows||[], count=s=>rows.filter(r=>r.state===s).length;
+    box.innerHTML=`<div class="lm-summary"><span><b>${rows.length}</b><small>Sĩ số</small></span><span class="todo"><b>${count('todo')}</b><small>Chưa làm</small></span><span class="doing"><b>${count('doing')}</b><small>Đang làm</small></span><span class="done"><b>${count('done')}</b><small>Đủ 3 mức</small></span></div>${groupHTML('todo',rows.filter(r=>r.state==='todo'))}${groupHTML('doing',rows.filter(r=>r.state==='doing'))}${groupHTML('done',rows.filter(r=>r.state==='done'))}`;
+  }
+  async function open(g,l){
+    close(); current={g,l};
+    document.body.insertAdjacentHTML('beforeend',`<div class="lesson-monitor-overlay" role="dialog" aria-modal="true" aria-labelledby="lmTitle"><section class="lesson-monitor-card"><header><div><small>THEO DÕI TỪNG BÀI</small><h2 id="lmTitle">📋 ${esc(l.name)}</h2></div><button data-lm-close aria-label="Đóng">✕</button></header><div class="lm-controls"><label>Chọn lớp <select id="lmClass" disabled><option>Đang tải danh sách</option></select></label><button class="btn" id="lmReload">↻ Tải lại</button></div><p class="lm-note">Một mức được ghi nhận sau khi học sinh làm xong cả bộ câu hỏi, kể cả khi chưa được sao.</p><main id="lmBody"><p class="note-line">Đang tải tiến độ học sinh…</p></main></section></div>`);
+    const overlay=$('.lesson-monitor-overlay'), body=$('#lmBody',overlay), select=$('#lmClass',overlay);
+    $('[data-lm-close]',overlay).onclick=close; overlay.onclick=e=>{if(e.target===overlay)close()};
+    async function load(){
+      body.innerHTML='<p class="note-line">Đang tải tiến độ học sinh…</p>'; select.disabled=true;
+      try{
+        const r=await Account.call('lessonStatus',{grade:+g.id.replace(/\D/g,''),lesson:l.id});
+        if(!r||!r.ok)throw new Error((r&&r.msg)||'Không tải được dữ liệu.');
+        if(!r.classes.length){body.innerHTML='<p class="note-line">Khối này chưa có lớp trong trang HocSinh.</p>';select.innerHTML='<option>Chưa có lớp</option>';return}
+        const saved=localStorage.getItem('hoctap:lesson-monitor-class'), chosen=r.classes.some(c=>c.lop===saved)?saved:r.classes[0].lop;
+        select.innerHTML=r.classes.map(c=>`<option value="${esc(c.lop)}" ${c.lop===chosen?'selected':''}>${esc(c.lop)} · ${c.rows.length} học sinh</option>`).join(''); select.disabled=false;
+        select.onchange=()=>{localStorage.setItem('hoctap:lesson-monitor-class',select.value);drawClass(body,r,select.value)}; drawClass(body,r,chosen);
+      }catch(err){body.innerHTML=`<p class="note-line error">${esc(err.message||err)}<br><small>Nếu máy chủ chưa có chức năng này, thầy cập nhật và triển khai lại tệp Code.gs.</small></p>`}
+    }
+    $('#lmReload',overlay).onclick=load; load();
+  }
+  function on(ev,g,l){
+    if(ev!=='lesson')close();
+    if(ev!=='lesson'||typeof Account==='undefined'||!Account.isTeacher||!Account.isTeacher())return;
+    const tools=$('.toolbar .tbtns'); if(!tools||$('[data-lesson-monitor]'))return;
+    tools.insertAdjacentHTML('afterbegin','<button class="lesson-monitor-btn" data-lesson-monitor>📋 <span>Theo dõi lớp</span></button>');
+    $('[data-lesson-monitor]').onclick=()=>open(g,l);
+  }
+  addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  return {on,open,close};
 })();
 
 </script>
@@ -11380,7 +11432,7 @@ lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp s�
 const LEVELS=[{n:'Mức 1',d:'Làm quen'},{n:'Mức 2',d:'Luyện tập'},{n:'Mức 3',d:'Thử thách'}];
 let S={grade:null,lesson:null,lv:1,qs:[]};
 // Móc nối cho account.js (đăng nhập, thú cưng). Không có Account thì bỏ qua.
-const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}try{if(typeof Present!=='undefined')Present.on(n,...a)}catch(e){console.error(e)}try{if(typeof Game!=='undefined'&&Game.on)Game.on(n,...a)}catch(e){console.error(e)}try{if(typeof TdSheet!=='undefined')TdSheet.on(n,...a)}catch(e){console.error(e)}};
+const hook=(n,...a)=>{try{if(typeof Account!=='undefined'&&Account.on)Account.on(n,...a)}catch(e){console.error(e)}try{if(typeof Present!=='undefined')Present.on(n,...a)}catch(e){console.error(e)}try{if(typeof Game!=='undefined'&&Game.on)Game.on(n,...a)}catch(e){console.error(e)}try{if(typeof TdSheet!=='undefined')TdSheet.on(n,...a)}catch(e){console.error(e)}try{if(typeof LessonMonitor!=='undefined')LessonMonitor.on(n,...a)}catch(e){console.error(e)}};
 const PRAISE=['Giỏi quá!','Chính xác!','Tuyệt vời!','Đúng rồi, con làm tốt lắm!','Xuất sắc!'];
 const norm=s=>String(s).replace(/[\s .]/g,'').replace(',','.').toUpperCase();
 // Đáp án thập phân: nhận cả "0,6" và "0.6" (bàn phím iPad tiếng Anh dùng dấu chấm); với đáp án nguyên, dấu chấm vẫn là dấu tách nghìn.

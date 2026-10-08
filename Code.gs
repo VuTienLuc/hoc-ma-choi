@@ -77,6 +77,7 @@ function doPost(e) {
     if (b.action === 'play') return out_(play_(b));
     if (b.action === 'rank') return out_(rank_(b));
     if (b.action === 'rankAll') return out_(rankAll_(b));
+    if (b.action === 'lessonStatus') return out_(lessonStatus_(b));
     if (b.action === 'hot') return out_(hot_(b));
     if (b.action === 'race') return out_(race_(b));
     if (b.action === 'qList') return out_(qList_(b));
@@ -216,6 +217,30 @@ function rankAll_(b) {
     (classes[s.lop] = classes[s.lop] || []).push(Object.assign({ name: s.name, user: s.user, stars, lessons, joined: !!x, last }, pub_(x ? x[8] : '', x)));
   });
   return { ok: true, grade: gid, classes: Object.keys(classes).sort(sortVi_).map(lop => ({ lop, rows: classes[lop] })) };
+}
+
+/** Giáo viên xem tiến độ của từng học sinh trong đúng một bài.
+ *  Trạng thái dựa trên việc học sinh đã làm xong bộ câu hỏi ở từng mức, kể cả bộ được 0 sao. */
+function lessonStatus_(b) {
+  const a = auth_(b); if (!a) return AUTH_;
+  if (!a.teacher) return TEACHER_ONLY_;
+  const g = String(Number(b.grade) || ''), gid = 'lop' + g, lesson = norm_(b.lesson);
+  if (!g || !lesson || !/^[a-z0-9-]{1,100}$/i.test(lesson)) return { ok: false, msg: 'Thiếu khối hoặc mã bài học.' };
+  const byKey = {}; a.v.slice(1).forEach(x => { byKey[key_(x[0], x[1])] = x; });
+  const classes = {};
+  students_().filter(s => gradeOfLop_(s.lop) === g).forEach(s => {
+    const x = byKey[key_(s.lop, s.user)]; let progress = {};
+    if (x) { try { progress = JSON.parse(x[6] || '{}') || {}; } catch (err) {} }
+    const levels = [1, 2, 3].map(lv => {
+      const k = gid + ':' + lesson + ':' + lv;
+      return Object.prototype.hasOwnProperty.call(progress, k) ? Math.max(0, Number(progress[k]) || 0) : null;
+    });
+    const completed = levels.filter(v => v !== null).length;
+    const last = !x || !x[5] ? '' : (x[5] instanceof Date ? Utilities.formatDate(x[5], TZ, 'dd/MM/yyyy') : norm_(x[5]).slice(0, 10));
+    (classes[s.lop] = classes[s.lop] || []).push({ name: s.name, user: s.user, joined: !!x, levels,
+      completed, stars: levels.reduce((sum, v) => sum + (Number(v) || 0), 0), state: completed === 0 ? 'todo' : completed === 3 ? 'done' : 'doing', last });
+  });
+  return { ok: true, grade: gid, lesson, classes: Object.keys(classes).sort(sortVi_).map(lop => ({ lop, rows: classes[lop] })) };
 }
 
 

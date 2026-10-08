@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Giáo viên theo dõi học sinh trong từng bài
+
+- **Yêu cầu của thầy:** Trong từng bài ở phần học sinh, giáo viên cần biết học sinh nào chưa làm được bài đó.
+- **Kết quả:** Khi đăng nhập tài khoản giáo viên và mở một bài, thanh công cụ có nút **📋 Theo dõi lớp**. Báo cáo lấy đủ danh sách từ trang `HocSinh`, cho chọn lớp và chia học sinh thành ba nhóm: chưa làm mức nào, đã làm 1–2 mức, đã làm đủ 3 mức. Mỗi học sinh có kết quả M1–M3, tổng sao của bài, lần làm gần nhất, đồng thời phân biệt người chưa đăng nhập với người đã đăng nhập nhưng chưa làm bài. Học sinh không nhìn thấy nút hoặc dữ liệu báo cáo. Bảng thích ứng màn hình điện thoại.
+- **Tệp thay đổi:** `Code.gs`, `tools/apps-script/Code.gs`, `assets/js/lesson-monitor.js`, `assets/js/engine.js`, `assets/css/style.css`, `index.html`, `tools/test_appscript.js`, `tools/test_theodoi_baihoc.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.220 câu); `node tools/test_appscript.js` → ĐẠT, gồm xác thực chỉ giáo viên được xem và đủ học sinh chưa đăng nhập; `python3 tools/test_theodoi_baihoc.py` → ĐẠT, gồm giao diện điện thoại, ba trạng thái, chuyển lớp và ẩn hoàn toàn với học sinh; `python3 tools/build.py` → ĐẠT (2.656 KB).
+- **Việc thầy cần làm thủ công:** Chép toàn bộ `Code.gs` mới vào Google Apps Script, bấm **Triển khai → Quản lý bản triển khai → Chỉnh sửa → Phiên bản mới → Triển khai**. Không đổi URL ứng dụng web.
+
 ### 2026-10-08 – Tối ưu toàn bộ game cho điện thoại dọc và ngang
 
 - **Yêu cầu của thầy:** Sửa game để hoạt động tốt trên cả điện thoại.

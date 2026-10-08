@@ -43,6 +43,12 @@ const okAll = RA.ok && RA.classes.length===2 && c1.rows.length===4 && an.stars==
   && c1.rows.find(r=>r.name==='Đỗ Dũng').joined===false && c1.rows.find(r=>r.name==='Lê Châu').stars===2 && !RA.classes.some(c=>c.lop==='9A')
   && call({action:'rankAll',token:L.token,grade:10}).code==='teacher' && call({action:'rankAll',token:'xx',grade:10}).code==='auth';
 console.log('Bảng xếp hạng cho giáo viên:', okAll?'ĐẠT':'LỖI');
+const LS1=call({action:'lessonStatus',token:G.token,grade:10,lesson:'menh-de'}), lsClass=LS1.classes&&LS1.classes.find(c=>c.lop==='10A1');
+const lsAn=lsClass&&lsClass.rows.find(r=>r.name==='Nguyễn Văn An'), lsChau=lsClass&&lsClass.rows.find(r=>r.name==='Lê Châu');
+const okLesson = LS1.ok && LS1.lesson==='menh-de' && lsClass.rows.length===4 && lsAn.state==='doing' && lsAn.completed===1 && lsAn.levels[0]===3 && lsAn.levels[1]===null
+  && lsChau.state==='doing' && lsChau.levels[1]===2 && lsClass.rows.filter(r=>r.state==='todo').length===2
+  && call({action:'lessonStatus',token:L.token,grade:10,lesson:'menh-de'}).code==='teacher' && call({action:'lessonStatus',token:'xx',grade:10,lesson:'menh-de'}).code==='auth';
+console.log('Theo dõi từng bài cho giáo viên:', okLesson?'ĐẠT':'LỖI');
 
 /* ---- Góc chung: sao tuần · bài hot · đua lớp · câu hỏi của thầy · thưởng 3 nhiệm vụ ---- */
 const wkOf=name=>call({action:'rank',token:L.token}).rows.find(r=>r.name===name);
@@ -78,6 +84,6 @@ capNhatTongHop();
 const t=sheets.TongHop;
 t.rows.forEach((r,i)=>console.log(String(i+1).padStart(2), (t.bg[i+1]||'').padEnd(8), r.filter(x=>x!=='').join(' | ')));
 console.log('DangNhap:', sheets.DangNhap.rows.slice(1).map(r=>r.slice(1).join('/')).join(' ; '));
-const ok = okPlay && okAll && okHub && triggers.length===1 && sheets.DangNhap.rows.length===7 && ['#e2f4e8','#f8d7da','#fff3cd'].every(c=>Object.values(t.bg).includes(c))
+const ok = okPlay && okAll && okLesson && okHub && triggers.length===1 && sheets.DangNhap.rows.length===7 && ['#e2f4e8','#f8d7da','#fff3cd'].every(c=>Object.values(t.bg).includes(c))
   && !call({action:'login',lop:'10A1',user:'10a1_01',pass:'sai'}).ok && call({action:'save',token:'xx',key:'a',stars:1}).code==='auth';
 console.log('KẾT QUẢ:', ok ? 'ĐẠT ✓' : 'CHƯA ĐẠT ✗'); process.exit(ok?0:1);
