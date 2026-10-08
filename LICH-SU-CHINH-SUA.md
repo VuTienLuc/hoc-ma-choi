@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Game Toán 10: Ôn tập Chương III với 20 câu công thức
+
+- **Yêu cầu của thầy:** Tạo nội dung game Ôn tập Chương III Toán 10 Kết nối tri thức, chủ yếu kiểm tra chọn công thức đúng về hệ thức lượng trong tam giác và giá trị lượng giác của góc từ 0° đến 180°, gồm 20 câu.
+- **Kết quả:** Thêm chủ đề **Ôn tập Chương III. Hệ thức lượng trong tam giác** vào menu game Toán 10. Mỗi trận có đúng 20 câu thông hiểu: 10 câu về hệ thức lượng giác cơ bản, tan/cot, dấu, góc bù, góc đặc biệt và điều kiện xác định; 10 câu về quy ước cạnh–góc, định lí côsin, hệ quả côsin, nhận dạng tam giác, định lí sin, bán kính ngoại tiếp, các công thức diện tích, Heron, bán kính nội–ngoại tiếp và lựa chọn công cụ giải. Mỗi câu có bốn phương án trộn ngẫu nhiên và lời giải nêu rõ căn cứ công thức.
+- **Tệp thay đổi:** `data/game-lop10.js`, `tools/test.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 100 lop10` → ĐẠT; `python3 tools/test.py` → ĐẠT; dựng đồng thời 20 câu trong trình duyệt → đủ 20 câu, không lỗi MathJax, không `undefined`/`NaN`/`Infinity`, không tràn ngang; `python3 tools/build.py`, `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Làm lại menu Học mà chơi để chữ dễ đọc
 
 - **Yêu cầu của thầy:** Menu vào game khó đọc, đặc biệt khi nền tối làm chữ sáng gần như chìm vào nền thẻ sáng.

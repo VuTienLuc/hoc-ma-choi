@@ -65,6 +65,9 @@ async (REPS) => {
     if(qs.length!==20)out.bad.push(['Học mà chơi: không đủ 20 câu',t.id,qs.length]);
     qs.forEach((q,i)=>{if(q.opts.length!==4||new Set(q.opts).size!==4||q.correct<0)out.bad.push(['Học mà chơi: phương án lỗi',t.id,i+1]);});
    }
+   const c3=Game.build('game-lop10-on-tap-c3','kiem-tra-cong-thuc-c3',20),c3Text=c3.map(q=>q.text+' '+q.explain).join(' ');
+   if(c3.length!==20)out.bad.push(['Game Toán 10 Chương III: không đủ đúng 20 câu']);
+   for(const term of ['lượng giác','góc bù','định lí côsin','định lí sin','Heron','đường tròn nội tiếp'])if(!c3Text.includes(term))out.bad.push(['Game Toán 10 Chương III: thiếu mảng kiến thức',term]);
    const miniGrades=CONFIG.grades;
    for(const grade of miniGrades){
     const g=App.grades.find(x=>x.id===grade),topics=Game.TOPICS.filter(x=>x.grade===grade);
