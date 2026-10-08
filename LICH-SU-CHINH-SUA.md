@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Bổ sung thêm hai nhạc mở đầu wb1nzi và oi5spg
+
+- **Yêu cầu của thầy:** Bổ sung hai nguồn `wb1nzi.mp3` và `oi5spg.mp3` vào nhạc mở đầu ngẫu nhiên của game.
+- **Kết quả:** Tải hai tệp về máy chủ của dự án, giữ nguyên nội dung và nén MP3 96 kbps; mỗi tệp giảm từ khoảng 4,2 MB xuống khoảng 1,57 MB. Danh sách mở đầu hiện có năm âm thanh cục bộ. Mỗi lần bắt đầu game chọn ngẫu nhiên một bản và vẫn tránh lặp bản vừa phát. README và kiểm thử tự động đã cập nhật đủ năm nguồn.
+- **Tệp thay đổi:** `assets/sounds/game/nhac-vao-game-wb1nzi.mp3`, `assets/sounds/game/nhac-vao-game-oi5spg.mp3`, `assets/sounds/game/README.md`, `assets/js/game.js`, `tools/test_game_audio.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `ffprobe` → hai tệp hợp lệ, dài 134,09 giây và 134,32 giây, cùng 96 kbps; `python3 tools/test_game_audio.py` → ĐẠT, đủ năm nguồn cục bộ và không lặp liên tiếp; `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.220 câu); `python3 tools/test_game_dienthoai.py` → ĐẠT; `python3 tools/build.py` → ĐẠT (2.705 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Thêm hai nhạc mở đầu ngẫu nhiên cho game
 
 - **Yêu cầu của thầy:** Bổ sung hai tệp âm thanh từ Catbox và mở ngẫu nhiên khi học sinh vào chơi game.

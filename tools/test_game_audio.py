@@ -11,6 +11,8 @@ TRACKS = [
     "assets/sounds/game/tieng_chuong_chuong_trinh_rung_chuong_vang-www_tiengdong_com.mp3",
     "assets/sounds/game/nhac-vao-game-ppg35c.mp3",
     "assets/sounds/game/nhac-vao-game-kte08w.mp3",
+    "assets/sounds/game/nhac-vao-game-wb1nzi.mp3",
+    "assets/sounds/game/nhac-vao-game-oi5spg.mp3",
 ]
 
 
