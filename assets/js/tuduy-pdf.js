@@ -30,7 +30,7 @@ const TdSheet = (() => {
       <section class="tds-q"><p><b class="tds-n">Câu ${i + 1}.</b> ${q.text}</p>${q.fig ? `<div class="tds-fig q">${q.fig}</div>` : ''}${ansPart(q)}
       <div class="tds-grid" style="height:${H[q.lv - 1]}mm"></div><div class="tds-ds">Đáp số: ………………………………</div></section>`).join('');
     const key = withKey ? `<div class="tds-break"></div><h2 class="tds-lv key">🔑 Đáp án và lời giải (dành cho thầy cô)</h2>${qs.map((q, i) => `<div class="tds-sol"><b>Câu ${i + 1}.</b> ${q.sol || ''}</div>`).join('')}` : '';
-    return `<header class="tds-head"><div><small>${g.name} · ${nm(t.label || '')} · ${nm(t.name)}</small><h1>${l.name}</h1></div>
+    return `<header class="tds-head"><div><small>${[g.name, nm(t.label || ''), nm(t.name)].filter(Boolean).join(' · ')}</small><h1>${l.name}</h1></div>
       <div class="tds-who">Họ và tên: …………………………………… Lớp: ……… Ngày: ……/……</div></header>
       <h2 class="tds-lv kt">📘 Kiến thức trọng tâm</h2>${kt}${body}${key}<footer class="tds-foot">Học mà chơi · Toán tư duy · Phiếu làm bài ô li</footer>`;
   }
@@ -71,9 +71,14 @@ svg{display:block;max-width:100%}
         if (t === ':root' || (/\.sv-/.test(t) && !/\.ws|\.interactive/.test(t))) out += r.cssText + '\n'; } }
     return out;
   }
+  /* Phiếu có công thức (\\( … \\), \\[ … \\]) thì nạp MathJax RIÊNG trong khung in (khung này không dùng chung MathJax với trang chính);
+     cờ window.__mjDone bật lên khi công thức đã vẽ xong và phông đã tải – print() và bài kiểm thử đều chờ cờ này. */
+  const MJ_CFG = `window.MathJax={tex:{inlineMath:[['\\\\(','\\\\)']],displayMath:[['\\\\[','\\\\]']],processEscapes:false},chtml:{scale:1.05,matchFontHeight:false,displayAlign:'left',displayIndent:'0'},options:{enableMenu:false},
+    startup:{pageReady(){return MathJax.startup.defaultPageReady().then(()=>document.fonts?document.fonts.ready:0).then(()=>{window.__mjDone=true;});}}};`;
   function docHTML(g, l, withKey) {
-    const t = g.topics.find(x => x.id === l.t) || { name: '' };
-    return '<!doctype html><html data-theme="light" lang="vi"><head><meta charset="utf-8"><title>' + nm(l.name) + ' – phiếu ô li</title><style>' + figCss() + CSS + '</style></head><body class="tds ' + (bil() ? 'bil' : 'vi') + '">' + sheetHTML(g, l, t, withKey) + '</body></html>';
+    const t = g.topics.find(x => x.id === l.t) || { name: '' }, body = sheetHTML(g, l, t, withKey), hasMath = /\\\(|\\\[/.test(body);
+    const mj = hasMath ? '<script>' + MJ_CFG + '<\/script><script src="' + new URL('assets/vendor/mathjax/tex-chtml.js', document.baseURI).href + '" async><\/script>' : '<script>window.__mjDone=true<\/script>';
+    return '<!doctype html><html data-theme="light" lang="vi"><head><meta charset="utf-8"><title>' + nm(l.name) + ' – phiếu ô li</title><style>' + figCss() + CSS + '</style>' + mj + '</head><body class="tds ' + (bil() ? 'bil' : 'vi') + '">' + body + '</body></html>';
   }
   function print(g, l, withKey) {
     document.getElementById('tdsFrame')?.remove();
@@ -82,7 +87,8 @@ svg{display:block;max-width:100%}
     document.body.appendChild(fr);
     const w = fr.contentWindow, d = w.document; d.open(); d.write(docHTML(g, l, withKey)); d.close();
     const go = () => { try { w.focus(); w.print(); } catch (e) { alert('Trình duyệt chưa mở được hộp thoại in.'); } };
-    setTimeout(go, 400);
+    let waited = 0; const ready = () => { if (w.__mjDone || (waited += 150) > 12000) setTimeout(go, 250); else setTimeout(ready, 150); };   // chờ công thức vẽ xong (tối đa 12 giây)
+    setTimeout(ready, 300);
     w.addEventListener('afterprint', () => setTimeout(() => fr.remove(), 500));
     setTimeout(() => fr.remove(), 10 * 60 * 1000);
   }

@@ -24,6 +24,15 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Sửa lỗi công thức trong phiếu PDF ô li (ôn thi vào 10, Đại số 3 Xác suất và các chủ đề khác)
+
+- **Yêu cầu của thầy:** Phiếu PDF in ra ở chủ đề ôn thi 9 lên 10 bị lỗi công thức toán, ví dụ bài Đại số 3. Xác suất của biến cố.
+- **Nguyên nhân:** Nút “📄 Phiếu PDF (ô li)” dựng phiếu trong một khung in riêng không nạp MathJax, nên công thức in ra là mã LaTeX thô `\( … \)` (lớp 4 không có công thức nên trước đây không lộ lỗi). Ngoài ra thẻ Kiến thức của bài Xác suất có 2 công thức bị cụt (“lấy 1 −” và “lấy n −”).
+- **Kết quả:** Khung in tự nạp MathJax riêng khi phiếu có công thức và chỉ mở hộp thoại in sau khi công thức đã vẽ xong (chờ tối đa 12 giây); sửa 2 công thức cụt thành `1 − P(Ā)` và `n − k_đối`; bỏ dấu “·” thừa ở dòng đầu phiếu.
+- **Tệp thay đổi:** `assets/js/tuduy-pdf.js`, `data/lop9.js`, `tools/test_tuduy_pdf.py` (thêm kiểm tra cả 6 bài lớp 9, bản học sinh và bản đáp án: công thức đã vẽ, không merror, không mã thô, không tràn lề), `CLAUDE.md`, `AGENTS.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** xem kết quả cuối trong báo cáo `python3 tools/test_tuduy_pdf.py` 31/31 ĐẠT, `node tools/kiem-tra.js 30 lop9` ĐẠT, `python3 tools/test.py 2` ĐẠT, `python3 tools/build.py` ĐẠT.
+- **Việc thủ công:** Thầy in thử lại một phiếu (nhớ nạp lại trang để lấy bản mới).
+
 ### 2026-10-08 – Ôn thi vào 10, chủ đề 3: Xác suất đơn giản (trọn bộ)
 
 - **Yêu cầu:** Đăng chủ đề ôn thi vào lớp 10 kế tiếp theo kế hoạch: Xác suất đơn giản (học sinh + bài giảng + phiếu luyện tập in 2 trang A4).
