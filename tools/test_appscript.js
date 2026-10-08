@@ -49,6 +49,12 @@ const okLesson = LS1.ok && LS1.lesson==='menh-de' && lsClass.rows.length===4 && 
   && lsChau.state==='doing' && lsChau.levels[1]===2 && lsClass.rows.filter(r=>r.state==='todo').length===2
   && call({action:'lessonStatus',token:L.token,grade:10,lesson:'menh-de'}).code==='teacher' && call({action:'lessonStatus',token:'xx',grade:10,lesson:'menh-de'}).code==='auth';
 console.log('Theo dõi từng bài cho giáo viên:', okLesson?'ĐẠT':'LỖI');
+const GP=call({action:'gradeProgress',token:G.token,grade:10}), gpClass=GP.classes&&GP.classes.find(c=>c.lop==='10A1');
+const gpAn=gpClass&&gpClass.rows.find(r=>r.name==='Nguyễn Văn An'), gpBinh=gpClass&&gpClass.rows.find(r=>r.name==='Trần Bình');
+const okGrade = GP.ok && GP.grade==='lop10' && gpClass.rows.length===4 && gpAn.p['menh-de'][0]===3 && gpAn.p['menh-de'][1]===null && gpAn.p['tap-hop'][0]===1
+  && Object.keys(gpBinh.p).length===0 && !GP.classes.some(c=>c.lop==='9A')
+  && call({action:'gradeProgress',token:L.token,grade:10}).code==='teacher' && call({action:'gradeProgress',token:'xx',grade:10}).code==='auth';
+console.log('Bảng tổng hợp cả khối cho giáo viên:', okGrade?'ĐẠT':'LỖI');
 
 /* ---- Góc chung: sao tuần · bài hot · đua lớp · câu hỏi của thầy · thưởng 3 nhiệm vụ ---- */
 const wkOf=name=>call({action:'rank',token:L.token}).rows.find(r=>r.name===name);

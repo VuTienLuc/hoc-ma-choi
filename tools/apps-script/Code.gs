@@ -78,6 +78,7 @@ function doPost(e) {
     if (b.action === 'rank') return out_(rank_(b));
     if (b.action === 'rankAll') return out_(rankAll_(b));
     if (b.action === 'lessonStatus') return out_(lessonStatus_(b));
+    if (b.action === 'gradeProgress') return out_(gradeProgress_(b));
     if (b.action === 'hot') return out_(hot_(b));
     if (b.action === 'race') return out_(race_(b));
     if (b.action === 'qList') return out_(qList_(b));
@@ -241,6 +242,30 @@ function lessonStatus_(b) {
       completed, stars: levels.reduce((sum, v) => sum + (Number(v) || 0), 0), state: completed === 0 ? 'todo' : completed === 3 ? 'done' : 'doing', last });
   });
   return { ok: true, grade: gid, lesson, classes: Object.keys(classes).sort(sortVi_).map(lop => ({ lop, rows: classes[lop] })) };
+}
+
+/** Giáo viên xem bảng tổng hợp cả khối trong MỘT lần gọi: mỗi học sinh → các bài đã làm và sao ở từng mức.
+ *  p = { mãBài: [sao mức 1, sao mức 2, sao mức 3] } (null = chưa làm bộ câu ở mức đó). Sao trò chơi (game-…) không tính. */
+function gradeProgress_(b) {
+  const a = auth_(b); if (!a) return AUTH_;
+  if (!a.teacher) return TEACHER_ONLY_;
+  const g = String(Number(b.grade) || ''), gid = 'lop' + g;
+  if (!g) return { ok: false, msg: 'Thiếu khối.' };
+  const byKey = {}; a.v.slice(1).forEach(x => { byKey[key_(x[0], x[1])] = x; });
+  const classes = {};
+  students_().filter(s => gradeOfLop_(s.lop) === g).forEach(s => {
+    const x = byKey[key_(s.lop, s.user)]; let progress = {};
+    if (x) { try { progress = JSON.parse(x[6] || '{}') || {}; } catch (err) {} }
+    const p = {};
+    Object.keys(progress).forEach(k => {
+      const m = k.split(':'); if (m.length !== 3 || m[0] !== gid || m[1].indexOf('game-') === 0) return;
+      const lv = Number(m[2]); if (lv < 1 || lv > 3) return;
+      (p[m[1]] = p[m[1]] || [null, null, null])[lv - 1] = Math.max(0, Number(progress[k]) || 0);
+    });
+    const last = !x || !x[5] ? '' : (x[5] instanceof Date ? Utilities.formatDate(x[5], TZ, 'dd/MM/yyyy') : norm_(x[5]).slice(0, 10));
+    (classes[s.lop] = classes[s.lop] || []).push({ name: s.name, user: s.user, joined: !!x, last, p });
+  });
+  return { ok: true, grade: gid, classes: Object.keys(classes).sort(sortVi_).map(lop => ({ lop, rows: classes[lop] })) };
 }
 
 

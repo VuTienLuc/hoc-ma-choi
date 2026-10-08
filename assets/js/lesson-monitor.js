@@ -35,6 +35,7 @@ const LessonMonitor = (() => {
     $('#lmReload',overlay).onclick=load; load();
   }
   function on(ev,g,l){
+    if(typeof ClassMatrix!=='undefined')ClassMatrix.on(ev,g);   // nút 📊 Thống kê lớp ở trang chủ khối
     if(ev!=='lesson')close();
     if(ev!=='lesson'||typeof Account==='undefined'||!Account.isTeacher||!Account.isTeacher())return;
     const tools=$('.toolbar .tbtns'); if(!tools||$('[data-lesson-monitor]'))return;

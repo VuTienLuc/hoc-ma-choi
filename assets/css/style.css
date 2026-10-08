@@ -861,3 +861,30 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .topic.fold.open>.fold-h{border-bottom:2.5px solid var(--line)}
 .fold-body{padding:12px 14px 14px}
 .fold-bar{display:flex;gap:8px;margin:0 0 4px}
+
+/* Bảng tổng hợp tiến độ cả lớp (class-matrix.js) */
+.cm-overlay{position:fixed;inset:0;z-index:15000;display:grid;place-items:center;padding:14px;background:#081126d9;backdrop-filter:blur(7px)}
+.cm-card{display:flex;flex-direction:column;width:min(1280px,98vw);max-height:95dvh;overflow:hidden;border:3px solid #8d73df;border-radius:24px;background:var(--surface);color:var(--ink);box-shadow:0 24px 80px #0009}
+.cm-card>header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;background:linear-gradient(115deg,#6f55d4,#3d7be8);color:#fff}
+.cm-card>header small{font:800 11px/1 var(--f-body);letter-spacing:1.5px;opacity:.85}.cm-card>header h2{margin:3px 0 0;font:800 20px/1.25 var(--f-head)}
+.cm-card>header button{min-width:42px;min-height:42px;border:0;border-radius:12px;background:#ffffff2e;color:#fff;font:800 18px var(--f-body);cursor:pointer}
+.cm-ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 16px}.cm-ctl label{font-weight:800;display:flex;gap:8px;align-items:center}.cm-ctl select{min-height:40px;border:2px solid var(--line);border-radius:10px;padding:4px 10px;font:700 15px var(--f-body);background:var(--surface);color:var(--ink)}
+.cm-card>main{padding:0 16px 14px;overflow:auto;min-height:0}
+.cm-sum{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 8px}.cm-sum span{flex:1 1 110px;text-align:center;padding:7px 4px;border:2px solid var(--line);border-radius:12px;background:var(--bg)}.cm-sum b{display:block;font:800 22px/1.1 var(--f-head)}.cm-sum small{font-weight:700;color:var(--muted)}
+.cm-sum .d{background:#c8efd5;color:#0d4a28}.cm-sum .o{background:#fff0b3;color:#5a3d00}.cm-sum .t{background:#f8d0d0;color:#6b1717}.cm-sum .d small,.cm-sum .o small,.cm-sum .t small{color:inherit}
+.cm-leg{margin:0 0 8px;font-size:14px;color:var(--muted)}.cm-leg i{font-style:normal;font-weight:800;display:inline-block;min-width:30px;text-align:center;padding:1px 6px;border-radius:6px;border:1.5px solid #0004;color:#14213d}
+.cm-leg i.done,.cm-c.done{background:#c8efd5}.cm-leg i.doing,.cm-c.doing{background:#fff0b3}.cm-leg i.todo,.cm-c.todo{background:#f8d0d0}
+.cm-scroll{overflow:auto;max-height:58dvh;border:2px solid var(--line);border-radius:12px}
+.cm-tb{border-collapse:separate;border-spacing:0;font-size:14px;width:max-content;min-width:100%}
+.cm-tb th,.cm-tb td{border-right:1px solid #9aa0aa88;border-bottom:1px solid #9aa0aa88;padding:4px 6px;text-align:center;background:var(--surface);white-space:nowrap}
+.cm-tb thead th{position:sticky;top:0;z-index:2;background:#dbe6fb;color:#14213d;font-weight:800}
+.cm-tb thead tr:nth-child(2) th{top:var(--cm-h1,34px)}
+.cm-tb .cm-topic{font-size:12px;max-width:260px;overflow:hidden;text-overflow:ellipsis}
+.cm-tb .cm-name{position:sticky;left:34px;z-index:1;text-align:left;min-width:170px;max-width:220px;overflow:hidden;text-overflow:ellipsis}.cm-tb .cm-name small{display:block;color:var(--muted);font-size:11px}
+.cm-tb .cm-n{position:sticky;left:0;z-index:1;min-width:34px}.cm-tb thead .cm-n,.cm-tb thead .cm-name{z-index:3}
+.cm-les{cursor:pointer;height:150px;vertical-align:bottom;padding:4px 2px;min-width:30px}.cm-les span{writing-mode:vertical-rl;transform:rotate(180deg);display:inline-block;max-height:140px;overflow:hidden;font-size:12px}
+.cm-les:hover,.cm-les:focus-visible{background:#b9cdf5;outline:none}
+.cm-c{font-weight:800;min-width:30px}.cm-f{font-weight:800;background:#f8d0d0;color:#6b1717}.cm-tb tfoot td{position:sticky;bottom:0;background:#f4e3e3;font-weight:700}
+.cm-detail:not(:empty){margin-top:10px;padding:10px 14px;border:2px solid var(--line);border-radius:12px;background:var(--bg)}.cm-detail h4{margin:0 0 6px;font:800 16px var(--f-head)}
+.cm-g{margin:4px 0;padding:6px 10px;border-radius:8px;font-size:14px;line-height:1.5}.cm-g b{display:block}.cm-g.todo{background:#f8d0d0;color:#5c1212}.cm-g.doing{background:#fff0b3;color:#4a3300}.cm-g.done{background:#c8efd5;color:#0d4a28}
+@media(max-width:700px){.cm-card{width:100%;max-height:97dvh;border-radius:18px}.cm-card>header h2{font-size:16px}.cm-scroll{max-height:52dvh}}

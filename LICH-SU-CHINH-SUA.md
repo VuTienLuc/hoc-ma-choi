@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Bảng tổng hợp tiến độ cả lớp + xuất Excel
+
+- **Yêu cầu của thầy:** "Có, hãy thêm bảng tổng hợp và xuất ra file Excel" (thống kê từng bài học sinh đã học / chưa học).
+- **Kết quả:** Tài khoản giáo viên (lớp không có chữ số, vd GV) ở trang chủ mỗi khối có nút **📊 Thống kê lớp**: ma trận học sinh × bài, ô xanh = đủ 3 mức, vàng = 1–2 mức, đỏ = chưa làm; chọn lớp; bấm tên bài để xem danh sách em chưa làm / đang làm / đã xong; nút xuất `.xlsx` 2 sheet (ma trận tô màu; danh sách chưa làm theo bài). Apps Script thêm action `gradeProgress` (cả khối một lần gọi); nếu chưa đăng lại Apps Script, web tự dùng `lessonStatus` từng bài (chậm hơn). Tính năng nằm ở trang học sinh (đăng nhập GV), không phải trang bài giảng giáo viên.
+- **Tệp thay đổi:** `Code.gs`, `tools/apps-script/Code.gs`, `assets/js/class-matrix.js` (mới), `assets/js/lesson-monitor.js`, `assets/css/style.css`, `index.html`, `tools/test_appscript.js`, `tools/test_classmatrix.py` (mới), `CLAUDE.md`, `AGENTS.md`
+- **Kiểm thử:** `node tools/test_appscript.js` → ĐẠT; `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_classmatrix.py` → ĐẠT (cả đường gradeProgress và dự phòng, mở xlsx bằng openpyxl); `python3 tools/test_theodoi_baihoc.py` → ĐẠT. Chưa thử với dữ liệu lớp thật.
+- **Việc thủ công:** Đăng lại Apps Script từ `Code.gs` (Deploy → Manage deployments → New version) để dùng `gradeProgress`.
+
 ### 2026-10-08 – Giáo viên theo dõi học sinh trong từng bài
 
 - **Yêu cầu của thầy:** Trong từng bài ở phần học sinh, giáo viên cần biết học sinh nào chưa làm được bài đó.
