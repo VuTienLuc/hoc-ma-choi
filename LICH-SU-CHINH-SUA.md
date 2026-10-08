@@ -24,6 +24,19 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Menu Game củng cố riêng và câu hỏi thông hiểu theo lớp
+
+- **Yêu cầu của thầy:** Tạo menu chơi game riêng; mỗi lớp dùng ngân hàng câu hỏi riêng ở mức độ thông hiểu.
+- **Kết quả:**
+  - Thêm lối vào **🕹️ Game củng cố** riêng trên trang học của từng lớp, tách khỏi **Phòng thi kiến thức** chơi với máy, hai người và cả lớp.
+  - Thêm menu ba trò chơi cảm ứng: **Câu cá Toán học**, **Chém trái cây** và **Bắn bóng đáp án**. Mỗi lượt gồm 10 câu, 18 giây mỗi câu; bốn phương án được trộn và chuyển động; kết thúc lượt tính điểm, độ chính xác và thưởng tối đa 3 sao theo hệ thống hiện có.
+  - Mỗi lớp chỉ thấy chủ đề thuộc đúng lớp của mình. Giữ các ngân hàng đã có cho lớp 9, 10, 11; bổ sung ngân hàng riêng cho lớp 4 và lớp 8, mỗi ngân hàng có 10 dạng sinh câu thông hiểu và lời giải.
+  - Giao diện tự co giãn cho màn hình ngang, iPad và điện thoại dọc; câu hỏi cố định phía trên, vùng đáp án chuyển động phía dưới, nút chạm đủ lớn.
+  - Bổ sung kiểm thử tự động cho năm lớp đang phát hành (`lop4`, `lop8`, `lop9`, `lop10`, `lop11`): kiểm tra lối vào, đủ ba game, không lẫn chủ đề giữa các lớp, đủ bốn đáp án chuyển động và có lời giải sau khi chọn.
+- **Tệp thay đổi:** `assets/js/game.js`, `assets/css/game.css`, `data/game-lop4.js`, `data/game-lop8.js`, `index.html`, `tools/test.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu, 13 chủ đề trò chơi); `python3 tools/test.py` → ĐẠT (23.220 câu và toàn bộ luồng Học mà chơi); kiểm tra trực quan ở 1366×768 và 430×932 → đủ bốn đáp án, không tràn ngang; `python3 tools/build.py` → ĐẠT (2.629 KB); `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Bài giảng giáo viên: chương, chủ đề, đề kiểm tra thu gọn, bấm để mở
 
 - **Yêu cầu của thầy:** Sắp xếp các chương, chủ đề, bài kiểm tra ở dạng ẩn, bấm vào hiện ra để trang bài giảng giáo viên gọn hơn.

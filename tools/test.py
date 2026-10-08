@@ -65,6 +65,26 @@ async (REPS) => {
     if(qs.length!==20)out.bad.push(['Học mà chơi: không đủ 20 câu',t.id,qs.length]);
     qs.forEach((q,i)=>{if(q.opts.length!==4||new Set(q.opts).size!==4||q.correct<0)out.bad.push(['Học mà chơi: phương án lỗi',t.id,i+1]);});
    }
+   const miniGrades=CONFIG.grades;
+   for(const grade of miniGrades){
+    const g=App.grades.find(x=>x.id===grade),topics=Game.TOPICS.filter(x=>x.grade===grade);
+    if(!g||!topics.length){out.bad.push(['Game củng cố: lớp chưa có ngân hàng riêng',grade]);continue}
+    S.grade=g;renderHome();
+    if(!document.querySelector('a[href="#/game-mini"]'))out.bad.push(['Game củng cố: thiếu menu riêng tại trang lớp',grade]);
+    location.hash='#/game-mini';Game.route();
+    if(document.querySelectorAll('.mini-game-card').length!==3)out.bad.push(['Game củng cố: menu không đủ ba trò chơi',grade]);
+    for(const style of ['fishing','fruit','balloon']){
+     location.hash=`#/game-mini/${style}`;Game.route();
+     const links=[...document.querySelectorAll('.game-topics a')].map(a=>a.getAttribute('href'));
+     if(links.length!==topics.length||links.some(h=>!topics.some(t=>h.endsWith('/'+t.id))))out.bad.push(['Game củng cố: lẫn chủ đề giữa các lớp',grade,style,links]);
+     location.hash=`#/game-mini/${style}/${topics[0].id}`;Game.route();document.querySelector('#miniStart').click();await new Promise(ok=>setTimeout(ok,700));
+     const buttons=[...document.querySelectorAll('#gameArena [data-mini-o]')];
+     if(buttons.length!==4||!document.querySelector('.mini-question'))out.bad.push(['Game củng cố: không dựng đủ câu hỏi và đáp án',grade,style]);
+     else if(buttons.some(b=>getComputedStyle(b).animationName==='none'))out.bad.push(['Game củng cố: đáp án chưa chuyển động',grade,style]);
+     if(buttons[0]){buttons[0].click();if(!document.querySelector('#miniNext'))out.bad.push(['Game củng cố: không hiện lời giải sau khi chọn',grade,style])}
+     const miniExit=document.querySelector('#gameArena [data-exit]');if(miniExit)miniExit.click();
+    }
+   }
    S.grade=App.grades.find(g=>g.id==='lop9');renderHome();
    if(!document.querySelector('.game-entry'))out.bad.push(['Học mà chơi: thiếu lối vào ở trang lớp 9']);
    location.hash='#/game/game-tiep-tuyen';Game.route();
