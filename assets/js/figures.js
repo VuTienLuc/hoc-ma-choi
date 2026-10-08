@@ -348,3 +348,58 @@ function pigeonholeSVG(labels,limit=1,o={}){
   s+=`<path class="sv-ink" stroke-width="2.5" d="M190 210 L190 178 M182 187 L190 178 L198 187"/><circle class="sv-pt" cx="190" cy="220" r="9"/><text class="sv-muted" x="208" y="225" font-size="14" text-anchor="start">${o.nextLabel||'vật tiếp theo'}</text></svg>`;
   return s;
 }
+
+/* ===== Hình cho Ôn tập giữa học kì I – Toán 10 ===== */
+/* Đài quan sát: người đứng tại P (độ cao h so với mặt đất) nhìn chân cột cờ (góc a) và đỉnh cột cờ (góc b) trên nóc toà nhà.
+   o.h, o.d, o.a, o.b, o.hb, o.hf là nhãn (chuỗi, '?' nếu chưa biết). Hình minh hoạ, không đúng tỉ lệ. */
+function obsSVG(o={}){
+  const T=(x,y,s,fs=16,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x}" y="${y}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const Px=52,Py=120,Bx=250,Ry=64,Ty=22,G=196, ang=(x,y)=>Math.atan2(Py-y,x-Px);
+  const aR=ang(Bx,Ry), aT=ang(Bx,Ty);
+  const arc=(r,a1,a2)=>`<path class="sv-tick" stroke-width="2.5" fill="none" d="M${Px+r*Math.cos(a1)} ${Py-r*Math.sin(a1)} A${r} ${r} 0 0 0 ${Px+r*Math.cos(a2)} ${Py-r*Math.sin(a2)}"/>`;
+  let s=`<svg viewBox="0 0 320 214" role="img" aria-label="Quan sát cột cờ trên toà nhà">`;
+  s+=`<line class="sv-axis" x1="8" y1="${G}" x2="312" y2="${G}"/>`;
+  s+=`<rect class="sv-ink" stroke-width="2.5" x="${Bx-34}" y="${Ry}" width="68" height="${G-Ry}"/>`;
+  s+=`<line class="sv-ink" stroke-width="3" x1="${Bx}" y1="${Ry}" x2="${Bx}" y2="${Ty}"/><path class="sv-ink" stroke-width="2" d="M${Bx} ${Ty} L${Bx+22} ${Ty+7} L${Bx} ${Ty+14}"/>`;
+  s+=`<line class="sv-ink" stroke-width="3" x1="${Px}" y1="${Py}" x2="${Px}" y2="${G}"/><rect class="sv-ink" stroke-width="2.5" x="${Px-22}" y="${Py}" width="44" height="6"/>`;
+  s+=`<line class="sv-ink" stroke-width="1.6" stroke-dasharray="5 4" x1="${Px}" y1="${Py}" x2="${Bx}" y2="${Py}"/>`;
+  s+=`<line class="sv-ink" stroke-width="2" x1="${Px}" y1="${Py}" x2="${Bx}" y2="${Ry}"/><line class="sv-ink" stroke-width="2" x1="${Px}" y1="${Py}" x2="${Bx}" y2="${Ty}"/>`;
+  s+=arc(52,0,aR)+arc(74,aR,aT);
+  s+=`<circle class="sv-dot" cx="${Px}" cy="${Py}" r="4.5"/>`+T(Px-14,Py-12,'P',17)+T(Bx+8,Ry+14,'C',16,'start')+T(Bx+22,Ty+30,'D',16,'start');
+  s+=T(Px-14,(Py+G)/2+10,o.h||'h',16,'end')+T((Px+Bx)/2,Py+14,o.d||'d',16);
+  if(o.a)s+=T(Px+68,Py-12,o.a,15);
+  if(o.b)s+=T(Px+84,Py-52,o.b,15);
+  if(o.hb)s+=T(Bx+40,(Ry+G)/2,o.hb,16,'start');
+  if(o.hf)s+=T(Bx-10,(Ry+Ty)/2,o.hf,16,'end');
+  s+=T(160,G+12,'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted');
+  return s+'</svg>';
+}
+/* Cây (cột) HT cao ?: quan sát từ hai điểm A, B thẳng hàng với chân cây H; AB = d, góc nhìn ngọn cây T là a (tại A) và b (tại B). */
+function treeSVG(o={}){
+  const T=(x,y,s,fs=16,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x}" y="${y}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const G=178,Ax=28,Bx=128,Hx=262,Ty=34, ang=(x)=>Math.atan2(G-Ty,Hx-x);
+  const arc=(x,r,a2)=>`<path class="sv-tick" stroke-width="2.5" fill="none" d="M${x+r} ${G} A${r} ${r} 0 0 0 ${x+r*Math.cos(a2)} ${G-r*Math.sin(a2)}"/>`;
+  let s=`<svg viewBox="0 0 320 224" role="img" aria-label="Quan sát ngọn cây từ hai vị trí">`;
+  s+=`<line class="sv-axis" x1="8" y1="${G}" x2="312" y2="${G}"/><line class="sv-ink" stroke-width="3.5" x1="${Hx}" y1="${G}" x2="${Hx}" y2="${Ty+22}"/>`;
+  s+=`<ellipse class="sv-part on" cx="${Hx}" cy="${Ty+22}" rx="26" ry="24"/>`;
+  s+=`<line class="sv-ink" stroke-width="2" x1="${Ax}" y1="${G}" x2="${Hx}" y2="${Ty+22}"/><line class="sv-ink" stroke-width="2" x1="${Bx}" y1="${G}" x2="${Hx}" y2="${Ty+22}"/>`;
+  const a1=Math.atan2(G-Ty-22,Hx-Ax), a2=Math.atan2(G-Ty-22,Hx-Bx);
+  s+=arc(Ax,36,a1)+arc(Bx,30,a2);
+  s+=`<circle class="sv-dot" cx="${Ax}" cy="${G}" r="4"/><circle class="sv-dot" cx="${Bx}" cy="${G}" r="4"/>`;
+  s+=T(Ax,G+17,'A',16)+T(Bx,G+17,'B',16)+T(Hx,G+17,'H',16)+T(Hx+32,Ty+14,'T',16,'start');
+  s+=`<path class="sv-ink" stroke-width="1.6" d="M${Ax} ${G+30} H${Bx} M${Ax} ${G+25} v10 M${Bx} ${G+25} v10"/>`+T((Ax+Bx)/2,G+46,o.d||'d',15);
+  s+=(o.a?T(Ax+58,G-9,o.a,14):'')+(o.b?T(Bx+50,G-9,o.b,14):'')+T(Hx+12,(G+Ty+22)/2,o.h||'?',17,'start');
+  return s+'</svg>';
+}
+/* Đường tròn ngoại tiếp tam giác ABC (đều nếu không cho o.pts=[góc A, góc B, góc C] theo độ, tâm O). o.R: nhãn bán kính. */
+function circTriSVG(o={}){
+  const T=(x,y,s,fs=17,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const cx=160,cy=104,r=82, deg=o.pts||[90,210,330], n=o.n||['A','B','C'], P=deg.map(d=>[cx+r*Math.cos(d*Math.PI/180),cy-r*Math.sin(d*Math.PI/180)]);
+  let s=`<svg viewBox="0 0 320 210" role="img" aria-label="Tam giác nội tiếp đường tròn"><circle class="sv-ink" stroke-width="2.5" cx="${cx}" cy="${cy}" r="${r}"/>`;
+  s+=`<path class="sv-ink" stroke-width="3" stroke-linejoin="round" d="M${P[0]} L${P[1]} L${P[2]} Z"/>`;
+  if(o.R){s+=`<line class="sv-ink" stroke-width="1.8" stroke-dasharray="5 4" x1="${cx}" y1="${cy}" x2="${P[1][0]}" y2="${P[1][1]}"/>`+T((cx+P[1][0])/2-6,(cy+P[1][1])/2+16,o.R,15,'end')}
+  s+=`<circle class="sv-dot" cx="${cx}" cy="${cy}" r="4"/>`+T(cx+10,cy-10,'O',16);
+  [[0,0,-14],[1,-14,12],[2,14,12]].forEach(([i,dx,dy])=>{s+=T(P[i][0]+dx,P[i][1]+dy,n[i],18)});
+  if(o.side)s+=T((P[1][0]+P[2][0])/2,(P[1][1]+P[2][1])/2+16,o.side,15);
+  return s+'</svg>';
+}

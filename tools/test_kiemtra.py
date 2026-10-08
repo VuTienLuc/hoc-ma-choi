@@ -1,4 +1,4 @@
-"""Kiểm thử ĐỀ KIỂM TRA (KiemTra.add): mỗi mã đề in ĐÚNG 2 trang A4 (PDF thật, Chromium), không lỗi công thức (mjx-merror),
+"""Kiểm thử ĐỀ KIỂM TRA (KiemTra.add): mỗi mã đề in ĐÚNG số trang A4 khai báo (mặc định 2; đề giữa kì 90 phút khai pages:4) (PDF thật, Chromium), không lỗi công thức (mjx-merror),
 bản đáp án dựng được. Chạy: python3 tools/test_kiemtra.py [mã-lớp]   (ảnh chụp: biến môi trường KT_SHOT=thư-mục)"""
 import threading, http.server, functools, socketserver, asyncio, pathlib, json, re, subprocess, tempfile
 from playwright.async_api import async_playwright
@@ -27,7 +27,7 @@ async def main():
         await pg.route('**/config.js', cfg)
         await pg.goto(f'http://127.0.0.1:{PORT}/giao-vien/index.html'); await pg.wait_for_timeout(800)
         await pg.select_option('#lgLop', 'GV'); await pg.fill('#lgUser', 'u'); await pg.fill('#lgPass', 'p'); await pg.click('#lgBtn'); await pg.wait_for_timeout(900)
-        tests = await pg.evaluate("KiemTra.TESTS.map(t => ({g:t.grade, id:t.id, codes:t.codes}))")
+        tests = await pg.evaluate("KiemTra.TESTS.map(t => ({g:t.grade, id:t.id, codes:t.codes, pages:t.pages || 2}))")
         ok(f'có đề kiểm tra ({len(tests)})', tests)
         for t in tests:
             if only and t['g'] != only: continue
@@ -38,7 +38,7 @@ async def main():
                 ok(f'{w}: công thức hiển thị, không merror, không $ trần', bad == 0)
                 await pg.emulate_media(media='print'); f = tempfile.mktemp(suffix='.pdf'); await pg.pdf(path=f, prefer_css_page_size=True, print_background=True); await pg.emulate_media(media='screen')
                 n = pdf_pages(f)
-                if c != 'da': ok(f'{w}: in ĐÚNG 2 trang A4 (đo thật = {n})', n == 2)
+                if c != 'da': ok(f'{w}: in ĐÚNG {t["pages"]} trang A4 (đo thật = {n})', n == t['pages'])
                 if shot:
                     os.makedirs(shot, exist_ok=True); subprocess.run(['pdftoppm', '-r', '70', '-png', f, f"{shot}/{t['g']}-{t['id']}-{c}"])
         ok('không lỗi JS', not errs); await br.close()

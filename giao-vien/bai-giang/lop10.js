@@ -455,3 +455,100 @@ Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương III. Hệ t
 ]});
 }
 })();
+
+/* =====================================================================
+   ÔN TẬP GIỮA HỌC KÌ I (Chương I – II – III) – có hình vẽ. Cùng mã bài 'on-tap-giua-ki-1' với phần học sinh luyện tập.
+   Đề ôn tập 5 đề (12 TN + 4 Đ/S + 6 TLN): giao-vien/bai-giang/lop10-giua-ki.js (mục “Kiểm tra”).
+   ===================================================================== */
+(() => {
+const m = tm, box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const sys = rows => tsys(rows);
+const F_miền = () => planeSVG({x:[-1,6], y:[-1,6], lines:[[1,1,4,false,'d₁'],[1,-1,2,false,'d₂']], hatch:[[-1,0,0],[0,-1,0],[1,1,4],[1,-1,2]], pts:[[0,0,'O'],[2,0,'A'],[3,1,'B'],[0,4,'C']]});
+const F_min = () => planeSVG({x:[-1,11], y:[-1,9], lines:[[2,1,8,false,'d₁'],[1,2,10,false,'d₂']], hatch:[[-1,0,0],[0,-1,0],[-2,-1,-8],[-1,-2,-10]], pts:[[2,4,'A'],[0,8,'B'],[10,0,'C']]});
+const FRAC = (a, b) => tf(a, b);
+
+Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Ôn tập giữa học kì I', lessons:[
+{ id:'on-tap-giua-ki-1', name:'Ôn tập giữa học kì I', desc:'Hệ thống Chương I – II – III; 9 ví dụ có hình vẽ (Venn, miền nghiệm, tối ưu, đo cây, cột cờ, tam giác nội tiếp); luyện tập tổng hợp. Có 5 đề ôn tập (mục Kiểm tra).', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giữa học kì I', title:'Ôn tập giữa học kì I', sub:'Mục tiêu', points:[
+    'Hệ thống kiến thức Chương I (mệnh đề, tập hợp), Chương II (bất phương trình, hệ bất phương trình bậc nhất hai ẩn), Chương III (hệ thức lượng trong tam giác).',
+    'Giải các dạng bài thường gặp trong đề: đếm bằng sơ đồ Venn, đọc hình miền nghiệm, bài toán tối ưu, tam giác, đo đạc thực tế.',
+    'Làm quen cấu trúc đề: 12 trắc nghiệm · 4 đúng/sai · 6 trả lời ngắn.']},
+  {kind:'sum', tag:'Hệ thống kiến thức', title:'Sơ đồ ghi nhớ ba chương', body:`<ol class="lk-steps">
+    <li><b>Chương I.</b> Phủ định: ${m('\\forall \\leftrightarrow \\exists')} và đổi dấu so sánh (${m('\\gt \\to \\le')}). Tập hợp: ${m('A \\cap B,\\ A \\cup B,\\ A \\setminus B')}; ${m('n(A \\cup B) = n(A) + n(B) - n(A \\cap B)')}; tập hợp ${m('n')} phần tử có ${m('2^n')} tập con.</li>
+    <li><b>Chương II.</b> Nghiệm = thay vào đúng; miền nghiệm = nửa mặt phẳng (điểm thử); nét đứt ↔ dấu ngặt; hệ → phần chung; tối ưu → giá trị tại các <b>đỉnh</b> của miền nghiệm.</li>
+    <li><b>Chương III.</b> Góc bù: ${m('\\sin')} giữ nguyên, ${m('\\cos, \\tan, \\cot')} đổi dấu; ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}; côsin ${m('a^2 = b^2 + c^2 - 2bc\\cos A')}; sin ${m('\\dfrac{a}{\\sin A} = 2R')}; diện tích ${m('S = \\dfrac{1}{2}bc\\sin A = \\sqrt{p(p-a)(p-b)(p-c)} = pr = \\dfrac{abc}{4R}')}.</li></ol>`},
+
+  {kind:'method', tag:'Dạng 1 · Chương I', title:'Đếm bằng sơ đồ Venn; phủ định; phép toán tập hợp', steps:[
+    `Vẽ sơ đồ Venn, điền số vào phần giao trước (${m('A \\cap B')}).`,
+    `Phần chỉ thuộc ${m('A')} = ${m('n(A) - n(A \\cap B)')}; hợp = ${m('n(A) + n(B) - n(A \\cap B)')}; ngoài cả hai = tổng − hợp.`,
+    `Phủ định: đổi lượng từ ${m('\\forall \\leftrightarrow \\exists')} và đổi dấu so sánh; xét tính đúng sai bằng cách đánh giá biểu thức.`,
+    'Khoảng, đoạn: vẽ trục số, chú ý ngoặc tròn/vuông ở đầu mút.']},
+  {kind:'vd', tag:'Ví dụ 1 · Sơ đồ Venn', label:'Ví dụ 1', fig:venn2SVG({labelA:'Bóng đá', labelB:'Bóng rổ', aOnly:14, both:9, bOnly:9, none:13}), figAt:3,
+   de:`Lớp 10A có 45 học sinh; 23 em tham gia câu lạc bộ bóng đá, 18 em tham gia câu lạc bộ bóng rổ và 9 em tham gia cả hai. Hỏi: a) có bao nhiêu em tham gia ít nhất một câu lạc bộ? b) bao nhiêu em chỉ tham gia bóng đá? c) bao nhiêu em không tham gia câu lạc bộ nào?`,
+   sol:[`Điền giao: ${m('n(A \\cap B) = 9')}.`, `a) ${m('n(A \\cup B) = 23 + 18 - 9 = 32')} em.`, `b) Chỉ bóng đá: ${m('23 - 9 = 14')} em. c) Không tham gia: ${m('45 - 32 = 13')} em.`],
+   ans:`${tb('32')} em; ${tb('14')} em; ${tb('13')} em.`},
+  {kind:'vd', tag:'Ví dụ 2 · Phủ định và tập hợp', label:'Ví dụ 2',
+   de:`a) Lập mệnh đề phủ định của ${m('P: \\forall x \\in \\mathbb{R},\\ x^2 - 4x + 5 \\gt 0')} và cho biết mệnh đề nào đúng. b) Cho ${m('A = (-3;\\ 2]')}, ${m('B = [0;\\ 5)')}. Tìm ${m('A \\cap B,\\ A \\cup B,\\ A \\setminus B')}.`,
+   sol:[`a) ${m('\\overline{P}: \\exists x \\in \\mathbb{R},\\ x^2 - 4x + 5 \\le 0')}.`, `${m('x^2 - 4x + 5 = (x-2)^2 + 1 \\ge 1 \\gt 0')} với mọi ${m('x')} nên ${m('P')} đúng, ${m('\\overline{P}')} sai.`,
+     `b) Trên trục số: ${m('A \\cap B = [0;\\ 2]')} (0 thuộc ${m('B')}, 2 thuộc ${m('A')}).`, `${m('A \\cup B = (-3;\\ 5)')} (hai đầu mút đều không lấy); ${m('A \\setminus B = (-3;\\ 0)')} (0 thuộc ${m('B')} nên bị loại).`],
+   ans:`${tb('P')} đúng; ${tb('A \\cap B = [0;\\ 2]')}, ${tb('A \\cup B = (-3;\\ 5)')}, ${tb('A \\setminus B = (-3;\\ 0)')}.`},
+
+  {kind:'method', tag:'Dạng 2 · Chương II', title:'Đọc hình miền nghiệm; bài toán tối ưu', steps:[
+    'Mỗi đường thẳng biên: nét liền → có dấu bằng; nét đứt → dấu ngặt. Lấy điểm thử (gốc toạ độ) để chọn phía được giữ lại.',
+    'Phần <b>không bị gạch</b> là miền nghiệm của hệ; viết lần lượt từng bất phương trình.',
+    `Tối ưu: lập ràng buộc (“tối đa” ${m('\\le')}, “ít nhất” ${m('\\ge')}), tìm <b>các đỉnh</b> của miền nghiệm, tính ${m('F')} tại từng đỉnh rồi so sánh.`]},
+  {kind:'vd', tag:'Ví dụ 3 · Đọc hình', label:'Ví dụ 3', fig:F_miền(), figAt:0,
+   de:`Phần không bị gạch trong hình (kể cả biên) là miền nghiệm của hệ bất phương trình nào? Tìm các đỉnh của miền nghiệm.`,
+   sol:[`Hai đường ${m('d_1, d_2')} nét liền → có dấu bằng. ${m('d_1: x + y = 4')} đi qua ${m('(4;\\ 0), (0;\\ 4)')}; ${m('d_2: x - y = 2')} đi qua ${m('(2;\\ 0), (0;\\ -2)')}.`,
+     `Điểm thử ${m('O(0;\\ 0)')} nằm ở phần không gạch: ${m('0 + 0 \\le 4')} và ${m('0 - 0 \\le 2')} đều đúng ⇒ ${m('x + y \\le 4')}, ${m('x - y \\le 2')}.`,
+     `Phần không gạch nằm trong góc phần tư thứ nhất: ${m('x \\ge 0,\\ y \\ge 0')}.`, `Các đỉnh: ${m('O(0;\\ 0),\\ A(2;\\ 0),\\ B(3;\\ 1),\\ C(0;\\ 4)')} (B là giao điểm của ${m('d_1, d_2')}).`],
+   ans:`${tb(`\\begin{cases}x \\ge 0 \\\\ y \\ge 0 \\\\ x + y \\le 4 \\\\ x - y \\le 2\\end{cases}`)}`},
+  {kind:'vd', tag:'Ví dụ 4 · Giá trị lớn nhất', label:'Ví dụ 4', fig:F_miền(),
+   de:`Với miền nghiệm ở Ví dụ 3, tìm giá trị lớn nhất của ${m('F(x;\\ y) = 3x + 2y')}.`,
+   sol:[`Tại ${m('O(0;\\ 0)')}: ${m('F = 0')}; tại ${m('A(2;\\ 0)')}: ${m('F = 6')}.`, `Tại ${m('B(3;\\ 1)')}: ${m('F = 9 + 2 = 11')}; tại ${m('C(0;\\ 4)')}: ${m('F = 8')}.`, `So sánh: lớn nhất là ${m('11')}, đạt tại ${m('B(3;\\ 1)')}.`],
+   ans:`${tb('F_{\\max} = 11')} tại ${m('B(3;\\ 1)')}.`},
+  {kind:'vd', tag:'Ví dụ 5 · Chi phí nhỏ nhất', label:'Ví dụ 5', fig:F_min(),
+   de:`Mỗi bao thức ăn ${m('X')} chứa 2 đơn vị chất ${m('A')}, 1 đơn vị chất ${m('B')}; mỗi bao ${m('Y')} chứa 1 đơn vị ${m('A')}, 2 đơn vị ${m('B')}. Hỗn hợp cần ít nhất 8 đơn vị ${m('A')} và 10 đơn vị ${m('B')}. Giá mỗi bao ${m('X')} là 3 nghìn đồng, ${m('Y')} là 4 nghìn đồng. Tìm chi phí nhỏ nhất.`,
+   sol:[`Gọi ${m('x, y')} là số bao ${m('X, Y')}: ${m('x \\ge 0,\\ y \\ge 0,\\ 2x + y \\ge 8,\\ x + 2y \\ge 10')}; chi phí ${m('F = 3x + 4y')}.`,
+     `Miền nghiệm (không bị chặn) có các đỉnh ${m('A(2;\\ 4),\\ B(0;\\ 8),\\ C(10;\\ 0)')}.`, `${m('F(A) = 6 + 16 = 22')}; ${m('F(B) = 32')}; ${m('F(C) = 30')}.`, `Chi phí nhỏ nhất ${m('22')} nghìn đồng, đạt khi mua 2 bao ${m('X')} và 4 bao ${m('Y')}.`],
+   ans:`${tb('22')} nghìn đồng.`},
+
+  {kind:'method', tag:'Dạng 3 · Chương III', title:'Giá trị lượng giác, tam giác, đo đạc thực tế', steps:[
+    `Từ ${m('\\sin\\alpha')} suy ra ${m('\\cos\\alpha')} bằng ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}, chọn dấu theo góc nhọn/tù.`,
+    'Biết hai cạnh và góc xen giữa → định lí côsin; biết cạnh và góc đối → định lí sin (tìm R).',
+    'Bài đo đạc: vẽ hình, dùng <b>góc ngoài</b> của tam giác để tìm góc ở ngọn rồi định lí sin; hoặc dùng tang trong tam giác vuông.']},
+  {kind:'vd', tag:'Ví dụ 6 · Lượng giác', label:'Ví dụ 6',
+   de:`Cho ${m('\\sin\\alpha = \\dfrac{5}{13}')} và ${m('90^\\circ \\lt \\alpha \\lt 180^\\circ')}. Tính ${m('\\cos\\alpha')}, ${m('\\tan\\alpha')} và ${m('P = \\sin\\alpha + 2\\cos\\alpha')}.`,
+   sol:[`${m('\\cos^2\\alpha = 1 - \\dfrac{25}{169} = \\dfrac{144}{169}')}.`, `Góc ${m('\\alpha')} tù nên ${m('\\cos\\alpha \\lt 0')}: ${m('\\cos\\alpha = -\\dfrac{12}{13}')}.`, `${m('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha} = -\\dfrac{5}{12}')}.`, `${m('P = \\dfrac{5}{13} + 2\\cdot\\left(-\\dfrac{12}{13}\\right) = -\\dfrac{19}{13}')}.`],
+   ans:`${tb('\\cos\\alpha = -\\dfrac{12}{13};\\ \\tan\\alpha = -\\dfrac{5}{12};\\ P = -\\dfrac{19}{13}')}.`},
+  {kind:'vd', tag:'Ví dụ 7 · Tam giác', label:'Ví dụ 7', fig:triSVG({a:7, b:8, c:5, la:'?', lb:'8', lc:'5', gA:'60°'}),
+   de:`Tam giác ${m('ABC')} có ${m('AB = 5,\\ AC = 8,\\ \\widehat{A} = 60^\\circ')}. Tính ${m('BC')}, diện tích ${m('S')}, bán kính ${m('R')} và ${m('r')}.`,
+   sol:[`${m('BC^2 = 25 + 64 - 2\\cdot 5\\cdot 8\\cdot\\dfrac{1}{2} = 49')} ⇒ ${m('BC = 7')}.`, `${m('S = \\dfrac{1}{2}\\cdot 5\\cdot 8\\cdot\\sin 60^\\circ = 10\\sqrt{3}')}.`, `${m('R = \\dfrac{BC}{2\\sin A} = \\dfrac{7}{\\sqrt{3}} = \\dfrac{7\\sqrt{3}}{3}')}.`, `${m('p = \\dfrac{5 + 7 + 8}{2} = 10')} nên ${m('r = \\dfrac{S}{p} = \\sqrt{3}')}.`],
+   ans:`${tb('BC = 7;\\ S = 10\\sqrt{3};\\ R = \\dfrac{7\\sqrt{3}}{3};\\ r = \\sqrt{3}')}.`},
+  {kind:'vd', tag:'Ví dụ 8 · Đo cây từ hai vị trí', label:'Ví dụ 8', fig:treeSVG({d:'20 m', a:'30°', b:'60°', h:'?'}),
+   de:`Từ vị trí ${m('A')} người ta nhìn ngọn cây ${m('T')} dưới góc ${m('30^\\circ')} so với mặt đất; tiến thẳng về phía gốc cây 20 m đến ${m('B')} thì nhìn ngọn cây dưới góc ${m('60^\\circ')}. Tính chiều cao ${m('TH')} của cây.`,
+   sol:[`Góc ngoài tại ${m('B')} của tam giác ${m('ATB')}: ${m('\\widehat{ATB} = 60^\\circ - 30^\\circ = 30^\\circ')}.`, `Tam giác ${m('ATB')} có ${m('\\widehat{A} = \\widehat{T} = 30^\\circ')} nên cân tại ${m('B')}: ${m('BT = AB = 20')}.`, `Trong tam giác vuông ${m('BHT')}: ${m('TH = BT\\sin 60^\\circ = 20\\cdot\\dfrac{\\sqrt{3}}{2} = 10\\sqrt{3} \\approx 17{,}3')} m.`],
+   ans:`${tb('10\\sqrt{3} \\approx 17{,}3')} m.`},
+  {kind:'vd', tag:'Ví dụ 9 · Cột cờ trên toà nhà', label:'Ví dụ 9', fig:obsSVG({h:'12 m', d:'15√3 m', a:'30°', b:'60°', hb:'27 m', hf:'30 m'}), figAt:3,
+   de:`Anh Bắc đứng trên đài quan sát cao 12 m, cách toà nhà (theo phương ngang) ${m('15\\sqrt{3}')} m. Từ đài, anh nhìn chân cột cờ trên nóc toà nhà dưới góc ${m('30^\\circ')} và đỉnh cột cờ dưới góc ${m('60^\\circ')} so với phương ngang. Tính chiều cao của toà nhà và của cột cờ.`,
+   sol:[`Phần toà nhà cao hơn tầm mắt: ${m('15\\sqrt{3}\\cdot\\tan 30^\\circ = 15')} m.`, `Chiều cao toà nhà: ${m('12 + 15 = 27')} m.`, `Đỉnh cột cờ cao hơn tầm mắt ${m('15\\sqrt{3}\\cdot\\tan 60^\\circ = 45')} m, nên cột cờ cao ${m('45 - 15 = 30')} m.`],
+   ans:`Toà nhà ${tb('27')} m; cột cờ ${tb('30')} m.`},
+  {kind:'vd', tag:'Ví dụ 10 · Tam giác đều nội tiếp', label:'Ví dụ 10', fig:circTriSVG({R:'R = 6'}),
+   de:`Tam giác đều ${m('ABC')} nội tiếp đường tròn bán kính ${m('R = 6')} cm. Tính cạnh và diện tích (làm tròn đến hàng phần mười).`,
+   sol:[`${m('R = \\dfrac{a}{2\\sin 60^\\circ} = \\dfrac{a}{\\sqrt{3}}')} ⇒ ${m('a = 6\\sqrt{3}')} cm.`, `${m('S = \\dfrac{1}{2}a^2\\sin 60^\\circ = \\dfrac{1}{2}\\cdot 108\\cdot\\dfrac{\\sqrt{3}}{2} = 27\\sqrt{3} \\approx 46{,}8')} cm².`],
+   ans:`${tb('a = 6\\sqrt{3}')} cm; ${tb('S \\approx 46{,}8')} cm².`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Một nhóm 30 học sinh, có 16 em thích Toán, 14 em thích Văn, 5 em thích cả hai. Có bao nhiêu em không thích môn nào trong hai môn đó?`,
+   sol:[`${m('n(A \\cup B) = 16 + 14 - 5 = 25')}.`, `${m('30 - 25 = 5')}.`], ans:`${tb('5')} em.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Điểm nào thuộc miền nghiệm của hệ ${m('\\begin{cases}x \\ge 0 \\\\ y \\ge 0 \\\\ 2x + y \\le 6\\end{cases}')}: ${m('M(1;\\ 3)')}, ${m('N(3;\\ 1)')}, ${m('P(2;\\ 2)')}?`,
+   sol:[`${m('M')}: ${m('2 + 3 = 5 \\le 6')} ✓; ${m('N')}: ${m('6 + 1 = 7 \\gt 6')} ✗; ${m('P')}: ${m('4 + 2 = 6 \\le 6')} ✓.`], ans:`${tb('M')} và ${tb('P')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Tam giác ${m('ABC')} có ${m('a = 13,\\ b = 14,\\ c = 15')}. Tính ${m('S')} và ${m('R')}.`,
+   sol:[`${m('p = 21')}, ${m('S = \\sqrt{21\\cdot 8\\cdot 7\\cdot 6} = 84')}.`, `${m('R = \\dfrac{abc}{4S} = \\dfrac{2730}{336} = \\dfrac{65}{8}')}.`], ans:`${tb('S = 84;\\ R = \\dfrac{65}{8}')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Để đo khoảng cách giữa hai điểm ${m('B, C')} bị ngăn cách bởi hồ nước, người ta chọn điểm ${m('A')} sao cho ${m('AB = 60')} m, ${m('AC = 80')} m, ${m('\\widehat{BAC} = 60^\\circ')}. Tính ${m('BC')}.`,
+   fig:triSVG({a:72.1, b:80, c:60, la:'?', lb:'80', lc:'60', gA:'60°'}),
+   sol:[`${m('BC^2 = 60^2 + 80^2 - 2\\cdot 60\\cdot 80\\cdot\\dfrac{1}{2} = 3600 + 6400 - 4800 = 5200')}.`, `${m('BC = 20\\sqrt{13} \\approx 72{,}1')} m.`], ans:`${tb('BC \\approx 72{,}1')} m.`},
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay mất điểm', body:`<ul><li>Quên trừ phần giao khi đếm hợp; nhầm “chỉ thuộc A” với |A|.</li><li>Phủ định ${m('\\gt')} thành ${m('\\lt')} (đúng là ${m('\\le')}); quên đổi ${m('\\forall \\leftrightarrow \\exists')}.</li><li>Chọn sai phía của miền nghiệm; nhầm nét đứt/nét liền.</li><li>Quên dấu âm của côsin, tang ở góc tù; dùng định lí sai trường hợp.</li><li>Bài đo đạc: không dùng góc ngoài; quên đơn vị và làm tròn.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 10, chủ đề “Ôn tập giữa học kì I”; 5 đề ôn tập in A4 ở mục “Kiểm tra”.')},
+]},
+]});
+})();

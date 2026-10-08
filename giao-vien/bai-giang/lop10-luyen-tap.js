@@ -271,3 +271,47 @@ Lecture.addPractice('lop10', 'on-tap-c3', [
  ]},
 ]);
 })();
+
+/* ---------- Ôn tập giữa học kì I (có hình vẽ) ---------- */
+(() => {
+const m = tm;
+Lecture.addPractice('lop10', 'on-tap-giua-ki-1', [
+ {dang:'Dạng 1. Mệnh đề, tập hợp, đếm bằng sơ đồ Venn', items:[
+  {de:`Lập mệnh đề phủ định của ${m('P: \\forall x \\in \\mathbb{R},\\ x^2 + x + 1 \\gt 0')} và cho biết mệnh đề nào đúng.`,
+   sol:[`${m('\\overline{P}: \\exists x \\in \\mathbb{R},\\ x^2 + x + 1 \\le 0')}.`, `${m('x^2 + x + 1 = \\left(x + \\dfrac{1}{2}\\right)^2 + \\dfrac{3}{4} \\ge \\dfrac{3}{4} \\gt 0')} với mọi ${m('x')}.`], ans:`${m('P')} đúng, ${m('\\overline{P}')} sai.`},
+  {de:`Cho ${m('A = [-2;\\ 3)')}, ${m('B = (1;\\ 6]')}. Tìm ${m('A \\cap B,\\ A \\cup B,\\ A \\setminus B,\\ B \\setminus A')}.`,
+   sol:[`Vẽ hai tập hợp lên trục số.`, `${m('A \\cap B = (1;\\ 3)')}; ${m('A \\cup B = [-2;\\ 6]')}.`, `${m('A \\setminus B = [-2;\\ 1]')} (1 không thuộc ${m('B')}); ${m('B \\setminus A = [3;\\ 6]')} (3 không thuộc ${m('A')}).`],
+   ans:`${tb('(1;\\ 3),\\ [-2;\\ 6],\\ [-2;\\ 1],\\ [3;\\ 6]')}.`, lines:2},
+  {de:`Lớp 10B có 40 học sinh, 22 em tham gia câu lạc bộ bóng đá, 17 em tham gia câu lạc bộ cờ vua, 8 em tham gia cả hai. Hỏi có bao nhiêu em không tham gia câu lạc bộ nào? Bao nhiêu em chỉ tham gia bóng đá?`,
+   fig:venn2SVG({labelA:'Bóng đá', labelB:'Cờ vua', aOnly:null, both:8, bOnly:null, none:null}),
+   sol:[`${m('n(A \\cup B) = 22 + 17 - 8 = 31')}.`, `Không tham gia: ${m('40 - 31 = 9')}. Chỉ bóng đá: ${m('22 - 8 = 14')}.`], ans:`${tb('9')} em; ${tb('14')} em.`},
+ ]},
+ {dang:'Dạng 2. Hệ bất phương trình, miền nghiệm, tối ưu', items:[
+  {de:`Phần không bị gạch trong hình (kể cả biên) là miền nghiệm của hệ bất phương trình nào?`,
+   fig:planeSVG({x:[-1,5], y:[-1,5], lines:[[1,2,6,false,'d₁'],[2,1,6,false,'d₂']], hatch:[[-1,0,0],[0,-1,0],[1,2,6],[2,1,6]], pts:[[3,0,''],[0,3,''],[2,2,'']]}),
+   sol:[`Hai đường nét liền; điểm thử ${m('O(0;\\ 0)')} thuộc phần không gạch.`, `${m('d_1: x + 2y = 6')} ⇒ ${m('x + 2y \\le 6')}; ${m('d_2: 2x + y = 6')} ⇒ ${m('2x + y \\le 6')}; phần không gạch nằm trong góc phần tư thứ nhất.`],
+   ans:`${tb('\\begin{cases}x \\ge 0 \\\\ y \\ge 0 \\\\ x + 2y \\le 6 \\\\ 2x + y \\le 6\\end{cases}')}`, lines:2},
+  {de:`Với miền nghiệm ở bài trên, tìm giá trị lớn nhất của ${m('F(x;\\ y) = 2x + 3y')}.`,
+   sol:[`Các đỉnh: ${m('O(0;\\ 0),\\ A(3;\\ 0),\\ B(2;\\ 2),\\ C(0;\\ 3)')} (B là giao điểm của ${m('d_1, d_2')}).`, `${m('F(O) = 0,\\ F(A) = 6,\\ F(B) = 10,\\ F(C) = 9')}.`], ans:`${tb('F_{\\max} = 10')} tại ${m('B(2;\\ 2)')}.`},
+  {hard:true, de:`Mỗi bao thức ăn ${m('X')} chứa 2 đơn vị chất ${m('A')} và 1 đơn vị chất ${m('B')}; mỗi bao ${m('Y')} chứa 1 đơn vị ${m('A')} và 3 đơn vị ${m('B')}. Hỗn hợp cần ít nhất 10 đơn vị ${m('A')} và 15 đơn vị ${m('B')}. Giá mỗi bao ${m('X')} là 4 nghìn đồng, ${m('Y')} là 5 nghìn đồng. Tìm chi phí nhỏ nhất.`,
+   fig:planeSVG({x:[-1,16], y:[-1,11], lines:[[2,1,10,false,'d₁'],[1,3,15,false,'d₂']], hatch:[[-1,0,0],[0,-1,0],[-2,-1,-10],[-1,-3,-15]], pts:[[3,4,'A'],[0,10,'B'],[15,0,'C']], unit:1}),
+   sol:[`${m('x \\ge 0,\\ y \\ge 0,\\ 2x + y \\ge 10,\\ x + 3y \\ge 15')}; chi phí ${m('F = 4x + 5y')}.`, `Các đỉnh: ${m('A(3;\\ 4),\\ B(0;\\ 10),\\ C(15;\\ 0)')}.`, `${m('F(A) = 12 + 20 = 32,\\ F(B) = 50,\\ F(C) = 60')}.`], ans:`${tb('32')} nghìn đồng (3 bao ${m('X')}, 4 bao ${m('Y')}).`, lines:3},
+ ]},
+ {dang:'Dạng 3. Giá trị lượng giác và tam giác', items:[
+  {de:`Cho ${m('\\sin\\alpha = \\dfrac{12}{13}')} và ${m('90^\\circ \\lt \\alpha \\lt 180^\\circ')}. Tính ${m('\\cos\\alpha,\\ \\tan\\alpha')} và ${m('P = \\sin\\alpha - \\cos\\alpha')}.`,
+   sol:[`${m('\\cos^2\\alpha = 1 - \\dfrac{144}{169} = \\dfrac{25}{169}')}; góc tù nên ${m('\\cos\\alpha = -\\dfrac{5}{13}')}.`, `${m('\\tan\\alpha = -\\dfrac{12}{5}')}; ${m('P = \\dfrac{12}{13} + \\dfrac{5}{13} = \\dfrac{17}{13}')}.`], ans:`${tb('\\cos\\alpha = -\\dfrac{5}{13};\\ \\tan\\alpha = -\\dfrac{12}{5};\\ P = \\dfrac{17}{13}')}.`, lines:2},
+  {de:`Tam giác ${m('ABC')} có ${m('AB = 5,\\ AC = 3,\\ \\widehat{A} = 120^\\circ')}. Tính ${m('BC')}, ${m('S')} và ${m('R')}.`, fig:triSVG({a:7, b:3, c:5, la:'?', lb:'3', lc:'5', gA:'120°'}),
+   sol:[`${m('BC^2 = 25 + 9 - 2\\cdot 5\\cdot 3\\cdot\\left(-\\dfrac{1}{2}\\right) = 49')} ⇒ ${m('BC = 7')}.`, `${m('S = \\dfrac{1}{2}\\cdot 5\\cdot 3\\cdot\\sin 120^\\circ = \\dfrac{15\\sqrt{3}}{4}')}.`, `${m('R = \\dfrac{BC}{2\\sin A} = \\dfrac{7}{\\sqrt{3}} = \\dfrac{7\\sqrt{3}}{3}')}.`],
+   ans:`${tb('BC = 7;\\ S = \\dfrac{15\\sqrt{3}}{4};\\ R = \\dfrac{7\\sqrt{3}}{3}')}.`, lines:3},
+ ]},
+ {dang:'Dạng 4. Bài toán đo đạc thực tế (có hình)', items:[
+  {hard:true, de:`Từ vị trí ${m('A')} người ta nhìn ngọn cây ${m('T')} dưới góc ${m('35^\\circ')} so với mặt đất; tiến thẳng về phía gốc cây 30 m đến ${m('B')} thì nhìn ngọn cây dưới góc ${m('50^\\circ')}. Tính chiều cao của cây (làm tròn đến hàng phần mười).`,
+   fig:treeSVG({d:'30 m', a:'35°', b:'50°', h:'?'}),
+   sol:[`${m('\\widehat{ATB} = 50^\\circ - 35^\\circ = 15^\\circ')} (góc ngoài tại ${m('B')}).`, `Định lí sin trong tam giác ${m('ATB')}: ${m('BT = \\dfrac{AB\\sin 35^\\circ}{\\sin 15^\\circ} \\approx \\dfrac{30\\cdot 0{,}5736}{0{,}2588} \\approx 66{,}5')}.`, `${m('TH = BT\\sin 50^\\circ \\approx 66{,}5\\cdot 0{,}7660 \\approx 50{,}9')} m.`], ans:`${tb('\\approx 50{,}9')} m.`, lines:3},
+  {hard:true, de:`Anh Bắc đứng trên đài quan sát cao 15 m, cách toà nhà (theo phương ngang) ${m('20\\sqrt{3}')} m. Từ đài, anh nhìn chân cột cờ trên nóc toà nhà dưới góc ${m('30^\\circ')} và đỉnh cột cờ dưới góc ${m('60^\\circ')} so với phương ngang. Tính chiều cao toà nhà và cột cờ.`,
+   fig:obsSVG({h:'15 m', d:'20√3 m', a:'30°', b:'60°', hb:'?', hf:'?'}),
+   sol:[`Phần toà nhà cao hơn tầm mắt: ${m('20\\sqrt{3}\\tan 30^\\circ = 20')} m ⇒ toà nhà cao ${m('15 + 20 = 35')} m.`, `Đỉnh cột cờ cao hơn tầm mắt ${m('20\\sqrt{3}\\tan 60^\\circ = 60')} m ⇒ cột cờ cao ${m('60 - 20 = 40')} m.`],
+   ans:`Toà nhà ${tb('35')} m; cột cờ ${tb('40')} m.`, lines:3},
+ ]},
+]);
+})();

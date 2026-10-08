@@ -103,6 +103,7 @@ const CONFIG = S.CONFIG || vm.runInContext('typeof CONFIG !== "undefined" ? CONF
 let nQ = 0;
 if (!CONFIG) err('config.js', 'không đọc được CONFIG');
 else {
+  [...idxSafe().matchAll(/<script src="(data\/[^"]+-bank\.js)"/g)].forEach(x => run(S, x[1]));     // ngân hàng câu hỏi dùng chung (vd data/lop10-giua-ki-bank.js) phải nạp trước data/<lớp>.js
   (CONFIG.grades || []).forEach(g => { if (!fs.existsSync(path.join(ROOT, 'data', g + '.js'))) err('config.js', `CONFIG.grades có "${g}" nhưng thiếu tệp data/${g}.js`); else run(S, `data/${g}.js`); });
   const App = vm.runInContext('App', S);
   App.grades.filter(g => !ONLY.length || ONLY.includes(g.id)).forEach(g => {
@@ -202,6 +203,7 @@ const gvFiles = [...gvHtml.matchAll(/<script src="(bai-giang\/[^"]+\.js)"/g)].ma
 fs.readdirSync(path.join(ROOT, 'giao-vien/bai-giang')).filter(f => f.endsWith('.js')).forEach(f => { if (!gvFiles.includes('giao-vien/bai-giang/' + f)) err('giao-vien/index.html', `chưa nạp tệp bai-giang/${f} (thêm thẻ <script>)`); });
 run(T, 'assets/js/kiemtra.js');
 if (/KiemTra\.add/.test(gvFiles.map(f => fs.existsSync(path.join(ROOT, f)) ? rd(f) : '').join('')) && !gvHtml.includes('src="../assets/js/kiemtra.js"')) err('giao-vien/index.html', 'có đề kiểm tra nhưng chưa nạp <script src="../assets/js/kiemtra.js">');
+[...gvHtml.matchAll(/<script src="\.\.\/(data\/[^"]+-bank\.js)"/g)].forEach(x => run(T, x[1]));     // ngân hàng câu hỏi dùng chung (data/*-bank.js) nạp trước các tệp bài giảng
 gvFiles.forEach(f => run(T, f));
 const KINDS = ['title', 'kt', 'method', 'vd', 'lt', 'sum']; let nS = 0;
 BOOKS.forEach(b => {

@@ -609,6 +609,7 @@ body.noscroll{overflow:hidden}
   .kt-tip{display:none}
   .kt{padding:0;font-size:11pt} .kt-doc .kt+.kt{margin-top:0;break-before:page}
   .kt-key{break-inside:avoid} .kt h3{break-after:avoid}
+  .kt[style*="--kt-pages"]{min-height:calc(var(--kt-pages) * 279mm - 4mm)}     /* đề dài nhiều trang: luôn chiếm đúng số trang khai báo (pages) để in 2 mặt không lẫn mã đề */
 }
 @media (max-width:700px){.kt-opts.c4{grid-template-columns:1fr 1fr}.kt-tf{grid-template-columns:1fr}.kt-head{grid-template-columns:1fr}}
 .kt-sec a.btn{text-decoration:none}

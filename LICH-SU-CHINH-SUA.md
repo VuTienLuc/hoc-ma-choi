@@ -31,6 +31,13 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 - **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`
 - **Kiểm thử:** `node tools/kiem-tra.js 150 lop9`, `python3 tools/test.py`, `python3 tools/test_phieu_tren_lop.py`, `python3 tools/test_baigiang.py lop9`, `python3 tools/build.py` → ĐẠT; PDF phiếu đo bằng `pdfinfo` đúng 2 trang.
 - **Việc thủ công:** Thầy xem lại cách trình bày xác suất (không gian mẫu, biến cố) so với hướng dẫn của Sở.
+### 2026-10-08 – Toán 10: Ôn tập giữa học kì I (5 đề, có hình vẽ) cho học sinh và giáo viên
+
+- **Yêu cầu của thầy:** Từ tệp “Toán 10 – Đề ôn tập giữa học kì I 2026-2027” (5 đề), tạo bài luyện tập cho học sinh và đề thi trong bài giảng giáo viên mục ôn tập giữa kì 1, có hình vẽ.
+- **Kết quả:** Ngân hàng câu hỏi chung (12 dạng TN, 6 dạng Đ/S, 8 dạng trả lời ngắn; số liệu và tình huống do em soạn lại theo cấu trúc đề, không chép nguyên văn). Học sinh: chủ đề 4 gồm 4 bài luyện (3 mức, có hình) và 5 đề làm có đồng hồ `giua-ki-1…5`. Giáo viên: bài giảng 10 ví dụ có hình, phiếu luyện tập 10 bài (7 + 3★), 5 đề in A4 × 4 mã (4 trang/mã) kèm đáp án. Hình mới: đài quan sát – cột cờ, đo cây hai góc, tam giác nội tiếp.
+- **Tệp thay đổi:** `data/lop10-giua-ki-bank.js`, `data/lop10-giua-ki-kiem-tra.js`, `data/lop10.js`, `assets/js/figures.js`, `assets/js/kiemtra.js`, `assets/css/style.css`, `giao-vien/bai-giang/lop10.js`, `lop10-luyen-tap.js`, `lop10-giua-ki.js`, `index.html`, `giao-vien/index.html`, `tools/kiem-tra.js`, `tools/test_kiemtra.py`, `CLAUDE.md`, `AGENTS.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js`, `python3 tools/test.py`, `test_kiemtra.py lop10` (65/65, mỗi mã đúng 4 trang), `test_baigiang.py lop10`, `test_luyentap.py` → ĐẠT (xem kết quả cuối trong báo cáo).
+- **Việc thủ công:** Thầy đối chiếu đề với đáp án của thầy (số liệu là bản biến thể, không phải nguyên văn đề gốc); in thử một mã đề để xem hình.
 
 ### 2026-10-07 – Ôn thi 9 lên 10: thêm "Kiến thức cần nhớ · Lưu ý · Mẹo" cho học sinh
 

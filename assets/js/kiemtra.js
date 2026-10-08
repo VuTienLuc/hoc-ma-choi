@@ -30,7 +30,7 @@ const KiemTra = (() => {
     const order = sh(t.mc.map((x, i) => ({...(typeof x === 'function' ? x(ci) : x), src:i + 1})));
     const letters = sh(order.map((_, i) => i % 4));                       // rải đều đáp án A/B/C/D
     const mc = order.map((x, i) => { const k = letters[i], opts = sh(x.opts.slice(1)); opts.splice(k, 0, x.opts[0]); return {...x, opts, a:k}; });
-    const tfs = sh(t.tf.map((x, i) => ({...x, src:i + 1}))), nIt = tfs.reduce((s, x) => s + x.items.length, 0); let picks;
+    const tfs = sh(t.tf.map((x, i) => ({...(typeof x === 'function' ? x(ci) : x), src:i + 1}))), nIt = tfs.reduce((s, x) => s + x.items.length, 0); let picks;
     do { picks = tfs.map(x => { let p; do { p = x.items.map(() => r() < .5); } while(p.every(Boolean) || !p.some(Boolean)); return p; }); }   // mỗi câu có cả Đ và S
     while(Math.abs(picks.flat().filter(Boolean).length - nIt / 2) > nIt / 8);                                                                // cả phần: Đ/S gần cân bằng
     const tf = tfs.map((x, i) => ({...x, items:x.items.map((p, j) => ({text:p[picks[i][j] ? 0 : 1], ok:picks[i][j]}))}));
@@ -59,7 +59,7 @@ const KiemTra = (() => {
     const II = v.tf.map((x, i) => `<div class="kt-q"><b>Câu ${i + 1}.</b> ${x.stem}<div class="kt-tf">${x.items.map((it, k) => `<span><b>${'abcd'[k]})</b> ${it.text}</span>`).join('')}</div></div>`).join('');
     const III = v.essay.map((x, i) => t.short ? `<div class="kt-q"><b>Câu ${i + 1} (${pt(x.pts)} điểm).</b> ${x.de} <span class="kt-fill">Đáp số: <i class="kt-dots"></i></span></div>` : `<div class="kt-q"><b>Bài ${i + 1} (${pt(x.pts)} điểm).</b> ${x.de}</div>`).join('');
     const sI = t.mc.length * mcP(t), sII = t.tf.length, sIII = t.essay.reduce((s, e) => s + e.pts, 0);
-    return `<article class="ws kt">${head(t, v.code, false)}
+    return `<article class="ws kt"${t.pages ? ` style="--kt-pages:${t.pages}"` : ''}>${head(t, v.code, false)}
       <div class="kt-ans"><p class="kt-small"><b>Bảng trả lời Phần I, II</b> (học sinh ghi vào bảng; Phần III làm vào giấy kiểm tra):</p>${grid(t)}</div>
       <h3>Phần I. Trắc nghiệm nhiều phương án lựa chọn <small>(${pt(sI)} điểm)</small></h3>
       <p class="kt-small">Học sinh trả lời từ câu 1 đến câu ${t.mc.length}. Mỗi câu hỏi chỉ chọn <b>một</b> phương án.</p>${I}
@@ -72,7 +72,7 @@ const KiemTra = (() => {
   /* ---------- Đáp án – hướng dẫn chấm (mọi mã) ---------- */
   function keyDoc(t){
     const nb = t.bai.length, cnt = (arr, get) => t.bai.map((_, b) => arr.filter(x => get(x) === b + 1).length);
-    const mcB = cnt(t.mc.map((x, i) => typeof x === 'function' ? x(0) : x), x => x.bai), tfB = cnt(t.tf, x => x.bai), esB = t.bai.map((_, b) => t.essay.filter(e => e.bai === b + 1).reduce((s, e) => s + e.pts, 0));
+    const mcB = cnt(t.mc.map((x, i) => typeof x === 'function' ? x(0) : x), x => x.bai), tfB = cnt(t.tf.map(x => typeof x === 'function' ? x(0) : x), x => x.bai), esB = t.bai.map((_, b) => t.essay.filter(e => e.bai === b + 1).reduce((s, e) => s + e.pts, 0));
     const pts = t.bai.map((_, b) => mcB[b] * mcP(t) + tfB[b] + esB[b]);
     const matrix = `<table class="kt-mx"><tr><th rowspan="2">Nội dung</th><th>Phần I – TN 1 đáp án</th><th>Phần II – Đúng/Sai</th><th>Phần III – ${t.short ? 'Trả lời ngắn' : 'Tự luận'}</th><th rowspan="2">Tổng điểm</th></tr>
         <tr><th>${(t.levels||[])[0] || 'Nhận biết'} · số câu</th><th>${(t.levels||[])[1] || 'Nhận biết'} · số câu (4 ý)</th><th>${(t.levels||[])[2] || 'Vận dụng thực tế'} · số ${t.short ? 'câu' : 'bài'}</th></tr>
@@ -107,7 +107,7 @@ const KiemTra = (() => {
     const sel = `<select id="ktSel" aria-label="Chọn mã đề"><option value="de">Đề – cả ${t.codes.length} mã</option>${t.codes.map(c => `<option value="de-${c}" ${one === c ? 'selected' : ''}>Đề – mã ${c}</option>`).join('')}<option value="da" ${view === 'da' ? 'selected' : ''}>Đáp án – hướng dẫn chấm</option></select>`;
     document.body.classList.remove('gv-wide');
     $('#app').innerHTML = `<div class="toolbar ws-bar"><a class="back" href="#/${mm[1]}">← Danh sách bài</a><div class="row">${sel}<button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
-      <p class="kt-tip">Mẹo in: khổ A4, <b>in 2 mặt</b> – mỗi mã đề vừa 1 tờ; bật “Đồ hoạ nền” nếu muốn in viền bảng đậm.</p><div class="kt-doc">${body}</div>`;
+      <p class="kt-tip">Mẹo in: khổ A4, <b>in 2 mặt</b> – mỗi mã đề vừa ${(t.pages || 2) / 2} tờ; bật “Đồ hoạ nền” nếu muốn in viền bảng đậm.</p><div class="kt-doc">${body}</div>`;
     $('#ktSel').onchange = e => { location.hash = `#/${mm[1]}/kiem-tra/${t.id}/${e.target.value}`; };
     document.title = `${view === 'da' ? 'Đáp án' : 'Đề'} ${t.title} – ${t.subject}${one ? ' – mã ' + one : ''}`; scrollTo(0, 0);
     return true;

@@ -657,4 +657,94 @@ lesson(3,'gia-tri-luong-giac-0-180','Bài 5. Giá trị lượng giác của m�
 lesson(3,'he-thuc-luong-tam-giac','Bài 6. Hệ thức lượng trong tam giác','Định lí côsin, định lí sin; tính góc, nhận dạng tam giác; diện tích, bán kính R, r; bài toán thực tế.',[g6a,g6b,g6c,g6d,g6e]);
 lesson(3,'on-tap-c3','Ôn tập chương III','Tổng hợp: giá trị lượng giác, định lí côsin, định lí sin, diện tích, bài toán thực tế.',[g5b,g5c,g6a,g6c,g6d,g6e]);
 }
+
+/* =====================================================================
+   CHỦ ĐỀ 4. ÔN TẬP GIỮA HỌC KÌ I (Chương I + II + III) – có hình vẽ
+   Câu hỏi lấy từ ngân hàng data/lop10-giua-ki-bank.js (GK1): cùng ngân hàng với 5 đề ôn tập giữa kì và đề in của giáo viên.
+   Mỗi dạng = lv => câu hỏi; mức 1 → 3 chuyển sang loại câu khó hơn. Đáp án luôn tính trước khi dựng đề (trong GK1).
+   ===================================================================== */
+{
+G.topics.push({id:4, hk:1, name:'Ôn tập giữa học kì I'});
+const rg = () => GK1.rng((Math.random() * 4294967296) >>> 0);
+const HINT = {
+  isProp:'Mệnh đề là câu khẳng định, xác định được là đúng hoặc sai. Câu hỏi, câu cảm thán, câu mệnh lệnh hay câu còn biến thì không phải.',
+  negQuant:'Phủ định của “với mọi” là “tồn tại”, phủ định của “tồn tại” là “với mọi”, đồng thời phủ định luôn phần mệnh đề phía sau.',
+  negSimple:'Phủ định một khẳng định: thêm “không” vào vị ngữ, hoặc đổi chiều dấu so sánh (> thành ≤, < thành ≥).',
+  setOp:'Vẽ hai tập hợp lên trục số, chú ý đầu mút nào lấy (ngoặc vuông) hay không lấy (ngoặc tròn).',
+  setFinite:'Giao: phần tử chung. Hợp: gộp hết (mỗi phần tử ghi một lần). Hiệu A \\ B: phần tử của A mà không thuộc B.',
+  listSet:'Biến đổi bất đẳng thức về dạng cận dưới ≤ x < cận trên rồi lấy các số nguyên nằm trong khoảng đó, nhớ xét đầu mút.',
+  halfPlane:'Thay toạ độ từng điểm vào vế trái của bất phương trình; điểm nào cho bất đẳng thức đúng thì thuộc miền nghiệm.',
+  sysPoint:'Điểm thuộc miền nghiệm của hệ khi thoả mãn đồng thời tất cả các bất phương trình.',
+  isLin:'Bất phương trình bậc nhất hai ẩn có dạng ax + by < c (hoặc >, ≤, ≥), ẩn chỉ ở bậc nhất, không có tích hai ẩn.',
+  figSys:'Nét đứt ứng với dấu ngặt (< hoặc >), nét liền ứng với có dấu bằng. Lấy một điểm thử để biết phía nào của mỗi đường thẳng được giữ lại.',
+  trig:'Dùng bảng giá trị đặc biệt; hai góc bù nhau có sin bằng nhau, côsin và tang đối nhau.',
+  triArea:'Diện tích tam giác biết hai cạnh và góc xen giữa: S = ½·b·c·sin A.',
+  cosLaw:'Biết hai cạnh và góc xen giữa thì dùng định lí côsin: a² = b² + c² − 2bc·cos A.',
+  sinLaw:'Định lí sin: a / sin A = 2R.',
+  angleType:'Xét dấu của b² + c² − a² với a là cạnh lớn nhất: dương → nhọn, bằng 0 → vuông, âm → tù.',
+  venn:'Vẽ sơ đồ Venn: số phần tử của hợp = |A| + |B| − |A ∩ B|.',
+  height:'Chiều cao ở độ cao quan sát cộng thêm phần d·tan(góc nhìn).',
+  trigTF:'Dùng sin² α + cos² α = 1, rồi xét dấu côsin theo góc nhọn hay góc tù.',
+  lp:'Lập các ràng buộc, tìm các đỉnh của miền nghiệm rồi tính giá trị biểu thức tại từng đỉnh.',
+  sets:'Giao, hợp, hiệu của hai tập hợp; tập hợp có n phần tử thì có 2ⁿ tập con.',
+  tri:'Dùng hệ quả của định lí côsin, công thức Heron và r = S / p.',
+  tree:'Gọi H là chân cây. Dùng góc ngoài để tìm góc ở ngọn cây, định lí sin tìm BT, rồi TH = BT·sin(góc tại B).',
+  eqTri:'Tam giác đều cạnh a nội tiếp đường tròn bán kính R thì a = R√3; diện tích S = ½·a²·sin 60°.',
+  lpMin:'Lập hệ ràng buộc (dấu ≥), tìm các đỉnh của miền nghiệm rồi so sánh chi phí tại các đỉnh.',
+  vennShort:'Dùng |A ∪ B| = |A| + |B| − |A ∩ B|, rồi lấy tổng số trừ đi.',
+  cosRoad:'Biết hai cạnh và góc xen giữa: dùng định lí côsin để tìm cạnh còn lại.',
+  heronR:'Tính nửa chu vi p, dùng công thức Heron để tìm S; bán kính ngoại tiếp R = abc / (4S).',
+  subsets:'Liệt kê các phần tử của tập hợp rồi dùng 2ⁿ (n là số phần tử).',
+  mixed:'Với mỗi giá trị nguyên của x, đếm số giá trị nguyên của y thoả mãn rồi cộng lại.',
+  angle:'Diện tích tam giác biết hai cạnh và góc xen giữa: S = ½·b·c·sin A.'
+};
+const mcG = k => { const q = GK1.MC[k](rg(), 0); return QC({text:q.q, opts:q.opts, ans:q.opts[0], hint:HINT[k], sol:q.sol}); };
+const tfG = k => { const q = GK1.TF[k](rg(), 0), j = R(0, 3), ok = Math.random() < .5, it = q.items[j];
+  return QC({text:q.stem.replace(/Xét tính đúng sai[^]*?(?=<div|$)/, '') + `<p>Mệnh đề sau đúng hay sai?</p><p><b>${it.t[ok ? 0 : 1]}</b></p>`, opts:['Đúng', 'Sai'], ans:ok ? 'Đúng' : 'Sai', keepOrder:true, hint:HINT[k === 'trig' ? 'trigTF' : k], sol:`${it.s[ok ? 0 : 1]}<p>Vậy mệnh đề <b>${ok ? 'đúng' : 'sai'}</b>.</p>`}); };
+const shG = k => { const q = GK1.shRun(k, (Math.random() * 4294967296) >>> 0); return QB({text:q.q, tpl:'[_]', ans:[q.ans], hint:HINT[k], sol:q.sol}); };
+const pickBy = (lv, a, b, c) => lv === 1 ? a() : lv === 2 ? b() : c();
+
+/* Chương I */
+const gkA = lv => pickBy(lv, () => mcG('isProp'), () => mcG('negSimple'), () => mcG('negQuant'));
+const gkB = lv => pickBy(lv, () => mcG('setFinite'), () => mcG('setOp'), () => tfG('sets'));
+const gkC = lv => pickBy(lv, () => mcG('listSet'), () => shG('subsets'), () => shG('subsets'));
+const gkD = lv => pickBy(lv, () => shG('vennShort'), () => tfG('venn'), () => shG('vennShort'));
+/* Chương II */
+const gkE = lv => pickBy(lv, () => mcG('isLin'), () => mcG('halfPlane'), () => mcG('sysPoint'));
+const gkF = lv => mcG('figSys');
+const gkG = lv => pickBy(lv, () => tfG('lp'), () => shG('mixed'), () => shG('lpMin'));
+const gkH = lv => pickBy(lv, () => mcG('sysPoint'), () => shG('mixed'), () => shG('lpMin'));
+/* Chương III */
+const gkI = lv => pickBy(lv, () => mcG('trig'), () => tfG('trig'), () => tfG('tri'));
+const gkJ = lv => pickBy(lv, () => mcG('cosLaw'), () => mcG('sinLaw'), () => mcG('angleType'));
+const gkK = lv => pickBy(lv, () => mcG('triArea'), () => shG('heronR'), () => shG('eqTri'));
+const gkL = lv => pickBy(lv, () => tfG('height'), () => shG('cosRoad'), () => shG('tree'));
+
+const K = (t, b, warn, ex) => ({t, b, warn, ex});
+const INTRO_T = 'Kiến thức cần nhớ · Lưu ý · Mẹo';
+lesson(4, 'gk-menh-de-tap-hop', 'Ôn giữa kì · Chương I. Mệnh đề và tập hợp', 'Mệnh đề, phủ định, phép toán tập hợp, liệt kê tập hợp, đếm bằng sơ đồ Venn.', [gkA, gkB, gkC, gkD], {introTitle:INTRO_T, intro:[
+  K('Mệnh đề và phủ định', `Mệnh đề là câu khẳng định xác định được <b>đúng</b> hoặc <b>sai</b>. Phủ định của ${tm('\\forall')} là ${tm('\\exists')} và ngược lại, đồng thời phủ định phần sau (${tm('\\gt \\to \\le')}, ${tm('\\lt \\to \\ge')}).`, 'Câu hỏi, câu cảm thán, câu mệnh lệnh, câu còn biến chưa gán giá trị thì <b>không</b> phải mệnh đề.', `Phủ định của ${tm('\\gt')} là ${tm('\\le')} (không phải ${tm('\\lt')}).`),
+  K('Tập hợp và phép toán', `${tm('A \\cap B')}: phần chung; ${tm('A \\cup B')}: gộp lại; ${tm('A \\setminus B')}: thuộc ${tm('A')} nhưng không thuộc ${tm('B')}. Tập hợp có ${tm('n')} phần tử có ${tm('2^n')} tập con.`, 'Khoảng/đoạn: ngoặc <b>tròn</b> không lấy đầu mút, ngoặc <b>vuông</b> lấy đầu mút.', 'Vẽ hai tập hợp lên trục số trước khi tìm giao, hợp, hiệu.'),
+  K('Đếm bằng sơ đồ Venn', `${tm('n(A \\cup B) = n(A) + n(B) - n(A \\cap B)')}. Số phần tử chỉ thuộc ${tm('A')} là ${tm('n(A) - n(A \\cap B)')}.`, 'Đừng cộng hai nhóm mà quên trừ phần giao (đếm hai lần).', 'Điền số vào từng miền của sơ đồ Venn rồi kiểm tra tổng bằng sĩ số lớp.')]});
+lesson(4, 'gk-bpt-he-bpt', 'Ôn giữa kì · Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn', 'Nghiệm, miền nghiệm, đọc hình miền nghiệm của hệ, bài toán tối ưu (chi phí, lợi nhuận).', [gkE, gkF, gkG, gkH], {introTitle:INTRO_T, intro:[
+  K('Nghiệm và miền nghiệm', `Cặp số ${tm('(x_0;\\ y_0)')} là nghiệm khi thay vào cho bất đẳng thức đúng. Miền nghiệm là nửa mặt phẳng bờ ${tm('d: ax + by = c')}; lấy điểm thử (thường là gốc ${tm('O')}) để biết phía nào.`, `Dấu ngặt (${tm('\\lt')} hoặc ${tm('\\gt')}): bờ vẽ nét <b>đứt</b>, không thuộc miền nghiệm. Có dấu bằng: nét <b>liền</b>.`, 'Điểm thử không nằm trên đường thẳng thì tính rất nhanh; gốc toạ độ là lựa chọn đầu tiên.'),
+  K('Hệ bất phương trình và hình vẽ', 'Miền nghiệm của hệ là phần chung của các miền nghiệm. Theo quy ước sách giáo khoa, phần <b>không bị gạch</b> là miền nghiệm.', 'Đổi dấu một bất phương trình là chuyển sang phía còn lại của đường thẳng.', 'Với mỗi đường thẳng trong hình, thử một điểm rồi loại dần các phương án.'),
+  K('Bài toán tối ưu', `Lập ràng buộc, vẽ miền nghiệm, tìm <b>các đỉnh</b>, thay vào ${tm('F = ax + by')}: giá trị lớn nhất/nhỏ nhất đạt tại một đỉnh.`, `Đọc kỹ “tối đa” (${tm('\\le')}) và “ít nhất” (${tm('\\ge')}).`, `Lập bảng giá trị ${tm('F')} tại từng đỉnh rồi chọn lớn nhất/nhỏ nhất.`)]});
+lesson(4, 'gk-he-thuc-luong', 'Ôn giữa kì · Chương III. Hệ thức lượng trong tam giác', 'Giá trị lượng giác, định lí côsin – sin, nhận dạng tam giác, diện tích, bài toán đo đạc (có hình).', [gkI, gkJ, gkK, gkL], {introTitle:INTRO_T, intro:[
+  K('Giá trị lượng giác', `${tm('\\sin(180^\\circ - \\alpha) = \\sin\\alpha')}; ${tm('\\cos(180^\\circ - \\alpha) = -\\cos\\alpha')}; ${tm('\\tan(180^\\circ - \\alpha) = -\\tan\\alpha')}; ${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')}.`, `Góc tù thì côsin, tang, côtang đều <b>âm</b>; sin luôn dương với ${tm('0^\\circ \\lt \\alpha \\lt 180^\\circ')}.`, 'Thuộc bảng giá trị đặc biệt của 30°, 45°, 60°, 90°, rồi suy ra góc bù.'),
+  K('Định lí côsin – sin – diện tích', `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}; ${tm('\\dfrac{a}{\\sin A} = 2R')}; ${tm('S = \\dfrac{1}{2}bc\\sin A = \\sqrt{p(p-a)(p-b)(p-c)} = pr = \\dfrac{abc}{4R}')}.`, 'Biết hai cạnh và góc <b>xen giữa</b> thì dùng ngay định lí côsin để tìm cạnh thứ ba.', `Biết một cạnh và góc đối diện thì nghĩ tới định lí sin để tìm ${tm('R')}.`),
+  K('Bài toán đo đạc', 'Vẽ hình, ghi rõ góc và độ dài đã biết. Dùng góc ngoài của tam giác để tìm góc còn thiếu, rồi định lí sin/côsin.', 'Kiểm tra đơn vị và yêu cầu làm tròn trước khi viết đáp số.', 'Khi có hai góc quan sát từ hai điểm thẳng hàng với chân vật, góc ở ngọn bằng hiệu hai góc.')]});
+
+/* Ôn tập tổng hợp: trộn cả ba chương, mức 1 → 3 */
+const gkT1 = lv => pickBy(lv, () => pick([mcG('isProp'), mcG('setFinite')]), () => pick([mcG('negQuant'), mcG('setOp')]), () => pick([tfG('sets'), shG('subsets')]));
+const gkT2 = lv => pickBy(lv, () => pick([mcG('isLin'), mcG('halfPlane')]), () => mcG('figSys'), () => pick([shG('lpMin'), tfG('lp')]));
+const gkT3 = lv => pickBy(lv, () => pick([mcG('trig'), mcG('triArea')]), () => pick([mcG('cosLaw'), mcG('sinLaw')]), () => pick([tfG('tri'), shG('heronR')]));
+const gkT4 = lv => pickBy(lv, () => shG('vennShort'), () => tfG('venn'), () => tfG('height'));
+const gkT5 = lv => pickBy(lv, () => mcG('sysPoint'), () => shG('mixed'), () => shG('tree'));
+const gkT6 = lv => pickBy(lv, () => shG('eqTri'), () => shG('cosRoad'), () => shG('tree'));
+lesson(4, 'on-tap-giua-ki-1', 'Ôn tập giữa học kì I', 'Tổng hợp Chương I – II – III: mệnh đề và tập hợp, miền nghiệm và hệ bất phương trình, hệ thức lượng; có hình vẽ.', [gkT1, gkT2, gkT3, gkT4, gkT5, gkT6], {introTitle:INTRO_T, intro:[
+  K('Chương I', `Phủ định ${tm('\\forall \\leftrightarrow \\exists')} và đổi dấu so sánh; ${tm('\\cap, \\cup, \\setminus')} trên trục số; ${tm('n(A \\cup B) = n(A) + n(B) - n(A \\cap B)')}.`, 'Xét kĩ đầu mút (ngoặc tròn/vuông).', 'Vẽ trục số hoặc sơ đồ Venn trước khi tính.'),
+  K('Chương II', 'Điểm thử xác định phía miền nghiệm; nét đứt ứng với dấu ngặt; tối ưu: tính giá trị tại các đỉnh miền nghiệm.', `Đọc kĩ “tối đa/ít nhất” để chọn ${tm('\\le')} hay ${tm('\\ge')}.`, 'Gạch bỏ phần không thoả mãn để thấy miền nghiệm.'),
+  K('Chương III', `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}, ${tm('\\dfrac{a}{\\sin A} = 2R')}, ${tm('S = \\dfrac{1}{2}bc\\sin A')}, công thức Heron.`, 'Góc tù: côsin, tang âm.', 'Bài đo đạc: vẽ tam giác, dùng góc ngoài để tìm góc ở ngọn.')]});
+}
 })();
