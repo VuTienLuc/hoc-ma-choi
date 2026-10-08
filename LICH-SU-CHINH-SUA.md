@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Làm lại menu Học mà chơi để chữ dễ đọc
+
+- **Yêu cầu của thầy:** Menu vào game khó đọc, đặc biệt khi nền tối làm chữ sáng gần như chìm vào nền thẻ sáng.
+- **Kết quả:** Tách biểu tượng, tiêu đề, mô tả và thông tin trận thành bốn vùng rõ ràng; dùng chữ xanh đen tương phản cao trên nền thẻ sáng ở cả chế độ sáng và tối; phân biệt Game củng cố bằng sắc vàng và Phòng thi kiến thức bằng sắc xanh; tăng khoảng cách, viền, kích thước vùng chạm; tự chuyển về một cột trên điện thoại. Các thẻ chủ đề game cũng được cố định màu chữ tối để không tái diễn lỗi trong chế độ tối.
+- **Tệp thay đổi:** `assets/js/game.js`, `assets/css/game.css`, `tools/test.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js`, `python3 tools/test.py` (có kiểm tra độ tương phản tối thiểu 4,5:1 trong chế độ tối), `python3 tools/build.py`, `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Giảm tốc độ cá trong Câu cá Toán học
 
 - **Yêu cầu của thầy:** Cá đang bơi hơi nhanh, cần giảm tốc để học sinh kịp đọc và chọn đáp án.

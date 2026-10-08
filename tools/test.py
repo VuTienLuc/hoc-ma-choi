@@ -88,6 +88,12 @@ async (REPS) => {
    }
    S.grade=App.grades.find(g=>g.id==='lop9');renderHome();
    if(!document.querySelector('.game-entry'))out.bad.push(['Học mà chơi: thiếu lối vào ở trang lớp 9']);
+   document.documentElement.dataset.theme='dark';renderHome();
+   const entryTiles=[...document.querySelectorAll('.game-entry .game-tile')];
+   const rgb=s=>{const m=s.match(/[\d.]+/g)||[];return m.slice(0,3).map(Number)},lum=c=>{const a=c.map(x=>{x/=255;return x<=.03928?x/12.92:((x+.055)/1.055)**2.4});return .2126*a[0]+.7152*a[1]+.0722*a[2]},contrast=(fg,bg)=>{const a=lum(rgb(fg)),b=lum(rgb(bg));return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)};
+   if(entryTiles.length!==2)out.bad.push(['Menu game: không đủ hai thẻ rõ ràng']);
+   entryTiles.forEach((tile,i)=>{const bg=getComputedStyle(tile).backgroundColor;[tile.querySelector('b'),tile.querySelector('.game-entry-copy>span'),tile.querySelector('.meta')].forEach(el=>{if(!el||contrast(getComputedStyle(el).color,bg)<4.5)out.bad.push(['Menu game: chữ thiếu tương phản trong chế độ tối',i,el&&el.className])})});
+   document.documentElement.dataset.theme='light';renderHome();
    location.hash='#/game/game-tiep-tuyen';Game.route();
    if(document.querySelectorAll('[data-mode]').length!==3)out.bad.push(['Học mà chơi: thiếu ba chế độ chơi']);
    document.querySelector('[data-mode="bot"]').click();await new Promise(ok=>setTimeout(ok,1000));
