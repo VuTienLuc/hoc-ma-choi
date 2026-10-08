@@ -93,7 +93,8 @@ async (REPS) => {
     if(matchLinks.length!==matchTopics.length||matchLinks.some(h=>!matchTopics.some(t=>h.endsWith('/'+t.id))))out.bad.push(['Pikachu Toán học: sai danh sách chủ đề',grade,matchLinks]);
     location.hash=`#/game-mini/match/${matchTopics[0].id}`;Game.route();document.querySelector('#miniStart').click();await new Promise(ok=>setTimeout(ok,700));
     if(document.querySelectorAll('#gameArena [data-match-pos]').length!==24||document.querySelectorAll('#gameArena .match-tile.question').length!==12||document.querySelectorAll('#gameArena .match-tile.answer').length!==12)out.bad.push(['Pikachu Toán học: không dựng đủ 12 cặp',grade]);
-    if(!document.querySelector('#matchHint')||!document.querySelector('#matchShuffle')||!document.querySelector('#matchTime'))out.bad.push(['Pikachu Toán học: thiếu gợi ý, xáo hoặc đồng hồ',grade]);
+    if(document.querySelector('#matchHint')||!document.querySelector('#matchShuffle')||!document.querySelector('#matchTime'))out.bad.push(['Pikachu Toán học: gợi ý chưa được xoá hoặc thiếu xáo, đồng hồ',grade]);
+    if(document.querySelector('#matchTime')?.textContent!=='15:00')out.bad.push(['Pikachu Toán học: thời gian đầu ván không phải 15 phút',grade]);
     const matchExit=document.querySelector('#gameArena [data-exit]');if(matchExit)matchExit.click();
    }
    S.grade=App.grades.find(g=>g.id==='lop9');renderHome();

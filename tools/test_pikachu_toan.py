@@ -68,6 +68,10 @@ async def main():
             bad.append("Pikachu không khởi đầu với ba mạng")
         if not await phone.locator("[data-game-sound]").count():
             bad.append("Pikachu thiếu nút bật tắt âm thanh đúng sai")
+        if await phone.locator("#matchHint").count():
+            bad.append("Nút gợi ý vẫn còn xuất hiện trong Pikachu")
+        if await phone.locator("#matchTime").inner_text() != "15:00":
+            bad.append("Thời gian đầu ván Pikachu không phải 15 phút")
 
         for turn in range(3):
             wrong = await phone.eval_on_selector_all(".match-tile.question:not(.removed)", "els => els.slice(0,2).map(x => +x.dataset.matchPos)")
@@ -84,17 +88,15 @@ async def main():
             await phone.wait_for_selector(".match-board")
             await phone.wait_for_timeout(800)
 
-        await phone.locator("#matchHint").click()
-        hint_count = await phone.locator(".match-tile.hint").count()
-        hint_left = await phone.locator("#matchHint b").inner_text()
-        if hint_count != 2 or hint_left != "2":
-            bad.append("Gợi ý không đánh dấu đúng hai ô hoặc không trừ lượt")
-        hinted = await phone.eval_on_selector_all(".match-tile.hint", "els => els.map(x => +x.dataset.matchPos)")
-        await phone.evaluate("p => document.querySelector(`[data-match-pos=\"${p[0]}\"]`).click()", hinted)
+        move = await phone.evaluate(FIND_MOVE)
+        if not move:
+            bad.append("Không tìm được cặp nối để kiểm tra đường đi")
+            move = [0, 1]
+        await phone.evaluate("p => document.querySelector(`[data-match-pos=\"${p[0]}\"]`).click()", move)
         preview = await phone.locator("#matchStatus").inner_text()
         if "Đã chọn" not in preview:
             bad.append("Không phóng lớn nội dung ô đã chọn")
-        await phone.evaluate("p => document.querySelector(`[data-match-pos=\"${p[1]}\"]`).click()", hinted)
+        await phone.evaluate("p => document.querySelector(`[data-match-pos=\"${p[1]}\"]`).click()", move)
         await phone.wait_for_timeout(80)
         line = await phone.locator("#matchLine").get_attribute("points")
         if not line or not await phone.locator("#matchLine").evaluate("el => el.classList.contains('show')"):

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Pikachu suy luận 15 phút và xoá gợi ý
+
+- **Yêu cầu của thầy:** Các câu suy luận trong Pikachu cần 15 phút cho mỗi game và xoá chức năng gợi ý.
+- **Kết quả:** Tất cả ván Pikachu có 900 giây, hiển thị đồng hồ phút–giây từ `15:00` và thanh thời gian tính theo đủ 15 phút. Xoá hoàn toàn nút gợi ý, số lượt gợi ý, hiệu ứng đánh dấu cặp và hàm xử lý gợi ý khỏi giao diện lẫn mã nguồn. Thanh công cụ được sắp lại cho màn hình ngang và điện thoại dọc. Giữ ba lượt xáo, tự xáo khi hết nước đi, ba mạng, Game Over và âm thanh đúng–sai.
+- **Tệp thay đổi:** `assets/js/game.js`, `assets/css/game.css`, `tools/test.py`, `tools/test_pikachu_toan.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 100 lop10` → ĐẠT (19.200 lượt sinh câu); `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu); `python3 tools/test_pikachu_toan.py` → ĐẠT, kiểm tra đồng hồ `15:00`, không có gợi ý, ba mạng, Game Over và hoàn thành 12/12 cặp; `python3 tools/test.py` → ĐẠT (23.220 câu); `python3 tools/test_game_dienthoai.py` → ĐẠT; `python3 tools/test_game_audio.py` → ĐẠT; `python3 tools/build.py` → ĐẠT (2.704 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Bổ sung thêm hai nhạc mở đầu wb1nzi và oi5spg
 
 - **Yêu cầu của thầy:** Bổ sung hai nguồn `wb1nzi.mp3` và `oi5spg.mp3` vào nhạc mở đầu ngẫu nhiên của game.
