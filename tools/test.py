@@ -70,8 +70,8 @@ async (REPS) => {
    for(const term of ['lượng giác','góc bù','định lí côsin','định lí sin','Heron','đường tròn nội tiếp'])if(!c3Text.includes(term))out.bad.push(['Game Toán 10 Chương III: thiếu mảng kiến thức',term]);
    const miniGrades=CONFIG.grades;
    for(const grade of miniGrades){
-    const g=App.grades.find(x=>x.id===grade),topics=Game.TOPICS.filter(x=>x.grade===grade);
-    if(!g||!topics.length){out.bad.push(['Game củng cố: lớp chưa có ngân hàng riêng',grade]);continue}
+    const g=App.grades.find(x=>x.id===grade),topics=Game.TOPICS.filter(x=>x.grade===grade&&!x.matchOnly),matchTopics=Game.TOPICS.filter(x=>x.grade===grade&&!x.noMatch);
+    if(!g||!topics.length||!matchTopics.length){out.bad.push(['Game củng cố: lớp chưa có ngân hàng riêng',grade]);continue}
     S.grade=g;renderHome();
     if(!document.querySelector('a[href="#/game-mini"]'))out.bad.push(['Game củng cố: thiếu menu riêng tại trang lớp',grade]);
     location.hash='#/game-mini';Game.route();
@@ -88,7 +88,10 @@ async (REPS) => {
      if(buttons[0]){buttons[0].click();if(!document.querySelector('#miniNext'))out.bad.push(['Game củng cố: không hiện lời giải sau khi chọn',grade,style])}
      const miniExit=document.querySelector('#gameArena [data-exit]');if(miniExit)miniExit.click();
     }
-    location.hash=`#/game-mini/match/${topics[0].id}`;Game.route();document.querySelector('#miniStart').click();await new Promise(ok=>setTimeout(ok,700));
+    location.hash='#/game-mini/match';Game.route();
+    const matchLinks=[...document.querySelectorAll('.game-topics a')].map(a=>a.getAttribute('href'));
+    if(matchLinks.length!==matchTopics.length||matchLinks.some(h=>!matchTopics.some(t=>h.endsWith('/'+t.id))))out.bad.push(['Pikachu Toán học: sai danh sách chủ đề',grade,matchLinks]);
+    location.hash=`#/game-mini/match/${matchTopics[0].id}`;Game.route();document.querySelector('#miniStart').click();await new Promise(ok=>setTimeout(ok,700));
     if(document.querySelectorAll('#gameArena [data-match-pos]').length!==24||document.querySelectorAll('#gameArena .match-tile.question').length!==12||document.querySelectorAll('#gameArena .match-tile.answer').length!==12)out.bad.push(['Pikachu Toán học: không dựng đủ 12 cặp',grade]);
     if(!document.querySelector('#matchHint')||!document.querySelector('#matchShuffle')||!document.querySelector('#matchTime'))out.bad.push(['Pikachu Toán học: thiếu gợi ý, xáo hoặc đồng hồ',grade]);
     const matchExit=document.querySelector('#gameArena [data-exit]');if(matchExit)matchExit.click();

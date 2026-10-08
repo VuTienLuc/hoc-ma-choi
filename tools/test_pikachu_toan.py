@@ -7,7 +7,7 @@ from playwright.async_api import async_playwright
 
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-TOPIC = "game-lop10-on-tap-c3"
+TOPIC = "game-lop10-bai-6-pikachu"
 
 FIND_MOVE = """() => {
   const tiles=[...document.querySelectorAll('.match-tile')], board=document.querySelector('.match-board');
@@ -41,6 +41,17 @@ async def main():
         phone_errors = []
         phone.on("pageerror", lambda error: phone_errors.append(str(error)))
         await launch(phone)
+        bank = await phone.evaluate("""() => {const t=Game.TOPICS.find(x=>x.id==='game-lop10-bai-6-pikachu'),all=t.matchPairs(()=>0.314159,20);return {only:t.matchOnly,count:all.length,kinds:[...new Set(all.map(x=>x.kind))],results:all.map(x=>x.result),answers:all.map(x=>x.answer),texts:all.map(x=>x.text)}}""")
+        if not bank["only"] or bank["count"] != 20:
+            bad.append("Ngân hàng riêng Bài 6 không có đúng 20 cặp")
+        if set(bank["kinds"]) != {"sin", "cosin", "dientich"}:
+            bad.append("Ngân hàng Bài 6 chưa đủ định lí sin, côsin và diện tích")
+        if len(set(bank["results"])) != 20:
+            bad.append("Ngân hàng Bài 6 còn đáp số trùng nhau")
+        if any("=" not in answer for answer in bank["answers"]):
+            bad.append("Có đáp án chưa trình bày phép thay số và kết quả")
+        if any(not text.strip() for text in bank["texts"]):
+            bad.append("Có câu hỏi Bài 6 bị trống")
         layout = await phone.evaluate("""() => {const b=document.querySelector('.match-board').getBoundingClientRect(),tiles=[...document.querySelectorAll('.match-tile')];return {doc:document.documentElement.scrollWidth,width:innerWidth,cols:getComputedStyle(document.querySelector('.match-board')).gridTemplateColumns.split(' ').length,b:b.toJSON(),tiles:tiles.length,q:tiles.filter(x=>x.classList.contains('question')).length,a:tiles.filter(x=>x.classList.contains('answer')).length,overflow:tiles.filter(x=>x.querySelector('span').scrollHeight>x.querySelector('span').clientHeight+3||x.querySelector('span').scrollWidth>x.querySelector('span').clientWidth+3).length}}""")
         if layout["tiles"] != 24 or layout["q"] != 12 or layout["a"] != 12:
             bad.append("Điện thoại dọc không dựng đủ 12 cặp")
@@ -48,6 +59,9 @@ async def main():
             bad.append("Lưới điện thoại dọc không vừa bốn cột")
         if layout["overflow"]:
             bad.append(f"Có {layout['overflow']} ô còn tràn nội dung")
+        board_answers = await phone.eval_on_selector_all(".match-tile.answer", "els => els.map(x => x.innerText.replace(/\\s+/g,''))")
+        if len(set(board_answers)) != 12:
+            bad.append("Một ván Pikachu Bài 6 còn có đáp án trùng nhau")
 
         await phone.locator("#matchHint").click()
         hint_count = await phone.locator(".match-tile.hint").count()

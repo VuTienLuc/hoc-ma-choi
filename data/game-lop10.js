@@ -113,4 +113,35 @@ Game.addTopic({
   }
 });
 
+const b6PikachuPairs=()=>[
+  {kind:'cosin',result:'5',text:`Cho tam giác ${m('ABC')} có ${m('b=3,\\ c=4,\\ A=90^\\circ')}. Tính ${m('a')} bằng định lí côsin.`,answer:m('a=\\sqrt{3^2+4^2-2\\cdot3\\cdot4\\cos90^\\circ}=5'),explain:`Áp dụng ${m('a^2=b^2+c^2-2bc\\cos A')}.`},
+  {kind:'cosin',result:'7',text:`Cho tam giác ${m('ABC')} có ${m('b=5,\\ c=8,\\ A=60^\\circ')}. Tính ${m('a')}.`,answer:m('a=\\sqrt{5^2+8^2-2\\cdot5\\cdot8\\cos60^\\circ}=7'),explain:'Thay hai cạnh và góc xen giữa vào định lí côsin.'},
+  {kind:'cosin',result:'13',text:`Cho tam giác ${m('ABC')} có ${m('b=7,\\ c=8,\\ A=120^\\circ')}. Tính ${m('a')}.`,answer:m('a=\\sqrt{7^2+8^2-2\\cdot7\\cdot8\\cos120^\\circ}=13'),explain:'Dùng định lí côsin với góc tù.'},
+  {kind:'cosin',result:'11/14',text:`Cho tam giác ${m('ABC')} có ${m('a=5,\\ b=7,\\ c=8')}. Tính ${m('\\cos A')}.`,answer:m('\\cos A=\\dfrac{7^2+8^2-5^2}{2\\cdot7\\cdot8}=\\dfrac{11}{14}'),explain:'Dùng hệ quả của định lí côsin để tính góc A.'},
+  {kind:'cosin',result:'2/7',text:`Cho tam giác ${m('ABC')} có ${m('a=7,\\ b=8,\\ c=9')}. Tính ${m('\\cos C')}.`,answer:m('\\cos C=\\dfrac{7^2+8^2-9^2}{2\\cdot7\\cdot8}=\\dfrac{2}{7}'),explain:'Cạnh c đối diện góc C nên đặt c² ở số bị trừ.'},
+  {kind:'sin',result:'16',text:`Cho tam giác ${m('ABC')} có ${m('a=8,\\ A=30^\\circ,\\ B=90^\\circ')}. Tính ${m('b')}.`,answer:m('b=\\dfrac{8\\sin90^\\circ}{\\sin30^\\circ}=16'),explain:`Từ ${m('b/\\sin B=a/\\sin A')}.`},
+  {kind:'sin',result:'6sqrt2',text:`Cho tam giác ${m('ABC')} có ${m('a=6,\\ A=30^\\circ,\\ B=45^\\circ')}. Tính ${m('b')}.`,answer:m('b=\\dfrac{6\\sin45^\\circ}{\\sin30^\\circ}=6\\sqrt2'),explain:'Áp dụng định lí sin rồi rút gọn căn thức.'},
+  {kind:'sin',result:'5sqrt3',text:`Cho tam giác ${m('ABC')} có ${m('a=5,\\ A=30^\\circ,\\ B=60^\\circ')}. Tính ${m('b')}.`,answer:m('b=\\dfrac{5\\sin60^\\circ}{\\sin30^\\circ}=5\\sqrt3'),explain:'Ghép mỗi cạnh với sin của góc đối diện.'},
+  {kind:'sin',result:'5sqrt2',text:`Cho tam giác ${m('ABC')} có ${m('a=10,\\ A=45^\\circ,\\ B=30^\\circ')}. Tính ${m('b')}.`,answer:m('b=\\dfrac{10\\sin30^\\circ}{\\sin45^\\circ}=5\\sqrt2'),explain:'Áp dụng định lí sin và khử mẫu chứa căn.'},
+  {kind:'sin',result:'14',text:`Cho tam giác ${m('ABC')} có ${m('a=14,\\ A=30^\\circ')}. Tính bán kính ngoại tiếp ${m('R')}.`,answer:m('R=\\dfrac{14}{2\\sin30^\\circ}=14'),explain:`Dùng hệ thức ${m('a=2R\\sin A')}.`},
+  {kind:'dientich',result:'12',text:`Cho tam giác ${m('ABC')} có ${m('b=6,\\ c=8,\\ A=30^\\circ')}. Tính diện tích ${m('S')}.`,answer:m('S=\\dfrac12\\cdot6\\cdot8\\sin30^\\circ=12'),explain:'Dùng nửa tích hai cạnh nhân sin góc xen giữa.'},
+  {kind:'dientich',result:'30',text:`Cho tam giác ${m('ABC')} có ${m('a=6,\\ c=10,\\ B=90^\\circ')}. Tính diện tích ${m('S')}.`,answer:m('S=\\dfrac12\\cdot6\\cdot10\\sin90^\\circ=30'),explain:'Hai cạnh a, c kề góc B.'},
+  {kind:'dientich',result:'18',text:`Cho tam giác ${m('ABC')} có ${m('a=9,\\ b=8,\\ C=30^\\circ')}. Tính diện tích ${m('S')}.`,answer:m('S=\\dfrac12\\cdot9\\cdot8\\sin30^\\circ=18'),explain:'Hai cạnh a, b tạo thành góc xen giữa C.'},
+  {kind:'dientich',result:'6',text:`Tam giác có ba cạnh ${m('3,\\ 4,\\ 5')}. Tính diện tích bằng công thức Heron.`,answer:m('p=6,\\quad S=\\sqrt{6(6-3)(6-4)(6-5)}=6'),explain:'Tính nửa chu vi rồi thay vào công thức Heron.'},
+  {kind:'dientich',result:'84',text:`Tam giác có ba cạnh ${m('13,\\ 14,\\ 15')}. Tính diện tích bằng công thức Heron.`,answer:m('p=21,\\quad S=\\sqrt{21\\cdot8\\cdot7\\cdot6}=84'),explain:'Nửa chu vi bằng 21; thay đủ bốn thừa số Heron.'},
+  {kind:'dientich',result:'24',text:`Tam giác có ${m('a=6,\\ b=8,\\ c=10,\\ R=5')}. Tính diện tích ${m('S')}.`,answer:m('S=\\dfrac{6\\cdot8\\cdot10}{4\\cdot5}=24'),explain:`Dùng ${m('S=abc/(4R)')}.`},
+  {kind:'dientich',result:'22',text:`Tam giác có nửa chu vi ${m('p=11')} và bán kính nội tiếp ${m('r=2')}. Tính diện tích.`,answer:m('S=pr=11\\cdot2=22'),explain:'Diện tích bằng nửa chu vi nhân bán kính nội tiếp.'},
+  {kind:'dientich',result:'60',text:`Tam giác có cạnh đáy ${m('15')} và chiều cao tương ứng ${m('8')}. Tính diện tích.`,answer:m('S=\\dfrac12\\cdot15\\cdot8=60'),explain:'Dùng công thức diện tích theo cạnh đáy và chiều cao.'},
+  {kind:'cosin',result:'1/2',text:`Cho tam giác ${m('ABC')} có ${m('a=5,\\ b=7,\\ c=8')}. Tính ${m('\\cos B')}.`,answer:m('\\cos B=\\dfrac{5^2+8^2-7^2}{2\\cdot5\\cdot8}=\\dfrac12'),explain:'Dùng hệ quả định lí côsin cho góc B.'},
+  {kind:'dientich',result:'45/2',text:`Cho tam giác ${m('ABC')} có ${m('a=10,\\ b=9,\\ C=150^\\circ')}. Tính diện tích ${m('S')}.`,answer:m('S=\\dfrac12\\cdot10\\cdot9\\sin150^\\circ=\\dfrac{45}{2}'),explain:'Hai cạnh a, b kề góc C; sin 150° bằng 1/2.'}
+];
+
+Game.addTopic({
+  id:'game-lop10-bai-6-pikachu', grade:'lop10', icon:'🔺', group:'Toán 10 · Kết nối tri thức', matchOnly:true,
+  name:'Bài 6. Hệ thức lượng trong tam giác',
+  desc:'Ngân hàng riêng cho Pikachu: ghép dữ kiện với phép thay số theo định lí sin, côsin và công thức diện tích.',
+  matchPairs(r,count=12){const a=b6PikachuPairs();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,count)},
+  generate(r,i){const x=b6PikachuPairs()[i%b6PikachuPairs().length];return q(x.text,x.answer,[m('\\text{Không đủ dữ kiện}'),m('\\text{Áp dụng sai công thức}'),m('\\text{Không tồn tại tam giác}')],x.explain)}
+});
+
 })();

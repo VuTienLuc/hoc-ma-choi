@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Ngân hàng Pikachu riêng cho Bài 6 Hệ thức lượng trong tam giác
+
+- **Yêu cầu của thầy:** Tạo bộ câu hỏi dành riêng cho Pikachu ở Bài 6; câu hỏi cho dữ kiện để áp dụng định lí sin, định lí côsin và công thức diện tích; đáp án phải trình bày phép thay số cùng kết quả và không được trùng nhau.
+- **Kết quả:** Thêm chủ đề **Bài 6. Hệ thức lượng trong tam giác** chỉ xuất hiện trong Pikachu Toán học của lớp 10. Ngân hàng gồm 20 cặp: 5 cặp định lí côsin, 5 cặp định lí sin và 10 cặp diện tích (góc xen giữa, Heron, bán kính nội tiếp–ngoại tiếp, đáy–chiều cao). Mỗi lượt xáo và lấy 12 cặp; toàn bộ 20 kết quả được thiết kế khác nhau. Mỗi đáp án hiện đầy đủ công thức đã thay số và kết quả. Bộ máy Pikachu kiểm tra đồng thời nội dung đáp án và giá trị kết quả, từ chối dựng ván nếu có đáp số trùng. Công thức dài tự co trong ô vuông và vẫn được phóng lớn trên thanh hướng dẫn khi chọn.
+- **Tệp thay đổi:** `data/game-lop10.js`, `assets/js/game.js`, `tools/test_pikachu_toan.py`, `tools/test.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 100 lop10` → ĐẠT (19.200 lượt sinh câu); `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu); `python3 tools/test_pikachu_toan.py` → ĐẠT, kiểm tra 20 kết quả không trùng, đủ ba mảng kiến thức, 12 đáp số trong ván khác nhau, không tràn trên điện thoại và tự nối hết 12/12 cặp; `python3 tools/test_game_dienthoai.py` → ĐẠT; `python3 tools/test.py` → ĐẠT (23.220 câu); `python3 tools/build.py` → ĐẠT (2.705 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Pikachu Toán học nối câu hỏi với công thức
 
 - **Yêu cầu của thầy:** Sáng tạo game kiểu Pikachu cho môn Toán, trong đó câu hỏi và công thức được xếp thành các ô vuông như ảnh mẫu.
