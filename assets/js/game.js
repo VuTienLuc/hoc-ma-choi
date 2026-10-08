@@ -13,12 +13,13 @@ const Game = (() => {
   ];
   const AVATARS=[['cao-cam','🦊','Cáo Cam'],['gau-truc','🐼','Gấu Trúc'],['tho-hong','🐰','Thỏ Hồng'],['ho-con','🐯','Hổ Con'],['chim-canh-cut','🐧','Chim Cánh Cụt'],['gau-koala','🐨','Gấu Koala'],['ky-lan','🦄','Kỳ Lân'],['ech-xanh','🐸','Ếch Xanh'],['meo-mun','🐱','Mèo Mun'],['cho-nau','🐶','Cún Nâu'],['su-tu','🦁','Sư Tử'],['rong-con','🐲','Rồng Con']];
   const GAME_BG='assets/images/game/Epic Mathematics Arena Poster-optimized.webp';
-  const GAME_INTRO='assets/sounds/game/tieng_chuong_chuong_trinh_rung_chuong_vang-www_tiengdong_com.mp3';
-  let gameAudio=null,audioCtx=null,audioMuted=store.get('hoctap:game-muted')===1,assetsPreloaded=false;
+  const GAME_INTROS=['assets/sounds/game/tieng_chuong_chuong_trinh_rung_chuong_vang-www_tiengdong_com.mp3','assets/sounds/game/nhac-vao-game-ppg35c.mp3','assets/sounds/game/nhac-vao-game-kte08w.mp3'];
+  let gameAudio=null,lastIntro=-1,audioCtx=null,audioMuted=store.get('hoctap:game-muted')===1,assetsPreloaded=false;
   const avatarId=()=>store.get('hoctap:game-avatar')||'';
   const avatarInfo=id=>AVATARS.find(a=>a[0]===id)||AVATARS[0];
-  function preloadAssets(){if(assetsPreloaded)return;assetsPreloaded=true;if(typeof Image!=='undefined'){const i=new Image();i.src=GAME_BG}if(typeof Audio!=='undefined'){const a=new Audio();a.preload='auto';a.src=GAME_INTRO}}
-  function playIntro(){if(audioMuted||typeof Audio==='undefined')return;try{if(!gameAudio){gameAudio=new Audio(GAME_INTRO);gameAudio.preload='auto';gameAudio.volume=.22}gameAudio.currentTime=0;gameAudio.play().catch(()=>{})}catch(e){}}
+  function preloadAssets(){if(assetsPreloaded)return;assetsPreloaded=true;if(typeof Image!=='undefined'){const i=new Image();i.src=GAME_BG}}
+  function nextIntro(){let n=Math.floor(Math.random()*GAME_INTROS.length);if(GAME_INTROS.length>1&&n===lastIntro)n=(n+1+Math.floor(Math.random()*(GAME_INTROS.length-1)))%GAME_INTROS.length;lastIntro=n;return GAME_INTROS[n]}
+  function playIntro(){if(audioMuted||typeof Audio==='undefined')return;try{if(!gameAudio){gameAudio=new Audio();gameAudio.preload='auto';gameAudio.volume=.22}else gameAudio.pause();gameAudio.src=nextIntro();gameAudio.currentTime=0;gameAudio.play().catch(()=>{})}catch(e){}}
   function stopAudio(){if(gameAudio){gameAudio.pause();gameAudio.currentTime=0}}
   function tone(kind){if(audioMuted)return;try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;audioCtx=audioCtx||new C();audioCtx.resume&&audioCtx.resume();const seq={select:[[520,.05]],right:[[660,.07],[880,.11]],wrong:[[240,.11],[180,.15]],tick:[[440,.045]],win:[[523,.08],[659,.08],[784,.08],[1047,.18]]}[kind]||[];let at=audioCtx.currentTime;seq.forEach(([f,d])=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(.08,at+.012);g.gain.exponentialRampToValueAtTime(.0001,at+d);o.connect(g).connect(audioCtx.destination);o.start(at);o.stop(at+d+.02);at+=d})}catch(e){}}
   function toggleAudio(){audioMuted=!audioMuted;store.set('hoctap:game-muted',audioMuted?1:0);if(audioMuted)stopAudio();else playIntro();document.querySelectorAll('[data-game-sound]').forEach(b=>b.textContent=audioMuted?'🔇':'🔊')}

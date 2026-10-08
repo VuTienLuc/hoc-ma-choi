@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-08 – Thêm hai nhạc mở đầu ngẫu nhiên cho game
+
+- **Yêu cầu của thầy:** Bổ sung hai tệp âm thanh từ Catbox và mở ngẫu nhiên khi học sinh vào chơi game.
+- **Kết quả:** Tải hai nguồn thầy cung cấp về `assets/sounds/game`, chuyển tệp WAV sang MP3 và nén cả hai ở 96 kbps để giảm tổng dung lượng từ gần 10 MB xuống khoảng 3,1 MB. Mỗi lần bấm bắt đầu một game, hệ thống chọn ngẫu nhiên giữa âm mở đầu cũ và hai bản nhạc mới; không lặp lại cùng một bản ở hai lượt liên tiếp. Âm thanh được phục vụ từ chính website, không phụ thuộc Catbox khi chơi; giữ nguyên nút bật/tắt và mức âm lượng nền 22%. Tệp README ghi rõ nguồn gốc và cách tối ưu.
+- **Tệp thay đổi:** `assets/sounds/game/nhac-vao-game-ppg35c.mp3`, `assets/sounds/game/nhac-vao-game-kte08w.mp3`, `assets/sounds/game/README.md`, `assets/js/game.js`, `tools/test_game_audio.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `ffprobe` → hai tệp hợp lệ, dài 154,7 giây và 104,9 giây, cùng 96 kbps; `python3 tools/test_game_audio.py` → ĐẠT, kiểm tra đủ ba nguồn cục bộ, vào game hai lần phát hai bản khác nhau và không gọi Catbox; `node tools/kiem-tra.js` → ĐẠT (38.100 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.220 câu); `python3 tools/test_game_dienthoai.py` → ĐẠT; `python3 tools/build.py` → ĐẠT (2.705 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-08 – Pikachu có ba mạng, Game Over và đáp số Bài 6 chữ lớn
 
 - **Yêu cầu của thầy:** Chọn sai ba lần thì Game Over, có âm thanh đúng–sai; riêng Hệ thức lượng trong tam giác, ô đáp án chỉ hiện số, bỏ biểu thức thay số và làm chữ số lớn, dễ nhìn.
