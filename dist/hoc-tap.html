@@ -11008,6 +11008,101 @@ const g6j = lv => {   // bài toán thực tế tổng hợp
     sol:`Nửa chu vi: ${tm(`p=\\dfrac{${a}+${b}+${c}}2=${p}`)}. Theo công thức Heron, ${tm(`S=\\sqrt{${p}\\cdot${p-a}\\cdot${p-b}\\cdot${p-c}}=${S}\\text{ m}^2`)}. Chi phí là ${tm(`${S}\\cdot${price}=${cost}`)} nghìn đồng. Đáp số: ${tb(`${fmt(cost)}\\text{ nghìn đồng}`)}.`});
 };
 
+/* ---------------- BÀI 6. LUYỆN TẬP THÊM 2 – TOÁN THỰC TẾ ---------------- */
+const g6k = lv => {   // khoảng cách trong hành trình và khảo sát
+  if(lv < 3){
+    const A=lv===1?90:pick([60,120]), k=R(1,4), src=A===90?P90:A===60?P60:P120;
+    const [b0,c0,a0]=pick(src), [b,c,a]=[b0*k,c0*k,a0*k];
+    const text=lv===1
+      ? `Từ một ngã ba ${tm('A')}, hai xe đi theo hai con đường vuông góc. Xe thứ nhất đến ${tm('B')} sau khi đi <b>${c} km</b>, xe thứ hai đến ${tm('C')} sau khi đi <b>${b} km</b>. Tính khoảng cách thẳng giữa hai xe.`
+      : `Một ca nô xuất phát từ ${tm('A')} đi đến ${tm('B')} được <b>${c} km</b>; ca nô khác đi từ ${tm('A')} đến ${tm('C')} được <b>${b} km</b>. Hai hướng đi tạo góc ${tm(DG(A))}. Tính khoảng cách ${tm('BC')}.`;
+    return QB({text,fig:triSVG({a,b,c,la:'?',lb:`${b} km`,lc:`${c} km`,gA:`${A}°`}),tpl:'[_] km',ans:[a],
+      hint:`Mô hình hóa ba vị trí thành tam giác rồi dùng định lí côsin ${COSLAW}.`,
+      sol:`Ba vị trí tạo thành tam giác ${tm('ABC')}. Theo định lí côsin, ${tm(`BC^2=AB^2+AC^2-2\\,AB\\cdot AC\\cos A=${lawA(b,c,A)}=${a*a}`)}. Vì khoảng cách là số dương nên ${tm(`BC=\\sqrt{${a*a}}=${a}`)} km. Vậy hai xe cách nhau ${tb(`${a}\\text{ km}`)}.`});
+  }
+  const A=pick([35,40,50,70,75,100,110]), b=R(25,75), c=R(25,75), cv=Math.round(Math.cos(A*Math.PI/180)*100)/100;
+  const near=Math.sqrt(b*b+c*c-2*b*c*cv), exact=Math.sqrt(b*b+c*c-2*b*c*Math.cos(A*Math.PI/180));
+  const x=R1(near), y=R1(exact);
+  return QB({text:`Để đo khoảng cách qua một hồ, người khảo sát chọn điểm ${tm('A')} và đo được ${tm(`AB=${c}`)} m, ${tm(`AC=${b}`)} m, ${tm(`\\widehat{BAC}=${DG(A)}`)}. Cho ${tm(`\\cos ${DG(A)}\\approx ${tdec(cv)}`)}. Tính ${tm('BC')} (làm tròn đến hàng phần mười của mét).`,
+    fig:triSVG({a:exact,b,c,la:'?',lb:`${b} m`,lc:`${c} m`,gA:`${A}°`}),tpl:'[_] m',ans:[x===y?x:[x,y]],
+    hint:'Ba số đo đã biết gồm hai cạnh và góc xen giữa, vì vậy dùng định lí côsin rồi khai căn.',
+    sol:`Theo định lí côsin, ${tm(`BC^2=AB^2+AC^2-2\\,AB\\cdot AC\\cos A\\approx ${c}^2+${b}^2-2\\cdot${c}\\cdot${b}\\cdot${cv<0?`(${tdec(cv)})`:tdec(cv)}=${tdec(Math.round(near*near*100)/100)}`)}. Suy ra ${tm(`BC\\approx\\sqrt{${tdec(Math.round(near*near*100)/100)}}\\approx ${tdec(x)}`)} m. Vậy khoảng cách cần tìm xấp xỉ ${tb(`${tdec(x)}\\text{ m}`)}.`});
+};
+
+const g6l = lv => {   // đo chiều rộng sông bằng định lí sin
+  if(lv===1){ const c=2*R(6,20), a=c/2;
+    return QB({text:`Để đo chiều rộng ${tm('BC')} của một con sông, người ta chọn ${tm('A,C')} trên cùng một bờ sao cho ${tm('AC\\perp BC')}. Biết ${tm(`AB=${c}`)} m và ${tm(`\\widehat{BAC}=30^\\circ`)}. Tính chiều rộng con sông.`,
+      fig:rtTriSVG({n:['C','A','B'],w:a,h:Math.sqrt(c*c-a*a),ac:'?',bc:`${c} m`,aB:'30°'}),tpl:'[_] m',ans:[a],
+      hint:`Trong tam giác vuông, ${tm('\\sin A=\\dfrac{BC}{AB}')}.`,
+      sol:`Tam giác ${tm('ABC')} vuông tại ${tm('C')}. Theo định nghĩa tỉ số lượng giác, ${tm(`\\sin A=\\dfrac{BC}{AB}`)}. Do đó ${tm(`BC=AB\\sin A=${c}\\sin30^\\circ=${c}\\cdot\\dfrac12=${a}`)} m. Vậy chiều rộng con sông là ${tb(`${a}\\text{ m}`)}.`}); }
+  if(lv===2){ const k=R(6,18), c=2*k;
+    return QB({text:`Hai điểm ${tm('A,C')} nằm trên một bờ sông và ${tm('AC\\perp BC')}. Từ ${tm('A')} nhìn đến cột mốc ${tm('B')} ở bờ bên kia dưới góc ${tm('45^\\circ')}; đo được ${tm(`AB=${c}`)} m. Tính ${tm('BC')}.`,
+      fig:rtTriSVG({n:['C','A','B'],w:k*Math.SQRT2,h:k*Math.SQRT2,ac:'?',bc:`${c} m`,aB:'45°'}),tpl:`${tm('BC=')} [_] ${tm('\\sqrt2')} m`,ans:[k],
+      hint:'Dùng định lí sin hoặc tỉ số sin trong tam giác vuông.',
+      sol:`Tam giác ${tm('ABC')} vuông tại ${tm('C')}, nên ${tm('B=45^\\circ')}. Theo định lí sin, ${tm(`\\dfrac{BC}{\\sin45^\\circ}=\\dfrac{AB}{\\sin90^\\circ}`)}. Suy ra ${tm(`BC=${c}\\cdot\\dfrac{\\sqrt2}{2}=${k}\\sqrt2`)} m. Vậy ${tb(`BC=${k}\\sqrt2\\text{ m}`)}.`}); }
+  const k=R(5,16), c=2*k;
+  return QB({text:`Để đo khoảng cách ${tm('BC')} qua một vùng lầy, người ta dựng tam giác vuông ${tm('ABC')} tại ${tm('C')}, đo được ${tm(`AB=${c}`)} m và ${tm(`\\widehat{ABC}=30^\\circ`)}. Tính ${tm('BC')}.`,
+    fig:rtTriSVG({n:['C','A','B'],w:k*Math.sqrt(3),h:k,ac:'?',bc:`${c} m`,aC:'30°'}),tpl:`${tm('BC=')} [_] ${tm('\\sqrt3')} m`,ans:[k],
+    hint:`Tính góc ${tm('A')} trước, rồi ghép đúng cạnh với góc đối diện trong định lí sin.`,
+    sol:`Tổng ba góc của tam giác bằng ${tm('180^\\circ')}, nên ${tm('A=180^\\circ-90^\\circ-30^\\circ=60^\\circ')}. Theo định lí sin, ${tm(`\\dfrac{BC}{\\sin60^\\circ}=\\dfrac{AB}{\\sin90^\\circ}`)}. Do đó ${tm(`BC=${c}\\cdot\\dfrac{\\sqrt3}{2}=${k}\\sqrt3`)} m. Vậy ${tb(`BC=${k}\\sqrt3\\text{ m}`)}.`});
+};
+
+const g6m = lv => {   // đo chiều cao vật thể
+  if(lv===1){ const d=R(8,35);
+    return QB({text:`Một bạn đứng tại ${tm('A')}, cách chân cột cờ ${tm('H')} một đoạn ${tm(`AH=${d}`)} m. Góc nâng từ mặt đất đến đỉnh cột ${tm('T')} bằng ${tm('45^\\circ')}. Tính chiều cao ${tm('HT')}.`,
+      fig:rtTriSVG({n:['H','T','A'],w:d,h:d,ab:'?',ac:`${d} m`,aC:'45°'}),tpl:'[_] m',ans:[d],
+      hint:`Trong tam giác vuông, ${tm('\\tan A=\\dfrac{HT}{AH}')}.`,
+      sol:`Tam giác ${tm('AHT')} vuông tại ${tm('H')}. Theo định nghĩa tỉ số tang, ${tm(`\\tan A=\\dfrac{HT}{AH}`)}. Suy ra ${tm(`HT=AH\\tan45^\\circ=${d}\\cdot1=${d}`)} m. Vậy cột cờ cao ${tb(`${d}\\text{ m}`)}.`}); }
+  if(lv===2){ const A=pick([30,35,40,50,55,60]), tv={30:.58,35:.70,40:.84,50:1.19,55:1.43,60:1.73}[A], d=R(12,40), eye=pick([1.5,1.6,1.7]);
+    const h1=R1(d*tv+eye), h2=R1(d*Math.tan(A*Math.PI/180)+eye);
+    return QB({text:`Một người đứng cách chân tháp <b>${d} m</b>, mắt cao <b>${tdec(eye)} m</b> so với mặt đất. Góc nâng từ mắt đến đỉnh tháp là ${tm(DG(A))}. Cho ${tm(`\\tan${DG(A)}\\approx${tdec(tv)}`)}. Tính chiều cao tháp (làm tròn đến hàng phần mười của mét).`,
+      fig:rtTriSVG({n:['H','T','M'],w:d,h:d*tv,ab:'?',ac:`${d} m`,aC:`${A}°`}),tpl:'[_] m',ans:[h1===h2?h1:[h1,h2]],
+      hint:'Tính phần chiều cao từ tầm mắt đến đỉnh bằng khoảng cách ngang nhân tang của góc nâng, sau đó cộng chiều cao tầm mắt.',
+      sol:`Gọi ${tm('K')} là điểm trên tháp ngang tầm mắt. Tam giác quan sát vuông tại ${tm('K')}, nên ${tm(`KT=${d}\\tan${DG(A)}\\approx${d}\\cdot${tdec(tv)}=${tdec(Math.round(d*tv*100)/100)}`)} m. Chiều cao tháp là ${tm(`HT=HK+KT\\approx${tdec(eye)}+${tdec(Math.round(d*tv*100)/100)}=${tdec(h1)}`)} m. Vậy tháp cao xấp xỉ ${tb(`${tdec(h1)}\\text{ m}`)}.`}); }
+  const pair=pick([[30,45],[30,60],[45,60]]), [A,B]=pair, d=R(8,25), ta=Math.round(Math.tan(A*Math.PI/180)*100)/100, tbv=Math.round(Math.tan(B*Math.PI/180)*100)/100;
+  const h=d*ta*tbv/(tbv-ta), he=d*Math.tan(A*Math.PI/180)*Math.tan(B*Math.PI/180)/(Math.tan(B*Math.PI/180)-Math.tan(A*Math.PI/180)), h1=R1(h), h2=R1(he);
+  return QB({text:`Hai điểm quan sát ${tm('A,B')} cùng nằm về một phía của cây, ${tm('B')} gần cây hơn và ${tm(`AB=${d}`)} m. Góc nâng đến ngọn cây lần lượt là ${tm(DG(A))} tại ${tm('A')} và ${tm(DG(B))} tại ${tm('B')}. Cho ${tm(`\\tan${DG(A)}\\approx${tdec(ta)}`)}, ${tm(`\\tan${DG(B)}\\approx${tdec(tbv)}`)}. Tính chiều cao cây (làm tròn đến hàng phần mười của mét).`,
+    fig:treeSVG({d:`${d} m`,a:`${A}°`,b:`${B}°`,h:'?'}),tpl:'[_] m',ans:[h1===h2?h1:[h1,h2]],wide:true,
+    hint:'Gọi khoảng cách từ điểm gần cây đến chân cây là x. Biểu diễn chiều cao theo x tại hai điểm quan sát rồi lập phương trình.',
+    sol:`Gọi ${tm('BH=x')} m và chiều cao cây là ${tm('HT=h')} m. Vì ${tm('AH=x+d')}, từ hai tam giác vuông ta có ${tm(`h=x\\tan${DG(B)}`)} và ${tm(`h=(x+${d})\\tan${DG(A)}`)}. Khử ${tm('x')}, suy ra ${tm(`h=\\dfrac{${d}\\tan${DG(A)}\\tan${DG(B)}}{\\tan${DG(B)}-\\tan${DG(A)}}`)}. Thay các giá trị gần đúng: ${tm(`h\\approx\\dfrac{${d}\\cdot${tdec(ta)}\\cdot${tdec(tbv)}}{${tdec(tbv)}-${tdec(ta)}}\\approx${tdec(h1)}`)} m. Vậy cây cao xấp xỉ ${tb(`${tdec(h1)}\\text{ m}`)}.`});
+};
+
+const g6n = lv => {   // diện tích và chi phí thực tế
+  if(lv===1){ const b=R(6,25), h=R(4,20), S=b*h/2;
+    return QB({text:`Một tấm kính hình tam giác có đáy dài <b>${b} dm</b> và chiều cao tương ứng <b>${h} dm</b>. Tính diện tích tấm kính.`,
+      fig:rtTriSVG({n:['H','T','B'],w:b,h,ab:`${h} dm`,ac:`${b} dm`}),tpl:'[_] dm²',ans:[S],
+      hint:'Diện tích tam giác bằng một nửa tích của đáy và chiều cao tương ứng.',
+      sol:`Theo công thức diện tích tam giác, ${tm(`S=\\dfrac12\\cdot${b}\\cdot${h}=${S}`)} dm². Vậy diện tích tấm kính là ${tb(`${fmt(S)}\\text{ dm}^2`)}.`}); }
+  if(lv===2){ const A=pick([30,150]), b=2*R(4,12), c=2*R(4,12), S=b*c/4;
+    return QB({text:`Một mảnh bạt hình tam giác có hai cạnh dài <b>${b} m</b> và <b>${c} m</b>, góc xen giữa bằng ${tm(DG(A))}. Tính diện tích mảnh bạt.`,
+      fig:triSVG({a:Math.sqrt(b*b+c*c-2*b*c*Math.cos(A*Math.PI/180)),b,c,lb:`${b} m`,lc:`${c} m`,gA:`${A}°`}),tpl:'[_] m²',ans:[S],
+      hint:`Dùng công thức ${tm('S=\\dfrac12bc\\sin A')}; chú ý ${tm('\\sin150^\\circ=\\sin30^\\circ')}.`,
+      sol:`Theo công thức diện tích khi biết hai cạnh và góc xen giữa, ${tm(`S=\\dfrac12\\cdot${b}\\cdot${c}\\cdot\\sin${DG(A)}=\\dfrac12\\cdot${b}\\cdot${c}\\cdot\\dfrac12=${S}`)} m². Vậy diện tích mảnh bạt là ${tb(`${S}\\text{ m}^2`)}.`}); }
+  const sides=pick(HERON), [a,b,c]=sides, p=(a+b+c)/2, S=heronS(sides), price=pick([35,40,45,50]), cost=S*price;
+  return QB({text:`Một khu vườn hình tam giác có ba cạnh dài ${tm(`${a}\\text{ m},\\ ${b}\\text{ m},\\ ${c}\\text{ m}`)}. Chi phí phủ cỏ là <b>${price} nghìn đồng/m²</b>. Tính tổng chi phí phủ cỏ.`,
+    fig:triSVG({a,b,c,la:`${a} m`,lb:`${b} m`,lc:`${c} m`}),tpl:'[_] nghìn đồng',ans:[cost],wide:true,
+    hint:'Tính nửa chu vi, dùng công thức Heron để tìm diện tích rồi nhân với đơn giá.',
+    sol:`Nửa chu vi khu vườn là ${tm(`p=\\dfrac{${a}+${b}+${c}}2=${p}`)} m. Theo công thức Heron, ${tm(`S=\\sqrt{p(p-a)(p-b)(p-c)}=\\sqrt{${p}\\cdot${p-a}\\cdot${p-b}\\cdot${p-c}}=${S}`)} m². Tổng chi phí là ${tm(`${S}\\cdot${price}=${cost}`)} nghìn đồng. Vậy cần ${tb(`${fmt(cost)}\\text{ nghìn đồng}`)}.`});
+};
+
+const g6o = lv => {   // đường tròn trong các công trình tam giác
+  if(lv===1){ const [u,v,w]=pick(TRIP), k=2*R(1,4), a=u*k, b=v*k, c=w*k, rad=c/2;
+    return QB({text:`Một khung cửa hình tam giác vuông có hai cạnh góc vuông dài <b>${a} cm</b> và <b>${b} cm</b>. Người ta vẽ đường tròn đi qua ba đỉnh của khung cửa. Tính bán kính đường tròn đó.`,
+      fig:rtTriSVG({w:a,h:b,ab:`${b} cm`,ac:`${a} cm`,bc:'?'}),tpl:'[_] cm',ans:[rad],
+      hint:'Tính cạnh huyền; trong tam giác vuông, tâm đường tròn ngoại tiếp là trung điểm cạnh huyền.',
+      sol:`Theo định lí Pythagore, cạnh huyền dài ${tm(`\\sqrt{${a}^2+${b}^2}=\\sqrt{${c*c}}=${c}`)} cm. Trong tam giác vuông, bán kính đường tròn ngoại tiếp bằng nửa cạnh huyền, nên ${tm(`R=\\dfrac{${c}}2=${rad}`)} cm. Vậy bán kính cần tìm là ${tb(`${rad}\\text{ cm}`)}.`}); }
+  const sides=pick(HERON), [a,b,c]=sides, p=(a+b+c)/2, S=heronS(sides);
+  if(lv===2) return QB({text:`Một bồn hoa hình tam giác có ba cạnh dài ${tm(`${a}\\text{ m},\\ ${b}\\text{ m},\\ ${c}\\text{ m}`)}. Vòi tưới đặt tại tâm đường tròn nội tiếp. Tính khoảng cách ${tm('r')} từ vòi tưới đến mỗi cạnh bồn hoa.`,
+    fig:triSVG({a,b,c,la:`${a} m`,lb:`${b} m`,lc:`${c} m`}),tpl:fblank('r'),ans:[{frac:[S,p],mode:'eq'}],
+    hint:`Dùng công thức Heron để tìm diện tích, sau đó áp dụng hệ thức ${tm('S=pr')}.`,
+    sol:`Nửa chu vi là ${tm(`p=\\dfrac{${a}+${b}+${c}}2=${p}`)} m. Theo công thức Heron, ${tm(`S=\\sqrt{${p}\\cdot${p-a}\\cdot${p-b}\\cdot${p-c}}=${S}`)} m². Từ ${tm('S=pr')}, suy ra ${tm(`r=\\dfrac{S}{p}=\\dfrac{${S}}{${p}}=`)} ${tb(tfrac(S,p))} m.`});
+  const Dnum=a*b*c, Dden=2*S;
+  return QB({text:`Một biển trang trí hình tam giác có ba cạnh dài ${tm(`${a}\\text{ dm},\\ ${b}\\text{ dm},\\ ${c}\\text{ dm}`)} và được đặt vừa trong một khung tròn đi qua ba đỉnh. Tính đường kính ${tm('D')} của khung tròn.`,
+    fig:circTriSVG({side:`${a}, ${b}, ${c} dm`,R:'R'}),tpl:fblank('D'),ans:[{frac:[Dnum,Dden],mode:'eq'}],
+    hint:`Tính diện tích bằng công thức Heron, dùng ${tm('S=\\dfrac{abc}{4R}')}, rồi suy ra ${tm('D=2R')}.`,
+    sol:`Nửa chu vi là ${tm(`p=${p}`)} dm. Theo công thức Heron, ${tm(`S=\\sqrt{${p}\\cdot${p-a}\\cdot${p-b}\\cdot${p-c}}=${S}`)} dm². Vì ${tm('S=\\dfrac{abc}{4R}')}, ta có ${tm(`D=2R=\\dfrac{abc}{2S}=\\dfrac{${a}\\cdot${b}\\cdot${c}}{2\\cdot${S}}=`)} ${tb(tfrac(Dnum,Dden))} dm.`});
+};
+
 
 lesson(3,'he-thuc-luong-tam-giac','Bài 6. Hệ thức lượng trong tam giác','Định lí côsin, định lí sin; tính góc, nhận dạng tam giác; diện tích, bán kính R, r; bài toán thực tế.',[g6a,g6b,g6c,g6d,g6e]);
 lesson(3,'he-thuc-luong-tam-giac-luyen-tap','Bài 6. Hệ thức lượng trong tam giác – Luyện tập thêm','Chọn đúng công thức; định lí côsin, định lí sin; diện tích; bán kính, đường cao; bài toán thực tế.',[g6f,g6g,g6h,g6i,g6j], {introTitle:'Bảng công thức cần nhớ', intro:[
@@ -11015,6 +11110,12 @@ lesson(3,'he-thuc-luong-tam-giac-luyen-tap','Bài 6. Hệ thức lượng trong 
   {t:'Định lí sin', b:`${tm('\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R')}.`, warn:'Luôn ghép đúng cạnh với góc đối diện.', ex:'Biết một cặp cạnh – góc đối diện và thêm một cạnh hoặc góc: dùng định lí sin.'},
   {t:'Diện tích tam giác', b:`${tm('S=\\dfrac12bc\\sin A=\\sqrt{p(p-a)(p-b)(p-c)}=pr=\\dfrac{abc}{4R}')}.`, warn:`Trong công thức Heron, ${tm('p')} là nửa chu vi.`, ex:'Chọn công thức có nhiều dữ kiện đề bài đã cho nhất để giảm số bước.'},
   {t:'Đường cao và bán kính', b:`${tm('h_a=\\dfrac{2S}{a}')}, ${tm('r=\\dfrac{S}{p}')}, ${tm('R=\\dfrac{abc}{4S}')}.`, warn:'Độ dài, diện tích và bán kính luôn dương.', ex:'Nếu chưa thấy công thức dùng ngay, hãy tính diện tích làm đại lượng trung gian.'}
+]});
+lesson(3,'he-thuc-luong-tam-giac-luyen-tap-2','Bài 6. Hệ thức lượng trong tam giác – Luyện tập thêm 2','Toán thực tế: hành trình; đo sông; đo chiều cao; diện tích và chi phí; đường tròn trong công trình tam giác.',[g6k,g6l,g6m,g6n,g6o], {introTitle:'Quy trình giải toán thực tế', intro:[
+  {t:'Mô hình hóa', b:'Đọc kĩ tình huống, vẽ tam giác, ghi độ dài và góc vào đúng vị trí.', warn:'Phải xác định cạnh nào đối diện góc nào và góc nào xen giữa hai cạnh.', ex:'Hai hướng xuất phát từ cùng một điểm tạo thành hai cạnh và góc xen giữa.'},
+  {t:'Chọn hệ thức', b:`Hai cạnh và góc xen giữa: định lí côsin. Một cặp cạnh–góc đối diện: định lí sin. Chiều cao: tỉ số lượng giác. Diện tích: ${tm('S=\\dfrac12bc\\sin A')} hoặc Heron.`, warn:'Không thay số trước khi viết đúng công thức tổng quát.', ex:'Đo chiều cao từ khoảng cách ngang và góc nâng: dùng tang.'},
+  {t:'Đơn vị và làm tròn', b:'Đổi các đại lượng về cùng đơn vị trước khi tính; chỉ làm tròn ở kết quả cuối theo yêu cầu.', warn:'Diện tích dùng đơn vị vuông; chi phí bằng diện tích nhân đơn giá.', ex:'Kết quả yêu cầu đến hàng phần mười thì giữ thêm chữ số trong các bước trung gian.'},
+  {t:'Kiểm tra kết quả', b:'Độ dài và diện tích phải dương; cạnh tam giác phải thỏa mãn bất đẳng thức tam giác; kết quả phải phù hợp tình huống.', warn:'Nếu cạnh đối diện góc lớn hơn lại ngắn hơn cạnh đối diện góc nhỏ hơn, cần kiểm tra lại phép tính.', ex:'Ước lượng trước giúp phát hiện lỗi bấm máy và lỗi nhập đơn vị.'}
 ]});
 lesson(3,'on-tap-c3','Ôn tập chương III','Tổng hợp: giá trị lượng giác, định lí côsin, định lí sin, diện tích, bài toán thực tế.',[g5b,g5c,g6a,g6c,g6d,g6e]);
 }

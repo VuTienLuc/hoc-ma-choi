@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-09 – Bài 6 Hệ thức lượng trong tam giác: luyện tập thêm 2 về toán thực tế
+
+- **Yêu cầu của thầy:** Tạo tiếp một bộ mới cho Bài 6. Hệ thức lượng trong tam giác, tăng số lượng bài toán thực tế để học sinh lớp 10 luyện tập.
+- **Kết quả:** Thêm bài riêng `he-thuc-luong-tam-giac-luyen-tap-2` gồm 5 dạng × 3 mức: khoảng cách trong hành trình và khảo sát; đo chiều rộng sông; đo chiều cao cột, tháp và cây; diện tích gắn với chi phí; bán kính nội tiếp, ngoại tiếp trong công trình tam giác. Mỗi câu có hình SVG phù hợp, dữ kiện thay đổi ngẫu nhiên, yêu cầu đơn vị và làm tròn rõ ràng; lời giải trình bày từng bước và nêu căn cứ. Bài có bốn thẻ hướng dẫn quy trình mô hình hóa, chọn hệ thức, xử lí đơn vị và kiểm tra kết quả.
+- **Tệp thay đổi:** `data/lop10.js`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 100 lop10` → ĐẠT (22.200 lượt sinh câu); `node tools/kiem-tra.js` → ĐẠT (39.225 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.760 câu); `python3 tools/test_congthuc.py` → ĐẠT (402 trang, 0 lỗi); `python3 tools/test_trinhchieu.py he-thuc-luong-tam-giac-luyen-tap-2` → ĐẠT (12 trang, không tràn hoặc lỗi); `python3 tools/build.py` → ĐẠT (2.751 KB); `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-09 – Bài 6 Hệ thức lượng trong tam giác: luyện tập thêm cho học sinh
 
 - **Yêu cầu của thầy:** Tạo thêm bài ở phần học sinh lớp 10 để củng cố tốt các công thức của Bài 6. Hệ thức lượng trong tam giác.
