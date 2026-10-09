@@ -10,7 +10,6 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 TRACKS = [
     "assets/sounds/game/tieng_chuong_chuong_trinh_rung_chuong_vang-www_tiengdong_com.mp3",
     "assets/sounds/game/nhac-vao-game-ppg35c.mp3",
-    "assets/sounds/game/nhac-vao-game-kte08w.mp3",
     "assets/sounds/game/nhac-vao-game-wb1nzi.mp3",
     "assets/sounds/game/nhac-vao-game-oi5spg.mp3",
 ]
@@ -29,6 +28,8 @@ async def main():
             bad.append(f"GAME_INTROS chưa khai báo: {relative}")
     if "files.catbox.moe" in source:
         bad.append("Game còn tải âm thanh trực tiếp từ Catbox")
+    if "kte08w" in source or (ROOT / "assets/sounds/game/nhac-vao-game-kte08w.mp3").exists():
+        bad.append("Bản nhạc kte08w chưa được xoá hoàn toàn")
 
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch()

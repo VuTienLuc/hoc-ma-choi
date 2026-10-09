@@ -13,7 +13,7 @@ const Game = (() => {
   ];
   const AVATARS=[['cao-cam','🦊','Cáo Cam'],['gau-truc','🐼','Gấu Trúc'],['tho-hong','🐰','Thỏ Hồng'],['ho-con','🐯','Hổ Con'],['chim-canh-cut','🐧','Chim Cánh Cụt'],['gau-koala','🐨','Gấu Koala'],['ky-lan','🦄','Kỳ Lân'],['ech-xanh','🐸','Ếch Xanh'],['meo-mun','🐱','Mèo Mun'],['cho-nau','🐶','Cún Nâu'],['su-tu','🦁','Sư Tử'],['rong-con','🐲','Rồng Con']];
   const GAME_BG='assets/images/game/Epic Mathematics Arena Poster-optimized.webp';
-  const GAME_INTROS=['assets/sounds/game/tieng_chuong_chuong_trinh_rung_chuong_vang-www_tiengdong_com.mp3','assets/sounds/game/nhac-vao-game-ppg35c.mp3','assets/sounds/game/nhac-vao-game-kte08w.mp3','assets/sounds/game/nhac-vao-game-wb1nzi.mp3','assets/sounds/game/nhac-vao-game-oi5spg.mp3'];
+  const GAME_INTROS=['assets/sounds/game/tieng_chuong_chuong_trinh_rung_chuong_vang-www_tiengdong_com.mp3','assets/sounds/game/nhac-vao-game-ppg35c.mp3','assets/sounds/game/nhac-vao-game-wb1nzi.mp3','assets/sounds/game/nhac-vao-game-oi5spg.mp3'];
   let gameAudio=null,lastIntro=-1,audioCtx=null,audioMuted=store.get('hoctap:game-muted')===1,assetsPreloaded=false;
   const avatarId=()=>store.get('hoctap:game-avatar')||'';
   const avatarInfo=id=>AVATARS.find(a=>a[0]===id)||AVATARS[0];

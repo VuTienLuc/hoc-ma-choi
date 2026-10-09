@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-09 – Xoá bản nhạc kte08w khỏi game
+
+- **Yêu cầu của thầy:** Xoá nguồn `https://files.catbox.moe/kte08w.wav` khỏi nhạc phát khi vào game.
+- **Kết quả:** Xoá tệp âm thanh `nhac-vao-game-kte08w.mp3` khỏi dự án và khỏi danh sách phát ngẫu nhiên. Game còn bốn âm thanh mở đầu cục bộ, tiếp tục chọn ngẫu nhiên và tránh lặp bản vừa phát. Kiểm thử âm thanh bổ sung điều kiện ngăn nguồn `kte08w` hoặc tệp cũ xuất hiện trở lại.
+- **Tệp thay đổi:** `assets/js/game.js`, `assets/sounds/game/README.md`, `assets/sounds/game/nhac-vao-game-kte08w.mp3` (đã xoá), `tools/test_game_audio.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT (38.475 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.400 câu); `python3 tools/test_game_audio.py` → ĐẠT; `python3 tools/test_game_dienthoai.py` → ĐẠT; `python3 tools/build.py` → ĐẠT (2.724 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-09 – Ôn thi vào 10, chủ đề 4: Bài toán thực tế về đại số – hình học
 
 - **Yêu cầu:** Soạn và đăng chủ đề ôn thi vào 10 kế tiếp (chủ đề 4) trọn bộ: bài học sinh, bài giảng, phiếu luyện tập in 2 trang A4 (tác vụ tự động hằng ngày).
