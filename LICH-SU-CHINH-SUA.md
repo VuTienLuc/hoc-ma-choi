@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-09 – Bài 6 Hệ thức lượng trong tam giác: luyện tập thêm cho học sinh
+
+- **Yêu cầu của thầy:** Tạo thêm bài ở phần học sinh lớp 10 để củng cố tốt các công thức của Bài 6. Hệ thức lượng trong tam giác.
+- **Kết quả:** Thêm bài riêng `he-thuc-luong-tam-giac-luyen-tap` gồm 5 dạng × 3 mức: chọn công thức phù hợp; định lí côsin; định lí sin; diện tích, bán kính và đường cao; bài toán thực tế. Bài có thẻ “Bảng công thức cần nhớ” gồm định lí côsin, định lí sin, bốn công thức diện tích, đường cao và bán kính; nêu lỗi dễ nhầm và mẹo chọn công thức. Câu hình học có hình tam giác trực quan; mức 3 yêu cầu chọn phương pháp hoặc giải nhiều bước. Toàn bộ công thức dùng LaTeX đúng và lời giải ghi rõ căn cứ.
+- **Tệp thay đổi:** `data/lop10.js`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 100 lop10` → ĐẠT (20.700 lượt sinh câu); `node tools/kiem-tra.js` → ĐẠT (38.850 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.580 câu); `python3 tools/test_congthuc.py` → ĐẠT (396 trang, 0 lỗi); `python3 tools/test_trinhchieu.py he-thuc-luong-tam-giac-luyen-tap` → ĐẠT (12 trang, không tràn, không lỗi, chữ từ 20 px); `python3 tools/build.py` → ĐẠT (2.736 KB).
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-09 – Xoá bản nhạc kte08w khỏi game
 
 - **Yêu cầu của thầy:** Xoá nguồn `https://files.catbox.moe/kte08w.wav` khỏi nhạc phát khi vào game.

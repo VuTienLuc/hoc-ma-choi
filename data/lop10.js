@@ -479,7 +479,7 @@ const VAL = {                                   // giá trị lượng giác (La
   sin:{0:'0',30:H,45:R2,60:R3,90:'1',120:R3,135:R2,150:H,180:'0'},
   cos:{0:'1',30:R3,45:R2,60:H,90:'0',120:neg(H),135:neg(R2),150:neg(R3),180:'-1'},
   tan:{0:'0',30:T3,45:'1',60:S3,90:null,120:neg(S3),135:'-1',150:neg(T3),180:'0'},
-  cot:{0:null,30:S3,45:'1',60:T3,90:'0',120:neg(T3),135:'-1',150:neg(S3),180:null}
+  cot:{0:null,30:S3,45:'1',60:T3,90:'0',120:neg(T3),135:'-1',150:neg(S3),180:null},
 };
 const NUM = {sin:d=>Math.sin(d*Math.PI/180), cos:d=>Math.cos(d*Math.PI/180)};
 const POOLV = ['0','1','-1',H,neg(H),R2,neg(R2),R3,neg(R3),S3,neg(S3),T3,neg(T3)];
@@ -655,61 +655,123 @@ const g6e = lv => {   // bài toán thực tế
 
 lesson(3,'gia-tri-luong-giac-0-180','Bài 5. Giá trị lượng giác của một góc từ 0° đến 180°','Giá trị lượng giác của góc đặc biệt; hai góc bù nhau; dấu; tính khi biết một giá trị; tính biểu thức.',[g5a,g5b,g5c,g5d]);
 
-
-
-
-
-
-
-
-const g6f = lv => {
-  if(lv === 1){ const A = pick([30,60,120]), b = R(3,10), c = R(3,10);
-    const a = Math.sqrt(b*b + c*c - 2*b*c*Math.cos(A*Math.PI/180));
-    const S = 0.5*b*c*Math.sin(A*Math.PI/180);
-    const h = (2*S)/a;
-    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)}, ${tm(`AC = ${b}`)} và ${tm(`\widehat{A} = ${DG(A)}`)}. Tính chiều cao ${tm('h_a')} kẻ từ ${tm('A')}.`,
-      tpl:blank('h_a'), ans:[Math.round(h*100)/100],
-      hint:`Tính diện tích ${tm('S = \dfrac{1}{2}bc\sin A')} và cạnh ${tm('a')} bằng định lí côsin, sau đó dùng ${tm('h_a = \dfrac{2S}{a}')}.`,
-      sol:`${tm(`S = \dfrac{1}{2}\cdot ${b}\cdot ${c}\cdot\sin ${DG(A)} = ${S.toFixed(2)}`)}. ${tm(`a = \sqrt{${b}^2 + ${c}^2 - 2\cdot ${b}\cdot ${c}\cdot\cos ${DG(A)}} = ${a.toFixed(2)}`)}. ${tm(`h_a = \dfrac{2\cdot ${S.toFixed(2)}}{${a.toFixed(2)}} = `)}${tb(h.toFixed(2))}.`});
+/* ---------------- BÀI 6. LUYỆN TẬP THÊM – CỦNG CỐ CÔNG THỨC ---------------- */
+const g6f = lv => {   // chọn đúng công thức
+  if(lv === 1){
+    const cases = [
+      {q:`Biết hai cạnh ${tm('b, c')} và góc xen giữa ${tm('A')}. Công thức nào dùng để tính cạnh ${tm('a')}?`, good:'a^2 = b^2 + c^2 - 2bc\\cos A'},
+      {q:`Biết cạnh ${tm('a')} và góc đối diện ${tm('A')}. Công thức nào dùng để tính bán kính ngoại tiếp ${tm('R')}?`, good:'R = \\dfrac{a}{2\\sin A}'},
+      {q:`Biết hai cạnh ${tm('b, c')} và góc xen giữa ${tm('A')}. Công thức nào dùng để tính diện tích ${tm('S')}?`, good:'S = \\dfrac{1}{2}bc\\sin A'}
+    ];
+    const x = pick(cases), wrong = ['S = pr','S = \\sqrt{p(p-a)(p-b)(p-c)}','\\dfrac{a}{\\sin A} = \\dfrac{b}{\\cos B}'];
+    return QC({text:x.q, opts:[x.good,...wrong].map(tm), ans:tm(x.good),
+      hint:'Đối chiếu dữ kiện đã biết với đại lượng cần tìm; khi dùng định lí côsin hoặc công thức diện tích, góc phải xen giữa hai cạnh đã cho.',
+      sol:`Dữ kiện khớp trực tiếp với công thức ${tb(x.good)}.`});
   }
-  if(lv === 2){ const k = R(1,2), [a,b,c] = pick(HERON).map(x=>x*k);
-    const ma2 = (2*(b*b + c*c) - a*a)/4;
-    const ma = Math.sqrt(ma2);
-    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC = ${a}`)}, ${tm(`CA = ${b}`)}, ${tm(`AB = ${c}`)}. Tính độ dài đường trung tuyến ${tm('m_a')} kẻ từ ${tm('A')}.`,
-      tpl:blank('m_a'), ans:[Math.round(ma*100)/100],
-      hint:`Dùng công thức đường trung tuyến: ${tm('m_a^2 = \dfrac{2(b^2 + c^2) - a^2}{4}')}.`,
-      sol:`${tm(`m_a^2 = \dfrac{2(${b}^2 + ${c}^2) - ${a}^2}{4} = \dfrac{${2*(b*b+c*c)-a*a}}{4} = ${ma2}`)}. Vậy ${tm('m_a = ')}${tb(ma.toFixed(2))}.`});
+  if(lv === 2){
+    const cases = [
+      {q:`Từ định lí côsin, biểu thức đúng của ${tm('\\cos A')} là`, good:'\\cos A = \\dfrac{b^2+c^2-a^2}{2bc}', bad:['\\cos A = \\dfrac{a^2+b^2-c^2}{2bc}','\\cos A = \\dfrac{b^2+c^2-a^2}{bc}','\\cos A = \\dfrac{a^2-b^2-c^2}{2bc}']},
+      {q:`Từ công thức ${tm('S = pr')}, biểu thức đúng của bán kính nội tiếp là`, good:'r = \\dfrac{S}{p}', bad:['r = \\dfrac{p}{S}','r = Sp','r = \\dfrac{2S}{p}']},
+      {q:`Từ công thức ${tm('S = \\dfrac{abc}{4R}')}, biểu thức đúng của ${tm('R')} là`, good:'R = \\dfrac{abc}{4S}', bad:['R = \\dfrac{4S}{abc}','R = \\dfrac{abc}{2S}','R = \\dfrac{ab}{4S}']}
+    ];
+    const x = pick(cases);
+    return QC({text:x.q, opts:[x.good,...x.bad].map(tm), ans:tm(x.good), hint:'Chuyển vế bằng cách nhân hoặc chia cả hai vế cho cùng một đại lượng khác 0.',
+      sol:`Biến đổi công thức đã cho, ta được ${tb(x.good)}.`});
   }
-  const k = R(1,2), [a,b,c] = pick(HERON).map(x=>x*k);
-  const p = (a+b+c)/2, S = Math.sqrt(p*(p-a)*(p-b)*(p-c)), h = (2*S)/a, ma = Math.sqrt((2*(b*b+c*c)-a*a)/4);
-  return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC = ${a}`)}, ${tm(`CA = ${b}`)}, ${tm(`AB = ${c}`)}. Tính chiều cao ${tm('h_a')} và đường trung tuyến ${tm('m_a')} kẻ từ ${tm('A')}.`,
-    tpl:blank('h_a') + '; ' + blank('m_a'), ans:[Math.round(h*100)/100, Math.round(ma*100)/100],
-    hint:`Sử dụng công thức diện tích Heron để tìm ${tm('h_a')} và công thức trung tuyến để tìm ${tm('m_a')}.`,
-    sol:`${tm(`S = ${S.toFixed(2)} \Rightarrow h_a = \dfrac{2S}{a} = `)}${tb(h.toFixed(2))}. ${tm(`m_a = \sqrt{\dfrac{2(${b}^2 + ${c}^2) - ${a}^2}{4}} = `)}${tb(ma.toFixed(2))}.`});
+  const cases = [
+    {q:`Tam giác đã biết độ dài cả ba cạnh ${tm('a, b, c')}. Muốn tính diện tích, nên dùng công thức nào trực tiếp nhất?`, good:'S = \\sqrt{p(p-a)(p-b)(p-c)}'},
+    {q:`Tam giác đã biết ${tm('a, A, B')}. Muốn tính cạnh ${tm('b')}, nên dùng công thức nào trực tiếp nhất?`, good:'\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B}'},
+    {q:`Tam giác đã biết ${tm('b, c, A')}. Muốn tính cạnh ${tm('a')}, nên dùng công thức nào trực tiếp nhất?`, good:'a^2 = b^2+c^2-2bc\\cos A'},
+    {q:`Tam giác đã biết diện tích ${tm('S')} và nửa chu vi ${tm('p')}. Muốn tính bán kính nội tiếp, nên dùng công thức nào trực tiếp nhất?`, good:'S = pr'}
+  ];
+  const x = pick(cases), pool = ['S = \\sqrt{p(p-a)(p-b)(p-c)}','\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B}','a^2 = b^2+c^2-2bc\\cos A','S = pr'];
+  return QC({text:x.q, opts:pool.map(tm), ans:tm(x.good), hint:'Chọn công thức chứa đại lượng cần tìm và các đại lượng đề bài đã cho, sao cho số bước trung gian ít nhất.',
+    sol:`Công thức dùng trực tiếp nhất là ${tb(x.good)}.`});
 };
-const g6g = lv => {
-  if(lv === 1){ const AB = R(40,100), A = pick([40,50,60,70]), B = pick([40,50,60,70]);
-    const C = 180 - A - B, BC = (AB * Math.sin(A*Math.PI/180)) / Math.sin(C*Math.PI/180);
-    return QB({text:`Để đo khoảng cách giữa hai điểm ${tm('B, C')} bị ngăn cách bởi một con sông, người ta chọn điểm ${tm('A')} trên bờ sao cho ${tm(`AB = ${AB}`)} m, đo được ${tm(`\widehat{CAB} = ${DG(A)}`)} và ${tm(`\widehat{CBA} = ${DG(B)}`)}. Tính khoảng cách ${tm('BC')}.`,
-      tpl:blank('BC'), ans:[Math.round(BC*100)/100],
-      hint:`Tính góc ${tm('\widehat{C} = 180^\circ - \widehat{A} - \widehat{B}')} rồi dùng định lí sin: ${tm('\dfrac{BC}{\sin A} = \dfrac{AB}{\sin C}')}.`,
-      sol:`${tm(`\widehat{C} = 180^\circ - ${DG(A)} - ${DG(B)} = ${DG(C)}`)}. ${tm(`BC = \dfrac{${AB}\cdot\sin ${DG(A)}}{\sin ${DG(C)}} = `)}${tb(BC.toFixed(2))} m.`});
+
+const g6g = lv => {   // định lí côsin
+  if(lv === 1){ const A = pick([60,90]), [b,c,a] = pick(A===60?P60:P90);
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`AB=${c},\\ AC=${b},\\ A=${DG(A)}`)}. Tính ${tm('BC')}.`,
+      fig:triSVG({a,b,c,la:'?',lb:String(b),lc:String(c),gA:`${A}°`}), tpl:blank('BC'), ans:[a],
+      hint:`Áp dụng định lí côsin ${tm('BC^2=AB^2+AC^2-2\\cdot AB\\cdot AC\\cos A')}.`,
+      sol:`Theo định lí côsin, ${tm(`BC^2=${lawA(b,c,A)}=${a*a}`)}. Vì độ dài dương nên ${tm('BC=')} ${tb(a)}.`});
   }
-  if(lv === 2){ let AB = R(30,100), a1, a2; do { a1 = pick([30,40,50]); a2 = pick([50,60,70]); } while(a1 === a2);
-    const H = AB / (1/Math.tan(a1*Math.PI/180) - 1/Math.tan(a2*Math.PI/180));
-    return QB({text:`Để đo chiều cao một tòa tháp, người ta chọn hai điểm ${tm('A, B')} thẳng hàng với chân tháp. Khoảng cách ${tm(`AB = ${AB}`)} m. Từ ${tm('A')} nhìn đỉnh tháp với góc ${tm(`\widehat{A} = ${DG(a1)}`)} và từ ${tm('B')} nhìn với góc ${tm(`\widehat{B} = ${DG(a2)}`)}. Tính chiều cao tháp.`,
-      tpl:blank('H'), ans:[Math.round(H*100)/100],
-      hint:`Dùng công thức ${tm('H = \dfrac{AB}{\cot A - \cot B}')}.`,
-      sol:`${tm(`H = \dfrac{${AB}}{\cot ${DG(a1)} - \cot ${DG(a2)}} = `)}${tb(H.toFixed(2))} m.`});
+  if(lv === 2){ const A = pick([60,90,120]), [b,c,a] = pick(A===60?P60:A===90?P90:P120), num=b*b+c*c-a*a, den=2*b*c;
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC=${a},\\ CA=${b},\\ AB=${c}`)}. Tính ${tm('\\cos A')}.`,
+      fig:triSVG({a,b,c,la:String(a),lb:String(b),lc:String(c),gA:'?'}), tpl:fblank('\\cos A'), ans:[{frac:[num,den],mode:'eq'}],
+      hint:`Dùng hệ quả định lí côsin ${tm('\\cos A=\\dfrac{b^2+c^2-a^2}{2bc}')}.`,
+      sol:`Theo hệ quả định lí côsin, ${tm(`\\cos A=\\dfrac{${b}^2+${c}^2-${a}^2}{2\\cdot${b}\\cdot${c}}=${tf(num,den)}=`)} ${tb(tfrac(num,den))}.`});
   }
-  const b = R(20,60), c = R(20,60), A = pick([40,50,60,70]), S = 0.5*b*c*Math.sin(A*Math.PI/180);
-  return QB({text:`Một mảnh đất hình tam giác có hai cạnh dài ${tm(`AB = ${c}`)} m và ${tm(`AC = ${b}`)} m, góc xen giữa ${tm(`\widehat{A} = ${DG(A)}`)}. Tính diện tích mảnh đất.`,
-    tpl:blank('S'), ans:[Math.round(S*100)/100],
-    hint:`Dùng công thức diện tích ${tm('S = \dfrac{1}{2}bc\sin A')}.`,
-    sol:`${tm(`S = \dfrac{1}{2}\cdot ${b}\cdot ${c}\cdot\sin ${DG(A)} = `)}${tb(S.toFixed(2))} m².`});
+  const kind = pick(['nhọn','vuông','tù']); let a,b,c,d;
+  do{
+    if(kind==='vuông'){ const [x,y,z]=pick(TRIP), k=R(1,2); [c,b,a]=[x*k,y*k,z*k]; }
+    else [c,b,a]=[R(3,14),R(3,14),R(3,14)].sort((x,y)=>x-y);
+    d=b*b+c*c-a*a;
+  }while(a>=b+c || (kind==='nhọn'&&d<=0) || (kind==='tù'&&d>=0));
+  const ans = d>0?'Tam giác nhọn':d===0?'Tam giác vuông':'Tam giác tù';
+  return QC({text:`Tam giác có ba cạnh ${tm(`${c},\\ ${b},\\ ${a}`)} thuộc loại nào?`, opts:['Tam giác nhọn','Tam giác vuông','Tam giác tù','Không tồn tại tam giác'], ans, keepOrder:true,
+    hint:`Cạnh ${tm(a)} lớn nhất. So sánh ${tm('a^2')} với ${tm('b^2+c^2')} để xét dấu côsin của góc lớn nhất.`,
+    sol:`Ta có ${tm(`b^2+c^2-a^2=${b*b}+${c*c}-${a*a}=${d}`)}. Đại lượng này ${d>0?'dương':d===0?'bằng 0':'âm'}, nên góc lớn nhất ${d>0?'nhọn':d===0?'vuông':'tù'}. Vậy ${tb(`\\text{${ans}}`)}.`});
 };
-lesson(3,'he-thuc-luong-tam-giac','Bài 6. Hệ thức lượng trong tam giác','Định lí côsin, định lí sin; tính góc, nhận dạng tam giác; diện tích, bán kính R, r; bài toán thực tế.',[g6a,g6b,g6c,g6d,g6e,g6f,g6g]);
+
+const g6h = lv => {   // định lí sin
+  if(lv === 1){ const a=R(2,15);
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC=${a}`)} và ${tm('A=30^\\circ')}. Tính bán kính đường tròn ngoại tiếp ${tm('R')}.`, tpl:blank('R'), ans:[a],
+      hint:`Định lí sin cho ${tm('\\dfrac{a}{\\sin A}=2R')}.`,
+      sol:`Theo định lí sin, ${tm(`R=\\dfrac{a}{2\\sin A}=\\dfrac{${a}}{2\\sin30^\\circ}=\\dfrac{${a}}{2\\cdot\\frac12}=${a}`)}. Vậy ${tb(`R=${a}`)}.`});
+  }
+  if(lv === 2){ const a=R(2,10), b=2*a;
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC=${a},\\ A=30^\\circ,\\ B=90^\\circ`)}. Tính ${tm('AC')}.`, tpl:blank('AC'), ans:[b],
+      hint:`Dùng định lí sin ${tm('\\dfrac{BC}{\\sin A}=\\dfrac{AC}{\\sin B}')}.`,
+      sol:`Theo định lí sin, ${tm(`AC=\\dfrac{BC\\sin B}{\\sin A}=\\dfrac{${a}\\cdot\\sin90^\\circ}{\\sin30^\\circ}=\\dfrac{${a}\\cdot1}{\\frac12}=${b}`)}. Vậy ${tb(`AC=${b}`)}.`});
+  }
+  const k=R(1,8), a=3*k;
+  return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`BC=${a},\\ B=30^\\circ,\\ C=90^\\circ`)}. Tính ${tm('AC')}.`,
+    tpl:`${tm('AC=')} [_] ${tm('\\sqrt3')}`, ans:[k], hint:`Trước hết tính ${tm('A=180^\\circ-B-C')}, sau đó dùng định lí sin.`,
+    sol:`Tổng ba góc của tam giác bằng ${tm('180^\\circ')}, nên ${tm('A=180^\\circ-30^\\circ-90^\\circ=60^\\circ')}. Theo định lí sin, ${tm(`AC=\\dfrac{BC\\sin B}{\\sin A}=\\dfrac{${a}\\cdot\\frac12}{\\frac{\\sqrt3}{2}}=${k}\\sqrt3`)}. Vậy ${tb(`AC=${k}\\sqrt3`)}.`});
+};
+
+const g6i = lv => {   // diện tích, bán kính và đường cao
+  if(lv === 1){ const A=pick([30,90]); let b,c; do{b=R(2,14);c=R(2,14)}while((b*c)%(A===30?4:2)); const S=A===30?b*c/4:b*c/2;
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`AB=${c},\\ AC=${b},\\ A=${DG(A)}`)}. Tính diện tích ${tm('S')}.`, tpl:blank('S'), ans:[S],
+      hint:`Dùng công thức diện tích theo hai cạnh và góc xen giữa: ${tm('S=\\dfrac12bc\\sin A')}.`,
+      sol:`Theo công thức diện tích, ${tm(`S=\\dfrac12\\cdot${b}\\cdot${c}\\cdot\\sin${DG(A)}=${S}`)}. Vậy ${tb(`S=${S}`)}.`});
+  }
+  const k=R(1,2), sides=pick(HERON).map(x=>x*k), [a,b,c]=sides, p=(a+b+c)/2, S=heronS(sides);
+  if(lv === 2) return QB({text:`Tính diện tích tam giác có ba cạnh ${tm(`${a},\\ ${b},\\ ${c}`)}.`, tpl:blank('S'), ans:[S],
+    hint:`Tính nửa chu vi ${tm('p')}, rồi dùng công thức Heron ${tm('S=\\sqrt{p(p-a)(p-b)(p-c)}')}.`,
+    sol:`Nửa chu vi: ${tm(`p=\\dfrac{${a}+${b}+${c}}2=${p}`)}. Theo công thức Heron, ${tm(`S=\\sqrt{${p}\\cdot${p-a}\\cdot${p-b}\\cdot${p-c}}=${S}`)}. Vậy ${tb(`S=${S}`)}.`});
+  const askR=Math.random()<.5, n=askR?a*b*c:S, d=askR?4*S:p;
+  return QB({text:`Tam giác có ba cạnh ${tm(`${a},\\ ${b},\\ ${c}`)}. Tính bán kính ${askR?'ngoại tiếp '+tm('R'):'nội tiếp '+tm('r')}.`, tpl:fblank(askR?'R':'r'), ans:[{frac:[n,d],mode:'eq'}],
+    hint:`Tính diện tích bằng công thức Heron, rồi dùng ${askR?tm('S=\\dfrac{abc}{4R}'):tm('S=pr')}.`,
+    sol:`Ta có ${tm(`p=${p}`)} và theo Heron, ${tm(`S=${S}`)}. ${askR?`Từ ${tm('S=\\dfrac{abc}{4R}')}, suy ra ${tm(`R=\\dfrac{${a}\\cdot${b}\\cdot${c}}{4\\cdot${S}}=`)}`:`Từ ${tm('S=pr')}, suy ra ${tm(`r=\\dfrac{${S}}{${p}}=`)}`} ${tb(tfrac(n,d))}.`});
+};
+
+const g6j = lv => {   // bài toán thực tế tổng hợp
+  if(lv < 3){ const A=lv===1?90:120, k=R(1,3), [b0,c0,a0]=pick(A===90?P90:P120), [b,c,a]=[b0*k,c0*k,a0*k];
+    const text=lv===1
+      ? `Hai con đường thẳng xuất phát từ ${tm('A')} vuông góc với nhau. Một bạn đi từ ${tm('A')} đến ${tm('B')} được <b>${c} m</b>, bạn khác đi từ ${tm('A')} đến ${tm('C')} được <b>${b} m</b>. Tính khoảng cách ${tm('BC')}.`
+      : `Từ điểm quan sát ${tm('A')}, hai cột mốc ${tm('B,C')} tạo góc ${tm('120^\\circ')}. Biết ${tm(`AB=${c}`)} m và ${tm(`AC=${b}`)} m. Tính ${tm('BC')}.`;
+    return QB({text, fig:triSVG({a,b,c,la:'?',lb:`${b} m`,lc:`${c} m`,gA:`${A}°`}), tpl:'[_] m', ans:[a],
+      hint:'Mô hình là tam giác biết hai cạnh và góc xen giữa; dùng định lí côsin.',
+      sol:`Theo định lí côsin, ${tm(`BC^2=${lawA(b,c,A)}=${a*a}`)}. Vì ${tm('BC')} là độ dài nên ${tm('BC=')} ${tb(`${a}\\text{ m}`)}.`});
+  }
+  const k=R(1,2), sides=pick(HERON).map(x=>x*k), [a,b,c]=sides, p=(a+b+c)/2, S=heronS(sides), price=pick([20,25,30,40]), cost=S*price;
+  return QB({text:`Một khu đất hình tam giác có ba cạnh ${tm(`${a}\\text{ m},\\ ${b}\\text{ m},\\ ${c}\\text{ m}`)}. Chi phí trồng cỏ là <b>${price} nghìn đồng/m²</b>. Tính tổng chi phí trồng cỏ.`, tpl:'[_] nghìn đồng', ans:[cost], wide:true,
+    hint:'Tính diện tích khu đất bằng công thức Heron, rồi nhân diện tích với chi phí cho mỗi mét vuông.',
+    sol:`Nửa chu vi: ${tm(`p=\\dfrac{${a}+${b}+${c}}2=${p}`)}. Theo công thức Heron, ${tm(`S=\\sqrt{${p}\\cdot${p-a}\\cdot${p-b}\\cdot${p-c}}=${S}\\text{ m}^2`)}. Chi phí là ${tm(`${S}\\cdot${price}=${cost}`)} nghìn đồng. Đáp số: ${tb(`${fmt(cost)}\\text{ nghìn đồng}`)}.`});
+};
+
+
+lesson(3,'he-thuc-luong-tam-giac','Bài 6. Hệ thức lượng trong tam giác','Định lí côsin, định lí sin; tính góc, nhận dạng tam giác; diện tích, bán kính R, r; bài toán thực tế.',[g6a,g6b,g6c,g6d,g6e]);
+lesson(3,'he-thuc-luong-tam-giac-luyen-tap','Bài 6. Hệ thức lượng trong tam giác – Luyện tập thêm','Chọn đúng công thức; định lí côsin, định lí sin; diện tích; bán kính, đường cao; bài toán thực tế.',[g6f,g6g,g6h,g6i,g6j], {introTitle:'Bảng công thức cần nhớ', intro:[
+  {t:'Định lí côsin', b:`${tm('a^2=b^2+c^2-2bc\\cos A')}; hệ quả ${tm('\\cos A=\\dfrac{b^2+c^2-a^2}{2bc}')}.`, warn:'Cạnh a phải đối diện góc A; góc A phải xen giữa hai cạnh b và c.', ex:'Biết hai cạnh và góc xen giữa: nghĩ đến định lí côsin trước.'},
+  {t:'Định lí sin', b:`${tm('\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R')}.`, warn:'Luôn ghép đúng cạnh với góc đối diện.', ex:'Biết một cặp cạnh – góc đối diện và thêm một cạnh hoặc góc: dùng định lí sin.'},
+  {t:'Diện tích tam giác', b:`${tm('S=\\dfrac12bc\\sin A=\\sqrt{p(p-a)(p-b)(p-c)}=pr=\\dfrac{abc}{4R}')}.`, warn:`Trong công thức Heron, ${tm('p')} là nửa chu vi.`, ex:'Chọn công thức có nhiều dữ kiện đề bài đã cho nhất để giảm số bước.'},
+  {t:'Đường cao và bán kính', b:`${tm('h_a=\\dfrac{2S}{a}')}, ${tm('r=\\dfrac{S}{p}')}, ${tm('R=\\dfrac{abc}{4S}')}.`, warn:'Độ dài, diện tích và bán kính luôn dương.', ex:'Nếu chưa thấy công thức dùng ngay, hãy tính diện tích làm đại lượng trung gian.'}
+]});
 lesson(3,'on-tap-c3','Ôn tập chương III','Tổng hợp: giá trị lượng giác, định lí côsin, định lí sin, diện tích, bài toán thực tế.',[g5b,g5c,g6a,g6c,g6d,g6e]);
+}
 
 /* =====================================================================
    CHỦ ĐỀ 4. ÔN TẬP GIỮA HỌC KÌ I (Chương I + II + III) – có hình vẽ
@@ -799,6 +861,5 @@ lesson(4, 'on-tap-giua-ki-1', 'Ôn tập giữa học kì I', 'Tổng hợp Chư
   K('Chương I', `Phủ định ${tm('\\forall \\leftrightarrow \\exists')} và đổi dấu so sánh; ${tm('\\cap, \\cup, \\setminus')} trên trục số; ${tm('n(A \\cup B) = n(A) + n(B) - n(A \\cap B)')}.`, 'Xét kĩ đầu mút (ngoặc tròn/vuông).', 'Vẽ trục số hoặc sơ đồ Venn trước khi tính.'),
   K('Chương II', 'Điểm thử xác định phía miền nghiệm; nét đứt ứng với dấu ngặt; tối ưu: tính giá trị tại các đỉnh miền nghiệm.', `Đọc kĩ “tối đa/ít nhất” để chọn ${tm('\\le')} hay ${tm('\\ge')}.`, 'Gạch bỏ phần không thoả mãn để thấy miền nghiệm.'),
   K('Chương III', `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}, ${tm('\\dfrac{a}{\\sin A} = 2R')}, ${tm('S = \\dfrac{1}{2}bc\\sin A')}, công thức Heron.`, 'Góc tù: côsin, tang âm.', 'Bài đo đạc: vẽ tam giác, dùng góc ngoài để tìm góc ở ngọn.')]});
-}
 }
 })();
