@@ -529,4 +529,37 @@ Lecture.addPractice('lop9','on-thi-xac-suat',[
    sol:[`Gọi ${m('t')} là số bi đỏ thêm vào: có ${m('4 + t')} bi đỏ trong tổng ${m('12 + t')} bi.`,`${m('\\dfrac{4 + t}{12 + t} = \\dfrac{3}{5}')}. Nhân chéo: ${m('5(4 + t) = 3(12 + t)')}, tức ${m('20 + 5t = 36 + 3t')}.`,`Suy ra ${m('2t = 16')}, vậy ${m('t = 8')}.`],ans:`Thêm ${tb('8')} viên bi đỏ.`,lines:6},
  ]},
 ]);
+Lecture.addPractice('lop9','on-thi-thuc-te-dai-so-hinh-hoc',[
+ {dang:'Chu vi, diện tích, chi phí',items:[
+  {de:`Nền phòng hình chữ nhật dài 8 m, rộng 6 m được lát kín bằng gạch vuông cạnh 50 cm (không hao hụt). Hỏi cần bao nhiêu viên gạch?`,
+   sol:[`Diện tích nền: ${m('8 \\cdot 6 = 48')} m². Một viên gạch: ${m('0{,}5^2 = 0{,}25')} m².`,`Số viên gạch: ${m('48 : 0{,}25 = 192')}.`],ans:`${tb('192')} viên gạch.`,lines:2},
+  {hard:true,de:`Khu đất hình chữ nhật có chu vi 64 m, chiều dài hơn chiều rộng 8 m. Người ta trồng cỏ kín khu đất, giá 30 nghìn đồng mỗi mét vuông. Tính tiền trồng cỏ.`,
+   sol:[`Nửa chu vi: ${m('l + w = 32')}; theo đề ${m('l - w = 8')}. Suy ra ${m('l = \\dfrac{32 + 8}{2} = 20')} m, ${m('w = 12')} m.`,`Diện tích: ${m('20 \\cdot 12 = 240')} m². Tiền: ${m('240 \\cdot 30 = 7200')} nghìn đồng.`],ans:`${tb('7 200')} nghìn đồng.`,lines:4},
+ ]},
+ {dang:'Hình tròn thực tế (lấy π ≈ 3,14)',items:[
+  {de:`Hồ nước hình tròn có đường kính 100 m. Bạn An chạy đúng 3 vòng quanh bờ hồ. Lấy ${m('\\pi \\approx 3{,}14')}, tính quãng đường An đã chạy.`,
+   sol:[`Chu vi bờ hồ: ${m('C = \\pi d \\approx 3{,}14 \\cdot 100 = 314')} m.`,`Ba vòng: ${m('314 \\cdot 3 = 942')} m.`],ans:`${tb('942')} m.`,lines:2},
+  {de:`Hồ nước hình tròn bán kính 20 m, có lối đi rộng 10 m bao quanh hồ. Lấy ${m('\\pi \\approx 3{,}14')}, tính diện tích lối đi.`,
+   sol:[`Bán kính mép ngoài lối đi: ${m('20 + 10 = 30')} m.`,`${m('S = \\pi(30^2 - 20^2) \\approx 3{,}14 \\cdot 500 = 1570')} m².`],ans:`${tb('1570')} m².`,lines:2},
+ ]},
+ {dang:'Hình quạt, quạt vành khuyên',items:[
+  {de:`Vòi tưới cây quay trong góc ${m('45^\\circ')} và phun nước xa nhất 40 m (vùng tưới là hình quạt). Tính diện tích vùng được tưới, viết dạng ${m('k\\pi')}.`,
+   sol:[`${m('S = \\dfrac{\\pi R^2 n}{360} = \\dfrac{\\pi \\cdot 40^2 \\cdot 45}{360}')}.`,`${m('= \\dfrac{1600 \\cdot 45}{360}\\pi = 200\\pi')}.`],ans:`${tb('200\\pi')} m².`,lines:2},
+  {hard:true,de:`Mảnh vườn hình quạt tròn góc ở tâm ${m('120^\\circ')}, diện tích ${m('300\\pi')} m². Tính độ dài hàng rào quanh mảnh vườn (cung và hai bán kính), viết dạng ${m('a\\pi + b')}.`,
+   sol:[`${m('\\dfrac{\\pi R^2 \\cdot 120}{360} = 300\\pi')} nên ${m('R^2 = 900')}, ${m('R = 30')} m.`,`Độ dài cung: ${m('l = \\dfrac{\\pi \\cdot 30 \\cdot 120}{180} = 20\\pi')} m; hai bán kính: ${m('2 \\cdot 30 = 60')} m.`],ans:`${tb('20\\pi + 60')} (m).`,lines:4},
+ ]},
+ {dang:'Hình ghép, phần tô, viên phân',items:[
+  {de:`Viên gạch men hình vuông cạnh 40 cm có hoa văn là hình tròn nội tiếp hình vuông. Lấy ${m('\\pi \\approx 3{,}14')}, tính diện tích phần còn lại của viên gạch (ngoài hình tròn).`,
+   sol:[`Hình vuông: ${m('40^2 = 1600')} cm². Hình tròn bán kính 20 cm: ${m('3{,}14 \\cdot 20^2 = 1256')} cm².`,`Phần còn lại: ${m('1600 - 1256 = 344')} cm².`],ans:`${tb('344')} cm².`,lines:2},
+  {de:`Tấm kính gồm hình chữ nhật rộng 40 cm, cao 60 cm, ghép phía trên với nửa hình tròn đường kính 40 cm. Lấy ${m('\\pi \\approx 3{,}14')}, tính diện tích tấm kính.`,
+   sol:[`Hình chữ nhật: ${m('40 \\cdot 60 = 2400')} cm². Nửa hình tròn bán kính 20: ${m('\\dfrac{3{,}14 \\cdot 20^2}{2} = 628')} cm².`,`Diện tích: ${m('2400 + 628 = 3028')} cm².`],ans:`${tb('3028')} cm².`,lines:2},
+ ]},
+ {dang:'Lập phương trình từ hình học',items:[
+  {de:`Mảnh vườn hình chữ nhật có nửa chu vi 25 m và diện tích 150 m². Tính chiều dài mảnh vườn.`,
+   sol:[`Gọi ${m('x')} (m) là một cạnh, cạnh kia ${m('25 - x')}: ${m('x(25 - x) = 150')}, tức ${m('x^2 - 25x + 150 = 0')}.`,`${m('\\Delta = 625 - 600 = 25')}, ${m('x = \\dfrac{25 \\pm 5}{2}')}, được 15 hoặc 10. Chiều dài là cạnh lớn hơn.`],ans:`${tb('15 m')}.`,lines:3},
+  {hard:true,de:`Mảnh vườn hình chữ nhật dài 20 m, rộng 12 m. Người ta làm lối đi rộng ${m('x')} m bao quanh ngoài vườn; diện tích lối đi là 144 m². Tính ${m('x')}.`,
+   sol:[`Hình lớn: ${m('(20 + 2x)(12 + 2x)')}. Diện tích lối đi: ${m('(20 + 2x)(12 + 2x) - 240 = 144')}.`,`Khai triển: ${m('4x^2 + 64x - 144 = 0')}, tức ${m('x^2 + 16x - 36 = 0')}.`,`${m('\\Delta\' = 64 + 36 = 100')}, ${m('x = -8 \\pm 10')}: ${m('x = 2')} (nhận); ${m('x = -18')} (loại).`],ans:`${tb('x = 2')} m.`,lines:5},
+ ]},
+]);
+
 })();

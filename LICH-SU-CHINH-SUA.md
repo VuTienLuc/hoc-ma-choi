@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-09 – Ôn thi vào 10, chủ đề 4: Bài toán thực tế về đại số – hình học
+
+- **Yêu cầu:** Soạn và đăng chủ đề ôn thi vào 10 kế tiếp (chủ đề 4) trọn bộ: bài học sinh, bài giảng, phiếu luyện tập in 2 trang A4 (tác vụ tự động hằng ngày).
+- **Kết quả:** Thêm bài `on-thi-thuc-te-dai-so-hinh-hoc` (5 dạng gTt1–gTt5 × 3 mức, có thẻ Kiến thức cần nhớ · Lưu ý · Mẹo, có hình SVG), bài giảng cùng mã (3 trang kiến thức, 5 dạng × 1 ví dụ, tổng kết) và phiếu luyện tập 10 bài (7 cơ bản + 3 ★) in vừa đúng 2 trang A4 cả bản học sinh lẫn bản lời giải; đã xuất hai PDF.
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9` → ĐẠT; `python3 tools/test.py` → ĐẠT (23.400 câu); `python3 tools/test_phieu_tren_lop.py` → ĐẠT (37/37); `python3 tools/test_baigiang.py lop9` → ĐẠT; `python3 tools/build.py` → đã tạo; PDF phiếu: `pdfinfo` 2 trang mỗi bản, không merror.
+- **Việc thủ công:** Không có. Chủ đề kế tiếp: 5 Giải bài toán bằng lập phương trình/PT bậc hai.
+
 ### 2026-10-08 – Pikachu suy luận 15 phút và xoá gợi ý
 
 - **Yêu cầu của thầy:** Các câu suy luận trong Pikachu cần 15 phút cho mỗi game và xoá chức năng gợi ý.

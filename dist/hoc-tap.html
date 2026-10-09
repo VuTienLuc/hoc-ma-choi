@@ -10089,6 +10089,157 @@ lesson(6,'on-thi-xac-suat','Đại số 3. Xác suất của biến cố trong m
 ]});
 }
 
+
+/* =====================================================================
+   ÔN THI VÀO 10 – Đại số 4. Bài toán thực tế về đại số – hình học
+   Dạng 1 chu vi, diện tích, lát gạch, chi phí · Dạng 2 hình tròn thực tế (π ≈ 3,14)
+   Dạng 3 hình quạt, quạt vành khuyên thực tế · Dạng 4 hình ghép, phần tô, viên phân
+   Dạng 5 lập phương trình từ hình học (chu vi – diện tích, lối đi)
+   ===================================================================== */
+{
+const P14 = tm('\\pi \\approx 3{,}14');
+const dec = x => String(Math.round(x*1000)/1000).replace('.', ',');
+const p14 = x => Math.round(x*314)/100;
+const svgTxt = (x,y,s,fs=17) => `<text class="sv-txt" x="${x}" y="${y}" font-size="${fs}" text-anchor="middle">${s}</text>`;
+const rectFig = (la,lb) => `<svg viewBox="0 0 320 190" role="img" aria-label="Hình chữ nhật"><rect class="sv-ink" stroke-width="3" x="50" y="35" width="220" height="110" style="fill:var(--primary-soft)"/>${svgTxt(160,170,la)}${svgTxt(24,95,lb)}</svg>`;
+const trapFig = (B,b,h) => `<svg viewBox="0 0 320 190" role="img" aria-label="Hình thang"><polygon class="sv-ink" stroke-width="3" points="30,150 290,150 230,40 90,40" style="fill:var(--primary-soft)"/><line class="sv-ink" stroke-width="2" stroke-dasharray="6 4" x1="230" y1="40" x2="230" y2="150"/>${svgTxt(160,175,B)}${svgTxt(160,28,b)}${svgTxt(262,100,h)}</svg>`;
+const secAt = (r,a) => [r*Math.cos(a*Math.PI/180), r*Math.sin(a*Math.PI/180)];
+
+/* Dạng 1. Chu vi, diện tích, lát gạch, chi phí */
+const gTt1 = lv => {
+  if(lv===1){
+    const c = pick([50,50,20]), a = c===50 ? R(4,12) : R(3,6), b = c===50 ? R(3,10) : R(3,5);
+    const one = (c/100)*(c/100), n = Math.round(a*b/one);
+    return QB({text:`Nền một căn phòng hình chữ nhật dài ${a} m, rộng ${b} m được lát kín bằng gạch hình vuông cạnh ${c} cm (không tính hao hụt). Hỏi cần bao nhiêu viên gạch?`,
+      tpl:`Số viên gạch: [_]`, ans:[n], fig:rectFig(`${a} m`,`${b} m`),
+      hint:`Tính diện tích nền (m²) và diện tích một viên gạch (đổi cm sang m), rồi chia diện tích nền cho diện tích một viên.`,
+      sol:`Diện tích nền: ${tm(`${a}\\cdot ${b} = ${a*b}`)} m².<br>Cạnh viên gạch ${c} cm ${tm(`= ${dec(c/100)}`)} m nên diện tích một viên: ${tm(`${dec(c/100)}^2 = ${dec(one)}`)} m².<br>Số viên gạch: ${tm(`${a*b} : ${dec(one)} =`)} ${tb(n)} viên.`});
+  }
+  if(lv===2){
+    let B,b,h; do{ B=R(10,24); b=R(4,B-3); h=R(4,12); }while(((B+b)*h)%2!==0);
+    const g = pick([20,25,30,40,50]), S = (B+b)*h/2;
+    return QB({text:`Một mảnh vườn hình thang có hai đáy dài ${B} m và ${b} m, chiều cao ${h} m. Người ta trồng rau trên toàn bộ mảnh vườn, chi phí ${g} nghìn đồng cho mỗi mét vuông. Tính tổng chi phí (đơn vị: nghìn đồng).`,
+      tpl:`Chi phí: [_] nghìn đồng`, ans:[S*g], fig:trapFig(`${B} m`,`${b} m`,`${h} m`),
+      hint:`Tính diện tích hình thang bằng nửa tổng hai đáy nhân chiều cao, rồi nhân với giá tiền mỗi mét vuông.`,
+      sol:`Diện tích mảnh vườn: ${tm(`S = \\dfrac{(${B} + ${b})\\cdot ${h}}{2} = ${S}`)} m².<br>Chi phí: ${tm(`${S}\\cdot ${g} =`)} ${tb(S*g)} nghìn đồng.`});
+  }
+  const w = R(6,15), d = R(2,8), l = w + d, half = l + w, g = pick([20,30,50]), S = l*w;
+  return QB({text:`Một khu đất hình chữ nhật có chu vi ${2*half} m, chiều dài hơn chiều rộng ${d} m. Người ta trồng cỏ kín khu đất, chi phí ${g} nghìn đồng cho mỗi mét vuông. Tính tổng chi phí (đơn vị: nghìn đồng).`,
+    tpl:`Chi phí: [_] nghìn đồng`, ans:[S*g],
+    hint:`Nửa chu vi bằng chiều dài cộng chiều rộng. Biết tổng và hiệu của dài và rộng thì tìm được từng cạnh, rồi tính diện tích.`,
+    sol:`Nửa chu vi: ${tm(`${2*half} : 2 = ${half}`)} m, tức ${tm(`l + w = ${half}`)}; theo đề ${tm(`l - w = ${d}`)}.<br>Chiều dài: ${tm(`l = \\dfrac{${half} + ${d}}{2} = ${l}`)} m; chiều rộng: ${tm(`w = ${half} - ${l} = ${w}`)} m.<br>Diện tích: ${tm(`${l}\\cdot ${w} = ${S}`)} m².<br>Chi phí: ${tm(`${S}\\cdot ${g} =`)} ${tb(S*g)} nghìn đồng.`});
+};
+
+/* Dạng 2. Hình tròn thực tế (π ≈ 3,14) */
+const RING_OK = []; for(const r of [10,15,20,25,30,40]) for(const w of [5,10,15,20]) if((w*(2*r+w))%50===0) RING_OK.push([r,w]);
+const WHEEL_OK = []; for(const d of [40,50,60,70,80,90]) for(const N of [50,100,150,200,250,300,400,500]) if((314*d*N)%10000===0) WHEEL_OK.push([d,N]);
+const gTt2 = lv => {
+  if(lv===1){
+    const d = pick([50,100,200]), k = R(2,6), C = p14(d), tot = C*k;
+    return QB({text:`Một hồ nước hình tròn có đường kính ${d} m. Bạn Nam chạy bộ đúng ${k} vòng quanh bờ hồ. Lấy ${P14}, tính quãng đường Nam đã chạy.`,
+      tpl:`Quãng đường: [_] m`, ans:[tot],
+      hint:`Chu vi hình tròn bằng ${tm('\\pi')} nhân đường kính; chạy ${k} vòng thì nhân chu vi với ${k}.`,
+      sol:`Chu vi bờ hồ: ${tm(`C = \\pi d \\approx 3{,}14\\cdot ${d} = ${dec(C)}`)} m.<br>Quãng đường ${k} vòng: ${tm(`${dec(C)}\\cdot ${k} =`)} ${tb(dec(tot))} m.`});
+  }
+  if(lv===2){
+    const [r,w] = pick(RING_OK), Rr = r + w, S = p14(Rr*Rr - r*r);
+    return QB({text:`Một hồ nước hình tròn bán kính ${r} m. Người ta làm một lối đi rộng ${w} m bao quanh hồ (ngoài hồ). Lấy ${P14}, tính diện tích lối đi.`,
+      tpl:`Diện tích lối đi: [_] m²`, ans:[S],
+      fig:circleSVG({C:[{x:0,y:0,r:4,lab:'O'},{x:0,y:0,r:4*r/Rr}], ring:{x:0,y:0,r1:4,r2:4*r/Rr}}),
+      hint:`Lối đi là phần nằm giữa hai đường tròn đồng tâm. Tìm bán kính đường tròn ngoài rồi lấy diện tích hình tròn lớn trừ diện tích hình tròn nhỏ.`,
+      sol:`Bán kính đường tròn ngoài (tính cả lối đi): ${tm(`${r} + ${w} = ${Rr}`)} m.<br>Diện tích lối đi: ${tm(`S = \\pi(${Rr}^2 - ${r}^2) \\approx 3{,}14\\cdot ${Rr*Rr - r*r}`)}.<br>Vậy ${tb(dec(S) + ' m²')}.`});
+  }
+  const [d,N] = pick(WHEEL_OK), D = 314*d*N/10000;
+  return QB({text:`Một bánh xe lăn không trượt trên đường, quay đúng ${N} vòng thì xe đi được ${D} m. Lấy ${P14}, tính đường kính của bánh xe (đơn vị: cm).`,
+    tpl:`Đường kính: [_] cm`, ans:[d],
+    hint:`Mỗi vòng quay xe đi được đúng một chu vi bánh xe. Chia quãng đường cho số vòng rồi đổi sang cm, sau đó dùng ${tm('C = \\pi d')}.`,
+    sol:`Chu vi bánh xe: ${tm(`C = ${D} : ${N} = ${dec(D/N)}`)} m ${tm(`= ${dec(D/N*100)}`)} cm.<br>Từ ${tm('C = \\pi d')} suy ra ${tm(`d = \\dfrac{C}{\\pi} \\approx \\dfrac{${dec(D/N*100)}}{3{,}14} =`)} ${tb(d)} cm.`});
+};
+
+/* Dạng 3. Hình quạt, quạt vành khuyên trong thực tế */
+const SEC_TT = [[30,120],[40,45],[60,60],[24,150],[36,50],[20,90],[50,72]];
+const FAN_OK = []; for(const Rr of [20,24,30,36,40]) for(const r of [5,6,10,12,15]) if(r<Rr) for(const n of [60,90,120,150,180]) if(((Rr*Rr-r*r)*n)%360===0) FAN_OK.push([Rr,r,n]);
+const GARD_OK = [[30,120],[36,50],[60,60],[24,150],[40,45],[20,90],[50,72],[30,60]].filter(([Rr,n]) => (Rr*Rr*n)%360===0 && (Rr*n)%180===0);
+const sectorFig = n => circleSVG({C:[{x:0,y:0,r:3,lab:'O'}], sector:{x:0,y:0,r:3,a1:20,a2:20+n}, S:[[0,0,...secAt(3,20),false,'R'],[0,0,...secAt(3,20+n)]], ang:[[0,0,20,20+n,tm(`${n}^\\circ`)]]});
+const gTt3 = lv => {
+  if(lv===1){
+    const [Rr,n] = pick(SEC_TT), k = Rr*Rr*n/360;
+    return QB({text:`Một vòi tưới cây tự động quay trong góc ${tm(`${n}^\\circ`)} và phun nước xa nhất ${Rr} m (vùng được tưới là một hình quạt tròn). Tính diện tích vùng được tưới. Điền hệ số của ${tm('\\pi')}.`,
+      tpl:`${tm('S =')} [_]${tm('\\pi')} m²`, ans:[k], fig:sectorFig(n),
+      hint:`Vùng được tưới là hình quạt tâm là vòi, bán kính là tầm phun xa nhất. Dùng ${tm('S = \\dfrac{\\pi R^2 n}{360}')}.`,
+      sol:`Thay ${tm(`R = ${Rr}`)}, ${tm(`n = ${n}`)} vào công thức: ${tm(`S = \\dfrac{\\pi\\cdot ${Rr}^2\\cdot ${n}}{360}`)}.<br>Vậy ${tb(`S = ${k}\\pi`)} (m²).`});
+  }
+  if(lv===2){
+    const [Rr,r,n] = pick(FAN_OK), k = (Rr*Rr - r*r)*n/360;
+    return QB({text:`Một chiếc quạt giấy khi xòe ra có dạng hình quạt vành khuyên: phần giấy nằm giữa hai đường tròn đồng tâm bán kính ${Rr} cm và ${r} cm, góc mở ${tm(`${n}^\\circ`)}. Tính diện tích phần giấy. Điền hệ số của ${tm('\\pi')}.`,
+      tpl:`${tm('S =')} [_]${tm('\\pi')} cm²`, ans:[k],
+      hint:`Lấy diện tích hình quạt lớn trừ diện tích hình quạt nhỏ (cùng góc ở tâm), hoặc dùng ${tm('S = \\dfrac{\\pi(R^2 - r^2)n}{360}')}.`,
+      sol:`Quạt lớn: ${tm(`\\dfrac{\\pi\\cdot ${Rr}^2\\cdot ${n}}{360} = ${Rr*Rr*n/360}\\pi`)}; quạt nhỏ: ${tm(`\\dfrac{\\pi\\cdot ${r}^2\\cdot ${n}}{360} = ${r*r*n/360}\\pi`)}.<br>Phần giấy: ${tm(`${Rr*Rr*n/360}\\pi - ${r*r*n/360}\\pi =`)} ${tb(k + '\\pi')} cm².`});
+  }
+  const [Rr,n] = pick(GARD_OK), k = Rr*Rr*n/360, l = Rr*n/180;
+  return QB({text:`Một mảnh vườn có dạng hình quạt tròn với góc ở tâm ${tm(`${n}^\\circ`)} và diện tích ${tm(`${k}\\pi`)} m². Người ta rào quanh toàn bộ chu vi mảnh vườn (cung và hai bán kính). Tính độ dài hàng rào, điền dạng ${tm('a\\pi + b')}.`,
+    tpl:`${tm('P =')} [_]${tm('\\pi +')} [_] m`, ans:[l, 2*Rr], fig:sectorFig(n),
+    hint:`Từ diện tích tìm bán kính ${tm('R')} (giải ${tm('R^2')} rồi lấy căn). Chu vi quạt bằng độ dài cung ${tm('l = \\dfrac{\\pi R n}{180}')} cộng hai bán kính.`,
+    sol:`Từ ${tm(`\\dfrac{\\pi R^2\\cdot ${n}}{360} = ${k}\\pi`)} suy ra ${tm(`R^2 = ${Rr*Rr}`)}, nên ${tm(`R = ${Rr}`)} m.<br>Độ dài cung: ${tm(`l = \\dfrac{\\pi\\cdot ${Rr}\\cdot ${n}}{180} = ${l}\\pi`)} m. Hai bán kính dài ${tm(`2\\cdot ${Rr} = ${2*Rr}`)} m.<br>Chu vi: ${tb(`P = ${l}\\pi + ${2*Rr}`)} (m).`});
+};
+
+/* Dạng 4. Hình ghép, phần tô, viên phân */
+const doorFig = (R2,h) => `<svg viewBox="0 0 320 210" role="img" aria-label="Tấm kính hình chữ nhật ghép nửa hình tròn"><path class="sv-ink" stroke-width="3" d="M80 190 V100 A80 80 0 0 1 240 100 V190 Z" style="fill:var(--primary-soft)"/><line class="sv-ink" stroke-width="2" stroke-dasharray="6 4" x1="80" y1="100" x2="240" y2="100"/>${svgTxt(160,206,`${2*R2} cm`)}${svgTxt(290,150,`${h} cm`)}</svg>`;
+const sqCircFig = a => `<svg viewBox="0 0 320 210" role="img" aria-label="Hình vuông có hình tròn nội tiếp"><rect class="sv-ink" stroke-width="3" x="70" y="15" width="180" height="180" style="fill:var(--primary-soft)"/><circle cx="160" cy="105" r="90" style="fill:var(--bg,#fff)" class="sv-ink" stroke-width="2.5"/>${svgTxt(160,208,`${a} cm`,15)}</svg>`;
+const gTt4 = lv => {
+  if(lv===1){
+    const R2 = pick([10,20,30,40,50]), h = R(30,80), rect = 2*R2*h, half = p14(R2*R2/2), S = rect + half;
+    return QB({text:`Một tấm kính có dạng hình chữ nhật chiều rộng ${2*R2} cm, chiều cao ${h} cm, ghép phía trên với một nửa hình tròn đường kính bằng chiều rộng (hình bên). Lấy ${P14}, tính diện tích tấm kính.`,
+      tpl:`Diện tích: [_] cm²`, ans:[S], fig:doorFig(R2,h),
+      hint:`Chia hình thành hình chữ nhật và nửa hình tròn. Bán kính nửa hình tròn bằng một nửa chiều rộng hình chữ nhật.`,
+      sol:`Hình chữ nhật: ${tm(`${2*R2}\\cdot ${h} = ${rect}`)} cm².<br>Nửa hình tròn bán kính ${R2} cm: ${tm(`\\dfrac{\\pi\\cdot ${R2}^2}{2} \\approx \\dfrac{3{,}14\\cdot ${R2*R2}}{2} = ${dec(half)}`)} cm².<br>Diện tích tấm kính: ${tm(`${rect} + ${dec(half)} =`)} ${tb(dec(S))} cm².`});
+  }
+  if(lv===2){
+    const a = pick([20,40,60,80,100]), circ = p14(a*a/4), S = a*a - circ;
+    return QB({text:`Một viên gạch men hình vuông cạnh ${a} cm có hoa văn là hình tròn nội tiếp hình vuông (hình bên); phần còn lại được tráng men trắng. Lấy ${P14}, tính diện tích phần men trắng.`,
+      tpl:`Diện tích: [_] cm²`, ans:[S], fig:sqCircFig(a),
+      hint:`Hình tròn nội tiếp hình vuông có đường kính bằng cạnh hình vuông. Diện tích phần trắng bằng diện tích hình vuông trừ diện tích hình tròn.`,
+      sol:`Diện tích hình vuông: ${tm(`${a}^2 = ${a*a}`)} cm².<br>Bán kính hình tròn: ${tm(`${a} : 2 = ${a/2}`)} cm; diện tích: ${tm(`\\pi\\cdot ${a/2}^2 \\approx 3{,}14\\cdot ${a*a/4} = ${dec(circ)}`)} cm².<br>Phần men trắng: ${tm(`${a*a} - ${dec(circ)} =`)} ${tb(dec(S))} cm².`});
+  }
+  const Rr = pick([20,40,60,80,100]), q = p14(Rr*Rr/4), tri = Rr*Rr/2, S = q - tri, [ax,ay] = secAt(3,45), [bx,by] = secAt(3,135);
+  return QB({text:`Một mảnh đất có dạng hình viên phân: phần hình tròn giới hạn bởi dây ${tm('AB')} và cung nhỏ ${tm('AB')} của đường tròn tâm ${tm('O')}, bán kính ${Rr} m, biết ${tm('\\widehat{AOB} = 90^\\circ')}. Lấy ${P14}, tính diện tích mảnh đất.`,
+    tpl:`Diện tích: [_] m²`, ans:[S],
+    fig:circleSVG({C:[{x:0,y:0,r:3,lab:'O'}], sector:{x:0,y:0,r:3,a1:45,a2:135}, P:[[ax,ay,'B',45],[bx,by,'A',135]], S:[[0,0,ax,ay],[0,0,bx,by],[ax,ay,bx,by]], right:[[0,0,45]]}),
+    hint:`Diện tích viên phân bằng diện tích hình quạt ${tm('OAB')} trừ diện tích tam giác ${tm('OAB')} (tam giác vuông cân tại ${tm('O')}).`,
+    sol:`Hình quạt ${tm('OAB')}: ${tm(`\\dfrac{\\pi\\cdot ${Rr}^2\\cdot 90}{360} = \\dfrac{\\pi\\cdot ${Rr*Rr}}{4} \\approx ${dec(q)}`)} m².<br>Tam giác vuông ${tm('OAB')}: ${tm(`\\dfrac{1}{2}\\cdot ${Rr}\\cdot ${Rr} = ${tri}`)} m².<br>Diện tích mảnh đất: ${tm(`${dec(q)} - ${tri} =`)} ${tb(dec(S))} m².`});
+};
+
+/* Dạng 5. Lập phương trình từ hình học */
+const gTt5 = lv => {
+  if(lv===1){
+    let w,l; do{ w=R(5,16); l=R(w+2,w+10); }while(l===w);
+    const s = l + w, S = l*w, Dl = (l-w)*(l-w);
+    return QB({text:`Một mảnh vườn hình chữ nhật có nửa chu vi ${s} m và diện tích ${S} m². Tính chiều dài của mảnh vườn.`,
+      tpl:`Chiều dài: [_] m`, ans:[l],
+      hint:`Gọi ${tm('x')} là độ dài một cạnh thì cạnh kia là nửa chu vi trừ ${tm('x')}. Lập phương trình từ diện tích, giải được hai nghiệm; chiều dài là nghiệm lớn hơn.`,
+      sol:`Gọi ${tm('x')} (m) là độ dài một cạnh, cạnh kia là ${tm(`${s} - x`)}. Diện tích: ${tm(`x(${s} - x) = ${S}`)}, tức ${tm(`x^2 - ${s}x + ${S} = 0`)}.<br>${tm(`\\Delta = ${s}^2 - 4\\cdot ${S} = ${Dl}`)}, ${tm(`\\sqrt{\\Delta} = ${l-w}`)}.<br>${tm(`x_1 = \\dfrac{${s} + ${l-w}}{2} = ${l}`)}, ${tm(`x_2 = \\dfrac{${s} - ${l-w}}{2} = ${w}`)}.<br>Hai cạnh là ${w} m và ${l} m; chiều dài là cạnh lớn hơn: ${tb(l + ' m')}.`});
+  }
+  if(lv===2){
+    const w = R(4,14), d = R(2,9), S = w*(w+d), Dl = d*d + 4*S, sq = 2*w + d;
+    return QB({text:`Một khu đất hình chữ nhật có chiều dài hơn chiều rộng ${d} m và diện tích ${S} m². Tính chiều rộng của khu đất.`,
+      tpl:`Chiều rộng: [_] m`, ans:[w],
+      hint:`Gọi chiều rộng là ${tm('x')} (m), điều kiện ${tm('x \\gt 0')}; chiều dài là ${tm('x + '+d)}. Lập phương trình từ diện tích, giải rồi loại nghiệm không phù hợp.`,
+      sol:`Gọi ${tm('x')} (m, ${tm('x \\gt 0')}) là chiều rộng, chiều dài là ${tm(`x + ${d}`)}. Diện tích: ${tm(`x(x + ${d}) = ${S}`)}, tức ${tm(`x^2 + ${d}x - ${S} = 0`)}.<br>${tm(`\\Delta = ${d}^2 + 4\\cdot ${S} = ${Dl}`)}, ${tm(`\\sqrt{\\Delta} = ${sq}`)}.<br>${tm(`x_1 = \\dfrac{-${d} + ${sq}}{2} = ${w}`)} (nhận); ${tm(`x_2 = \\dfrac{-${d} - ${sq}}{2} = ${-(d+sq)/2}`)} (loại vì ${tm('x \\gt 0')}).<br>Chiều rộng: ${tb(w + ' m')}.`});
+  }
+  const a = R(8,20), b = R(5,14), x = R(1,4), T = 4*x*x + 2*(a+b)*x, sq = 4*x + a + b, ab = a + b;
+  return QB({text:`Một mảnh vườn hình chữ nhật có chiều dài ${a} m, chiều rộng ${b} m. Người ta làm một lối đi có chiều rộng bằng nhau bao quanh mảnh vườn (nằm ngoài mảnh vườn). Biết diện tích lối đi là ${T} m². Tính chiều rộng lối đi.`,
+    tpl:`Chiều rộng lối đi: [_] m`, ans:[x],
+    hint:`Gọi chiều rộng lối đi là ${tm('x')} (m). Hình chữ nhật lớn (cả vườn và lối đi) có hai kích thước tăng thêm ${tm('2x')}. Diện tích lối đi bằng diện tích hình lớn trừ diện tích mảnh vườn.`,
+    sol:`Gọi ${tm('x')} (m, ${tm('x \\gt 0')}) là chiều rộng lối đi. Hình lớn có kích thước ${tm(`${a} + 2x`)} và ${tm(`${b} + 2x`)}.<br>Diện tích lối đi: ${tm(`(${a} + 2x)(${b} + 2x) - ${a}\\cdot ${b} = ${T}`)}, khai triển: ${tm(`4x^2 + ${2*ab}x = ${T}`)}, chia hai vế cho 2: ${tm(`2x^2 + ${ab}x - ${T/2} = 0`)}.<br>${tm(`\\Delta = ${ab}^2 + 8\\cdot ${T/2} = ${ab*ab + 4*T}`)}, ${tm(`\\sqrt{\\Delta} = ${sq}`)}.<br>${tm(`x_1 = \\dfrac{-${ab} + ${sq}}{4} = ${x}`)} (nhận); ${tm(`x_2 = \\dfrac{-${ab} - ${sq}}{4} = ${-(ab+sq)/4}`)} (loại).<br>Chiều rộng lối đi: ${tb(x + ' m')}.`});
+};
+
+lesson(6,'on-thi-thuc-te-dai-so-hinh-hoc','Đại số 4. Bài toán thực tế về đại số – hình học','Ôn tuyển sinh: chu vi, diện tích, chi phí lát gạch – trồng cỏ; hình tròn thực tế (π ≈ 3,14); hình quạt, quạt vành khuyên; hình ghép, phần tô, viên phân; lập phương trình từ chu vi – diện tích – lối đi.',[gTt1,gTt2,gTt3,gTt4,gTt5], {intro:[
+  {t:`Công thức diện tích – chu vi cần thuộc`, b:`<ul><li>Hình chữ nhật: ${tm('P = 2(a + b)')}, ${tm('S = ab')}. Hình thang: ${tm('S = \\dfrac{(B + b)h}{2}')}. Tam giác: ${tm('S = \\dfrac{ah}{2}')}.</li><li>Hình tròn: ${tm('C = 2\\pi R')}, ${tm('S = \\pi R^2')}. Hình vành khuyên: ${tm('S = \\pi(R^2 - r^2)')}.</li><li>Hình quạt ${tm('n^\\circ')}: ${tm('l = \\dfrac{\\pi R n}{180}')}, ${tm('S = \\dfrac{\\pi R^2 n}{360}')}. Chu vi quạt ${tm('= l + 2R')}.</li><li>Viên phân = quạt trừ tam giác (hoặc quạt cộng tam giác nếu góc lớn hơn ${tm('180^\\circ')}).</li></ul>`, ex:`Phần tô, phần còn lại, lối đi, viên phân: hầu hết đều là <b>“hình lớn trừ hình nhỏ”</b> hoặc <b>“ghép các hình quen thuộc”</b>. Vẽ phác hình và chia hình trước khi tính.`},
+  {t:`Đọc đề thực tế: đơn vị và số π`, b:`<ul><li>Đổi mọi độ dài về <b>cùng đơn vị</b> trước khi tính; diện tích có đơn vị bình phương (1 m² = 10 000 cm²).</li><li>Đề cho “lấy ${tm('\\pi \\approx 3{,}14')}” thì dùng đúng giá trị đó; không dặn thì giữ ${tm('\\pi')} trong kết quả (nếu đề cho điền hệ số của ${tm('\\pi')} thì viết đúng dạng ${tm('k\\pi')}).</li><li>Tiền = số lượng × đơn giá: nhớ đơn vị của đơn giá (nghìn đồng/m²).</li></ul>`, warn:`Hay mất điểm: nhầm đường kính với bán kính; quên cộng hai bán kính khi tính chu vi hình quạt; lối đi bao quanh làm kích thước tăng thêm ${tm('2x')} (không phải ${tm('x')}); đổi cm sang m sai.`},
+  {t:`Lập phương trình từ hình học`, b:`Gọi ẩn là một độ dài (kèm đơn vị và điều kiện ${tm('x \\gt 0')}), biểu diễn các kích thước còn lại theo ${tm('x')}, viết phương trình theo <b>diện tích</b> hoặc <b>chu vi</b>, rồi giải. Phương trình bậc hai: tính ${tm('\\Delta')}, tìm hai nghiệm, <b>đối chiếu điều kiện</b> rồi kết luận.`, warn:`Giải xong phải loại nghiệm âm hoặc nghiệm không hợp đề (chiều dài phải lớn hơn chiều rộng, lối đi không rộng hơn mảnh vườn...). Ghi rõ đáp số kèm đơn vị.`, ex:`Thử lại đáp số vào đề (tính lại chu vi hoặc diện tích) trong 10 giây: nếu không khớp là sai ở đâu đó. Cho nửa chu vi ${tm('s')} và diện tích ${tm('S')}, hai cạnh là nghiệm của ${tm('x^2 - sx + S = 0')}.`}
+]});
+}
+
 })();
 
 </script>
