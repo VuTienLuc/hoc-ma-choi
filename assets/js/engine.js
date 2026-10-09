@@ -40,30 +40,35 @@ const ST_TXT={todo:'Chưa làm',doing:'Đang làm',done:'Hoàn thành'};
 const stOf=(pct,any)=>pct>=100?'done':any?'doing':'todo';
 const stChip=st=>`<span class="chip st-${st}">${st==='done'?'✓ ':''}${ST_TXT[st]}</span>`;
 const pbar=pct=>`<span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span>`;
-function lessonTile(l){const s=lessonStars(l.id),pct=Math.round(s/9*100),st=stOf(pct,s>0);
-  return `<a class="tile les st-${st}" data-st="${st}" data-n="${fold(l.name)}" href="${lessonHref(l)}"><span class="les-top"><b>${l.name}</b>${stChip(st)}</span><span class="meta"><span>${l.gens.length} dạng bài</span>${starsHTML(Math.round(s/3))}</span>${pbar(pct)}</a>`}
+const lessonLevels=(l,g=S.grade)=>[1,2,3].map(lv=>Math.max(0,Math.min(3,+(store.get(bestKey(l.id,lv,g))||0))));
+function lessonTile(l){const levels=lessonLevels(l),s=levels.reduce((a,b)=>a+b,0),pct=Math.round(s/9*100),st=stOf(pct,s>0);
+  const lvHTML=levels.map((x,i)=>{const k=x>=3?'done':x>0?'doing':'todo',lab=x>=3?'✓':x?`${x}★`:'—';return `<span class="les-lv st-${k}" title="Mức ${i+1}: ${x}/3 sao"><b>M${i+1}</b><i>${lab}</i></span>`}).join('');
+  return `<a class="tile les st-${st}" data-st="${st}" data-n="${fold(l.name)}" href="${lessonHref(l)}"><span class="les-top"><b>${l.name}</b>${stChip(st)}</span><span class="les-levels" aria-label="Tiến độ ba mức">${lvHTML}</span><span class="meta"><span>${l.gens.length} dạng bài</span><span>${s}/9 sao</span></span>${pbar(pct)}</a>`}
 let HF={q:'',st:'all'};
 function renderHome(){
-  const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g),max=gradeMaxStars(g),gp=max?Math.round(total/max*100):0;
+  const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g),max=gradeMaxStars(g);
   const hks=[...new Set(g.topics.map(t=>t.hk))];
-  const doneN=g.lessons.filter(l=>lessonStars(l.id)>0).length;
   const topics=[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>(a.grp?1:0)-(b.grp?1:0));
   const vis=topics.flatMap(t=>g.lessons.filter(l=>l.t===t.id)),next=vis.find(l=>{const x=lessonStars(l.id);return x>0&&x<9})||vis.find(l=>!lessonStars(l.id));
   const cnt={all:vis.length,todo:0,doing:0,done:0};vis.forEach(l=>{const x=lessonStars(l.id);cnt[stOf(Math.round(x/9*100),x>0)]++});
+  const got=vis.reduce((n,l)=>n+lessonStars(l.id),0),possible=vis.length*9,gp=possible?Math.round(got/possible*100):0;
+  const missingLevels=vis.reduce((n,l)=>n+lessonLevels(l).filter(x=>x<3).length,0),openTopic=next?next.t:(topics[0]&&topics[0].id);
   let h=`<div class="toolbar">${App.grades.length>1||(CONFIG.upcoming||[]).length?`<a class="back" href="#/">← Chọn lớp</a>`:`<span class="pill">${g.name} · ${g.book}</span>`}<div class="row"><span class="stat">⭐ ${total}/${max}</span>${themeBtn()}</div></div>
   <span class="pill hide-sm">${g.subject} ${g.name.replace('Lớp ','')} · ${g.book}</span>
-  <h1 class="home-h">Con muốn ôn bài nào hôm nay?</h1><p class="lead hide-sm">Mỗi bài có 3 mức. Mỗi bộ ${CONFIG.setSize} câu, xếp từ dễ đến khó. Sai lần một có gợi ý, sai lần hai mới hiện lời giải.</p>
-  <section class="overall card" aria-label="Tiến độ chung"><div class="ov-top"><b>Hoàn thành ${gp}%</b><span>${doneN}/${g.lessons.length} bài đã làm</span></div><span class="pbar big"><i style="width:${gp}%"></i></span></section>
+  <h1 class="home-h">Tổng quan bài học</h1><p class="lead hide-sm">Nhìn nhanh phần đã hoàn thành và chọn đúng bài còn thiếu để học tiếp.</p>
+  <section class="overall learning-overview card" aria-label="Tổng quan tiến độ"><div class="ov-top"><b>${hks.length>1?`Học kì ${hk} · `:''}Hoàn thành ${gp}%</b><span>${got}/${possible} sao bài học</span></div><span class="pbar big"><i style="width:${gp}%"></i></span>
+    <div class="home-stats"><button data-f="done" aria-pressed="${HF.st==='done'}"><b>${cnt.done}</b><span>✓ Hoàn thành</span></button><button data-f="doing" aria-pressed="${HF.st==='doing'}"><b>${cnt.doing}</b><span>◐ Đang làm</span></button><button data-f="todo" aria-pressed="${HF.st==='todo'}"><b>${cnt.todo}</b><span>○ Chưa làm</span></button></div>
+    <p class="ov-missing">${missingLevels?`Còn <b>${cnt.todo+cnt.doing} bài</b> chưa hoàn thành và <b>${missingLevels} mức</b> cần bổ sung.`:'🎉 Con đã hoàn thành đủ cả ba mức của tất cả bài trong phần này.'}</p></section>
   ${next?`<a class="next-btn" href="${lessonHref(next)}"><span>▶ ${lessonStars(next.id)>0?'Làm tiếp':'Bắt đầu'}</span><b>${next.name}</b></a>`:''}
   ${hks.length>1?`<div class="tabs" role="tablist" aria-label="Học kì">${hks.map(k=>`<button role="tab" aria-selected="${hk===k}" data-hk="${k}">Học kì ${k}</button>`).join('')}</div>`:''}
   <div class="finder"><input id="fq" type="search" placeholder="🔍 Tìm bài (vd: phân số, hàm số…)" autocomplete="off" value="${HF.q.replace(/"/g,'&quot;')}" aria-label="Tìm bài"><div class="chips" role="group" aria-label="Lọc theo tiến độ">${[['all','Tất cả'],['todo','Chưa làm'],['doing','Đang làm'],['done','Xong']].map(([k,n])=>`<button class="fchip" data-f="${k}" aria-pressed="${HF.st===k}">${n} <small>${cnt[k]}</small></button>`).join('')}</div></div>`;
   let lastGrp='';topics.forEach(t=>{const ls=g.lessons.filter(l=>l.t===t.id),tests=typeof StudentTest!=='undefined'?StudentTest.tiles(g.id,t.id):'';if(!ls.length&&!tests)return;
     if((t.grp||'')!==lastGrp){lastGrp=t.grp||'';if(lastGrp)h+=`<h2 class="grp-title">${lastGrp}</h2>`}
-    const dn=ls.filter(l=>lessonStars(l.id)>0).length;
-    h+=`<section class="topic"><h2><small>${t.label||'Chủ đề '+t.id}</small>${t.name}<em class="tcount">${dn}/${ls.length}</em></h2><div class="grid">${ls.map(lessonTile).join('')}${tests}</div></section>`});
+    const dn=ls.filter(l=>lessonStars(l.id)>=9).length,ts=ls.reduce((n,l)=>n+lessonStars(l.id),0),tp=ls.length?Math.round(ts/(ls.length*9)*100):0;
+    h+=`<details class="topic home-topic" data-topic="${t.id}" ${t.id===openTopic?'open':''}><summary class="home-topic-head"><span class="home-topic-title"><small>${t.label||'Chủ đề '+t.id}</small><strong>${t.name}</strong></span><span class="topic-summary"><em>${dn}/${ls.length} xong</em><span class="topic-pbar"><i style="width:${tp}%"></i></span><b>${tp}%</b><i class="topic-chev">⌄</i></span></summary><div class="grid home-grid">${ls.map(lessonTile).join('')}${tests}</div></details>`});
   app.innerHTML=h+`<p class="empty" id="fempty" hidden>Không có bài nào khớp. Thử bỏ bớt từ khóa hoặc chọn “Tất cả”.</p>`+foot();hook('home',g);
   if(matchMedia('(max-width:600px)').matches){const ov=$('.overall'),extra=[];for(let n=ov&&ov.previousElementSibling;n&&!n.matches('.lead,h1,.pill,.toolbar');n=n.previousElementSibling)extra.unshift(n);if(extra.length){const d=document.createElement('details');d.className='petfold card';d.innerHTML='<summary>🐣 Thú cưng · nhiệm vụ hôm nay</summary>';extra.forEach(n=>d.appendChild(n));ov.after(d)}}
-  const apply=()=>{const q=fold(HF.q.trim());let any=false;$$('.topic').forEach(sec=>{let n=0;$$('.tile',sec).forEach(t=>{const ok=(HF.st==='all'||t.dataset.st===HF.st)&&(!q||(t.dataset.n||'').includes(q));t.hidden=!ok;if(ok)n++});sec.hidden=!n;if(n)any=true});$('#fempty').hidden=any;$$('[data-f]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===HF.st))};
+  const apply=()=>{const q=fold(HF.q.trim());let any=false;$$('.topic').forEach(sec=>{let n=0;$$('.tile',sec).forEach(t=>{const ok=(HF.st==='all'||t.dataset.st===HF.st)&&(!q||(t.dataset.n||'').includes(q));t.hidden=!ok;if(ok)n++});sec.hidden=!n;if(n){any=true;if(q||HF.st!=='all')sec.open=true}});$('#fempty').hidden=any;$$('[data-f]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===HF.st))};
   $('#fq').oninput=e=>{HF.q=e.target.value;apply()};$$('[data-f]').forEach(b=>b.onclick=()=>{HF.st=b.dataset.f;apply()});apply();
   $$('[data-hk]').forEach(b=>b.onclick=()=>{store.set(hkKey,+b.dataset.hk);renderHome()});bindTheme();
 }

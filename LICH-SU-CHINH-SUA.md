@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-09 – Thu gọn trang bài học sinh và tổng hợp phần còn thiếu
+
+- **Yêu cầu của thầy:** Sửa chế độ xem bài của học sinh gọn, dễ nhìn và cho biết tổng quát mục nào đã hoàn thành, bài nào còn thiếu.
+- **Kết quả:** Thay phần đầu trang lớp bằng bảng tổng quan đúng theo học kì đang xem, tách rõ số bài Hoàn thành, Đang làm và Chưa làm; bổ sung số bài và số mức còn thiếu. Mỗi bài hiện riêng tiến độ M1, M2, M3 bằng dấu hoàn thành, số sao hoặc dấu chưa làm. Các chương được thu gọn, chỉ mở chương cần học tiếp; tiêu đề chương có số bài hoàn thành và phần trăm tiến độ. Ba ô tổng quan hoạt động như bộ lọc; tìm kiếm hoặc lọc tự mở chương có kết quả. Trên điện thoại, bốn nút lọc nằm trọn một hàng và các vùng chạm đạt tối thiểu 44 px.
+- **Tệp thay đổi:** `assets/js/engine.js`, `assets/css/style.css`, `tools/test_trang_bai_hoc_sinh.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `python3 tools/test_trang_bai_hoc_sinh.py` → ĐẠT trên 1280×900 và 390×844; `node tools/kiem-tra.js` → ĐẠT (39.225 lượt sinh câu); `python3 tools/test.py` → ĐẠT (23.760 câu); `python3 tools/build.py` → ĐẠT (2.756 KB); `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-09 – Bài 6 Hệ thức lượng trong tam giác: luyện tập thêm 2 về toán thực tế
 
 - **Yêu cầu của thầy:** Tạo tiếp một bộ mới cho Bài 6. Hệ thức lượng trong tam giác, tăng số lượng bài toán thực tế để học sinh lớp 10 luyện tập.
