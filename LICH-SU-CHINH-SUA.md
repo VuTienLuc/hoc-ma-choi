@@ -24,6 +24,22 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-10 – Cấp số cộng luyện tập thêm và luôn hiện lời giải khi làm đúng
+
+- **Yêu cầu của thầy:** Bổ sung bài Cấp số cộng luyện thêm cho học sinh lớp 11; khi học sinh chọn hoặc điền đúng cũng phải hiện lời giải ở mọi bài.
+- **Kết quả:** Thêm bài `cap-so-cong-luyen-tap` gồm 5 dạng × 3 mức: xác định vị trí số hạng; tổng một đoạn liên tiếp; chèn số để tạo cấp số cộng; tính chất hai số hạng cách đều; bài toán thực tế về khán đài, tiết kiệm và trồng cây. Bài có bốn thẻ công thức, lưu ý và mẹo; lời giải ghi từng bước và căn cứ. Chế độ chấm nay luôn hiện lời giải sau câu đúng ngay lần đầu, vẫn giữ lời giải khi thẻ câu được dựng lại; câu nhiều bước tiếp tục hiện lời giải đầy đủ. Bộ kiểm thử trình duyệt khóa hành vi này cho mọi lớp. Cập nhật số bài Toán 11 trong `AGENTS.md` và `CLAUDE.md` từ 11 lên 12.
+- **Tệp thay đổi:** `data/lop11.js`, `assets/js/engine.js`, `tools/test.py`, `AGENTS.md`, `CLAUDE.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 80 lop11` → ĐẠT (13.680 lượt sinh câu); `node tools/kiem-tra.js` → ĐẠT (40.650 lượt sinh câu); `python3 tools/test.py` → ĐẠT (24.360 câu, gồm kiểm tra lời giải sau câu đúng và sau khi dựng lại); phép quét riêng bài mới → ĐẠT (36 trạng thái MathJax, 0 lỗi); `python3 tools/test_trinhchieu.py cap-so-cong-luyen-tap` → ĐẠT (12 trang, không tràn/lỗi, không có chữ dưới 20 px, học sinh không có quyền trình chiếu); `python3 tools/test_congthuc.py` → ĐẠT (408 trang, 0 lỗi); `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
+### 2026-10-10 – Chuẩn hóa hiển thị công thức Bài 6 Hệ thức lượng Toán 10
+
+- **Yêu cầu của thầy:** Kiểm tra kỹ để công thức toán không lỗi khi hiển thị; Bài 6 Hệ thức lượng trong tam giác có một số câu hiển thị công thức chưa đúng.
+- **Kết quả:** Chuẩn hóa phân số và căn thức trong Bài 6 về cú pháp có ngoặc đầy đủ; đưa phép so sánh khi nhận dạng tam giác vào cùng một khối MathJax; thay dấu nhỏ hơn, lớn hơn HTML bằng `\\lt`, `\\gt` trong công thức. Mở rộng `test_congthuc.py` để phát hiện thêm LaTeX thô (`tan`, `cot`, `widehat`, `cdot`, `text`, `approx`, `perp`…) và các ký tự điều khiển do gạch chéo đơn gây ra.
+- **Tệp thay đổi:** `data/lop10.js`, `tools/test_congthuc.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 80 lop10` → ĐẠT (21.120 lượt sinh câu); phép quét riêng ba bộ Bài 6 và Ôn tập chương III → ĐẠT (96 trạng thái, 0 lỗi); `python3 tools/test.py` → ĐẠT; `python3 tools/test_congthuc.py` → ĐẠT (408 trang, 0 lỗi); `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-10 – Ôn tập Chương III Toán 10 theo bộ 20 câu
 
 - **Yêu cầu của thầy:** Thêm Ôn tập Chương III Toán 10 cho học sinh, đầy đủ dạng bài và mỗi đề có 20 câu từ cơ bản đến nâng cao.

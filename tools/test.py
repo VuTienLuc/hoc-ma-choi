@@ -30,10 +30,13 @@ async (REPS) => {
      else if(q.kind==='steps'){ let g=0; while(q.status==='open'&&g++<20){ const k=q.guided?q.cur:q.steps.length-1, s=q.steps[k], li=el.querySelector(`[data-s="${k}"]`);
          if(s.kind==='choice') li.querySelector(`[data-sc="${s.correct}"]`).click(); else s.ans.forEach((a,j)=>li.querySelectorAll('.blank')[j].value=String(Array.isArray(a)?a[0]:a));
          el.querySelector('[data-check]').click(); }
-       if(q.pts!==1) out.bad.push(['bước: làm đúng hết mà không được 1 điểm',...where,q.text]); return; }
+       if(q.pts!==1) out.bad.push(['bước: làm đúng hết mà không được 1 điểm',...where,q.text]);
+       if(!el.querySelector('[data-fb] .stp-sol')) out.bad.push(['bước: trả lời đúng nhưng không hiện lời giải',...where,q.text]); return; }
      else if(q.kind==='shade'){ const need=q.num*q.n/q.den; [...el.querySelectorAll('.sv-part')].slice(0,need).forEach(p=>p.dispatchEvent(new MouseEvent('click'))); }
      el.querySelector('[data-check]').click();
      if(!el.classList.contains('ok')) out.bad.push(['chấm SAI',...where,q.text,q.tpl,JSON.stringify(q.ans)]);
+     const shownSol=el.querySelector('[data-fb] div');if(!shownSol||!shownSol.innerHTML.trim()) out.bad.push(['trả lời đúng nhưng không hiện lời giải',...where,q.text]);
+     const restored=cardEl(q,i),restoredSol=restored.querySelector('[data-fb] div');if(!restoredSol||!restoredSol.innerHTML.trim()) out.bad.push(['dựng lại câu đúng bị mất lời giải',...where,q.text]);
      }catch(e){out.errs.push([...where,String(e)])}
    });
  }}}}

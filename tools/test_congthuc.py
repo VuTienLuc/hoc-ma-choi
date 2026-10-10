@@ -31,10 +31,12 @@ async def main():
              if(q.kind==='blanks'){el.querySelectorAll('.blank').forEach(x=>x.value='987654')} else {const w=[...el.querySelectorAll('[data-c]')].find(x=>+x.dataset.c!==q.correct); if(w) w.click();}
              el.querySelector('[data-check]').click(); el.querySelector('[data-check]')&&el.querySelector('[data-check]').click(); if(q.status==='open'){ el.querySelector('[data-check]').click(); }})}""")
           await pg.wait_for_timeout(900)
-          r=await pg.evaluate("""(()=>{const app=document.getElementById('app');const walker=document.createTreeWalker(app,NodeFilter.SHOW_TEXT);let raw=[];let n;while(n=walker.nextNode()){if(n.parentElement.closest('mjx-container'))continue; if(/\\\\[\\(\\[]|\\\\(frac|dfrac|sqrt|pi|sin|cos|le|ge|lt|gt)\\b/.test(n.textContent)) raw.push(n.textContent.slice(0,80))}
-             return {mjx:document.querySelectorAll('mjx-container').length, err:[...document.querySelectorAll('mjx-merror')].map(e=>e.getAttribute('data-mjx-error')), raw:raw.slice(0,3)}})()""")
+          r=await pg.evaluate("""(()=>{const app=document.getElementById('app');const walker=document.createTreeWalker(app,NodeFilter.SHOW_TEXT);let raw=[],control=[];let n;while(n=walker.nextNode()){if(n.parentElement.closest('mjx-container'))continue; const t=n.textContent;
+             if(/\\\\[\\(\\[]|\\\\(frac|dfrac|sqrt|pi|sin|cos|tan|cot|widehat|cdot|text|left|right|le|ge|lt|gt|approx|perp)\\b/.test(t)) raw.push(t.slice(0,120));
+             if(/[\\u0008\\u0009\\u000b\\u000c]/.test(t)) control.push(JSON.stringify(t.slice(0,120)))}
+             return {mjx:document.querySelectorAll('mjx-container').length, err:[...document.querySelectorAll('mjx-merror')].map(e=>e.getAttribute('data-mjx-error')), raw:raw.slice(0,3), control:control.slice(0,3)}})()""")
           tot+=1
-          if r['err'] or r['raw']: bad.append((L,lv,r['err'][:2],r['raw'][:2]))
+          if r['err'] or r['raw'] or r['control']: bad.append((L,lv,r['err'][:2],r['raw'][:2],r['control'][:2]))
     print('Số trang đã quét:', tot, '| trang lỗi:', len(bad))
     for x in bad[:15]: print(' ', x)
     print('pageerrors', errs[:3]); await b.close()

@@ -148,7 +148,7 @@ function check(el,q){
   else if(q.kind==='shade'){if(!q.on.length)empty=true;else ok=q.on.length*q.den===q.num*q.n}
   if(empty){fb(el,'note','Con chưa làm xong',q.kind==='choice'?'Hãy chọn một đáp án trước nhé.':q.kind==='shade'?'Hãy chạm vào hình để tô màu.':'Con điền đủ các ô trống nhé.');return}
   if(hasSound())Sound.play(ok?'ok':'bad');
-  if(ok){q.status='ok';q.pts=q.tries===0?1:.5;fb(el,'ok',pick(PRAISE),q.tries?`<div>${q.sol}</div>`:'');lockCard(el,q)}
+  if(ok){q.status='ok';q.pts=q.tries===0?1:.5;fb(el,'ok',pick(PRAISE),`<div>${q.sol}</div>`);lockCard(el,q)}
   else{q.tries++;if(q.tries===1)fb(el,'hint','Chưa đúng rồi, thử lại nhé!',`<div>💡 Gợi ý: ${q.hint}</div>`);else{q.status='fail';q.pts=0;fb(el,'sol','Mình cùng xem lời giải nhé',`<div>${q.sol}</div>`);lockCard(el,q)}}
   hook('answer',{ok,tries:q.tries,final:q.status!=='open',el});
   updateProgress();
@@ -156,7 +156,7 @@ function check(el,q){
 function lockCard(el,q,restore){el.classList.add(q.status==='ok'?'ok':'fail');$('[data-check]',el).disabled=true;$('[data-swap]',el).hidden=true;
   $$('.blank',el).forEach(x=>{x.disabled=true;if(q.status==='ok')x.classList.add('right')});$$('[data-c],[data-rot],[data-sc],[data-guide]',el).forEach(b=>b.disabled=true);
   if(q.kind==='choice'){$(`[data-c="${q.correct}"]`,el).classList.add('right')}
-  if(restore){q.status==='ok'?fb(el,'ok','Đúng rồi!',''):fb(el,'sol','Lời giải',`<div>${q.sol}</div>`)}}
+  if(restore){q.status==='ok'?fb(el,'ok','Đúng rồi!',`<div>${q.sol}</div>`):fb(el,'sol','Lời giải',`<div>${q.sol}</div>`)}}
 /* ---------- Bài toán nhiều bước (kind 'steps', dựng bằng QS trong core.js) ----------
    Mỗi lần chỉ mở một bước. Sai lần 1 → gợi ý của bước; sai lần 2 → hiện đáp án bước đó rồi làm tiếp.
    Điểm: không sai bước nào = 1; có sai nhưng tự sửa được (hoặc mức 3 phải nhờ "làm từng bước") = ½; phải xem đáp án một bước = 0. */

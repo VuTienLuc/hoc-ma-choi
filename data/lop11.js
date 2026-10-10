@@ -747,6 +747,82 @@ const g6e = lv => {   // ba số lập thành cấp số cộng
     sol:`${tm(`3b = ${S}${RA2}b = ${b}`)}; ${tm(`(${b} - d)\\cdot ${b}\\cdot(${b} + d) = ${P}${RA2}${b*b} - d^2 = ${P/b}${RA2}d = \\pm ${d}`)}. Ba số là ${tm(`${b-d};\\ ${b};\\ ${b+d}`)}, số lớn nhất là ${tb(b+d)}.`});
 };
 
+/* ---------------- BÀI 6 (LUYỆN TẬP THÊM). CẤP SỐ CỘNG ---------------- */
+const g6f = lv => {   // xác định vị trí của một số hạng
+  if(lv===1){ const a=R(-10,15), d=nz(-6,6), k=R(6,25), v=a+(k-1)*d;
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`u_1=${a}`)}, ${tm(`d=${d}`)}. Số ${tm(v)} là số hạng thứ mấy của cấp số cộng?`, tpl:`${tm(v)} là số hạng thứ [_].`, ans:[k],
+      hint:`Dùng ${tm('u_n=u_1+(n-1)d')}, thay ${tm(`u_n=${v}`)} rồi giải phương trình theo ${tm('n')}.`,
+      sol:`Theo công thức số hạng tổng quát, ${tm(`${v}=${a}+(n-1)\\cdot${tp(d)}`)}. Chuyển vế: ${tm(`(n-1)\\cdot${tp(d)}=${v-a}`)}, suy ra ${tm(`n-1=${k-1}`)} và ${tm(`n=${k}`)}. Vậy ${tm(v)} là số hạng thứ ${tb(k)}.`}); }
+  if(lv===2){ const p=R(2,8), d=nz(-7,7), A=R(-15,20), k=p+R(4,15), v=A+(k-p)*d;
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`${u(p)}=${A}`)} và công sai ${tm(`d=${d}`)}. Số ${tm(v)} là số hạng thứ mấy?`, tpl:`${tm(v)} là số hạng thứ [_].`, ans:[k],
+      hint:`Hai số hạng bất kì của cấp số cộng thỏa mãn ${tm('u_n=u_p+(n-p)d')}.`,
+      sol:`Áp dụng ${tm('u_n=u_p+(n-p)d')}: ${tm(`${v}=${A}+(n-${p})\\cdot${tp(d)}`)}. Do đó ${tm(`(n-${p})\\cdot${tp(d)}=${v-A}`)}, suy ra ${tm(`n-${p}=${k-p}`)} và ${tm(`n=${k}`)}. Vậy vị trí cần tìm là ${tb(k)}.`}); }
+  let p,q; do{p=R(2,6);q=R(8,14)}while(q<=p); const a=R(-12,15), d=nz(-6,6), A=a+(p-1)*d, B=a+(q-1)*d, k=q+R(3,10), v=a+(k-1)*d;
+  return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`${u(p)}=${A}`)}, ${tm(`${u(q)}=${B}`)}. Số ${tm(v)} là số hạng thứ mấy?`, tpl:`${tm(v)} là số hạng thứ [_].`, ans:[k],
+    hint:`Từ ${tm(`u_{${q}}-u_{${p}}=(${q}-${p})d`)} tìm công sai; sau đó dùng ${tm('u_n=u_p+(n-p)d')}.`,
+    sol:`Ta có ${tm(`${B}-${tp(A)}=(${q}-${p})d`)}, nên ${tm(`${q-p}d=${B-A}`)} và ${tm(`d=${d}`)}. Tiếp theo, ${tm(`${v}=${A}+(n-${p})\\cdot${tp(d)}`)}, suy ra ${tm(`n=${k}`)}. Vậy ${tm(v)} là số hạng thứ ${tb(k)}.`});
+};
+
+const g6g = lv => {   // tổng một đoạn liên tiếp của cấp số cộng
+  if(lv===1){ const a=R(-5,15), d=nz(-4,5), n=R(8,22), last=a+(n-1)*d, S=n*(a+last)/2;
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`u_1=${a}`)}, ${tm(`d=${d}`)}. Tính ${tm(`u_1+u_2+\\cdots+u_{${n}}`)}.`, tpl:blankV(`S_{${n}}`), ans:[S], wide:true,
+      hint:`Tính ${tm(`u_{${n}}`)} rồi dùng ${tm('S_n=\\dfrac{n(u_1+u_n)}{2}')}.`,
+      sol:`Số hạng cuối là ${tm(`u_{${n}}=${a}+(${n}-1)\\cdot${tp(d)}=${last}`)}. Vì có ${tm(n)} số hạng, ${tm(`S_{${n}}=\\dfrac{${n}(${tp(a)}+${tp(last)})}{2}=${S}`)}. Vậy tổng cần tìm là ${tb(S)}.`}); }
+  if(lv===2){ const a=R(-8,18), d=nz(-5,6), p=R(3,8), q=p+R(6,16), A=a+(p-1)*d, B=a+(q-1)*d, count=q-p+1, S=count*(A+B)/2;
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`u_1=${a}`)}, ${tm(`d=${d}`)}. Tính tổng ${tm(`T=u_{${p}}+u_{${p+1}}+\\cdots+u_{${q}}`)}.`, tpl:blankV('T'), ans:[S], wide:true,
+      hint:`Đoạn từ ${tm(`u_{${p}}`)} đến ${tm(`u_{${q}}`)} có ${tm(`${q}-${p}+1`)} số hạng. Tính hai đầu mút rồi lấy số số hạng nhân trung bình cộng hai đầu mút.`,
+      sol:`Ta có ${tm(`u_{${p}}=${a}+${p-1}\\cdot${tp(d)}=${A}`)} và ${tm(`u_{${q}}=${a}+${q-1}\\cdot${tp(d)}=${B}`)}. Số số hạng là ${tm(`${q}-${p}+1=${count}`)}. Do đó ${tm(`T=\\dfrac{${count}(${tp(A)}+${tp(B)})}{2}=${S}`)}. Vậy ${tb(`T=${S}`)}.`}); }
+  const a=R(-10,15), d=nz(-6,6); let p,q; do{p=R(2,7);q=R(10,18)}while(q<=p); const A=a+(p-1)*d, B=a+(q-1)*d, r=R(p+1,q-2), s=R(r+1,q-1), Rv=a+(r-1)*d, Sv=a+(s-1)*d, count=s-r+1, sum=count*(Rv+Sv)/2;
+  return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`${u(p)}=${A}`)}, ${tm(`${u(q)}=${B}`)}. Tính ${tm(`T=u_{${r}}+u_{${r+1}}+\\cdots+u_{${s}}`)}.`, tpl:blankV('T'), ans:[sum], wide:true,
+    hint:`Tìm công sai từ hai số hạng đã biết; tính ${tm(`u_{${r}}`)}, ${tm(`u_{${s}}`)}; đoạn cần cộng có ${tm(`${s}-${r}+1`)} số hạng.`,
+    sol:`Từ ${tm(`u_{${q}}-u_{${p}}=(${q}-${p})d`)}, ta có ${tm(`d=\\dfrac{${B}-${tp(A)}}{${q-p}}=${d}`)}. Suy ra ${tm(`u_{${r}}=${A}+(${r}-${p})\\cdot${tp(d)}=${Rv}`)}, ${tm(`u_{${s}}=${A}+(${s}-${p})\\cdot${tp(d)}=${Sv}`)}. Có ${tm(count)} số hạng nên ${tm(`T=\\dfrac{${count}(${tp(Rv)}+${tp(Sv)})}{2}=${sum}`)}. Vậy ${tb(`T=${sum}`)}.`});
+};
+
+const g6h = lv => {   // chèn các số để tạo thành cấp số cộng
+  if(lv===1){ const a=R(-12,12), d=nz(-8,8), b=a+2*d, x=a+d;
+    return QB({text:`Chèn một số ${tm('x')} vào giữa ${tm(a)} và ${tm(b)} để ba số theo thứ tự lập thành cấp số cộng.`, tpl:blankV('x'), ans:[x],
+      hint:`Số ở giữa bằng trung bình cộng của hai số hai bên: ${tm('x=\\dfrac{a+b}{2}')}.`,
+      sol:`Vì ba số lập thành cấp số cộng, ${tm(`x=\\dfrac{${a}+${tp(b)}}{2}=${x}`)}. Vậy số cần chèn là ${tb(x)}.`}); }
+  if(lv===2){ const m=R(2,5), a=R(-10,15), d=nz(-6,6), b=a+(m+1)*d, k=R(1,m), x=a+k*d;
+    return QB({text:`Chèn ${m} số vào giữa ${tm(a)} và ${tm(b)} để tất cả các số theo thứ tự lập thành cấp số cộng. Tìm số thứ ${k} được chèn vào (tính từ trái sang phải).`, tpl:'[_]', ans:[x],
+      hint:`Sau khi chèn có ${tm(m+2)} số hạng nên từ số đầu đến số cuối có ${tm(m+1)} khoảng bằng nhau.`,
+      sol:`Công sai là ${tm(`d=\\dfrac{${b}-${tp(a)}}{${m+1}}=${d}`)}. Số thứ ${k} được chèn là số hạng thứ ${k+1}: ${tm(`u_{${k+1}}=${a}+${k}\\cdot${tp(d)}=${x}`)}. Đáp số: ${tb(x)}.`}); }
+  const m=R(4,9), a=R(2,15), d=R(2,8), b=a+(m+1)*d, total=m+2;
+  return QB({text:`Trên một đoạn đường, hai cột mốc đầu và cuối ghi ${tm(a)} km và ${tm(b)} km. Người ta đặt thêm các cột mốc ở giữa, cách đều ${d} km, để các số ghi trên cột tạo thành một cấp số cộng. Hỏi cả đoạn có tất cả bao nhiêu cột mốc?`, tpl:'[_] cột mốc', ans:[total],
+    hint:`Số khoảng cách bằng hiệu hai số đầu–cuối chia cho công sai; số cột mốc nhiều hơn số khoảng đúng 1.`,
+    sol:`Số khoảng cách bằng nhau là ${tm(`\\dfrac{${b}-${a}}{${d}}=${m+1}`)}. Vì số cột mốc bằng số khoảng cộng ${tm(1)}, cả đoạn có ${tm(`${m+1}+1=${total}`)} cột mốc. Đáp số: ${tb(total)}.`});
+};
+
+const g6i = lv => {   // tính chất hai số hạng cách đều số hạng giữa
+  if(lv===1){ const m=R(4,12), h=R(1,m-1), mid=R(-12,20), sum=2*mid;
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} biết ${tm(`u_{${m-h}}+u_{${m+h}}=${sum}`)}. Tính ${tm(u(m))}.`, tpl:blankU(m), ans:[mid],
+      hint:`Trong cấp số cộng, hai số hạng có chỉ số cách đều ${tm('m')} có tổng bằng ${tm('2u_m')}.`,
+      sol:`Vì ${tm(`(${m-h})+(${m+h})=2\\cdot${m}`)}, ta có ${tm(`u_{${m-h}}+u_{${m+h}}=2u_{${m}}`)}. Do đó ${tm(`2u_{${m}}=${sum}`)}, suy ra ${tm(`u_{${m}}=${mid}`)}. Đáp số: ${tb(mid)}.`}); }
+  const p=R(2,8), q=p+2*R(2,6), m=(p+q)/2, val=R(-15,25), sum=2*val;
+  if(lv===2) return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`${u(p)}+${u(q)}=${sum}`)}. Tính ${tm(u(m))}.`, tpl:blankU(m), ans:[val],
+    hint:`Kiểm tra ${tm(`${p}+${q}=2\\cdot${m}`)} rồi dùng tính chất ${tm('u_p+u_q=2u_m')}.`,
+    sol:`Ta có ${tm(`${p}+${q}=2\\cdot${m}`)} nên ${tm(`${u(p)}+${u(q)}=2${u(m)}`)}. Vì vậy ${tm(`2${u(m)}=${sum}`)}, suy ra ${tm(`${u(m)}=${val}`)}. Đáp số: ${tb(val)}.`});
+  const a=R(-10,12), d=nz(-5,6), p1=R(2,5), q1=R(6,10); let p2,q2; do{p2=R(2,5);q2=R(11,16)}while(p1+q1===p2+q2); const A=2*a+(p1+q1-2)*d, B=2*a+(p2+q2-2)*d, k=R(8,18), v=a+(k-1)*d;
+  return QB({text:`Cho cấp số cộng ${tm('(u_n)')} thỏa mãn ${tm(`${u(p1)}+${u(q1)}=${A}`)} và ${tm(`${u(p2)}+${u(q2)}=${B}`)}. Tính ${tm(u(k))}.`, tpl:blankU(k), ans:[v], wide:true,
+    hint:`Dùng ${tm('u_p+u_q=2u_1+(p+q-2)d')} cho từng đẳng thức để lập hệ tìm ${tm('u_1,d')}.`,
+    sol:`Từ công thức ${tm('u_p+u_q=2u_1+(p+q-2)d')}, ta có ${td(`\\begin{cases}2u_1+${p1+q1-2}d=${A}\\\\2u_1+${p2+q2-2}d=${B}\\end{cases}`)}Trừ hai phương trình, được ${tm(`${p2+q2-p1-q1}d=${B-A}`)}, suy ra ${tm(`d=${d}`)} và ${tm(`u_1=${a}`)}. Vậy ${tm(`${u(k)}=${a}+${k-1}\\cdot${tp(d)}=${v}`)}. Đáp số: ${tb(v)}.`});
+};
+
+const g6j = lv => {   // bài toán thực tế tăng đều
+  if(lv===1){ const first=R(14,24), d=R(2,5), n=R(10,22), last=first+(n-1)*d;
+    return QB({text:`Một khán đài có ${n} hàng ghế. Hàng đầu có ${first} ghế, mỗi hàng sau nhiều hơn hàng trước ${d} ghế. Hỏi hàng thứ ${n} có bao nhiêu ghế?`, tpl:'[_] ghế', ans:[last],
+      hint:`Số ghế mỗi hàng là cấp số cộng với ${tm(`u_1=${first}, d=${d}`)}; cần tính ${tm(`u_{${n}}`)}.`,
+      sol:`Theo công thức ${tm('u_n=u_1+(n-1)d')}, hàng thứ ${n} có ${tm(`${first}+(${n}-1)\\cdot${d}=${last}`)} ghế. Đáp số: ${tb(last)} ghế.`}); }
+  if(lv===2){ const first=pick([20,30,40,50]), d=pick([5,10,15]), n=R(8,20), total=n*(2*first+(n-1)*d)/2;
+    return QB({text:`Một bạn tiết kiệm ${first} nghìn đồng trong tuần đầu. Mỗi tuần sau bạn tiết kiệm nhiều hơn tuần trước ${d} nghìn đồng. Hỏi sau ${n} tuần, tổng số tiền tiết kiệm là bao nhiêu?`, tpl:'[_] nghìn đồng', ans:[total], wide:true,
+      hint:`Số tiền theo tuần là cấp số cộng. Bài toán hỏi tổng ${tm(`S_{${n}}`)}, không chỉ hỏi số tiền của tuần cuối.`,
+      sol:`Ta có ${tm(`u_1=${first}, d=${d}`)}. Tổng sau ${n} tuần là ${tm(`S_{${n}}=\\dfrac{${n}[2\\cdot${first}+(${n}-1)\\cdot${d}]}{2}=${total}`)}. Vậy bạn tiết kiệm được ${tb(fmt(total))} nghìn đồng.`}); }
+  const first=R(8,18), d=R(2,6), n=R(10,22), total=n*(2*first+(n-1)*d)/2;
+  return QB({text:`Một đội trồng cây: ngày đầu trồng ${first} cây, mỗi ngày sau trồng nhiều hơn ngày trước ${d} cây. Sau một số ngày, đội trồng được đúng <b>${fmt(total)}</b> cây. Hỏi đội đã làm trong bao nhiêu ngày?`, tpl:'[_] ngày', ans:[n],
+    hint:`Lập phương trình tổng cấp số cộng ${tm(`\\dfrac{x[2\\cdot${first}+(x-1)\\cdot${d}]}{2}=${total}`)}; chọn nghiệm nguyên dương phù hợp thực tế.`,
+    sol:`Gọi số ngày là ${tm('x')} (${tm('x')} nguyên dương). Khi đó ${tm(`\\dfrac{x[${2*first}+${d}(x-1)]}{2}=${total}`)}, hay ${tm(`${d}x^2+${2*first-d}x-${2*total}=0`)}. Phương trình có nghiệm nguyên dương ${tm(`x=${n}`)} (nghiệm còn lại âm, loại). Vậy đội làm trong ${tb(n)} ngày.`});
+};
+
 /* ---------------- BÀI 7. CẤP SỐ NHÂN ---------------- */
 const CSN = 'Cấp số nhân: mỗi số hạng (từ số hạng thứ hai) bằng số hạng đứng ngay trước nhân với một số không đổi ' + tm('q') + ' (công bội).';
 const g7a = lv => {   // nhận biết cấp số nhân
@@ -826,6 +902,12 @@ lesson(2,'day-so','Bài 5. Dãy số','Tính số hạng (công thức, truy h�
 lesson(2,'day-so-luyen-tap-1','Bài 5. Dãy số – Luyện tập thêm 1','Cách cho dãy số: số hạng thứ mấy; viết u_{n+1}, u_{2n}; hệ thức truy hồi; từ truy hồi đến công thức; dãy cho bằng mô tả; bài toán thực tế.',[g5e,g5f,g5g,g5h,g5i,g5o]);
 lesson(2,'day-so-luyen-tap-2','Bài 5. Dãy số – Luyện tập thêm 2','Tính chất của dãy số: đếm số hạng thoả điều kiện; tham số để dãy tăng; chặn trên – chặn dưới; số hạng lớn nhất, nhỏ nhất; khẳng định đúng – sai.',[g5j,g5k,g5l,g5m,g5n]);
 lesson(2,'cap-so-cong','Bài 6. Cấp số cộng','Nhận biết; số hạng tổng quát; tổng n số hạng đầu; ba số lập thành cấp số cộng; bài toán thực tế.',[g6a,g6b,g6c,g6e,g6d]);
+lesson(2,'cap-so-cong-luyen-tap','Bài 6. Cấp số cộng – Luyện tập thêm','Xác định vị trí số hạng; tổng một đoạn; chèn số; tính chất hai số hạng cách đều; bài toán thực tế.',[g6f,g6g,g6h,g6i,g6j],{introTitle:'Công thức và tính chất cần nhớ',intro:[
+  {t:'Số hạng tổng quát',b:`${tm('u_n=u_1+(n-1)d')}; tổng quát hơn: ${tm('u_n=u_p+(n-p)d')}.`,warn:'Khi tìm vị trí, nghiệm n phải là số nguyên dương.',ex:'Biết một số hạng và công sai thì không cần quay về u₁.'},
+  {t:'Tổng một đoạn liên tiếp',b:`Từ ${tm('u_p')} đến ${tm('u_q')} có ${tm('q-p+1')} số hạng; tổng bằng số số hạng nhân ${tm('\\dfrac{u_p+u_q}{2}')}.`,warn:'Không lấy q − p; phải cộng thêm 1.',ex:'Có thể dùng S_q − S_{p−1}, nhưng công thức hai đầu mút thường ngắn hơn.'},
+  {t:'Chèn số',b:'Nếu chèn m số vào giữa hai đầu mút thì có m + 1 khoảng bằng nhau.',warn:'Số số hạng bằng số khoảng cộng 1.',ex:'Công sai bằng hiệu hai đầu mút chia cho số khoảng.'},
+  {t:'Hai số hạng cách đều',b:`Nếu ${tm('p+q=2m')} thì ${tm('u_p+u_q=2u_m')}.`,warn:'Phải kiểm tra tổng hai chỉ số trước khi dùng.',ex:'Tính nhanh số hạng giữa mà không cần tìm u₁ và d.'}
+]});
 lesson(2,'cap-so-nhan','Bài 7. Cấp số nhân','Nhận biết; số hạng tổng quát; tổng n số hạng đầu; ba số lập thành cấp số nhân; bài toán thực tế.',[g7a,g7b,g7c,g7e,g7d]);
 lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp số cộng, cấp số nhân và bài toán thực tế.',[g5a,g5c,g6b,g6c,g7b,g7c]);
 }
