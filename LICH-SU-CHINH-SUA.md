@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-10 – Đề kiểm tra 45 phút Toán 11 chương II (Dãy số, CSC, CSN)
+
+- **Yêu cầu của thầy:** Làm đề kiểm tra 45 phút kiến thức chương 2 lớp 11: 10 câu trắc nghiệm 5 điểm, 3 câu đúng/sai 3 điểm, 2 câu trả lời ngắn; mức trung bình – khá được 7–8 điểm, giỏi 9–10 điểm.
+- **Kết quả:** (1) Đề in A4 cho giáo viên `c2` (mã 121–124, mỗi mã đúng 2 trang, có đáp án – hướng dẫn chấm và ma trận): 10 TN × 0,5 + 3 Đ/S × 1 + 2 TLN × 1 = 10 điểm (thầy ghi “2 TLN: 1 điểm” – em hiểu là mỗi câu 1 điểm để tổng đủ 10). (2) Hai bài làm trực tuyến có đồng hồ 45 phút `c2-1`, `c2-2` (chủ đề 2 của Toán 11), mỗi đề 4 mã. Phân mức: TN 1–2, 4, 7 nhận biết; TN 3, 5, 6, 8 thông hiểu; TN 9–10 vận dụng thấp; Đ/S ý a–c nhận biết/thông hiểu, ý d vận dụng; TLN 1 thực tế, TLN 2 vận dụng cao. Mỗi câu có 8 phiên bản số liệu; đáp án suy ra bằng phép tính và đối chiếu bằng liệt kê số hạng.
+- **Tệp thay đổi:** `data/lop11-chuong2-bank.js` (mới, `C2B11`), `giao-vien/bai-giang/lop11-kiem-tra-c2.js` (mới), `data/lop11-chuong2-kiem-tra.js` (mới), `index.html`, `giao-vien/index.html`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_kiemtra.py lop11 c2` → ĐẠT (11/11: công thức hiển thị, mỗi mã in đúng 2 trang A4, đáp án); đã mở thử bài trực tuyến, không lỗi JS, không công thức thô; bank tự kiểm 8 phiên bản × 15 câu (không trùng phương án, đáp số TLN ≤ 4 kí tự).
+- **Việc thủ công:** Thầy xem lại độ khó và tổng điểm (nếu muốn 2 TLN = 1 điểm cả hai, em đổi lại thang).
+
 ### 2026-10-10 – Lớp 4: thêm “Đề tổng hợp giữa kì I (9 dạng)”
 
 - **Yêu cầu của thầy:** “Làm tiếp lớp 4” (sau chủ đề Luyện tập giữa học kì I).
