@@ -60,8 +60,8 @@ const setBai = (obj, k, n) => Object.keys(obj).forEach(key => { if(k.includes(ke
 
 MC.listSet = r => {
   const a = ri(r, 1, 4), b = ri(r, 4, 9), lo = -a, hi = b, f = (cl, cu) => { const o = []; for(let x = -20; x <= 20; x++){ const v = 2*x + 1; if((cl ? v >= lo : v > lo) && (cu ? v <= hi : v < hi)) o.push(x); } return o; };
-  const ok = f(true, false), cand = [f(true, true), f(false, false), f(false, true), ok.slice(1), ok.slice(0, -1), [...ok, ok[ok.length - 1] + 1]].map(setTex), c = setTex(ok);
-  return mcq('Nhận biết', `Liệt kê các phần tử của tập hợp ${M(`A = \\{x \\in \\mathbb{Z} \\mid ${lo} \\le 2x + 1 \\lt ${hi}\\}`)}.`, c, cand,
+  const ok = f(true, false), cand = [f(true, true), f(false, false), f(false, true), ok.slice(1), ok.slice(0, -1), [...ok, ok[ok.length - 1] + 1]].map(x => M(setTex(x))), c = setTex(ok);
+  return mcq('Nhận biết', `Liệt kê các phần tử của tập hợp ${M(`A = \\{x \\in \\mathbb{Z} \\mid ${lo} \\le 2x + 1 \\lt ${hi}\\}`)}.`, M(c), cand,
     p(`${M(`${lo} \\le 2x + 1 \\lt ${hi} \\Leftrightarrow ${num(lo - 1, 2)} \\le x \\lt ${num(hi - 1, 2)}`)}.`) + p(`Các số nguyên ${M('x')} thoả mãn là: ${M(c)}.`));
 };
 MC.triArea = r => {
@@ -314,5 +314,10 @@ const seed = (n, slot, ci) => (n * 100003 + slot * 1009 + ci * 31 + 17) >>> 0;
 const mcOf = (n, i, ci) => { const k = PLAN[n - 1].mc[i], x = MC[k](rng(seed(n, i, ci)), ci); return {...x, bai:MC[k].bai}; };
 const tfOf = (n, i, ci) => { const k = PLAN[n - 1].tf[i], x = TF[k](rng(seed(n, 20 + i, ci)), ci); return {...x, bai:TF[k].bai}; };
 const shOf = (n, i, ci) => shRun(PLAN[n - 1].sh[i], seed(n, 40 + i, ci));
-globalThis.GK1 = {PLAN, MC, TF, SH, mcOf, tfOf, shOf, shRun, M, FIG, rng, seed, num, setTex, ivTex, ineq, lin, SYS, Pt, MS, vertices, fmt, p, P60, P120, P90, HERON};
+// Đề giữa kì THEO MA TRẬN tuần 8 (60 phút: 10 TN + 3 Đ/S + 4 TLN): dạng câu theo thứ tự ma trận; n = số hiệu bộ đề (n = 7 là đề in cho giáo viên)
+const MT = {mc:['isProp', 'negQuant', 'listSet', 'setOp', 'halfPlane', 'sysPoint', 'trig', 'cosLaw', 'sinLaw', 'angleType'], tf:['sets', 'lp', 'tri'], sh:['vennShort', 'subsets', 'lpMin', 'tree'], shBai:[1, 1, 2, 3]};
+const mtMc = (n, i, ci) => { const k = MT.mc[i], x = MC[k](rng(seed(n, i, ci)), ci); return {...x, bai:MC[k].bai}; };
+const mtTf = (n, i, ci) => { const k = MT.tf[i], x = TF[k](rng(seed(n, 20 + i, ci)), ci); return {...x, bai:TF[k].bai}; };
+const mtSh = (n, i, ci) => ({...shRun(MT.sh[i], seed(n, 40 + i, ci)), bai:MT.shBai[i]});
+globalThis.GK1 = {PLAN, MC, TF, SH, mcOf, tfOf, shOf, shRun, MT, mtMc, mtTf, mtSh, M, FIG, rng, seed, num, setTex, ivTex, ineq, lin, SYS, Pt, MS, vertices, fmt, p, P60, P120, P90, HERON};
 })();

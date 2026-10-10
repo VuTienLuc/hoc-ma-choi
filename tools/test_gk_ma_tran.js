@@ -3,7 +3,7 @@
 const fs = require('fs'), vm = require('vm'), path = require('path'), R = p => fs.readFileSync(path.join(__dirname, '..', p), 'utf8');
 const ctx = {console, Math, tm: x => `\\(${x}\\)`, globalThis: null}; ctx.globalThis = ctx; vm.createContext(ctx);
 vm.runInContext(R('assets/js/kiemtra.js') + ';this.KiemTra = KiemTra;', ctx);
-['assets/js/figures.js', 'data/lop10-giua-ki-bank.js', 'giao-vien/bai-giang/lop10-giua-ki-ma-tran.js', 'giao-vien/bai-giang/lop11-giua-ki-ma-tran.js'].forEach(f => vm.runInContext(R(f), ctx, {filename:f}));
+['assets/js/figures.js', 'data/lop10-giua-ki-bank.js', 'data/lop11-giua-ki-bank.js', 'giao-vien/bai-giang/lop10-giua-ki-ma-tran.js', 'giao-vien/bai-giang/lop11-giua-ki-ma-tran.js'].forEach(f => vm.runInContext(R(f), ctx, {filename:f}));
 const KT = ctx.KiemTra, bad = [], ok = (c, m) => { if(!c) bad.push(m); };
 const T = {10:KT.TESTS.find(t => t.grade === 'lop10' && t.id === 'gk-ma-tran'), 11:KT.TESTS.find(t => t.grade === 'lop11' && t.id === 'gk-ma-tran')};
 const num = s => { const m = String(s).replace(/\\\(|\\\)|\\dfrac|[{}]/g, m => m === '\\dfrac' ? '' : '').match(/-?\d+[,.]?\d*/); return m ? parseFloat(m[0].replace(',', '.')) : NaN; };

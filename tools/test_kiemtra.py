@@ -35,8 +35,8 @@ async def main():
             for c in t['codes'] + ['da']:
                 w = f"{t['g']}/{t['id']} {'đáp án' if c == 'da' else 'mã ' + c}"
                 await pg.goto(f"http://127.0.0.1:{PORT}/giao-vien/index.html#/{t['g']}/kiem-tra/{t['id']}/{'da' if c == 'da' else 'de-' + c}"); await pg.reload(); await pg.wait_for_timeout(2500)
-                bad = await pg.evaluate("document.querySelectorAll('mjx-merror').length + (document.querySelector('.kt-doc')?.innerText.match(/\\$/g) || []).length")
-                ok(f'{w}: công thức hiển thị, không merror, không $ trần', bad == 0)
+                bad = await pg.evaluate("document.querySelectorAll('mjx-merror').length + (document.querySelector('.kt-doc')?.innerText.match(/\\$/g) || []).length + (document.querySelector('.kt-doc')?.innerText.match(/\\\\[a-zA-Z{]/g) || []).length")
+                ok(f'{w}: công thức hiển thị, không merror, không $ hay \\ trần', bad == 0)
                 await pg.emulate_media(media='print'); f = tempfile.mktemp(suffix='.pdf'); await pg.pdf(path=f, prefer_css_page_size=True, print_background=True); await pg.emulate_media(media='screen')
                 n = pdf_pages(f)
                 if c != 'da': ok(f'{w}: in ĐÚNG {t["pages"]} trang A4 (đo thật = {n})', n == t['pages'])

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-10 – Bản luyện tập trực tuyến giữa học kì I theo ma trận + sửa lỗi hiển thị tập hợp
+
+- **Yêu cầu của thầy:** (1) Làm bản cho học sinh ôn trực tuyến theo cấu trúc đề giữa kì (10 TN + 3 Đ/S + 4 TLN); (2) bỏ ở đầu đề các dòng "Sách Kết nối tri thức với cuộc sống" và "– THEO MA TRẬN"; (3) kiểm tra lỗi hiển thị (ảnh thầy gửi: phương án câu liệt kê phần tử tập hợp hiện ký tự `\{ … \}` thô).
+- **Kết quả:** Mỗi lớp 2 bài luyện có đồng hồ 60 phút, 4 mã đề/bài (`gk-mt-1`, `gk-mt-2`): Toán 10 ở chủ đề 4 “Ôn tập giữa học kì I”; Toán 11 ở chủ đề mới 3 “Ôn tập giữa học kì I (theo ma trận)” (`data/lop11.js`). Chấm 10 TN × 0,4 + 3 Đ/S (0,1/0,25/0,5/1) + 4 TLN × 0,75; có lời giải từng câu. Đề 1 trùng đề in cho giáo viên (mã 701–704 / 711–714), Đề 2 là bộ số khác. Toán 11: câu hỏi chuyển sang ngân hàng `data/lop11-giua-ki-bank.js` (`GK11`, mỗi dạng 8 phiên bản, có lời giải) dùng chung với đề in; Toán 10: thêm `GK1.mtMc/mtTf/mtSh` vào `lop10-giua-ki-bank.js`. Đầu đề in không còn dòng "Sách …" (`book:''`) và "– THEO MA TRẬN"; thẻ trên trang bài làm ghi “LUYỆN TẬP GIỮA HỌC KÌ I” (`pill`). **Sửa lỗi:** dạng `listSet` của ngân hàng Toán 10 trả phương án thiếu `\( \)` nên hiện ký tự thô (ảnh hưởng cả 5 đề ôn giữa kì cũ); đã bọc công thức. `test_kiemtra.py` nay bắt cả ký tự `\lệnh` hiện thô.
+- **Tệp thay đổi:** `data/lop11-giua-ki-bank.js` (mới), `data/lop11-giua-ki-kiem-tra.js` (mới), `data/lop10-giua-ki-bank.js`, `data/lop10-giua-ki-kiem-tra.js`, `data/lop11.js`, `index.html`, `giao-vien/index.html`, `giao-vien/bai-giang/lop10-giua-ki-ma-tran.js`, `giao-vien/bai-giang/lop11-giua-ki-ma-tran.js`, `assets/js/kiemtra.js`, `assets/js/student-test.js`, `tools/test_giuaki_truc_tuyen.py` (mới), `tools/test_gk_ma_tran.js`, `tools/test_kiemtra.py`, `CLAUDE.md`, `AGENTS.md`
+- **Kiểm thử:** `node tools/test_gk_ma_tran.js` → ĐẠT; `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` (mọi bài kiểm tra học sinh: làm đúng hết = 10 điểm, luân phiên đủ 4 mã) → ĐẠT; `python3 tools/test_giuaki_truc_tuyen.py` (32 lượt làm thật trên trình duyệt: đúng hết = 10, sai hết < 1, có lời giải, không lỗi công thức/ký tự thô/tràn ngang) → ĐẠT; `python3 tools/test_kiemtra.py` (101 kiểm tra in A4, đúng số trang) → ĐẠT. `python3 tools/test_chieu_kiemtra.py` → chiếu 1280×720: 992 trang không tràn, không lỗi công thức ĐẠT; phần 1024×768 chưa chờ xong kết quả.
+- **Việc thủ công:** Không có.
+
 ### 2026-10-10 – Đề kiểm tra giữa học kì I theo ma trận tuần 8 (Toán 10 và Toán 11)
 
 - **Yêu cầu của thầy:** Dựa vào tệp "MA TRẬN GKI" (đề giữa kì 60 phút, tuần 8) dựng đề kiểm tra giữa kì cho lớp 10 và lớp 11 đúng chuẩn.

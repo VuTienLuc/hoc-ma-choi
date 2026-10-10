@@ -9,7 +9,7 @@
 (() => {
 const G = App.addGrade({
   id: 'lop11', name: 'Lớp 11', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Hàm số lượng giác và phương trình lượng giác'}, {id:2, hk:1, name:'Dãy số. Cấp số cộng và cấp số nhân'} ],
+  topics: [ {id:1, hk:1, name:'Hàm số lượng giác và phương trình lượng giác'}, {id:2, hk:1, name:'Dãy số. Cấp số cộng và cấp số nhân'}, {id:3, hk:1, name:'Ôn tập giữa học kì I (theo ma trận)'} ],
 });
 const lesson = G.lesson;
 
