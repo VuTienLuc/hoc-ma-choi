@@ -309,6 +309,7 @@ b.ans mjx-container,b.ans{color:var(--primary)}
 .pet .acc-sky{fill:var(--acc-sky)} .pet .acc-grass{fill:var(--acc-grass)} .pet .acc-grass2{fill:var(--acc-grass2)} .pet .acc-grass-dark{fill:var(--acc-grass2);opacity:.6} .pet .acc-sea{fill:var(--acc-sea)} .pet .acc-sand{fill:var(--acc-sand)}
 .pet .acc-foam{fill:none;stroke:var(--acc-white);stroke-width:2} .pet .acc-night{fill:var(--acc-night)} .pet .acc-moon{fill:var(--acc-moon)} .pet .acc-board{fill:var(--acc-board);stroke:var(--acc-wood);stroke-width:3}
 .pet .acc-wall{fill:var(--acc-wall)} .pet .acc-wood{fill:var(--acc-wood)} .pet .acc-chalk{fill:var(--acc-white);font-weight:700}
+.pet .acc-hand{filter:drop-shadow(0 2px 1px rgb(20 33 61 / .24))}.pet .acc-math{fill:var(--acc-white);stroke:none;font:900 11px/1 var(--f-head)}
 .pet .pet-tear{fill:var(--acc-tear);stroke:var(--pet-ink);stroke-width:1}
 .pchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
 .pchips span{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border:2px solid var(--line);border-radius:var(--r-pill);background:var(--bg);font-size:15px}
@@ -347,6 +348,7 @@ body.noscroll{overflow:hidden}
 .item{display:grid;justify-items:center;gap:4px;padding:10px 8px;border:2.5px solid var(--line);border-radius:var(--r-md);background:var(--surface);color:var(--ink);font:600 14px/1.25 var(--f-body);cursor:pointer;text-align:center}
 .item svg{width:96px;height:96px} .item span{font-weight:800;color:var(--star)}
 .item.own span{color:var(--primary)} .item.on{background:var(--primary-soft);box-shadow:var(--shadow-sm)} .item.on span{color:var(--ok)}
+.item small{min-height:1.25em;color:var(--muted);font-size:11px;font-weight:750}.item.locked{border-color:color-mix(in srgb,var(--muted) 60%,var(--line));background:color-mix(in srgb,var(--bg) 82%,var(--surface))}.item.locked svg{filter:grayscale(.72);opacity:.62}.item.locked span{color:var(--bad)}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .stats span{padding:6px 12px;border:2px solid var(--line);border-radius:var(--r-md);background:var(--bg)}
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}

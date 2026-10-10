@@ -236,8 +236,18 @@ const Play = (() => {
     {id:'nen-bien',  slot:'bg',   name:'Bãi biển', price:60},
     {id:'nen-dem',   slot:'bg',   name:'Bầu trời đêm', price:70},
     {id:'nen-lop',   slot:'bg',   name:'Lớp học', price:60},
+    {id:'gay-sao-so-hoc', slot:'hand', grade:'lop4', name:'Gậy Sao Số Học', price:120, stars:18},
+    {id:'but-cau-vong', slot:'hand', grade:'lop4', name:'Bút Chì Cầu Vồng', price:200, stars:36},
+    {id:'kiem-da-thuc', slot:'hand', grade:'lop8', name:'Kiếm Đa Thức', price:120, stars:18},
+    {id:'bua-hang-dang-thuc', slot:'hand', grade:'lop8', name:'Búa Hằng Đẳng Thức', price:200, stars:36},
+    {id:'truong-can-thuc', slot:'hand', grade:'lop9', name:'Trượng Căn Thức', price:120, stars:18},
+    {id:'khien-duong-tron', slot:'hand', grade:'lop9', name:'Khiên Đường Tròn', price:200, stars:36},
+    {id:'kiem-vecto', slot:'hand', grade:'lop10', name:'Kiếm Vectơ', price:120, stars:18},
+    {id:'truong-luong-giac', slot:'hand', grade:'lop10', name:'Trượng Lượng Giác', price:200, stars:36},
+    {id:'kiem-cap-so', slot:'hand', grade:'lop11', name:'Kiếm Cấp Số', price:120, stars:18},
+    {id:'quyen-truong-ham-so', slot:'hand', grade:'lop11', name:'Quyền Trượng Hàm Số', price:200, stars:36},
   ];
-  const SLOT = {hat:'Mũ & hoa', eye:'Kính', neck:'Nơ & khăn', bg:'Phòng / nền'};
+  const SLOT = {hat:'Mũ & hoa', eye:'Kính', neck:'Nơ & khăn', hand:'Vật phẩm cầm tay', bg:'Phòng / nền'};
   function bgSVG(id){
     const box = inner => `<g class="acc-bg"><clipPath id="clip-${id}"><rect x="2" y="2" width="116" height="116" rx="18"/></clipPath><g clip-path="url(#clip-${id})">${inner}</g></g>`;
     if(id === 'nen-vuon') return box(`<rect class="acc-sky" width="120" height="120"/><circle class="acc-yellow" cx="96" cy="24" r="11"/><ellipse class="acc-grass" cx="30" cy="118" rx="60" ry="26"/><ellipse class="acc-grass2" cx="100" cy="122" rx="55" ry="24"/><circle class="acc-pink" cx="18" cy="100" r="4"/><circle class="acc-yellow" cx="104" cy="104" r="3.5"/>`);
@@ -261,6 +271,16 @@ const Play = (() => {
     if(w.hat === 'no-hoa'){ const fx = cx + r*.5, fy = top + r*.2, pr = r*.12;
       s += [0,72,144,216,288].map(a => `<circle class="acc-pink acc-st" cx="${fx + Math.cos(a*Math.PI/180)*pr*1.3}" cy="${fy + Math.sin(a*Math.PI/180)*pr*1.3}" r="${pr}"/>`).join('') + `<circle class="acc-yellow acc-st" cx="${fx}" cy="${fy}" r="${pr*.9}"/>`; }
     if(w.hat === 'mu-tn') s += `<rect class="acc-dark acc-st" x="${cx-r*.36}" y="${top-r*.06}" width="${r*.72}" height="${r*.26}" rx="${r*.05}"/><path class="acc-dark acc-st" d="M${cx} ${top-r*.42} L${cx+r*.78} ${top-r*.18} L${cx} ${top+r*.06} L${cx-r*.78} ${top-r*.18} Z"/><path class="acc-gold-line" d="M${cx} ${top-r*.18} L${cx+r*.56} ${top-r*.06} L${cx+r*.56} ${top+r*.3}"/><circle class="acc-gold" cx="${cx+r*.56}" cy="${top+r*.34}" r="${r*.07}"/>`;
+    if(w.hand === 'gay-sao-so-hoc') s += `<g class="acc-hand"><path class="acc-purple acc-st" d="M${P(.62,.78)} L${P(.76,.86)} L${P(1.15,-.42)} L${P(1.01,-.5)} Z"/><path class="acc-yellow acc-st" d="M${P(1.08,-.78)} L${P(1.17,-.55)} L${P(1.42,-.53)} L${P(1.23,-.37)} L${P(1.3,-.12)} L${P(1.08,-.26)} L${P(.87,-.12)} L${P(.94,-.37)} L${P(.75,-.53)} L${P(1,-.55)} Z"/><circle class="acc-pink" cx="${cx+r*1.08}" cy="${cy-r*.48}" r="${r*.08}"/></g>`;
+    if(w.hand === 'but-cau-vong') s += `<g class="acc-hand"><path class="acc-blue acc-st" d="M${P(.62,.8)} L${P(.82,.88)} L${P(1.23,-.43)} L${P(1.03,-.51)} Z"/><path class="acc-pink" d="M${P(.78,.83)} L${P(.88,.87)} L${P(1.29,-.41)} L${P(1.19,-.45)} Z"/><path class="acc-yellow acc-st" d="M${P(1.03,-.51)} L${P(1.23,-.43)} L${P(1.28,-.68)} Z"/><path class="acc-dark" d="M${P(1.23,-.6)} L${P(1.28,-.68)} L${P(1.26,-.57)} Z"/></g>`;
+    if(w.hand === 'kiem-da-thuc') s += `<g class="acc-hand"><path class="acc-gold-line" d="M${P(.66,.81)} L${P(1.06,-.25)}"/><path class="acc-blue acc-st" d="M${P(1.02,-.2)} L${P(1.22,-.76)} L${P(1.3,-.46)} L${P(1.14,-.13)} Z"/><path class="acc-gold acc-st" d="M${P(.82,-.02)} L${P(1.22,.13)} L${P(1.17,.28)} L${P(.77,.12)} Z"/><circle class="acc-purple acc-st" cx="${cx+r*.65}" cy="${cy+r*.8}" r="${r*.11}"/></g>`;
+    if(w.hand === 'bua-hang-dang-thuc') s += `<g class="acc-hand"><path class="acc-wood acc-st" d="M${P(.62,.84)} L${P(.78,.91)} L${P(1.05,.04)} L${P(.89,-.02)} Z"/><path class="acc-gold acc-st" d="M${P(.73,-.22)} Q ${P(.97,-.43)} ${P(1.32,-.26)} L${P(1.39,.02)} Q ${P(1.09,.16)} ${P(.82,.04)} Z"/><path class="acc-white" d="M${P(.86,-.21)} Q ${P(1.04,-.31)} ${P(1.19,-.25)} L${P(1.22,-.17)} Q ${P(1.05,-.21)} ${P(.9,-.12)} Z"/></g>`;
+    if(w.hand === 'truong-can-thuc') s += `<g class="acc-hand"><path class="acc-blue acc-st" d="M${P(.65,.84)} L${P(.79,.9)} L${P(1.14,-.36)} L${P(1,-.42)} Z"/><path class="acc-purple acc-st" d="M${P(.85,-.54)} Q ${P(1.12,-.83)} ${P(1.39,-.55)} Q ${P(1.15,-.58)} ${P(1.03,-.28)} Q ${P(.96,-.5)} ${P(.85,-.54)} Z"/><text class="acc-math" x="${cx+r*1.11}" y="${cy-r*.48}" text-anchor="middle">√</text></g>`;
+    if(w.hand === 'khien-duong-tron') s += `<g class="acc-hand"><path class="acc-purple acc-st" d="M${P(.72,-.25)} Q ${P(1.12,-.48)} ${P(1.42,-.23)} L${P(1.35,.38)} Q ${P(1.08,.72)} ${P(.81,.38)} Z"/><circle class="acc-gold acc-st" cx="${cx+r*1.08}" cy="${cy+r*.05}" r="${r*.24}"/><circle class="acc-blue acc-st" cx="${cx+r*1.08}" cy="${cy+r*.05}" r="${r*.1}"/><path class="acc-white acc-line" d="M${P(.84,-.29)} Q ${P(1.08,-.4)} ${P(1.27,-.27)}"/></g>`;
+    if(w.hand === 'kiem-vecto') s += `<g class="acc-hand"><path class="acc-dark acc-st" d="M${P(.61,.82)} L${P(.73,.91)} L${P(.93,.63)} L${P(.81,.54)} Z"/><path class="acc-gold acc-st" d="M${P(.72,.48)} L${P(1.03,.7)} L${P(1.12,.57)} L${P(.81,.35)} Z"/><path class="acc-blue acc-st" d="M${P(.84,.38)} L${P(1.25,-.66)} L${P(1.31,-.3)} L${P(1.05,.5)} Z"/><path class="acc-white" d="M${P(1.11,.22)} L${P(1.25,-.42)} L${P(1.23,-.08)} Z"/></g>`;
+    if(w.hand === 'truong-luong-giac') s += `<g class="acc-hand"><path class="acc-purple acc-st" d="M${P(.63,.83)} L${P(.78,.9)} L${P(1.13,-.29)} L${P(.98,-.35)} Z"/><circle class="acc-gold acc-st" cx="${cx+r*1.1}" cy="${cy-r*.48}" r="${r*.27}"/><path class="acc-blue acc-line" d="M${P(.9,-.48)} A${r*.2} ${r*.2} 0 0 1 ${P(1.28,-.48)} M${P(1.1,-.48)} L${P(1.28,-.48)} M${P(1.1,-.48)} L${P(1.23,-.63)}"/><circle class="acc-pink" cx="${cx+r*1.1}" cy="${cy-r*.48}" r="${r*.06}"/></g>`;
+    if(w.hand === 'kiem-cap-so') s += `<g class="acc-hand"><path class="acc-purple acc-st" d="M${P(.6,.82)} L${P(.73,.92)} L${P(.94,.64)} L${P(.82,.54)} Z"/><path class="acc-gold acc-st" d="M${P(.74,.48)} L${P(1.05,.72)} L${P(1.14,.59)} L${P(.83,.35)} Z"/><path class="acc-pink acc-st" d="M${P(.86,.39)} L${P(1.22,-.69)} L${P(1.32,-.29)} L${P(1.06,.52)} Z"/><circle class="acc-white" cx="${cx+r*1.12}" cy="${cy-r*.22}" r="${r*.06}"/><circle class="acc-white" cx="${cx+r*1.19}" cy="${cy-r*.43}" r="${r*.06}"/></g>`;
+    if(w.hand === 'quyen-truong-ham-so') s += `<g class="acc-hand"><path class="acc-dark acc-st" d="M${P(.63,.85)} L${P(.78,.91)} L${P(1.12,-.29)} L${P(.97,-.35)} Z"/><path class="acc-purple acc-st" d="M${P(.86,-.44)} Q ${P(1.08,-.76)} ${P(1.36,-.52)} Q ${P(1.25,-.14)} ${P(.9,-.21)} Q ${P(1.07,-.31)} ${P(.86,-.44)} Z"/><path class="acc-yellow acc-st" d="M${P(1.11,-.78)} L${P(1.17,-.61)} L${P(1.35,-.59)} L${P(1.21,-.48)} L${P(1.26,-.3)} L${P(1.11,-.4)} L${P(.96,-.3)} L${P(1.01,-.48)} L${P(.87,-.59)} L${P(1.05,-.61)} Z"/><text class="acc-math" x="${cx+r*1.11}" y="${cy-r*.46}" text-anchor="middle">ƒ</text></g>`;
     return s;
   }
   function look(){ const s = st(), m = Math.min(s.no, s.vui); return {wear:s.wear, mood: m >= 55 ? 'vui' : m >= 25 ? 'binh' : 'buon'}; }
@@ -280,6 +300,9 @@ const Play = (() => {
     if(wait > 0) return `Bé đang nghỉ mệt. ${Math.ceil(wait/60000)} phút nữa lại chơi tiếp nhé!`;
     s.lastPlay = Date.now(); s.vui = clamp(s.vui + 25); s.no = clamp(s.no - 5); s.st.played++; quest('choi'); checkBadges(); save(true); return 'Vui quá! Bé nhảy tưng tưng! 🎉'; }
   function buy(id){ const s = st(), it = ITEMS.find(i => i.id === id); if(!it || s.owned.includes(id)) return '';
+    if(it.grade && (!G || G.id !== it.grade)) return 'Vật phẩm này dành cho lớp khác.';
+    const stars = G ? gradeStars(G) : 0;
+    if(it.stars && stars < it.stars) return `Em cần thêm ${it.stars - stars} ⭐ ở ${G.name} để mở khóa ${it.name}.`;
     if(s.xu < it.price) return `Em cần thêm ${it.price - s.xu} 🪙 nữa. Làm thêm bài nhé!`;
     s.xu -= it.price; s.owned.push(id); s.wear[it.slot] = id; s.st.bought++; checkBadges(); save(true); return `Đã mua ${it.name}! 🎁`; }
   function wear(id){ const s = st(), it = ITEMS.find(i => i.id === id); if(!it || !s.owned.includes(id)) return;
@@ -369,10 +392,10 @@ const Play = (() => {
       body.querySelector('[data-act="play"]').onclick = () => { const m = playWith(); draw(m); if(/Vui quá/.test(m)) jump(); };
     }
     if(TAB === 'shop'){
-      const k = Math.max(2, Pet.stage(G));
-      body.innerHTML = `<p class="note-line">Em đang có <b>${s.xu} 🪙</b>. Chạm vào món đã mua để đeo/tháo.${Pet.stage(G) < 2 ? ' <i>(Trứng nở rồi mới đeo được mũ, kính, nơ; nền phòng thì dùng được ngay.)</i>' : ''}</p>` +
-        Object.entries(SLOT).map(([slot, t]) => `<h3>${t}</h3><div class="shop">${ITEMS.filter(i => i.slot === slot).map(i => { const own = s.owned.includes(i.id), on = s.wear[slot] === i.id;
-          return `<button class="item ${on?'on':''} ${own?'own':''}" data-item="${i.id}">${Pet.svg(G, k, '', {wear:{[slot]:i.id}, mood:'vui'})}<b>${i.name}</b><span>${on ? '✔ Đang dùng' : own ? 'Dùng' : `${i.price} 🪙`}</span></button>`; }).join('')}</div>`).join('');
+      const k = Math.max(2, Pet.stage(G)), stars = gradeStars(G);
+      body.innerHTML = `<p class="note-line">Em có <b>${stars} ⭐</b> và <b>${s.xu} 🪙</b>. Vật phẩm cầm tay mở khóa theo tổng sao của lớp; đủ sao rồi dùng xu để đổi. Chạm vào món đã mua để đeo/tháo.${Pet.stage(G) < 2 ? ' <i>(Trứng nở rồi mới đeo được phụ kiện; nền phòng thì dùng được ngay.)</i>' : ''}</p>` +
+        Object.entries(SLOT).map(([slot, t]) => { const list = ITEMS.filter(i => i.slot === slot && (!i.grade || i.grade === G.id)); return list.length ? `<h3>${t}${slot === 'hand' ? ` · ${esc(G.name)}` : ''}</h3><div class="shop">${list.map(i => { const own = s.owned.includes(i.id), on = s.wear[slot] === i.id, locked = !!i.stars && stars < i.stars;
+          return `<button class="item ${on?'on':''} ${own?'own':''} ${locked?'locked':''}" data-item="${i.id}" aria-label="${esc(i.name)}${locked?`, cần ${i.stars} sao để mở khóa`:''}">${Pet.svg(G, k, '', {wear:{[slot]:i.id}, mood:'vui'})}<b>${i.name}</b><span>${on ? '✔ Đang dùng' : own ? 'Dùng' : locked ? `🔒 Cần ${i.stars} ⭐` : `${i.price} 🪙`}</span>${i.stars ? `<small>${locked ? `Còn ${i.stars-stars} ⭐` : `Đã mở khóa · ${i.price} 🪙`}</small>` : ''}</button>`; }).join('')}</div>` : ''; }).join('');
       body.querySelectorAll('[data-item]').forEach(b => b.onclick = () => { const id = b.dataset.item;
         if(s.owned.includes(id)){ wear(id); draw(); } else draw(buy(id)); });
     }

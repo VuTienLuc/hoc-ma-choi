@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-10 – 10 vật phẩm cầm tay mở khóa bằng sao cho từng lớp
+
+- **Yêu cầu của thầy:** Bổ sung phần thưởng đẹp theo phong cách phụ kiện cầm tay trong trò chơi khối; học sinh đạt điểm cao dùng để đổi; có gậy ngôi sao, kiếm và tổng cộng 10 vật phẩm phù hợp với từng lớp.
+- **Kết quả:** Thêm một ô trang bị `hand` và 10 vật phẩm SVG vẽ trực tiếp, mỗi lớp 2 món: lớp 4 có Gậy Sao Số Học, Bút Chì Cầu Vồng; lớp 8 có Kiếm Đa Thức, Búa Hằng Đẳng Thức; lớp 9 có Trượng Căn Thức, Khiên Đường Tròn; lớp 10 có Kiếm Vectơ, Trượng Lượng Giác; lớp 11 có Kiếm Cấp Số, Quyền Trượng Hàm Số. Món thường mở ở 18 sao và đổi bằng 120 xu; món cao cấp mở ở 36 sao và đổi bằng 200 xu. Cửa hàng chỉ hiện hai món đúng lớp, báo số sao còn thiếu, ngăn đổi khi chưa đủ sao, tự trang bị sau khi đổi và cho phép đeo/tháo như phụ kiện cũ. Giao diện khóa/mở rõ ràng và thích ứng điện thoại.
+- **Tệp thay đổi:** `assets/js/play.js`, `assets/css/style.css`, `tools/test_thucung.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `python3 tools/test_thucung.py` → ĐẠT (10 vật phẩm duy nhất, đúng 2 món/lớp, khóa theo sao, trừ đúng xu, tự trang bị, SVG riêng, không tràn điện thoại, không lỗi JavaScript); xem trực tiếp ảnh chụp cửa hàng → ĐẠT; `node tools/kiem-tra.js` → ĐẠT (40.650 lượt sinh câu); `python3 tools/test.py` → ĐẠT (24.360 câu); `python3 tools/build.py` → ĐẠT; `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-10 – Cấp số cộng luyện tập thêm và luôn hiện lời giải khi làm đúng
 
 - **Yêu cầu của thầy:** Bổ sung bài Cấp số cộng luyện thêm cho học sinh lớp 11; khi học sinh chọn hoặc điền đúng cũng phải hiện lời giải ở mọi bài.
