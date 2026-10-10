@@ -13,7 +13,7 @@ const numEq=(s,v)=>{if(s==='')return false;if(!isNaN(+norm(s))&&+norm(s)===v)ret
 function matchOne(s,spec){if(Array.isArray(spec))return spec.some(x=>matchOne(s,x));if(typeof spec==='number')return numEq(s,spec);return norm(s)===norm(spec)}
 function matchFrac(n,d,spec){n=+norm(n);d=+norm(d);if(!d||isNaN(n)||isNaN(d))return false;const[N,D]=spec.frac;if(spec.mode==='exact')return n===N&&d===D;const eq=n*D===N*d;return spec.mode==='simplest'?eq&&gcd(n,d)===1:eq}
 
-function genSet(){const les=S.lesson,n=CONFIG.setSize,T=les.gens;S.qs=[];for(let i=0;i<n;i++){const gi=Math.min(T.length-1,Math.floor(i*T.length/n));S.qs.push(mkQ(gi))}}
+function genSet(){const les=S.lesson,n=Math.max(1,les.count||CONFIG.setSize),T=les.gens;S.qs=[];for(let i=0;i<n;i++){const gi=Math.min(T.length-1,Math.floor(i*T.length/n));S.qs.push(mkQ(gi))}}
 function mkQ(gi){let q,tries=0,seen=new Set(S.qs.map(x=>x.sig));do{q=S.lesson.gens[gi](S.lv);q.sig=(q.text||'')+(q.tpl||'')+(q.expr||'')+(q.target||'');tries++}while(seen.has(q.sig)&&tries<20);q.gi=gi;q.tries=0;q.status='open';return q}
 
 /* ---------- Render ---------- */

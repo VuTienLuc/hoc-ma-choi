@@ -11142,7 +11142,35 @@ lesson(3,'he-thuc-luong-tam-giac-luyen-tap-2','Bài 6. Hệ thức lượng tron
   {t:'Đơn vị và làm tròn', b:'Đổi các đại lượng về cùng đơn vị trước khi tính; chỉ làm tròn ở kết quả cuối theo yêu cầu.', warn:'Diện tích dùng đơn vị vuông; chi phí bằng diện tích nhân đơn giá.', ex:'Kết quả yêu cầu đến hàng phần mười thì giữ thêm chữ số trong các bước trung gian.'},
   {t:'Kiểm tra kết quả', b:'Độ dài và diện tích phải dương; cạnh tam giác phải thỏa mãn bất đẳng thức tam giác; kết quả phải phù hợp tình huống.', warn:'Nếu cạnh đối diện góc lớn hơn lại ngắn hơn cạnh đối diện góc nhỏ hơn, cần kiểm tra lại phép tính.', ex:'Ước lượng trước giúp phát hiện lỗi bấm máy và lỗi nhập đơn vị.'}
 ]});
-lesson(3,'on-tap-c3','Ôn tập chương III','Tổng hợp: giá trị lượng giác, định lí côsin, định lí sin, diện tích, bài toán thực tế.',[g5b,g5c,g6a,g6c,g6d,g6e]);
+const reviewC3 = (make,band,type) => () => Object.assign(make(),{reviewBand:band,reviewType:type});
+const REVIEW_C3 = [
+  reviewC3(()=>g5a(1),1,'luong-giac'),       // 1. giá trị lượng giác góc đặc biệt
+  reviewC3(()=>g5a(2),1,'luong-giac'),       // 2. giá trị lượng giác góc tù
+  reviewC3(()=>g5b(1),1,'luong-giac'),       // 3. hai góc bù nhau
+  reviewC3(()=>g5c(1),1,'luong-giac'),       // 4. dấu của giá trị lượng giác
+  reviewC3(()=>g5d(1),1,'luong-giac'),       // 5. biểu thức lượng giác cơ bản
+  reviewC3(()=>g6f(1),1,'cong-thuc'),        // 6. chọn đúng công thức
+  reviewC3(()=>g6a(1),1,'cosin'),            // 7. định lí côsin tính cạnh
+  reviewC3(()=>g5c(2),2,'luong-giac'),       // 8. tính giá trị còn lại
+  reviewC3(()=>g5d(2),2,'luong-giac'),       // 9. biểu thức lượng giác tổng hợp
+  reviewC3(()=>g6b(2),2,'cosin'),            // 10. định lí côsin tính góc
+  reviewC3(()=>g6b(3),2,'cosin'),            // 11. nhận dạng tam giác
+  reviewC3(()=>g6c(2),2,'sin'),              // 12. định lí sin tính cạnh
+  reviewC3(()=>g6c(1),2,'sin'),              // 13. bán kính ngoại tiếp từ định lí sin
+  reviewC3(()=>g6d(1),2,'dien-tich'),        // 14. diện tích theo hai cạnh và góc xen giữa
+  reviewC3(()=>g6d(2),3,'dien-tich'),        // 15. diện tích theo công thức Heron
+  reviewC3(()=>g6o(2),3,'ban-kinh'),         // 16. bán kính đường tròn nội tiếp
+  reviewC3(()=>g6o(3),3,'ban-kinh'),         // 17. đường tròn ngoại tiếp công trình tam giác
+  reviewC3(()=>g6k(2),3,'thuc-te'),          // 18. khoảng cách trong hành trình
+  reviewC3(()=>g6m(3),3,'thuc-te'),          // 19. đo chiều cao từ hai điểm
+  reviewC3(()=>g6n(3),3,'thuc-te'),          // 20. diện tích và chi phí thực tế
+];
+lesson(3,'on-tap-c3','Ôn tập chương III – Bộ 20 câu','Mỗi đề 20 câu từ cơ bản đến nâng cao: lượng giác; định lí côsin, sin; diện tích; bán kính; bài toán thực tế.',REVIEW_C3,{count:20,introTitle:'Sơ đồ kiến thức Chương III',intro:[
+  {t:'Giá trị lượng giác', b:`Ghi nhớ bảng góc đặc biệt và các hệ thức góc bù: ${tm('\\sin(180^\\circ-\\alpha)=\\sin\\alpha')}, ${tm('\\cos(180^\\circ-\\alpha)=-\\cos\\alpha')}.`, warn:`Với góc tù: ${tm('\\sin\\alpha>0')}, ${tm('\\cos\\alpha<0')}, ${tm('\\tan\\alpha<0')}.`, ex:'Dùng hệ thức cơ bản để tính giá trị lượng giác còn lại khi biết một giá trị.'},
+  {t:'Định lí côsin và định lí sin', b:`${tm('a^2=b^2+c^2-2bc\\cos A')}; ${tm('\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R')}.`, warn:'Luôn ghép cạnh với góc đối diện; trong định lí côsin, góc phải xen giữa hai cạnh đã biết.', ex:'Hai cạnh và góc xen giữa: dùng côsin. Một cặp cạnh–góc đối diện: dùng sin.'},
+  {t:'Diện tích và bán kính', b:`${tm('S=\\dfrac12bc\\sin A=\\sqrt{p(p-a)(p-b)(p-c)}=pr=\\dfrac{abc}{4R}')}.`, warn:`Trong công thức Heron, ${tm('p')} là nửa chu vi.`, ex:'Biết ba cạnh thì tính nửa chu vi và diện tích trước, sau đó tìm bán kính.'},
+  {t:'Cấu trúc mỗi đề', b:'Câu 1–7 cơ bản; câu 8–14 thông hiểu và vận dụng; câu 15–20 nâng cao, gắn với đo đạc và chi phí thực tế.', warn:'Chỉ làm tròn ở kết quả cuối và luôn ghi đúng đơn vị.', ex:'Nếu chưa chọn được công thức, hãy vẽ tam giác và đánh dấu toàn bộ dữ kiện.'}
+]});
 }
 
 /* =====================================================================
@@ -12088,7 +12116,7 @@ const numEq=(s,v)=>{if(s==='')return false;if(!isNaN(+norm(s))&&+norm(s)===v)ret
 function matchOne(s,spec){if(Array.isArray(spec))return spec.some(x=>matchOne(s,x));if(typeof spec==='number')return numEq(s,spec);return norm(s)===norm(spec)}
 function matchFrac(n,d,spec){n=+norm(n);d=+norm(d);if(!d||isNaN(n)||isNaN(d))return false;const[N,D]=spec.frac;if(spec.mode==='exact')return n===N&&d===D;const eq=n*D===N*d;return spec.mode==='simplest'?eq&&gcd(n,d)===1:eq}
 
-function genSet(){const les=S.lesson,n=CONFIG.setSize,T=les.gens;S.qs=[];for(let i=0;i<n;i++){const gi=Math.min(T.length-1,Math.floor(i*T.length/n));S.qs.push(mkQ(gi))}}
+function genSet(){const les=S.lesson,n=Math.max(1,les.count||CONFIG.setSize),T=les.gens;S.qs=[];for(let i=0;i<n;i++){const gi=Math.min(T.length-1,Math.floor(i*T.length/n));S.qs.push(mkQ(gi))}}
 function mkQ(gi){let q,tries=0,seen=new Set(S.qs.map(x=>x.sig));do{q=S.lesson.gens[gi](S.lv);q.sig=(q.text||'')+(q.tpl||'')+(q.expr||'')+(q.target||'');tries++}while(seen.has(q.sig)&&tries<20);q.gi=gi;q.tries=0;q.status='open';return q}
 
 /* ---------- Render ---------- */

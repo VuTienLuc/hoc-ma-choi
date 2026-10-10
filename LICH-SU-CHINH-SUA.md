@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-10 – Ôn tập Chương III Toán 10 theo bộ 20 câu
+
+- **Yêu cầu của thầy:** Thêm Ôn tập Chương III Toán 10 cho học sinh, đầy đủ dạng bài và mỗi đề có 20 câu từ cơ bản đến nâng cao.
+- **Kết quả:** Nâng cấp bài `on-tap-c3` thành “Ôn tập chương III – Bộ 20 câu”. Mỗi lần làm luôn tạo đúng 20 câu theo cấu trúc cố định 7 câu cơ bản, 7 câu thông hiểu–vận dụng và 6 câu nâng cao/thực tế; số liệu vẫn thay đổi ở mỗi bộ. Nội dung phủ đủ giá trị lượng giác góc đặc biệt và góc bù, dấu và hệ thức lượng giác, biểu thức, chọn công thức, định lí côsin, nhận dạng tam giác, định lí sin, diện tích, Heron, bán kính nội tiếp–ngoại tiếp, khoảng cách, chiều cao và chi phí thực tế. Thêm bảng tóm tắt công thức và cho phép từng bài khai báo số câu riêng mà không ảnh hưởng các bài sáu câu hiện có.
+- **Tệp thay đổi:** `assets/js/engine.js`, `data/lop10.js`, `tools/test_on_tap_c3_20_cau.py`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `python3 tools/test_on_tap_c3_20_cau.py` → ĐẠT ở cả ba mức; `node tools/kiem-tra.js 100 lop10` → ĐẠT (26.400 lượt sinh câu); `node tools/kiem-tra.js` → ĐẠT (40.275 lượt sinh câu); `python3 tools/test.py` → ĐẠT (24.180 câu); `python3 tools/test_trinhchieu.py on-tap-c3` → ĐẠT (36 trang, không tràn/lỗi, không có chữ dưới 20 px); `python3 tools/test_congthuc.py` → ĐẠT (402 trang, 0 lỗi); `python3 tools/build.py` → ĐẠT (2.759 KB); `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-09 – Thu gọn trang bài học sinh và tổng hợp phần còn thiếu
 
 - **Yêu cầu của thầy:** Sửa chế độ xem bài của học sinh gọn, dễ nhìn và cho biết tổng quát mục nào đã hoàn thành, bài nào còn thiếu.
