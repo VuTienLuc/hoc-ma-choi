@@ -1,5 +1,5 @@
 """Kiểm thử ĐỀ KIỂM TRA (KiemTra.add): mỗi mã đề in ĐÚNG số trang A4 khai báo (mặc định 2; đề giữa kì 90 phút khai pages:4) (PDF thật, Chromium), không lỗi công thức (mjx-merror),
-bản đáp án dựng được. Chạy: python3 tools/test_kiemtra.py [mã-lớp]   (ảnh chụp: biến môi trường KT_SHOT=thư-mục)"""
+bản đáp án dựng được. Chạy: python3 tools/test_kiemtra.py [mã-lớp [mã-đề]]   (ảnh chụp: biến môi trường KT_SHOT=thư-mục)"""
 import threading, http.server, functools, socketserver, asyncio, pathlib, json, re, subprocess, tempfile
 from playwright.async_api import async_playwright
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -17,7 +17,7 @@ def pdf_pages(path):
 async def main():
     import os, sys
     res = []; ok = lambda n, c: res.append(bool(c)) or print(('✓ ' if c else '✗ ') + n)
-    only = sys.argv[1] if len(sys.argv) > 1 else None; shot = os.environ.get('KT_SHOT')
+    only = sys.argv[1] if len(sys.argv) > 1 else None; only_id = sys.argv[2] if len(sys.argv) > 2 else None; shot = os.environ.get('KT_SHOT')
     async with async_playwright() as p:
         br = await p.chromium.launch(); pg = await br.new_page(viewport={'width': 1100, 'height': 900}); errs = []
         pg.on('pageerror', lambda e: errs.append(str(e)))
@@ -31,6 +31,7 @@ async def main():
         ok(f'có đề kiểm tra ({len(tests)})', tests)
         for t in tests:
             if only and t['g'] != only: continue
+            if only_id and t['id'] != only_id: continue
             for c in t['codes'] + ['da']:
                 w = f"{t['g']}/{t['id']} {'đáp án' if c == 'da' else 'mã ' + c}"
                 await pg.goto(f"http://127.0.0.1:{PORT}/giao-vien/index.html#/{t['g']}/kiem-tra/{t['id']}/{'da' if c == 'da' else 'de-' + c}"); await pg.reload(); await pg.wait_for_timeout(2500)

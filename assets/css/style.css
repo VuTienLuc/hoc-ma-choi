@@ -915,3 +915,7 @@ h1 .h1en{font-size:.55em;font-weight:600}
 .cm-detail:not(:empty){margin-top:10px;padding:10px 14px;border:2px solid var(--line);border-radius:12px;background:var(--bg)}.cm-detail h4{margin:0 0 6px;font:800 16px var(--f-head)}
 .cm-g{margin:4px 0;padding:6px 10px;border-radius:8px;font-size:14px;line-height:1.5}.cm-g b{display:block}.cm-g.todo{background:#f8d0d0;color:#5c1212}.cm-g.doing{background:#fff0b3;color:#4a3300}.cm-g.done{background:#c8efd5;color:#0d4a28}
 @media(max-width:700px){.cm-card{width:100%;max-height:97dvh;border-radius:18px}.cm-card>header h2{font-size:16px}.cm-scroll{max-height:52dvh}}
+
+/* Ma trận đề theo mẫu của tổ (kiemtra.js, t.matrix) */
+.kt-mx2{font-size:7.6pt}.kt-mx2 td,.kt-mx2 th{padding:1.5pt 2.5pt;line-height:1.25}.kt-mx2 .kt-lft{text-align:left}
+.kt-dt{border-collapse:collapse;margin:3pt auto;font-size:9pt}.kt-dt th,.kt-dt td{border:.7pt solid var(--ink);padding:1pt 6pt;text-align:center}

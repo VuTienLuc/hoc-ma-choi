@@ -27,10 +27,11 @@ const KiemTra = (() => {
       const mc = b.mc.map((x, i) => { const right = x.opts[x.a], opts = sh(x.opts.filter((_, j) => j !== x.a)); opts.splice(letters[i], 0, right); return {...x, opts, a:letters[i]}; });
       return {code:t.codes[ci], mc, tf:b.tf, essay:b.essay};
     }
-    const order = sh(t.mc.map((x, i) => ({...(typeof x === 'function' ? x(ci) : x), src:i + 1})));
-    const letters = sh(order.map((_, i) => i % 4));                       // rải đều đáp án A/B/C/D
+    const so = a => t.keepOrder ? a : sh(a);                              // t.keepOrder: giữ đúng thứ tự câu theo ma trận (chỉ đổi số liệu và vị trí phương án giữa các mã)
+    const order = so(t.mc.map((x, i) => ({...(typeof x === 'function' ? x(ci) : x), src:i + 1})));
+    let letters; do letters = sh(order.map((_, i) => i % 4)); while(t.spread && letters.some((l, i) => i > 1 && l === letters[i - 1] && l === letters[i - 2]));   // rải đều đáp án A/B/C/D (t.spread: không để 3 câu liền cùng chữ)
     const mc = order.map((x, i) => { const k = letters[i], opts = sh(x.opts.slice(1)); opts.splice(k, 0, x.opts[0]); return {...x, opts, a:k}; });
-    const tfs = sh(t.tf.map((x, i) => ({...(typeof x === 'function' ? x(ci) : x), src:i + 1}))), nIt = tfs.reduce((s, x) => s + x.items.length, 0); let picks;
+    const tfs = so(t.tf.map((x, i) => ({...(typeof x === 'function' ? x(ci) : x), src:i + 1}))), nIt = tfs.reduce((s, x) => s + x.items.length, 0); let picks;
     do { picks = tfs.map(x => { let p; do { p = x.items.map(() => r() < .5); } while(p.every(Boolean) || !p.some(Boolean)); return p; }); }   // mỗi câu có cả Đ và S
     while(Math.abs(picks.flat().filter(Boolean).length - nIt / 2) > nIt / 8);                                                                // cả phần: Đ/S gần cân bằng
     const tf = tfs.map((x, i) => ({...x, items:x.items.map((p, j) => ({text:p[picks[i][j] ? 0 : 1], ok:picks[i][j]}))}));
@@ -80,14 +81,21 @@ const KiemTra = (() => {
         <tr><th class="kt-lft">Tổng</th><th>${t.mc.length} câu · ${pt(t.mc.length * mcP(t))} đ</th><th>${t.tf.length} câu · ${t.tf.length} đ</th><th>${t.essay.length} ${t.short ? 'câu' : 'bài'} · ${pt(t.essay.reduce((s, e) => s + e.pts, 0))} đ</th><th>${pt(pts.reduce((a, b) => a + b, 0))}</th></tr></table>`;
     const scale = `<ul class="kt-scale"><li><b>Phần I:</b> mỗi câu đúng <b>${pt(mcP(t))}</b> điểm.</li>
         <li><b>Phần II:</b> mỗi câu tối đa 1 điểm – đúng 1 ý: <b>0,1</b> đ; đúng 2 ý: <b>0,25</b> đ; đúng 3 ý: <b>0,5</b> đ; đúng cả 4 ý: <b>1</b> đ.</li>
-        <li><b>Phần III:</b> ${t.short ? 'mỗi câu đúng kết quả cho <b>1</b> điểm, sai kết quả không cho điểm.' : 'chấm theo hướng dẫn từng mã đề; học sinh làm cách khác đúng vẫn cho điểm tối đa phần đó.'}</li></ul>`;
+        <li><b>Phần III:</b> ${t.short ? `mỗi câu đúng kết quả cho <b>${[...new Set(t.essay.map(e => pt(e.pts)))].join(' hoặc ')}</b> điểm (theo từng câu), sai kết quả không cho điểm.` : 'chấm theo hướng dẫn từng mã đề; học sinh làm cách khác đúng vẫn cho điểm tối đa phần đó.'}</li></ul>`;
     const one = ci => { const v = build(t, ci);
       return `<section class="kt-key"><h3>Mã đề ${v.code}</h3>
         <table class="kt-grid"><tr><th>Phần I</th>${v.mc.map((_, i) => `<td>${i + 1}</td>`).join('')}</tr><tr><th>Đáp án</th>${v.mc.map(x => `<td><b>${ABCD[x.a]}</b></td>`).join('')}</tr></table>
         <table class="kt-grid kt-tfk"><tr><th>Phần II</th>${v.tf.map((_, i) => `<td colspan="4">Câu ${i + 1}</td>`).join('')}</tr><tr><th>Ý</th>${v.tf.map(() => 'abcd'.split('').map(x => `<td>${x}</td>`).join('')).join('')}</tr><tr><th>Đáp án</th>${v.tf.map(x => x.items.map(it => `<td><b>${it.ok ? 'Đ' : 'S'}</b></td>`).join('')).join('')}</tr></table>
         <table class="kt-rub"><tr><th>Phần III</th><th>Nội dung</th><th>Điểm</th></tr>${v.essay.map((e, i) => e.rows.map((r, k) => `<tr>${k === 0 ? `<td rowspan="${e.rows.length}"><b>${t.short ? 'Câu' : 'Bài'} ${i + 1}</b><br>(${pt(e.pts)} đ)</td>` : ''}<td class="kt-lft">${r[0]}</td><td>${pt(r[1])}</td></tr>`).join('')).join('')}</table></section>`; };
+    // Ma trận theo mẫu của tổ (tuỳ chọn t.matrix = {rows:[[chủ đề, nội dung, 9 ô]…], foot:[[nhãn, 9 ô]…]}): chủ đề × nội dung × (tư duy · giải quyết vấn đề · mô hình hoá) × (biết · hiểu · vận dụng)
+    const mxOff = t.matrix ? (() => { const m = t.matrix, cell = x => String(x || '').replace(/\n/g, '<br>'), span = i => { let n = 1; while(m.rows[i + n] && m.rows[i + n][0] === m.rows[i][0]) n++; return n; };
+      return `<table class="kt-mx kt-mx2"><tr><th rowspan="3">Chủ đề</th><th rowspan="3">Nội dung</th><th colspan="9">Năng lực toán học – cấp độ tư duy</th></tr>
+        <tr><th colspan="3">Tư duy và lập luận toán học</th><th colspan="3">Giải quyết vấn đề toán học</th><th colspan="3">Mô hình hoá toán học</th></tr>
+        <tr>${['Biết', 'Hiểu', 'VD', 'Biết', 'Hiểu', 'VD', 'Biết', 'Hiểu', 'VD'].map(x => `<th>${x}</th>`).join('')}</tr>
+        ${m.rows.map((r, i) => `<tr>${i && m.rows[i - 1][0] === r[0] ? '' : `<td class="kt-lft" rowspan="${span(i)}">${r[0]}</td>`}<td class="kt-lft">${r[1]}</td>${r.slice(2).map(c => `<td>${cell(c)}</td>`).join('')}</tr>`).join('')}
+        ${(m.foot || []).map(f => `<tr><th colspan="2">${f[0]}</th>${f.slice(1).map(c => `<th>${cell(c)}</th>`).join('')}</tr>`).join('')}</table>`; })() : '';
     return `<article class="ws kt kt-da">${head(t, '', true)}
-      <h3>1. Ma trận đề</h3>${matrix}<h3>2. Thang điểm</h3>${scale}<h3>3. Đáp án các mã đề</h3>${t.codes.map((_, ci) => one(ci)).join('')}
+      <h3>1. Ma trận đề</h3>${mxOff}${t.matrix ? '<p class="kt-small"><b>Phân bổ điểm theo chủ đề:</b></p>' : ''}${matrix}<h3>2. Thang điểm</h3>${scale}<h3>3. Đáp án các mã đề</h3>${t.codes.map((_, ci) => one(ci)).join('')}
       <p class="kt-end">———— HẾT ————</p></article>`;
   }
 

@@ -24,6 +24,15 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-10 – Đề kiểm tra giữa học kì I theo ma trận tuần 8 (Toán 10 và Toán 11)
+
+- **Yêu cầu của thầy:** Dựa vào tệp "MA TRẬN GKI" (đề giữa kì 60 phút, tuần 8) dựng đề kiểm tra giữa kì cho lớp 10 và lớp 11 đúng chuẩn.
+- **Kết quả:** Mỗi lớp một đề 4 mã (lớp 10: 701–704; lớp 11: 711–714), đúng cấu trúc ma trận: **10 TN × 0,4 (8 biết + 2 hiểu) + 3 Đúng/Sai × 1 + 4 trả lời ngắn × 0,75 = 10 điểm**. Giữ đúng thứ tự câu theo ma trận (TN-1…10, ĐS-1…3, TLN-1…4); các mã khác nhau ở số liệu và vị trí phương án (không 3 câu liền cùng đáp án). Lớp 10: Mệnh đề–tập hợp, BPT/hệ BPT bậc nhất hai ẩn, Hệ thức lượng (lấy từ ngân hàng `GK1`, bộ hạt giống riêng, có hình vẽ). Lớp 11: Hàm số lượng giác – PTLG, Dãy số – CSC – CSN, Mẫu số liệu ghép nhóm – số đặc trưng đo xu thế trung tâm (sinh mới, đáp án tính bằng phép tính). Trang đáp án có **bảng ma trận theo mẫu của tổ** (chủ đề × nội dung × năng lực × cấp độ, mã TN/ĐS/TLN và mã năng lực TD/GQ/MH), bảng phân bổ điểm và thang điểm. `KiemTra.add` hỗ trợ thêm `matrix`, `keepOrder`, `spread`; câu thang điểm Phần III nay ghi đúng điểm từng câu (trước đó luôn ghi "1 điểm").
+- **Điều chỉnh khi đọc ma trận (thầy đối chiếu):** ma trận lớp 11 ghi TN-5 ở cả hai cột Biết và Hiểu; em xếp TN-5 vào **Hiểu** để đủ 8 Biết + 2 Hiểu. TLN-2 lớp 11 ghi "(TH)/VDC" – em ra dạng vận dụng cao (đếm nghiệm trong khoảng).
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop10-giua-ki-ma-tran.js` (mới), `giao-vien/bai-giang/lop11-giua-ki-ma-tran.js` (mới), `giao-vien/index.html`, `assets/js/kiemtra.js`, `assets/css/style.css`, `tools/test_gk_ma_tran.js` (mới), `tools/test_kiemtra.py` (thêm tham số mã đề), `tools/kiem-tra.js`, `CLAUDE.md`, `AGENTS.md`
+- **Kiểm thử:** `node tools/test_gk_ma_tran.js` (tính lại độc lập đáp án 8 mã đề; đếm nghiệm PTLG bằng đổi dấu số) → ĐẠT; `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_kiemtra.py lop10 gk-ma-tran` và `lop11 gk-ma-tran` (mỗi mã in đúng 2 trang A4 bằng PDF thật, không lỗi công thức) → ĐẠT. `python3 tools/test_kiemtra.py` (toàn bộ đề của mọi lớp, 101 kiểm tra) → ĐẠT.
+- **Việc thủ công:** Thầy đọc lại đề và đáp án; chưa có bản cho học sinh làm trực tuyến (có thể thêm nếu thầy cần).
+
 ### 2026-10-10 – 10 vật phẩm cầm tay mở khóa bằng sao cho từng lớp
 
 - **Yêu cầu của thầy:** Bổ sung phần thưởng đẹp theo phong cách phụ kiện cầm tay trong trò chơi khối; học sinh đạt điểm cao dùng để đổi; có gậy ngôi sao, kiếm và tổng cộng 10 vật phẩm phù hợp với từng lớp.
