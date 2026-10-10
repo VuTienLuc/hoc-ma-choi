@@ -7757,6 +7757,502 @@ lesson(89, 'td-logic-suy-luan-dirichlet', 'Bài 5.2: Các bài toán logic suy l
   ]});
 }
 
+/* =====================================================================
+   📝 LUYỆN TẬP GIỮA HỌC KÌ I – 9 dạng toán (theo đề ôn tập tuần 5)
+   I. Số tự nhiên: viết số, hàng – lớp, giá trị chữ số · II. Góc · III. Đặt tính, biểu thức có chữ
+   IV. Chu vi – diện tích hình chữ nhật · V. Toán lời văn: đủ hay thiếu, nhiều bước.
+   Mỗi dạng 5–6 kiểu bài, mỗi kiểu có 3 mức (nhận biết – thông hiểu – vận dụng); số liệu sinh ngẫu nhiên.
+   ===================================================================== */
+G.topics.splice(G.topics.findIndex(t => t.id === 6) + 1, 0, {id:7, hk:1, name:'Luyện tập giữa học kì I', label:'📝 Giữa kì I'});
+
+/* ---------- Dạng 1: viết số theo các hàng ---------- */
+const gkNum = (len, zeros) => {   // chữ số d[0..len-1] tính từ hàng đơn vị; có ít nhất `zeros` chữ số 0 và 3 chữ số khác 0
+  let d;
+  do { d = [...Array(len)].map((_, i) => i === len - 1 ? R(1, 9) : (Math.random() < .35 ? 0 : R(1, 9))); }
+  while (d.filter(x => x === 0).length < zeros || d.filter(x => x).length < 3);
+  return d;
+};
+const gkVal = d => d.reduce((s, x, i) => s + x * 10 ** i, 0);
+const gkWords = d => { const p = []; for (let i = d.length - 1; i >= 0; i--) if (d[i]) p.push(`${d[i]} ${HANG[i]}`); return p; };
+const gkTerms = d => { const p = []; for (let i = d.length - 1; i >= 0; i--) if (d[i]) p.push(d[i] * 10 ** i); return p; };
+const gkZeroHang = d => joinVa(d.map((x, i) => x ? null : HANG[i]).filter(Boolean).reverse());
+const gkLen = lv => lv === 1 ? 5 : 6;
+
+const gkViet = lv => {
+  const d = gkNum(gkLen(lv), lv === 3 ? 2 : 1), n = gkVal(d);
+  return QB({text:`Viết số gồm ${joinVa(gkWords(d))}.`, tpl:'[_]', ans:[n], wide:true,
+    hint:'Viết từng chữ số từ hàng cao nhất xuống hàng đơn vị. Hàng nào đề bài không nhắc tới thì viết chữ số 0 vào hàng đó.',
+    sol:`${gkTerms(d).map(fmt).join(' + ')} = <b>${fmt(n)}</b> (hàng ${gkZeroHang(d)} không có nên viết chữ số 0).`});
+};
+const gkTong = lv => {
+  const d = gkNum(gkLen(lv), lv === 3 ? 2 : 1), n = gkVal(d);
+  return QB({text:'Viết số thích hợp vào ô trống:', tpl:`<span class="eq">${gkTerms(d).map(fmt).join(' + ')} = [_]</span>`, ans:[n], wide:true,
+    hint:'Mỗi số hạng cho biết chữ số ở một hàng. Hàng nào không có số hạng thì chữ số ở hàng đó là 0.',
+    sol:`${gkTerms(d).map(fmt).join(' + ')} = <b>${fmt(n)}</b>.`});
+};
+const gkTach = lv => {
+  const d = gkNum(gkLen(lv), lv === 3 ? 2 : 1), n = gkVal(d), t = gkTerms(d);
+  const hide = shuffle(t.map((_, i) => i)).slice(0, 2).sort((a, b) => a - b);
+  const tpl = t.map((v, i) => hide.includes(i) ? '[_]' : fmt(v)).join(' + ');
+  return QB({text:`Viết số <b>${fmt(n)}</b> thành tổng. Điền số thích hợp vào ô trống:`, tpl:`<span class="eq">${fmt(n)} = ${tpl}</span>`, ans:hide.map(i => t[i]), wide:true,
+    hint:'Mỗi chữ số khác 0 cho một số hạng: chữ số đó nhân với giá trị của hàng nó đứng.',
+    sol:`${fmt(n)} = ${t.map(fmt).join(' + ')}. Hai ô cần điền là <b>${hide.map(i => fmt(t[i])).join('</b> và <b>')}</b>.`});
+};
+const gkChon = lv => {
+  const d = gkNum(gkLen(lv), 1), n = gkVal(d), rd = [...d].reverse();
+  const cand = [+rd.filter(x => x).join('')];
+  for (let i = 0; i < d.length - 1; i++) if (d[i] !== d[i + 1] && !(i + 1 === d.length - 1 && d[i] === 0)) {
+    const e = [...d]; [e[i], e[i + 1]] = [e[i + 1], e[i]]; cand.push(gkVal(e));
+  }
+  cand.push(n * 10, Math.floor(n / 10));
+  const wrong = [...new Set(cand.filter(x => x !== n))].slice(0, 3);
+  return QC({text:`Số gồm ${joinVa(gkWords(d))} là:`, opts:[n, ...wrong].map(fmt), ans:fmt(n),
+    hint:'Viết lần lượt các chữ số từ hàng cao nhất; hàng không được nhắc tới là chữ số 0. Đếm lại số chữ số của số em chọn.',
+    sol:`${gkTerms(d).map(fmt).join(' + ')} = <b>${fmt(n)}</b>.`});
+};
+const gkLienSau = lv => {
+  const d = gkNum(gkLen(lv), 1), n = gkVal(d), nx = Math.random() < .5;
+  return QB({text:`Viết số gồm ${joinVa(gkWords(d))}. Số <b>liền ${nx ? 'sau' : 'trước'}</b> của số đó là:`, tpl:'[_]', ans:[nx ? n + 1 : n - 1], wide:true,
+    hint:'Viết số trước, rồi mới tìm số liền sau (liền trước): hơn (kém) số đó 1 đơn vị.',
+    sol:`Số cần viết: ${fmt(n)}. Số liền ${nx ? 'sau' : 'trước'}: ${fmt(n)} ${nx ? '+' : '−'} 1 = <b>${fmt(nx ? n + 1 : n - 1)}</b>.`});
+};
+lesson(7, 'gk-viet-so', 'Dạng 1 · Viết số theo các hàng', 'Nhóm I – Số tự nhiên: viết số khi biết các chữ số ở từng hàng, điền chữ số 0 vào hàng còn trống.', [gkViet, gkTong, gkTach, gkChon, gkLienSau], {
+  intro:[
+    {t:'Viết số theo các hàng', b:'Viết lần lượt các chữ số từ hàng <b>cao nhất</b> xuống hàng <b>đơn vị</b>.<br>Thứ tự các hàng: đơn vị – chục – trăm – nghìn – chục nghìn – trăm nghìn.', warn:'Hàng nào không được nhắc tới thì viết chữ số <b>0</b> vào vị trí đó. Quên chữ số 0 là lỗi hay gặp nhất.', ex:'5 trăm nghìn, 8 nghìn, 3 chục và 6 đơn vị: 500 000 + 8 000 + 30 + 6 = <b>508 036</b> (hàng chục nghìn và hàng trăm không có nên viết 0).'},
+    {t:'Mẹo kiểm tra', b:'Đếm số chữ số: hàng cao nhất là hàng nào thì số có bấy nhiêu chữ số (hàng trăm nghìn → 6 chữ số). Đọc lại số vừa viết xem có khớp đề không.'}
+  ]});
+
+/* ---------- Dạng 2: hàng và lớp của chữ số ---------- */
+const gkDigitNum = len => {   // số len chữ số có các chữ số khác nhau
+  let a; do { a = shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0, len); } while (a[0] === 0); return a.reduce((s, x) => s * 10 + x, 0);
+};
+const gkHangLen = lv => lv === 1 ? 5 : lv === 2 ? 6 : 7;
+const gkHang = lv => {
+  const len = gkHangLen(lv); let n, pos;
+  do { n = gkDigitNum(len); pos = uniqPos(n); } while (!pos.length);
+  const p = pick(pos), d = digitsOf(n)[p];
+  const others = shuffle([...Array(len).keys()].filter(i => i !== p)).slice(0, 3);
+  return QC({text:`Trong số <b>${fmt(n)}</b>, chữ số <b>${d}</b> thuộc hàng nào?`, opts:[p, ...others].map(i => 'Hàng ' + HANG[i]), ans:'Hàng ' + HANG[p],
+    hint:'Đếm từ phải sang trái: đơn vị, chục, trăm, nghìn, chục nghìn, trăm nghìn, triệu…',
+    sol:`Chữ số ${d} đứng thứ ${p + 1} tính từ phải sang trái nên thuộc <b>hàng ${HANG[p]}</b>.`});
+};
+const gkLop = lv => {
+  const len = gkHangLen(lv); let n, pos;
+  do { n = gkDigitNum(len); pos = uniqPos(n); } while (!pos.length);
+  const p = pick(pos), d = digitsOf(n)[p];
+  return QC({text:`Trong số <b>${fmt(n)}</b>, chữ số <b>${d}</b> thuộc lớp nào?`, opts:['Lớp đơn vị', 'Lớp nghìn', 'Lớp triệu'], ans:'Lớp ' + LOP(p), keepOrder:true,
+    hint:'Mỗi lớp có ba hàng: lớp đơn vị (đơn vị, chục, trăm), lớp nghìn (nghìn, chục nghìn, trăm nghìn), lớp triệu (triệu, chục triệu, trăm triệu).',
+    sol:`Chữ số ${d} ở hàng ${HANG[p]}, thuộc <b>lớp ${LOP(p)}</b>.`});
+};
+const gkHangLop = lv => gPlace(gkHangLen(lv), true)();
+const gkLopGom = lv => {
+  const len = lv === 3 ? 9 : 6, n = gkDigitNum(len), ds = String(n).split(''), up = lv === 3 && Math.random() < .5 ? 'triệu' : 'nghìn';
+  const grp = s => s.join(', ');
+  const rev = ds.slice().reverse();   // rev[0] = hàng đơn vị
+  const lopDigits = k => rev.slice(3 * k, 3 * k + 3).reverse();   // k: 0 đơn vị, 1 nghìn, 2 triệu
+  const k = up === 'triệu' ? 2 : 1, ask = lv === 1 || Math.random() < .5 ? k : 0, name = ['đơn vị', 'nghìn', 'triệu'][ask];
+  const good = grp(lopDigits(ask));
+  const cand = [grp(lopDigits(ask === 0 ? 1 : 0)), grp(rev.slice(1, 4).reverse()), grp(rev.slice(2, 5).reverse()), grp(ds.slice(0, 3))].filter(x => x !== good);
+  return QC({text:`Lớp <b>${name}</b> của số <b>${fmt(n)}</b> gồm các chữ số nào?`, opts:[good, ...[...new Set(cand)].slice(0, 3)], ans:good,
+    hint:'Chia số thành từng nhóm ba chữ số từ phải sang trái: nhóm đầu là lớp đơn vị, nhóm kế tiếp là lớp nghìn, rồi lớp triệu.',
+    sol:`Chia thành các lớp: ${fmt(n)}. Lớp ${name} gồm các chữ số <b>${good}</b>.`});
+};
+const gkTimChuSo = lv => {
+  const len = gkHangLen(lv), n = gkDigitNum(len), [p, q] = shuffle([...Array(len).keys()]).slice(0, 2), dg = digitsOf(n);
+  return QB({text:`Cho số <b>${fmt(n)}</b>. Tìm chữ số ở hàng ${HANG[p]} và chữ số ở hàng ${HANG[q]}.`,
+    tpl:`Hàng ${HANG[p]}: [_] &nbsp; Hàng ${HANG[q]}: [_]`, ans:[dg[p], dg[q]],
+    hint:'Đánh số các hàng từ phải sang trái: hàng đơn vị là hàng thứ nhất, hàng chục là hàng thứ hai, …',
+    sol:`Hàng ${HANG[p]} là hàng thứ ${p + 1} tính từ phải: chữ số <b>${dg[p]}</b>. Hàng ${HANG[q]} là hàng thứ ${q + 1}: chữ số <b>${dg[q]}</b>.`});
+};
+lesson(7, 'gk-hang-lop', 'Dạng 2 · Xác định hàng và lớp của chữ số', 'Nhóm I – Số tự nhiên: chữ số đứng ở hàng nào, thuộc lớp nào; mỗi lớp có ba hàng.', [gkHang, gkLop, gkHangLop, gkLopGom, gkTimChuSo], {
+  intro:[
+    {t:'Hàng và lớp', b:'Mỗi lớp có <b>ba hàng</b>:<br>• Lớp đơn vị: đơn vị, chục, trăm.<br>• Lớp nghìn: nghìn, chục nghìn, trăm nghìn.<br>• Lớp triệu: triệu, chục triệu, trăm triệu.', ex:'Trong số 809 145: chữ số 8 ở <b>hàng trăm nghìn</b>, thuộc <b>lớp nghìn</b>.'},
+    {t:'Cách xác định', b:'Đếm các hàng từ <b>phải sang trái</b>. Ba hàng đầu là lớp đơn vị, ba hàng tiếp theo là lớp nghìn.', warn:'Đừng nhầm hàng nghìn (một hàng) với lớp nghìn (ba hàng). Chữ số ở hàng chục nghìn thuộc lớp nghìn.'}
+  ]});
+
+/* ---------- Dạng 3: giá trị của chữ số ---------- */
+const gkSoCoChuSo = (len, d, p) => {   // số len chữ số, chữ số d xuất hiện đúng một lần, ở hàng p
+  let a;
+  do {
+    a = [...Array(len)].map(() => R(0, 9)).map(x => x === d ? (d + R(1, 9)) % 10 : x);
+    a[p] = d;
+  } while (a[len - 1] === 0);
+  return a.reduce((s, x, i) => s + x * 10 ** i, 0);
+};
+const gkGiaTri = lv => gValue(lv === 1 ? 5 : 6)();
+const gkBaSo = lv => {
+  const len = lv === 1 ? 5 : 6, d = R(1, 9), ps = shuffle([...Array(len).keys()]).slice(0, 3);
+  const ns = ps.map(p => gkSoCoChuSo(len, d, p));
+  return QB({text:`Tìm giá trị của chữ số <b>${d}</b> trong mỗi số sau:`, tpl:ns.map(n => `<span class="eq">${fmt(n)}: [_]</span>`).join(' &nbsp; '), ans:ps.map(p => d * 10 ** p), wide:true,
+    hint:'Chữ số đứng ở hàng nào thì có giá trị bằng chữ số đó nhân với giá trị của hàng (chục: 10, trăm: 100, nghìn: 1 000, …).',
+    sol:ns.map((n, i) => `Trong ${fmt(n)}, chữ số ${d} ở hàng ${HANG[ps[i]]}: <b>${fmt(d * 10 ** ps[i])}</b>`).join('; ') + '.'});
+};
+const gkSoNao = lv => {
+  const len = lv === 1 ? 5 : 6, d = R(1, 9), ps = shuffle([...Array(len).keys()]).slice(0, 4), p = ps[0];
+  const ns = ps.map(q => gkSoCoChuSo(len, d, q)), v = d * 10 ** p;
+  return QC({text:`Trong các số dưới đây, số nào có chữ số <b>${d}</b> với giá trị là <b>${fmt(v)}</b>?`, opts:ns.map(fmt), ans:fmt(ns[0]),
+    hint:`Giá trị ${fmt(v)} cho biết chữ số ${d} phải đứng ở hàng nào. Tìm số có chữ số ${d} ở đúng hàng đó.`,
+    sol:`${fmt(v)} = ${d} × ${fmt(10 ** p)}, chữ số ${d} ở hàng ${HANG[p]}. Đó là số <b>${fmt(ns[0])}</b>.`});
+};
+const gkTongGt = lv => {
+  const len = lv === 1 ? 5 : 6; let n, pos;
+  do { n = randDigits(len); pos = uniqPos(n); } while (pos.length < 2);
+  const [i, j] = shuffle(pos).slice(0, 2), dg = digitsOf(n), a = dg[i] * 10 ** i, b = dg[j] * 10 ** j;
+  return QB({text:`Tìm tổng giá trị của chữ số <b>${dg[i]}</b> và chữ số <b>${dg[j]}</b> trong số <b>${fmt(n)}</b>.`, tpl:'[_]', ans:[a + b], wide:true,
+    hint:'Tìm giá trị của từng chữ số theo hàng của nó, rồi cộng hai giá trị lại.',
+    sol:`Chữ số ${dg[i]} ở hàng ${HANG[i]}: ${fmt(a)}. Chữ số ${dg[j]} ở hàng ${HANG[j]}: ${fmt(b)}. Tổng: ${fmt(a)} + ${fmt(b)} = <b>${fmt(a + b)}</b>.`});
+};
+const gkGapLan = lv => {
+  const len = lv === 3 ? 6 : 5, d = R(1, 9), q = R(0, 2), k = R(1, 3), p = q + k;
+  const n1 = gkSoCoChuSo(len, d, p), n2 = gkSoCoChuSo(len, d, q);
+  return QB({text:`Giá trị của chữ số <b>${d}</b> trong số <b>${fmt(n1)}</b> gấp bao nhiêu lần giá trị của chữ số <b>${d}</b> trong số <b>${fmt(n2)}</b>?`, tpl:'Gấp [_] lần', ans:[10 ** k], wide:true,
+    hint:'Tìm giá trị của chữ số ở mỗi số trước, rồi lấy giá trị lớn chia cho giá trị bé.',
+    sol:`Trong ${fmt(n1)}: ${fmt(d * 10 ** p)}. Trong ${fmt(n2)}: ${fmt(d * 10 ** q)}. ${fmt(d * 10 ** p)} : ${fmt(d * 10 ** q)} = <b>${fmt(10 ** k)}</b> (lần).`});
+};
+lesson(7, 'gk-gia-tri', 'Dạng 3 · Giá trị của chữ số', 'Nhóm I – Số tự nhiên: giá trị của một chữ số phụ thuộc vào hàng mà nó đứng.', [gkGiaTri, gkBaSo, gkSoNao, gkTongGt, gkGapLan], {
+  intro:[
+    {t:'Giá trị của chữ số', b:'Giá trị của một chữ số = <b>chữ số</b> × <b>giá trị của hàng</b> mà nó đứng.<br>Hàng chục: 10 · hàng trăm: 100 · hàng nghìn: 1 000 · hàng chục nghìn: 10 000 · hàng trăm nghìn: 100 000.', ex:'Chữ số 3 trong 22 356 có giá trị 300; trong 301 887 có giá trị 300 000; trong 163 569 có giá trị 3 000.'},
+    {t:'Phân biệt', b:'Chữ số 3 luôn là chữ số 3, nhưng <b>giá trị</b> của nó thay đổi theo hàng. Muốn tìm giá trị, trước hết xác định chữ số đứng ở hàng nào.', warn:'Không ghi “giá trị là 3” khi chữ số 3 đứng ở hàng trăm. Hãy ghi 300.'}
+  ]});
+
+/* ---------- Dạng 4: nhận biết, đếm và đo góc ---------- */
+const gkGocSVG = degs => {   // tia OB ở 0°, tia OA ở 180°, các tia khác ở degs (độ, tính từ OB)
+  const cx = 160, cy = 168, L = 128, names = ['C', 'D', 'E', 'F'];
+  const T = (x, y, s) => `<text class="sv-txt" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="18" text-anchor="middle">${s}</text>`;
+  let s = `<svg viewBox="0 0 320 200" role="img" aria-label="Các tia chung gốc O">`;
+  s += `<line class="sv-ray" x1="${cx - L}" y1="${cy}" x2="${cx + L}" y2="${cy}"/>`;
+  degs.forEach((d, i) => {
+    const [x, y] = P(cx, cy, L, d), [tx, ty] = P(cx, cy, L + 14, d);
+    s += `<line class="sv-ray" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>` + T(tx, ty + 6, names[i]);
+  });
+  if (degs.includes(90)) s += `<path class="sv-ink" stroke-width="2" d="M${cx + 16} ${cy} v-16 h-16"/>`;
+  s += `<circle cx="${cx}" cy="${cy}" r="5" class="sv-dot"/>` + T(cx - L - 12, cy + 6, 'A') + T(cx + L + 12, cy + 6, 'B') + T(cx, cy + 24, 'O');
+  return s + '</svg>';
+};
+const gkDegs = (k, want90) => {
+  let a;
+  do { a = shuffle([...Array(15)].map((_, i) => 20 + i * 10)).slice(0, k).sort((x, y) => x - y); }
+  while (a[0] < 30 || 180 - a[k - 1] < 30 || a.some((v, i) => i && v - a[i - 1] < 30) || (want90 && !a.includes(90)));
+  return a;
+};
+const gkAngName = t => t < 90 ? 'nhọn' : t === 90 ? 'vuông' : t < 180 ? 'tù' : 'bẹt';
+const gkDemGoc = lv => {
+  const k = lv === 1 ? 2 : 3, degs = gkDegs(k, lv > 1 && Math.random() < .7), rays = ['B', ...['C', 'D', 'E'].slice(0, k), 'A'], ang = [0, ...degs, 180];
+  const all = []; for (let i = 0; i < rays.length; i++) for (let j = i + 1; j < rays.length; j++) all.push({n: `${rays[i]}O${rays[j]}`, t: ang[j] - ang[i]});
+  let type, cnt;
+  for (let tries = 0; tries < 40; tries++) { type = pick(lv === 1 ? ['nhọn', 'tù'] : ['nhọn', 'vuông', 'tù', 'bẹt']); cnt = all.filter(a => gkAngName(a.t) === type).length; if (cnt > 0) break; }
+  const given = degs.map((d, i) => `góc BO${rays[i + 1]} = ${d}°`).join(', ');
+  return QB({text:`Cho tia OA và tia OB đối nhau (A, O, B thẳng hàng). Biết ${given}. Hình bên có tất cả bao nhiêu góc <b>${type}</b> đỉnh O?`, fig:gkGocSVG(degs), tpl:`[_] góc ${type}`, ans:[cnt],
+    hint:'Xét từng cặp tia chung gốc O. Số đo góc tạo bởi hai tia là hiệu hai số đo (tính từ tia OB). Đừng bỏ sót góc tạo bởi hai tia nằm trên cùng một đường thẳng.',
+    sol:BG(`Các góc đỉnh O: ${all.map(a => `${a.n} = ${a.t}° (${gkAngName(a.t)})`).join('; ')}.`, `Có <b>${cnt}</b> góc ${type}.`)});
+};
+const gkDoGoc = lv => {
+  if (lv === 1) {
+    const y = R(3, 15) * 10, d = y === 90 ? 80 : y;
+    return QB({text:`Trên thước đo góc, tia OB ở vạch 0° và tia OA ở vạch 180°. Tia OD đi qua vạch <b>${d}°</b>. Số đo góc DOA là:`, fig:gkGocSVG([d]).replace(/>C</, '>D<'), tpl:'Góc DOA = [_]°', ans:[180 - d],
+      hint:'Góc BOA là góc bẹt (180°) gồm hai góc BOD và DOA ghép lại.', sol:`Góc DOA = 180° − ${d}° = <b>${180 - d}°</b>.`});
+  }
+  const [x, y] = gkDegs(2, lv === 3 && Math.random() < .5), fig = gkGocSVG([x, y]);
+  if (lv === 2) return QB({text:`Trên thước đo góc, tia OB ở vạch 0°, tia OC đi qua vạch <b>${x}°</b>, tia OD đi qua vạch <b>${y}°</b>. Số đo góc COD là:`, fig, tpl:'Góc COD = [_]°', ans:[y - x],
+    hint:'Số đo góc COD bằng hiệu hai số đo đọc trên thước: lấy số lớn trừ số bé.', sol:`Góc COD = ${y}° − ${x}° = <b>${y - x}°</b>.`});
+  return QB({text:`Cho tia OA và tia OB đối nhau. Biết góc BOC = <b>${x}°</b>, góc BOD = <b>${y}°</b> (như hình). Tính số đo góc COD và góc DOA.`, fig, tpl:'Góc COD = [_]° &nbsp; Góc DOA = [_]°', ans:[y - x, 180 - y],
+    hint:'Góc COD là hiệu của góc BOD và góc BOC. Góc BOA là góc bẹt (180°) nên góc DOA = góc bẹt trừ góc BOD.',
+    sol:BG(`Góc COD = ${y}° − ${x}° = <b>${y - x}°</b>.`, `Góc DOA = 180° − ${y}° = <b>${180 - y}°</b>.`)});
+};
+const gkTongGoc = lv => {
+  const k = lv === 1 ? 1 : lv === 2 ? 2 : R(3, 4), n = k + 2, total = n * (n - 1) / 2, nm = ['C', 'D', 'E', 'F'].slice(0, k), degs = k <= 3 ? gkDegs(k, false) : [30, 60, 100, 140];
+  const lines = []; let sum = 0;
+  ['B', ...nm].forEach((r, i) => { lines.push(`Tia O${r} tạo với ${n - 1 - i} tia còn lại ở phía sau nó ${n - 1 - i} góc`); sum += n - 1 - i; });
+  return QB({text:`Cho đường thẳng AB và điểm O thuộc AB. Từ O kẻ thêm ${k} tia ${joinVa(nm.map(x => 'O' + x))} về cùng một phía của đường thẳng AB (như hình). Hỏi hình có tất cả bao nhiêu góc đỉnh O, kể cả góc bẹt?`, fig:gkGocSVG(degs), tpl:'[_] góc', ans:[total],
+    hint:'Mỗi góc được tạo bởi hai tia chung gốc O. Liệt kê có hệ thống: lần lượt lấy từng tia làm cạnh đầu, ghép với các tia đứng sau nó.',
+    sol:BG(`Hình có ${n} tia chung gốc O: OB, ${nm.map(x => 'O' + x).join(', ')}, OA.`, `${[...Array(n - 1)].map((_, i) => n - 1 - i).join(' + ')} = <b>${total}</b> góc (có cả góc bẹt AOB).`)});
+};
+lesson(7, 'gk-goc', 'Dạng 4 · Nhận biết, đếm và đo góc', 'Nhóm II – Hình học: góc nhọn, vuông, tù, bẹt; đếm các góc trong hình; đo góc bằng thước đo góc.', [gAngType, gAngDeg, gkDemGoc, gkDoGoc, gkTongGoc], {
+  intro:[
+    {t:'Các loại góc', b:'• <b>Góc nhọn</b>: nhỏ hơn 90°.<br>• <b>Góc vuông</b>: bằng 90°.<br>• <b>Góc tù</b>: lớn hơn 90° và nhỏ hơn 180°.<br>• <b>Góc bẹt</b>: bằng 180° (hai cạnh là hai tia đối nhau).'},
+    {t:'Cách đếm góc trong hình', b:'Xét từng đỉnh. Với mỗi đỉnh, ghép <b>từng cặp tia</b> chung gốc thành một góc rồi phân loại. Số đo góc ghép từ hai góc nhỏ bằng tổng hai góc đó.', warn:'Đừng bỏ sót <b>góc bẹt</b>, tức góc tạo bởi hai tia nằm trên cùng một đường thẳng.', ex:'Có 4 tia chung gốc O thì có 3 + 2 + 1 = 6 góc.'},
+    {t:'Đo góc bằng thước đo góc', b:'Đặt tâm thước trùng đỉnh góc, một cạnh đi qua vạch 0. Đọc số ở vạch mà cạnh còn lại đi qua.'}
+  ]});
+
+/* ---------- Dạng 5: đặt tính rồi tính ---------- */
+const gkColAdd = (a, b) => {
+  const x = digitsOf(a), y = digitsOf(b), L = Math.max(x.length, y.length), out = []; let c = 0;
+  for (let i = 0; i < L; i++) {
+    const terms = [x[i], y[i]].filter(v => v !== undefined), s = terms.reduce((p, q) => p + q, 0) + c;
+    out.push(`Hàng ${HANG[i]}: ${terms.join(' + ')}${c ? ' + 1' : ''} = ${s}, viết ${s % 10}${s >= 10 ? ', nhớ 1' : ''}`); c = s >= 10 ? 1 : 0;
+  }
+  if (c) out.push(`Hàng ${HANG[L]}: viết 1`);
+  return out;
+};
+const gkColSub = (a, b) => {
+  const x = digitsOf(a), y = digitsOf(b), out = []; let br = 0;
+  for (let i = 0; i < x.length; i++) {
+    const da = x[i], db = y[i], cur = da - br;
+    if (db === undefined) {
+      if (cur < 0) { out.push(`Hàng ${HANG[i]}: ${da} − 1 không trừ được, mượn 1: ${da + 10} − 1 = 9`); br = 1; }
+      else { out.push(br ? `Hàng ${HANG[i]}: ${da} − 1 = ${cur}` : `Hàng ${HANG[i]}: hạ ${da}`); br = 0; }
+    } else if (cur < db) { out.push(`Hàng ${HANG[i]}: ${da}${br ? ' − 1' : ''} không trừ được ${db}, mượn 1: ${da + 10 - br} − ${db} = ${da + 10 - br - db}`); br = 1; }
+    else { out.push(`Hàng ${HANG[i]}: ${da}${br ? ' − 1' : ''} − ${db} = ${cur - db}`); br = 0; }
+  }
+  return out;
+};
+const gkColMul = (a, b) => {
+  const x = digitsOf(a), out = []; let c = 0;
+  x.forEach((d, i) => {
+    const p = d * b + c;
+    out.push(`Hàng ${HANG[i]}: ${d} × ${b}${c ? ' + ' + c : ''} = ${p}, ${i === x.length - 1 ? 'viết ' + p : 'viết ' + (p % 10) + (p >= 10 ? ', nhớ ' + Math.floor(p / 10) : '')}`); c = Math.floor(p / 10);
+  });
+  return out;
+};
+const gkCong = lv => {
+  const L = lv === 1 ? 4 : 5, a = randDigits(L), b = randDigits(L), r = a + b;
+  return QB({text:'Đặt tính rồi tính:', tpl:`<span class="eq">${fmt(a)} + ${fmt(b)} = [_]</span>`, ans:[r], wide:true,
+    hint:'Đặt các chữ số cùng hàng thẳng cột. Cộng từ phải sang trái, nhớ 1 sang hàng bên trái khi tổng từ 10 trở lên.',
+    sol:BG(...gkColAdd(a, b), `${fmt(a)} + ${fmt(b)} = <b>${fmt(r)}</b>`)});
+};
+const gkTru = lv => {
+  const L = lv === 1 ? 4 : 5; let a = randDigits(L), b = randDigits(lv === 3 ? L - 1 : L);
+  if (b > a) [a, b] = [b, a]; if (a === b) a += 1;
+  const r = a - b;
+  return QB({text:'Đặt tính rồi tính:', tpl:`<span class="eq">${fmt(a)} − ${fmt(b)} = [_]</span>`, ans:[r], wide:true,
+    hint:'Đặt tính thẳng cột, trừ từ phải sang trái. Hàng nào số bị trừ bé hơn số trừ thì mượn 1 ở hàng liền trước.',
+    sol:BG(...gkColSub(a, b), `${fmt(a)} − ${fmt(b)} = <b>${fmt(r)}</b>`)});
+};
+const gkNhan = lv => {
+  const a = randDigits(lv === 1 ? 3 : lv === 2 ? 4 : 5), b = R(2, 9), r = a * b;
+  return QB({text:'Đặt tính rồi tính:', tpl:`<span class="eq">${fmt(a)} × ${b} = [_]</span>`, ans:[r], wide:true,
+    hint:'Nhân lần lượt từng chữ số của thừa số thứ nhất với thừa số thứ hai, từ phải sang trái; nhớ số nhớ sang hàng bên trái.',
+    sol:BG(...gkColMul(a, b), `${fmt(a)} × ${b} = <b>${fmt(r)}</b>`)});
+};
+const gkThuLai = lv => {
+  const L = lv === 1 ? 4 : 5, add = Math.random() < .5; let a = randDigits(L), b = randDigits(L);
+  if (!add && b > a) [a, b] = [b, a]; if (!add && a === b) a += 1;
+  const r = add ? a + b : a - b;
+  return QB({text:'Tính rồi thử lại bằng phép tính ngược:', tpl:add ? `<span class="eq">${fmt(a)} + ${fmt(b)} = [_]</span><br><span class="eq">Thử lại: [_] − ${fmt(b)} = ${fmt(a)}</span>` : `<span class="eq">${fmt(a)} − ${fmt(b)} = [_]</span><br><span class="eq">Thử lại: [_] + ${fmt(b)} = ${fmt(a)}</span>`, ans:[r, r], wide:true,
+    hint:add ? 'Thử lại phép cộng: lấy tổng trừ đi một số hạng, kết quả phải bằng số hạng còn lại.' : 'Thử lại phép trừ: lấy hiệu cộng với số trừ, kết quả phải bằng số bị trừ.',
+    sol:`${fmt(a)} ${add ? '+' : '−'} ${fmt(b)} = <b>${fmt(r)}</b>. Thử lại: ${fmt(r)} ${add ? '−' : '+'} ${fmt(b)} = ${fmt(a)} (đúng).`});
+};
+const gkBaSo2 = lv => {
+  const pat = Math.random() < .5;
+  if (pat) { const a = randDigits(5), b = randDigits(5), c = R(1000, a + b - 1000), r = a + b - c;
+    return QB({text:'Tính:', tpl:`<span class="eq">${fmt(a)} + ${fmt(b)} − ${fmt(c)} = [_]</span>`, ans:[r], wide:true,
+      hint:'Biểu thức chỉ có cộng và trừ: tính lần lượt từ trái sang phải.', sol:BG(`${fmt(a)} + ${fmt(b)} = ${fmt(a + b)}`, `${fmt(a + b)} − ${fmt(c)} = <b>${fmt(r)}</b>`)}); }
+  const a = randDigits(4), m = R(2, 9), b = randDigits(4), r = a * m + b;
+  return QB({text:'Tính:', tpl:`<span class="eq">${fmt(a)} × ${m} + ${fmt(b)} = [_]</span>`, ans:[r], wide:true,
+    hint:'Biểu thức có nhân và cộng: thực hiện phép nhân trước, phép cộng sau.', sol:BG(`${fmt(a)} × ${m} = ${fmt(a * m)}`, `${fmt(a * m)} + ${fmt(b)} = <b>${fmt(r)}</b>`)});
+};
+lesson(7, 'gk-dat-tinh', 'Dạng 5 · Đặt tính rồi tính', 'Nhóm III – Phép tính: cộng, trừ, nhân số có nhiều chữ số với số có một chữ số; thử lại kết quả.', [gkCong, gkTru, gkNhan, gkThuLai, gkBaSo2], {
+  intro:[
+    {t:'Cách đặt tính', b:'Viết các chữ số <b>cùng hàng thẳng cột</b>: đơn vị dưới đơn vị, chục dưới chục, … Tính từ <b>phải sang trái</b>.'},
+    {t:'Cộng – trừ – nhân', b:'• Cộng: tổng hàng từ 10 trở lên thì viết hàng đơn vị, <b>nhớ 1</b> sang hàng bên trái.<br>• Trừ: hàng nào số bị trừ bé hơn số trừ thì <b>mượn 1</b> ở hàng bên trái (hàng bên trái bớt 1).<br>• Nhân: nhân từng chữ số với thừa số thứ hai, cộng thêm số nhớ.', warn:'Quên cộng số nhớ khi nhân, hoặc quên “bớt 1” sau khi mượn khi trừ.', ex:'34 895 + 98 473 = 133 368 · 17 512 − 9 587 = 7 925 · 4 674 × 8 = 37 392.'},
+    {t:'Thử lại', b:'Phép cộng: lấy tổng trừ một số hạng. Phép trừ: lấy hiệu cộng số trừ. Kết quả phải khớp với số đã cho.'}
+  ]});
+
+/* ---------- Dạng 6: giá trị biểu thức có chữ ---------- */
+const gkBt1 = lv => {
+  const c = randDigits(4), m = lv === 1 ? R(11, 99) : R(101, 999), n = R(2, 9), r = c + m * n;
+  return QB({text:`Tính giá trị của biểu thức <b>${fmt(c)} + m × n</b> với <b>m = ${m}</b>, <b>n = ${n}</b>.`, tpl:'[_]', ans:[r], wide:true,
+    hint:'Thay chữ bằng số, rồi thực hiện phép nhân trước, phép cộng sau.',
+    sol:BG(`${fmt(c)} + ${m} × ${n}`, `= ${fmt(c)} + ${fmt(m * n)}`, `= <b>${fmt(r)}</b>`)});
+};
+const gkBt2 = lv => {
+  const a = R(2, 9), q = lv === 1 ? R(11, 99) : R(101, 999), b = randDigits(lv === 1 ? 3 : 4), x = a * q, r = q + b;
+  return QB({text:`Tính giá trị của biểu thức <b>${fmt(x)} : a + b</b> với <b>a = ${a}</b>, <b>b = ${fmt(b)}</b>.`, tpl:'[_]', ans:[r], wide:true,
+    hint:'Thay chữ bằng số, rồi thực hiện phép chia trước, phép cộng sau.',
+    sol:BG(`${fmt(x)} : ${a} + ${fmt(b)}`, `= ${fmt(q)} + ${fmt(b)}`, `= <b>${fmt(r)}</b>`)});
+};
+const gkBt3 = lv => {
+  if (Math.random() < .5) {
+    const m = R(100, 900), n = R(2, 9), c = m * n + R(100, 3000), r = c - m * n;
+    return QB({text:`Tính giá trị của biểu thức <b>${fmt(c)} − m × n</b> với <b>m = ${m}</b>, <b>n = ${n}</b>.`, tpl:'[_]', ans:[r], wide:true,
+      hint:'Thay chữ bằng số. Nhân trước rồi mới trừ.', sol:BG(`${fmt(c)} − ${m} × ${n}`, `= ${fmt(c)} − ${fmt(m * n)}`, `= <b>${fmt(r)}</b>`)});
+  }
+  const a = R(2, 9), q = R(101, 999), x = a * q, c = R(1000, 9999), r = c + q;
+  return QB({text:`Tính giá trị của biểu thức <b>${fmt(c)} + ${fmt(x)} : a</b> với <b>a = ${a}</b>.`, tpl:'[_]', ans:[r], wide:true,
+    hint:'Thay chữ bằng số. Chia trước rồi mới cộng.', sol:BG(`${fmt(c)} + ${fmt(x)} : ${a}`, `= ${fmt(c)} + ${fmt(q)}`, `= <b>${fmt(r)}</b>`)});
+};
+const gkBt4 = lv => {
+  if (Math.random() < .5) {
+    const m = R(100, 900), n = R(100, 900), k = R(2, 9), r = (m + n) * k;
+    return QB({text:`Tính giá trị của biểu thức <b>(m + n) × k</b> với <b>m = ${m}</b>, <b>n = ${n}</b>, <b>k = ${k}</b>.`, tpl:'[_]', ans:[r], wide:true,
+      hint:'Biểu thức có dấu ngoặc: tính trong ngoặc trước.', sol:BG(`(${m} + ${n}) × ${k}`, `= ${fmt(m + n)} × ${k}`, `= <b>${fmt(r)}</b>`)});
+  }
+  const a = R(11, 99), b = R(2, 9), c = R(2, 9), q = R(11, 99), d = c * q, r = a * b + q;
+  return QB({text:`Tính giá trị của biểu thức <b>a × b + ${d} : c</b> với <b>a = ${a}</b>, <b>b = ${b}</b>, <b>c = ${c}</b>.`, tpl:'[_]', ans:[r], wide:true,
+    hint:'Có cả nhân, chia và cộng: nhân, chia làm trước (từ trái sang phải), cộng làm sau.', sol:BG(`${a} × ${b} + ${d} : ${c}`, `= ${a * b} + ${q}`, `= <b>${r}</b>`)});
+};
+const gkBt5 = lv => {
+  if (Math.random() < .5) {
+    const c = R(8, 30) * 100, m = R(2, 9), n = R(5, 40) * 10, r = c - m * n;
+    if (r <= 0) return gkBt5(lv);
+    return QB({text:`Một cửa hàng có <b>c</b> kg gạo. Mỗi ngày bán <b>m</b> kg, bán trong <b>n</b> ngày thì số gạo còn lại là <b>c − m × n</b> (kg). Tính số gạo còn lại khi <b>c = ${fmt(c)}</b>, <b>m = ${n}</b>, <b>n = ${m}</b>.`, tpl:'[_] kg', ans:[r], wide:true,
+      hint:'Thay đúng chữ bằng đúng số (chú ý m và n đã cho ở đề), nhân trước rồi trừ sau.', sol:BG(`c − m × n = ${fmt(c)} − ${n} × ${m}`, `= ${fmt(c)} − ${fmt(n * m)}`, `= <b>${fmt(r)} kg</b>`)});
+  }
+  const c = R(2, 9) * 1000, m = R(2, 9), n = R(2, 9) * 1000, r = c + m * n;
+  return QB({text:`Mua <b>m</b> quyển vở, mỗi quyển giá <b>n</b> đồng và một chiếc cặp giá <b>c</b> đồng thì số tiền phải trả là <b>c + m × n</b> (đồng). Tính số tiền phải trả khi <b>m = ${m}</b>, <b>n = ${fmt(n)}</b>, <b>c = ${fmt(c * 10)}</b>.`, tpl:'[_] đồng', ans:[c * 10 + m * n], wide:true,
+    hint:'Thay chữ bằng số: nhân m với n trước, rồi cộng với giá chiếc cặp.', sol:BG(`c + m × n = ${fmt(c * 10)} + ${m} × ${fmt(n)}`, `= ${fmt(c * 10)} + ${fmt(m * n)}`, `= <b>${fmt(c * 10 + m * n)} đồng</b>`)});
+};
+lesson(7, 'gk-bt-chu', 'Dạng 6 · Giá trị của biểu thức có chữ', 'Nhóm III – Phép tính: thay chữ bằng số rồi tính đúng thứ tự phép tính.', [gkBt1, gkBt2, gkBt3, gkBt4, gkBt5], {
+  intro:[
+    {t:'Quy trình', b:'<b>Bước 1</b>: thay chữ bằng số.<br><b>Bước 2</b>: tính trong ngoặc (nếu có).<br><b>Bước 3</b>: nhân, chia trước.<br><b>Bước 4</b>: cộng, trừ sau.', ex:'3467 + m × n với m = 456, n = 7: 3467 + 456 × 7 = 3467 + 3192 = <b>6659</b>.'},
+    {t:'Lưu ý', b:'Viết lại biểu thức sau mỗi bước, mỗi dòng bắt đầu bằng dấu “=”.', warn:'Không cộng trước khi nhân: 3467 + 456 × 7 không bằng 3923 × 7.'}
+  ]});
+
+/* ---------- Dạng 7: chu vi, diện tích hình chữ nhật ---------- */
+const gkRectSVG = (a, b, unit, la, lb) => {
+  const w = 220, h = Math.max(56, Math.min(130, Math.round(220 * b / a))), x0 = 50, y0 = Math.round((200 - h) / 2) + 4;
+  return `<svg viewBox="0 0 320 200" role="img" aria-label="Hình chữ nhật"><rect class="sv-ink" stroke-width="3" x="${x0}" y="${y0}" width="${w}" height="${h}"/>`
+    + `<text class="sv-txt" x="${x0 + w / 2}" y="${y0 - 10}" font-size="18" text-anchor="middle">${la ?? `${a} ${unit}`}</text>`
+    + `<text class="sv-txt" x="${x0 + w + 10}" y="${y0 + h / 2 + 6}" font-size="18">${lb ?? `${b} ${unit}`}</text></svg>`;
+};
+const gkDims = lv => { const a = lv === 1 ? R(6, 20) : lv === 2 ? R(20, 95) : R(60, 400), b = R(3, Math.min(a - 1, lv === 1 ? 12 : lv === 2 ? 19 : 59)); return [a, b]; };
+const gkPS = lv => {
+  const [a, b] = gkDims(lv), u = lv === 3 ? 'm' : 'cm';
+  return QB({text:`Một hình chữ nhật có chiều dài <b>${a} ${u}</b>, chiều rộng <b>${b} ${u}</b>. Tính chu vi và diện tích hình chữ nhật đó.`, fig:gkRectSVG(a, b, u), tpl:`Chu vi: [_] ${u} &nbsp; Diện tích: [_] ${u}²`, ans:[(a + b) * 2, a * b], wide:true,
+    hint:'Chu vi P = (dài + rộng) × 2. Diện tích S = dài × rộng. Chu vi tính bằng đơn vị độ dài, diện tích tính bằng đơn vị diện tích.',
+    sol:BG(`Chu vi: (${a} + ${b}) × 2 = <b>${(a + b) * 2} ${u}</b>`, `Diện tích: ${a} × ${b} = <b>${fmt(a * b)} ${u}²</b>`)});
+};
+const gkDonVi = lv => {
+  const [a, b] = gkDims(lv), P2 = (a + b) * 2, S2 = a * b, wantS = Math.random() < .5, u = 'cm';
+  const ok = wantS ? `${fmt(S2)} cm²` : `${P2} cm`;
+  const opts = wantS ? [`${fmt(S2)} cm²`, `${fmt(S2)} cm`, `${P2} cm²`, `${P2} cm`] : [`${P2} cm`, `${P2} cm²`, `${fmt(S2)} cm`, `${fmt(S2)} cm²`];
+  return QC({text:`Hình chữ nhật có chiều dài <b>${a} ${u}</b>, chiều rộng <b>${b} ${u}</b>. Kết quả nào sau đây là ${wantS ? '<b>diện tích</b>' : '<b>chu vi</b>'} của hình đó, ghi đúng đơn vị?`, fig:gkRectSVG(a, b, u), opts, ans:ok, keepOrder:false,
+    hint:`${wantS ? 'Diện tích = dài × rộng, đo bằng cm² (xăng-ti-mét vuông)' : 'Chu vi = (dài + rộng) × 2, đo bằng cm (xăng-ti-mét)'}. Hãy xem cả số và đơn vị.`,
+    sol:wantS ? `S = ${a} × ${b} = <b>${fmt(S2)} cm²</b>.` : `P = (${a} + ${b}) × 2 = <b>${P2} cm</b>.`});
+};
+const gkTimRong = lv => {
+  const [a, b] = gkDims(lv), u = lv === 3 ? 'm' : 'cm', P2 = (a + b) * 2;
+  return QB({text:`Một hình chữ nhật có chu vi <b>${P2} ${u}</b>, chiều dài <b>${a} ${u}</b>. Tính chiều rộng của hình chữ nhật.`, fig:gkRectSVG(a, b, u, `${a} ${u}`, '?'), tpl:`[_] ${u}`, ans:[b],
+    hint:'Nửa chu vi bằng chiều dài cộng chiều rộng. Tính nửa chu vi trước.',
+    sol:BG(`Nửa chu vi: ${P2} : 2 = ${a + b} (${u})`, `Chiều rộng: ${a + b} − ${a} = <b>${b} ${u}</b>`)});
+};
+const gkTimDai = lv => {
+  const b = lv === 1 ? R(3, 9) : R(6, 40), a = b * R(2, lv === 1 ? 6 : 9) + R(0, 3), S2 = a * b, u = lv === 3 ? 'm' : 'cm';
+  return QB({text:`Một hình chữ nhật có diện tích <b>${fmt(S2)} ${u}²</b>, chiều rộng <b>${b} ${u}</b>. Tính chiều dài và chu vi của hình chữ nhật.`, fig:gkRectSVG(a, b, u, '?', `${b} ${u}`), tpl:`Chiều dài: [_] ${u} &nbsp; Chu vi: [_] ${u}`, ans:[a, (a + b) * 2], wide:true,
+    hint:'Diện tích = dài × rộng, nên chiều dài = diện tích : chiều rộng. Có chiều dài rồi mới tính chu vi.',
+    sol:BG(`Chiều dài: ${fmt(S2)} : ${b} = <b>${a} ${u}</b>`, `Chu vi: (${a} + ${b}) × 2 = <b>${(a + b) * 2} ${u}</b>`)});
+};
+const gkRectVd = lv => {
+  const t = Math.random() < .5 ? 0 : 1;
+  if (t === 0) {
+    const w = lv === 3 ? R(15, 60) : R(5, 30), k = pick([2, 3, 4]), a = w * k;
+    return QB({text:`Một mảnh vườn hình chữ nhật có chiều rộng <b>${w} m</b>, chiều dài gấp <b>${k}</b> lần chiều rộng. Tính chu vi và diện tích mảnh vườn.`, tpl:'Chu vi: [_] m &nbsp; Diện tích: [_] m²', ans:[(a + w) * 2, a * w], wide:true,
+      hint:'Tìm chiều dài trước: lấy chiều rộng nhân với số lần. Sau đó áp dụng công thức chu vi và diện tích.',
+      sol:BG(`Chiều dài: ${w} × ${k} = ${a} (m)`, `Chu vi: (${a} + ${w}) × 2 = <b>${(a + w) * 2} m</b>`, `Diện tích: ${a} × ${w} = <b>${fmt(a * w)} m²</b>`)});
+  }
+  const [a, b] = gkDims(3), g = R(2, 5), len = (a + b) * 2 - g;
+  return QB({text:`Một mảnh vườn hình chữ nhật có chiều dài <b>${a} m</b>, chiều rộng <b>${b} m</b>. Người ta rào xung quanh mảnh vườn, chừa một cổng rộng <b>${g} m</b>. Hỏi hàng rào dài bao nhiêu mét?`, fig:gkRectSVG(a, b, 'm'), tpl:'[_] m', ans:[len], wide:true,
+    hint:'Chiều dài hàng rào chỉ tính chu vi, rồi bỏ đi phần cổng không rào.',
+    sol:BG(`Chu vi mảnh vườn: (${a} + ${b}) × 2 = ${(a + b) * 2} (m)`, `Hàng rào dài: ${(a + b) * 2} − ${g} = <b>${len} m</b>`)});
+};
+lesson(7, 'gk-chu-vi-dt', 'Dạng 7 · Chu vi, diện tích hình chữ nhật', 'Nhóm IV – Đại lượng: tính chu vi, diện tích, tìm cạnh còn thiếu và ghi đúng đơn vị.', [gkPS, gkDonVi, gkTimRong, gkTimDai, gkRectVd], {
+  intro:[
+    {t:'Công thức', b:'Gọi chiều dài là <b>a</b>, chiều rộng là <b>b</b> (cùng đơn vị đo):<br>• Chu vi: <b>P = (a + b) × 2</b><br>• Diện tích: <b>S = a × b</b>', ex:'a = 80 cm, b = 7 cm: P = (80 + 7) × 2 = 174 cm; S = 80 × 7 = 560 cm².'},
+    {t:'Đơn vị', b:'Chu vi là độ dài nên ghi <b>cm, m</b>… Diện tích ghi <b>cm², m²</b>…', warn:'Hai lỗi hay gặp: nhầm công thức chu vi với diện tích; ghi cm thay cho cm² (hoặc ngược lại). Đổi các số đo về cùng một đơn vị trước khi tính.'}
+  ]});
+
+/* ---------- Dạng 8: tổng hợp số liệu, đủ hay thiếu ---------- */
+const GKSUP = [
+  {o:'lốc sữa', c:'lốc', i:'hộp sữa', per:[4, 5, 6]}, {o:'thùng vở', c:'thùng', i:'quyển vở', per:[20, 24, 25, 30, 40]},
+  {o:'hộp bút', c:'hộp', i:'chiếc bút', per:[10, 12, 20]}, {o:'hộp bánh', c:'hộp', i:'chiếc bánh', per:[6, 8, 12]},
+  {o:'bó sách', c:'bó', i:'quyển sách', per:[10, 12, 15, 20]}, {o:'túi kẹo', c:'túi', i:'viên kẹo', per:[15, 20, 25]}];
+const gkTable = (names, vals) => `<table style="border-collapse:collapse;margin:6px 0"><tr><th style="border:1px solid currentColor;padding:2px 10px">Lớp</th>${names.map(n => `<td style="border:1px solid currentColor;padding:2px 10px;text-align:center">${n}</td>`).join('')}</tr><tr><th style="border:1px solid currentColor;padding:2px 10px">Số học sinh</th>${vals.map(v => `<td style="border:1px solid currentColor;padding:2px 10px;text-align:center">${v}</td>`).join('')}</tr></table>`;
+const gkDuThieu = (kind, withTable) => lv => {
+  const c = pick(GKSUP), per = pick(c.per), table = !!withTable;
+  const g = table ? [...Array(5)].map(() => R(24, 40)) : [...Array(5)].map(() => R(8, 30) * 10), T = g.reduce((s, x) => s + x, 0);
+  const wantEnough = kind === 'thua' ? true : kind === 'thieu' || kind === 'them' ? false : Math.random() < .5;
+  let k;
+  if (wantEnough) { k = Math.ceil(T / per) + R(0, 3); if (k * per <= T) k++; }
+  else { k = Math.floor(T / per) - R(kind === 'them' ? 2 : 0, kind === 'them' ? 5 : 3); if (k * per >= T) k--; }
+  const S2 = k * per, diff = Math.abs(S2 - T), more = Math.ceil(diff / per);
+  const names = ['4A', '4B', '4C', '4D', '4E'];
+  const data = table ? `Số học sinh của năm lớp khối 4 được cho trong bảng:${gkTable(names, g)}` : `Trường có số học sinh các khối 1, 2, 3, 4, 5 lần lượt là <b>${g.join(', ')}</b>.`;
+  const who = table ? 'khối 4' : 'trường';
+  const buy = table ? `Nhà trường có <b>${k}</b> ${c.o}` : `Trường nhập về <b>${k}</b> ${c.o}`;
+  const ask = kind === 'thua' ? `Hỏi sau khi phát cho mỗi học sinh một ${c.i}, còn thừa bao nhiêu ${c.i}?`
+    : kind === 'thieu' ? `Hỏi còn thiếu bao nhiêu ${c.i} để phát cho mỗi học sinh một ${c.i}?`
+    : kind === 'them' ? `Hỏi cần nhập thêm ít nhất bao nhiêu ${c.c} nữa để phát cho mỗi học sinh một ${c.i}?`
+    : `Hỏi có đủ phát cho mỗi học sinh một ${c.i} không?`;
+  const text = `${data} ${buy}, mỗi ${c.c} có <b>${per}</b> ${c.i}. ${ask}`;
+  const verdict = wantEnough ? `Đủ, còn thừa ${diff} ${c.i}` : `Không đủ, còn thiếu ${diff} ${c.i}`;
+  const wrongT = T - g[0], dw = Math.abs(S2 - wrongT);
+  const opts = [...new Set([verdict, wantEnough ? `Không đủ, còn thiếu ${diff} ${c.i}` : `Đủ, còn thừa ${diff} ${c.i}`, S2 >= wrongT ? `Đủ, còn thừa ${dw} ${c.i}` : `Không đủ, còn thiếu ${dw} ${c.i}`, `Đủ, vừa vặn`])];
+  const sTot = {tag:'Giải', ask:`Tổng số học sinh ${who} là:`, tpl:lv === 1 ? `${g.join(' + ')} = [_] (học sinh)` : '[_] học sinh', ans:[T], wide:true, hint:'Cộng số học sinh của tất cả các ' + (table ? 'lớp.' : 'khối.')};
+  const sSup = {tag:'Giải', ask:`Tổng số ${c.i} là:`, tpl:lv === 1 ? `${k} × ${per} = [_] (${c.i})` : `[_] ${c.i}`, ans:[S2], wide:true, hint:`Mỗi ${c.c} có ${per} ${c.i}, có ${k} ${c.c}: phép nhân.`};
+  const sFin = kind === 'thua' || kind === 'thieu' ? {tag:'Đáp số', ask:kind === 'thua' ? `Số ${c.i} còn thừa là:` : `Số ${c.i} còn thiếu là:`, tpl:`[_] ${c.i}`, ans:[diff], wide:true, hint:'Lấy số lớn trừ số bé trong hai tổng vừa tìm được.'}
+    : kind === 'them' ? {tag:'Đáp số', ask:`Cần nhập thêm ít nhất số ${c.c} là:`, tpl:`[_] ${c.c}`, ans:[more], wide:true, hint:`Tìm số ${c.i} còn thiếu, rồi chia cho số ${c.i} trong mỗi ${c.c}. Số dư vẫn phải thêm một ${c.c} nữa.`}
+    : {tag:'Đáp số', ask:'Kết luận nào đúng?', opts, ans:verdict, hint:'So sánh hai tổng: số ' + c.i + ' phải lớn hơn hoặc bằng số học sinh thì mới đủ.'};
+  const understand = {tag:'Hiểu đề', ask:`Để biết có đủ ${c.i} hay không, ta cần so sánh hai số nào?`, opts:[`Tổng số học sinh và tổng số ${c.i}`, `Số học sinh của một khối và số ${c.c}`, `Số ${c.c} và số ${c.i} mỗi ${c.c}`, `Số học sinh khối 1 và khối 5`], ans:`Tổng số học sinh và tổng số ${c.i}`, hint:'Mỗi học sinh nhận một ' + c.i + ': số ' + c.i + ' phải so với số học sinh của cả ' + who + '.'};
+  const cmpLine = `${fmt(S2)} ${S2 > T ? '&gt;' : '&lt;'} ${fmt(T)}`;
+  const fin = kind === 'them' ? `Còn thiếu ${fmt(T)} − ${fmt(S2)} = ${diff} (${c.i}). ${diff} : ${per} = ${Math.floor(diff / per)} (dư ${diff % per}) nên cần thêm <b>${more} ${c.c}</b>.`
+    : `${cmpLine} nên ${wantEnough ? 'đủ' : 'không đủ'}; ${wantEnough ? 'còn thừa' : 'còn thiếu'} ${fmt(Math.max(S2, T))} − ${fmt(Math.min(S2, T))} = <b>${diff} ${c.i}</b>.`;
+  return QS({direct:lv === 3, text, hint:'Tính tổng số học sinh, tính tổng số ' + c.i + ', rồi so sánh hai tổng.',
+    sol:BG(`Tổng số học sinh: ${g.join(' + ')} = ${fmt(T)} (học sinh)`, `Tổng số ${c.i}: ${k} × ${per} = ${fmt(S2)} (${c.i})`, fin),
+    steps:lv === 1 ? [understand, sTot, sSup, sFin] : [sTot, sSup, sFin]});
+};
+lesson(7, 'gk-du-thieu', 'Dạng 8 · Tổng hợp số liệu: đủ hay thiếu', 'Nhóm V – Toán lời văn: đọc số liệu, tính tổng, nhân theo nhóm rồi so sánh để kết luận đủ hay thiếu.', [gkDuThieu('du'), gkDuThieu('thua'), gkDuThieu('thieu'), gkDuThieu('du', true), gkDuThieu('them')], {
+  intro:[
+    {t:'Ba bước giải', b:'<b>Bước 1</b>: tính tổng số người (cộng các số liệu).<br><b>Bước 2</b>: tính tổng số vật (nhân số nhóm với số vật mỗi nhóm).<br><b>Bước 3</b>: so sánh hai tổng và kết luận.', ex:'Khối: 200, 250, 100, 150, 80 → 780 học sinh. 140 lốc × 6 = 840 hộp. 840 > 780 nên đủ, còn thừa 840 − 780 = 60 hộp.'},
+    {t:'Lưu ý', b:'Số vật lớn hơn hoặc bằng số người thì đủ; bé hơn thì thiếu. Phần chênh lệch là số thừa (thiếu).', warn:'Đừng so sánh số lốc với số học sinh: một lốc có nhiều hộp. Phải đổi ra cùng loại (số hộp) rồi mới so sánh.'}
+  ]});
+
+/* ---------- Dạng 9: toán nhiều bước – nhiều hơn, ít hơn, bằng tổng ---------- */
+const GKITEM = [['bông hoa', 'gấp'], ['ngôi sao', 'gấp'], ['con hạc giấy', 'gấp'], ['chiếc thuyền giấy', 'gấp'], ['chiếc đèn lồng', 'làm']];
+const gkMulti = kind => lv => {
+  const [item, verb] = pick(GKITEM), [X, Y, Z, W] = shuffle(NAMES).slice(0, 4);
+  const big = lv > 1, a = big ? R(10, 40) : R(5, 9);
+  let b = big ? R(5, 20) : R(3, 9);
+  if (kind === 'it') b = R(2, Math.min(b, a - 2));   // ít hơn: số bé vẫn dương
+  const sy = (nm, label, v, e) => ({tag:'Giải', ask:`${nm} ${verb} được số ${item} là:`, tpl:`${lv === 1 ? e + ' = ' : ''}[_] (${item})`, ans:[v], hint:label});
+  const mkSteps = (list, fin, und) => lv === 1 ? [und, ...list, fin] : [...list, fin];
+  const finOf = (ask, v, e) => ({tag:'Đáp số', ask, tpl:`${lv === 1 ? e + ' = ' : ''}[_] (${item})`, ans:[v], wide:true, hint:'Cộng số ' + item + ' của các bạn lại.'});
+  const verb2 = verb;
+  if (kind === 'nhieu' || kind === 'it') {
+    const less = kind === 'it', y = less ? a - b : a + b, z = a + y, tot = a + y + z;
+    const yBase = `${Y} ${verb2} được ${less ? 'ít' : 'nhiều'} hơn ${X}`;
+    const und = {tag:'Hiểu đề', ask:`“${yBase} ${b} ${item}” nghĩa là:`, opts:less ? [`${Y} = ${X} − ${b}`, `${Y} = ${X} + ${b}`, `${Y} = ${b} − ${X}`, `${Y} = ${X} × ${b}`] : [`${Y} = ${X} + ${b}`, `${Y} = ${X} − ${b}`, `${Y} = ${b} − ${X}`, `${Y} = ${X} × ${b}`], ans:less ? `${Y} = ${X} − ${b}` : `${Y} = ${X} + ${b}`, hint:'“Nhiều hơn” là cộng thêm, “ít hơn” là bớt đi.'};
+    const fig = lv < 3 ? segSVG([{label:X, parts:[{v:1}], right:String(a)}, {label:Y, parts:less ? [{v:.7}, {v:.3, cut:true, t:`− ${b}`}] : [{v:1}, {v:.4, on:true, t:`+ ${b}`}], right:'?'}, {label:Z, parts:[{v:1, t:X}, {v:less ? .7 : 1.4, t:Y}], right:'?'}], {labelW:66}) : undefined;
+    return QS({direct:lv === 3, text:`${X} ${verb} được <b>${a}</b> ${item}. ${yBase} <b>${b}</b> ${item}. ${Z} ${verb} được số ${item} bằng <b>tổng</b> của ${X} và ${Y}. Hỏi cả ba bạn ${verb} được bao nhiêu ${item}?`, fig,
+      hint:`Tìm số ${item} của ${Y}, rồi của ${Z}, cuối cùng cộng số của cả ba bạn.`,
+      sol:BG(`${Y} ${verb2} được: ${a} ${less ? '−' : '+'} ${b} = ${y} (${item})`, `${Z} ${verb2} được: ${a} + ${y} = ${z} (${item})`, `Cả ba bạn: ${a} + ${y} + ${z} = ${tot} (${item})`, `Đáp số: <b>${tot} ${item}</b>.`),
+      steps:mkSteps([sy(Y, `${less ? 'Ít hơn' : 'Nhiều hơn'}: lấy số của ${X} ${less ? 'trừ' : 'cộng'} ${b}.`, y, `${a} ${less ? '−' : '+'} ${b}`), sy(Z, `${Z} bằng tổng của ${X} và ${Y}.`, z, `${a} + ${y}`)], finOf(`Cả ba bạn ${verb} được số ${item} là:`, tot, `${a} + ${y} + ${z}`), und)});
+  }
+  if (kind === 'hon') {   // Z hơn tổng c
+    const c = R(2, 9), y = a + b, z = a + y + c, tot = a + y + z;
+    const und = {tag:'Hiểu đề', ask:`“${Z} ${verb2} được nhiều hơn tổng của ${X} và ${Y} ${c} ${item}” nghĩa là:`, opts:[`${Z} = ${X} + ${Y} + ${c}`, `${Z} = ${X} + ${Y}`, `${Z} = ${X} + ${Y} − ${c}`, `${Z} = ${X} + ${c}`], ans:`${Z} = ${X} + ${Y} + ${c}`, hint:'Tìm tổng của hai bạn trước rồi cộng thêm phần nhiều hơn.'};
+    return QS({direct:lv === 3, text:`${X} ${verb} được <b>${a}</b> ${item}. ${Y} ${verb} được nhiều hơn ${X} <b>${b}</b> ${item}. ${Z} ${verb} được nhiều hơn tổng số ${item} của ${X} và ${Y} <b>${c}</b> ${item}. Hỏi cả ba bạn ${verb} được bao nhiêu ${item}?`,
+      hint:`Tìm số ${item} của ${Y}; tìm tổng của ${X} và ${Y}; cộng thêm ${c} để được số của ${Z}.`,
+      sol:BG(`${Y} ${verb2} được: ${a} + ${b} = ${y} (${item})`, `${Z} ${verb2} được: ${a} + ${y} + ${c} = ${z} (${item})`, `Cả ba bạn: ${a} + ${y} + ${z} = ${tot} (${item})`, `Đáp số: <b>${tot} ${item}</b>.`),
+      steps:mkSteps([sy(Y, `Nhiều hơn: lấy số của ${X} cộng ${b}.`, y, `${a} + ${b}`), sy(Z, `Lấy tổng của ${X} và ${Y} rồi cộng thêm ${c}.`, z, `${a} + ${y} + ${c}`)], finOf(`Cả ba bạn ${verb} được số ${item} là:`, tot, `${a} + ${y} + ${z}`), und)});
+  }
+  if (kind === 'chenh') {   // hỏi Z hơn Y/X
+    const y = a + b, z = a + y, askY = Math.random() < .5, ans = askY ? a : y;
+    const und = {tag:'Hiểu đề', ask:`Bài toán hỏi gì?`, opts:[`${Z} ${verb2} được nhiều hơn ${askY ? Y : X} bao nhiêu ${item}`, `Cả ba bạn ${verb2} được bao nhiêu ${item}`, `${Y} ${verb2} được bao nhiêu ${item}`, `${X} ${verb2} được bao nhiêu ${item}`], ans:`${Z} ${verb2} được nhiều hơn ${askY ? Y : X} bao nhiêu ${item}`, hint:'Đọc câu hỏi ở cuối đề.'};
+    return QS({direct:lv === 3, text:`${X} ${verb} được <b>${a}</b> ${item}. ${Y} ${verb} được nhiều hơn ${X} <b>${b}</b> ${item}. ${Z} ${verb} được số ${item} bằng tổng của ${X} và ${Y}. Hỏi ${Z} ${verb} được nhiều hơn ${askY ? Y : X} bao nhiêu ${item}?`,
+      hint:`Tìm số ${item} của ${Y} và của ${Z}, rồi lấy số lớn trừ số bé. Có thể nhận ra cách nhanh hơn không?`,
+      sol:BG(`${Y} ${verb2} được: ${a} + ${b} = ${y} (${item})`, `${Z} ${verb2} được: ${a} + ${y} = ${z} (${item})`, `${Z} nhiều hơn ${askY ? Y : X}: ${z} − ${askY ? y : a} = ${ans} (${item})`, `Đáp số: <b>${ans} ${item}</b>.`),
+      steps:mkSteps([sy(Y, `Nhiều hơn: lấy số của ${X} cộng ${b}.`, y, `${a} + ${b}`), sy(Z, `${Z} bằng tổng của ${X} và ${Y}.`, z, `${a} + ${y}`)], {tag:'Đáp số', ask:`${Z} ${verb2} được nhiều hơn ${askY ? Y : X} số ${item} là:`, tpl:`${lv === 1 ? `${z} − ${askY ? y : a} = ` : ''}[_] (${item})`, ans:[ans], hint:'Lấy số của bạn nhiều hơn trừ số của bạn kia.'}, und)});
+  }
+  // 'van-dung': bốn bạn, hoặc tìm ngược số ban đầu
+  if (lv < 3 || Math.random() < .5) {
+    const c = R(2, Math.min(a + b - 1, 9)), y = a + b, z = y - c, w = a + z, tot = a + y + z + w;
+    return QS({direct:lv === 3, text:`${X} ${verb} được <b>${a}</b> ${item}. ${Y} ${verb} được nhiều hơn ${X} <b>${b}</b> ${item}. ${Z} ${verb} được ít hơn ${Y} <b>${c}</b> ${item}. ${W} ${verb} được số ${item} bằng tổng của ${X} và ${Z}. Hỏi cả bốn bạn ${verb} được bao nhiêu ${item}?`,
+      hint:`Lần lượt tìm số ${item} của ${Y}, ${Z}, ${W} theo thứ tự đề bài cho, rồi cộng số của cả bốn bạn.`,
+      sol:BG(`${Y}: ${a} + ${b} = ${y} (${item})`, `${Z}: ${y} − ${c} = ${z} (${item})`, `${W}: ${a} + ${z} = ${w} (${item})`, `Cả bốn bạn: ${a} + ${y} + ${z} + ${w} = ${tot} (${item})`, `Đáp số: <b>${tot} ${item}</b>.`),
+      steps:[sy(Y, `Nhiều hơn: cộng.`, y, `${a} + ${b}`), sy(Z, `Ít hơn: trừ.`, z, `${y} − ${c}`), sy(W, `${W} bằng tổng của ${X} và ${Z}.`, w, `${a} + ${z}`), finOf(`Cả bốn bạn ${verb} được số ${item} là:`, tot, `${a} + ${y} + ${z} + ${w}`)]});
+  }
+  const a2 = R(8, 30), b2 = 2 * R(2, 8), y = a2 + b2, z = a2 + y, tot = a2 + y + z;
+  return QS({direct:true, text:`Cả ba bạn ${X}, ${Y}, ${Z} ${verb} được tất cả <b>${tot}</b> ${item}. ${Y} ${verb} được nhiều hơn ${X} <b>${b2}</b> ${item}. ${Z} ${verb} được số ${item} bằng tổng của ${X} và ${Y}. Hỏi ${X} ${verb} được bao nhiêu ${item}?`,
+    hint:`${Z} bằng ${X} cộng ${Y}, nên ${Z} bằng cả hai bạn ${X} và ${Y} cộng lại. Hãy so sánh số của ${Z} với số của cả ba bạn.`,
+    sol:BG(`${Z} bằng tổng của ${X} và ${Y} nên cả ba bạn gấp đôi ${Z}: ${Z} có ${tot} : 2 = ${tot / 2} (${item})`, `${X} cộng ${Y} là ${tot / 2}; ${Y} hơn ${X} ${b2}: ${X} có (${tot / 2} − ${b2}) : 2 = ${a2} (${item})`, `Đáp số: <b>${a2} ${item}</b>.`),
+    steps:[sy(Z, `Cả ba bạn = ${X} + ${Y} + ${Z}, mà ${Z} = ${X} + ${Y}, nên cả ba bạn gấp đôi ${Z}.`, tot / 2, `${tot} : 2`), {tag:'Đáp số', ask:`${X} ${verb} được số ${item} là:`, tpl:`[_] (${item})`, ans:[a2], hint:`${X} + ${Y} = ${tot / 2} và ${Y} hơn ${X} ${b2}: dùng cách tìm hai số khi biết tổng và hiệu.`}]});
+};
+lesson(7, 'gk-nhieu-buoc', 'Dạng 9 · Toán nhiều bước: nhiều hơn, ít hơn, bằng tổng', 'Nhóm V – Toán lời văn: bài toán ba, bốn bước với “nhiều hơn”, “ít hơn”, “bằng tổng”.', [gkMulti('nhieu'), gkMulti('it'), gkMulti('hon'), gkMulti('chenh'), gkMulti('vd')], {
+  intro:[
+    {t:'Đọc đề và vẽ sơ đồ', b:'Gạch dưới số liệu và những từ khóa: <b>nhiều hơn</b> (cộng), <b>ít hơn</b> (trừ), <b>bằng tổng</b> (cộng các số đã biết). Vẽ sơ đồ đoạn thẳng cho từng bạn.', ex:'Mai gấp 8 bông; Lan nhiều hơn Mai 5 bông: 8 + 5 = 13; Thảo bằng tổng Mai và Lan: 8 + 13 = 21; cả ba: 8 + 13 + 21 = <b>42</b> bông.'},
+    {t:'Giải từng bước', b:'Tìm lần lượt từng số theo thứ tự đề bài cho, viết phép tính và <b>đơn vị</b> cho mỗi bước, cuối cùng viết đáp số.', warn:'Đọc kỹ câu hỏi: hỏi “cả ba bạn” thì phải cộng cả số của bạn đầu tiên, không chỉ cộng hai bạn sau.'}
+  ]});
+
 })();
 
 </script>

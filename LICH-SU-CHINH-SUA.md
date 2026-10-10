@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-10 – Lớp 4: thêm chủ đề “Luyện tập giữa học kì I” (9 dạng, số ngẫu nhiên)
+
+- **Yêu cầu của thầy:** Bổ sung vào lớp 4 phần luyện tập giữa kì 1 theo cấu trúc 9 dạng của đề ôn tập tuần 5, thay số.
+- **Kết quả:** Chủ đề mới 7 “📝 Giữa kì I – Luyện tập giữa học kì I” (HK1, sau chủ đề 6) gồm 9 bài, mỗi bài 5 kiểu × 3 mức (45 dạng, số liệu sinh ngẫu nhiên, có hình góc/hình chữ nhật, bài lời văn nhiều bước dạng QS) và thẻ “Kiến thức – Lưu ý – Mẹo”: `gk-viet-so` (viết số theo hàng), `gk-hang-lop`, `gk-gia-tri`, `gk-goc` (nhận biết, đếm, đo góc – gồm góc bẹt), `gk-dat-tinh` (cộng, trừ, nhân, thử lại; lời giải từng hàng), `gk-bt-chu` (biểu thức có chữ), `gk-chu-vi-dt`, `gk-du-thieu` (tổng hợp số liệu, đủ hay thiếu), `gk-nhieu-buoc` (nhiều hơn, ít hơn, bằng tổng).
+- **Tệp thay đổi:** `data/lop4.js` (khối cuối tệp, tiền tố `gk`), `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; kiểm tra riêng 45 dạng × 3 mức × 400 lần: đáp án không âm, số ô khớp, lời giải chứa đáp án, phép tính dạng 5 tính lại độc lập đều khớp (0 lỗi); đã xem ảnh chụp trang bài.
+- **Việc thủ công:** Thầy xem thử vài bài trên iPad; nếu muốn có thêm đề kiểm tra giữa kì lớp 4 (StudentTest) thầy báo em.
+
 ### 2026-10-10 – Bản luyện tập trực tuyến giữa học kì I theo ma trận + sửa lỗi hiển thị tập hợp
 
 - **Yêu cầu của thầy:** (1) Làm bản cho học sinh ôn trực tuyến theo cấu trúc đề giữa kì (10 TN + 3 Đ/S + 4 TLN); (2) bỏ ở đầu đề các dòng "Sách Kết nối tri thức với cuộc sống" và "– THEO MA TRẬN"; (3) kiểm tra lỗi hiển thị (ảnh thầy gửi: phương án câu liệt kê phần tử tập hợp hiện ký tự `\{ … \}` thô).

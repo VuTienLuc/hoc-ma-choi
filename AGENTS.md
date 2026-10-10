@@ -96,6 +96,7 @@ Web tĩnh cho **học sinh tiểu học/THCS tự luyện tập củng cố theo
 - Học sinh chọn lớp → chọn bài → chọn mức (1 Làm quen · 2 Luyện tập · 3 Thử thách) → làm một bộ 6 câu xếp từ dễ đến khó.
 - Câu hỏi **sinh ngẫu nhiên bằng code**, không lưu sẵn. Mỗi lần bấm "Làm bộ mới" sẽ ra câu khác.
 - Chấm: sai lần 1 → hiện gợi ý; sai lần 2 → hiện lời giải và khoá câu. Đúng lần đầu được 1 điểm, đúng lần hai được ½ điểm. Hết bộ thì cho 1–3 sao, lưu trong localStorage.
+- Lớp 4 có chủ đề 7 “📝 Giữa kì I” (9 bài `gk-*`, cuối `data/lop4.js`, tiền tố hàm `gk`): luyện tập giữa kì 1 theo 9 dạng của đề ôn tuần 5, mỗi bài 5 kiểu × 3 mức.
 - Menu lớp 4: mọi bài 🧠 Toán tư duy (Singapore Math) đều ở HỌC KÌ 1, khai báo hk:1 + grp:'🧠 Toán tư duy · Singapore Math' → engine gom thành một khối riêng sau các bài SGK.
 - **Trang lớp của bài giảng giáo viên thu gọn:** mỗi chương và hai mục đề kiểm tra là khối `section.topic.fold` (hàm `fold` trong `assets/js/lecture.js`), mặc định ẩn, bấm tiêu đề để mở; `Lecture.foldAll(true)` mở tất cả. Kiểm thử nào bấm nút trên trang lớp phải gọi `Lecture.foldAll(true)` trước.
 - **Quy ước phiếu in (bài giảng giáo viên):** tiêu đề chuẩn `PHIẾU HỌC TẬP` / `PHIẾU LUYỆN TẬP` / `PHIẾU ÔN TẬP CHƯƠNG n` + dòng tên bài, bản đáp án thêm “– LỜI GIẢI”; KHÔNG có câu chú thích (đếm số bài, hướng dẫn, thời lượng, nhãn giáo viên như Do Now/[Minh họa]). Phần A phiếu trên lớp viết tiêu đề dạng `# PHIẾU HỌC TẬP – <Toán N · Bài…>` (web tách thành tiêu đề + dòng tên bài); tiêu đề mục chỉ ghi `## 1. Vào lớp làm ngay`, không ghi phút.
