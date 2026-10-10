@@ -8253,6 +8253,15 @@ lesson(7, 'gk-nhieu-buoc', 'Dạng 9 · Toán nhiều bước: nhiều hơn, ít
     {t:'Giải từng bước', b:'Tìm lần lượt từng số theo thứ tự đề bài cho, viết phép tính và <b>đơn vị</b> cho mỗi bước, cuối cùng viết đáp số.', warn:'Đọc kỹ câu hỏi: hỏi “cả ba bạn” thì phải cộng cả số của bạn đầu tiên, không chỉ cộng hai bạn sau.'}
   ]});
 
+/* ---------- Đề tổng hợp giữa kì I: mỗi dạng một câu, đúng thứ tự 9 dạng ---------- */
+const gkMix = id => lv => pick(G.lessons.find(l => l.id === id).gens)(lv);
+lesson(7, 'gk-de-tong-hop', 'Đề tổng hợp giữa kì I (9 dạng)', 'Mỗi bộ gồm 9 câu, mỗi câu một dạng theo thứ tự Dạng 1 → Dạng 9; số liệu và kiểu bài thay đổi mỗi lần.',
+  ['gk-viet-so', 'gk-hang-lop', 'gk-gia-tri', 'gk-goc', 'gk-dat-tinh', 'gk-bt-chu', 'gk-chu-vi-dt', 'gk-du-thieu', 'gk-nhieu-buoc'].map(gkMix), {
+  count:9,
+  intro:[
+    {t:'Cách làm', b:'Làm lần lượt 9 câu như một đề kiểm tra: câu 1–3 số tự nhiên, câu 4 góc, câu 5–6 phép tính, câu 7 chu vi – diện tích, câu 8–9 toán lời văn. Câu nào chưa chắc, xem lại bài của dạng đó ở trên.', warn:'Đọc kỹ đề, ghi đúng đơn vị (cm hay cm²) và đừng quên chữ số 0.'}
+  ]});
+
 })();
 
 </script>

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-10 – Lớp 4: thêm “Đề tổng hợp giữa kì I (9 dạng)”
+
+- **Yêu cầu của thầy:** “Làm tiếp lớp 4” (sau chủ đề Luyện tập giữa học kì I).
+- **Kết quả:** Bài `gk-de-tong-hop` trong chủ đề 7: mỗi bộ 9 câu, câu k thuộc Dạng k (kiểu bài chọn ngẫu nhiên trong dạng, 3 mức), như một đề kiểm tra thu nhỏ.
+- **Tệp thay đổi:** `data/lop4.js`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT (một lần đầu báo lỗi ở kiểm tra phần thưởng trò chơi “Phiêu lưu”, chạy lại ĐẠT, cả khi bỏ thay đổi này).
+- **Việc thủ công:** Không có.
+
 ### 2026-10-10 – Lớp 4: thêm chủ đề “Luyện tập giữa học kì I” (9 dạng, số ngẫu nhiên)
 
 - **Yêu cầu của thầy:** Bổ sung vào lớp 4 phần luyện tập giữa kì 1 theo cấu trúc 9 dạng của đề ôn tập tuần 5, thay số.
