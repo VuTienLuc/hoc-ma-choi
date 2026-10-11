@@ -2098,4 +2098,142 @@ lesson(6,'on-thi-thuc-te-dai-so-hinh-hoc','Đại số 4. Bài toán thực tế
 ]});
 }
 
+
+/* =====================================================================
+   ÔN THI VÀO 10 – Đại số 5. Giải bài toán bằng cách lập biểu thức, phương trình, phương trình bậc hai
+   Dạng 1 lập biểu thức (cước, giảm giá) · Dạng 2 lập PT bậc nhất (tuổi, mua hàng, phần trăm)
+   Dạng 3 chuyển động · Dạng 4 công việc – năng suất · Dạng 5 tích hai số, lãi kép, chia hàng ghế
+   ===================================================================== */
+{
+const BT_WORK = []; for(let a=3;a<=40;a++) for(let b=a+1;b<=60;b++) if((a*b)%(a+b)===0){ const T=a*b/(a+b); if(T>=2 && T<=30) BT_WORK.push([a,b,T]); }
+const BT_PLAN = []; for(const a of [2,3,4,5,6,8,10]) for(let x=8;x<=60;x++) for(const d of [1,2,3]){ const N=d*x*(x+a)/a; if(Number.isInteger(N) && N>=120 && N<=900) BT_PLAN.push([x,a,d,N]); }
+const BT_MOVE = []; for(const a of [4,5,6,8,10,12,15]) for(let x=20;x<=60;x++) for(const h of [1,2]){ const s=h*x*(x+a)/a; if(Number.isInteger(s) && s>=60 && s<=500) BT_MOVE.push([x,a,h,s]); }
+const BT_STREAM = []; for(let v=12;v<=40;v++) for(let u=2;u<=8;u++) if(v>u+3) for(let s=20;s<=200;s++){ const num=2*s*v, den=v*v-u*u; if(num%den===0){ const T=num/den; if(T>=2 && T<=8) BT_STREAM.push([v,u,s,T]); } }
+const BT_TWO = []; for(let x=3;x<=40;x++) for(let d=1;d<=15;d++) if((x*(x+d))%(2*x+d)===0){ const T=x*(x+d)/(2*x+d); if(T>=2 && T<=24) BT_TWO.push([x,d,T]); }
+const BT_ROWS = []; for(const p of [2,3,4,5]) for(const q of [1,2,3]) for(let x=6;x<=30;x++){ if((q*(x+p))%p===0){ const s=q*(x+p)/p, N=x*s; if(s>q+1 && N>=60 && N<=500) BT_ROWS.push([p,q,x,s,N]); } }
+const BT_SAVE = []; for(const x of [5,10,15,20,25]){ const sq=(100+x)*(100+x), g=gcd(sq,10000), step=10000/g; for(let P=step;P<=600;P+=step) if(P>=40) BT_SAVE.push([x,P,P*sq/10000]); }
+
+/* Dạng 1. Lập biểu thức từ tình huống thực tế */
+const gBt1 = lv => {
+  if(lv===1){
+    const A = pick([12,14,15,16]), B = pick([10,11,12,13]), k = R(6,20), cost = A + B*(k-1);
+    return QB({text:`Một hãng taxi tính cước như sau: 1 km đầu tiên giá ${A} nghìn đồng, từ km thứ hai trở đi mỗi km giá ${B} nghìn đồng. Với quãng đường ${tm('x')} km (${tm('x \\ge 1')}), số tiền phải trả là ${tm(`T = ${A} + ${B}(x - 1)`)} (nghìn đồng). Tính số tiền phải trả khi đi ${k} km.`,
+      tpl:`Số tiền: [_] nghìn đồng`, ans:[cost],
+      hint:`Thay ${tm('x')} bằng số km đã đi vào biểu thức ${tm('T')}, tính phần trong ngoặc trước.`,
+      sol:`Thay ${tm(`x = ${k}`)} vào biểu thức: ${tm(`T = ${A} + ${B}(${k} - 1)`)}.<br>Tính trong ngoặc: ${tm(`${k} - 1 = ${k-1}`)}, nên ${tm(`T = ${A} + ${B}\\cdot ${k-1} = ${A} + ${B*(k-1)}`)}.<br>Số tiền phải trả: ${tb(cost)} nghìn đồng.`});
+  }
+  if(lv===2){
+    const A = pick([12,14,15,16]), B = pick([10,11,12,13]), k = R(8,25), cost = A + B*(k-1);
+    return QB({text:`Một hãng taxi tính cước như sau: 1 km đầu tiên giá ${A} nghìn đồng, từ km thứ hai trở đi mỗi km giá ${B} nghìn đồng. Một hành khách đã trả ${cost} nghìn đồng. Hỏi hành khách đã đi bao nhiêu km?`,
+      tpl:`Quãng đường: [_] km`, ans:[k],
+      hint:`Gọi ${tm('x')} là số km, viết biểu thức số tiền theo ${tm('x')} (1 km đầu và các km còn lại tính giá khác nhau) rồi cho bằng số tiền đã trả.`,
+      sol:`Gọi ${tm('x')} (km, ${tm('x \\ge 1')}) là quãng đường đã đi. Số tiền phải trả: ${tm(`${A} + ${B}(x - 1)`)} (nghìn đồng).<br>Theo đề: ${tm(`${A} + ${B}(x - 1) = ${cost}`)}, suy ra ${tm(`${B}(x - 1) = ${cost} - ${A} = ${cost - A}`)}.<br>${tm(`x - 1 = ${cost - A} : ${B} = ${k-1}`)}, nên ${tm(`x = ${k}`)} (thỏa ${tm('x \\ge 1')}).<br>Hành khách đã đi ${tb(k)} km.`});
+  }
+  const a = pick([10,20,30,40]), b = pick([10,20,30,40,50]), k = R(5,30), P = 100*k, F = k*(100-a)*(100-b)/100, fac = (100-a)*(100-b)/10000;
+  return QB({text:`Một chiếc xe đạp được giảm ${a}% so với giá niêm yết. Khách có thẻ thành viên được giảm thêm ${b}% trên giá đã giảm, nên chỉ phải trả ${F} nghìn đồng. Tính giá niêm yết của chiếc xe (nghìn đồng).`,
+    tpl:`Giá niêm yết: [_] nghìn đồng`, ans:[P],
+    hint:`Gọi giá niêm yết là ${tm('x')}. Giá sau lần giảm thứ nhất là ${tm('x')} nhân với phần trăm còn lại; lần giảm thứ hai tính trên giá <b>đã giảm</b>, không tính trên ${tm('x')}.`,
+    sol:`Gọi ${tm('x')} (nghìn đồng, ${tm('x \\gt 0')}) là giá niêm yết.<br>Sau lần giảm thứ nhất còn ${tm(`${100-a}\\%`)}: giá là ${tm(`${tdec((100-a)/100)}x`)}.<br>Giảm thêm ${b}% trên giá này nên còn ${tm(`${100-b}\\%`)}: giá phải trả là ${tm(`${tdec((100-b)/100)}\\cdot ${tdec((100-a)/100)}x = ${tdec(fac)}x`)}.<br>Theo đề: ${tm(`${tdec(fac)}x = ${F}`)}, suy ra ${tm(`x = ${F} : ${tdec(fac)} =`)} ${tb(P)} (nghìn đồng).`});
+};
+
+/* Dạng 2. Lập phương trình bậc nhất một ẩn */
+const gBt2 = lv => {
+  if(lv===1){
+    let k, c, n, mm, d; do{ k = pick([2,3]); c = R(5,15); n = R(3,10); mm = k*(c+n) - n; d = mm - c; }while(mm > 50 || d < 15);
+    const rhs = d + n - k*n;
+    return QB({text:`Hiện nay mẹ hơn con ${d} tuổi. Sau ${n} năm nữa thì tuổi mẹ gấp ${k} lần tuổi con. Tính tuổi của con hiện nay.`,
+      tpl:`Tuổi con: [_] tuổi`, ans:[c],
+      hint:`Gọi tuổi con hiện nay là ${tm('x')}, suy ra tuổi mẹ; sau ${n} năm cả hai cùng tăng ${n} tuổi. Lập phương trình từ quan hệ “gấp ${k} lần”.`,
+      sol:`Gọi ${tm('x')} (tuổi, ${tm('x \\gt 0')}) là tuổi con hiện nay; tuổi mẹ hiện nay là ${tm(`x + ${d}`)}.<br>Sau ${n} năm: con ${tm(`x + ${n}`)} tuổi, mẹ ${tm(`x + ${d+n}`)} tuổi.<br>Theo đề: ${tm(`x + ${d+n} = ${k}(x + ${n})`)}, tức ${tm(`x + ${d+n} = ${k}x + ${k*n}`)}.<br>Chuyển vế: ${tm(`${k-1===1?'':k-1}x = ${d+n} - ${k*n} = ${rhs}`)}, suy ra ${tm(`x = ${c}`)} (thỏa ${tm('x \\gt 0')}).<br>Tuổi con hiện nay: ${tb(c)} tuổi.`});
+  }
+  if(lv===2){
+    const a = pick([5,6,8,10,12]), b = pick([8,10,12,15,18,20]), x = R(3,12), t = R(2,6), T = a*x + b*(x+t);
+    return QB({text:`Bạn Lan mua một số cái bút giá ${a} nghìn đồng một cái và số quyển vở nhiều hơn số bút ${t} quyển, giá ${b} nghìn đồng một quyển. Tổng số tiền Lan phải trả là ${T} nghìn đồng. Hỏi Lan đã mua bao nhiêu cái bút?`,
+      tpl:`Số bút: [_] cái`, ans:[x],
+      hint:`Gọi ${tm('x')} là số bút, biểu diễn số vở theo ${tm('x')}. Tổng tiền bằng tiền bút cộng tiền vở.`,
+      sol:`Gọi ${tm('x')} (cái, ${tm('x')} nguyên dương) là số bút; số vở là ${tm(`x + ${t}`)} quyển.<br>Tiền bút: ${tm(`${a}x`)}; tiền vở: ${tm(`${b}(x + ${t})`)} (nghìn đồng).<br>Theo đề: ${tm(`${a}x + ${b}(x + ${t}) = ${T}`)}, tức ${tm(`${a+b}x + ${b*t} = ${T}`)}.<br>${tm(`${a+b}x = ${T} - ${b*t} = ${T - b*t}`)}, suy ra ${tm(`x = ${T - b*t} : ${a+b} = ${x}`)}.<br>Lan đã mua ${tb(x)} cái bút.`});
+  }
+  let N, p, q, t; do{ N = pick([40,60,80]); p = pick([20,25,30,35,40,45]); q = p + pick([5,10,15,20,25,30]); t = (q-p)*N/100; }while(t < 2 || t > 24);
+  return QB({text:`Số học sinh giỏi của một lớp chiếm ${p}% sĩ số lớp. Cuối học kì có thêm ${t} bạn đạt loại giỏi nên số học sinh giỏi chiếm ${q}% sĩ số (sĩ số lớp không đổi). Tính sĩ số của lớp.`,
+    tpl:`Sĩ số: [_] học sinh`, ans:[N],
+    hint:`Gọi sĩ số là ${tm('x')}. Số học sinh giỏi lúc đầu là ${p}% của ${tm('x')}; lập phương trình “số giỏi lúc đầu cộng ${t} bạn bằng số giỏi lúc sau”.`,
+    sol:`Gọi ${tm('x')} (học sinh, ${tm('x')} nguyên dương) là sĩ số lớp.<br>Lúc đầu có ${tm(`\\dfrac{${p}}{100}x`)} học sinh giỏi; lúc sau có ${tm(`\\dfrac{${q}}{100}x`)} học sinh giỏi.<br>Theo đề: ${tm(`\\dfrac{${p}}{100}x + ${t} = \\dfrac{${q}}{100}x`)}, suy ra ${tm(`${t} = \\dfrac{${q - p}}{100}x`)}.<br>Vậy ${tm(`x = \\dfrac{100\\cdot ${t}}{${q - p}} = ${N}`)}.<br>Sĩ số của lớp là ${tb(N)} học sinh.`});
+};
+
+/* Dạng 3. Chuyển động */
+const gBt3 = lv => {
+  if(lv===1){
+    const v1 = R(35,55), v2 = R(40,60), t = R(2,4), s = (v1+v2)*t;
+    return QB({text:`Hai ô tô khởi hành cùng lúc từ hai địa điểm ${tm('A')} và ${tm('B')} cách nhau ${s} km, đi ngược chiều nhau trên cùng một đường và gặp nhau sau ${t} giờ. Biết ô tô đi từ ${tm('A')} có vận tốc ${v1} km/h. Tính vận tốc của ô tô đi từ ${tm('B')} (km/h).`,
+      tpl:`Vận tốc: [_] km/h`, ans:[v2],
+      hint:`Quãng đường = vận tốc × thời gian. Khi gặp nhau, tổng quãng đường hai xe đã đi bằng độ dài ${tm('AB')}.`,
+      sol:`Gọi ${tm('x')} (km/h, ${tm('x \\gt 0')}) là vận tốc ô tô đi từ ${tm('B')}.<br>Sau ${t} giờ: ô tô từ ${tm('A')} đi ${tm(`${v1}\\cdot ${t} = ${v1*t}`)} km; ô tô từ ${tm('B')} đi ${tm(`${t}x`)} km.<br>Hai xe gặp nhau nên tổng quãng đường bằng ${tm('AB')}: ${tm(`${v1*t} + ${t}x = ${s}`)}.<br>${tm(`${t}x = ${s - v1*t}`)}, suy ra ${tm(`x = ${v2}`)} (thỏa ${tm('x \\gt 0')}).<br>Vận tốc ô tô từ ${tm('B')}: ${tb(v2)} km/h.`});
+  }
+  if(lv===2){
+    const [x,a,h,s] = pick(BT_MOVE), c = x*(x+a), D = a*a + 4*c;
+    return QB({text:`Một ô tô đi từ ${tm('A')} đến ${tm('B')} dài ${s} km, rồi quay về ${tm('A')} trên cùng quãng đường đó với vận tốc lớn hơn vận tốc lúc đi ${a} km/h. Thời gian về ít hơn thời gian đi ${h} giờ. Tính vận tốc lúc đi (km/h).`,
+      tpl:`Vận tốc lúc đi: [_] km/h`, ans:[x],
+      hint:`Gọi vận tốc lúc đi là ${tm('x')}, vận tốc lúc về là ${tm('x + '+a)}. Thời gian = quãng đường : vận tốc; lập phương trình “thời gian đi trừ thời gian về bằng ${h} giờ”, quy đồng rồi giải phương trình bậc hai.`,
+      sol:`Gọi ${tm('x')} (km/h, ${tm('x \\gt 0')}) là vận tốc lúc đi; vận tốc lúc về là ${tm(`x + ${a}`)} km/h.<br>Thời gian đi: ${tm(`\\dfrac{${s}}{x}`)} giờ; thời gian về: ${tm(`\\dfrac{${s}}{x + ${a}}`)} giờ.<br>Theo đề: ${tm(`\\dfrac{${s}}{x} - \\dfrac{${s}}{x + ${a}} = ${h}`)}. Quy đồng, khử mẫu: ${tm(`${s}(x + ${a}) - ${s}x = ${h>1?h:''}x(x + ${a})`)}, tức ${tm(`${s*a} = ${h>1?h:''}x(x + ${a})`)}.<br>${h>1?`Chia hai vế cho ${h}: `:''}${tm(`x^2 + ${a}x - ${c} = 0`)}.<br>${tm(`\\Delta = ${a}^2 + 4\\cdot ${c} = ${D}`)}, ${tm(`\\sqrt{\\Delta} = ${2*x+a}`)}.<br>${tm(`x_1 = \\dfrac{-${a} + ${2*x+a}}{2} = ${x}`)} (nhận); ${tm(`x_2 = \\dfrac{-${a} - ${2*x+a}}{2} = ${-(x+a)}`)} (loại vì ${tm('x \\gt 0')}).<br>Vận tốc lúc đi: ${tb(x)} km/h.`});
+  }
+  const [v,u,s,T] = pick(BT_STREAM), D4 = s*s + T*T*u*u, r = T*v - s, x2n = 2*s - T*v;
+  return QB({text:`Một ca nô xuôi dòng ${s} km rồi quay lại ngược dòng về chỗ xuất phát, tổng thời gian đi và về là ${T} giờ (không kể thời gian nghỉ). Biết vận tốc dòng nước là ${u} km/h. Tính vận tốc riêng của ca nô (km/h).`,
+    tpl:`Vận tốc riêng: [_] km/h`, ans:[v],
+    hint:`Gọi vận tốc riêng của ca nô là ${tm('x')} (phải lớn hơn vận tốc dòng nước). Xuôi dòng vận tốc ${tm('x + '+u)}, ngược dòng vận tốc ${tm('x - '+u)}; tổng hai thời gian bằng ${T} giờ.`,
+    sol:`Gọi ${tm('x')} (km/h, ${tm(`x \\gt ${u}`)}) là vận tốc riêng của ca nô. Vận tốc xuôi dòng ${tm(`x + ${u}`)}, ngược dòng ${tm(`x - ${u}`)}.<br>Theo đề: ${tm(`\\dfrac{${s}}{x + ${u}} + \\dfrac{${s}}{x - ${u}} = ${T}`)}. Quy đồng, khử mẫu: ${tm(`${s}(x - ${u}) + ${s}(x + ${u}) = ${T}(x^2 - ${u*u})`)}, tức ${tm(`${2*s}x = ${T}x^2 - ${T*u*u}`)}.<br>Đưa về dạng: ${tm(`${T}x^2 - ${2*s}x - ${T*u*u} = 0`)}.<br>Dùng ${tm("\\Delta'")} với ${tm(`b' = -${s}`)}: ${tm(`\\Delta' = ${s}^2 + ${T}\\cdot ${T*u*u} = ${D4}`)}, ${tm(`\\sqrt{\\Delta'} = ${r}`)}.<br>${tm(`x_1 = \\dfrac{${s} + ${r}}{${T}} = ${v}`)} (nhận vì ${tm(`\\gt ${u}`)}); ${tm(`x_2 = \\dfrac{${s} - ${r}}{${T}} = ${x2n%T===0 ? x2n/T : `\\dfrac{${x2n}}{${T}}`}`)} (loại vì âm).<br>Vận tốc riêng của ca nô: ${tb(v)} km/h.`});
+};
+
+/* Dạng 4. Công việc – năng suất */
+const gBt4 = lv => {
+  if(lv===1){
+    const [a,b,T] = pick(BT_WORK);
+    return QB({text:`Một bể nước không có nước. Nếu mở riêng vòi thứ nhất thì sau ${a} giờ đầy bể, nếu mở riêng vòi thứ hai thì sau ${b} giờ đầy bể. Hỏi mở cả hai vòi cùng lúc thì sau bao nhiêu giờ đầy bể?`,
+      tpl:`Thời gian: [_] giờ`, ans:[T],
+      hint:`Coi cả bể là 1 công việc. Trong 1 giờ mỗi vòi chảy được bao nhiêu phần bể? Cộng hai phần đó lại, rồi tìm thời gian đầy bể.`,
+      sol:`Trong 1 giờ: vòi thứ nhất chảy ${tm(`\\dfrac{1}{${a}}`)} bể, vòi thứ hai chảy ${tm(`\\dfrac{1}{${b}}`)} bể.<br>Hai vòi cùng chảy trong 1 giờ được: ${tm(`\\dfrac{1}{${a}} + \\dfrac{1}{${b}} = \\dfrac{${b} + ${a}}{${a*b}} = \\dfrac{${a+b}}{${a*b}}`)} bể.<br>Thời gian để đầy bể: ${tm(`1 : \\dfrac{${a+b}}{${a*b}} = \\dfrac{${a*b}}{${a+b}} =`)} ${tb(T)} giờ.`});
+  }
+  if(lv===2){
+    const [x,a,d,N] = pick(BT_PLAN), c = x*(x+a), D = a*a + 4*c;
+    return QB({text:`Một tổ sản xuất phải làm xong ${N} sản phẩm theo kế hoạch. Thực tế mỗi ngày tổ làm nhiều hơn kế hoạch ${a} sản phẩm nên hoàn thành sớm hơn kế hoạch ${d} ngày. Hỏi theo kế hoạch, mỗi ngày tổ phải làm bao nhiêu sản phẩm?`,
+      tpl:`Kế hoạch mỗi ngày: [_] sản phẩm`, ans:[x],
+      hint:`Gọi số sản phẩm làm mỗi ngày theo kế hoạch là ${tm('x')}; số ngày = tổng sản phẩm : số sản phẩm mỗi ngày. Lập phương trình “ngày theo kế hoạch trừ ngày thực tế bằng ${d}”.`,
+      sol:`Gọi ${tm('x')} (sản phẩm/ngày, ${tm('x \\gt 0')}) là năng suất theo kế hoạch; năng suất thực tế là ${tm(`x + ${a}`)}.<br>Số ngày theo kế hoạch: ${tm(`\\dfrac{${N}}{x}`)}; số ngày thực tế: ${tm(`\\dfrac{${N}}{x + ${a}}`)}.<br>Theo đề: ${tm(`\\dfrac{${N}}{x} - \\dfrac{${N}}{x + ${a}} = ${d}`)}. Quy đồng, khử mẫu: ${tm(`${N}(x + ${a}) - ${N}x = ${d>1?d:''}x(x + ${a})`)}, tức ${tm(`${N*a} = ${d>1?d:''}x(x + ${a})`)}.<br>${d>1?`Chia hai vế cho ${d}: `:''}${tm(`x^2 + ${a}x - ${c} = 0`)}.<br>${tm(`\\Delta = ${a}^2 + 4\\cdot ${c} = ${D}`)}, ${tm(`\\sqrt{\\Delta} = ${2*x+a}`)}.<br>${tm(`x_1 = \\dfrac{-${a} + ${2*x+a}}{2} = ${x}`)} (nhận); ${tm(`x_2 = \\dfrac{-${a} - ${2*x+a}}{2} = ${-(x+a)}`)} (loại vì ${tm('x \\gt 0')}).<br>Theo kế hoạch, mỗi ngày tổ làm ${tb(x)} sản phẩm.`});
+  }
+  const [x,d,T] = pick(BT_TWO), b = d - 2*T, c = T*d, D = b*b + 4*c, r = 2*x + d - 2*T, x2 = -b - x;
+  return QB({text:`Hai vòi nước cùng chảy vào một bể không có nước thì sau ${T} giờ đầy bể. Nếu chảy riêng một mình thì vòi thứ nhất đầy bể nhanh hơn vòi thứ hai ${d} giờ. Hỏi vòi thứ nhất chảy riêng một mình thì sau bao lâu đầy bể?`,
+    tpl:`Vòi thứ nhất: [_] giờ`, ans:[x],
+    hint:`Gọi thời gian vòi thứ nhất chảy riêng đầy bể là ${tm('x')} giờ, thì vòi thứ hai là ${tm('x + '+d)} giờ. Trong 1 giờ hai vòi chảy được ${tm(`\\dfrac{1}{${T}}`)} bể; lập phương trình theo phần bể chảy được trong 1 giờ.`,
+    sol:`Gọi ${tm('x')} (giờ, ${tm('x \\gt 0')}) là thời gian vòi thứ nhất chảy riêng đầy bể; vòi thứ hai cần ${tm(`x + ${d}`)} giờ.<br>Trong 1 giờ: vòi thứ nhất chảy ${tm(`\\dfrac{1}{x}`)} bể, vòi thứ hai ${tm(`\\dfrac{1}{x + ${d}}`)} bể, cả hai ${tm(`\\dfrac{1}{${T}}`)} bể.<br>Phương trình: ${tm(`\\dfrac{1}{x} + \\dfrac{1}{x + ${d}} = \\dfrac{1}{${T}}`)}. Quy đồng, khử mẫu: ${tm(`${T}(x + ${d}) + ${T}x = x(x + ${d})`)}, tức ${tm(`${tpoly([1,'x^2'],[b,'x'],[-c,''])} = 0`)}.<br>${tm(`\\Delta = (${b})^2 + 4\\cdot ${c} = ${D}`)}, ${tm(`\\sqrt{\\Delta} = ${r}`)}.<br>${tm(`x_1 = \\dfrac{${-b} + ${r}}{2} = ${x}`)} (nhận); ${tm(`x_2 = \\dfrac{${-b} - ${r}}{2} = ${x2}`)} (loại vì ${tm('x \\gt 0')}).<br>Vòi thứ nhất chảy riêng đầy bể sau ${tb(x)} giờ.`});
+};
+
+/* Dạng 5. Tích hai số, lãi kép, chia hàng ghế */
+const gBt5 = lv => {
+  if(lv===1){
+    const x = R(3,20), d = R(2,9), P = x*(x+d), D = d*d + 4*P;
+    return QB({text:`Hai số dương hơn kém nhau ${d} đơn vị và tích của chúng bằng ${P}. Tìm số lớn.`,
+      tpl:`Số lớn: [_]`, ans:[x+d],
+      hint:`Gọi số bé là ${tm('x')}, suy ra số lớn; lập phương trình từ tích bằng ${P} rồi giải. Nhớ loại nghiệm không thỏa điều kiện dương.`,
+      sol:`Gọi ${tm('x')} (${tm('x \\gt 0')}) là số bé; số lớn là ${tm(`x + ${d}`)}.<br>Theo đề: ${tm(`x(x + ${d}) = ${P}`)}, tức ${tm(`x^2 + ${d}x - ${P} = 0`)}.<br>${tm(`\\Delta = ${d}^2 + 4\\cdot ${P} = ${D}`)}, ${tm(`\\sqrt{\\Delta} = ${2*x+d}`)}.<br>${tm(`x_1 = \\dfrac{-${d} + ${2*x+d}}{2} = ${x}`)} (nhận); ${tm(`x_2 = \\dfrac{-${d} - ${2*x+d}}{2} = ${-(x+d)}`)} (loại vì ${tm('x \\gt 0')}).<br>Số bé là ${x}, số lớn là ${tm(`${x} + ${d} =`)} ${tb(x+d)}.`});
+  }
+  if(lv===2){
+    const [x,P,T] = pick(BT_SAVE), e = (100+x)/100;
+    return QB({text:`Bác Hòa gửi tiết kiệm ${P} triệu đồng với lãi suất ${tm('x')}%/năm, lãi mỗi năm được nhập vào gốc để tính lãi năm sau. Sau 2 năm, bác nhận được cả gốc lẫn lãi là ${T} triệu đồng. Tìm lãi suất ${tm('x')} (đơn vị: %/năm).`,
+      tpl:`${tm('x =')} [_] %/năm`, ans:[x],
+      hint:`Sau 1 năm số tiền là gốc nhân ${tm('(1 + \\dfrac{x}{100})')}; năm thứ hai lại nhân thêm một lần nữa. Lập phương trình, chia hai vế cho ${P}, rồi lấy căn bậc hai (chú ý hệ số ${tm('1 + \\dfrac{x}{100}')} dương).`,
+      sol:`Sau 1 năm: ${tm(`${P}\\left(1 + \\dfrac{x}{100}\\right)`)} triệu đồng. Sau 2 năm: ${tm(`${P}\\left(1 + \\dfrac{x}{100}\\right)^2`)} triệu đồng.<br>Theo đề: ${tm(`${P}\\left(1 + \\dfrac{x}{100}\\right)^2 = ${T}`)}, suy ra ${tm(`\\left(1 + \\dfrac{x}{100}\\right)^2 = \\dfrac{${T}}{${P}} = ${tdec(e*e)} = ${tdec(e)}^2`)}.<br>Do ${tm('1 + \\dfrac{x}{100} \\gt 0')} nên ${tm(`1 + \\dfrac{x}{100} = ${tdec(e)}`)} (loại giá trị âm ${tm(`-${tdec(e)}`)}).<br>${tm(`\\dfrac{x}{100} = ${tdec(e-1)}`)}, suy ra ${tb('x = '+x)} (%/năm).`});
+  }
+  const [p,q,x,s,N] = pick(BT_ROWS), D = (p*q)*(p*q) + 4*q*p*N, r = q*(2*x+p);
+  return QB({text:`Một phòng họp có ${N} ghế, xếp thành các hàng có số ghế bằng nhau. Nếu mỗi hàng bớt đi ${q} ghế thì phải xếp thêm ${p} hàng mới đủ chỗ cho ${N} ghế. Hỏi ban đầu phòng họp có bao nhiêu hàng ghế?`,
+    tpl:`Số hàng ban đầu: [_] hàng`, ans:[x],
+    hint:`Gọi số hàng ban đầu là ${tm('x')}; số ghế mỗi hàng ban đầu là ${tm(`\\dfrac{${N}}{x}`)}. Sau khi thay đổi: số hàng là ${tm('x + '+p)}, số ghế mỗi hàng giảm ${q}; tích hai số này vẫn bằng ${N}.`,
+    sol:`Gọi ${tm('x')} (hàng, ${tm('x')} nguyên dương) là số hàng ban đầu; mỗi hàng có ${tm(`\\dfrac{${N}}{x}`)} ghế.<br>Sau khi thay đổi: ${tm(`x + ${p}`)} hàng, mỗi hàng ${tm(`\\dfrac{${N}}{x} - ${q}`)} ghế.<br>Theo đề: ${tm(`(x + ${p})\\left(\\dfrac{${N}}{x} - ${q}\\right) = ${N}`)}. Khai triển: ${tm(`${N} - ${q}x + \\dfrac{${p*N}}{x} - ${p*q} = ${N}`)}.<br>Nhân hai vế với ${tm('x')} rồi rút gọn: ${tm(`${p*N} - ${q}x^2 - ${p*q}x = 0`)}, tức ${tm(`${tpoly([q,'x^2'],[p*q,'x'],[-p*N,''])} = 0`)}.<br>${tm(`\\Delta = ${p*q}^2 + 4\\cdot ${q}\\cdot ${p*N} = ${D}`)}, ${tm(`\\sqrt{\\Delta} = ${r}`)}.<br>${tm(`x_1 = \\dfrac{-${p*q} + ${r}}{${2*q}} = ${x}`)} (nhận); ${tm(`x_2 = \\dfrac{-${p*q} - ${r}}{${2*q}} = ${-(x+p)}`)} (loại vì âm).<br>Ban đầu phòng họp có ${tb(x)} hàng ghế.`});
+};
+
+lesson(6,'on-thi-giai-bai-toan-lap-pt','Đại số 5. Giải bài toán bằng cách lập biểu thức, phương trình, phương trình bậc hai','Ôn tuyển sinh: lập biểu thức từ tình huống (cước phí, giảm giá); lập phương trình bậc nhất (tuổi, mua hàng, phần trăm); chuyển động; công việc – năng suất; tích hai số, lãi kép, chia hàng ghế.',[gBt1,gBt2,gBt3,gBt4,gBt5], {intro:[
+  {t:`Các bước giải bài toán bằng cách lập phương trình`, b:`<ol><li><b>Chọn ẩn</b>, ghi đơn vị và <b>điều kiện</b> của ẩn (dương, nguyên, lớn hơn…).</li><li>Biểu diễn các đại lượng còn lại theo ẩn.</li><li><b>Lập phương trình</b> từ mối quan hệ trong đề (tổng, hiệu, gấp, tổng quãng đường, tổng phần việc…).</li><li>Giải phương trình.</li><li><b>Đối chiếu điều kiện</b>, loại nghiệm không phù hợp, kết luận kèm đơn vị.</li></ol>`, warn:`Mất điểm nhiều nhất ở hai chỗ: <b>quên điều kiện của ẩn</b> và <b>quên loại nghiệm</b> (nghiệm âm, nghiệm không nguyên khi ẩn là số người, số hàng…). Kết luận phải trả lời đúng câu hỏi của đề (có khi đề hỏi đại lượng khác với ẩn).`, ex:`Chọn ẩn chính là đại lượng đề hỏi thì kết luận nhanh nhất. Thử lại nghiệm vào đề (tính lại tổng, tích, thời gian) trong 10 giây để chắc đáp số.`},
+  {t:`Các công thức hay dùng`, b:`<ul><li>Chuyển động: ${tm('s = vt')}, ${tm('t = \\dfrac{s}{v}')}. Xuôi dòng: ${tm('v_{\\text{riêng}} + v_{\\text{nước}}')}; ngược dòng: ${tm('v_{\\text{riêng}} - v_{\\text{nước}}')}.</li><li>Công việc: năng suất = khối lượng : thời gian. Nếu làm riêng xong trong ${tm('a')} giờ thì 1 giờ làm được ${tm('\\dfrac{1}{a}')} công việc; làm chung thì <b>cộng các phần việc trong 1 giờ</b>.</li><li>Phần trăm: tăng ${tm('p\\%')} thì nhân ${tm('1 + \\dfrac{p}{100}')}; giảm ${tm('p\\%')} thì nhân ${tm('1 - \\dfrac{p}{100}')}. Lãi kép sau ${tm('n')} năm: ${tm('A\\left(1 + \\dfrac{r}{100}\\right)^n')}.</li></ul>`, warn:`Giảm giá hai lần liên tiếp thì lần sau tính trên giá <b>đã giảm</b> (nhân hai hệ số), không cộng hai phần trăm lại. Trong bài chuyển động phải đổi cùng đơn vị (giờ – phút, km – m).`, ex:`Bài có “sớm hơn”, “nhanh hơn”, “ít hơn ${tm('d')} giờ” thường dẫn tới phương trình có ẩn ở mẫu: <b>quy đồng, khử mẫu</b> rồi đưa về ${tm('ax^2 + bx + c = 0')}.`},
+  {t:`Giải phương trình bậc hai và đối chiếu nghiệm`, b:`Với ${tm('ax^2 + bx + c = 0')}: ${tm('\\Delta = b^2 - 4ac')}. Nếu ${tm('\\Delta \\gt 0')} có hai nghiệm ${tm('x_{1,2} = \\dfrac{-b \\pm \\sqrt{\\Delta}}{2a}')}. Khi ${tm('b = 2b\'')} dùng ${tm("\\Delta' = b'^2 - ac")}: ${tm("x_{1,2} = \\dfrac{-b' \\pm \\sqrt{\\Delta'}}{a}")}. Với phương trình có ẩn ở mẫu, nhớ <b>điều kiện mẫu khác 0</b> trước khi quy đồng.`, warn:`Hai nghiệm đều phải được đối chiếu với điều kiện của bài toán. Thường một nghiệm bị loại (âm, nhỏ hơn vận tốc dòng nước, không nguyên…); hiếm khi cả hai cùng nhận.`, ex:`Trước khi giải, hãy chia hai vế cho ước chung của các hệ số để số nhỏ lại; sau đó tính ${tm('\\Delta')} cẩn thận, đáp số của đề thi hầu hết là số nguyên nên ${tm('\\Delta')} phải là số chính phương.`}
+]});
+}
+
 })();

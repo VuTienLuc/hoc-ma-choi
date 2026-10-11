@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-11 – Ôn thi vào 10, chủ đề 5: Đại số 5. Giải bài toán bằng cách lập biểu thức, phương trình, phương trình bậc hai
+
+- **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề ôn thi vào lớp 10 kế tiếp (chủ đề 5), trọn bộ học sinh + bài giảng + phiếu luyện tập 2 trang A4.
+- **Kết quả:** (A) Bài `on-thi-giai-bai-toan-lap-pt` (chương 6 `data/lop9.js`), 5 dạng × 3 mức, số liệu sinh ngẫu nhiên, đáp số nguyên, lời giải từng bước có điều kiện và loại nghiệm: gBt1 lập biểu thức (cước, giảm giá hai lần) · gBt2 PT bậc nhất (tuổi, mua hàng, phần trăm) · gBt3 chuyển động (gặp nhau, đi–về, xuôi–ngược dòng) · gBt4 công việc – năng suất (hai vòi, kế hoạch) · gBt5 tích hai số, lãi kép, chia hàng ghế; có thẻ Kiến thức – Lưu ý – Mẹo (3 mục). (B) Bài giảng cùng mã (title, 3 kt, 5 method + 5 vd, sum). (C) Phiếu luyện tập 10 bài (7 cơ bản + 3 ★), in đúng 2 trang A4 cả bản học sinh lẫn bản lời giải (đã xuất PDF và xem ảnh).
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`.
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (37/37); `python3 tools/test_baigiang.py lop9` → ĐẠT (chiếu 546 trang, không tràn); `python3 tools/test_luyentap.py` → chạy phần lớp 9 không lỗi; `python3 tools/build.py` → ĐẠT; PDF phiếu đo bằng `pdfinfo`: 2 trang (đề) và 2 trang (lời giải).
+- **Việc thủ công:** Thầy đối chiếu độ khó các câu chuyển động/lãi kép với đề minh họa của Sở; chủ đề kế tiếp: 6 Hình không gian thực tế cho sẵn công thức.
+
 ### 2026-10-11 – Chủ đề 4 Toán 10: Bài 12. Số gần đúng và sai số
 
 - **Yêu cầu của thầy:** Tiếp tục Chủ đề 4 “Các số liệu đặc trưng của mẫu số liệu không ghép nhóm”, bổ sung Bài 12. Số gần đúng và sai số cho học sinh.

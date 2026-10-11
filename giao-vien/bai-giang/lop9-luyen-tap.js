@@ -562,4 +562,38 @@ Lecture.addPractice('lop9','on-thi-thuc-te-dai-so-hinh-hoc',[
  ]},
 ]);
 
+/* =====================================================================  ĐẠI SỐ 5 – GIẢI BÀI TOÁN BẰNG CÁCH LẬP PHƯƠNG TRÌNH  */
+Lecture.addPractice('lop9','on-thi-giai-bai-toan-lap-pt',[
+ {dang:'Lập biểu thức từ tình huống thực tế',items:[
+  {de:`Một chiếc áo có giá niêm yết 250 nghìn đồng, đang được giảm 20%. Viết biểu thức số tiền phải trả khi mua ${m('x')} chiếc áo và tính số tiền mua 6 chiếc.`,
+   sol:[`Giá sau giảm của một áo: ${m('250 \\cdot (1 - 0{,}2) = 200')} nghìn đồng.`,`Biểu thức: ${m('T = 200x')}. Với ${m('x = 6')}: ${m('T = 200 \\cdot 6 = 1200')}.`],ans:`${tb('1200')} nghìn đồng.`,lines:2},
+  {de:`Cước điện thoại mỗi tháng gồm phí cố định 60 nghìn đồng và 5 nghìn đồng cho mỗi GB dữ liệu. Tháng này bạn Minh phải trả 135 nghìn đồng. Hỏi Minh đã dùng bao nhiêu GB?`,
+   sol:[`Gọi ${m('x')} (GB) là lượng dữ liệu đã dùng; cước tháng: ${m('T = 60 + 5x')} (nghìn đồng).`,`Theo đề: ${m('60 + 5x = 135')}, suy ra ${m('5x = 75')}, nên ${m('x = 15')}.`],ans:`${tb('15')} GB.`,lines:2},
+ ]},
+ {dang:'Lập phương trình bậc nhất một ẩn',items:[
+  {de:`Hiện nay mẹ hơn con 24 tuổi. Sau 6 năm nữa, tuổi mẹ gấp 3 lần tuổi con. Tính tuổi con hiện nay.`,
+   sol:[`Gọi ${m('x')} (tuổi, ${m('x \\gt 0')}) là tuổi con hiện nay; tuổi mẹ là ${m('x + 24')}.`,`Sau 6 năm: con ${m('x + 6')}, mẹ ${m('x + 30')}. Theo đề: ${m('x + 30 = 3(x + 6)')}, tức ${m('x + 30 = 3x + 18')}.`,`${m('2x = 12')}, suy ra ${m('x = 6')} (thỏa).`],ans:`Con ${tb('6')} tuổi.`,lines:3},
+  {de:`Số học sinh giỏi của một lớp chiếm 30% sĩ số. Nếu có thêm 4 bạn đạt loại giỏi thì số học sinh giỏi chiếm 40% sĩ số (sĩ số không đổi). Tính sĩ số của lớp.`,
+   sol:[`Gọi ${m('x')} là sĩ số lớp (${m('x')} nguyên dương). Số học sinh giỏi lúc đầu: ${m('0{,}3x')}; lúc sau: ${m('0{,}4x')}.`,`Theo đề: ${m('0{,}3x + 4 = 0{,}4x')}, suy ra ${m('0{,}1x = 4')}, nên ${m('x = 40')}.`],ans:`${tb('40')} học sinh.`,lines:2},
+ ]},
+ {dang:'Chuyển động',items:[
+  {de:`Hai ô tô khởi hành cùng lúc từ ${m('A')} và ${m('B')} cách nhau 300 km, đi ngược chiều và gặp nhau sau 3 giờ. Ô tô đi từ ${m('A')} có vận tốc 48 km/h. Tính vận tốc ô tô đi từ ${m('B')}.`,
+   sol:[`Gọi ${m('x')} (km/h, ${m('x \\gt 0')}) là vận tốc ô tô từ ${m('B')}. Sau 3 giờ hai xe đi được ${m('48 \\cdot 3 = 144')} km và ${m('3x')} km.`,`Hai xe gặp nhau: ${m('144 + 3x = 300')}, suy ra ${m('3x = 156')}, ${m('x = 52')} (thỏa).`],ans:`${tb('52')} km/h.`,lines:3},
+  {hard:true,de:`Một ca nô xuôi dòng 40 km rồi ngược dòng 30 km, tổng thời gian đi là 5 giờ. Vận tốc dòng nước là 2 km/h. Tính vận tốc riêng của ca nô.`,
+   sol:[`Gọi ${m('x')} (km/h, ${m('x \\gt 2')}) là vận tốc riêng. Xuôi dòng ${m('x + 2')}, ngược dòng ${m('x - 2')}.`,`Theo đề: ${m('\\dfrac{40}{x + 2} + \\dfrac{30}{x - 2} = 5')}. Khử mẫu: ${m('40(x - 2) + 30(x + 2) = 5(x^2 - 4)')}, tức ${m('5x^2 - 70x = 0')}, hay ${m('5x(x - 14) = 0')}.`,`${m('x = 0')} (loại vì ${m('x \\gt 2')}) hoặc ${m('x = 14')} (nhận).`],ans:`${tb('14')} km/h.`,lines:4},
+ ]},
+ {dang:'Công việc – năng suất',items:[
+  {de:`Một bể không có nước. Vòi thứ nhất chảy riêng thì sau 12 giờ đầy bể, vòi thứ hai chảy riêng thì sau 24 giờ đầy bể. Hỏi mở cả hai vòi cùng lúc thì sau bao lâu đầy bể?`,
+   sol:[`Trong 1 giờ: vòi thứ nhất chảy ${m('\\dfrac{1}{12}')} bể, vòi thứ hai chảy ${m('\\dfrac{1}{24}')} bể; cả hai: ${m('\\dfrac{1}{12} + \\dfrac{1}{24} = \\dfrac{3}{24} = \\dfrac{1}{8}')} bể.`,`Thời gian đầy bể: ${m('1 : \\dfrac{1}{8} = 8')} giờ.`],ans:`${tb('8')} giờ.`,lines:2},
+  {hard:true,de:`Một tổ may phải may xong 300 chiếc áo theo kế hoạch. Thực tế mỗi ngày tổ may nhiều hơn kế hoạch 5 chiếc nên hoàn thành sớm hơn kế hoạch 2 ngày. Hỏi theo kế hoạch, mỗi ngày tổ may bao nhiêu chiếc áo?`,
+   sol:[`Gọi ${m('x')} (áo/ngày, ${m('x \\gt 0')}) là năng suất theo kế hoạch; thực tế ${m('x + 5')}.`,`Theo đề: ${m('\\dfrac{300}{x} - \\dfrac{300}{x + 5} = 2')}. Khử mẫu: ${m('300(x + 5) - 300x = 2x(x + 5)')}, tức ${m('x^2 + 5x - 750 = 0')}.`,`${m('\\Delta = 25 + 3000 = 3025')}, ${m('\\sqrt{\\Delta} = 55')}; ${m('x_1 = (-5 + 55) : 2 = 25')} (nhận); ${m('x_2 = (-5 - 55) : 2 = -30')} (loại).`],ans:`${tb('25')} chiếc áo mỗi ngày.`,lines:4},
+ ]},
+ {dang:'Tích hai số, lãi kép, chia hàng ghế',items:[
+  {de:`Hai số dương hơn kém nhau 5 đơn vị và tích của chúng bằng 150. Tìm số lớn.`,
+   sol:[`Gọi ${m('x')} (${m('x \\gt 0')}) là số bé; số lớn là ${m('x + 5')}. Theo đề: ${m('x(x + 5) = 150')}, tức ${m('x^2 + 5x - 150 = 0')}.`,`${m('\\Delta = 25 + 600 = 625')}, ${m('\\sqrt{\\Delta} = 25')}; ${m('x_1 = 10')} (nhận); ${m('x_2 = -15')} (loại). Số lớn: ${m('10 + 5 = 15')}.`],ans:`${tb('15')}.`,lines:3},
+  {hard:true,de:`Một hội trường có 180 ghế, xếp thành các hàng có số ghế bằng nhau. Nếu mỗi hàng bớt đi 2 ghế thì phải xếp thêm 3 hàng mới đủ chỗ cho 180 ghế. Hỏi ban đầu hội trường có bao nhiêu hàng ghế?`,
+   sol:[`Gọi ${m('x')} (hàng, nguyên dương) là số hàng ban đầu; mỗi hàng có ${m('\\dfrac{180}{x}')} ghế.`,`Theo đề: ${m('(x + 3)\\left(\\dfrac{180}{x} - 2\\right) = 180')}. Khai triển: ${m('180 - 2x + \\dfrac{540}{x} - 6 = 180')}, nhân hai vế với ${m('x')} rồi rút gọn: ${m('x^2 + 3x - 270 = 0')}.`,`${m('\\Delta = 9 + 1080 = 1089')}, ${m('\\sqrt{\\Delta} = 33')}; ${m('x_1 = (-3 + 33) : 2 = 15')} (nhận); ${m('x_2 = -18')} (loại).`],ans:`${tb('15')} hàng ghế.`,lines:5},
+ ]},
+]);
+
 })();
