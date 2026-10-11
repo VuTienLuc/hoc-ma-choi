@@ -11192,13 +11192,14 @@ lesson(6,'on-thi-thuc-te-dai-so-hinh-hoc','Đại số 4. Bài toán thực tế
    Chương I. Mệnh đề và tập hợp (Bài 1 Mệnh đề · Bài 2 Tập hợp và các phép toán trên tập hợp)
    Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn (Bài 3 · Bài 4)
    Chương III. Hệ thức lượng trong tam giác (Bài 5 · Bài 6)
+   Chủ đề 4. Các số liệu đặc trưng của mẫu số liệu không ghép nhóm (Bài 12)
    Mỗi dạng bài: lv => câu hỏi. Chọn đáp án trước rồi mới dựng đề.
    Công thức viết LaTeX: tm() trong dòng, td() riêng dòng, tb() đáp án đậm (xem core.js).
    ===================================================================== */
 (() => {
 const G = App.addGrade({
   id: 'lop10', name: 'Lớp 10', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Mệnh đề và tập hợp'}, {id:2, hk:1, name:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn'}, {id:3, hk:1, name:'Hệ thức lượng trong tam giác'} ],
+  topics: [ {id:1, hk:1, name:'Mệnh đề và tập hợp'}, {id:2, hk:1, name:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn'}, {id:3, hk:1, name:'Hệ thức lượng trong tam giác'}, {id:4, hk:1, name:'Các số liệu đặc trưng của mẫu số liệu không ghép nhóm'} ],
 });
 const lesson = G.lesson;
 
@@ -12093,12 +12094,107 @@ lesson(3,'on-tap-c3','Ôn tập chương III – Bộ 20 câu','Mỗi đề 20 c
 }
 
 /* =====================================================================
-   CHỦ ĐỀ 4. ÔN TẬP GIỮA HỌC KÌ I (Chương I + II + III) – có hình vẽ
+   CHỦ ĐỀ 4. CÁC SỐ LIỆU ĐẶC TRƯNG CỦA MẪU SỐ LIỆU KHÔNG GHÉP NHÓM
+   BÀI 12. SỐ GẦN ĐÚNG VÀ SAI SỐ
+   ===================================================================== */
+{
+const D = (n, k=0) => (n / 10**k).toFixed(k).replace('.', '{,}');
+const V = (n, k=0) => n / 10**k;
+const roundUnit = (n, u) => Math.round(n / u) * u;
+const placeName = u => u===1000?'hàng nghìn':u===100?'hàng trăm':u===10?'hàng chục':u===1?'hàng đơn vị':u===.1?'hàng phần mười':u===.01?'hàng phần trăm':'hàng phần nghìn';
+
+const g12a = lv => { // sai số tuyệt đối
+  if(lv===1){ const exact=R(120,980)/10, step=pick([1,2,3,4,5]), near=exact+pick([-1,1])*step/10, err=step/10;
+    return QB({text:`Giá trị đúng của một đại lượng là ${tm(`a=${D(Math.round(exact*10),1)}`)}, còn số gần đúng là ${tm(`\\bar a=${D(Math.round(near*10),1)}`)}. Tính sai số tuyệt đối của số gần đúng.`,
+      tpl:`${tm('\\Delta_a=')} [_]`,ans:[err],hint:`Dùng định nghĩa ${tm('\\Delta_a=|a-\\bar a|')}.`,
+      sol:`Theo định nghĩa sai số tuyệt đối, ${tm(`\\Delta_a=|a-\\bar a|=|${D(Math.round(exact*10),1)}-${D(Math.round(near*10),1)}|=${D(step,1)}`)}. Vậy sai số tuyệt đối là ${tb(D(step,1))}.`}); }
+  if(lv===2){ const k=2, exact=R(1200,9800), step=pick([1,2,3,4,5,6,7,8,9]), near=exact+pick([-1,1])*step;
+    return QB({text:`Một phép đo có giá trị đúng ${tm(`a=${D(exact,k)}\\text{ m}`)} và cho kết quả gần đúng ${tm(`\\bar a=${D(near,k)}\\text{ m}`)}. Tính sai số tuyệt đối theo đơn vị xentimét.`,
+      tpl:'[_] cm',ans:[step],hint:`Tính ${tm('|a-\\bar a|')} theo mét, sau đó đổi sang xentimét.`,
+      sol:`Theo định nghĩa, ${tm(`\\Delta_a=|${D(exact,k)}-${D(near,k)}|=${D(step,k)}\\text{ m}`)}. Vì ${tm(`1\\text{ m}=100\\text{ cm}`)}, ta có ${tm(`${D(step,k)}\\text{ m}=${step}\\text{ cm}`)}. Vậy sai số tuyệt đối là ${tb(`${step}\\text{ cm}`)}.`}); }
+  const exact=R(1500,9500)/100, e1=pick([.02,.03,.04]), e2=e1+pick([.01,.02,.03]), n1=exact+pick([-1,1])*e1, n2=exact+pick([-1,1])*e2;
+  const A=D(Math.round(n1*100),2), B=D(Math.round(n2*100),2), good=`${A} chính xác hơn ${B}`;
+  return QC({text:`Biết giá trị đúng là ${tm(`a=${D(Math.round(exact*100),2)}`)}. Hai số gần đúng là ${tm(`\\bar a_1=${A}`)} và ${tm(`\\bar a_2=${B}`)}. Khẳng định nào đúng?`,
+    opts:[good,`${B} chính xác hơn ${A}`,'Hai số gần đúng chính xác như nhau','Không thể so sánh'],ans:good,
+    hint:'Số gần đúng có sai số tuyệt đối nhỏ hơn thì chính xác hơn.',
+    sol:`Ta có ${tm(`\\Delta_1=|a-\\bar a_1|=${D(Math.round(e1*100),2)}`)} và ${tm(`\\Delta_2=|a-\\bar a_2|=${D(Math.round(e2*100),2)}`)}. Vì ${tm('\\Delta_1\\lt\\Delta_2')}, số ${tb(A)} chính xác hơn số ${tb(B)}.`});
+};
+
+const g12b = lv => { // khoảng chứa giá trị đúng
+  if(lv===1){ const near=R(20,200), d=R(1,9), lo=near-d, hi=near+d;
+    return QB({text:`Cho số gần đúng ${tm(`\\bar a=${near}`)} với độ chính xác ${tm(`d=${d}`)}. Giá trị đúng ${tm('a')} nằm trong đoạn nào?`,
+      tpl:'Cận dưới: [_] ; cận trên: [_]',ans:[lo,hi],hint:`Từ ${tm('\\Delta_a=|a-\\bar a|\\le d')} suy ra ${tm('\\bar a-d\\le a\\le\\bar a+d')}.`,
+      sol:`Ta có ${tm(`${near}-${d}\\le a\\le${near}+${d}`)}, hay ${tm(`${lo}\\le a\\le${hi}`)}. Vậy ${tb(`a\\in[${lo};\\ ${hi}]`)}.`}); }
+  if(lv===2){ const near=R(100,900), d=pick([1,2,5]), lo=near-d, hi=near+d;
+    return QB({text:`Khối lượng một vật được ghi là ${tm(`\\bar m=${D(near,1)}\\text{ kg}`)} với độ chính xác ${tm(`d=${D(d,1)}\\text{ kg}`)}. Tìm cận dưới và cận trên của khối lượng đúng ${tm('m')}.`,
+      tpl:'Cận dưới: [_] kg ; cận trên: [_] kg',ans:[V(lo,1),V(hi,1)],hint:`Lấy số gần đúng trừ và cộng độ chính xác: ${tm('\\bar m-d\\le m\\le\\bar m+d')}.`,
+      sol:`Cận dưới là ${tm(`${D(near,1)}-${D(d,1)}=${D(lo,1)}`)} kg. Cận trên là ${tm(`${D(near,1)}+${D(d,1)}=${D(hi,1)}`)} kg. Vậy ${tb(`m\\in[${D(lo,1)};\\ ${D(hi,1)}]\\text{ kg}`)}.`}); }
+  const near=R(200,800), d=pick([2,3,4,5]), lo=near-d, hi=near+d, inside=R(lo,hi), outside=pick([lo-R(1,4),hi+R(1,4)]);
+  const good=`${D(inside,1)} m có thể là giá trị đúng`;
+  return QC({text:`Một chiều dài được cho bởi ${tm(`\\bar a=${D(near,1)}\\text{ m}`)} với độ chính xác ${tm(`d=${D(d,1)}\\text{ m}`)}. Khẳng định nào đúng?`,
+    opts:[good,`${D(outside,1)} m có thể là giá trị đúng`,`${D(lo-1,1)} m chắc chắn là giá trị đúng`,`${D(hi+1,1)} m chắc chắn là giá trị đúng`],ans:good,
+    hint:`Trước hết lập đoạn ${tm('[\\bar a-d;\\ \\bar a+d]')}, rồi kiểm tra từng giá trị.`,
+    sol:`Giá trị đúng thuộc ${tm(`[${D(lo,1)};\\ ${D(hi,1)}]`)} m. Số ${tm(D(inside,1))} nằm trong đoạn này, nên ${tb(good)}.`});
+};
+
+const g12c = lv => { // làm tròn đến hàng cho trước
+  if(lv===1){ const u=pick([10,100,1000]), n=R(1200,98000), ans=roundUnit(n,u);
+    return QB({text:`Làm tròn số ${fmt(n)} đến ${placeName(u)}.`,tpl:'[_]',ans:[ans],
+      hint:`Xét chữ số ngay bên phải ${placeName(u)}: nhỏ hơn 5 thì giữ nguyên, từ 5 trở lên thì tăng chữ số làm tròn thêm 1.`,
+      sol:`Chữ số ngay bên phải ${placeName(u)} là ${Math.floor(n/(u/10))%10}. Theo quy tắc làm tròn, ta được ${tm(`${fmt(n)}\\approx${fmt(ans)}`)}. Kết quả là ${tb(fmt(ans))}.`}); }
+  if(lv===2){ const k=3, target=pick([1,2]), unit=10**(k-target), n=R(1001,9998), ans=roundUnit(n,unit), label=target===1?'hàng phần mười':'hàng phần trăm';
+    return QB({text:`Làm tròn số ${tm(D(n,k))} đến ${label}.`,tpl:'[_]',ans:[V(ans,k)],
+      hint:`Giữ ${target} chữ số sau dấu phẩy rồi xét chữ số kế tiếp để làm tròn.`,
+      sol:`Chữ số ngay bên phải ${label} là ${Math.floor(n/(unit/10))%10}. Theo quy tắc làm tròn, ${tm(`${D(n,k)}\\approx${D(ans,k)}`)}. Kết quả là ${tb(D(ans,k))}.`}); }
+  const u=pick([10,100]), n=R(1500,95000), ans=roundUnit(n,u), max=u/2;
+  return QB({text:`Số ${fmt(n)} được làm tròn đến ${placeName(u)}. Hãy điền số quy tròn và sai số tuyệt đối lớn nhất có thể do phép làm tròn.`,
+    tpl:`Số quy tròn: [_] ${tm(';\\quad')} sai số lớn nhất: [_]`,ans:[ans,max],
+    hint:`Làm tròn theo quy tắc thông thường. Sai số do làm tròn không vượt quá một nửa đơn vị của hàng làm tròn.`,
+    sol:`Làm tròn đến ${placeName(u)} cho ${tm(`${fmt(n)}\\approx${fmt(ans)}`)}. Một đơn vị của hàng làm tròn là ${u}, nên sai số tuyệt đối không vượt quá ${tm(`\\dfrac{${u}}2=${max}`)}. Đáp án: ${tb(`${fmt(ans)};\\ ${max}`)}.`});
+};
+
+const g12d = lv => { // quy tròn theo độ chính xác
+  const u=lv===1?pick([10,100,1000]):lv===2?pick([.1,.01]):pick([1,.1,.01]);
+  const d=pick([1,2,3,4,5,6,7,8,9])*u/10, dp=u>=1?0:u===.1?1:2, scale=10**(dp+1), raw=u>=10?R(1200,98000):R(1001,9998)/scale;
+  const ans=roundUnit(raw,u), rawText=u>=10?fmt(raw):raw.toFixed(dp+1).replace('.', '{,}'), ansText=u>=1?fmt(ans):ans.toFixed(dp).replace('.', '{,}');
+  const accuracy=u>=10?String(d):d.toFixed(dp+1).replace('.', '{,}');
+  return QB({text:`Cho số gần đúng ${tm(`\\bar a=${rawText}`)} với độ chính xác ${tm(`d=${accuracy}`)}. Quy tròn ${tm('\\bar a')} theo độ chính xác đã cho.`,
+    tpl:'[_]',ans:[Number(ans.toFixed(dp))],hint:`Độ chính xác ${tm(`d=${accuracy}`)} có chữ số khác 0 đầu tiên ở ${placeName(u/10)}; vì vậy quy tròn đến hàng lớn hơn liền trước là ${placeName(u)}.`,
+    sol:`Độ chính xác ${tm(`d=${accuracy}`)} có chữ số khác 0 đầu tiên ở ${placeName(u/10)}, nên ta quy tròn số gần đúng đến ${placeName(u)}. Theo quy tắc làm tròn, ${tm(`${rawText}\\approx${ansText}`)}. Kết quả là ${tb(ansText)}.`});
+};
+
+const g12e = lv => { // sai số tương đối và đo đạc thực tế
+  if(lv===1){ const near=pick([100,200,250,400,500]), pct=pick([1,2,4]), d=near*pct/100;
+    return QB({text:`Một đại lượng có số gần đúng ${tm(`\\bar a=${near}`)} và sai số tuyệt đối không vượt quá ${tm(`d=${d}`)}. Tính sai số tương đối lớn nhất theo phần trăm.`,
+      tpl:'[_] %',ans:[pct],hint:`Sai số tương đối không vượt quá ${tm('\\dfrac{d}{|\\bar a|}')}; muốn viết dưới dạng phần trăm thì nhân với ${tm('100\\%')}.`,
+      sol:`Ta có ${tm(`\\delta_a\\le\\dfrac{d}{|\\bar a|}=\\dfrac{${d}}{${near}}=${pct/100}`)}. Đổi sang phần trăm: ${tm(`${pct/100}\\cdot100\\%=${pct}\\%`)}. Vậy sai số tương đối lớn nhất là ${tb(`${pct}\\%`)}.`}); }
+  if(lv===2){ const a1=pick([100,200,400]), p1=pick([1,2]), d1=a1*p1/100, p2=p1+pick([1,2]), a2=pick([100,250,500]), d2=a2*p2/100;
+    const good=`Phép đo thứ nhất chính xác hơn`;
+    return QC({text:`Phép đo thứ nhất cho ${tm(`\\bar a_1=${a1}`)}, ${tm(`d_1=${d1}`)}; phép đo thứ hai cho ${tm(`\\bar a_2=${a2}`)}, ${tm(`d_2=${d2}`)}. So sánh độ chính xác bằng sai số tương đối.`,
+      opts:[good,'Phép đo thứ hai chính xác hơn','Hai phép đo chính xác như nhau','Không thể so sánh'],ans:good,
+      hint:'Tính lần lượt các tỉ số phần trăm ' + tm('\\dfrac{d_1}{|\\bar a_1|}\\cdot100\\%') + ' và ' + tm('\\dfrac{d_2}{|\\bar a_2|}\\cdot100\\%') + '. Tỉ số nhỏ hơn chính xác hơn.',
+      sol:`Phép đo thứ nhất có sai số tương đối không vượt quá ${tm(`\\dfrac{${d1}}{${a1}}\\cdot100\\%=${p1}\\%`)}. Phép đo thứ hai có sai số tương đối không vượt quá ${tm(`\\dfrac{${d2}}{${a2}}\\cdot100\\%=${p2}\\%`)}. Vì ${tm(`${p1}\\%\\lt${p2}\\%`)}, ${tb('phép đo thứ nhất chính xác hơn')}.`}); }
+  const near=pick([200,400,500,800,1000]), pct=pick([.5,1,2]), d=near*pct/100;
+  return QB({text:`Một thiết bị đo chiều dài khoảng ${tm(`\\bar a=${near}\\text{ m}`)}. Muốn sai số tương đối không vượt quá ${tm(`${String(pct).replace('.', '{,}')}\\%`)}, sai số tuyệt đối cho phép lớn nhất là bao nhiêu mét?`,
+    tpl:'[_] m',ans:[d],hint:`Từ ${tm('\\dfrac{d}{|\\bar a|}\\cdot100\\%\\le p\\%')} suy ra ${tm('d\\le\\dfrac{p}{100}|\\bar a|')}.`,
+    sol:`Điều kiện sai số tương đối là ${tm(`\\dfrac{d}{${near}}\\cdot100\\%\\le${String(pct).replace('.', '{,}')}\\%`)}. Suy ra ${tm(`d\\le\\dfrac{${String(pct).replace('.', '{,}')}}{100}\\cdot${near}=${String(d).replace('.', '{,}')}`)} m. Vậy sai số tuyệt đối cho phép lớn nhất là ${tb(`${String(d).replace('.', '{,}')}\\text{ m}`)}.`});
+};
+
+lesson(4,'so-gan-dung-sai-so','Bài 12. Số gần đúng và sai số','Sai số tuyệt đối; độ chính xác; khoảng chứa giá trị đúng; làm tròn, quy tròn; sai số tương đối trong đo đạc.',[g12a,g12b,g12c,g12d,g12e],{introTitle:'Kiến thức trọng tâm',intro:[
+  {t:'Số gần đúng và sai số tuyệt đối',b:`Nếu ${tm('a')} là số đúng và ${tm('\\bar a')} là số gần đúng thì sai số tuyệt đối là ${tm('\\Delta_a=|a-\\bar a|')}.`,warn:'Sai số tuyệt đối luôn không âm và có cùng đơn vị với đại lượng được đo.',ex:'Muốn so sánh hai số gần đúng của cùng một đại lượng, số có sai số tuyệt đối nhỏ hơn chính xác hơn.'},
+  {t:'Độ chính xác và khoảng chứa số đúng',b:`Nếu ${tm('\\Delta_a\\le d')} thì viết ${tm('a=\\bar a\\pm d')}; khi đó ${tm('\\bar a-d\\le a\\le\\bar a+d')}.`,warn:`Hai đầu mút đều được lấy vì dấu là ${tm('\\le')}.`,ex:'Lấy số gần đúng trừ và cộng độ chính xác để tìm cận dưới, cận trên.'},
+  {t:'Làm tròn và quy tròn',b:'Làm tròn đến một hàng: xét chữ số ngay bên phải hàng đó. Với độ chính xác cho trước, xác định hàng của chữ số khác 0 đầu tiên rồi quy tròn đến hàng lớn hơn liền trước.',warn:'Chỉ làm tròn ở bước cuối nếu đề không yêu cầu làm tròn trung gian.',ex:'Độ chính xác 0,005 có chữ số khác 0 đầu tiên ở hàng phần nghìn, nên quy tròn đến hàng phần trăm.'},
+  {t:'Sai số tương đối',b:`Sai số tương đối được đánh giá bởi ${tm('\\delta_a\\le\\dfrac{d}{|\\bar a|}')}; dạng phần trăm là ${tm('\\dfrac{d}{|\\bar a|}\\cdot100\\%')}.`,warn:'Khi so sánh phép đo các đại lượng có độ lớn khác nhau, phải dùng sai số tương đối.',ex:'Sai số tương đối càng nhỏ thì phép đo càng chính xác.'}
+]});
+}
+
+/* =====================================================================
+   ÔN TẬP GIỮA HỌC KÌ I (Chương I + II + III) – có hình vẽ
    Câu hỏi lấy từ ngân hàng data/lop10-giua-ki-bank.js (GK1): cùng ngân hàng với 5 đề ôn tập giữa kì và đề in của giáo viên.
    Mỗi dạng = lv => câu hỏi; mức 1 → 3 chuyển sang loại câu khó hơn. Đáp án luôn tính trước khi dựng đề (trong GK1).
    ===================================================================== */
 {
-G.topics.push({id:4, hk:1, name:'Ôn tập giữa học kì I'});
+G.topics.push({id:90, hk:1, name:'Ôn tập giữa học kì I'});
 const rg = () => GK1.rng((Math.random() * 4294967296) >>> 0);
 const HINT = {
   isProp:'Mệnh đề là câu khẳng định, xác định được là đúng hoặc sai. Câu hỏi, câu cảm thán, câu mệnh lệnh hay câu còn biến thì không phải.',
@@ -12156,15 +12252,15 @@ const gkL = lv => pickBy(lv, () => tfG('height'), () => shG('cosRoad'), () => sh
 
 const K = (t, b, warn, ex) => ({t, b, warn, ex});
 const INTRO_T = 'Kiến thức cần nhớ · Lưu ý · Mẹo';
-lesson(4, 'gk-menh-de-tap-hop', 'Ôn giữa kì · Chương I. Mệnh đề và tập hợp', 'Mệnh đề, phủ định, phép toán tập hợp, liệt kê tập hợp, đếm bằng sơ đồ Venn.', [gkA, gkB, gkC, gkD], {introTitle:INTRO_T, intro:[
+lesson(90, 'gk-menh-de-tap-hop', 'Ôn giữa kì · Chương I. Mệnh đề và tập hợp', 'Mệnh đề, phủ định, phép toán tập hợp, liệt kê tập hợp, đếm bằng sơ đồ Venn.', [gkA, gkB, gkC, gkD], {introTitle:INTRO_T, intro:[
   K('Mệnh đề và phủ định', `Mệnh đề là câu khẳng định xác định được <b>đúng</b> hoặc <b>sai</b>. Phủ định của ${tm('\\forall')} là ${tm('\\exists')} và ngược lại, đồng thời phủ định phần sau (${tm('\\gt \\to \\le')}, ${tm('\\lt \\to \\ge')}).`, 'Câu hỏi, câu cảm thán, câu mệnh lệnh, câu còn biến chưa gán giá trị thì <b>không</b> phải mệnh đề.', `Phủ định của ${tm('\\gt')} là ${tm('\\le')} (không phải ${tm('\\lt')}).`),
   K('Tập hợp và phép toán', `${tm('A \\cap B')}: phần chung; ${tm('A \\cup B')}: gộp lại; ${tm('A \\setminus B')}: thuộc ${tm('A')} nhưng không thuộc ${tm('B')}. Tập hợp có ${tm('n')} phần tử có ${tm('2^n')} tập con.`, 'Khoảng/đoạn: ngoặc <b>tròn</b> không lấy đầu mút, ngoặc <b>vuông</b> lấy đầu mút.', 'Vẽ hai tập hợp lên trục số trước khi tìm giao, hợp, hiệu.'),
   K('Đếm bằng sơ đồ Venn', `${tm('n(A \\cup B) = n(A) + n(B) - n(A \\cap B)')}. Số phần tử chỉ thuộc ${tm('A')} là ${tm('n(A) - n(A \\cap B)')}.`, 'Đừng cộng hai nhóm mà quên trừ phần giao (đếm hai lần).', 'Điền số vào từng miền của sơ đồ Venn rồi kiểm tra tổng bằng sĩ số lớp.')]});
-lesson(4, 'gk-bpt-he-bpt', 'Ôn giữa kì · Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn', 'Nghiệm, miền nghiệm, đọc hình miền nghiệm của hệ, bài toán tối ưu (chi phí, lợi nhuận).', [gkE, gkF, gkG, gkH], {introTitle:INTRO_T, intro:[
+lesson(90, 'gk-bpt-he-bpt', 'Ôn giữa kì · Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn', 'Nghiệm, miền nghiệm, đọc hình miền nghiệm của hệ, bài toán tối ưu (chi phí, lợi nhuận).', [gkE, gkF, gkG, gkH], {introTitle:INTRO_T, intro:[
   K('Nghiệm và miền nghiệm', `Cặp số ${tm('(x_0;\\ y_0)')} là nghiệm khi thay vào cho bất đẳng thức đúng. Miền nghiệm là nửa mặt phẳng bờ ${tm('d: ax + by = c')}; lấy điểm thử (thường là gốc ${tm('O')}) để biết phía nào.`, `Dấu ngặt (${tm('\\lt')} hoặc ${tm('\\gt')}): bờ vẽ nét <b>đứt</b>, không thuộc miền nghiệm. Có dấu bằng: nét <b>liền</b>.`, 'Điểm thử không nằm trên đường thẳng thì tính rất nhanh; gốc toạ độ là lựa chọn đầu tiên.'),
   K('Hệ bất phương trình và hình vẽ', 'Miền nghiệm của hệ là phần chung của các miền nghiệm. Theo quy ước sách giáo khoa, phần <b>không bị gạch</b> là miền nghiệm.', 'Đổi dấu một bất phương trình là chuyển sang phía còn lại của đường thẳng.', 'Với mỗi đường thẳng trong hình, thử một điểm rồi loại dần các phương án.'),
   K('Bài toán tối ưu', `Lập ràng buộc, vẽ miền nghiệm, tìm <b>các đỉnh</b>, thay vào ${tm('F = ax + by')}: giá trị lớn nhất/nhỏ nhất đạt tại một đỉnh.`, `Đọc kỹ “tối đa” (${tm('\\le')}) và “ít nhất” (${tm('\\ge')}).`, `Lập bảng giá trị ${tm('F')} tại từng đỉnh rồi chọn lớn nhất/nhỏ nhất.`)]});
-lesson(4, 'gk-he-thuc-luong', 'Ôn giữa kì · Chương III. Hệ thức lượng trong tam giác', 'Giá trị lượng giác, định lí côsin – sin, nhận dạng tam giác, diện tích, bài toán đo đạc (có hình).', [gkI, gkJ, gkK, gkL], {introTitle:INTRO_T, intro:[
+lesson(90, 'gk-he-thuc-luong', 'Ôn giữa kì · Chương III. Hệ thức lượng trong tam giác', 'Giá trị lượng giác, định lí côsin – sin, nhận dạng tam giác, diện tích, bài toán đo đạc (có hình).', [gkI, gkJ, gkK, gkL], {introTitle:INTRO_T, intro:[
   K('Giá trị lượng giác', `${tm('\\sin(180^\\circ - \\alpha) = \\sin\\alpha')}; ${tm('\\cos(180^\\circ - \\alpha) = -\\cos\\alpha')}; ${tm('\\tan(180^\\circ - \\alpha) = -\\tan\\alpha')}; ${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')}.`, `Góc tù thì côsin, tang, côtang đều <b>âm</b>; sin luôn dương với ${tm('0^\\circ \\lt \\alpha \\lt 180^\\circ')}.`, 'Thuộc bảng giá trị đặc biệt của 30°, 45°, 60°, 90°, rồi suy ra góc bù.'),
   K('Định lí côsin – sin – diện tích', `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}; ${tm('\\dfrac{a}{\\sin A} = 2R')}; ${tm('S = \\dfrac{1}{2}bc\\sin A = \\sqrt{p(p-a)(p-b)(p-c)} = pr = \\dfrac{abc}{4R}')}.`, 'Biết hai cạnh và góc <b>xen giữa</b> thì dùng ngay định lí côsin để tìm cạnh thứ ba.', `Biết một cạnh và góc đối diện thì nghĩ tới định lí sin để tìm ${tm('R')}.`),
   K('Bài toán đo đạc', 'Vẽ hình, ghi rõ góc và độ dài đã biết. Dùng góc ngoài của tam giác để tìm góc còn thiếu, rồi định lí sin/côsin.', 'Kiểm tra đơn vị và yêu cầu làm tròn trước khi viết đáp số.', 'Khi có hai góc quan sát từ hai điểm thẳng hàng với chân vật, góc ở ngọn bằng hiệu hai góc.')]});
@@ -12176,7 +12272,7 @@ const gkT3 = lv => pickBy(lv, () => pick([mcG('trig'), mcG('triArea')]), () => p
 const gkT4 = lv => pickBy(lv, () => shG('vennShort'), () => tfG('venn'), () => tfG('height'));
 const gkT5 = lv => pickBy(lv, () => mcG('sysPoint'), () => shG('mixed'), () => shG('tree'));
 const gkT6 = lv => pickBy(lv, () => shG('eqTri'), () => shG('cosRoad'), () => shG('tree'));
-lesson(4, 'on-tap-giua-ki-1', 'Ôn tập giữa học kì I', 'Tổng hợp Chương I – II – III: mệnh đề và tập hợp, miền nghiệm và hệ bất phương trình, hệ thức lượng; có hình vẽ.', [gkT1, gkT2, gkT3, gkT4, gkT5, gkT6], {introTitle:INTRO_T, intro:[
+lesson(90, 'on-tap-giua-ki-1', 'Ôn tập giữa học kì I', 'Tổng hợp Chương I – II – III: mệnh đề và tập hợp, miền nghiệm và hệ bất phương trình, hệ thức lượng; có hình vẽ.', [gkT1, gkT2, gkT3, gkT4, gkT5, gkT6], {introTitle:INTRO_T, intro:[
   K('Chương I', `Phủ định ${tm('\\forall \\leftrightarrow \\exists')} và đổi dấu so sánh; ${tm('\\cap, \\cup, \\setminus')} trên trục số; ${tm('n(A \\cup B) = n(A) + n(B) - n(A \\cap B)')}.`, 'Xét kĩ đầu mút (ngoặc tròn/vuông).', 'Vẽ trục số hoặc sơ đồ Venn trước khi tính.'),
   K('Chương II', 'Điểm thử xác định phía miền nghiệm; nét đứt ứng với dấu ngặt; tối ưu: tính giá trị tại các đỉnh miền nghiệm.', `Đọc kĩ “tối đa/ít nhất” để chọn ${tm('\\le')} hay ${tm('\\ge')}.`, 'Gạch bỏ phần không thoả mãn để thấy miền nghiệm.'),
   K('Chương III', `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}, ${tm('\\dfrac{a}{\\sin A} = 2R')}, ${tm('S = \\dfrac{1}{2}bc\\sin A')}, công thức Heron.`, 'Góc tù: côsin, tang âm.', 'Bài đo đạc: vẽ tam giác, dùng góc ngoài để tìm góc ở ngọn.')]});

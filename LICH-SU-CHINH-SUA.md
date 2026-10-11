@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-11 – Chủ đề 4 Toán 10: Bài 12. Số gần đúng và sai số
+
+- **Yêu cầu của thầy:** Tiếp tục Chủ đề 4 “Các số liệu đặc trưng của mẫu số liệu không ghép nhóm”, bổ sung Bài 12. Số gần đúng và sai số cho học sinh.
+- **Kết quả:** Thêm Chủ đề 4 đúng tên và bài `so-gan-dung-sai-so` gồm 5 dạng × 3 mức: tính và so sánh sai số tuyệt đối; tìm khoảng chứa giá trị đúng; làm tròn đến hàng cho trước; quy tròn theo độ chính xác; tính, so sánh sai số tương đối và vận dụng trong đo đạc. Mỗi dạng có số liệu ngẫu nhiên, mức độ tăng thật sự, gợi ý và lời giải theo từng bước có căn cứ. Thêm bốn thẻ kiến thức trọng tâm. Nhóm “Ôn tập giữa học kì I” cũ được chuyển sang mã nội bộ 90 để dành đúng mã 4 cho chủ đề mới, không mất bài hay tiến độ cũ. Cập nhật kiểm kê Toán 10 lên 16 bài và giữ `AGENTS.md`, `CLAUDE.md` giống hệt nhau.
+- **Tệp thay đổi:** `data/lop10.js`, `AGENTS.md`, `CLAUDE.md`, `dist/hoc-tap.html`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 120 lop10` → ĐẠT (33.480 lượt sinh câu); `node tools/kiem-tra.js` → ĐẠT (41.025 lượt sinh câu); `python3 tools/test.py` → ĐẠT (24.540 câu); `python3 tools/test_trinhchieu.py so-gan-dung-sai-so` → ĐẠT (12 trang, không tràn/lỗi, không có chữ dưới 20 px, học sinh không có quyền trình chiếu); `python3 tools/test_congthuc.py` → ĐẠT (414 trang, 0 lỗi); `python3 tools/build.py` → ĐẠT; `git diff --check` → ĐẠT.
+- **Việc thầy cần làm thủ công:** Không có.
+
 ### 2026-10-10 – Đề kiểm tra 45 phút Toán 11 chương II (Dãy số, CSC, CSN)
 
 - **Yêu cầu của thầy:** Làm đề kiểm tra 45 phút kiến thức chương 2 lớp 11: 10 câu trắc nghiệm 5 điểm, 3 câu đúng/sai 3 điểm, 2 câu trả lời ngắn; mức trung bình – khá được 7–8 điểm, giỏi 9–10 điểm.
@@ -64,7 +72,6 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 - **Tệp thay đổi:** `giao-vien/bai-giang/lop10-giua-ki-ma-tran.js` (mới), `giao-vien/bai-giang/lop11-giua-ki-ma-tran.js` (mới), `giao-vien/index.html`, `assets/js/kiemtra.js`, `assets/css/style.css`, `tools/test_gk_ma_tran.js` (mới), `tools/test_kiemtra.py` (thêm tham số mã đề), `tools/kiem-tra.js`, `CLAUDE.md`, `AGENTS.md`
 - **Kiểm thử:** `node tools/test_gk_ma_tran.js` (tính lại độc lập đáp án 8 mã đề; đếm nghiệm PTLG bằng đổi dấu số) → ĐẠT; `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_kiemtra.py lop10 gk-ma-tran` và `lop11 gk-ma-tran` (mỗi mã in đúng 2 trang A4 bằng PDF thật, không lỗi công thức) → ĐẠT. `python3 tools/test_kiemtra.py` (toàn bộ đề của mọi lớp, 101 kiểm tra) → ĐẠT.
 - **Việc thủ công:** Thầy đọc lại đề và đáp án; chưa có bản cho học sinh làm trực tuyến (có thể thêm nếu thầy cần).
-
 ### 2026-10-10 – 10 vật phẩm cầm tay mở khóa bằng sao cho từng lớp
 
 - **Yêu cầu của thầy:** Bổ sung phần thưởng đẹp theo phong cách phụ kiện cầm tay trong trò chơi khối; học sinh đạt điểm cao dùng để đổi; có gậy ngôi sao, kiếm và tổng cộng 10 vật phẩm phù hợp với từng lớp.
