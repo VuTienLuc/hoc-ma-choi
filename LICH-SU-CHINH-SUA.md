@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-12 – Ôn thi vào 10, chủ đề 6: Hình học 4. Hình không gian thực tế (công thức cho sẵn)
+
+- **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề ôn thi vào lớp 10 kế tiếp (chủ đề 6), trọn bộ học sinh + bài giảng + phiếu luyện tập 2 trang A4.
+- **Kết quả:** (A) Bài `on-thi-hinh-khong-gian` (chương 6 `data/lop9.js`), 5 dạng × 3 mức, số liệu sinh ngẫu nhiên, đáp số nguyên (hệ số của π hoặc số đo), công thức luôn ghi trong đề, có hình SVG: gHk1 hình trụ (Sxq, Stp, V, bài ngược, đổ nước giữa hai bình, ống rỗng) · gHk2 hình nón (đường sinh bằng Pythagore, bài ngược, hình quạt cuộn thành nón) · gHk3 hình cầu (tìm bán kính từ S hoặc V, thả bi vào bình trụ, nung chảy) · gHk4 hình hộp – lăng trụ – chóp đều (lít nước, lều, mái đình tính tiền, thả khối lập phương) · gHk5 hình ghép (kho, kem ốc quế, bồn hai đầu bán cầu, khoét nón); có thẻ Kiến thức – Lưu ý – Mẹo (3 mục). (B) Bài giảng cùng mã (title, 3 kt, 5 method + 5 vd, sum). (C) Phiếu luyện tập 10 bài (7 cơ bản + 3 ★), in đúng 2 trang A4 cả bản học sinh lẫn bản lời giải (đã xuất PDF và xem ảnh).
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`.
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (37/37); `python3 tools/test_baigiang.py lop9` → ĐẠT (chiếu 576 trang, không tràn); `python3 tools/build.py` → ĐẠT; PDF phiếu đo bằng `pdfinfo`: 2 trang (đề) và 2 trang (lời giải).
+- **Việc thủ công:** Thầy đối chiếu cách đặt đề (công thức cho sẵn, đáp số theo π) với đề minh họa của Sở; chủ đề kế tiếp: 7 Thực tế lập hệ phương trình (vận dụng cao).
+
 ### 2026-10-11 – Ôn thi vào 10, chủ đề 5: Đại số 5. Giải bài toán bằng cách lập biểu thức, phương trình, phương trình bậc hai
 
 - **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề ôn thi vào lớp 10 kế tiếp (chủ đề 5), trọn bộ học sinh + bài giảng + phiếu luyện tập 2 trang A4.

@@ -596,4 +596,38 @@ Lecture.addPractice('lop9','on-thi-giai-bai-toan-lap-pt',[
  ]},
 ]);
 
+/* ---------- Hình học 4. Hình không gian thực tế – 5 dạng × 2 câu tương tự ---------- */
+Lecture.addPractice('lop9','on-thi-hinh-khong-gian',[
+ {dang:'Hình trụ',items:[
+  {de:`Một hộp sữa hình trụ có bán kính đáy ${m('3')} cm, chiều cao ${m('10')} cm. Cho biết ${m('S_{tp} = 2\\pi rh + 2\\pi r^2')} và ${m('V = \\pi r^2 h')}. Tính diện tích toàn phần và thể tích hộp (theo ${m('\\pi')}).`,
+   sol:[`${m('2\\pi rh = 2\\pi\\cdot 3\\cdot 10 = 60\\pi')}; hai đáy: ${m('2\\pi r^2 = 2\\pi\\cdot 9 = 18\\pi')}. Vậy ${m('S_{tp} = 60\\pi + 18\\pi = 78\\pi')}.`,`${m('V = \\pi\\cdot 3^2\\cdot 10 = 90\\pi')}.`],ans:`${tb('S_{tp} = 78\\pi')} cm²; ${tb('V = 90\\pi')} cm³.`,lines:2},
+  {de:`Một bể chứa hình trụ có bán kính đáy ${m('4')} m và thể tích ${m('144\\pi')} m³. Cho biết ${m('V = \\pi r^2 h')}. Tính chiều cao của bể.`,
+   sol:[`${m('\\pi\\cdot 4^2\\cdot h = 144\\pi')}, rút gọn ${m('\\pi')}: ${m('16h = 144')}.`,`${m('h = 144 : 16 = 9')}.`],ans:`${tb('9')} m.`,lines:2},
+ ]},
+ {dang:'Hình nón',items:[
+  {de:`Một chiếc phễu hình nón có bán kính đáy ${m('9')} cm, chiều cao ${m('12')} cm. Cho biết ${m('S_{xq} = \\pi rl')}, ${m('V = \\dfrac{1}{3}\\pi r^2 h')}. Tính diện tích xung quanh và thể tích phễu (theo ${m('\\pi')}).`,
+   sol:[`Đường sinh: ${m('l^2 = 9^2 + 12^2 = 225')}, nên ${m('l = 15')} cm.`,`${m('S_{xq} = \\pi\\cdot 9\\cdot 15 = 135\\pi')}; ${m('V = \\dfrac{1}{3}\\pi\\cdot 81\\cdot 12 = 324\\pi')}.`],ans:`${tb('S_{xq} = 135\\pi')} cm²; ${tb('V = 324\\pi')} cm³.`,lines:2},
+  {hard:true,de:`Tấm bìa hình quạt bán kính ${m('20')} cm, góc ở tâm ${m('216^\\circ')}, được cuộn lại thành mặt xung quanh của một chiếc phễu hình nón (hai mép khít nhau). Độ dài cung tròn ${m('n^\\circ')} bán kính ${m('l')} là ${m('\\dfrac{\\pi l n}{180}')}. Tính chiều cao của phễu.`,
+   sol:[`Độ dài cung: ${m('\\dfrac{\\pi\\cdot 20\\cdot 216}{180} = 24\\pi')} cm. Bằng chu vi đáy ${m('2\\pi r')}, nên ${m('r = 12')} cm.`,`Đường sinh ${m('l = 20')} cm: ${m('h^2 = 20^2 - 12^2 = 256')}.`],ans:`${tb('h = 16')} cm.`,lines:3},
+ ]},
+ {dang:'Hình cầu',items:[
+  {de:`Một viên bi hình cầu có thể tích ${m('36\\pi')} cm³. Cho biết ${m('V = \\dfrac{4}{3}\\pi R^3')}, ${m('S = 4\\pi R^2')}. Tính bán kính và diện tích mặt ngoài của viên bi.`,
+   sol:[`${m('\\dfrac{4}{3}R^3 = 36')}, suy ra ${m('R^3 = 27')}, nên ${m('R = 3')} cm.`,`${m('S = 4\\pi\\cdot 3^2 = 36\\pi')}.`],ans:`${tb('R = 3')} cm; ${tb('S = 36\\pi')} cm².`,lines:2},
+  {hard:true,de:`Một bình thủy tinh hình trụ bán kính đáy ${m('12')} cm đang chứa nước. Thả chìm hẳn một viên bi sắt hình cầu bán kính ${m('6')} cm (nước không tràn). Tính mực nước dâng thêm.`,
+   sol:[`Thể tích viên bi: ${m('\\dfrac{4}{3}\\pi\\cdot 6^3 = 288\\pi')} cm³.`,`Nước dâng ${m('x')} cm: ${m('\\pi\\cdot 12^2\\cdot x = 288\\pi')}, tức ${m('144x = 288')}.`],ans:`${tb('x = 2')} cm.`,lines:3},
+ ]},
+ {dang:'Hình hộp, lăng trụ, chóp đều',items:[
+  {de:`Một bể cá hình hộp chữ nhật dài ${m('10')} dm, rộng ${m('6')} dm, cao ${m('5')} dm. Cho biết ${m('V = abc')} và ${m('1\\ \\text{dm}^3 = 1')} lít. Bể chứa được tối đa bao nhiêu lít nước?`,
+   sol:[`${m('V = 10\\cdot 6\\cdot 5 = 300')} dm³.`,`Vì ${m('1\\ \\text{dm}^3 = 1')} lít nên chứa được 300 lít.`],ans:`${tb('300')} lít.`,lines:2},
+  {de:`Mái đình là hình chóp tứ giác đều (không tính đáy), cạnh đáy ${m('10')} m, chiều cao ${m('12')} m. Cho biết ${m('S_{xq} = p\\cdot d')} (${m('p')} nửa chu vi đáy, ${m('d')} trung đoạn). Lợp mái giá 80 nghìn đồng/m², tính tiền lợp mái.`,
+   sol:[`Trung đoạn: ${m('d^2 = 12^2 + 5^2 = 169')}, nên ${m('d = 13')} m.`,`${m('p = 2\\cdot 10 = 20')}; ${m('S_{xq} = 20\\cdot 13 = 260')} m².`,`Chi phí: ${m('260\\cdot 80 = 20\\,800')} nghìn đồng.`],ans:`${tb('20\\,800')} nghìn đồng.`,lines:3},
+ ]},
+ {dang:'Hình ghép và bài toán thể tích',items:[
+  {de:`Chiếc kem ốc quế gồm ốc quế hình nón bán kính đáy ${m('3')} cm, chiều cao ${m('12')} cm và phần kem phía trên là nửa hình cầu bán kính ${m('3')} cm. Tính thể tích cả chiếc kem (theo ${m('\\pi')}).`,
+   sol:[`Hình nón: ${m('\\dfrac{1}{3}\\pi\\cdot 3^2\\cdot 12 = 36\\pi')}.`,`Nửa hình cầu: ${m('\\dfrac{1}{2}\\cdot\\dfrac{4}{3}\\pi\\cdot 27 = 18\\pi')}.`,`Tổng: ${m('36\\pi + 18\\pi = 54\\pi')}.`],ans:`${tb('V = 54\\pi')} cm³.`,lines:2},
+  {hard:true,de:`Bồn chứa khí gồm phần giữa là hình trụ bán kính ${m('3')} m, chiều dài ${m('h')} m, hai đầu là hai nửa hình cầu bán kính ${m('3')} m. Thể tích cả bồn là ${m('90\\pi')} m³. Tìm ${m('h')}.`,
+   sol:[`Hai nửa cầu ghép thành hình cầu: ${m('\\dfrac{4}{3}\\pi\\cdot 27 = 36\\pi')}. Phần trụ: ${m('\\pi\\cdot 3^2\\cdot h = 9\\pi h')}.`,`${m('9\\pi h + 36\\pi = 90\\pi')}, suy ra ${m('9h = 54')}.`],ans:`${tb('h = 6')} m.`,lines:3},
+ ]},
+]);
+
 })();

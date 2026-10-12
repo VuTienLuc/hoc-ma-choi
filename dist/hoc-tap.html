@@ -11321,6 +11321,242 @@ lesson(6,'on-thi-giai-bai-toan-lap-pt','Đại số 5. Giải bài toán bằng 
 ]});
 }
 
+
+/* =====================================================================
+   ÔN THI VÀO 10 – Hình học 4. Hình không gian thực tế (công thức cho sẵn trong đề)
+   Dạng 1 hình trụ · Dạng 2 hình nón · Dạng 3 hình cầu
+   Dạng 4 hình hộp, lăng trụ, hình chóp đều (mái nhà, bể nước) · Dạng 5 hình ghép và bài toán thể tích bảo toàn
+   Đáp số là số nguyên (hệ số của π hoặc số đo); công thức luôn được ghi trong đề.
+   ===================================================================== */
+{
+const PI = tm('\\pi');
+const svgT = (x,y,s,anc='middle',fs=16) => `<text class="sv-txt" x="${x}" y="${y}" font-size="${fs}" text-anchor="${anc}">${s}</text>`;
+const FL = 'style="fill:var(--primary-soft)"';
+const DS = 'stroke-dasharray="6 4"';
+const cylFig = (lr,lh) => `<svg viewBox="0 0 320 190" role="img" aria-label="Hình trụ"><path class="sv-ink" stroke-width="3" d="M100,45 V140 A60,16 0 0 0 220,140 V45" ${FL}/><path class="sv-ink" stroke-width="2" ${DS} d="M100,140 A60,16 0 0 1 220,140"/><ellipse class="sv-ink" stroke-width="3" cx="160" cy="45" rx="60" ry="16" ${FL}/><line class="sv-ink" stroke-width="2" ${DS} x1="160" y1="45" x2="220" y2="45"/>${svgT(190,36,lr)}${svgT(236,98,lh,'start')}</svg>`;
+const coneFig = (lr,lh,ll) => `<svg viewBox="0 0 320 190" role="img" aria-label="Hình nón"><path class="sv-ink" stroke-width="3" d="M90,140 L160,22 L230,140 A70,16 0 0 1 90,140 Z" ${FL}/><path class="sv-ink" stroke-width="2" ${DS} d="M90,140 A70,16 0 0 0 230,140"/><line class="sv-ink" stroke-width="2" ${DS} x1="160" y1="22" x2="160" y2="140"/><line class="sv-ink" stroke-width="2" ${DS} x1="160" y1="140" x2="230" y2="140"/>${svgT(150,86,lh,'end')}${svgT(195,134,lr)}${svgT(212,70,ll,'start')}</svg>`;
+const sphFig = lr => `<svg viewBox="0 0 320 190" role="img" aria-label="Hình cầu"><circle class="sv-ink" stroke-width="3" cx="160" cy="95" r="72" ${FL}/><path class="sv-ink" stroke-width="2" ${DS} d="M88,95 A72,18 0 0 0 232,95"/><path class="sv-ink" stroke-width="2" d="M88,95 A72,18 0 0 1 232,95"/><line class="sv-ink" stroke-width="2" x1="160" y1="95" x2="232" y2="95"/><circle class="sv-ink" cx="160" cy="95" r="3" style="fill:var(--ink)"/>${svgT(198,88,lr)}</svg>`;
+const boxFig = (la,lb,lc) => `<svg viewBox="0 0 320 200" role="img" aria-label="Hình hộp chữ nhật"><polygon class="sv-ink" stroke-width="3" points="50,80 210,80 210,170 50,170" ${FL}/><polygon class="sv-ink" stroke-width="3" points="50,80 110,40 270,40 210,80" ${FL}/><polygon class="sv-ink" stroke-width="3" points="210,80 270,40 270,130 210,170" ${FL}/>${svgT(130,192,la)}${svgT(32,128,lc,'end')}${svgT(258,34,lb,'middle')}</svg>`;
+const pyrFig = (la,lh,ld) => `<svg viewBox="0 0 320 200" role="img" aria-label="Hình chóp tứ giác đều"><polygon class="sv-ink" stroke-width="2" ${DS} points="60,160 110,125 270,125 220,160" ${FL}/><polygon class="sv-ink" stroke-width="3" points="60,160 220,160 165,22" ${FL}/><polygon class="sv-ink" stroke-width="3" points="220,160 270,125 165,22" ${FL}/><line class="sv-ink" stroke-width="2" ${DS} x1="165" y1="22" x2="165" y2="142"/><line class="sv-ink" stroke-width="2" ${DS} x1="165" y1="22" x2="140" y2="160"/>${svgT(140,180,la)}${svgT(157,92,lh,'end')}${svgT(138,84,ld,'end')}</svg>`;
+const iceFig = (lr,lh) => `<svg viewBox="0 0 320 200" role="img" aria-label="Que kem ốc quế"><path class="sv-ink" stroke-width="3" d="M105,85 L160,185 L215,85 Z" ${FL}/><path class="sv-ink" stroke-width="3" d="M105,85 A55,55 0 0 1 215,85 Z" ${FL}/><line class="sv-ink" stroke-width="2" ${DS} x1="160" y1="85" x2="215" y2="85"/><line class="sv-ink" stroke-width="2" ${DS} x1="160" y1="85" x2="160" y2="185"/>${svgT(188,78,lr)}${svgT(150,140,lh,'end')}</svg>`;
+const siloFig = (lr,lH,lh) => `<svg viewBox="0 0 320 200" role="img" aria-label="Tháp chứa có mái nón"><path class="sv-ink" stroke-width="3" d="M100,80 V160 A60,14 0 0 0 220,160 V80 Z" ${FL}/><path class="sv-ink" stroke-width="3" d="M100,80 L160,12 L220,80 A60,14 0 0 1 100,80 Z" ${FL}/><line class="sv-ink" stroke-width="2" ${DS} x1="160" y1="80" x2="220" y2="80"/>${svgT(190,74,lr)}${svgT(236,126,lH,'start')}${svgT(150,50,lh,'end')}</svg>`;
+const capFig = (lr,lh) => `<svg viewBox="0 0 320 170" role="img" aria-label="Bồn chứa hai đầu bán cầu"><path class="sv-ink" stroke-width="3" d="M90,50 H230 A45,45 0 0 1 230,140 H90 A45,45 0 0 1 90,50 Z" ${FL}/><line class="sv-ink" stroke-width="2" ${DS} x1="90" y1="50" x2="90" y2="140"/><line class="sv-ink" stroke-width="2" ${DS} x1="230" y1="50" x2="230" y2="140"/>${svgT(160,92,lh)}${svgT(62,100,lr,'end')}</svg>`;
+
+/* Dạng 1. Hình trụ */
+const gHk1 = lv => {
+  if(lv===1){
+    const r = R(2,9), h = R(3,12);
+    if(pick([0,1])===0){
+      return QB({text:`Một lon sữa hình trụ có bán kính đáy ${r} cm, chiều cao ${h} cm. Cho biết công thức diện tích xung quanh hình trụ ${tm('S_{xq} = 2\\pi rh')} (${tm('r')} là bán kính đáy, ${tm('h')} là chiều cao). Tính diện tích xung quanh của lon sữa (kết quả theo ${PI}).`,
+        tpl:`${tm('S_{xq} =')} [_]${PI} cm²`, ans:[2*r*h], fig:cylFig(`r = ${r}`,`h = ${h}`),
+        hint:`Thay ${tm('r')} và ${tm('h')} vào công thức, nhân các số và giữ nguyên ${PI}.`,
+        sol:`${tm(`S_{xq} = 2\\pi rh = 2\\pi\\cdot ${r}\\cdot ${h}`)}.<br>Vậy ${tb(`S_{xq} = ${2*r*h}\\pi`)} cm².`});
+    }
+    return QB({text:`Một thùng nước hình trụ có bán kính đáy ${r} dm, chiều cao ${h} dm. Cho biết công thức thể tích hình trụ ${tm('V = \\pi r^2 h')}. Tính thể tích thùng (kết quả theo ${PI}).`,
+      tpl:`${tm('V =')} [_]${PI} dm³`, ans:[r*r*h], fig:cylFig(`r = ${r}`,`h = ${h}`),
+      hint:`Bình phương bán kính trước, rồi nhân với chiều cao.`,
+      sol:`${tm(`V = \\pi r^2 h = \\pi\\cdot ${r}^2\\cdot ${h} = \\pi\\cdot ${r*r}\\cdot ${h}`)}.<br>Vậy ${tb(`V = ${r*r*h}\\pi`)} dm³.`});
+  }
+  if(lv===2){
+    const r = R(3,9), h = R(4,12), k = pick([0,1,2]);
+    if(k===0){
+      return QB({text:`Một bình chứa hình trụ có bán kính đáy ${r} cm và thể tích ${r*r*h}${PI} cm³. Cho biết ${tm('V = \\pi r^2 h')}. Tính chiều cao của bình.`,
+        tpl:`${tm('h =')} [_] cm`, ans:[h], fig:cylFig(`r = ${r}`,`h = ?`),
+        hint:`Viết ${tm('V = \\pi r^2 h')} với các số đã biết rồi chia hai vế cho ${tm('\\pi r^2')}.`,
+        sol:`${tm(`\\pi\\cdot ${r}^2\\cdot h = ${r*r*h}\\pi`)}, suy ra ${tm(`${r*r}h = ${r*r*h}`)}.<br>${tm(`h = ${r*r*h} : ${r*r} =`)} ${tb(h)} cm.`});
+    }
+    if(k===1){
+      return QB({text:`Một hộp bánh hình trụ có bán kính đáy ${r} cm, chiều cao ${h} cm. Cho biết diện tích toàn phần hình trụ ${tm('S_{tp} = 2\\pi rh + 2\\pi r^2')}. Tính diện tích toàn phần của hộp (kết quả theo ${PI}).`,
+        tpl:`${tm('S_{tp} =')} [_]${PI} cm²`, ans:[2*r*h+2*r*r], fig:cylFig(`r = ${r}`,`h = ${h}`),
+        hint:`Tính riêng phần xung quanh ${tm('2\\pi rh')} và hai đáy ${tm('2\\pi r^2')} rồi cộng lại.`,
+        sol:`Phần xung quanh: ${tm(`2\\pi rh = ${2*r*h}\\pi`)}.<br>Hai đáy: ${tm(`2\\pi r^2 = 2\\pi\\cdot ${r*r} = ${2*r*r}\\pi`)}.<br>${tm(`S_{tp} = ${2*r*h}\\pi + ${2*r*r}\\pi =`)} ${tb(`${2*r*h+2*r*r}\\pi`)} cm².`});
+    }
+    return QB({text:`Một ống tre hình trụ có chiều cao ${h} cm, diện tích xung quanh ${2*r*h}${PI} cm². Cho biết ${tm('S_{xq} = 2\\pi rh')}. Tính bán kính đáy của ống.`,
+      tpl:`${tm('r =')} [_] cm`, ans:[r], fig:cylFig(`r = ?`,`h = ${h}`),
+      hint:`Thay ${tm('S_{xq}')} và ${tm('h')} vào công thức, rồi chia hai vế cho ${tm('2\\pi h')}.`,
+      sol:`${tm(`2\\pi\\cdot r\\cdot ${h} = ${2*r*h}\\pi`)}, suy ra ${tm(`${2*h}r = ${2*r*h}`)}.<br>${tm(`r = ${2*r*h} : ${2*h} =`)} ${tb(r)} cm.`});
+  }
+  if(pick([0,1])===0){
+    const k = pick([2,2,3]), r1 = R(2,5), r2 = k*r1, t = R(2,7), h1 = k*k*t;
+    return QB({text:`Bình ${tm('A')} hình trụ bán kính đáy ${r1} cm đang đựng nước cao ${h1} cm. Đổ toàn bộ nước sang bình ${tm('B')} hình trụ bán kính đáy ${r2} cm (bình ${tm('B')} đủ cao, nước không tràn). Cho biết ${tm('V = \\pi r^2 h')}. Tính chiều cao mực nước trong bình ${tm('B')}.`,
+      tpl:`Chiều cao mực nước: [_] cm`, ans:[t],
+      hint:`Lượng nước không đổi khi đổ sang bình khác: thể tích nước ở bình ${tm('A')} bằng thể tích nước ở bình ${tm('B')}.`,
+      sol:`Thể tích nước: ${tm(`V = \\pi\\cdot ${r1}^2\\cdot ${h1} = ${r1*r1*h1}\\pi`)} cm³.<br>Gọi ${tm('x')} (cm) là chiều cao mực nước ở bình ${tm('B')}: ${tm(`\\pi\\cdot ${r2}^2\\cdot x = ${r1*r1*h1}\\pi`)}, tức ${tm(`${r2*r2}x = ${r1*r1*h1}`)}.<br>${tm(`x = ${r1*r1*h1} : ${r2*r2} =`)} ${tb(t)} cm.`});
+  }
+  const Rr = R(5,10), r = R(2,Rr-2), h = R(5,15);
+  return QB({text:`Một ống nước hình trụ rỗng dài ${h} cm, bán kính ngoài ${Rr} cm, bán kính trong ${r} cm. Thể tích vật liệu làm ống bằng thể tích hình trụ ngoài trừ thể tích hình trụ trong (cùng chiều dài). Cho biết ${tm('V = \\pi r^2 h')}. Tính thể tích vật liệu (kết quả theo ${PI}).`,
+    tpl:`${tm('V =')} [_]${PI} cm³`, ans:[(Rr*Rr-r*r)*h],
+    hint:`Tính thể tích hình trụ bán kính ${Rr} cm và hình trụ bán kính ${r} cm (cùng chiều cao), rồi lấy hiệu; có thể đặt ${tm('\\pi h')} làm thừa số chung.`,
+    sol:`Thể tích hình trụ ngoài: ${tm(`\\pi\\cdot ${Rr}^2\\cdot ${h} = ${Rr*Rr*h}\\pi`)}.<br>Thể tích hình trụ trong: ${tm(`\\pi\\cdot ${r}^2\\cdot ${h} = ${r*r*h}\\pi`)}.<br>Thể tích vật liệu: ${tm(`${Rr*Rr*h}\\pi - ${r*r*h}\\pi =`)} ${tb(`${(Rr*Rr-r*r)*h}\\pi`)} cm³.`});
+};
+
+/* Dạng 2. Hình nón */
+const CONE3 = [[3,4,5],[4,3,5],[6,8,10],[8,6,10],[5,12,13],[12,5,13],[9,12,15],[12,9,15],[8,15,17],[15,8,17],[12,16,20],[16,12,20]];
+const gHk2 = lv => {
+  const [r,h,l] = pick(CONE3);
+  if(lv===1){
+    if(pick([0,1])===0){
+      return QB({text:`Một chiếc mũ sinh nhật hình nón có bán kính đáy ${r} cm, chiều cao ${h} cm. Cho biết thể tích hình nón ${tm('V = \\dfrac{1}{3}\\pi r^2 h')}. Tính thể tích hình nón (kết quả theo ${PI}).`,
+        tpl:`${tm('V =')} [_]${PI} cm³`, ans:[r*r*h/3], fig:coneFig(`r = ${r}`,`h = ${h}`,''),
+        hint:`Tính ${tm('r^2 h')} trước rồi chia cho ${tm('3')}.`,
+        sol:`${tm(`V = \\dfrac{1}{3}\\pi r^2 h = \\dfrac{1}{3}\\pi\\cdot ${r}^2\\cdot ${h} = \\dfrac{${r*r*h}}{3}\\pi`)}.<br>Vậy ${tb(`V = ${r*r*h/3}\\pi`)} cm³.`});
+    }
+    return QB({text:`Một chiếc phễu hình nón có bán kính đáy ${r} cm, độ dài đường sinh ${l} cm. Cho biết diện tích xung quanh hình nón ${tm('S_{xq} = \\pi rl')}. Tính diện tích xung quanh của phễu (kết quả theo ${PI}).`,
+      tpl:`${tm('S_{xq} =')} [_]${PI} cm²`, ans:[r*l], fig:coneFig(`r = ${r}`,'',`l = ${l}`),
+      hint:`Thay bán kính đáy và đường sinh vào công thức, giữ nguyên ${PI}.`,
+      sol:`${tm(`S_{xq} = \\pi rl = \\pi\\cdot ${r}\\cdot ${l}`)}.<br>Vậy ${tb(`S_{xq} = ${r*l}\\pi`)} cm².`});
+  }
+  if(lv===2){
+    if(pick([0,1])===0){
+      return QB({text:`Một chiếc nón lá hình nón có bán kính đáy ${r} cm, chiều cao ${h} cm. Gọi ${tm('l')} là độ dài đường sinh, ta có ${tm('l^2 = r^2 + h^2')}. Cho biết ${tm('S_{xq} = \\pi rl')}. Tính diện tích phần lá phủ xung quanh nón (kết quả theo ${PI}).`,
+        tpl:`${tm('S_{xq} =')} [_]${PI} cm²`, ans:[r*l], fig:coneFig(`r = ${r}`,`h = ${h}`,`l = ?`),
+        hint:`Tính đường sinh ${tm('l')} bằng ${tm('l^2 = r^2 + h^2')} trước, rồi mới dùng công thức diện tích xung quanh.`,
+        sol:`${tm(`l^2 = ${r}^2 + ${h}^2 = ${r*r} + ${h*h} = ${l*l}`)}, suy ra ${tm(`l = ${l}`)} cm.<br>${tm(`S_{xq} = \\pi rl = \\pi\\cdot ${r}\\cdot ${l} =`)} ${tb(`${r*l}\\pi`)} cm².`});
+    }
+    return QB({text:`Một đống cát hình nón có bán kính đáy ${r} m, đường sinh ${l} m. Gọi ${tm('h')} là chiều cao, ta có ${tm('l^2 = r^2 + h^2')}. Cho biết ${tm('V = \\dfrac{1}{3}\\pi r^2 h')}. Tính thể tích đống cát (kết quả theo ${PI}).`,
+      tpl:`${tm('V =')} [_]${PI} m³`, ans:[r*r*h/3], fig:coneFig(`r = ${r}`,`h = ?`,`l = ${l}`),
+      hint:`Tìm chiều cao ${tm('h')} từ ${tm('h^2 = l^2 - r^2')} trước, rồi tính thể tích.`,
+      sol:`${tm(`h^2 = l^2 - r^2 = ${l}^2 - ${r}^2 = ${l*l} - ${r*r} = ${h*h}`)}, suy ra ${tm(`h = ${h}`)} m.<br>${tm(`V = \\dfrac{1}{3}\\pi r^2 h = \\dfrac{1}{3}\\pi\\cdot ${r*r}\\cdot ${h} =`)} ${tb(`${r*r*h/3}\\pi`)} m³.`});
+  }
+  if(pick([0,1])===0){
+    return QB({text:`Một hình nón có bán kính đáy ${r} cm và diện tích xung quanh ${r*l}${PI} cm². Cho biết ${tm('S_{xq} = \\pi rl')}, ${tm('l^2 = r^2 + h^2')} và ${tm('V = \\dfrac{1}{3}\\pi r^2 h')}. Tính thể tích hình nón (kết quả theo ${PI}).`,
+      tpl:`${tm('V =')} [_]${PI} cm³`, ans:[r*r*h/3],
+      hint:`Từ diện tích xung quanh tìm đường sinh ${tm('l')}, sau đó tìm chiều cao ${tm('h')}, cuối cùng tính thể tích.`,
+      sol:`${tm(`\\pi\\cdot ${r}\\cdot l = ${r*l}\\pi`)}, suy ra ${tm(`l = ${r*l} : ${r} = ${l}`)} cm.<br>${tm(`h^2 = l^2 - r^2 = ${l*l} - ${r*r} = ${h*h}`)}, suy ra ${tm(`h = ${h}`)} cm.<br>${tm(`V = \\dfrac{1}{3}\\pi\\cdot ${r*r}\\cdot ${h} =`)} ${tb(`${r*r*h/3}\\pi`)} cm³.`});
+  }
+  const k = R(2,4), big = pick([[216,3,4],[288,4,3]]), L = 5*k, n = big[0], rr = big[1]*k, hh = big[2]*k;
+  return QB({text:`Một tấm bìa hình quạt có bán kính ${L} cm, góc ở tâm ${n}° được cuộn lại (hai mép khít nhau) thành mặt xung quanh của một chiếc phễu hình nón (không tính đáy). Cho biết độ dài cung tròn ${tm('n^\\circ')}, bán kính ${tm('l')} là ${tm('\\dfrac{\\pi l n}{180}')} và độ dài đó bằng chu vi đáy hình nón. Tính chiều cao của phễu.`,
+    tpl:`${tm('h =')} [_] cm`, ans:[hh],
+    hint:`Cho độ dài cung bằng chu vi đáy ${tm('2\\pi r')} để tìm bán kính đáy ${tm('r')}; đường sinh chính là bán kính hình quạt, rồi dùng ${tm('h^2 = l^2 - r^2')}.`,
+    sol:`Độ dài cung: ${tm(`\\dfrac{\\pi\\cdot ${L}\\cdot ${n}}{180} = ${L*n/180}\\pi`)} cm.<br>Chu vi đáy: ${tm(`2\\pi r = ${L*n/180}\\pi`)}, suy ra ${tm(`r = ${rr}`)} cm.<br>Đường sinh ${tm(`l = ${L}`)} cm nên ${tm(`h^2 = ${L}^2 - ${rr}^2 = ${L*L} - ${rr*rr} = ${hh*hh}`)}.<br>${tm('h =')} ${tb(hh)} cm.`});
+};
+
+/* Dạng 3. Hình cầu */
+const gHk3 = lv => {
+  if(lv===1){
+    if(pick([0,1])===0){
+      const Rr = R(2,9);
+      return QB({text:`Một quả bóng hình cầu có bán kính ${Rr} cm. Cho biết diện tích mặt cầu ${tm('S = 4\\pi R^2')}. Tính diện tích mặt ngoài của quả bóng (kết quả theo ${PI}).`,
+        tpl:`${tm('S =')} [_]${PI} cm²`, ans:[4*Rr*Rr], fig:sphFig(`R = ${Rr}`),
+        hint:`Bình phương bán kính rồi nhân với ${tm('4')}.`,
+        sol:`${tm(`S = 4\\pi R^2 = 4\\pi\\cdot ${Rr}^2 = 4\\pi\\cdot ${Rr*Rr}`)}.<br>Vậy ${tb(`S = ${4*Rr*Rr}\\pi`)} cm².`});
+    }
+    const Rr = pick([3,6,9]);
+    return QB({text:`Một bể chứa hình cầu có bán kính ${Rr} m. Cho biết thể tích hình cầu ${tm('V = \\dfrac{4}{3}\\pi R^3')}. Tính thể tích bể (kết quả theo ${PI}).`,
+      tpl:`${tm('V =')} [_]${PI} m³`, ans:[4*Rr*Rr*Rr/3], fig:sphFig(`R = ${Rr}`),
+      hint:`Tính ${tm('R^3')} trước, nhân với ${tm('4')} rồi chia cho ${tm('3')}.`,
+      sol:`${tm(`V = \\dfrac{4}{3}\\pi R^3 = \\dfrac{4}{3}\\pi\\cdot ${Rr}^3 = \\dfrac{4}{3}\\pi\\cdot ${Rr*Rr*Rr}`)}.<br>Vậy ${tb(`V = ${4*Rr*Rr*Rr/3}\\pi`)} m³.`});
+  }
+  if(lv===2){
+    if(pick([0,1])===0){
+      const Rr = pick([3,6,9]);
+      return QB({text:`Một mô hình quả địa cầu có diện tích mặt ngoài ${4*Rr*Rr}${PI} cm². Cho biết ${tm('S = 4\\pi R^2')} và ${tm('V = \\dfrac{4}{3}\\pi R^3')}. Tính thể tích mô hình (kết quả theo ${PI}).`,
+        tpl:`${tm('V =')} [_]${PI} cm³`, ans:[4*Rr*Rr*Rr/3],
+        hint:`Từ ${tm('S = 4\\pi R^2')} tìm bán kính ${tm('R')} trước, rồi mới tính thể tích.`,
+        sol:`${tm(`4\\pi R^2 = ${4*Rr*Rr}\\pi`)}, suy ra ${tm(`R^2 = ${Rr*Rr}`)}, nên ${tm(`R = ${Rr}`)} cm.<br>${tm(`V = \\dfrac{4}{3}\\pi\\cdot ${Rr}^3 = \\dfrac{4}{3}\\pi\\cdot ${Rr*Rr*Rr} =`)} ${tb(`${4*Rr*Rr*Rr/3}\\pi`)} cm³.`});
+    }
+    const Rr = pick([3,6,9]), V = 4*Rr*Rr*Rr/3;
+    return QB({text:`Một viên bi hình cầu có thể tích ${V}${PI} cm³. Cho biết ${tm('V = \\dfrac{4}{3}\\pi R^3')} và ${tm('S = 4\\pi R^2')}. Tính diện tích mặt ngoài của viên bi (kết quả theo ${PI}).`,
+      tpl:`${tm('S =')} [_]${PI} cm²`, ans:[4*Rr*Rr],
+      hint:`Từ thể tích suy ra ${tm('R^3')}, tìm ${tm('R')} (số mà lập phương bằng ${tm('R^3')}), sau đó tính diện tích.`,
+      sol:`${tm(`\\dfrac{4}{3}\\pi R^3 = ${V}\\pi`)}, suy ra ${tm(`R^3 = \\dfrac{3\\cdot ${V}}{4} = ${Rr*Rr*Rr} = ${Rr}^3`)}, nên ${tm(`R = ${Rr}`)} cm.<br>${tm(`S = 4\\pi\\cdot ${Rr}^2 =`)} ${tb(`${4*Rr*Rr}\\pi`)} cm².`});
+  }
+  if(pick([0,1])===0){
+    const [Rr, r, dh] = pick([[3,3,4],[3,6,1],[6,6,8],[6,12,2],[9,9,12],[9,18,3]]), V = 4*Rr*Rr*Rr/3;
+    return QB({text:`Một bình thủy tinh hình trụ có bán kính đáy ${r} cm đang chứa nước. Thả chìm hoàn toàn một viên bi sắt hình cầu bán kính ${Rr} cm vào bình (nước không tràn ra ngoài). Cho biết ${tm('V_{\\text{cầu}} = \\dfrac{4}{3}\\pi R^3')} và ${tm('V_{\\text{trụ}} = \\pi r^2 h')}. Mực nước trong bình dâng thêm bao nhiêu centimet?`,
+      tpl:`Mực nước dâng thêm: [_] cm`, ans:[dh],
+      hint:`Thể tích nước dâng thêm trong bình trụ chính bằng thể tích viên bi: coi phần nước dâng là hình trụ bán kính ${r} cm, chiều cao ${tm('x')}.`,
+      sol:`Thể tích viên bi: ${tm(`\\dfrac{4}{3}\\pi\\cdot ${Rr}^3 = ${V}\\pi`)} cm³.<br>Phần nước dâng thêm là hình trụ bán kính ${r} cm, chiều cao ${tm('x')}: ${tm(`\\pi\\cdot ${r}^2\\cdot x = ${V}\\pi`)}, tức ${tm(`${r*r}x = ${V}`)}.<br>${tm(`x = ${V} : ${r*r} =`)} ${tb(dh)} cm.`});
+  }
+  const k = pick([8,27]), c = k===8 ? 2 : 3, r = R(1,5), Rr = c*r;
+  return QB({text:`Người ta nung chảy ${k} viên bi sắt hình cầu có cùng bán kính ${r} cm rồi đúc lại thành một viên bi lớn hình cầu (không hao hụt). Cho biết ${tm('V = \\dfrac{4}{3}\\pi R^3')}. Tính bán kính viên bi lớn.`,
+    tpl:`${tm('R =')} [_] cm`, ans:[Rr],
+    hint:`Thể tích sắt không đổi: thể tích viên bi lớn bằng ${k} lần thể tích một viên bi nhỏ. Rút gọn ${tm('\\dfrac{4}{3}\\pi')} ở hai vế.`,
+    sol:`Thể tích ${k} viên nhỏ: ${tm(`${k}\\cdot\\dfrac{4}{3}\\pi\\cdot ${r}^3`)}; viên lớn: ${tm('\\dfrac{4}{3}\\pi R^3')}.<br>Hai thể tích bằng nhau nên ${tm(`R^3 = ${k}\\cdot ${r}^3 = ${k*r*r*r} = ${Rr}^3`)}.<br>Vậy ${tm('R =')} ${tb(Rr)} cm.`});
+};
+
+/* Dạng 4. Hình hộp, lăng trụ, hình chóp đều */
+const PYR3 = [[3,4,5],[4,3,5],[6,8,10],[5,12,13],[12,5,13],[9,12,15],[12,9,15]];
+const CUBE_OK = [[8,8,4,1],[4,8,4,2],[6,6,6,6],[9,8,6,3],[12,6,6,3],[12,18,6,1],[20,10,10,5],[25,20,10,2],[10,10,10,10]];
+const gHk4 = lv => {
+  if(lv===1){
+    const a = R(4,12), b = R(3,9), c = R(3,8);
+    if(pick([0,1])===0){
+      return QB({text:`Một bể cá hình hộp chữ nhật có chiều dài ${a} dm, chiều rộng ${b} dm, chiều cao ${c} dm. Cho biết thể tích hình hộp chữ nhật ${tm('V = abc')} và ${tm('1\\ \\text{dm}^3 = 1')} lít. Bể chứa được tối đa bao nhiêu lít nước?`,
+        tpl:`Thể tích: [_] lít`, ans:[a*b*c], fig:boxFig(`${a} dm`,`${b} dm`,`${c} dm`),
+        hint:`Nhân ba kích thước (cùng đơn vị dm) để được thể tích tính bằng dm³, mỗi dm³ là một lít.`,
+        sol:`${tm(`V = abc = ${a}\\cdot ${b}\\cdot ${c} = ${a*b*c}`)} dm³.<br>Vì ${tm('1\\ \\text{dm}^3 = 1')} lít nên bể chứa được ${tb(a*b*c)} lít nước.`});
+    }
+    return QB({text:`Một hộp quà hình hộp chữ nhật có chiều dài ${a} cm, chiều rộng ${b} cm, chiều cao ${c} cm. Cho biết diện tích toàn phần ${tm('S_{tp} = 2(ab + bc + ca)')}. Tính diện tích giấy gói vừa đủ bọc kín hộp (bỏ qua mép dán).`,
+      tpl:`${tm('S_{tp} =')} [_] cm²`, ans:[2*(a*b+b*c+c*a)], fig:boxFig(`${a} cm`,`${b} cm`,`${c} cm`),
+      hint:`Tính ba tích đôi một ${tm('ab,\\ bc,\\ ca')}, cộng lại rồi nhân với ${tm('2')}.`,
+      sol:`${tm(`ab = ${a*b},\\ bc = ${b*c},\\ ca = ${c*a}`)}.<br>${tm(`S_{tp} = 2(${a*b} + ${b*c} + ${c*a}) = 2\\cdot ${a*b+b*c+c*a} =`)} ${tb(2*(a*b+b*c+c*a))} cm².`});
+  }
+  if(lv===2){
+    if(pick([0,1])===0){
+      const [hf,h] = pick(PYR3), a = 2*hf;
+      return QB({text:`Một mô hình kim tự tháp là hình chóp tứ giác đều có cạnh đáy ${a} cm, chiều cao ${h} cm. Cho biết thể tích hình chóp ${tm('V = \\dfrac{1}{3}S_{\\text{đáy}}\\cdot h')}. Tính thể tích mô hình.`,
+        tpl:`${tm('V =')} [_] cm³`, ans:[a*a*h/3], fig:pyrFig(`${a} cm`,`${h} cm`,''),
+        hint:`Đáy là hình vuông cạnh ${a} cm nên ${tm('S_{\\text{đáy}} = a^2')}; nhân với chiều cao rồi chia ${tm('3')}.`,
+        sol:`Diện tích đáy: ${tm(`S_{\\text{đáy}} = ${a}^2 = ${a*a}`)} cm².<br>${tm(`V = \\dfrac{1}{3}\\cdot ${a*a}\\cdot ${h} =`)} ${tb(a*a*h/3)} cm³.`});
+    }
+    let p, q, H; do{ p = R(2,9); q = R(2,9); H = R(3,10); }while((p*q*H)%2!==0);
+    return QB({text:`Một chiếc lều có dạng lăng trụ đứng, đáy là tam giác vuông có hai cạnh góc vuông ${p} m và ${q} m, chiều dài lều (chiều cao lăng trụ) ${H} m. Cho biết thể tích lăng trụ ${tm('V = S_{\\text{đáy}}\\cdot h')}. Tính thể tích không khí trong lều.`,
+      tpl:`${tm('V =')} [_] m³`, ans:[p*q*H/2],
+      hint:`Diện tích đáy tam giác vuông bằng nửa tích hai cạnh góc vuông; nhân với chiều dài lều.`,
+      sol:`Diện tích đáy: ${tm(`S_{\\text{đáy}} = \\dfrac{1}{2}\\cdot ${p}\\cdot ${q} = ${p*q/2}`)} m².<br>${tm(`V = S_{\\text{đáy}}\\cdot h = ${p*q/2}\\cdot ${H} =`)} ${tb(p*q*H/2)} m³.`});
+  }
+  if(pick([0,1])===0){
+    const [hf,h,d] = pick(PYR3), a = 2*hf, g = pick([50,60,80,100,120]), S = 2*a*d;
+    return QB({text:`Mái của một ngôi đình có dạng hình chóp tứ giác đều (không tính đáy) với cạnh đáy ${a} m và chiều cao ${h} m. Gọi ${tm('d')} là trung đoạn (đường cao của một mặt bên), ${tm('d')} là cạnh huyền của tam giác vuông có hai cạnh góc vuông là ${tm('h')} và nửa cạnh đáy. Cho biết ${tm('S_{xq} = p\\cdot d')} với ${tm('p')} là nửa chu vi đáy. Lợp mái giá ${g} nghìn đồng mỗi mét vuông, tính tiền lợp mái (đơn vị: nghìn đồng).`,
+      tpl:`Chi phí: [_] nghìn đồng`, ans:[S*g], fig:pyrFig(`${a} m`,`${h} m`,'d'),
+      hint:`Tìm trung đoạn ${tm('d')} bằng định lí Pythagore với hai cạnh góc vuông ${tm('h')} và ${tm('\\dfrac{a}{2}')}; nửa chu vi đáy là ${tm('2a')}; nhân diện tích với giá tiền.`,
+      sol:`${tm(`d^2 = ${h}^2 + ${hf}^2 = ${h*h} + ${hf*hf} = ${d*d}`)}, suy ra ${tm(`d = ${d}`)} m.<br>Nửa chu vi đáy: ${tm(`p = 2a = ${2*a}`)} m. Diện tích mái: ${tm(`S_{xq} = ${2*a}\\cdot ${d} = ${S}`)} m².<br>Chi phí: ${tm(`${S}\\cdot ${g} =`)} ${tb(S*g)} nghìn đồng.`});
+  }
+  const [a,b,c,dh] = pick(CUBE_OK);
+  return QB({text:`Một bể nước hình hộp chữ nhật có đáy là hình chữ nhật ${a} cm × ${b} cm, đang chứa nước. Thả chìm hoàn toàn một khối sắt hình lập phương cạnh ${c} cm vào bể (nước không tràn). Cho biết thể tích hình lập phương ${tm('V = c^3')}. Mực nước trong bể dâng thêm bao nhiêu centimet?`,
+    tpl:`Mực nước dâng thêm: [_] cm`, ans:[dh],
+    hint:`Nước dâng thêm chiếm một khối hộp có đáy ${a} cm × ${b} cm; thể tích khối đó bằng thể tích khối sắt.`,
+    sol:`Thể tích khối sắt: ${tm(`V = ${c}^3 = ${c*c*c}`)} cm³.<br>Gọi ${tm('x')} (cm) là mực nước dâng thêm: ${tm(`${a}\\cdot ${b}\\cdot x = ${c*c*c}`)}, tức ${tm(`${a*b}x = ${c*c*c}`)}.<br>${tm(`x = ${c*c*c} : ${a*b} =`)} ${tb(dh)} cm.`});
+};
+
+/* Dạng 5. Hình ghép và bài toán thể tích */
+const gHk5 = lv => {
+  if(lv===1){
+    const r = R(2,6), H = R(3,10), h2 = 3*R(1,4);
+    return QB({text:`Một kho chứa thóc gồm phần thân hình trụ bán kính đáy ${r} m, chiều cao ${H} m và mái hình nón cùng bán kính đáy, chiều cao ${h2} m. Cho biết ${tm('V_{\\text{trụ}} = \\pi r^2 h')} và ${tm('V_{\\text{nón}} = \\dfrac{1}{3}\\pi r^2 h')}. Tính thể tích của kho (kết quả theo ${PI}).`,
+      tpl:`${tm('V =')} [_]${PI} m³`, ans:[r*r*H + r*r*h2/3], fig:siloFig(`r = ${r}`,`${H} m`,`${h2} m`),
+      hint:`Thể tích kho bằng thể tích phần trụ cộng thể tích phần nón.`,
+      sol:`Phần trụ: ${tm(`\\pi\\cdot ${r}^2\\cdot ${H} = ${r*r*H}\\pi`)}.<br>Phần nón: ${tm(`\\dfrac{1}{3}\\pi\\cdot ${r}^2\\cdot ${h2} = ${r*r*h2/3}\\pi`)}.<br>${tm(`V = ${r*r*H}\\pi + ${r*r*h2/3}\\pi =`)} ${tb(`${r*r*H + r*r*h2/3}\\pi`)} m³.`});
+  }
+  if(lv===2){
+    const r = pick([3,3,6]), h = R(4,12), v1 = r*r*h/3, v2 = 2*r*r*r/3;
+    return QB({text:`Một chiếc kem ốc quế gồm phần ốc quế hình nón bán kính đáy ${r} cm, chiều cao ${h} cm và phần kem phía trên là nửa hình cầu bán kính ${r} cm (kem đầy ốc quế). Cho biết ${tm('V_{\\text{nón}} = \\dfrac{1}{3}\\pi r^2 h')} và ${tm('V_{\\text{cầu}} = \\dfrac{4}{3}\\pi R^3')}. Tính thể tích cả chiếc kem (kết quả theo ${PI}).`,
+      tpl:`${tm('V =')} [_]${PI} cm³`, ans:[v1+v2], fig:iceFig(`r = ${r}`,`h = ${h}`),
+      hint:`Nửa hình cầu có thể tích bằng một nửa thể tích hình cầu cùng bán kính; cộng với thể tích hình nón.`,
+      sol:`Hình nón: ${tm(`\\dfrac{1}{3}\\pi\\cdot ${r}^2\\cdot ${h} = ${v1}\\pi`)}.<br>Nửa hình cầu: ${tm(`\\dfrac{1}{2}\\cdot\\dfrac{4}{3}\\pi\\cdot ${r}^3 = \\dfrac{2}{3}\\pi\\cdot ${r*r*r} = ${v2}\\pi`)}.<br>${tm(`V = ${v1}\\pi + ${v2}\\pi =`)} ${tb(`${v1+v2}\\pi`)} cm³.`});
+  }
+  if(pick([0,1])===0){
+    const r = pick([3,6]), h = R(2,8), N = r*r*h + 4*r*r*r/3;
+    return QB({text:`Một bồn chứa khí gồm phần giữa là hình trụ bán kính đáy ${r} m, chiều dài ${tm('h')} m, hai đầu là hai nửa hình cầu bán kính ${r} m. Thể tích cả bồn là ${N}${PI} m³. Cho biết ${tm('V_{\\text{trụ}} = \\pi r^2 h')} và ${tm('V_{\\text{cầu}} = \\dfrac{4}{3}\\pi R^3')}. Tính chiều dài ${tm('h')} của phần trụ.`,
+      tpl:`${tm('h =')} [_] m`, ans:[h], fig:capFig(`r = ${r}`,'h = ?'),
+      hint:`Hai nửa hình cầu ghép lại thành một hình cầu bán kính ${r} m; thể tích bồn bằng thể tích hình trụ cộng thể tích hình cầu đó.`,
+      sol:`Hai nửa cầu ghép thành một hình cầu: ${tm(`\\dfrac{4}{3}\\pi\\cdot ${r}^3 = ${4*r*r*r/3}\\pi`)}.<br>Thể tích phần trụ: ${tm(`\\pi\\cdot ${r}^2\\cdot h = ${r*r}\\pi h`)}.<br>Theo đề: ${tm(`${r*r}\\pi h + ${4*r*r*r/3}\\pi = ${N}\\pi`)}, suy ra ${tm(`${r*r}h = ${N} - ${4*r*r*r/3} = ${r*r*h}`)}.<br>${tm('h =')} ${tb(h)} m.`});
+  }
+  const r = pick([3,6,9]), h = R(3,9), V = 2*r*r*h/3;
+  return QB({text:`Từ một khối gỗ hình trụ bán kính đáy ${r} cm, chiều cao ${h} cm, người ta khoét bỏ một phần hình nón có cùng đáy và cùng chiều cao với khối trụ. Cho biết ${tm('V_{\\text{trụ}} = \\pi r^2 h')} và ${tm('V_{\\text{nón}} = \\dfrac{1}{3}\\pi r^2 h')}. Tính thể tích phần gỗ còn lại (kết quả theo ${PI}).`,
+    tpl:`${tm('V =')} [_]${PI} cm³`, ans:[V],
+    hint:`Phần còn lại bằng thể tích hình trụ trừ thể tích hình nón khoét đi.`,
+    sol:`Hình trụ: ${tm(`\\pi\\cdot ${r}^2\\cdot ${h} = ${r*r*h}\\pi`)}.<br>Hình nón khoét: ${tm(`\\dfrac{1}{3}\\pi\\cdot ${r}^2\\cdot ${h} = ${r*r*h/3}\\pi`)}.<br>${tm(`V = ${r*r*h}\\pi - ${r*r*h/3}\\pi =`)} ${tb(`${V}\\pi`)} cm³.`});
+};
+
+lesson(6,'on-thi-hinh-khong-gian','Hình học 4. Hình không gian thực tế (công thức cho sẵn)','Ôn tuyển sinh: hình trụ; hình nón (kể cả hình quạt cuộn thành nón); hình cầu (thả vật, nung chảy); hình hộp, lăng trụ, chóp đều; hình ghép (kho, kem ốc quế, bồn chứa).',[gHk1,gHk2,gHk3,gHk4,gHk5], {intro:[
+  {t:`Công thức thường cho sẵn trong đề`, b:`<ul><li>Hình trụ (bán kính đáy ${tm('r')}, chiều cao ${tm('h')}): ${tm('S_{xq} = 2\\pi rh')}; ${tm('S_{tp} = 2\\pi rh + 2\\pi r^2')}; ${tm('V = \\pi r^2 h')}.</li><li>Hình nón (đường sinh ${tm('l')}): ${tm('S_{xq} = \\pi rl')}; ${tm('V = \\dfrac{1}{3}\\pi r^2 h')}; ${tm('l^2 = r^2 + h^2')}.</li><li>Hình cầu: ${tm('S = 4\\pi R^2')}; ${tm('V = \\dfrac{4}{3}\\pi R^3')}.</li><li>Lăng trụ: ${tm('V = S_{\\text{đáy}}\\cdot h')}. Hình chóp: ${tm('V = \\dfrac{1}{3}S_{\\text{đáy}}\\cdot h')}; chóp đều ${tm('S_{xq} = p\\cdot d')} (${tm('p')} là nửa chu vi đáy, ${tm('d')} là trung đoạn).</li></ul>`, warn:`Đề cho công thức nhưng <b>không nhắc</b> đổi đơn vị: kiểm tra đề cho đường kính hay bán kính (${tm('r = \\dfrac{d}{2}')}), đường sinh ${tm('l')} hay chiều cao ${tm('h')} trước khi thay số.`, ex:`Trước khi tính, gạch chân và ghi ra giấy nháp các đại lượng ${tm('r,\\ h,\\ l')}; chỉ thay số sau khi chắc từng đại lượng đúng tên.`},
+  {t:`Quy trình giải bài hình không gian thực tế`, b:`<ol><li>Xác định hình (hoặc các hình ghép) và đại lượng cần tính: diện tích hay thể tích.</li><li>Tìm đại lượng còn thiếu (đường sinh bằng Pythagore, bán kính từ diện tích hoặc thể tích).</li><li>Thay vào công thức, <b>giữ nguyên ${tm('\\pi')}</b> nếu đề cho kết quả theo ${tm('\\pi')}.</li><li>Đổi đơn vị: ${tm('1\\ \\text{dm}^3 = 1')} lít; ${tm('1\\ \\text{m}^3 = 1000')} lít.</li></ol>`, warn:`Diện tích tính bằng đơn vị bình phương (cm², m²), thể tích tính bằng đơn vị lập phương (cm³, m³); ghi sai đơn vị mất điểm. Hình ghép: cộng thể tích các phần, không cộng nhầm phần chung.`, ex:`Bài ngược (cho thể tích hay diện tích, tìm bán kính, chiều cao) chỉ là phương trình bậc nhất: thay số vào công thức rồi <b>rút gọn ${tm('\\pi')}</b> hai vế.`},
+  {t:`Đổ nước, thả vật, nung chảy: thể tích không đổi`, b:`<ul><li>Đổ nước từ bình này sang bình khác: ${tm('V_{\\text{trước}} = V_{\\text{sau}}')}.</li><li>Thả chìm vật vào bình: thể tích nước dâng thêm = thể tích vật = (diện tích đáy bình) ${tm('\\times')} (mực nước dâng).</li><li>Nung chảy rồi đúc lại: tổng thể tích các phần cũ bằng thể tích vật mới.</li></ul>`, warn:`Mực nước dâng thêm tính bằng thể tích vật chia cho <b>diện tích đáy của bình</b> (không phải đáy của vật). Chỉ dùng được khi vật chìm hoàn toàn và nước không tràn.`, ex:`Viết ngay một phương trình “thể tích = thể tích” với ẩn là đại lượng cần tìm; ${tm('\\pi')} hoặc ${tm('\\dfrac{4}{3}\\pi')} ở hai vế thường rút gọn được.`}
+]});
+}
+
 })();
 
 </script>
