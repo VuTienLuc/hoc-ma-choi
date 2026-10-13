@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-13 – Ôn thi vào 10, chủ đề 7: Đại số 6. Thực tế lập hệ phương trình (vận dụng cao)
+
+- **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề ôn thi vào lớp 10 kế tiếp (chủ đề 7), trọn bộ học sinh + bài giảng + phiếu luyện tập 2 trang A4.
+- **Kết quả:** (A) Bài `on-thi-he-phuong-trinh-thuc-te` (chương 6 `data/lop9.js`), 5 dạng × 3 mức, số liệu sinh ngẫu nhiên, nghiệm nguyên, lời giải cộng đại số từng bước (hàm `hSolve`): gHe1 mua hàng · vé · khuyến mãi · gHe2 gà–thỏ, chuyển kho, chữ số, chia có dư · gHe3 chuyển động (ngược chiều, xuôi–ngược dòng, đuổi kịp, đường nhựa – đường đất) · gHe4 công việc – năng suất (mức 3 đặt ẩn phụ 1/x) · gHe5 vượt mức, tăng–giảm %, dung dịch; có thẻ Kiến thức – Lưu ý – Mẹo (3 mục). (B) Bài giảng cùng mã (title, 3 kt, 5 method + 5 vd, sum). (C) Phiếu luyện tập 10 bài (7 cơ bản + 3 ★), in đúng 2 trang A4 cả bản học sinh lẫn bản lời giải (đã xuất PDF và xem ảnh).
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`.
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_baigiang.py lop9` → ĐẠT (chiếu 606 trang, không tràn); `python3 tools/test_phieu_tren_lop.py` → ĐẠT (37/37); `python3 tools/build.py` → ĐẠT; PDF phiếu đo bằng `pdfinfo`: 2 trang (đề) và 2 trang (lời giải).
+- **Việc thủ công:** Thầy đối chiếu độ khó câu đặt ẩn phụ 1/x (công việc) với đề minh họa của Sở; chủ đề kế tiếp: 8 Hình học 7a.
+
 ### 2026-10-12 – Ôn thi vào 10, chủ đề 6: Hình học 4. Hình không gian thực tế (công thức cho sẵn)
 
 - **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề ôn thi vào lớp 10 kế tiếp (chủ đề 6), trọn bộ học sinh + bài giảng + phiếu luyện tập 2 trang A4.

@@ -2472,4 +2472,209 @@ lesson(6,'on-thi-hinh-khong-gian','Hình học 4. Hình không gian thực tế 
 ]});
 }
 
+
+/* =====================================================================
+   ÔN THI VÀO 10 – Đại số 6. Thực tế lập hệ phương trình (vận dụng cao)
+   Dạng 1 mua hàng, vé, khuyến mãi · Dạng 2 số học, gà–thỏ, chuyển kho, chữ số
+   Dạng 3 chuyển động (gặp nhau, xuôi–ngược dòng, đuổi kịp, đường nhựa–đường đất)
+   Dạng 4 công việc – năng suất · Dạng 5 phần trăm, tăng–giảm, dung dịch
+   Mọi hệ đều có nghiệm nguyên; lời giải dùng phương pháp cộng đại số, chia từng bước.
+   ===================================================================== */
+{
+const heq = (a,b,c,vx='x',vy='y') => `${tpoly([a,vx],[b,vy])} = ${c}`;
+const hdk = () => tm('x \\gt 0,\\ y \\gt 0');
+/* Giải hệ hai phương trình bậc nhất hai ẩn bằng cộng đại số; trả về lời giải (HTML) và nghiệm */
+const hSolve = (a1,b1,c1,a2,b2,c2,vx='x',vy='y') => {
+  const mu = (u,v) => { const L = lcm(Math.abs(u),Math.abs(v)); return [L/Math.abs(u), L/Math.abs(v)]; };
+  const [mx1,mx2] = mu(a1,a2), [my1,my2] = mu(b1,b2);
+  const byX = (mx1+mx2) <= (my1+my2);
+  const [p1,q1,p2,q2,vp,vq] = byX ? [a1,b1,a2,b2,vx,vy] : [b1,a1,b2,a2,vy,vx];
+  const [m1,m2] = byX ? [mx1,mx2] : [my1,my2];
+  const sub = (m1*p1 === m2*p2);
+  const t1 = m1*q1, t2 = m2*q2, r1 = m1*c1, r2 = m2*c2;
+  const Q = sub ? t1-t2 : t1+t2, RR = sub ? r1-r2 : r1+r2;
+  if(!Q || RR % Q) throw new Error('hSolve: nghiệm không nguyên');
+  const vqv = RR/Q, N = c1 - q1*vqv;
+  if(N % p1) throw new Error('hSolve: nghiệm không nguyên');
+  const vpv = N/p1, X = byX ? vpv : vqv, Y = byX ? vqv : vpv;
+  const lines = [`Giải hệ phương trình: ${td(tsys([heq(a1,b1,c1,vx,vy), heq(a2,b2,c2,vx,vy)], true))}`];
+  if(m1===1 && m2===1) lines.push(`Hệ số của ${tm(vp)} ở hai phương trình ${sub?'bằng nhau':'đối nhau'}, nên ta ${sub?'trừ':'cộng'} vế theo vế (1) và (2).`);
+  else {
+    const nh = m1!==1 && m2!==1 ? `Nhân hai vế của (1) với ${m1} và hai vế của (2) với ${m2}` : m1!==1 ? `Nhân hai vế của (1) với ${m1}` : `Nhân hai vế của (2) với ${m2}`;
+    lines.push(`${nh} để hệ số của ${tm(vp)} ${sub?'bằng nhau':'đối nhau'}: ${td(tsys([heq(m1*a1,m1*b1,m1*c1,vx,vy), heq(m2*a2,m2*b2,m2*c2,vx,vy)], true))}`);
+    lines.push(`${sub?'Trừ':'Cộng'} vế theo vế hai phương trình vừa nhận được.`);
+  }
+  lines.push(`${tm(`(${t1} ${sub?'-':'+'} ${tp(t2)})${vq} = ${r1} ${sub?'-':'+'} ${tp(r2)}`)}, tức ${tm(`${tpoly([Q,vq])} = ${RR}`)}, suy ra ${tm(`${vq} = ${Q===1?RR:`${RR} : ${tp(Q)}`} = ${vqv}`)}.`);
+  const pc = p1===1 ? '' : p1===-1 ? '-' : String(p1);
+  lines.push(`Thay ${tm(`${vq} = ${vqv}`)} vào (1): ${tm(`${pc}${vp} = ${c1} - ${tp(q1)}\\cdot ${tp(vqv)} = ${N}`)}, suy ra ${tm(`${vp} = ${p1===1?N:`${N} : ${tp(p1)}`} = ${vpv}`)}.`);
+  lines.push(`Hệ có nghiệm ${tm(`${vx} = ${X}`)}, ${tm(`${vy} = ${Y}`)}.`);
+  return {txt: lines.join('<br>'), X, Y};
+};
+const hChk = (r, X, Y) => { if(r.X !== X || r.Y !== Y) throw new Error(`hSolve lệch nghiệm: ${r.X},${r.Y} ≠ ${X},${Y}`); return r.txt; };
+const hDet = (a1,b1,a2,b2) => a1*b2 - a2*b1;
+
+/* Dạng 1. Mua hàng, vé, khuyến mãi */
+const gHe1 = lv => {
+  if(lv===1){
+    let a1,b1,a2,b2; do{ a1=R(1,5); b1=R(1,5); a2=R(2,6); b2=R(1,6); }while(hDet(a1,b1,a2,b2)===0);
+    const p = R(3,12), q = R(8,25), S1 = a1*p+b1*q, S2 = a2*p+b2*q, askQ = R(0,1)===1;
+    const r = hSolve(a1,b1,S1,a2,b2,S2);
+    return QB({text:`Bạn Lan mua ${a1} cái bút và ${b1} quyển vở hết ${S1} nghìn đồng. Bạn Mai mua ${a2} cái bút và ${b2} quyển vở cùng loại hết ${S2} nghìn đồng. Tính giá tiền một ${askQ?'quyển vở':'cái bút'}.`,
+      tpl:`Giá một ${askQ?'quyển vở':'cái bút'}: [_] nghìn đồng`, ans:[askQ?q:p],
+      hint:`Gọi ${tm('x')} là giá một cái bút, ${tm('y')} là giá một quyển vở. Mỗi lần mua cho một phương trình “số lượng × giá + số lượng × giá = tổng tiền”; giải hệ hai phương trình.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (nghìn đồng, ${hdk()}) lần lượt là giá một cái bút và một quyển vở.<br>Lan mua: ${tm(heq(a1,b1,S1))} (1). Mai mua: ${tm(heq(a2,b2,S2))} (2).<br>${hChk(r,p,q)}<br>Cả hai giá trị đều dương, thỏa điều kiện. Giá một ${askQ?'quyển vở':'cái bút'} là ${tb(askQ?q:p)} nghìn đồng.`});
+  }
+  if(lv===2){
+    let a1,b1,a2,b2; do{ a1=R(2,9); b1=R(2,9); a2=R(2,9); b2=R(2,9); }while(hDet(a1,b1,a2,b2)===0);
+    const x = pick([40,45,50,60,70,80,90]), y = pick([20,25,30,35,40]), c = R(2,4), d = R(1,4), S1 = a1*x+b1*y, S2 = a2*x+b2*y, T = c*x+d*y;
+    const r = hSolve(a1,b1,S1,a2,b2,S2);
+    return QB({text:`Một rạp chiếu phim bán vé người lớn và vé trẻ em. Buổi sáng bán ${a1} vé người lớn và ${b1} vé trẻ em, thu ${S1} nghìn đồng; buổi chiều bán ${a2} vé người lớn và ${b2} vé trẻ em, thu ${S2} nghìn đồng (giá vé không đổi). Một gia đình mua ${c} vé người lớn và ${d} vé trẻ em thì phải trả bao nhiêu nghìn đồng?`,
+      tpl:`Số tiền phải trả: [_] nghìn đồng`, ans:[T],
+      hint:`Đừng vội trả lời: trước hết tìm giá một vé người lớn ${tm('x')} và giá một vé trẻ em ${tm('y')} bằng hệ phương trình, sau đó mới tính tiền của gia đình.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (nghìn đồng, ${hdk()}) lần lượt là giá một vé người lớn và một vé trẻ em.<br>Buổi sáng: ${tm(heq(a1,b1,S1))} (1). Buổi chiều: ${tm(heq(a2,b2,S2))} (2).<br>${hChk(r,x,y)}<br>Giá vé người lớn ${x} nghìn đồng, vé trẻ em ${y} nghìn đồng.<br>Gia đình phải trả: ${tm(`${c}\\cdot ${x} + ${d}\\cdot ${y} = ${c*x} + ${d*y} =`)} ${tb(T)} nghìn đồng.`});
+  }
+  let a,b,c,d,x,y,S2,S1;
+  do{ a=R(1,4); b=R(1,4); c=R(1,4); d=R(1,4); x=R(5,20)*10; y=R(5,30)*5; }while(hDet(a,b,9*c,8*d)===0);
+  S2 = a*x + b*y; S1 = (9*c*x + 8*d*y)/10;
+  const askA = R(0,1)===1, r = hSolve(a,b,S2,9*c,8*d,10*S1);
+  return QB({text:`Một cửa hàng bán hai mặt hàng ${tm('A')} và ${tm('B')}. Theo giá niêm yết, mua ${a} món ${tm('A')} và ${b} món ${tm('B')} hết ${S2} nghìn đồng. Trong tuần khuyến mãi, món ${tm('A')} được giảm 10%, món ${tm('B')} được giảm 20% so với giá niêm yết; khi đó mua ${c} món ${tm('A')} và ${d} món ${tm('B')} hết ${S1} nghìn đồng. Tính giá niêm yết của một món ${tm(askA?'A':'B')} (nghìn đồng).`,
+    tpl:`Giá niêm yết món ${tm(askA?'A':'B')}: [_] nghìn đồng`, ans:[askA?x:y],
+    hint:`Gọi ${tm('x')}, ${tm('y')} là giá niêm yết của một món ${tm('A')}, ${tm('B')}. Giảm 10% thì giá mới bằng 90% giá cũ; giảm 20% thì bằng 80%. Lập phương trình cho từng cách mua, rồi nhân hai vế để bỏ số thập phân.`,
+    sol:`Gọi ${tm('x')}, ${tm('y')} (nghìn đồng, ${hdk()}) lần lượt là giá niêm yết một món ${tm('A')}, ${tm('B')}.<br>Giá niêm yết: ${tm(heq(a,b,S2))} (1).<br>Khuyến mãi: món ${tm('A')} còn 90% giá, tức ${tm('0{,}9x')}; món ${tm('B')} còn 80% giá, tức ${tm('0{,}8y')}. Ta có ${tm(`${c}\\cdot 0{,}9x + ${d}\\cdot 0{,}8y = ${S1}`)}. Nhân hai vế với 10: ${tm(heq(9*c,8*d,10*S1))} (2).<br>${hChk(r,x,y)}<br>Giá niêm yết một món ${tm(askA?'A':'B')} là ${tb(askA?x:y)} nghìn đồng.`});
+};
+
+/* Dạng 2. Số học, gà – thỏ, chuyển kho, chữ số */
+const gHe2 = lv => {
+  if(lv===1){
+    const cx = R(8,40), cy = R(5,30), S = cx+cy, C = 2*cx+4*cy, askY = R(0,1)===1;
+    const r = hSolve(1,1,S,2,4,C);
+    return QB({text:`Một bãi giữ xe có xe máy (2 bánh) và ô tô (4 bánh). Tổng số xe là ${S} chiếc và tổng số bánh xe là ${C} bánh. Hỏi bãi có bao nhiêu ${askY?'ô tô':'xe máy'}?`,
+      tpl:`Số ${askY?'ô tô':'xe máy'}: [_] chiếc`, ans:[askY?cy:cx],
+      hint:`Gọi ${tm('x')} là số xe máy, ${tm('y')} là số ô tô. Một phương trình theo tổng số xe, một phương trình theo tổng số bánh.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (chiếc, nguyên dương) lần lượt là số xe máy và số ô tô.<br>Tổng số xe: ${tm(heq(1,1,S))} (1). Tổng số bánh: ${tm(heq(2,4,C))} (2).<br>${hChk(r,cx,cy)}<br>Các giá trị đều nguyên dương, thỏa đề. Bãi có ${tb(askY?cy:cx)} ${askY?'ô tô':'xe máy'}.`});
+  }
+  if(lv===2){
+    const k = pick([2,3]), t = R(10,30), x = R(80,200), y = k*(x-t) - t, S = x+y, askA = R(0,1)===1;
+    const r = hSolve(1,1,S,k,-1,(k+1)*t);
+    return QB({text:`Hai kho gạo ${tm('A')} và ${tm('B')} chứa tất cả ${S} tấn gạo. Nếu chuyển ${t} tấn từ kho ${tm('A')} sang kho ${tm('B')} thì lượng gạo ở kho ${tm('B')} gấp ${k} lần lượng gạo còn lại ở kho ${tm('A')}. Hỏi lúc đầu kho ${tm(askA?'A':'B')} chứa bao nhiêu tấn gạo?`,
+      tpl:`Kho ${tm(askA?'A':'B')}: [_] tấn`, ans:[askA?x:y],
+      hint:`Gọi ${tm('x')}, ${tm('y')} là lượng gạo lúc đầu của kho ${tm('A')}, ${tm('B')}. Sau khi chuyển: kho ${tm('A')} còn ${tm('x - '+t)}, kho ${tm('B')} có ${tm('y + '+t)}; lập phương trình từ quan hệ “gấp ${k} lần”.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (tấn, ${hdk()}) là lượng gạo lúc đầu của kho ${tm('A')}, ${tm('B')}.<br>Tổng cộng: ${tm(heq(1,1,S))} (1).<br>Sau khi chuyển ${t} tấn: kho ${tm('A')} còn ${tm(`x - ${t}`)}, kho ${tm('B')} có ${tm(`y + ${t}`)}. Theo đề: ${tm(`y + ${t} = ${k}(x - ${t})`)}, tức ${tm(`${k}x - y = ${k+1}\\cdot ${t} = ${(k+1)*t}`)} (2).<br>${hChk(r,x,y)}<br>Kho ${tm(askA?'A':'B')} lúc đầu chứa ${tb(askA?x:y)} tấn gạo.`});
+  }
+  if(R(0,1)===0){
+    let a,b; do{ a=R(1,9); b=R(1,9); }while(a===b);
+    const S = a+b, N = 10*a+b, up = b > a, dd = 9*Math.abs(b-a), e2 = up ? [-1,1,b-a] : [1,-1,a-b];
+    const r = hSolve(1,1,S,e2[0],e2[1],e2[2]);
+    return QB({text:`Một số tự nhiên có hai chữ số, tổng hai chữ số bằng ${S}. Nếu đổi chỗ hai chữ số cho nhau thì được số mới ${up?'lớn':'nhỏ'} hơn số ban đầu ${dd} đơn vị. Tìm số ban đầu.`,
+      tpl:`Số ban đầu: [_]`, ans:[N],
+      hint:`Gọi ${tm('x')} là chữ số hàng chục, ${tm('y')} là chữ số hàng đơn vị; số ban đầu là ${tm('10x + y')}, số mới là ${tm('10y + x')}. Lập hai phương trình rồi giải hệ.`,
+      sol:`Gọi ${tm('x')} (hàng chục, ${tm('1 \\le x \\le 9')}) và ${tm('y')} (hàng đơn vị, ${tm('1 \\le y \\le 9')}) là các chữ số; số ban đầu là ${tm('10x + y')}, số mới là ${tm('10y + x')}.<br>Tổng hai chữ số: ${tm(heq(1,1,S))} (1).<br>Số mới ${up?'lớn':'nhỏ'} hơn số cũ ${dd} đơn vị: ${tm(up?`(10y + x) - (10x + y) = ${dd}`:`(10x + y) - (10y + x) = ${dd}`)}, tức ${tm(up?`9y - 9x = ${dd}`:`9x - 9y = ${dd}`)}. Chia hai vế cho 9: ${tm(heq(e2[0],e2[1],e2[2]))} (2).<br>${hChk(r,a,b)}<br>Các chữ số thỏa điều kiện nên số ban đầu là ${tm(`10\\cdot ${a} + ${b} =`)} ${tb(N)}.`});
+  }
+  const y = R(8,40), q = pick([2,3,4,5]), rr = R(1,y-1), x = q*y + rr, S = x + y;
+  const r = hSolve(1,1,S,1,-q,rr);
+  return QB({text:`Tìm hai số tự nhiên, biết tổng của chúng bằng ${S} và khi chia số lớn cho số bé thì được thương là ${q} và số dư là ${rr}. Tìm số lớn.`,
+    tpl:`Số lớn: [_]`, ans:[x],
+    hint:`Gọi số lớn là ${tm('x')}, số bé là ${tm('y')}. Phép chia có dư: số bị chia = số chia × thương + số dư (số dư nhỏ hơn số chia).`,
+    sol:`Gọi ${tm('x')}, ${tm('y')} (số tự nhiên) là số lớn và số bé.<br>Tổng: ${tm(heq(1,1,S))} (1).<br>Chia ${tm('x')} cho ${tm('y')} được thương ${q}, dư ${rr}: ${tm(`x = ${q}y + ${rr}`)}, tức ${tm(heq(1,-q,rr))} (2).<br>${hChk(r,x,y)}<br>Kiểm tra: số dư ${rr} nhỏ hơn số chia ${y} nên thỏa. Số lớn là ${tb(x)}.`});
+};
+
+/* Dạng 3. Chuyển động */
+const HE_CHASE = []; for(let x=22;x<=70;x++) for(let y=8;y<x;y++){ const s1=x+y, s2=x-y, L=lcm(s1,s2), t1=L/s1, t2=L/s2; if(t1>=1 && t1<=5 && t2>=2 && t2<=10 && t1!==t2 && L>=120 && L<=480) HE_CHASE.push([x,y,t1,t2,L]); }
+const gHe3 = lv => {
+  if(lv===1){
+    const x = R(40,70), y = R(30,x-5), t = pick([2,3,4]), s = t*(x+y), d = x-y;
+    const r = hSolve(t,t,s,1,-1,d);
+    return QB({text:`Hai ô tô khởi hành cùng lúc từ hai địa điểm ${tm('A')} và ${tm('B')} cách nhau ${s} km, đi ngược chiều nhau và gặp nhau sau ${t} giờ. Biết vận tốc ô tô đi từ ${tm('A')} lớn hơn vận tốc ô tô đi từ ${tm('B')} ${d} km/h. Tính vận tốc ô tô đi từ ${tm('A')} (km/h).`,
+      tpl:`Vận tốc ô tô từ ${tm('A')}: [_] km/h`, ans:[x],
+      hint:`Gọi ${tm('x')}, ${tm('y')} là vận tốc hai ô tô. Khi đi ngược chiều và gặp nhau, tổng quãng đường hai xe đã đi bằng ${tm('AB')}.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (km/h, ${hdk()}) là vận tốc ô tô đi từ ${tm('A')}, ${tm('B')}.<br>Sau ${t} giờ hai xe đi được ${tm(`${t}x`)} km và ${tm(`${t}y`)} km; gặp nhau nên ${tm(heq(t,t,s))} (1).<br>Vận tốc xe ${tm('A')} lớn hơn xe ${tm('B')} ${d} km/h: ${tm(heq(1,-1,d))} (2).<br>${hChk(r,x,y)}<br>Vận tốc ô tô từ ${tm('A')} là ${tb(x)} km/h.`});
+  }
+  if(lv===2){
+    const x = R(20,40), y = R(2,6), t1 = R(2,5), t2 = R(2,5), s1 = t1*(x+y), s2 = t2*(x-y), askY = R(0,1)===1;
+    const r = hSolve(t1,t1,s1,t2,-t2,s2);
+    return QB({text:`Một ca nô chạy xuôi dòng ${t1} giờ được ${s1} km, rồi chạy ngược dòng ${t2} giờ được ${s2} km. Coi vận tốc riêng của ca nô và vận tốc dòng nước không đổi. Tính vận tốc ${askY?'dòng nước':'riêng của ca nô'} (km/h).`,
+      tpl:`Vận tốc ${askY?'dòng nước':'riêng của ca nô'}: [_] km/h`, ans:[askY?y:x],
+      hint:`Gọi ${tm('x')} là vận tốc riêng của ca nô, ${tm('y')} là vận tốc dòng nước. Xuôi dòng: vận tốc ${tm('x + y')}; ngược dòng: vận tốc ${tm('x - y')}. Quãng đường = vận tốc × thời gian.`,
+      sol:`Gọi ${tm('x')} (km/h) là vận tốc riêng của ca nô, ${tm('y')} (km/h) là vận tốc dòng nước; ${tm('x \\gt y \\gt 0')}.<br>Xuôi dòng vận tốc ${tm('x + y')}: ${tm(`${t1}(x + y) = ${s1}`)}, tức ${tm(heq(t1,t1,s1))} (1).<br>Ngược dòng vận tốc ${tm('x - y')}: ${tm(`${t2}(x - y) = ${s2}`)}, tức ${tm(heq(t2,-t2,s2))} (2).<br>${hChk(r,x,y)}<br>Thỏa ${tm('x \\gt y \\gt 0')}. Vận tốc ${askY?'dòng nước':'riêng của ca nô'} là ${tb(askY?y:x)} km/h.`});
+  }
+  if(R(0,1)===0){
+    const [x,y,t1,t2,s] = pick(HE_CHASE);
+    const r = hSolve(t1,t1,s,t2,-t2,s);
+    return QB({text:`Hai xe máy xuất phát cùng lúc từ ${tm('A')} và ${tm('B')} cách nhau ${s} km. Nếu hai xe đi ngược chiều nhau thì sau ${t1} giờ gặp nhau; nếu hai xe cùng đi theo chiều từ ${tm('A')} đến ${tm('B')} thì sau ${t2} giờ xe từ ${tm('A')} đuổi kịp xe từ ${tm('B')}. Tính vận tốc của xe đi từ ${tm('A')} (km/h).`,
+      tpl:`Vận tốc xe từ ${tm('A')}: [_] km/h`, ans:[x],
+      hint:`Gọi ${tm('x')}, ${tm('y')} là vận tốc xe từ ${tm('A')}, ${tm('B')}. Đi ngược chiều: quãng đường hai xe đi cộng lại bằng ${tm('AB')}. Đi cùng chiều: quãng đường xe ${tm('A')} đi hơn xe ${tm('B')} đúng bằng ${tm('AB')}.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (km/h, ${tm('x \\gt y \\gt 0')}) là vận tốc xe từ ${tm('A')}, ${tm('B')}.<br>Ngược chiều, sau ${t1} giờ gặp nhau: ${tm(`${t1}x + ${t1}y = ${s}`)} (1).<br>Cùng chiều, sau ${t2} giờ xe ${tm('A')} đuổi kịp xe ${tm('B')} nên xe ${tm('A')} đi nhiều hơn xe ${tm('B')} đúng ${s} km: ${tm(`${t2}x - ${t2}y = ${s}`)} (2).<br>${hChk(r,x,y)}<br>Thỏa ${tm('x \\gt y \\gt 0')}. Vận tốc xe từ ${tm('A')} là ${tb(x)} km/h.`});
+  }
+  const v1 = pick([40,45,48,50,60]), v2 = pick([20,24,25,30]), a1 = R(1,4), a2 = R(1,4), x = v1*a1, y = v2*a2, S = x+y, T = a1+a2, L = lcm(v1,v2);
+  const r = hSolve(1,1,S,L/v1,L/v2,L*T);
+  return QB({text:`Quãng đường ${tm('AB')} dài ${S} km gồm một đoạn đường nhựa và một đoạn đường đất. Ô tô đi trên đường nhựa với vận tốc ${v1} km/h, trên đường đất với vận tốc ${v2} km/h và đi từ ${tm('A')} đến ${tm('B')} hết ${T} giờ. Tính độ dài đoạn đường đất (km).`,
+    tpl:`Đoạn đường đất: [_] km`, ans:[y],
+    hint:`Lần này ẩn là <b>quãng đường</b>: gọi ${tm('x')} là đoạn đường nhựa, ${tm('y')} là đoạn đường đất. Thời gian đi mỗi đoạn là quãng đường : vận tốc; tổng hai thời gian bằng ${T} giờ. Nhân hai vế với bội chung của hai vận tốc để bỏ mẫu.`,
+    sol:`Gọi ${tm('x')}, ${tm('y')} (km, ${hdk()}) lần lượt là độ dài đoạn đường nhựa và đoạn đường đất.<br>Tổng quãng đường: ${tm(heq(1,1,S))} (1).<br>Thời gian đi đoạn nhựa ${tm(`\\dfrac{x}{${v1}}`)} giờ, đoạn đất ${tm(`\\dfrac{y}{${v2}}`)} giờ; tổng ${T} giờ: ${tm(`\\dfrac{x}{${v1}} + \\dfrac{y}{${v2}} = ${T}`)}. Nhân hai vế với ${L} (là bội chung của ${v1} và ${v2}): ${tm(heq(L/v1,L/v2,L*T))} (2).<br>${hChk(r,x,y)}<br>Đoạn đường đất dài ${tb(y)} km.`});
+};
+
+/* Dạng 4. Công việc – năng suất */
+const HE_JOB = []; for(let x=4;x<=40;x++) for(let y=x+1;y<=60;y++){ if((x*y)%(x+y)) continue; const T = x*y/(x+y); if(T<2 || T>30) continue; for(let m=2;m<x;m++){ const num = y*(x-m); if(num % x) continue; const n = num/x; if(n>=2 && n!==m) HE_JOB.push([x,y,T,m,n]); } }
+const gHe4 = lv => {
+  if(lv===1){
+    const x = R(10,30), y = R(5,x-2), a = pick([2,3,4,5]), S = a*(x+y), d = x-y;
+    const r = hSolve(a,a,S,1,-1,d);
+    return QB({text:`Hai công nhân cùng làm trong ${a} giờ thì được ${S} sản phẩm. Mỗi giờ người thứ nhất làm nhiều hơn người thứ hai ${d} sản phẩm. Hỏi mỗi giờ người thứ nhất làm được bao nhiêu sản phẩm?`,
+      tpl:`Người thứ nhất: [_] sản phẩm/giờ`, ans:[x],
+      hint:`Gọi ${tm('x')}, ${tm('y')} là số sản phẩm mỗi giờ của hai người. Trong ${a} giờ, mỗi người làm được (số sản phẩm mỗi giờ) × ${a}.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (sản phẩm/giờ, ${hdk()}) là năng suất của người thứ nhất, thứ hai.<br>Cùng làm ${a} giờ: ${tm(heq(a,a,S))} (1).<br>Người thứ nhất làm nhiều hơn ${d} sản phẩm mỗi giờ: ${tm(heq(1,-1,d))} (2).<br>${hChk(r,x,y)}<br>Người thứ nhất mỗi giờ làm ${tb(x)} sản phẩm.`});
+  }
+  if(lv===2){
+    let a1,b1,a2,b2; do{ a1=R(2,6); b1=R(1,6); a2=R(1,6); b2=R(2,7); }while(hDet(a1,b1,a2,b2)===0);
+    const x = R(8,25), y = R(6,25), S1 = a1*x+b1*y, S2 = a2*x+b2*y, askA = R(0,1)===1;
+    const r = hSolve(a1,b1,S1,a2,b2,S2);
+    return QB({text:`Máy ${tm('A')} làm ${a1} giờ và máy ${tm('B')} làm ${b1} giờ thì được ${S1} sản phẩm. Nếu máy ${tm('A')} làm ${a2} giờ và máy ${tm('B')} làm ${b2} giờ thì được ${S2} sản phẩm. Hỏi mỗi giờ máy ${tm(askA?'A':'B')} làm được bao nhiêu sản phẩm? (Năng suất mỗi máy không đổi.)`,
+      tpl:`Máy ${tm(askA?'A':'B')}: [_] sản phẩm/giờ`, ans:[askA?x:y],
+      hint:`Gọi ${tm('x')}, ${tm('y')} là số sản phẩm mỗi giờ của máy ${tm('A')}, ${tm('B')}. Số sản phẩm = năng suất × số giờ; lập hệ từ hai lần làm việc.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (sản phẩm/giờ, ${hdk()}) là năng suất của máy ${tm('A')}, ${tm('B')}.<br>Lần thứ nhất: ${tm(heq(a1,b1,S1))} (1). Lần thứ hai: ${tm(heq(a2,b2,S2))} (2).<br>${hChk(r,x,y)}<br>Máy ${tm(askA?'A':'B')} mỗi giờ làm ${tb(askA?x:y)} sản phẩm.`});
+  }
+  const [x,y,T,m,n] = pick(HE_JOB), num = n - T, den = T*(n-m), g = gcd(Math.abs(num),Math.abs(den)), pn = Math.abs(num)/g, pd = Math.abs(den)/g;
+  if(pn !== 1 || pd !== x) throw new Error('gHe4: sai năng suất');
+  return QB({text:`Hai đội công nhân cùng làm chung một công việc thì sau ${T} ngày xong. Nếu đội thứ nhất làm một mình ${m} ngày, sau đó đội thứ hai làm tiếp một mình ${n} ngày thì cũng xong công việc. Hỏi nếu làm một mình thì đội thứ nhất cần bao nhiêu ngày để xong công việc?`,
+    tpl:`Đội thứ nhất: [_] ngày`, ans:[x],
+    hint:`Gọi ${tm('x')}, ${tm('y')} là số ngày mỗi đội làm một mình xong việc; một ngày hai đội làm được ${tm('\\dfrac{1}{x}')} và ${tm('\\dfrac{1}{y}')} công việc. Hãy đặt ${tm('u = \\dfrac{1}{x}')}, ${tm('v = \\dfrac{1}{y}')} để được hệ bậc nhất.`,
+    sol:`Gọi ${tm('x')}, ${tm('y')} (ngày, ${hdk()}) là thời gian đội thứ nhất, thứ hai làm một mình xong công việc. Mỗi ngày hai đội làm được ${tm('u = \\dfrac{1}{x}')} và ${tm('v = \\dfrac{1}{y}')} công việc.<br>Làm chung ${T} ngày xong: ${tm(`${T}(u + v) = 1`)}, tức ${tm(`${T}u + ${T}v = 1`)} (1).<br>Đội 1 làm ${m} ngày, đội 2 làm ${n} ngày xong: ${tm(`${m}u + ${n}v = 1`)} (2).<br>Nhân (1) với ${n}, nhân (2) với ${T}: ${td(tsys([`${n*T}u + ${n*T}v = ${n}`, `${m*T}u + ${n*T}v = ${T}`], true))}Trừ vế theo vế: ${tm(`${T*(n-m)}u = ${n} - ${T} = ${n-T}`)}, suy ra ${tm(`u = ${tf(Math.abs(num),Math.abs(den))} = ${tf(1,x)}`)}.<br>Vậy ${tm(`x = ${x}`)}. Từ (1): ${tm(`v = ${tf(1,T)} - ${tf(1,x)} = ${tf(1,y)}`)}, nên ${tm(`y = ${y}`)} (cả hai đều dương).<br>Đội thứ nhất làm một mình xong sau ${tb(x)} ngày.`});
+};
+
+/* Dạng 5. Phần trăm, tăng – giảm, dung dịch */
+const gHe5 = lv => {
+  if(lv===1){
+    let p1,p2; do{ p1 = pick([5,10,15,20,25,30]); p2 = pick([5,10,15,20,25,30]); }while(p1===p2);
+    const x = R(5,20)*20, y = R(5,20)*20, S = x+y, V = (p1*x + p2*y)/100, S2 = S + V, askA = R(0,1)===1;
+    const r = hSolve(1,1,S,p1,p2,100*V);
+    return QB({text:`Tháng trước hai tổ sản xuất được tất cả ${S} sản phẩm. Tháng này tổ I vượt mức ${p1}%, tổ II vượt mức ${p2}% so với tháng trước nên cả hai tổ làm được ${S2} sản phẩm. Hỏi tháng trước tổ ${askA?'I':'II'} sản xuất được bao nhiêu sản phẩm?`,
+      tpl:`Tổ ${askA?'I':'II'}: [_] sản phẩm`, ans:[askA?x:y],
+      hint:`Gọi ${tm('x')}, ${tm('y')} là số sản phẩm tháng trước của tổ I, II. Số sản phẩm tăng thêm của tổ I là ${p1}% của ${tm('x')}, của tổ II là ${p2}% của ${tm('y')}; tổng số tăng thêm bằng ${S2} − ${S}.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (sản phẩm, ${hdk()}) là số sản phẩm tháng trước của tổ I, II.<br>Tháng trước: ${tm(heq(1,1,S))} (1).<br>Số sản phẩm tăng thêm ở tháng này: ${tm(`${S2} - ${S} = ${V}`)}. Tổ I tăng ${tm(`\\dfrac{${p1}}{100}x`)}, tổ II tăng ${tm(`\\dfrac{${p2}}{100}y`)}: ${tm(`\\dfrac{${p1}}{100}x + \\dfrac{${p2}}{100}y = ${V}`)}. Nhân hai vế với 100: ${tm(heq(p1,p2,100*V))} (2).<br>${hChk(r,x,y)}<br>Tháng trước tổ ${askA?'I':'II'} sản xuất ${tb(askA?x:y)} sản phẩm.`});
+  }
+  if(lv===2){
+    let p1,p2,x,y,D; do{ p1 = pick([4,5,6,8,10]); p2 = pick([3,4,5,6,8]); x = R(5,25)*20; y = R(5,25)*20; D = p1*x - p2*y; }while(D===0 || p1===p2);
+    const S = x+y, V = D/100, S2 = S + V, askA = R(0,1)===1;
+    const r = hSolve(1,1,S,p1,-p2,D);
+    return QB({text:`Năm ngoái hai trường ${tm('A')} và ${tm('B')} có tất cả ${S} học sinh dự thi. Năm nay số học sinh dự thi của trường ${tm('A')} tăng ${p1}% còn trường ${tm('B')} giảm ${p2}% so với năm ngoái, nên cả hai trường có ${S2} học sinh dự thi. Hỏi năm ngoái trường ${tm(askA?'A':'B')} có bao nhiêu học sinh dự thi?`,
+      tpl:`Trường ${tm(askA?'A':'B')}: [_] học sinh`, ans:[askA?x:y],
+      hint:`Gọi ${tm('x')}, ${tm('y')} là số học sinh dự thi năm ngoái của trường ${tm('A')}, ${tm('B')}. Phần tăng của ${tm('A')} là ${p1}% của ${tm('x')}, phần giảm của ${tm('B')} là ${p2}% của ${tm('y')}; hiệu của hai phần này bằng ${S2} − ${S}.`,
+      sol:`Gọi ${tm('x')}, ${tm('y')} (học sinh, ${hdk()}) là số học sinh dự thi năm ngoái của trường ${tm('A')}, ${tm('B')}.<br>Năm ngoái: ${tm(heq(1,1,S))} (1).<br>Tổng số thay đổi: ${tm(`${S2} - ${S} = ${V}`)}. Trường ${tm('A')} tăng ${tm(`\\dfrac{${p1}}{100}x`)}, trường ${tm('B')} giảm ${tm(`\\dfrac{${p2}}{100}y`)}: ${tm(`\\dfrac{${p1}}{100}x - \\dfrac{${p2}}{100}y = ${V}`)}. Nhân hai vế với 100: ${tm(heq(p1,-p2,D))} (2).<br>${hChk(r,x,y)}<br>Năm ngoái trường ${tm(askA?'A':'B')} có ${tb(askA?x:y)} học sinh dự thi.`});
+  }
+  let p1,p3,p2; do{ p1 = pick([5,10,15,20]); p3 = p1 + pick([5,10,15]); p2 = p3 + pick([5,10,15]); }while(p2>40);
+  const t = R(2,6), x = (p2-p3)*t, y = (p3-p1)*t, M = x+y, askA = R(0,1)===1;
+  const r = hSolve(1,1,M,p1,p2,p3*M);
+  return QB({text:`Người ta trộn dung dịch muối nồng độ ${p1}% với dung dịch muối nồng độ ${p2}% để được ${M} kg dung dịch muối nồng độ ${p3}%. Hỏi phải dùng bao nhiêu kg dung dịch nồng độ ${askA?p1:p2}%?`,
+    tpl:`Dung dịch ${askA?p1:p2}%: [_] kg`, ans:[askA?x:y],
+    hint:`Gọi ${tm('x')}, ${tm('y')} là khối lượng hai dung dịch cần trộn. Một phương trình theo tổng khối lượng; một phương trình theo <b>khối lượng muối nguyên chất</b> (khối lượng dung dịch × nồng độ), muối trước khi trộn bằng muối sau khi trộn.`,
+    sol:`Gọi ${tm('x')}, ${tm('y')} (kg, ${hdk()}) là khối lượng dung dịch nồng độ ${p1}% và ${p2}% cần dùng.<br>Tổng khối lượng: ${tm(heq(1,1,M))} (1).<br>Khối lượng muối: ${tm(`\\dfrac{${p1}}{100}x + \\dfrac{${p2}}{100}y = \\dfrac{${p3}}{100}\\cdot ${M}`)}. Nhân hai vế với 100: ${tm(heq(p1,p2,p3*M))} (2).<br>${hChk(r,x,y)}<br>Cần dùng ${tb(askA?x:y)} kg dung dịch nồng độ ${askA?p1:p2}%.`});
+};
+
+lesson(6,'on-thi-he-phuong-trinh-thuc-te','Đại số 6. Thực tế lập hệ phương trình (vận dụng cao)','Ôn tuyển sinh: lập hệ từ bài toán mua hàng, vé, khuyến mãi; số học, chuyển kho, chữ số; chuyển động (gặp nhau, xuôi – ngược dòng, đuổi kịp); công việc – năng suất; phần trăm, tăng – giảm, dung dịch.',[gHe1,gHe2,gHe3,gHe4,gHe5], {intro:[
+  {t:`Các bước giải bài toán bằng cách lập hệ phương trình`, b:`<ol><li><b>Chọn hai ẩn</b> ${tm('x,\\ y')}, ghi đơn vị và điều kiện (dương, nguyên, ${tm('x \\gt y')}…).</li><li>Biểu diễn các đại lượng liên quan theo ${tm('x,\\ y')}.</li><li><b>Lập hai phương trình</b> từ <b>hai dữ kiện khác nhau</b> của đề.</li><li>Giải hệ bằng phương pháp thế hoặc cộng đại số.</li><li><b>Đối chiếu điều kiện</b>, kết luận đúng đại lượng đề hỏi, kèm đơn vị.</li></ol>`, warn:`Hai ẩn cần <b>hai phương trình độc lập</b>: không dùng một dữ kiện hai lần. Hay mất điểm khi kết luận ${tm('x')} trong khi đề hỏi ${tm('y')} (hoặc hỏi một đại lượng tính từ ${tm('x,\\ y')}), và khi quên điều kiện của ẩn.`, ex:`Chọn ẩn là hai đại lượng đề yêu cầu tìm thì lập hệ nhanh nhất. Giải xong, thử lại vào <b>cả hai</b> dữ kiện của đề trong 10 giây.`},
+  {t:`Giải hệ bằng cộng đại số`, b:`<ul><li>Nhân hai vế để hệ số của một ẩn ở hai phương trình <b>bằng nhau</b> (rồi trừ vế) hoặc <b>đối nhau</b> (rồi cộng vế).</li><li>Tìm được một ẩn, <b>thay vào một phương trình</b> để tìm ẩn còn lại.</li><li>Phần trăm: tăng ${tm('p\\%')} thì phần tăng là ${tm('\\dfrac{p}{100}\\cdot\\text{gốc}')}; nồng độ: khối lượng chất tan = khối lượng dung dịch × nồng độ.</li></ul>`, warn:`Sai dấu khi trừ vế theo vế là lỗi tính toán phổ biến nhất: viết rõ ${tm('(a - b)y = c - d')} và đặt ngoặc khi trừ số âm. Nhân hệ số thập phân thì nhân <b>cả hai vế</b> (ví dụ nhân 10 hoặc 100) để bỏ số thập phân.`, ex:`Máy tính cầm tay giải được hệ hai ẩn, dùng để kiểm tra nghiệm nhưng bài thi vẫn phải trình bày phép giải.`},
+  {t:`Các dạng chuyển động và công việc hay gặp`, b:`<ul><li>Hai xe đi <b>ngược chiều</b> gặp nhau: ${tm('S = (v_1 + v_2)t')}. Đi <b>cùng chiều</b>, xe nhanh đuổi kịp: ${tm('S = (v_1 - v_2)t')}.</li><li>Ca nô: xuôi dòng ${tm('v + u')}, ngược dòng ${tm('v - u')}.</li><li>Bài có hai đoạn đường với hai vận tốc: ẩn là <b>quãng đường</b> mỗi đoạn.</li><li>Công việc: làm một mình xong trong ${tm('x')} ngày thì mỗi ngày làm ${tm('\\dfrac{1}{x}')} việc; đặt ${tm('u = \\dfrac{1}{x}')}, ${tm('v = \\dfrac{1}{y}')} để hệ trở thành bậc nhất.</li></ul>`, warn:`Với bài công việc, nếu đặt ẩn là thời gian rồi cộng phân thức thì hệ không còn bậc nhất. Phải <b>đặt ẩn phụ</b> ${tm('u,\\ v')} rồi giải, <b>đừng quên đổi lại</b> ${tm('x = \\dfrac{1}{u}')}.`, ex:`Xác định rõ “ngược chiều” (cộng vận tốc) hay “cùng chiều” (trừ vận tốc) trước khi viết phương trình, và đổi cùng đơn vị giờ – phút, km – m.`}
+]});
+}
+
 })();

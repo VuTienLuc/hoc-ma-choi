@@ -630,4 +630,38 @@ Lecture.addPractice('lop9','on-thi-hinh-khong-gian',[
  ]},
 ]);
 
+/* ---------- Đại số 6. Thực tế lập hệ phương trình – 5 dạng × 2 câu tương tự ---------- */
+Lecture.addPractice('lop9','on-thi-he-phuong-trinh-thuc-te',[
+ {dang:'Mua hàng, vé, khuyến mãi',items:[
+  {de:`Mua 2 cái cặp và 3 hộp bút hết 570 nghìn đồng; mua 3 cái cặp và 1 hộp bút hết 610 nghìn đồng. Tính giá một cái cặp và giá một hộp bút.`,
+   sol:[`Gọi ${m('x,\\ y')} (nghìn đồng, dương) là giá một cái cặp, một hộp bút. Hệ: ${m('2x + 3y = 570')} (1); ${m('3x + y = 610')} (2).`,`Nhân (2) với 3: ${m('9x + 3y = 1830')}. Trừ vế cho (1): ${m('7x = 1260')}, nên ${m('x = 180')}.`,`Thay vào (2): ${m('y = 610 - 3\\cdot 180 = 70')}.`],ans:`Cặp ${tb('180')} nghìn đồng; hộp bút ${tb('70')} nghìn đồng.`,lines:3},
+  {de:`Một rạp chiếu phim: buổi sáng bán 5 vé người lớn và 4 vé trẻ em thu 420 nghìn đồng; buổi chiều bán 3 vé người lớn và 6 vé trẻ em thu 360 nghìn đồng (giá vé không đổi). Một gia đình mua 2 vé người lớn và 3 vé trẻ em phải trả bao nhiêu?`,
+   sol:[`Gọi ${m('x,\\ y')} (nghìn đồng) là giá vé người lớn, vé trẻ em. Hệ: ${m('5x + 4y = 420')} (1); ${m('3x + 6y = 360')} (2).`,`Nhân (1) với 3, (2) với 2: ${m('15x + 12y = 1260')} và ${m('6x + 12y = 720')}. Trừ vế: ${m('9x = 540')}, ${m('x = 60')}.`,`Thay vào (1): ${m('4y = 420 - 300 = 120')}, ${m('y = 30')}.`,`Gia đình trả: ${m('2\\cdot 60 + 3\\cdot 30 = 210')}.`],ans:`${tb('210')} nghìn đồng.`,lines:4},
+ ]},
+ {dang:'Số học, gà – thỏ, chuyển kho, chữ số',items:[
+  {de:`Một đàn gà và thỏ có tất cả 36 con và 100 chân. Hỏi có bao nhiêu con thỏ?`,
+   sol:[`Gọi ${m('x,\\ y')} là số gà, số thỏ (con, nguyên dương). Hệ: ${m('x + y = 36')} (1); ${m('2x + 4y = 100')} (2).`,`Nhân (1) với 2: ${m('2x + 2y = 72')}. Trừ vế (2) cho kết quả: ${m('2y = 28')}, nên ${m('y = 14')}; ${m('x = 22')}.`],ans:`${tb('14')} con thỏ.`,lines:2},
+  {de:`Tìm hai số tự nhiên, biết tổng của chúng bằng 85 và khi chia số lớn cho số bé thì được thương là 4 và số dư là 5. Tìm số lớn.`,
+   sol:[`Gọi ${m('x,\\ y')} là số lớn, số bé. Tổng: ${m('x + y = 85')} (1). Phép chia: ${m('x = 4y + 5')}, tức ${m('x - 4y = 5')} (2).`,`Trừ vế (1) cho (2): ${m('5y = 80')}, ${m('y = 16')}; ${m('x = 85 - 16 = 69')}.`,`Kiểm tra: số dư ${m('5 \\lt 16')} nên thỏa.`],ans:`Số lớn là ${tb('69')}.`,lines:3},
+ ]},
+ {dang:'Chuyển động',items:[
+  {de:`Hai ô tô khởi hành cùng lúc từ ${m('A')} và ${m('B')} cách nhau 240 km, đi ngược chiều và gặp nhau sau 3 giờ. Vận tốc ô tô từ ${m('A')} lớn hơn vận tốc ô tô từ ${m('B')} là 10 km/h. Tính vận tốc ô tô từ ${m('A')}.`,
+   sol:[`Gọi ${m('x,\\ y')} (km/h) là vận tốc ô tô từ ${m('A')}, ${m('B')}. Gặp nhau: ${m('3x + 3y = 240')}, tức ${m('x + y = 80')} (1). Đề cho: ${m('x - y = 10')} (2).`,`Cộng (1) và (2): ${m('2x = 90')}, nên ${m('x = 45')}; ${m('y = 35')}.`],ans:`${tb('45')} km/h.`,lines:3},
+  {hard:true,de:`Quãng đường ${m('AB')} dài 160 km gồm đoạn đường nhựa và đoạn đường đất. Ô tô đi trên đường nhựa với vận tốc 50 km/h, trên đường đất với vận tốc 30 km/h, đi từ ${m('A')} đến ${m('B')} hết 4 giờ. Tính độ dài đoạn đường đất.`,
+   sol:[`Gọi ${m('x,\\ y')} (km) là đoạn đường nhựa, đoạn đường đất. Tổng: ${m('x + y = 160')} (1).`,`Thời gian: ${m('\\dfrac{x}{50} + \\dfrac{y}{30} = 4')}. Nhân hai vế với 150: ${m('3x + 5y = 600')} (2).`,`Nhân (1) với 3: ${m('3x + 3y = 480')}. Trừ vế (2) cho kết quả: ${m('2y = 120')}, ${m('y = 60')}; ${m('x = 100')}.`],ans:`${tb('60')} km.`,lines:4},
+ ]},
+ {dang:'Công việc – năng suất',items:[
+  {de:`Máy ${m('A')} làm 2 giờ và máy ${m('B')} làm 3 giờ thì được 130 sản phẩm. Máy ${m('A')} làm 4 giờ và máy ${m('B')} làm 1 giờ thì được 110 sản phẩm. Hỏi mỗi giờ máy ${m('A')} làm được bao nhiêu sản phẩm?`,
+   sol:[`Gọi ${m('x,\\ y')} (sản phẩm/giờ) là năng suất máy ${m('A')}, ${m('B')}. Hệ: ${m('2x + 3y = 130')} (1); ${m('4x + y = 110')} (2).`,`Nhân (2) với 3: ${m('12x + 3y = 330')}. Trừ vế cho (1): ${m('10x = 200')}, nên ${m('x = 20')}; ${m('y = 30')}.`],ans:`${tb('20')} sản phẩm/giờ.`,lines:3},
+  {hard:true,de:`Hai đội cùng làm chung một công việc thì sau 15 ngày xong. Nếu đội I làm một mình 9 ngày rồi đội II làm tiếp một mình 25 ngày thì cũng xong. Hỏi đội I làm một mình xong công việc sau bao nhiêu ngày?`,
+   sol:[`Gọi ${m('x,\\ y')} (ngày) là thời gian đội I, II làm một mình; ${m('u = \\dfrac{1}{x}')}, ${m('v = \\dfrac{1}{y}')}. Hệ: ${m('15u + 15v = 1')} (1); ${m('9u + 25v = 1')} (2).`,`Nhân (1) với 5, (2) với 3: ${m('75u + 75v = 5')} và ${m('27u + 75v = 3')}. Trừ vế: ${m('48u = 2')}, nên ${m('u = \\dfrac{1}{24}')}.`,`Vậy ${m('x = 24')}. Từ (1): ${m('v = \\dfrac{1}{15} - \\dfrac{1}{24} = \\dfrac{1}{40}')}, ${m('y = 40')} (dương, thỏa).`],ans:`${tb('24')} ngày.`,lines:4},
+ ]},
+ {dang:'Phần trăm, tăng – giảm, dung dịch',items:[
+  {de:`Tháng trước hai tổ sản xuất được 600 sản phẩm. Tháng này tổ I vượt mức 10%, tổ II vượt mức 20% nên cả hai tổ làm được 680 sản phẩm. Hỏi tháng trước tổ I sản xuất bao nhiêu sản phẩm?`,
+   sol:[`Gọi ${m('x,\\ y')} là số sản phẩm tháng trước của tổ I, II. Hệ: ${m('x + y = 600')} (1).`,`Phần tăng thêm: ${m('680 - 600 = 80')}, nên ${m('0{,}1x + 0{,}2y = 80')}; nhân 10: ${m('x + 2y = 800')} (2).`,`Trừ vế (2) cho (1): ${m('y = 200')}; ${m('x = 400')}.`],ans:`${tb('400')} sản phẩm.`,lines:3},
+  {hard:true,de:`Trộn dung dịch muối nồng độ 10% với dung dịch muối nồng độ 40% để được 60 kg dung dịch muối nồng độ 20%. Hỏi phải dùng bao nhiêu kg dung dịch nồng độ 10%?`,
+   sol:[`Gọi ${m('x,\\ y')} (kg) là khối lượng dung dịch 10% và 40%. Tổng: ${m('x + y = 60')} (1).`,`Khối lượng muối: ${m('0{,}1x + 0{,}4y = 0{,}2\\cdot 60 = 12')}; nhân 10: ${m('x + 4y = 120')} (2).`,`Trừ vế (2) cho (1): ${m('3y = 60')}, ${m('y = 20')}; ${m('x = 40')}.`],ans:`${tb('40')} kg.`,lines:4},
+ ]},
+]);
+
 })();
