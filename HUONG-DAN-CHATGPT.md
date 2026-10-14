@@ -168,3 +168,33 @@ Sau khi chép tệp ChatGPT làm vào thư mục `hoc-tap`, thầy **bấm đúp
      - `Password`: **dán token** vừa tạo (chữ không hiện ra, cứ dán), rồi Enter.
      - Máy Mac tự nhớ, các lần sau không hỏi nữa.
   4. **Không gửi token này cho bất kỳ AI nào** (kể cả Claude, ChatGPT).
+
+---
+
+## 5. Mỗi ngày một bài đến hết lớp 10 và lớp 11 (dạng /tron-bo)
+
+Từ 14/10/2026, phần còn lại của Toán 10 (Chương IV–IX) và Toán 11 (Chương III–IX) được giao cho ChatGPT làm **mỗi ngày một bài**, **Claude kiểm lại mỗi ngày**.
+Toàn bộ danh sách bài, thứ tự, trạng thái nằm trong **`KE-HOACH-TRON-BO.md`** (60 ngày, xen kẽ lớp 10 – lớp 11, có cả mục “Ôn tập chương”).
+
+### Cách chạy mỗi ngày (thầy chỉ làm 3 việc)
+1. **Giao việc:** dán lệnh ở mục 4 của `KE-HOACH-TRON-BO.md` cho ChatGPT/Codex (hoặc đặt lịch mỗi ngày một lần trong *Tasks*). ChatGPT làm hàng đầu tiên còn ⬜, đủ 6 phần của /tron-bo, chạy kiểm tra, mở Pull Request, rồi đổi hàng đó sang 🟨.
+2. **Nhờ Claude kiểm:** nhắn Claude *“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”*. Claude chạy kiểm tra, tính lại đáp số bằng bộ giải độc lập, chụp ảnh soát hình vẽ, đối chiếu SGK, rồi **sửa lỗi nhỏ ngay**; lỗi lớn thì đánh 🟧 và ghi lỗi để ChatGPT sửa. Đạt thì ✅.
+3. **Merge:** khi Claude báo ✅, thầy bấm **Merge** Pull Request (Vercel đưa lên web sau khoảng 1 phút). Chưa ✅ thì ChatGPT **chưa** sang bài sau.
+
+### 6 phần của một bài trọn bộ
+| # | Phần | Tệp | Yêu cầu chính |
+|---|---|---|---|
+| 1 | Học sinh luyện tập | `data/lopN.js` | ≥ 4 dạng × 3 mức khác nhau thật sự; đáp án chọn trước; hint không lộ đáp án; `sol` chia bước, in đậm đáp án |
+| 2 | Bài giảng trình chiếu | `giao-vien/bai-giang/lopN.js` | `title`, `kt`, `method`, ≥ 1 ví dụ mỗi dạng, `lt`, `sum` |
+| 3 | Phiếu luyện tập | `lopN-luyen-tap.js` | 10 bài = 7 cơ bản + 3 `hard:true` |
+| 4 | Giải SGK | `lopN-giai-sgk.js` | câu vận dụng, câu khó; đúng số trang/bài, không chắc thì ghi rõ |
+| 5 | Phiếu học tập trên lớp | `lopN-khoi-dong.js` | Phần A đúng 2 trang A4; Phần B gợi ý giáo viên; ví dụ tự soạn ghi **[Minh hoạ]** |
+| 6 | Phiếu in A4 | tự sinh | nút 📝 Phiếu, không cần viết |
+
+### Việc ChatGPT phải làm trước khi báo xong
+- `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT; `python3 tools/build.py`.
+- Thêm một mục ở đầu `LICH-SU-CHINH-SUA.md` và đổi hàng của ngày hôm nay trong bảng kế hoạch (🟨 + ghi chú). Không đẩy thẳng lên `main`.
+- Chỗ nào không chắc (tên bài, số trang SGK) thì ghi vào cột Ghi chú để thầy đối chiếu với sách.
+
+**Gói cho ChatGPT thường (Cách B):** bấm lại nút “Gói tài liệu cho ChatGPT” sau mỗi lần Claude cập nhật; gói đã có `KE-HOACH-TRON-BO.md` ngay sau `AGENTS.md`.
+

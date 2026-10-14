@@ -910,5 +910,521 @@ lesson(2,'cap-so-cong-luyen-tap','Bài 6. Cấp số cộng – Luyện tập th
 ]});
 lesson(2,'cap-so-nhan','Bài 7. Cấp số nhân','Nhận biết; số hạng tổng quát; tổng n số hạng đầu; ba số lập thành cấp số nhân; bài toán thực tế.',[g7a,g7b,g7c,g7e,g7d]);
 lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp số cộng, cấp số nhân và bài toán thực tế.',[g5a,g5c,g6b,g6c,g7b,g7c]);
+
+/* =====================================================================
+   CỦNG CỐ CHƯƠNG II – chủ đề 92 (thầy yêu cầu 14/10/2026)
+   Bộ ôn tập tổng hợp: dãy số – cấp số cộng – cấp số nhân, câu dễ sai, toán thực tế có hình.
+   6 bài: 1 Dãy số · 2 Cấp số cộng · 3 Cấp số nhân · 4 Thực tế CSC (có hình) · 5 Thực tế CSN (có hình) · Đề tổng hợp 15 câu.
+   Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số được tính lại bằng phép tính độc lập (k2chk).
+   ===================================================================== */
+{ const i2 = G.topics.findIndex(t => t.id === 2); G.topics.splice(i2 < 0 ? G.topics.length : i2 + 1, 0, {id:92, hk:1, name:'Củng cố Chương II (ôn tập tổng hợp)'}); }
+const k2chk = (ok, msg) => { if(!ok) throw new Error('c2k: ' + msg); };
+const K2T = 'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo';
+const k2kt = (t, b, warn, ex) => ({t, b, warn, ex});
+const sg = n => n < 0 ? '-' : '+';
+const ab = Math.abs;
+const two2 = (a, b) => `<span class="eq">${tm(`${a} =`)} [_]${tm(`;\\quad ${b} =`)} [_]</span>`;
+const sumCSC = (u1, d, n) => { let s = 0; for(let i = 0; i < n; i++) s += u1 + i * d; return s; };
+
+/* ---------- BÀI 1. DÃY SỐ – CHỖ DỄ SAI ---------- */
+const cK1 = lv => {   // u_n = a·n + b: u_{n+1}, vị trí của một số
+  const a = R(2, 7), b = nz(-6, 7), un = tpoly([a, 'n'], [b, '']);
+  if(lv === 1){
+    const ok = tpoly([a, 'n'], [a + b, '']), opts = [ok, tpoly([a, 'n'], [b + 1, '']), tpoly([a, 'n'], [b - a, '']), tpoly([a + 1, 'n'], [b, ''])];
+    k2chk(new Set(opts).size === 4, 'k1 lv1 trùng');
+    return QC({text:`Cho dãy số ${tm('(u_n)')} với ${tm(`u_n = ${un}`)}. Số hạng ${tm('u_{n+1}')} bằng:`, opts:opts.map(tm), ans:tm(ok),
+      hint:`${tm('u_{n+1}')} có được bằng cách thay <b>mọi</b> chữ ${tm('n')} trong công thức của ${tm('u_n')} bởi ${tm('n+1')}, rồi mới rút gọn.`,
+      sol:`${tm(`u_{n+1} = ${a}(n+1) ${sg(b)} ${ab(b)} = ${ok}`)}. Đáp án: ${tb(ok)}. (Các đáp án còn lại là nhầm với ${tm('u_n + 1')} hoặc ${tm('u_{n-1}')}.)`});
+  }
+  const m = R(8, 30), v = a * m + b;
+  if(lv === 2){
+    k2chk(a * m + b === v, 'k1 lv2');
+    return QB({text:`Số <b>${v}</b> là số hạng thứ mấy của dãy số ${tm(`u_n = ${un}`)}?`, tpl:'Số hạng thứ [_]', ans:[m],
+      hint:`Giải phương trình ${tm(`u_n = ${v}`)} với ẩn ${tm('n')}; kết quả phải là số nguyên dương.`,
+      sol:`${tm(`${un} = ${v}${EQ2}${a}n = ${v - b}${EQ2}n = ${m}`)}. Vậy ${tb(v)} là số hạng thứ ${tb(m)}.`});
+  }
+  const good = v, wr = [v + 1, b, b - a];
+  k2chk(wr.every(x => (x - b) % a !== 0 || (x - b) / a < 1) && new Set([good, ...wr]).size === 4, 'k1 lv3');
+  const why = x => x === v + 1 ? `${tm(`n = ${tfrac(x - b, a)}`)} không nguyên` : x === b ? `${tm('n = 0')} không phải số nguyên dương` : `${tm('n = -1')} âm`;
+  return QC({text:`Số nào sau đây là <b>một số hạng</b> của dãy số ${tm(`u_n = ${un}`)}?`, opts:[good, ...wr].map(x => tm(x)), ans:tm(good),
+    hint:`Số ${tm('x')} là số hạng của dãy khi phương trình ${tm('u_n = x')} có nghiệm ${tm('n')} nguyên dương. Thử lần lượt từng đáp án.`,
+    sol:`Với ${tm(String(good))}: ${tm(`n = ${m}`)} (nhận). ${wr.map(x => `Với ${tm(String(x))}: ${why(x)} (loại)`).join('. ')}. Đáp án: ${tb(good)}.`});
+};
+
+const cK2 = lv => {   // dãy cho bằng truy hồi
+  if(lv === 1){
+    const u1 = R(1, 5), c = pick([2, 3]), e = nz(-4, 4), seq = [u1];
+    for(let i = 1; i < 4; i++) seq.push(c * seq[i - 1] + e);
+    return QB({text:`Cho dãy số ${tm('(u_n)')} xác định bởi ${tm(`u_1 = ${u1},\\ u_{n+1} = ${tpoly([c, 'u_n'], [e, ''])}`)} với mọi ${tm('n \\ge 1')}. Tính ${tm('u_4')}.`, tpl:blankU(4), ans:[seq[3]],
+      hint:`Tính lần lượt ${tm('u_2')}, rồi ${tm('u_3')}, rồi ${tm('u_4')}; mỗi lần dùng số hạng vừa tìm được.`,
+      sol:`${tm(`u_2 = ${c}\\cdot ${tp(seq[0])} ${sg(e)} ${ab(e)} = ${seq[1]}`)}; ${tm(`u_3 = ${c}\\cdot ${tp(seq[1])} ${sg(e)} ${ab(e)} = ${seq[2]}`)}; ${tm(`u_4 = ${c}\\cdot ${tp(seq[2])} ${sg(e)} ${ab(e)} = ${seq[3]}`)}. Đáp số: ${tb(seq[3])}.`});
+  }
+  if(lv === 2){
+    const u1 = R(1, 5), p = pick([2, 3]), q = nz(-3, 3), seq = [u1];
+    for(let k = 1; k < 5; k++) seq.push(seq[k - 1] + p * k + q);
+    return QB({text:`Cho dãy số ${tm('(u_n)')} xác định bởi ${tm(`u_1 = ${u1},\\ u_{n+1} = u_n + ${tpoly([p, 'n'], [q, ''])}`)} với mọi ${tm('n \\ge 1')}. Tính ${tm('u_5')}.`, tpl:blankU(5), ans:[seq[4]],
+      hint:`Để tính ${tm('u_{k+1}')}, thay ${tm('n = k')} (không phải ${tm('k+1')}) vào vế phải. Bắt đầu từ ${tm('n = 1')} để được ${tm('u_2')}.`,
+      sol:[1, 2, 3, 4].map(k => `${tm(`u_{${k + 1}} = u_{${k}} + ${p}\\cdot ${k} ${sg(q)} ${ab(q)} = ${seq[k - 1]} + ${p * k + q < 0 ? '(' + (p * k + q) + ')' : p * k + q} = ${seq[k]}`)}`).join('; ') + `. Đáp số: ${tb(seq[4])}.`});
+  }
+  const u1 = R(1, 3), u2 = R(2, 5), k = pick([1, 2, -1]), seq = [u1, u2];
+  for(let i = 2; i < 5; i++) seq.push(seq[i - 1] + k * seq[i - 2]);
+  const kt = k === 1 ? 'u_n' : k === -1 ? '-u_n' : `${k}u_n`;
+  return QB({text:`Cho dãy số ${tm('(u_n)')} xác định bởi ${tm(`u_1 = ${u1},\\ u_2 = ${u2},\\ u_{n+2} = u_{n+1} + ${kt}`).replace('+ -', '- ')} với mọi ${tm('n \\ge 1')}. Tính ${tm('u_5')}.`, tpl:blankU(5), ans:[seq[4]],
+    hint:`Mỗi số hạng (từ ${tm('u_3')}) được tính từ <b>hai</b> số hạng liền trước. Lập bảng ${tm('u_3, u_4, u_5')} theo thứ tự.`,
+    sol:[3, 4, 5].map(i => `${tm(`u_{${i}} = u_{${i - 1}} ${sg(k)} ${ab(k) === 1 ? '' : ab(k) + '\\cdot '}${tp(seq[i - 3])}`)} ${tm(`= ${seq[i - 2]} ${sg(k)} ${ab(k) === 1 ? '' : ab(k) + '\\cdot '}${tp(seq[i - 3])} = ${seq[i - 1]}`)}`).join('; ') + `. Đáp số: ${tb(seq[4])}.`});
+};
+
+const K3DEC = (p, q, kk) => [[`${p} - ${q}n`, `${tm(`u_{n+1} - u_n = -${q}`)} âm nên dãy giảm`], [`\\dfrac{1}{n + ${kk}}`, 'mẫu số tăng dần nên phân số giảm dần'], [`\\dfrac{${p}}{2^n}`, 'mẫu số tăng gấp đôi mỗi lần nên dãy giảm'], [`\\dfrac{${p}}{n}`, 'mẫu số tăng nên dãy giảm']];
+const K3NON = (p, kk) => [[`n^2 + ${kk}`, 'dãy tăng'], ['(-1)^n', 'các số hạng luân phiên −1, 1 nên không tăng, không giảm'], ['(-1)^n n', 'dấu luân phiên nên không đơn điệu'], ['2^n', 'dãy tăng'],
+  [`n + ${kk}`, 'dãy tăng'], ['\\dfrac{n}{n+1}', `${tm('1 - \\dfrac{1}{n+1}')} tăng nên dãy tăng`], [`${kk}n - ${p}`, 'dãy tăng']];
+const cK3 = lv => {   // tính đơn điệu, nhỏ nhất, tham số
+  if(lv === 1){
+    const p = R(8, 20), q = R(2, 5), kk = R(1, 4), good = pick(K3DEC(p, q, kk)), bads = shuffle(K3NON(p, kk)).slice(0, 3), all = [good, ...bads];
+    return QC({text:`Dãy số nào sau đây là dãy <b>giảm</b>?`, opts:all.map(x => tm(`u_n = ${x[0]}`)), ans:tm(`u_n = ${good[0]}`),
+      hint:`Với mỗi dãy, tính vài số hạng đầu hoặc so sánh ${tm('u_{n+1}')} với ${tm('u_n')}. Chú ý ${tm('(-1)^n')} làm dấu đổi luân phiên.`,
+      sol:all.map(x => `${tm(`u_n = ${x[0]}`)}: ${x[1]}`).join('; ') + `. Đáp án: ${tb(`u_n = ${good[0]}`)}.`});
+  }
+  if(lv === 2){
+    const s = R(3, 9), c = R(0, 15), un = n => n * n - s * n + c;
+    let best = Infinity, bn = 0; for(let n = 1; n <= s + 3; n++) if(un(n) < best){ best = un(n); bn = n; }
+    k2chk(un(bn) <= un(bn - 1 || 99) && un(bn) <= un(bn + 1), 'k3 min');
+    const odd = s % 2 === 1;
+    return QB({text:`Tìm giá trị nhỏ nhất của dãy số ${tm(`u_n = ${tpoly([1, 'n^2'], [-s, 'n'], [c, ''])}`)} (${tm('n')} nguyên dương).`, tpl:`<span class="eq">${tm('\\min u_n =')} [_]</span>`, ans:[best],
+      hint:`Đồ thị ${tm('y = x^2 - ' + s + 'x + ' + c)} có đỉnh ở ${tm('x = ' + tf(s, 2))}. Nhưng ${tm('n')} chỉ nhận giá trị nguyên dương: hãy xét số nguyên gần đỉnh nhất.`,
+      sol:odd ? `Đỉnh ở ${tm(`x = ${s / 2}`)} không nguyên; hai số nguyên gần nhất là ${tm(`n = ${(s - 1) / 2}`)} và ${tm(`n = ${(s + 1) / 2}`)} cho cùng giá trị ${tm(`u_n = ${best}`)}. Vậy giá trị nhỏ nhất là ${tb(best)}.`
+              : `Đỉnh ở ${tm(`x = ${s / 2}`)} là số nguyên dương nên giá trị nhỏ nhất đạt tại ${tm(`n = ${s / 2}`)}: ${tm(`u_{${s / 2}} = ${s * s / 4} - ${s * s / 2} + ${c} = ${best}`)}. Đáp số: ${tb(best)}.`});
+  }
+  const c = pick([2, 3, 4]), b = R(1, 11), a = Math.floor(b / c) + 1;
+  const inc = (m, n) => (m * (n + 1) + b) * (n + c) > (m * n + b) * (n + 1 + c);
+  let allInc = true, anyNot = false; for(let n = 1; n <= 60; n++){ if(!inc(a, n)) allInc = false; if(!inc(a - 1, n)) anyNot = true; }
+  k2chk(allInc && anyNot, 'k3 lv3');
+  return QB({text:`Tìm số nguyên ${tm('m')} <b>nhỏ nhất</b> để dãy số ${tm(`u_n = \\dfrac{mn + ${b}}{n + ${c}}`)} là dãy <b>tăng</b>.`, tpl:blankV('m'), ans:[a],
+    hint:`Xét hiệu ${tm('u_{n+1} - u_n')}: quy đồng, tử số không còn chứa ${tm('n')}. Dãy tăng khi hiệu này <b>dương</b> với mọi ${tm('n')} (dương hẳn, không phải bằng 0).`,
+    sol:`${tm(`u_{n+1} - u_n = \\dfrac{${c}m - ${b}}{(n + ${c})(n + ${c + 1})}`)}. Mẫu dương, nên dãy tăng khi ${tm(`${c}m - ${b} \\gt 0${EQ2}m \\gt ${tfrac(b, c)}`)}. Số nguyên nhỏ nhất là ${tb(`m = ${a}`)}.`});
+};
+
+const K2KT1 = [
+  k2kt('Dãy số cho bằng công thức và truy hồi', `${tm('u_{n+1}')}: thay <b>mọi</b> ${tm('n')} bởi ${tm('n+1')}. Truy hồi: tính lần lượt từng số hạng từ số hạng đầu.`, `${tm('u_{n+1} \\ne u_n + 1')}; ${tm('u_{n+1} \\ne u_{n-1}')}. Khi tính ${tm('u_{k+1}')} từ ${tm('u_{n+1} = u_n + f(n)')} phải thay ${tm('n = k')}.`, 'Lập bảng nhỏ: n — u_n — u_{n+1} để khỏi lệch chỉ số.'),
+  k2kt('Số hạng của dãy', `${tm('x')} là số hạng của dãy khi ${tm('u_n = x')} có nghiệm ${tm('n')} <b>nguyên dương</b>.`, `Nghiệm ${tm('n = 0')}, ${tm('n \\lt 0')} hay không nguyên đều phải loại.`, 'Thử đáp án bằng cách tính n rồi kiểm tra n nguyên, n ≥ 1.'),
+  k2kt('Dãy tăng, giảm, nhỏ nhất', `Xét dấu ${tm('u_{n+1} - u_n')}: dương → tăng, âm → giảm. Nhỏ nhất của ${tm('n^2 - sn + c')}: xét số nguyên gần ${tm('s/2')}.`, `${tm('(-1)^n')} làm dãy không đơn điệu. Đỉnh parabol không nguyên thì phải thử hai số nguyên hai bên. “Tăng” là hiệu <b>dương hẳn</b>.`, 'Tham số: biến đổi hiệu ' + tm('u_{n+1} - u_n') + ' thành phân thức có tử không chứa ' + tm('n') + '.')
+];
+lesson(92, 'c2k-day-so', 'Củng cố Chương II · 1. Dãy số – chỗ dễ sai', 'Tính u_{n+1}; số nguyên dương n cho một số hạng; truy hồi (nhầm chỉ số); dãy tăng – giảm; giá trị nhỏ nhất; tìm tham số để dãy tăng.', [cK1, cK2, cK3], {introTitle:K2T, intro:K2KT1});
+
+/* ---------- BÀI 2. CẤP SỐ CỘNG – CHỖ DỄ SAI ---------- */
+const cL1 = lv => {
+  if(lv === 1){
+    const c = R(10, 30), a = R(2, 9), form = pick([0, 1]);
+    const f = form ? `${a}(${c} - n)` : `${c} - ${a}n`;
+    return QB({text:`Dãy số ${tm('(u_n)')} với ${tm(`u_n = ${f}`)} là một cấp số cộng. Tìm công sai ${tm('d')}.`, tpl:blankV('d'), ans:[-a],
+      hint:`Công sai ${tm('d = u_{n+1} - u_n')}. Tính hiệu này, chú ý dấu của hệ số của ${tm('n')}.`,
+      sol:`${tm(`u_{n+1} - u_n = ${f.replace(/n/g, '(n+1)')} - ${form ? `${a}(${c} - n)` : `(${c} - ${a}n)`}`)} ${tm(`= -${a}`)}. Công sai là số <b>âm</b>: ${tb(`d = -${a}`)}.`});
+  }
+  if(lv === 2){
+    const u1 = R(-10, 15), d = nz(-6, 7), p = R(2, 5), q = p + R(2, 5), r = q + R(3, 8), up = u1 + (p - 1) * d, uq = u1 + (q - 1) * d, ur = u1 + (r - 1) * d;
+    k2chk((uq - up) === (q - p) * d, 'L1 lv2');
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`u_{${p}} = ${up}`)} và ${tm(`u_{${q}} = ${uq}`)}. Tính ${tm(`u_{${r}}`)}.`, tpl:blankU(r), ans:[ur],
+      hint:`Từ ${tm(`u_{${p}}`)} đến ${tm(`u_{${q}}`)} có bao nhiêu <b>khoảng</b> công sai? (Số khoảng = hiệu hai chỉ số, không cộng thêm 1.)`,
+      sol:`${tm(`u_{${q}} - u_{${p}} = ${q - p}d${RA2}d = ${tfrac(uq - up, q - p)} = ${d}`)}. Rồi ${tm(`u_{${r}} = u_{${q}} + ${r - q}d = ${uq} ${sg(d)} ${r - q}\\cdot ${ab(d)} = ${ur}`)}. Đáp số: ${tb(ur)}.`});
+  }
+  const al = R(1, 3), be = R(1, 3), ga = R(1, 4), m = nz(-5, 6), a = R(-6, 6), b = R(-6, 6), k = al + ga - 2 * be;
+  if(k === 0) return cL1(3);
+  const c = 2 * b - a - k * m;
+  k2chk(((al * m + a) + (ga * m + c)) === 2 * (be * m + b), 'L1 lv3');
+  const t = [tpoly([al, 'm'], [a, '']), tpoly([be, 'm'], [b, '']), tpoly([ga, 'm'], [c, ''])];
+  return QB({text:`Tìm giá trị của ${tm('m')} để ba số ${tm(t[0])}; ${tm(t[1])}; ${tm(t[2])} (theo thứ tự đó) lập thành một cấp số cộng.`, tpl:blankV('m'), ans:[m],
+    hint:`Ba số ${tm('x, y, z')} lập thành cấp số cộng khi số ở giữa là trung bình cộng của hai số kia: ${tm('x + z = 2y')}. Thay vào rồi giải phương trình bậc nhất ẩn ${tm('m')}.`,
+    sol:`${tm(`(${t[0]}) + (${t[2]}) = 2(${t[1]})`)} ${tm(`${RA2} ${tpoly([al + ga, 'm'], [a + c, ''])} = ${tpoly([2 * be, 'm'], [2 * b, ''])}${EQ2}${k}m = ${2 * b - a - c}`)}. Vậy ${tb(`m = ${m}`)}.`});
+};
+
+const cL2 = lv => {
+  if(lv === 1){
+    const u1 = R(-5, 20), d = nz(-5, 6), n = R(8, 20), S = sumCSC(u1, d, n);
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} có ${tm(`u_1 = ${u1}`)}, ${tm(`d = ${d}`)}. Tính tổng ${tm(`${n}`)} số hạng đầu ${tm(`S_{${n}}`)}.`, tpl:blankV(`S_{${n}}`), ans:[S],
+      hint:`${tm('S_n = \\dfrac{n[2u_1 + (n-1)d]}{2}')}. Khi ${tm('d')} âm, cẩn thận với phép nhân và dấu trừ.`,
+      sol:`${tm(`S_{${n}} = \\dfrac{${n}[2\\cdot ${tp(u1)} + ${n - 1}\\cdot ${tp(d)}]}{2} = \\dfrac{${n}\\cdot ${2 * u1 + (n - 1) * d}}{2} = ${S}`)}. Đáp số: ${tb(S)}.`});
+  }
+  if(lv === 2){
+    const u1 = R(-4, 12), d = nz(-4, 6), p = R(3, 8), q = p + R(4, 10), cnt = q - p + 1;
+    let S = 0; for(let k = p; k <= q; k++) S += u1 + (k - 1) * d;
+    k2chk(S === sumCSC(u1, d, q) - sumCSC(u1, d, p - 1), 'L2 lv2');
+    const up = u1 + (p - 1) * d, uq = u1 + (q - 1) * d;
+    return QB({text:`Cho cấp số cộng có ${tm(`u_1 = ${u1}`)}, ${tm(`d = ${d}`)}. Tính tổng ${tm(`u_{${p}} + u_{${p + 1}} + \\ldots + u_{${q}}`)}.`, tpl:'Tổng = [_]', ans:[S],
+      hint:`Đếm xem tổng có bao nhiêu số hạng (từ số thứ ${p} đến số thứ ${q}), rồi dùng: số số hạng nhân trung bình cộng của số hạng đầu và cuối.`,
+      sol:`Có ${tm(`${q} - ${p} + 1 = ${cnt}`)} số hạng; ${tm(`u_{${p}} = ${up}`)}, ${tm(`u_{${q}} = ${uq}`)}. Tổng ${tm(`= ${cnt}\\cdot \\dfrac{${tp(up)} + ${tp(uq)}}{2} = ${S}`)}. Đáp số: ${tb(S)}. (Cách khác: ${tm(`S_{${q}} - S_{${p - 1}}`)}.)`});
+  }
+  const e = pick([2, 3, 4, 5]), m = R(4, 8), n1 = R(2, m), n2 = 2 * m + 1 - n1, u1 = e * m, d = -e, T = e * n1 * n2 / 2;
+  k2chk(sumCSC(u1, d, n1) === T && sumCSC(u1, d, n2) === T && Number.isInteger(T), 'L2 lv3');
+  for(let n = 1; n <= 4 * m; n++) if(n !== n1 && n !== n2) k2chk(sumCSC(u1, d, n) !== T, 'L2 lv3 nghiệm thừa');
+  return QB({text:`Cho cấp số cộng có ${tm(`u_1 = ${u1}`)}, ${tm(`d = ${d}`)}. Có đúng <b>hai</b> giá trị nguyên dương của ${tm('n')} để ${tm(`S_n = ${T}`)}. Điền hai giá trị đó theo thứ tự tăng dần.`, tpl:two2('n_1', 'n_2'), ans:[n1, n2],
+    hint:`Lập phương trình ${tm(`S_n = ${T}`)}, đưa về phương trình bậc hai ẩn ${tm('n')}. Xét <b>cả hai</b> nghiệm: nghiệm nguyên dương nào cũng nhận.`,
+    sol:`${tm(`\\dfrac{n[${2 * u1} - ${e}(n-1)]}{2} = ${T}${EQ2}${e}n^2 - ${2 * u1 + e}n + ${2 * T} = 0`)}, có hai nghiệm ${tm(`n = ${n1}`)} và ${tm(`n = ${n2}`)}, cả hai đều nguyên dương. Vì công sai âm nên các số hạng giảm dần và đổi dấu, tổng tăng rồi giảm lại. Đáp số: ${tb(`${n1};\\ ${n2}`)}.`});
+};
+
+const cL3 = lv => {
+  if(lv === 1){
+    const m = R(3, 8), s = R(1, m - 1), p = m - s, q = m + s, v = R(-8, 25);
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} thoả mãn ${tm(`u_{${p}} + u_{${q}} = ${2 * v}`)}. Tính ${tm(`u_{${m}}`)}.`, tpl:blankU(m), ans:[v],
+      hint:`Hai chỉ số ${p} và ${q} nằm cách đều số ${m}: ${tm(`${p} + ${q} = 2\\cdot ${m}`)}. Trong cấp số cộng, số hạng ở giữa là trung bình cộng của hai số hạng cách đều nó.`,
+      sol:`Vì ${tm(`${p} + ${q} = 2\\cdot ${m}`)} nên ${tm(`u_{${p}} + u_{${q}} = 2u_{${m}}`)}, suy ra ${tm(`u_{${m}} = \\dfrac{${2 * v}}{2} = ${v}`)}. Đáp số: ${tb(v)}.`});
+  }
+  if(lv === 2){
+    const u1 = R(-8, 15), d = nz(-5, 6);
+    let p, q, r, s; do{ p = R(1, 6); q = R(2, 9); r = R(3, 12); s = R(1, 8); }while(r <= s || p === q);
+    const A = (p - 1) * d + (q - 1) * d + 2 * u1, B = (r - s) * d;
+    k2chk(A === (u1 + (p - 1) * d) + (u1 + (q - 1) * d) && B === (u1 + (r - 1) * d) - (u1 + (s - 1) * d), 'L3 lv2');
+    return QB({text:`Cho cấp số cộng ${tm('(u_n)')} thoả mãn ${tm(`u_{${p}} + u_{${q}} = ${A}`)} và ${tm(`u_{${r}} - u_{${s}} = ${B}`)}. Tìm ${tm('u_1')} và ${tm('d')}.`, tpl:two2('u_1', 'd'), ans:[u1, d],
+      hint:`Điều kiện thứ hai chỉ chứa ${tm('d')}: ${tm(`u_{${r}} - u_{${s}} = (${r} - ${s})d`)}. Tìm ${tm('d')} trước rồi thay vào điều kiện thứ nhất.`,
+      sol:`${tm(`u_{${r}} - u_{${s}} = ${r - s}d = ${B}${RA2}d = ${d}`)}. Rồi ${tm(`u_{${p}} + u_{${q}} = 2u_1 + ${p + q - 2}d = ${A}${RA2}2u_1 = ${A - (p + q - 2) * d}`)}, ${tb(`u_1 = ${u1}`)}. Đáp số: ${tb(`u_1 = ${u1},\\ d = ${d}`)}.`});
+  }
+  const a = R(10, 60), b = R(2, 9); let cnt = 0; for(let n = 1; n <= 200; n++) if(a - b * (n - 1) > 0) cnt++;
+  k2chk(cnt === Math.ceil(a / b), 'L3 lv3');
+  return QB({text:`Cấp số cộng có ${tm(`u_1 = ${a}`)} và ${tm(`d = -${b}`)}. Có bao nhiêu số hạng <b>dương</b>?`, tpl:'[_] số hạng', ans:[cnt],
+    hint:`${tm('u_n \\gt 0')} là bất đẳng thức <b>ngặt</b>: số hạng bằng 0 không được tính. Giải ${tm(`${a} - ${b}(n-1) \\gt 0`)} với ${tm('n')} nguyên dương.`,
+    sol:`${tm(`${a} - ${b}(n-1) \\gt 0${EQ2}n \\lt ${tfrac(a + b, b)}`)}. ${a % b === 0 ? `Vì ${tm(`n = ${(a + b) / b}`)} cho ${tm('u_n = 0')} (không dương) nên chỉ lấy ${tm(`n \\le ${(a + b) / b - 1}`)}.` : `Số nguyên dương lớn nhất thoả mãn là ${tm(`n = ${cnt}`)}.`} Có ${tb(cnt)} số hạng dương.`});
+};
+
+const K2KT2 = [
+  k2kt('Công sai, số hạng tổng quát', `${tm('d = u_{n+1} - u_n')}; ${tm('u_n = u_1 + (n-1)d')}; ${tm('u_q = u_p + (q-p)d')}.`, `Từ ${tm('u_p')} đến ${tm('u_q')} có <b>${tm('q-p')}</b> khoảng công sai (không phải ${tm('q-p+1')}). Hệ số của ${tm('n')} âm thì ${tm('d')} âm.`, 'Ba số x, y, z lập cấp số cộng ⇔ x + z = 2y.'),
+  k2kt('Tổng các số hạng', `${tm('S_n = \\dfrac{n[2u_1 + (n-1)d]}{2} = \\dfrac{n(u_1 + u_n)}{2}')}. Tổng đoạn từ ${tm('u_p')} đến ${tm('u_q')} có ${tm('q-p+1')} số hạng.`, `Số số hạng của một đoạn là <b>${tm('q-p+1')}</b>. Giải ${tm('S_n = T')} cho phương trình bậc hai: loại nghiệm âm, không nguyên; nhưng khi ${tm('d \\lt 0')} có thể <b>cả hai</b> nghiệm đều nhận.`, 'Hai số hạng cách đều số hạng giữa: ' + tm('u_p + u_q = 2u_m') + ' khi ' + tm('p + q = 2m') + '.'),
+  k2kt('Số hạng dương, âm, đổi dấu', `Giải bất phương trình ${tm('u_n \\gt 0')} hoặc ${tm('u_n \\lt 0')} theo ${tm('n')}.`, `“Dương” là ${tm('\\gt 0')}, bằng 0 thì <b>không</b> tính. Kết quả đếm phải là số nguyên.`, 'Kiểm tra lại bằng số hạng ở đúng biên.')
+];
+lesson(92, 'c2k-csc', 'Củng cố Chương II · 2. Cấp số cộng – chỗ dễ sai', 'Công sai âm; u_r từ hai số hạng cho trước; ba số lập cấp số cộng (tham số); tổng n số hạng, tổng một đoạn; hai nghiệm n; hệ điều kiện; đếm số hạng dương.', [cL1, cL2, cL3], {introTitle:K2T, intro:K2KT2});
+
+/* ---------- BÀI 3. CẤP SỐ NHÂN – CHỖ DỄ SAI ---------- */
+const cM1 = lv => {
+  if(lv === 1){
+    const c = pick([2, 3, 4, 5]), r = pick([-5, -4, -3, -2, 2, 3, 4, 5]);
+    return QB({text:`Dãy số ${tm('(u_n)')} với ${tm(`u_n = ${c}\\cdot ${tp(r)}^n`)} là một cấp số nhân. Tìm công bội ${tm('q')}.`, tpl:blankV('q'), ans:[r],
+      hint:`Công bội ${tm('q = \\dfrac{u_{n+1}}{u_n}')}. Chia hai số hạng liên tiếp, để ý số mũ giảm đi mấy đơn vị.`,
+      sol:`${tm(`\\dfrac{u_{n+1}}{u_n} = \\dfrac{${c}\\cdot ${tp(r)}^{n+1}}{${c}\\cdot ${tp(r)}^n} = ${tp(r)}`)}. Công bội ${tb(`q = ${r}`)}${r < 0 ? ' (các số hạng đổi dấu luân phiên)' : ''}.`});
+  }
+  if(lv === 2){
+    const u1 = nz(-4, 5), r = R(2, 4), A = u1 * r, B = u1 * r ** 3;
+    k2chk(B / A === r * r, 'M1 lv2');
+    return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có ${tm(`u_2 = ${A}`)} và ${tm(`u_4 = ${B}`)}. Tìm <b>tất cả</b> các giá trị của công bội ${tm('q')} (điền giá trị âm trước, dương sau).`, tpl:two2('q_1', 'q_2'), ans:[-r, r],
+      hint:`${tm('u_4 = u_2\\cdot q^2')}. Phương trình ${tm('q^2 = \\text{số dương}')} có mấy nghiệm?`,
+      sol:`${tm(`q^2 = \\dfrac{u_4}{u_2} = \\dfrac{${B}}{${A}} = ${r * r}${RA2}q = \\pm ${r}`)}. Cả hai đều thoả mãn vì ${tm(`u_1 = \\dfrac{${A}}{q} = ${tp(A / r)}`)} hoặc ${tm(`${tp(-A / r)}`)} đều là số thực. Đáp số: ${tb(`q = ${-r}`)} và ${tb(`q = ${r}`)}.`});
+  }
+  const u1 = nz(-5, 5), q = pick([-3, -2, 2, 3]), A = u1 * q * q, B = u1 * q ** 5;
+  k2chk(B / A === q ** 3 && A / (q * q) === u1, 'M1 lv3');
+  return QB({text:`Cho cấp số nhân ${tm('(u_n)')} có ${tm(`u_3 = ${A}`)} và ${tm(`u_6 = ${B}`)}. Tìm ${tm('u_1')} và ${tm('q')}.`, tpl:two2('u_1', 'q'), ans:[u1, q],
+    hint:`${tm('u_6 = u_3\\cdot q^3')}: tìm ${tm('q^3')} rồi lấy căn bậc ba (căn bậc ba của số âm là số âm). Sau đó ${tm('u_3 = u_1 q^2')}.`,
+    sol:`${tm(`q^3 = \\dfrac{${B}}{${A}} = ${q ** 3}${RA2}q = ${q}`)}. Rồi ${tm(`u_1 = \\dfrac{u_3}{q^2} = \\dfrac{${A}}{${q * q}} = ${u1}`)}. Đáp số: ${tb(`u_1 = ${u1},\\ q = ${q}`)}.`});
+};
+
+const cM2 = lv => {
+  if(lv === 1){
+    const u1 = R(1, 5), q = pick([-2, -3]), n = R(4, 7); let S = 0; for(let i = 0; i < n; i++) S += u1 * q ** i;
+    k2chk(S === u1 * (1 - q ** n) / (1 - q), 'M2 lv1');
+    return QB({text:`Cho cấp số nhân có ${tm(`u_1 = ${u1}`)}, ${tm(`q = ${q}`)}. Tính tổng ${n} số hạng đầu ${tm(`S_{${n}}`)}.`, tpl:blankV(`S_{${n}}`), ans:[S],
+      hint:`${tm('S_n = u_1\\cdot \\dfrac{1 - q^n}{1 - q}')}. Khi ${tm('q')} âm, ${tm(`(${q})^${n}`)} mang dấu ${n % 2 ? 'âm' : 'dương'}; đặt trong ngoặc khi tính.`,
+      sol:`${tm(`S_{${n}} = ${u1}\\cdot \\dfrac{1 - ${tp(q)}^{${n}}}{1 - ${tp(q)}} = ${u1}\\cdot \\dfrac{${1 - q ** n}}{${1 - q}} = ${S}`)}. Đáp số: ${tb(S)}.`});
+  }
+  if(lv === 2){
+    const u1 = pick([1, 2, 3, 5]), q = pick([2, 3]), n = R(3, 7), T = u1 * (q ** n - 1) / (q - 1);
+    return QB({text:`Cấp số nhân có ${tm(`u_1 = ${u1}`)}, ${tm(`q = ${q}`)}. Tổng ${tm('n')} số hạng đầu bằng <b>${T}</b>. Tìm ${tm('n')}.`, tpl:blankV('n'), ans:[n],
+      hint:`Viết ${tm(`S_n = ${u1}\\cdot \\dfrac{${q}^n - 1}{${q - 1}}`)} rồi đặt bằng ${T}, đưa về dạng ${tm(`${q}^n = \\text{số}`)}. Chú ý: ${tm('S_n')} có chứa phép trừ 1.`,
+      sol:`${tm(`${u1}\\cdot \\dfrac{${q}^n - 1}{${q - 1}} = ${T}${EQ2}${q}^n - 1 = ${T * (q - 1) / u1}${EQ2}${q}^n = ${q ** n}`)}, suy ra ${tb(`n = ${n}`)}.`});
+  }
+  const a = pick([1, 2, 3]), q = pick([2, 3]), m = R(5, 9), S = a * (q ** (m + 1) - 1) / (q - 1);
+  let chk = 0; for(let i = 0; i <= m; i++) chk += a * q ** i; k2chk(chk === S, 'M2 lv3');
+  return QB({text:`Tính tổng ${tm(`S = ${a} + ${a * q} + ${a * q * q} + \\ldots + ${a * q ** m}`)}, biết các số hạng lập thành một cấp số nhân.`, tpl:'S = [_]', ans:[S],
+    hint:`Số hạng cuối là ${tm(`${a}\\cdot ${q}^{${m}}`)}, nên số hạng cuối là số thứ <b>mấy</b>? (Đếm số mũ từ ${tm(`${q}^0`)}.)`,
+    sol:`Các số hạng là ${tm(`${a}\\cdot ${q}^0, ${a}\\cdot ${q}^1, \\ldots, ${a}\\cdot ${q}^{${m}}`)}: có ${tm(`${m} + 1 = ${m + 1}`)} số hạng. ${tm(`S = ${a}\\cdot \\dfrac{${q}^{${m + 1}} - 1}{${q} - 1} = ${S}`)}. Đáp số: ${tb(S)}.`});
+};
+
+const K2CACHE = {};
+const k2ba = () => {   // (m - d, m, m + d) lập cấp số cộng, cộng thêm (e1, e2, e3) thì thành cấp số nhân; chỉ một bộ ba số dương
+  if(!K2CACHE.list){ const L = [];
+    for(let m = 4; m <= 15; m++) for(let d = 1; d < m; d++) for(let e1 = 0; e1 <= 12; e1++) for(let e3 = 0; e3 <= 12; e3++) for(let e2 = 0; e2 <= 12; e2++){
+      const A = m - d + e1, B = m + d + e3, C = m + e2;
+      if(C * C !== A * B || (A === C && C === B)) continue;
+      const other = (m + e1 - (m + e3)) - d;
+      if(other === -d || Math.abs(other) >= m) L.push({m, d, e1, e2, e3});
+    }
+    K2CACHE.list = L; }
+  return pick(K2CACHE.list);
+};
+const cM3 = lv => {
+  if(lv === 1){
+    const t1 = pick([-3, -2, -1, 1, 2, 3, 4]), q = pick([-3, -2, 2, 3]), t = [t1, t1 * q, t1 * q * q], x = nz(-6, 6), a = t[0] - x, b = t[1] - x, c = t[2] - x;
+    const ex = [tpoly([1, 'x'], [a, '']), tpoly([1, 'x'], [b, '']), tpoly([1, 'x'], [c, ''])];
+    k2chk((x + b) ** 2 === (x + a) * (x + c) && (2 * b - a - c) !== 0 && (a * c - b * b) / (2 * b - a - c) === x, 'M3 lv1');
+    return QB({text:`Tìm giá trị của ${tm('x')} để ba số ${tm(ex[0])}; ${tm(ex[1])}; ${tm(ex[2])} (theo thứ tự đó) lập thành một cấp số nhân.`, tpl:blankV('x'), ans:[x],
+      hint:`Ba số ${tm('a, b, c')} (khác 0) lập thành cấp số nhân khi ${tm('b^2 = ac')}. (Đừng dùng điều kiện ${tm('a + c = 2b')} của cấp số cộng.) Khai triển rồi rút gọn, ${tm('x^2')} sẽ triệt tiêu.`,
+      sol:`${tm(`(${ex[1]})^2 = (${ex[0]})(${ex[2]})`)}. Khai triển, ${tm('x^2')} triệt tiêu: ${tm(`${tpoly([2 * b, 'x'], [b * b, ''])} = ${tpoly([a + c, 'x'], [a * c, ''])}${EQ2}${2 * b - a - c}x = ${a * c - b * b}`)}. Vậy ${tb(`x = ${x}`)}. (Thử lại: ba số là ${tm(`${t.join(';\\ ')}`)}.)`});
+  }
+  if(lv === 2){
+    const u1 = pick([1, 2, 3]), q = pick([2, 3, 4]), A = u1 * (1 + q ** 3), B = u1 * q * (1 + q);
+    k2chk(A * q === B * (q * q - q + 1), 'M3 lv2');
+    return QB({text:`Một cấp số nhân có bốn số hạng ${tm('u_1, u_2, u_3, u_4')} với ${tm(`u_1 + u_4 = ${A}`)} và ${tm(`u_2 + u_3 = ${B}`)}. Biết công bội ${tm('q \\gt 1')}, tìm ${tm('q')}.`, tpl:blankV('q'), ans:[q],
+      hint:`Chia vế theo vế: ${tm('\\dfrac{u_1(1 + q^3)}{u_1 q(1 + q)}')}. Nhớ ${tm('1 + q^3 = (1 + q)(1 - q + q^2)')}. Phương trình bậc hai ẩn ${tm('q')} có hai nghiệm; điều kiện ${tm('q \\gt 1')} chọn nghiệm đúng.`,
+      sol:`${tm(`\\dfrac{${A}}{${B}} = \\dfrac{1 + q^3}{q + q^2} = \\dfrac{q^2 - q + 1}{q}`)}. Quy đồng: ${tm(`${B}q^2 - ${B + A}q + ${B} = 0`)}, có hai nghiệm ${tm(`q = ${q}`)} và ${tm(`q = ${tfrac(1, q)}`)}. Vì ${tm('q \\gt 1')} nên ${tb(`q = ${q}`)}.`});
+  }
+  const {m, d, e1, e2, e3} = k2ba(), orig = [m - d, m, m + d], nw = [m - d + e1, m + e2, m + d + e3];
+  k2chk(nw[1] * nw[1] === nw[0] * nw[2] && orig.every(x => x > 0), 'M3 lv3');
+  const add = [e1, e2, e3].map(e => e === 0 ? '0' : String(e));
+  return QB({text:`Ba số dương lập thành một cấp số cộng có tổng bằng <b>${3 * m}</b>. Nếu lần lượt cộng thêm <b>${add[0]}</b>, <b>${add[1]}</b> và <b>${add[2]}</b> vào số thứ nhất, thứ hai, thứ ba thì được ba số lập thành một cấp số nhân. Tìm số <b>lớn nhất</b> trong ba số ban đầu.`, tpl:'[_]', ans:[m + d], wide:true,
+    hint:`Gọi ba số là ${tm('x - d,\\ x,\\ x + d')}. Tổng cho biết ${tm('x')}. Sau khi cộng thêm, dùng điều kiện cấp số nhân ${tm('b^2 = ac')} để tìm ${tm('d')}, rồi loại nghiệm làm ba số không dương.`,
+    sol:(() => { const A = m + e1, B = m + e3, C = m + e2, o2 = (A - B) - d;
+      return `Tổng bằng ${3 * m} nên ${tm(`x = ${m}`)}; ba số là ${tm(`${m} - d,\\ ${m},\\ ${m} + d`)}. Sau khi cộng thêm: ${tm(`${A} - d,\\ ${C},\\ ${B} + d`)}. Điều kiện ${tm(`${C}^2 = (${A} - d)(${B} + d)`)} cho ${tm(`${tpoly([1, 'd^2'], [B - A, 'd'], [C * C - A * B, ''])} = 0`)}, có nghiệm ${tm(`d = ${d}`)}${o2 === -d ? '' : ` hoặc ${tm(`d = ${o2}`)} (loại vì làm một trong ba số ban đầu không dương)`}. Ba số ban đầu: ${tm(orig.join(';\\ '))}; số lớn nhất là ${tb(m + d)}.`; })()});
+};
+
+const K2KT3 = [
+  k2kt('Công bội và số hạng tổng quát', `${tm('q = \\dfrac{u_{n+1}}{u_n}')}; ${tm('u_n = u_1 q^{n-1}')}; ${tm('u_q = u_p\\cdot q^{\\,q-p}')}.`, `Số mũ là <b>${tm('n-1')}</b>, không phải ${tm('n')}. ${tm('q^2 = a')} (a dương) có <b>hai</b> nghiệm ${tm('\\pm\\sqrt a')}; ${tm('q^3 = a')} chỉ có một nghiệm (cùng dấu với ${tm('a')}).`, 'Ba số a, b, c (khác 0) lập cấp số nhân ⇔ b² = ac.'),
+  k2kt('Tổng n số hạng đầu', `${tm('S_n = u_1\\cdot \\dfrac{1 - q^n}{1 - q}')} (${tm('q \\ne 1')}); nếu ${tm('q = 1')} thì ${tm('S_n = nu_1')}.`, `Tổng ${tm('1 + q + \\ldots + q^m')} có ${tm('m+1')} số hạng. Khi ${tm('q')} âm, đặt ${tm('q')} trong ngoặc: ${tm('(-2)^4 = 16')}, còn ${tm('-2^4 = -16')}.`, 'Biết tổng, tìm n: đưa về ' + tm('q^n = \\text{số}') + '.'),
+  k2kt('Điều kiện có nhiều nghiệm', 'Đưa điều kiện cấp số nhân về phương trình, giải hết các nghiệm rồi kiểm tra từng nghiệm với yêu cầu đề (dương, lớn hơn 1…).', `Cặp ${tm('q')} và ${tm('\\dfrac{1}{q}')} thường cùng nghiệm: điều kiện ${tm('q \\gt 1')} hay “số lớn nhất” dùng để chọn đáp án.`, 'Thử lại bằng cách tính ba số cuối cùng.')
+];
+lesson(92, 'c2k-csn', 'Củng cố Chương II · 3. Cấp số nhân – chỗ dễ sai', 'Công bội âm; hai giá trị q khi biết u_2, u_4; căn bậc ba; tổng n số hạng với q âm; tìm n; đếm số hạng khi tính tổng; ba số lập cấp số nhân; cấp số cộng đổi thành cấp số nhân.', [cM1, cM2, cM3], {introTitle:K2T, intro:K2KT3});
+
+/* ---------- BÀI 4. TOÁN THỰC TẾ CÓ HÌNH (1): CẤP SỐ CỘNG ---------- */
+const K2TT = 'Quy trình giải toán thực tế · Chỗ dễ sai · Mẹo';
+const cN1 = lv => {   // tháp lon
+  const a = R(2, 5), d = pick([1, 2]), n = R(5, 11), rows = Array.from({length:n}, (_, i) => a + i * d);
+  const fig = stackSVG(rows.slice(0, 3), {top:'Hàng 1', cap:'Chỉ vẽ 3 hàng trên cùng · hàng 1 ở trên cùng'});
+  if(lv === 1){
+    return QB({text:`Người ta xếp các lon nước thành một tháp gồm <b>${n}</b> hàng (hình vẽ). Hàng trên cùng có ${a} lon, mỗi hàng dưới nhiều hơn hàng ngay trên nó ${d} lon. Hỏi hàng dưới cùng có bao nhiêu lon?`, fig, tpl:'[_] lon', ans:[rows[n - 1]],
+      hint:`Số lon mỗi hàng lập thành cấp số cộng với ${tm(`u_1 = ${a}`)}, ${tm(`d = ${d}`)}. Hàng dưới cùng là hàng thứ mấy?`,
+      sol:`${tm(`u_{${n}} = ${a} + (${n} - 1)\\cdot ${d} = ${rows[n - 1]}`)}. Hàng dưới cùng có ${tb(rows[n - 1])} lon.`});
+  }
+  if(lv === 2){
+    const S = sumCSC(a, d, n);
+    return QB({text:`Một tháp lon nước gồm <b>${n}</b> hàng như hình vẽ: hàng trên cùng có ${a} lon, mỗi hàng dưới nhiều hơn hàng trên ${d} lon. Hỏi cần tất cả bao nhiêu lon để xếp tháp?`, fig, tpl:'[_] lon', ans:[S],
+      hint:`Cần <b>tổng</b> số lon của ${n} hàng, không chỉ hàng cuối. Dùng ${tm('S_n = \\dfrac{n(u_1 + u_n)}{2}')}.`,
+      sol:`Hàng dưới cùng có ${tm(`u_{${n}} = ${rows[n - 1]}`)} lon. ${tm(`S_{${n}} = \\dfrac{${n}(${a} + ${rows[n - 1]})}{2} = ${S}`)}. Cần ${tb(S)} lon.`});
+  }
+  const S = sumCSC(a, d, n);
+  k2chk(d * n * n + (2 * a - d) * n - 2 * S === 0 && S > 0, 'N1 lv3');
+  return QB({text:`Người ta xếp một tháp lon nước (hình vẽ): hàng trên cùng có ${a} lon, mỗi hàng dưới nhiều hơn hàng trên ${d} lon. Tháp dùng tất cả <b>${fmt(S)}</b> lon. Hỏi tháp có bao nhiêu hàng?`, fig, tpl:'[_] hàng', ans:[n],
+    hint:`Gọi số hàng là ${tm('x')} và lập phương trình ${tm(`\\dfrac{x[2\\cdot ${a} + (x-1)\\cdot ${d}]}{2} = ${S}`)}. Giải được hai nghiệm; chỉ nhận nghiệm nguyên dương.`,
+    sol:`${tm(`${d}x^2 + ${2 * a - d}x - ${2 * S} = 0`)}, nghiệm ${tm(`x = ${n}`)} hoặc ${tm(`x = ${(d - 2 * a) / d - n}`)} (âm, loại). Tháp có ${tb(n)} hàng.`});
+};
+
+const K2LAB = k => `Năm ${k}`;
+const cN2 = lv => {   // doanh thu tăng đều – đọc từ biểu đồ
+  const a = pick([20, 40, 60, 80]), d = pick([20, 40]), vals = [0, 1, 2, 3].map(i => a + i * d), fig = barSVG([1, 2, 3, 4].map(K2LAB), vals, 20, 'triệu đồng');
+  const head = `Biểu đồ cho biết doanh thu của một cửa hàng trong 4 năm đầu hoạt động. Biết doanh thu các năm sau tăng <b>đều</b> so với năm trước (lập thành cấp số cộng).`;
+  if(lv === 1){
+    const n = R(8, 12);
+    return QB({text:`${head} Dự đoán doanh thu năm thứ ${n}.`, fig, tpl:'[_] triệu đồng', ans:[a + (n - 1) * d], wide:true,
+      hint:`Đọc doanh thu từng năm trên biểu đồ để tìm số hạng đầu và công sai ${tm('d')} (mỗi năm tăng bao nhiêu).`,
+      sol:`Từ biểu đồ: ${tm(`u_1 = ${a}`)}, ${tm(`u_2 = ${a + d}`)} nên ${tm(`d = ${d}`)}. ${tm(`u_{${n}} = ${a} + ${n - 1}\\cdot ${d} = ${a + (n - 1) * d}`)}. Doanh thu năm thứ ${n}: ${tb(a + (n - 1) * d)} triệu đồng.`});
+  }
+  if(lv === 2){
+    const n = R(6, 10), S = sumCSC(a, d, n);
+    return QB({text:`${head} Tính <b>tổng</b> doanh thu của ${n} năm đầu tiên.`, fig, tpl:'[_] triệu đồng', ans:[S], wide:true,
+      hint:`Xác định ${tm('u_1')}, ${tm('d')} từ biểu đồ, rồi dùng công thức ${tm('S_n')}. Câu hỏi là tổng ${n} năm, không phải năm thứ ${n}.`,
+      sol:`${tm(`u_1 = ${a}`)}, ${tm(`d = ${d}`)}. ${tm(`S_{${n}} = \\dfrac{${n}[2\\cdot ${a} + ${n - 1}\\cdot ${d}]}{2} = ${S}`)}. Tổng doanh thu: ${tb(fmt(S))} triệu đồng.`});
+  }
+  const n0 = R(6, 10), T = Math.random() < .5 ? sumCSC(a, d, n0) : sumCSC(a, d, n0) - R(1, 9);
+  let n = 1; while(sumCSC(a, d, n) <= T) n++;
+  k2chk(sumCSC(a, d, n) > T && sumCSC(a, d, n - 1) <= T, 'N2 lv3');
+  return QB({text:`${head} Hỏi sau ít nhất bao nhiêu năm (tính từ năm đầu) thì <b>tổng</b> doanh thu <b>vượt quá</b> ${fmt(T)} triệu đồng?`, fig, tpl:'[_] năm', ans:[n], wide:true,
+    hint:`Tìm ${tm('u_1, d')} từ biểu đồ, rồi tìm số nguyên ${tm('n')} nhỏ nhất thoả ${tm(`S_n \\gt ${T}`)}. Chú ý “vượt quá” là lớn hơn hẳn: nếu bằng đúng ${T} thì chưa đủ.`,
+    sol:`${tm(`S_n = n(${a} + ${(d / 2)}(n-1)) `)}. Tính thử: ${tm(`S_{${n - 1}} = ${sumCSC(a, d, n - 1)}${sumCSC(a, d, n - 1) === T ? ` = ${T}` : ' \\le ' + T}`)} (chưa vượt), ${tm(`S_{${n}} = ${sumCSC(a, d, n)} \\gt ${T}`)}. Cần ${tb(n)} năm.`});
+};
+
+const cN3 = lv => {   // chiếc thang
+  const e = R(2, 4), n = pick([9, 10, 11, 12, 13]), b = R(20, 32), a = b + (n - 1) * e;
+  const fig = ladderSVG(n, {top:`bậc trên cùng: ${b} cm`, bot:`bậc dưới cùng: ${a} cm`, cap:`Thang ${n} bậc · độ dài các bậc giảm đều từ dưới lên`});
+  if(lv === 1){
+    const k = R(3, n - 2), v = a - (k - 1) * e;
+    return QB({text:`Một chiếc thang có <b>${n}</b> bậc ngang, độ dài các bậc giảm <b>đều</b> từ dưới lên trên. Bậc dưới cùng dài ${a} cm, bậc trên cùng dài ${b} cm. Hỏi bậc thứ ${k} (đếm từ dưới lên) dài bao nhiêu cm?`, fig, tpl:'[_] cm', ans:[v],
+      hint:`Độ dài các bậc lập thành cấp số cộng. Từ bậc 1 đến bậc ${n} có ${n - 1} khoảng công sai: ${tm('d = \\dfrac{u_{n} - u_1}{n - 1}')}.`,
+      sol:`${tm(`d = \\dfrac{${b} - ${a}}{${n} - 1} = -${e}`)}. ${tm(`u_{${k}} = ${a} + (${k} - 1)\\cdot (-${e}) = ${v}`)}. Bậc thứ ${k} dài ${tb(v)} cm.`});
+  }
+  if(lv === 2){
+    const S = n * (a + b) / 2;
+    k2chk(Number.isInteger(S) && S === sumCSC(a, -e, n), 'N3 lv2');
+    return QB({text:`Một chiếc thang có <b>${n}</b> bậc ngang, độ dài các bậc giảm đều từ dưới lên trên: bậc dưới cùng dài ${a} cm, bậc trên cùng dài ${b} cm. Tính <b>tổng</b> chiều dài gỗ cần để làm tất cả các bậc ngang.`, fig, tpl:'[_] cm', ans:[S],
+      hint:`Với cấp số cộng đã biết số hạng đầu và cuối, ${tm('S_n = \\dfrac{n(u_1 + u_n)}{2}')}; không cần tìm công sai.`,
+      sol:`${tm(`S_{${n}} = \\dfrac{${n}(${a} + ${b})}{2} = ${S}`)}. Cần ${tb(S)} cm gỗ (${tdec(S / 100)} m).`});
+  }
+  return QB({text:`Một chiếc thang có các bậc ngang ngắn dần đều từ dưới lên trên, mỗi bậc ngắn hơn bậc ngay dưới nó ${e} cm. Bậc dưới cùng dài ${a} cm, bậc trên cùng dài ${b} cm. Hỏi thang có bao nhiêu bậc?`, fig:ladderSVG(8, {top:`bậc trên cùng: ${b} cm`, bot:`bậc dưới cùng: ${a} cm`, cap:'Hình minh hoạ: số bậc vẽ không đúng với đề'}), tpl:'[_] bậc', ans:[n],
+    hint:`Dùng ${tm('u_n = u_1 + (n-1)d')} với ${tm(`d = -${e}`)} và ${tm(`u_n = ${b}`)}; giải tìm ${tm('n')}. Đừng quên cộng thêm 1 sau khi chia.`,
+    sol:`${tm(`${b} = ${a} + (n-1)(-${e})${EQ2}n - 1 = ${tfrac(a - b, e)} = ${n - 1}`)}, nên ${tb(`n = ${n}`)} bậc.`});
+};
+
+const cN4 = lv => {   // chia phần quà, góc tứ giác
+  if(lv === 1){
+    const n = pick([3, 5]), mid = R(10, 24), d = R(2, 4), arr = Array.from({length:n}, (_, i) => mid + (i - (n - 1) / 2) * d), S = n * mid;
+    k2chk(arr.every(x => x > 0) && arr.reduce((s, x) => s + x, 0) === S, 'N4 lv1');
+    return QB({text:`${n} bạn được chia một số kẹo; số kẹo của các bạn, xếp theo thứ tự từ ít đến nhiều, lập thành một cấp số cộng. Tổng số kẹo là <b>${S}</b>. Hỏi bạn đứng <b>giữa</b> (thứ ${(n + 1) / 2}) được bao nhiêu kẹo?`, tpl:'[_] kẹo', ans:[mid],
+      hint:`Trong cấp số cộng có số hạng lẻ, tổng bằng số số hạng nhân với số hạng ở <b>giữa</b>.`,
+      sol:`${tm(`S_${n} = ${n}\\cdot u_{${(n + 1) / 2}}`)}, nên ${tm(`u_{${(n + 1) / 2}} = \\dfrac{${S}}{${n}} = ${mid}`)}. Bạn đứng giữa được ${tb(mid)} kẹo.`});
+  }
+  if(lv === 2){
+    const n = pick([4, 5, 6, 7]), d = R(2, 5), u1 = R(4, 12), S = sumCSC(u1, d, n), spread = (n - 1) * d;
+    return QB({text:`${n} người nhận tiền thưởng; số tiền (nghìn đồng) của mỗi người, xếp từ thấp đến cao, lập thành một cấp số cộng. Tổng tiền là <b>${S}</b> nghìn đồng và người nhận nhiều nhất hơn người nhận ít nhất <b>${spread}</b> nghìn đồng. Hỏi người nhận <b>ít nhất</b> được bao nhiêu nghìn đồng?`, tpl:'[_] nghìn đồng', ans:[u1], wide:true,
+      hint:`Từ người ít nhất đến người nhiều nhất có ${n - 1} khoảng, không phải ${n}. Tìm ${tm('d')} từ hiệu, rồi dùng công thức tổng.`,
+      sol:`${tm(`u_{${n}} - u_1 = ${n - 1}d = ${spread}${RA2}d = ${d}`)}. ${tm(`S_{${n}} = \\dfrac{${n}(2u_1 + ${n - 1}\\cdot ${d})}{2} = ${S}${RA2}2u_1 = ${2 * S / n - spread}`)}. Người ít nhất nhận ${tb(u1)} nghìn đồng.`});
+  }
+  const k = pick([2, 3, 4, 5, 9]), a = 180 / (k + 1), dd = (k - 1) * a / 3;
+  k2chk(Number.isInteger(a) && Number.isInteger(dd) && 4 * a + 6 * dd === 360 && a + 3 * dd === k * a, 'N4 lv3');
+  return QB({text:`Bốn góc của một tứ giác lồi, xếp theo thứ tự từ nhỏ đến lớn, lập thành một cấp số cộng. Góc lớn nhất gấp <b>${k}</b> lần góc nhỏ nhất. Tính số đo góc lớn nhất (đơn vị: độ).`, tpl:'[_]°', ans:[k * a],
+    hint:`Tổng bốn góc của tứ giác bằng ${tm('360^\\circ')}. Gọi góc nhỏ nhất là ${tm('a')} và công sai ${tm('d')}: góc lớn nhất là ${tm('a + 3d')}. Lập hai phương trình.`,
+    sol:`${tm(`4a + 6d = 360`)} và ${tm(`a + 3d = ${k}a`)}. Từ phương trình thứ hai: ${tm(`3d = ${k - 1}a`)}, thay vào phương trình đầu: ${tm(`4a + 2\\cdot ${k - 1}a = 360${RA2}a = ${a}`)}. Góc lớn nhất: ${tb(`${k}\\cdot ${a} = ${k * a}^\\circ`)}.`});
+};
+
+const K2KT4 = [
+  k2kt('Nhận ra cấp số cộng', `“Mỗi hàng nhiều hơn hàng trước ${tm('d')}”, “mỗi năm tăng thêm ${tm('d')}”, “ngắn hơn đều ${tm('d')}” → cấp số cộng.`, 'Đề hỏi một số hạng (hàng cuối, năm thứ n) hay hỏi <b>tổng</b>? Hai câu hỏi dùng hai công thức khác nhau.', 'Ghi ngay ' + tm('u_1') + ', ' + tm('d') + ', ' + tm('n') + ' ra nháp trước khi tính.'),
+  k2kt('Đọc dữ liệu từ hình', 'Số hạng đầu lấy ở hàng/cột đầu; công sai lấy bằng hiệu hai cột liên tiếp. Với tháp lon, mỗi hàng nhiều hơn hàng trên bằng số lon thêm vào.', `Hình chỉ vẽ một phần: đừng đếm hàng trên hình để suy ra tổng số hàng. Từ bậc 1 đến bậc ${tm('n')} chỉ có <b>${tm('n-1')}</b> khoảng.`, 'Kiểm tra bằng cách tính thêm một hai số hạng.'),
+  k2kt('Tìm n và điều kiện “vượt quá”', `Lập ${tm('S_n = T')} → phương trình bậc hai, loại nghiệm âm. “Vượt quá T” nghĩa là ${tm('S_n \\gt T')} (lớn hơn hẳn), n là số nguyên nhỏ nhất.`, 'Nếu ' + tm('S_n') + ' đúng bằng T thì chưa “vượt quá”; phải lấy n kế tiếp.', 'Tính hai giá trị ' + tm('S_{n-1}') + ' và ' + tm('S_n') + ' để kiểm tra.')
+];
+lesson(92, 'c2k-thuc-te-csc', 'Củng cố Chương II · 4. Toán thực tế có hình: tháp lon, doanh thu, chiếc thang', 'Tháp lon (số lon hàng cuối, tổng, số hàng); đọc biểu đồ doanh thu tăng đều; chiếc thang có bậc ngắn dần; chia thưởng, góc tứ giác lập cấp số cộng.', [cN1, cN2, cN3, cN4], {introTitle:K2TT, intro:K2KT4});
+
+/* ---------- BÀI 5. TOÁN THỰC TẾ CÓ HÌNH (2): CẤP SỐ NHÂN ---------- */
+const cP1 = lv => {   // tăng trưởng – đọc biểu đồ
+  const q = pick([2, 3]), a = pick([5, 10, 20]), nb = q === 2 ? 4 : 3, vals = Array.from({length:nb}, (_, i) => a * q ** i);
+  const fig = barSVG(vals.map((_, k) => `Giờ ${k + 1}`), vals, a, 'nghìn con');
+  const head = `Biểu đồ cho số lượng vi khuẩn (nghìn con) trong một ống nghiệm ở ${nb} giờ đầu tiên. Số lượng vi khuẩn sau mỗi giờ tăng gấp một số lần <b>không đổi</b>.`;
+  if(lv === 1){
+    const n = R(6, 8), v = a * q ** (n - 1);
+    return QB({text:`${head} Hỏi ở giờ thứ ${n} có bao nhiêu nghìn con?`, fig, tpl:'[_] nghìn con', ans:[v], wide:true,
+      hint:`Đọc biểu đồ để tìm ${tm('u_1')} và công bội ${tm('q')} (số lần tăng). Giờ thứ ${n} ứng với số hạng ${tm(`u_{${n}}`)}, số mũ của ${tm('q')} là bao nhiêu?`,
+      sol:`${tm(`u_1 = ${a}`)}, ${tm(`u_2 = ${a * q}`)} nên ${tm(`q = ${q}`)}. ${tm(`u_{${n}} = ${a}\\cdot ${q}^{${n - 1}} = ${v}`)}. Có ${tb(fmt(v))} nghìn con. (Số mũ là ${tm(`${n} - 1`)}, không phải ${tm(`${n}`)}.)`});
+  }
+  if(lv === 2){
+    const T = a * q ** R(5, 7) * pick([1, 1, 2]) - pick([0, 0, 1]);
+    let n = 1; while(a * q ** (n - 1) <= T) n++;
+    k2chk(a * q ** (n - 1) > T && a * q ** (n - 2) <= T, 'P1 lv2');
+    return QB({text:`${head} Từ giờ thứ mấy trở đi số vi khuẩn <b>vượt quá</b> ${fmt(T)} nghìn con?`, fig, tpl:'Giờ thứ [_]', ans:[n], wide:true,
+      hint:`Tìm ${tm('u_1')}, ${tm('q')} từ biểu đồ rồi giải ${tm(`${a}\\cdot ${q}^{n-1} \\gt ${T}`)}; tính thử các luỹ thừa của ${q}. “Vượt quá” là lớn hơn hẳn.`,
+      sol:`${tm(`u_n = ${a}\\cdot ${q}^{n-1}`)}. ${tm(`u_{${n - 1}} = ${a * q ** (n - 2)} \\le ${T}`)} (chưa vượt), ${tm(`u_{${n}} = ${a * q ** (n - 1)} \\gt ${T}`)}. Từ giờ thứ ${tb(n)}.`});
+  }
+  const n = R(5, 7), nb2 = q === 2 ? 4 : 3, vals2 = Array.from({length:nb2}, (_, i) => q ** i), S = (q ** n - 1) / (q - 1), fig2 = barSVG(vals2.map((_, k) => `Ngày ${k + 1}`), vals2, 1, 'người');
+  k2chk(S === Array.from({length:n}, (_, i) => q ** i).reduce((x, y) => x + y, 0), 'P1 lv3');
+  return QB({text:`Một tin nhắn lan truyền: ngày 1 có 1 người nhận được tin; mỗi ngày sau, số người <b>mới</b> nhận được tin gấp ${q} lần số người mới của ngày trước (biểu đồ cho ${nb2} ngày đầu). Hỏi sau ${n} ngày, có tất cả bao nhiêu người đã nhận được tin?`, fig:fig2, tpl:'[_] người', ans:[S],
+    hint:`Số người <b>mới</b> mỗi ngày lập thành cấp số nhân ${tm(`u_1 = 1,\\ q = ${q}`)}; câu hỏi là <b>tổng</b> sau ${n} ngày, tức ${tm(`S_{${n}}`)}.`,
+    sol:`${tm(`S_{${n}} = \\dfrac{${q}^{${n}} - 1}{${q} - 1} = ${S}`)}. Có ${tb(fmt(S))} người.`});
+};
+
+const P2RATE = {n2: {10: 100, 20: 25, 50: 4}, n3: {10: 1000, 20: 125, 50: 8}};
+const cP2 = lv => {   // lãi kép, khấu hao, gửi định kỳ
+  if(lv === 1){
+    const r = pick([10, 20, 50]), n = pick([2, 3]), mult = P2RATE['n' + n][r], A = mult * pick([1, 2, 3, 5]);
+    const val = A * (100 + r) ** n / 100 ** n; k2chk(Number.isInteger(val), 'P2 lv1');
+    let chk = A; for(let i = 0; i < n; i++) chk = chk * (100 + r) / 100; k2chk(Math.abs(chk - val) < 1e-6, 'P2 lv1 b');
+    return QB({text:`Bạn An gửi tiết kiệm <b>${fmt(A)}</b> triệu đồng với lãi suất <b>${r}%/năm</b>, theo thể thức <b>lãi kép</b> (tiền lãi mỗi năm được cộng vào vốn để tính lãi năm sau). Hỏi sau <b>${n}</b> năm, cả vốn lẫn lãi là bao nhiêu triệu đồng?`, tpl:'[_] triệu đồng', ans:[val], wide:true,
+      hint:`Mỗi năm số tiền nhân với ${tm(`1 + ${tfrac(r, 100)}`)}. Sau ${n} năm là ${n} lần nhân, không phải cộng ${n} lần lãi ${r}%.`,
+      sol:`Số tiền sau ${n} năm: ${tm(`${A}\\cdot ${tdec(1 + r / 100)}^{${n}} = ${val}`)}. Đáp số: ${tb(fmt(val))} triệu đồng. (Nếu cộng lãi đơn ${n} lần thì chỉ được ${fmt(A + n * A * r / 100)} triệu, thấp hơn.)`});
+  }
+  if(lv === 2){
+    const r = pick([10, 20, 25, 50]), n = pick([2, 3]), den = {10: 10, 20: 5, 25: 4, 50: 2}[r], keep = (100 - r) / 100, num = {10: 9, 20: 4, 25: 3, 50: 1}[r], A = den ** n * pick([1, 2, 5]);
+    const val = A / den ** n * num ** n; k2chk(Number.isInteger(val) && Math.abs(val - A * keep ** n) < 1e-6, 'P2 lv2');
+    return QB({text:`Một chiếc máy có giá trị ban đầu <b>${fmt(A)}</b> triệu đồng. Mỗi năm giá trị của máy <b>giảm ${r}%</b> so với giá trị năm trước. Hỏi sau <b>${n}</b> năm, giá trị còn lại của máy là bao nhiêu triệu đồng?`, tpl:'[_] triệu đồng', ans:[val], wide:true,
+      hint:`Mỗi năm giá trị còn lại ${100 - r}% của năm trước, tức nhân với ${tm(tdec(keep))}. Dãy giá trị là cấp số nhân; không phải trừ ${r}% của giá ban đầu ${n} lần.`,
+      sol:`${tm(`${A}\\cdot ${tdec(keep)}^{${n}} = ${val}`)}. Giá trị còn lại: ${tb(fmt(val))} triệu đồng. (Trừ đều ${r}% của giá ban đầu mỗi năm sẽ sai: ${fmt(A * (1 - n * r / 100))} triệu.)`});
+  }
+  const r = pick([10, 20]), n = pick([2, 3]), mult = r === 10 ? (n === 2 ? 100 : 1000) : (n === 2 ? 25 : 125), A = mult * pick([1, 2, 3]);
+  let S = 0, cur = 0; for(let i = 0; i < n; i++){ cur = (cur + A) * (100 + r) / 100; } S = cur;
+  k2chk(Number.isInteger(S) && Math.abs(S - A * (1 + r / 100) * ((1 + r / 100) ** n - 1) / (r / 100)) < 1e-6, 'P2 lv3');
+  return QB({text:`Đầu mỗi năm, cô Hoa gửi vào ngân hàng <b>${fmt(A)}</b> triệu đồng với lãi suất <b>${r}%/năm</b> (lãi kép, lãi nhập vốn cuối năm). Hỏi <b>cuối năm thứ ${n}</b>, cô có tất cả bao nhiêu triệu đồng?`, tpl:'[_] triệu đồng', ans:[S], wide:true,
+    hint:`Khoản gửi đầu năm 1 sinh lãi ${n} năm, khoản gửi đầu năm 2 sinh lãi ${n - 1} năm,… Cộng các số tiền ${tm(`${A}\\cdot ${tdec(1 + r / 100)}^k`)}, đó là một cấp số nhân.`,
+    sol:`Các khoản gửi sinh lãi ${n}, ${n - 1},… năm: tổng là cấp số nhân với ${tm(`u_1 = ${A}\\cdot ${tdec(1 + r / 100)}`)}, ${tm(`q = ${tdec(1 + r / 100)}`)}. ${tm(`S_{${n}} = ${A}\\cdot ${tdec(1 + r / 100)}\\cdot \\dfrac{${tdec(1 + r / 100)}^{${n}} - 1}{${tdec(1 + r / 100)} - 1} = ${S}`)}. Đáp số: ${tb(fmt(S))} triệu đồng.`});
+};
+
+const P3POOL = [{h:64, p:3, q:4, mk:3}, {h:81, p:2, q:3, mk:3}, {h:125, p:4, q:5, mk:3}, {h:32, p:1, q:2, mk:4}, {h:256, p:3, q:4, mk:4}, {h:48, p:1, q:2, mk:4}];
+const cP3 = lv => {   // quả bóng nảy
+  const P = pick(P3POOL), {h, p, q, mk} = P, hk = k => h * p ** k / q ** k, rt = tfrac(p, q);
+  const hsFig = [h, hk(1), hk(2), hk(3)];
+  const fig = (labs) => bounceSVG(hsFig, {lab:labs, cap:'Bóng nảy lên theo tỉ lệ không đổi (hình minh hoạ)'});
+  if(lv === 1){
+    const k = R(2, mk), v = hk(k); k2chk(Number.isInteger(v), 'P3 lv1');
+    return QB({text:`Thả một quả bóng từ độ cao <b>${h} m</b> xuống sân. Sau mỗi lần chạm sân, bóng nảy lên đến độ cao bằng ${tm(rt)} độ cao lần trước (hình vẽ). Hỏi sau lần nảy thứ <b>${k}</b>, bóng lên cao bao nhiêu mét?`, fig:fig([`${h} m`, `${hk(1)} m`, '', '']), tpl:'[_] m', ans:[v],
+      hint:`Mỗi lần nảy, độ cao bằng ${tm(rt)} độ cao lần trước nên các độ cao lập thành cấp số nhân công bội ${tm(rt)}. Hãy xác định số mũ của công bội ứng với lần nảy thứ ${k}.`,
+      sol:`Lần nảy thứ ${k}: ${tm(`${h}\\cdot ${rt}^{${k}} = ${v}`)}. Bóng lên cao ${tb(v)} m.`});
+  }
+  if(lv === 2){
+    const n = R(3, mk + 1); let D = h; for(let i = 1; i <= n - 1; i++) D += 2 * hk(i);
+    k2chk(Number.isInteger(D), 'P3 lv2');
+    return QB({text:`Thả một quả bóng từ độ cao <b>${h} m</b>. Mỗi lần chạm sân, bóng nảy lên đến độ cao bằng ${tm(rt)} độ cao lần rơi trước (hình vẽ). Tính tổng quãng đường bóng đi được từ lúc thả đến khi chạm sân <b>lần thứ ${n}</b>.`, fig:fig([`${h} m`, `${hk(1)} m`, '', '']), tpl:'[_] m', ans:[D],
+      hint:`Lần rơi đầu đi ${h} m. Mỗi lần nảy lên rồi rơi xuống tính <b>hai lần</b> độ cao nảy. Có ${n - 1} lần nảy trước khi chạm sân lần thứ ${n}.`,
+      sol:`Các độ cao nảy: ${tm(Array.from({length:n - 1}, (_, i) => hk(i + 1)).join(';\\ '))}. Quãng đường ${tm(`${h} + 2(${Array.from({length:n - 1}, (_, i) => hk(i + 1)).join(' + ')}) = ${D}`)}. Đáp số: ${tb(D)} m.`});
+  }
+  const m = R(4, 8), H = 2 ** m, t = pick([1, 1, 2, 4]);
+  let k = 0; while(H / 2 ** k >= t) k++;
+  k2chk(H / 2 ** k < t && (k === 0 || H / 2 ** (k - 1) >= t), 'P3 lv3');
+  return QB({text:`Thả một quả bóng từ độ cao <b>${H} m</b>. Mỗi lần chạm sân, bóng nảy lên đến độ cao bằng <b>một nửa</b> độ cao lần trước (hình vẽ). Lần nảy thứ mấy thì bóng lên cao <b>nhỏ hơn ${t} m</b> lần đầu tiên?`, fig:bounceSVG([H, H / 2, H / 4, H / 8], {lab:[`${H} m`, `${H / 2} m`, `${H / 4} m`, ''], cap:'Bóng nảy lên theo tỉ lệ không đổi (hình minh hoạ)'}), tpl:'Lần nảy thứ [_]', ans:[k], wide:true,
+    hint:`Sau lần nảy thứ ${tm('k')}, độ cao là ${tm(`${H}\\cdot \\left(\\dfrac{1}{2}\\right)^k`)}. Cần ${tm(`\\lt ${t}`)} (nhỏ hơn hẳn), nên nếu độ cao <b>bằng đúng</b> ${t} m thì chưa đạt.`,
+    sol:`Độ cao sau lần nảy thứ ${tm('k')}: ${tm(`${H}\\cdot 2^{-k}`)}. Lần ${k - 1}: ${tm(`${H / 2 ** (k - 1)}`)} m ${tm(`\\ge ${t}`)} (chưa nhỏ hơn hẳn); lần ${k}: ${tm(`${H / 2 ** k}`)} m ${tm(`\\lt ${t}`)}. Đáp số: lần nảy thứ ${tb(k)}.`});
+};
+
+const cP4 = lv => {   // so sánh hai phương án: cộng đều và nhân lên
+  const n = R(6, 10), a = pick([50, 100, 200]), da = pick([0, 0, 10, 20]), b = pick([1, 2, 5]), qb = pick([2, 2, 3]);
+  const SBf = m => b * (qb ** m - 1) / (qb - 1), SAf = m => m * a + da * m * (m - 1) / 2;
+  const texA = da === 0 ? `Phương án A: mỗi ngày nhận <b>${a}</b> nghìn đồng.` : `Phương án A: ngày đầu nhận <b>${a}</b> nghìn đồng, mỗi ngày sau nhận nhiều hơn ngày trước <b>${da}</b> nghìn đồng.`;
+  const texB = `Phương án B: ngày đầu nhận <b>${b}</b> nghìn đồng, mỗi ngày sau nhận <b>gấp ${qb}</b> lần ngày trước.`;
+  if(lv === 1){
+    const m = n, A = SAf(m), B = SBf(m), ans = A > B ? 'Phương án A' : B > A ? 'Phương án B' : 'Bằng nhau';
+    return QC({text:`Một công việc trả công trong <b>${m}</b> ngày theo hai phương án. ${texA} ${texB} Theo phương án nào thì <b>tổng</b> số tiền nhận được sau ${m} ngày <b>nhiều hơn</b>?`, opts:['Phương án A', 'Phương án B', 'Bằng nhau'], ans, keepOrder:true,
+      hint:`Phương án A là cấp số cộng, phương án B là cấp số nhân. Tính tổng ${m} ngày của từng phương án rồi so sánh; đừng so sánh số tiền ngày đầu.`,
+      sol:`A: ${tm(`S = ${tfrac(m * (2 * a + (m - 1) * da), 2)} = ${A}`)}. B: ${tm(`S = ${b}\\cdot \\dfrac{${qb}^{${m}} - 1}{${qb - 1}} = ${B}`)}. ${A === B ? 'Hai phương án bằng nhau.' : `${A > B ? 'A' : 'B'} nhiều hơn`}: ${tb(ans)}.`});
+  }
+  if(lv === 2){
+    const m = n, A = SAf(m), B = SBf(m), diff = Math.abs(A - B);
+    return QB({text:`Một công việc trả công trong <b>${m}</b> ngày theo hai phương án. ${texA} ${texB} Tính <b>chênh lệch</b> (số lớn trừ số bé) giữa tổng số tiền nhận được của hai phương án sau ${m} ngày.`, tpl:'[_] nghìn đồng', ans:[diff], wide:true,
+      hint:`Tính riêng ${tm(`S_{${m}}`)} của mỗi phương án (một cấp số cộng, một cấp số nhân), rồi lấy số lớn trừ số bé.`,
+      sol:`A: ${tm(`S_{${m}} = ${A}`)}; B: ${tm(`S_{${m}} = ${B}`)}. Chênh lệch ${tm(`|${A} - ${B}| = ${diff}`)} nghìn đồng. Đáp số: ${tb(fmt(diff))}.`});
+  }
+  let m = 1; while(SBf(m) <= SAf(m)) m++;
+  k2chk(SBf(m) > SAf(m) && SBf(m - 1) <= SAf(m - 1), 'P4 lv3');
+  return QB({text:`Một công việc kéo dài nhiều ngày, trả công theo hai phương án. ${texA} ${texB} Hỏi sau ít nhất bao nhiêu ngày thì <b>tổng</b> tiền theo phương án B <b>vượt hơn hẳn</b> phương án A?`, tpl:'[_] ngày', ans:[m], wide:true,
+    hint:`Lập bảng tổng sau ${tm('n')} ngày của hai phương án: ${tm('S_A = \\dfrac{n(2a + (n-1)d)}{2}')} và ${tm('S_B = b\\cdot \\dfrac{q^n - 1}{q - 1}')}.`,
+    sol:`Sau ${m - 1} ngày: A ${tm(`= ${SAf(m - 1)}`)}, B ${tm(`= ${SBf(m - 1)}`)} (B chưa vượt). Sau ${m} ngày: A ${tm(`= ${SAf(m)}`)}, B ${tm(`= ${SBf(m)}`)} (B vượt). Đáp số: ${tb(m)} ngày.`});
+};
+
+const cP5 = lv => {   // khổ giấy A
+  const k = R(1, 4);
+  if(lv === 1){
+    const v = 10000 / 2 ** k;
+    return QB({text:`Tờ giấy khổ A0 có diện tích <b>1 m²</b> (10 000 cm²). Cắt đôi tờ A0 được hai tờ A1, cắt đôi tờ A1 được hai tờ A2, … (mỗi khổ có diện tích bằng một nửa khổ trước). Diện tích một tờ giấy khổ A${k} là bao nhiêu cm²?`, tpl:'[_] cm²', ans:[v],
+      hint:`Diện tích các khổ A0, A1, A2,… lập thành cấp số nhân. Khổ A0 là số hạng ${tm('u_0')} hay ${tm('u_1')}? Khổ A${k} cách khổ A0 mấy lần cắt?`,
+      sol:`Mỗi lần cắt đôi, diện tích giảm một nửa: ${tm(`10000\\cdot \\left(\\dfrac{1}{2}\\right)^{${k}} = ${v}`)}. Một tờ A${k} có diện tích ${tb(fmt(v))} cm².`});
+  }
+  if(lv === 2){
+    const v = 10000 / 2 ** k;
+    return QB({text:`Tờ giấy khổ A0 có diện tích 10 000 cm²; mỗi lần cắt đôi, diện tích mỗi tờ giảm một nửa. Một tờ giấy có diện tích <b>${fmt(v)}</b> cm² là khổ A mấy?`, tpl:'Khổ A[_]', ans:[k],
+      hint:`Giải ${tm(`10000\\cdot \\left(\\dfrac{1}{2}\\right)^n = ${v}`)}, tức ${tm(`2^n = \\text{một số}`)}. Số mũ ${tm('n')} chính là chỉ số của khổ A.`,
+      sol:`${tm(`2^n = \\dfrac{10000}{${v}} = ${2 ** k}`)}, nên ${tm(`n = ${k}`)}. Đó là khổ ${tb(`A${k}`)}.`});
+  }
+  const n = R(3, 4), part = 10000 - 10000 / 2 ** n;
+  k2chk(part === Array.from({length:n}, (_, i) => 10000 / 2 ** (i + 1)).reduce((x, y) => x + y, 0), 'P5 lv3');
+  return QB({text:`Từ một tờ giấy A0 (10 000 cm²), cắt đôi thành hai tờ A1: đặt riêng một tờ A1, giữ lại một tờ A1. Cắt đôi tờ A1 đang giữ thành hai tờ A2: đặt riêng một tờ A2, giữ lại một tờ A2; cứ thế đến khi cắt ra khổ A${n}. Hỏi tổng diện tích các tờ đã <b>đặt riêng</b> (A1, A2, …, A${n}; không tính tờ A${n} đang giữ) là bao nhiêu cm²?`, tpl:'[_] cm²', ans:[part], wide:true,
+    hint:`Các tờ đặt riêng có diện tích ${tm('5000,\\ 2500,\\ \\ldots')} lập thành cấp số nhân. Có đúng ${n} tờ (A1 đến A${n}), mỗi khổ một tờ.`,
+    sol:`${tm(`u_1 = 5000`)}, ${tm(`q = \\dfrac{1}{2}`)}, ${n} số hạng: ${tm(`S_{${n}} = 5000\\cdot \\dfrac{1 - (1/2)^{${n}}}{1 - 1/2} = ${part}`)}. Đáp số: ${tb(fmt(part))} cm². (Nhỏ hơn 10 000 vì còn tờ A${n} đang giữ, diện tích ${fmt(10000 / 2 ** n)} cm².)`});
+};
+
+const K2KT5 = [
+  k2kt('Nhận ra cấp số nhân', `“Gấp ${tm('q')} lần”, “giảm ${tm('r\\%')} mỗi năm” (nhân với ${tm('1 - r/100')}), “tăng ${tm('r\\%')} mỗi năm” (nhân với ${tm('1 + r/100')}), “một nửa” → cấp số nhân.`, `“Giảm ${tm('20\\%')} mỗi năm” <b>không</b> phải trừ ${tm('20\\%')} giá ban đầu mỗi năm: phải nhân với ${tm('0{,}8')} mỗi năm.`, 'Lãi kép: nhân với (1 + lãi suất); lãi đơn: cộng lãi giống nhau mỗi năm.'),
+  k2kt('Số mũ và số số hạng', `${tm('u_n = u_1 q^{n-1}')}: số mũ là ${tm('n-1')}. Thả bóng từ độ cao ${tm('h')}: độ cao sau lần nảy thứ ${tm('k')} là ${tm('h\\cdot q^k')}. Tổng ${tm('1 + q + \\ldots + q^m')} có ${tm('m+1')} số hạng.`, `Quãng đường bóng nảy: lần rơi đầu đi ${tm('h')}, về sau mỗi lần nảy lên rồi rơi xuống tính <b>hai lần</b> độ cao.`, 'Vẽ sơ đồ 3 – 4 bước đầu để đếm số mũ cho chắc.'),
+  k2kt('Vượt quá, nhỏ hơn, ít nhất', `Giải ${tm('q^n \\gt T')} bằng cách tính thử các luỹ thừa, lấy số nguyên ${tm('n')} nhỏ nhất.`, 'Dấu bằng không thoả “vượt quá”, “nhỏ hơn”; cần số nguyên kế tiếp.', 'So sánh hai phương án: tính tổng của từng phương án rồi so, đừng so ngày đầu.')
+];
+lesson(92, 'c2k-thuc-te-csn', 'Củng cố Chương II · 5. Toán thực tế có hình: vi khuẩn, lãi kép, bóng nảy, khổ giấy', 'Đọc biểu đồ tăng trưởng; lãi kép, khấu hao, gửi định kỳ; bóng nảy (độ cao, quãng đường, lần nảy); so sánh hai phương án trả công; khổ giấy A.', [cP1, cP2, cP3, cP4, cP5], {introTitle:K2TT, intro:K2KT5});
+
+/* ---------- ĐỀ TỔNG HỢP 15 CÂU ---------- */
+const k2R = (make, band, type) => () => Object.assign(make(), {reviewBand:band, reviewType:type});
+const REVIEW_K2 = [
+  k2R(() => cK1(1), 1, 'day-so'),       // 1. u_{n+1}
+  k2R(() => cK2(1), 1, 'day-so'),       // 2. truy hồi
+  k2R(() => cL1(1), 1, 'csc'),          // 3. công sai âm
+  k2R(() => cL2(1), 1, 'csc'),          // 4. S_n
+  k2R(() => cM1(1), 1, 'csn'),          // 5. công bội âm
+  k2R(() => cM2(1), 1, 'csn'),          // 6. S_n với q âm
+  k2R(() => cK3(2), 2, 'day-so'),       // 7. giá trị nhỏ nhất
+  k2R(() => cL1(2), 2, 'csc'),          // 8. u_r từ hai số hạng
+  k2R(() => cL2(2), 2, 'csc'),          // 9. tổng một đoạn
+  k2R(() => cM1(2), 2, 'csn'),          // 10. hai giá trị của q
+  k2R(() => cN1(2), 2, 'thuc-te'),      // 11. tháp lon (có hình)
+  k2R(() => cP1(2), 3, 'thuc-te'),      // 12. vi khuẩn (có hình)
+  k2R(() => cL3(3), 3, 'csc'),          // 13. đếm số hạng dương
+  k2R(() => cM3(3), 3, 'csn'),          // 14. CSC → CSN
+  k2R(() => cP3(3), 3, 'thuc-te')       // 15. bóng nảy (có hình)
+];
+lesson(92, 'c2k-de-tong-hop', 'Củng cố Chương II · Đề tổng hợp 15 câu', 'Mỗi đề 15 câu: 6 câu cơ bản, 4 câu thông hiểu, 5 câu vận dụng – nâng cao (có 3 bài toán thực tế kèm hình). Dễ sai: chỉ số, dấu của công sai – công bội, nghiệm âm, “vượt quá”.', REVIEW_K2, {count:15, introTitle:K2T, intro:[
+  k2kt('Dễ sai về dãy số và cấp số cộng', `${tm('u_{n+1}')}: thay mọi ${tm('n')} bởi ${tm('n+1')}. Công sai âm khi hệ số của ${tm('n')} âm. Từ ${tm('u_p')} đến ${tm('u_q')} có ${tm('q-p')} khoảng, nhưng ${tm('q-p+1')} số hạng.`, `Giải ${tm('S_n = T')} khi ${tm('d \\lt 0')} có thể có hai nghiệm dương; “số hạng dương” là ${tm('u_n \\gt 0')} (ngặt).`, 'Ghi ' + tm('u_1, d, n') + ' ra nháp trước khi tính.'),
+  k2kt('Dễ sai về cấp số nhân', `${tm('u_n = u_1 q^{n-1}')}; ${tm('q^2 = a')} có hai nghiệm; ${tm('S_n = u_1\\dfrac{1 - q^n}{1 - q}')}; ba số lập cấp số nhân ⇔ ${tm('b^2 = ac')}.`, `Công bội âm thì dấu các số hạng đổi luân phiên; ${tm('(-2)^4 \\ne -2^4')}.`, 'Thử lại kết quả bằng vài số hạng đầu.'),
+  k2kt('Dễ sai về thực tế', `Đọc ${tm('u_1')}, ${tm('d')} hoặc ${tm('q')} từ hình; phân biệt hỏi một số hạng hay hỏi tổng; lãi kép nhân, lãi đơn cộng; “giảm ${tm('r\\%')}” là nhân với ${tm('1 - r/100')}.`, 'Quãng đường bóng nảy: lần rơi đầu một lần, các lần nảy sau hai lần. “Vượt quá” là lớn hơn hẳn.', 'Kiểm tra đơn vị và tính hợp lý của kết quả.')
+]});
 }
 })();

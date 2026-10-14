@@ -288,3 +288,10 @@ Ngân hàng câu hỏi dùng chung `data/lop10-giua-ki-bank.js` (xuất `globalT
 
 ## Củng cố kiểm tra Chương III – Toán 10 (thầy yêu cầu 14/10/2026)
 Chủ đề 91 trong `data/lop10.js` (cuối khối Chương III, dùng chung hằng số của khối): 6 bài `c3k-luong-giac`, `c3k-cong-thuc`, `c3k-dien-tich`, `c3k-thuc-te-1`, `c3k-thuc-te-2`, `c3k-de-tong-hop` (đề 15 câu, `count:15`). Câu dễ sai – dễ nhầm, toán thực tế có hình (`bearingSVG` mới: hai hướng đi từ A theo góc phương vị, `o.t1,o.t2,o.l1,o.l2,o.bc`). `c3chk` ném lỗi nếu đáp số lệch phép tính độc lập; đáp số có phân số dùng `fracAns`.
+
+## Củng cố Chương II – Toán 11 (thầy yêu cầu 14/10/2026)
+Chủ đề 92 trong `data/lop11.js` (cuối khối Chương II, chèn sau chủ đề 2): 6 bài `c2k-day-so`, `c2k-csc`, `c2k-csn`, `c2k-thuc-te-csc` (tháp lon, doanh thu, chiếc thang, chia thưởng, góc tứ giác), `c2k-thuc-te-csn` (vi khuẩn, lãi kép – khấu hao – gửi định kỳ, bóng nảy, so sánh hai phương án, khổ giấy A), `c2k-de-tong-hop` (15 câu, `count:15`). Mỗi dạng 3 mức, có thẻ Kiến thức · Chỗ dễ sai · Mẹo. `k2chk` ném lỗi nếu đáp số lệch phép tính độc lập. Hình mới trong `assets/js/figures.js`: `stackSVG` (tháp xếp vật), `bounceSVG` (bóng nảy), `ladderSVG` (chiếc thang); biểu đồ dùng `barSVG` (bước chia lưới bằng số hạng đầu để đọc được số liệu).
+
+## Kế hoạch trọn bộ mỗi ngày một bài (thầy yêu cầu 14/10/2026)
+Các bài còn lại của Toán 10 (Chương IV–IX) và Toán 11 (Chương III–IX) được làm theo bảng `KE-HOACH-TRON-BO.md`: ChatGPT/Codex mỗi ngày làm **hàng đầu tiên còn ⬜** (đủ 6 phần của lệnh “trọn bộ”, mục 0b), mở Pull Request và đổi trạng thái sang 🟨; **Claude kiểm lại mỗi ngày** (chạy kiểm tra, tính lại đáp số độc lập, soát hình, đối chiếu SGK) rồi đổi sang ✅ hoặc 🟧. Không làm hàng kế tiếp khi hàng trước chưa ✅; không tự đổi thứ tự hoặc tên bài trong bảng. Hướng dẫn cho thầy: mục 5 của `HUONG-DAN-CHATGPT.md`.
+

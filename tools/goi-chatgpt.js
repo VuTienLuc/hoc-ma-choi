@@ -34,6 +34,7 @@ const head = (file, n) => rd(file).split('\n').slice(0, n).join('\n') + `\n// [T
 
 const parts = [
   ['AGENTS.md – QUY TẮC BẮT BUỘC (đọc trước tiên)', rd('AGENTS.md'), 'md'],
+  ['KE-HOACH-TRON-BO.md – kế hoạch mỗi ngày một bài (lớp 10 và 11)', rd('KE-HOACH-TRON-BO.md'), 'md'],
   ['BẢN ĐỒ NỘI DUNG HIỆN CÓ', banDo, 'md'],
   ['config.js', rd('config.js'), 'js'],
   ['assets/js/core.js – hàm tiện ích, QB/QC/QCmp/QS, App.addGrade', rd('assets/js/core.js'), 'js'],

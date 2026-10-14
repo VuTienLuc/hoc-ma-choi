@@ -429,3 +429,47 @@ function bearingSVG(o={}){
   if(o.bc){const m=[(B[0]+C[0])/2,(B[1]+C[1])/2];s+=T(m[0]+36,m[1]+(t2-t1>=90?2:6),o.bc,15,'start')}
   return s+T(160,242,'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted')+'</svg>';
 }
+
+/* Tháp xếp vật (lon, ống, khúc gỗ…): counts[i] = số vật ở hàng thứ i, tính từ TRÊN xuống (thường 1, 2, 3, …).
+   o.top, o.bot: nhãn hàng trên cùng / dưới cùng (ví dụ 'Hàng 1: 3', 'Hàng n: ?') · o.cap: chú thích dưới hình. */
+function stackSVG(counts,o={}){
+  const T=(x,y,s,fs=15,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const n=counts.length, mx=Math.max(...counts), r=Math.max(5,Math.min(16,Math.floor((240/mx-3)/2))), dx=2*r+3, dy=Math.min(2*r,Math.floor(150/n)), cx=160, y0=26+r;
+  let s=`<svg viewBox="0 0 320 ${Math.max(160,y0+dy*(n-1)+r+44)}" role="img" aria-label="Tháp xếp vật gồm ${n} hàng">`;
+  counts.forEach((c,i)=>{const y=y0+i*dy;for(let j=0;j<c;j++){const x=cx+(j-(c-1)/2)*dx;s+=`<circle class="sv-part on" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}"/>`}});
+  const yb=y0+(n-1)*dy;
+  if(o.top)s+=T(14,y0,o.top,14,'start');
+  if(o.bot)s+=T(14,yb,o.bot,14,'start');
+  s+=`<line class="sv-ink" stroke-width="3" x1="${cx-mx*dx/2-8}" y1="${yb+r+3}" x2="${cx+mx*dx/2+8}" y2="${yb+r+3}"/>`;
+  return s+T(160,yb+r+24,o.cap||'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted')+'</svg>';
+}
+
+/* Quả bóng nảy: thả từ độ cao hs[0]; hs[i] = độ cao (đã quy tỉ lệ để vẽ) sau lần nảy thứ i. Nhãn trong o.lab[i] (i = 0 là độ cao thả). */
+function bounceSVG(hs,o={}){
+  const T=(x,y,s,fs=14,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const n=hs.length-1, gy=196, top=30, sc=(gy-top)/hs[0], x0=100, wArc=Math.min(62,225/Math.max(n,1));
+  let s=`<svg viewBox="0 0 340 250" role="img" aria-label="Quả bóng nảy nhiều lần">`;
+  s+=`<line class="sv-ink" stroke-width="3" x1="20" y1="${gy}" x2="330" y2="${gy}"/>`;
+  s+=`<line class="sv-ink" stroke-width="2" stroke-dasharray="5 4" x1="${x0}" y1="${gy}" x2="${x0}" y2="${top}"/><circle class="sv-dot" cx="${x0}" cy="${top}" r="7"/>`;
+  s+=`<path class="sv-ink" stroke-width="1.8" d="M${x0-12} ${gy-14} L${x0-12} ${top+2} M${x0-17} ${top+10} L${x0-12} ${top+2} L${x0-7} ${top+10} M${x0-17} ${gy-10} L${x0-12} ${gy-14} L${x0-7} ${gy-10}"/>`;
+  if(o.lab&&o.lab[0])s+=T(x0-22,(gy+top)/2,o.lab[0],14,'end');
+  let x=x0;
+  for(let i=1;i<=n;i++){const h=hs[i]*sc, xe=x+wArc*(i===1?1.0:1), mx=(x+xe)/2;
+    s+=`<path class="sv-tick" stroke-width="2.5" fill="none" d="M${x.toFixed(1)} ${gy} Q${mx.toFixed(1)} ${(gy-2*h).toFixed(1)} ${xe.toFixed(1)} ${gy}"/>`;
+    if(o.lab&&o.lab[i])s+=T(mx,gy-h-9,o.lab[i],13);
+    x=xe;}
+  s+=`<circle class="sv-dot" cx="${x.toFixed(1)}" cy="${gy-7}" r="6"/>`;
+  return s+T(170,236,o.cap||'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted')+'</svg>';
+}
+
+/* Thang có n bậc (vẽ tối đa 9 bậc), bậc dưới cùng dài, bậc trên cùng ngắn. o.top, o.bot: nhãn độ dài bậc trên / dưới. */
+function ladderSVG(n,o={}){
+  const T=(x,y,s,fs=15,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const k=Math.max(4,Math.min(9,n)), yb=196, yt=40, wb=190, wt=80, cx=160;
+  let s=`<svg viewBox="0 0 320 250" role="img" aria-label="Chiếc thang có nhiều bậc">`;
+  s+=`<line class="sv-ink" stroke-width="5" x1="${cx-wb/2}" y1="${yb}" x2="${cx-wt/2}" y2="${yt}"/><line class="sv-ink" stroke-width="5" x1="${cx+wb/2}" y1="${yb}" x2="${cx+wt/2}" y2="${yt}"/>`;
+  for(let i=0;i<k;i++){const t=i/(k-1),y=yb-(yb-yt)*t,w=wb+(wt-wb)*t;s+=`<line class="sv-tick" stroke-width="4" stroke-linecap="round" x1="${(cx-w/2).toFixed(1)}" y1="${y.toFixed(1)}" x2="${(cx+w/2).toFixed(1)}" y2="${y.toFixed(1)}"/>`}
+  if(o.top)s+=T(cx,yt-16,o.top);
+  if(o.bot)s+=T(cx,yb+20,o.bot);
+  return s+T(160,238,o.cap||'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted')+'</svg>';
+}

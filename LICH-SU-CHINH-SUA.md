@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-14 – Toán 11: bộ “Củng cố Chương II” + kế hoạch trọn bộ mỗi ngày cho ChatGPT
+
+- **Yêu cầu:** Tạo thêm bộ ôn tập chương II cho Toán 11, mức tổng hợp, có toán thực tế đủ các dạng; bổ sung vào hướng dẫn ChatGPT toàn bộ các bài còn lại của lớp 10 và 11 theo dạng /tron-bo để ChatGPT mỗi ngày làm một bài đến khi xong, Claude kiểm lại hằng ngày.
+- **Kết quả:** (1) Chủ đề 92 “Củng cố Chương II” trong `data/lop11.js` (6 bài `c2k-*`: dãy số, cấp số cộng, cấp số nhân, thực tế cấp số cộng có hình, thực tế cấp số nhân có hình, đề tổng hợp 15 câu); mỗi dạng 3 mức, có thẻ Kiến thức · Chỗ dễ sai · Mẹo; đáp số được tính lại bằng phép tính độc lập (`k2chk`). Hình mới `stackSVG`, `bounceSVG`, `ladderSVG` trong `assets/js/figures.js`. (2) Tệp mới `KE-HOACH-TRON-BO.md`: 60 ngày (lớp 10: 27 mục, lớp 11: 33 mục) với trạng thái ⬜/🟦/🟨/🟧/✅, lệnh giao việc hằng ngày, quy trình Claude kiểm hằng ngày; mục 5 mới trong `HUONG-DAN-CHATGPT.md`; `AGENTS.md`/`CLAUDE.md` thêm hai mục; `tools/goi-chatgpt.js` đưa kế hoạch vào gói.
+- **Tệp thay đổi:** `data/lop11.js`, `assets/js/figures.js`, `KE-HOACH-TRON-BO.md`, `HUONG-DAN-CHATGPT.md`, `AGENTS.md`, `CLAUDE.md`, `tools/goi-chatgpt.js`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js 1000 lop11` → ĐẠT (270 000 câu); bộ giải độc lập (Python) kiểm hơn 20 000 câu của bài 1–5 → 0 lỗi; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (37/37); `node tools/goi-chatgpt.js` → ĐẠT; `python3 tools/test.py` → ĐẠT (29 850 câu thử trong trình duyệt); `python3 tools/build.py` → đã chạy.
+- **Việc thủ công:** Thầy đối chiếu tên bài/số bài trong `KE-HOACH-TRON-BO.md` với mục lục SGK Kết nối tri thức (đặc biệt tên Chương III lớp 11); bấm lại nút “Gói tài liệu cho ChatGPT”; đặt lịch hằng ngày cho ChatGPT nếu muốn tự động.
+
 ### 2026-10-14 – Toán 10: bộ “Củng cố kiểm tra Chương III” (học sinh)
 
 - **Yêu cầu:** Thêm bộ ôn tập chương III – Toán 10 cho học sinh làm củng cố trước bài kiểm tra, tương tự bộ ôn giữa kì cũ: câu dễ sai – dễ nhầm, có toán thực tế kèm hình vẽ.
