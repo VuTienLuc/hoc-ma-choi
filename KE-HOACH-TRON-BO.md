@@ -82,6 +82,17 @@ Thầy nhắn Claude: **“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”** (ho�
 6. Kết luận: **lỗi nhỏ thì Claude sửa thẳng trong nhánh** rồi chạy lại kiểm tra; **lỗi lớn** (thiếu phần, sai nhiều) thì chuyển 🟧 và ghi rõ từng lỗi để ChatGPT sửa. Đạt thì chuyển ✅, ghi mục vào `LICH-SU-CHINH-SUA.md`, báo thầy bấm Merge (hoặc đăng lên web nếu thầy đã cho phép).
 7. Báo thầy ngắn: bài nào đã ✅, Claude đã sửa gì, thầy cần đối chiếu gì.
 
+## 7. Lịch tự động (đặt 14/10/2026, giờ Việt Nam)
+
+| Giờ | Ai | Việc | Cách đặt |
+|---|---|---|---|
+| **05:30 mỗi ngày** | ChatGPT | Làm hàng ⬜ đầu tiên (hoặc sửa hàng 🟧), mở Pull Request, đổi hàng sang 🟨 | **Thầy tự đặt** trong ChatGPT: *Tasks / Nhiệm vụ đã lên lịch* (hoặc Codex) → Daily 05:30 → dán lệnh ở mục 4. Claude không đặt được lịch trong tài khoản ChatGPT của thầy. |
+| **12:07 mỗi ngày** | Claude | Kiểm hàng 🟨, sửa lỗi nhỏ, chạy kiểm tra; đạt thì ✅ và đưa lên web, không đạt thì 🟧 kèm lỗi; báo thầy qua thông báo | Đã đặt sẵn (nhiệm vụ “Kiểm bài ChatGPT hằng ngày – Học mà chơi”). Chạy tự động, không cần thầy mở máy. |
+
+- Claude chỉ đưa lên web khi **mọi kiểm tra ĐẠT**; có lỗi lớn thì không đưa, đợi ChatGPT sửa vào hôm sau.
+- Muốn tạm dừng hoặc đổi giờ: nói với Claude “tạm dừng / đổi giờ lịch kiểm”; với ChatGPT thì tắt hoặc sửa nhiệm vụ trong Tasks.
+- Nếu ChatGPT chưa đặt lịch, thầy vẫn có thể dán lệnh mục 4 bằng tay mỗi ngày; Claude vẫn kiểm vào 12:07.
+
 ## 6. Bảng kế hoạch
 
 | Ngày | Lớp | Chương | Bài (tên theo SGK KNTT – cần đối chiếu) | Mã bài trong `data/` | Mã bài giảng | Trạng thái | Ghi chú của ChatGPT / Claude |

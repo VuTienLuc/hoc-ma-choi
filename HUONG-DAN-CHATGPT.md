@@ -179,7 +179,7 @@ Toàn bộ danh sách bài, thứ tự, trạng thái nằm trong **`KE-HOACH-TR
 ### Cách chạy mỗi ngày (thầy chỉ làm 3 việc)
 1. **Giao việc:** dán lệnh ở mục 4 của `KE-HOACH-TRON-BO.md` cho ChatGPT/Codex (hoặc đặt lịch mỗi ngày một lần trong *Tasks*). ChatGPT làm hàng đầu tiên còn ⬜, đủ 6 phần của /tron-bo, chạy kiểm tra, mở Pull Request, rồi đổi hàng đó sang 🟨.
 2. **Nhờ Claude kiểm:** nhắn Claude *“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”*. Claude chạy kiểm tra, tính lại đáp số bằng bộ giải độc lập, chụp ảnh soát hình vẽ, đối chiếu SGK, rồi **sửa lỗi nhỏ ngay**; lỗi lớn thì đánh 🟧 và ghi lỗi để ChatGPT sửa. Đạt thì ✅.
-3. **Merge:** khi Claude báo ✅, thầy bấm **Merge** Pull Request (Vercel đưa lên web sau khoảng 1 phút). Chưa ✅ thì ChatGPT **chưa** sang bài sau.
+3. **Đưa lên web:** Claude kiểm tự động lúc 12:07 mỗi ngày; kiểm đạt thì Claude merge và đưa lên web (Vercel cập nhật sau khoảng 1 phút), thầy chỉ nhận thông báo. Chưa ✅ thì ChatGPT **chưa** sang bài sau. Lịch chi tiết: mục 7 của `KE-HOACH-TRON-BO.md`.
 
 ### 6 phần của một bài trọn bộ
 | # | Phần | Tệp | Yêu cầu chính |
