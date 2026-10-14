@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-14 – Menu: chủ đề theo Chương SGK + mục riêng “Ôn tập · Củng cố · Kiểm tra”
+
+- **Yêu cầu:** Các chủ đề ôn tập, củng cố chương, ôn tập kiểm tra cuối chương, giữa kì, cuối kì xếp vào cùng một menu riêng; các chủ đề còn lại theo đúng Chương SGK Kết nối tri thức.
+- **Kết quả:** Thêm `label` “Chương I…V” cho chủ đề của lớp 8, 9, 10, 11 (lớp 10 Chương V đổi tên theo SGK: “Các số đặc trưng của mẫu số liệu không ghép nhóm”); chủ đề ôn tập/củng cố/kiểm tra có `grp:'📝 Ôn tập · Củng cố · Kiểm tra'` (lớp 4: 7; lớp 9: 6; lớp 10: 90, 91, 93 mới; lớp 11: 3, 92, 93 mới). `engine.js` xếp nhóm 📝 cuối trang chủ. Chuyển bài kiểm tra trực tuyến về đúng chủ đề (lớp 10: `giua-ki-*`, `gk-mt-*` từ chủ đề 4 sang 90, `c2`, `tong-hop-*` sang 93; lớp 11: `c2-*` sang 92, `tong-hop-*` sang 93). Cập nhật AGENTS.md/CLAUDE.md và KE-HOACH-TRON-BO.md (chủ đề mới phải có label Chương và grp đúng).
+- **Tệp thay đổi:** `assets/js/engine.js`, `data/lop4.js`, `data/lop8.js`, `data/lop9.js`, `data/lop10.js`, `data/lop11.js`, `data/lop10-kiem-tra.js`, `data/lop10-giua-ki-kiem-tra.js`, `data/lop11-kiem-tra.js`, `data/lop11-chuong2-kiem-tra.js`, `AGENTS.md`, `CLAUDE.md`, `KE-HOACH-TRON-BO.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; chụp trang chủ lớp 10 và lớp 11 kiểm tra bố cục; `python3 tools/test.py` → ĐẠT (29 850 câu).
+- **Việc thủ công:** Thầy đối chiếu tên Chương V lớp 10 với SGK.
+
 ### 2026-10-14 – Toán 11: bộ “Củng cố Chương II” + kế hoạch trọn bộ mỗi ngày cho ChatGPT
 
 - **Yêu cầu:** Tạo thêm bộ ôn tập chương II cho Toán 11, mức tổng hợp, có toán thực tế đủ các dạng; bổ sung vào hướng dẫn ChatGPT toàn bộ các bài còn lại của lớp 10 và 11 theo dạng /tron-bo để ChatGPT mỗi ngày làm một bài đến khi xong, Claude kiểm lại hằng ngày.

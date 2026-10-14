@@ -10,7 +10,7 @@
 (() => {
 const G = App.addGrade({
   id: 'lop10', name: 'Lớp 10', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Mệnh đề và tập hợp'}, {id:2, hk:1, name:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn'}, {id:3, hk:1, name:'Hệ thức lượng trong tam giác'}, {id:4, hk:1, name:'Các số liệu đặc trưng của mẫu số liệu không ghép nhóm'} ],
+  topics: [ {id:1, hk:1, name:'Mệnh đề và tập hợp', label:'Chương I'}, {id:2, hk:1, name:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn', label:'Chương II'}, {id:3, hk:1, name:'Hệ thức lượng trong tam giác', label:'Chương III'}, {id:4, hk:1, name:'Các số đặc trưng của mẫu số liệu không ghép nhóm', label:'Chương V'} ],
 });
 const lesson = G.lesson;
 
@@ -909,7 +909,8 @@ lesson(3,'on-tap-c3','Ôn tập chương III – Bộ 20 câu','Mỗi đề 20 c
    6 bài: 1 Giá trị lượng giác · 2 Côsin – sin · 3 Diện tích – bán kính · 4–5 Thực tế có hình · Đề tổng hợp 15 câu.
    Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số tính lại bằng phép tính độc lập (c3chk).
    ===================================================================== */
-G.topics.push({id:91, hk:1, name:'Củng cố kiểm tra Chương III'});
+G.topics.push({id:93, hk:1, name:'Kiểm tra và ôn tập Chương I – II', label:'📝 Kiểm tra Chương I – II', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
+G.topics.push({id:91, hk:1, name:'Củng cố kiểm tra Chương III', label:'📝 Củng cố Chương III', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 const c3chk = (ok, msg) => { if(!ok) throw new Error('c3k: ' + msg); };
 const c3rad = d => d * Math.PI / 180;
 const c3KT = (t, b, warn, ex) => ({t, b, warn, ex});
@@ -1454,7 +1455,7 @@ lesson(4,'so-gan-dung-sai-so','Bài 12. Số gần đúng và sai số','Sai s�
    Mỗi dạng = lv => câu hỏi; mức 1 → 3 chuyển sang loại câu khó hơn. Đáp án luôn tính trước khi dựng đề (trong GK1).
    ===================================================================== */
 {
-{ const i91 = G.topics.findIndex(t => t.id === 91); G.topics.splice(i91 < 0 ? G.topics.length : i91, 0, {id:90, hk:1, name:'Ôn tập giữa học kì I'}); }
+{ G.topics.push({id:90, hk:1, name:'Ôn tập giữa học kì I', label:'📝 Giữa kì I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
 const rg = () => GK1.rng((Math.random() * 4294967296) >>> 0);
 const HINT = {
   isProp:'Mệnh đề là câu khẳng định, xác định được là đúng hoặc sai. Câu hỏi, câu cảm thán, câu mệnh lệnh hay câu còn biến thì không phải.',

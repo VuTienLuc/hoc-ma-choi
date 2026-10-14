@@ -12,10 +12,10 @@
 const G = App.addGrade({
   id: 'lop9', name: 'Lớp 9', subject: 'Toán', book: 'Kết nối tri thức',
   topics: [
-    {id:1, hk:1, name:'Phương trình và hệ hai phương trình bậc nhất hai ẩn'},
-    {id:2, hk:1, name:'Phương trình và bất phương trình bậc nhất một ẩn'},
-    {id:3, hk:1, name:'Căn bậc hai và căn bậc ba'},
-    {id:4, hk:1, name:'Hệ thức lượng trong tam giác vuông'},
+    {id:1, hk:1, name:'Phương trình và hệ hai phương trình bậc nhất hai ẩn', label:'Chương I'},
+    {id:2, hk:1, name:'Phương trình và bất phương trình bậc nhất một ẩn', label:'Chương II'},
+    {id:3, hk:1, name:'Căn bậc hai và căn bậc ba', label:'Chương III'},
+    {id:4, hk:1, name:'Hệ thức lượng trong tam giác vuông', label:'Chương IV'},
   ],
 });
 const lesson = G.lesson;
@@ -1207,7 +1207,7 @@ const g17d = lv => {
     hint:`Hai đường tròn cắt nhau ⇔ ${m("R - r \\lt OO' \\lt R + r")}.`, sol:`${tb(Rr-r)} ${m("\\lt OO' \\lt")} ${tb(Rr+r)}.`});
 };
 
-G.topics.push({id:5, hk:1, name:'Đường tròn'});
+G.topics.push({id:5, hk:1, name:'Đường tròn', label:'Chương V'});
 lesson(5,'mo-dau-duong-tron','Bài 13. Mở đầu về đường tròn','Vị trí của điểm đối với đường tròn; bán kính, đường kính; tính đối xứng của đường tròn.',[g13b,g13a,g13d,g13c]);
 lesson(5,'cung-va-day','Bài 14. Cung và dây của một đường tròn','Dây và đường kính; khoảng cách từ tâm đến dây; góc ở tâm, số đo cung.',[g14d,g14a,g14b,g14c]);
 lesson(5,'do-dai-cung-quat','Bài 15. Độ dài của cung tròn. Diện tích hình quạt tròn và hình vành khuyên','Độ dài đường tròn, cung tròn; diện tích hình quạt, hình vành khuyên; bài toán thực tế.',[g15a,g15b,g15c,g15d]);
@@ -1277,7 +1277,7 @@ const gTs6 = lv => {
   return QS({direct:lv===3,text,hint:'Nối tâm với hai tiếp điểm; khai thác hai góc vuông và tính chất hai tiếp tuyến.',steps:lv===1?steps.slice(0,3):steps,sol:`Vì ${tm('OA\\perp MA')} và ${tm('OB\\perp MB')}, bốn điểm ${tm('O,A,M,B')} cùng thuộc đường tròn đường kính ${tm('OM')}. ${tm(`MA=${t}`)} cm; ${tm(`OH=${oh}`)} cm; ${tm(`AB=${ab}`)} cm.`});
 };
 
-G.topics.push({id:6,hk:2,name:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học'});
+G.topics.push({id:6, hk:2, name:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học', label:'🎓 Ôn thi vào 10', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 lesson(6,'on-thi-tiep-tuyen','Hình học 1. Tiếp tuyến của đường tròn','Ôn tuyển sinh từ cơ bản đến nâng cao: nhận biết và chứng minh tiếp tuyến; tính độ dài; hai tiếp tuyến; dây tiếp điểm; tiếp tuyến–cát tuyến; bài tổng hợp.',[gTs1,gTs2,gTs3,gTs4,gTs5,gTs6], {intro:[
   {t:`Tiếp tuyến và bán kính`, b:`<ul><li>Tiếp tuyến của đường tròn vuông góc với bán kính tại tiếp điểm.</li><li>Đường thẳng ${tm('d')} tiếp xúc với ${tm('(O;R)')} khi và chỉ khi khoảng cách từ ${tm('O')} đến ${tm('d')} bằng ${tm('R')}.</li><li>Dấu hiệu: đường thẳng đi qua một điểm của đường tròn và vuông góc với bán kính tại điểm đó là tiếp tuyến.</li></ul>`, ex:`Thấy chữ “tiếp tuyến” hay “tiếp điểm”: nối ngay tâm với tiếp điểm để có góc vuông.`},
   {t:`Hai tiếp tuyến cắt nhau`, b:`Từ ${tm('A')} vẽ hai tiếp tuyến ${tm('AB')}, ${tm('AC')} với ${tm('(O)')} (${tm('B')}, ${tm('C')} là tiếp điểm): ${tm('AB = AC')}; ${tm('AO')} là tia phân giác của ${tm('\\widehat{BAC}')} và của ${tm('\\widehat{BOC}')}; ${tm('AO \\perp BC')} tại trung điểm của ${tm('BC')}.`, warn:`Độ dài tiếp tuyến tính bằng định lí Pythagore trong tam giác vuông ${tm('OBA')}: ${tm('AB^2 = OA^2 - R^2')}. Hệ thức dạng ${tm('OH \\cdot OA = R^2')} (đường cao trong tam giác vuông) không được viện dẫn trực tiếp — phải chứng minh lại bằng tam giác đồng dạng.`},

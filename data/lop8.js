@@ -11,7 +11,7 @@
 (() => {
 const G = App.addGrade({
   id: 'lop8', name: 'Lớp 8', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Đa thức'}, {id:2, hk:1, name:'Hằng đẳng thức đáng nhớ và ứng dụng'} ],
+  topics: [ {id:1, hk:1, name:'Đa thức', label:'Chương I'}, {id:2, hk:1, name:'Hằng đẳng thức đáng nhớ và ứng dụng', label:'Chương II'} ],
 });
 const lesson = G.lesson;
 
@@ -615,7 +615,7 @@ const g14d = lv => {
     sol:`Đáp án: <b>${good}</b> Các khẳng định còn lại thiếu điều kiện “là hình bình hành / hình chữ nhật / hình thoi” nên chưa chắc đúng.`});
 };
 
-G.topics.push({id:3, hk:1, name:'Tứ giác'});
+G.topics.push({id:3, hk:1, name:'Tứ giác', label:'Chương III'});
 lesson(3,'tu-giac','Bài 10. Tứ giác','Nhận biết cạnh, góc, đường chéo; tổng các góc bằng 360°; góc ngoài; chu vi.',[g10b,g10a,g10c,g10d]);
 lesson(3,'hinh-thang-can','Bài 11. Hình thang cân','Góc của hình thang; góc, cạnh, đường chéo của hình thang cân; dấu hiệu nhận biết.',[g11a,g11b,g11c,g11d]);
 lesson(3,'hinh-binh-hanh','Bài 12. Hình bình hành','Tính chất về cạnh, góc, đường chéo; dấu hiệu nhận biết; tìm x.',[g12a,g12b,g12c,g12d]);

@@ -229,7 +229,7 @@
 
   /* ================= GHÉP 5 BÀI ================= */
   const L = (n, i, f, ...a) => ci => f(R(n * 1013 + i * 41 + ci * 7 + 5), ci, ...a);
-  const T = (n, title, mcs, tfs, shs) => StudentTest.add({grade: 'lop11', id: `tong-hop-${n}`, topic: 1, title, time: 20, counts: {mc: 8, tf: 2, short: 4}, mcPt: .5, tfPt: 1, shortPt: 1, codes: [`TH${n}A`, `TH${n}B`, `TH${n}C`, `TH${n}D`],
+  const T = (n, title, mcs, tfs, shs) => StudentTest.add({grade: 'lop11', id: `tong-hop-${n}`, topic: 93, title, time: 20, counts: {mc: 8, tf: 2, short: 4}, mcPt: .5, tfPt: 1, shortPt: 1, codes: [`TH${n}A`, `TH${n}B`, `TH${n}C`, `TH${n}D`],
     mc: mcs.map((x, i) => L(n, i, x[0], x[1] || {})), tf: tfs.map((x, i) => L(n, 20 + i, x[0], x[1] || {})), short: shs.map((x, i) => L(n, 30 + i, x[0], x[1] || {}))});
   T(1, 'Test tổng hợp 1 – Hàm số lượng giác và phương trình lượng giác',
     [[B.conv, {toRad: true}], [B.sign], [B.exact], [B.domain, {simple: true}], [B.parity, {even: false}], [B.range, {min: false}], [B.solve, {simple: true, fns: ['sin']}], [B.noSol]],

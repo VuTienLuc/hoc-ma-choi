@@ -9,7 +9,7 @@
 (() => {
 const G = App.addGrade({
   id: 'lop11', name: 'Lớp 11', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Hàm số lượng giác và phương trình lượng giác'}, {id:2, hk:1, name:'Dãy số. Cấp số cộng và cấp số nhân'}, {id:3, hk:1, name:'Ôn tập giữa học kì I (theo ma trận)'} ],
+  topics: [ {id:1, hk:1, name:'Hàm số lượng giác và phương trình lượng giác', label:'Chương I'}, {id:2, hk:1, name:'Dãy số. Cấp số cộng và cấp số nhân', label:'Chương II'}, {id:3, hk:1, name:'Ôn tập giữa học kì I (theo ma trận)', label:'📝 Giữa kì I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'} ],
 });
 const lesson = G.lesson;
 
@@ -917,7 +917,8 @@ lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp s�
    6 bài: 1 Dãy số · 2 Cấp số cộng · 3 Cấp số nhân · 4 Thực tế CSC (có hình) · 5 Thực tế CSN (có hình) · Đề tổng hợp 15 câu.
    Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số được tính lại bằng phép tính độc lập (k2chk).
    ===================================================================== */
-{ const i2 = G.topics.findIndex(t => t.id === 2); G.topics.splice(i2 < 0 ? G.topics.length : i2 + 1, 0, {id:92, hk:1, name:'Củng cố Chương II (ôn tập tổng hợp)'}); }
+{ const i2 = G.topics.findIndex(t => t.id === 2); G.topics.splice(i2 < 0 ? G.topics.length : i2 + 1, 0, {id:92, hk:1, name:'Củng cố Chương II (ôn tập tổng hợp)', label:'📝 Củng cố Chương II', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
+{ const i92 = G.topics.findIndex(t => t.id === 92); G.topics.splice(i92, 0, {id:93, hk:1, name:'Kiểm tra và ôn tập Chương I', label:'📝 Kiểm tra Chương I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
 const k2chk = (ok, msg) => { if(!ok) throw new Error('c2k: ' + msg); };
 const K2T = 'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo';
 const k2kt = (t, b, warn, ex) => ({t, b, warn, ex});

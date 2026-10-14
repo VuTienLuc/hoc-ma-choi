@@ -23,7 +23,7 @@
   const optVerts = [[0,0],[5,0],[4,2],[0,4]];
 
   StudentTest.add({
-    grade:'lop10', id:'c2', topic:2,
+    grade:'lop10', id:'c2', topic:93,
     title:'Kiểm tra cuối Chương II – Bất phương trình và hệ bất phương trình bậc nhất hai ẩn',
     time:60, codes:['201','202','203','204'],
     mc:[
@@ -365,7 +365,7 @@
 
   /* ================= GHÉP 5 BÀI ================= */
   const L = (n, i, f, ...a) => ci => f(R(n * 1009 + i * 37 + ci * 7 + 11), ci, ...a);
-  const T = (n, title, mcs, tfs, shs) => StudentTest.add({grade: 'lop10', id: `tong-hop-${n}`, topic: 2, title, time: 20, counts: {mc: 8, tf: 2, short: 4}, mcPt: .5, tfPt: 1, shortPt: 1, codes: [`TH${n}A`, `TH${n}B`, `TH${n}C`, `TH${n}D`],
+  const T = (n, title, mcs, tfs, shs) => StudentTest.add({grade: 'lop10', id: `tong-hop-${n}`, topic: 93, title, time: 20, counts: {mc: 8, tf: 2, short: 4}, mcPt: .5, tfPt: 1, shortPt: 1, codes: [`TH${n}A`, `TH${n}B`, `TH${n}C`, `TH${n}D`],
     mc: mcs.map((x, i) => L(n, i, x[0], x[1])), tf: tfs.map((x, i) => L(n, 20 + i, x[0], x[1])), short: shs.map((x, i) => L(n, 30 + i, x[0], x[1]))});
   T(1, 'Test tổng hợp 1 – Mệnh đề, tập hợp và bất phương trình bậc nhất hai ẩn',
     [[B.isProp, 0], [B.negQ, {}], [B.intNote, {}], [B.subsets, {kind: 'all'}], [B.isLin], [B.solPair, {}], [B.origin], [B.sysPair, {lines: 1}]],

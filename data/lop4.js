@@ -1713,7 +1713,7 @@ lesson(89, 'td-logic-suy-luan-dirichlet', 'Bài 5.2: Các bài toán logic suy l
    IV. Chu vi – diện tích hình chữ nhật · V. Toán lời văn: đủ hay thiếu, nhiều bước.
    Mỗi dạng 5–6 kiểu bài, mỗi kiểu có 3 mức (nhận biết – thông hiểu – vận dụng); số liệu sinh ngẫu nhiên.
    ===================================================================== */
-G.topics.splice(G.topics.findIndex(t => t.id === 6) + 1, 0, {id:7, hk:1, name:'Luyện tập giữa học kì I', label:'📝 Giữa kì I'});
+G.topics.splice(G.topics.findIndex(t => t.id === 6) + 1, 0, {id:7, hk:1, name:'Luyện tập giữa học kì I', label:'📝 Giữa kì I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 
 /* ---------- Dạng 1: viết số theo các hàng ---------- */
 const gkNum = (len, zeros) => {   // chữ số d[0..len-1] tính từ hàng đơn vị; có ít nhất `zeros` chữ số 0 và 3 chữ số khác 0

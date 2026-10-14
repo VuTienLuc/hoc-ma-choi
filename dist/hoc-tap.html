@@ -4974,7 +4974,7 @@ globalThis.GK1 = {PLAN, MC, TF, SH, mcOf, tfOf, shOf, shRun, MT, mtMc, mtTf, mtS
   const optVerts = [[0,0],[5,0],[4,2],[0,4]];
 
   StudentTest.add({
-    grade:'lop10', id:'c2', topic:2,
+    grade:'lop10', id:'c2', topic:93,
     title:'Kiểm tra cuối Chương II – Bất phương trình và hệ bất phương trình bậc nhất hai ẩn',
     time:60, codes:['201','202','203','204'],
     mc:[
@@ -5316,7 +5316,7 @@ globalThis.GK1 = {PLAN, MC, TF, SH, mcOf, tfOf, shOf, shRun, MT, mtMc, mtTf, mtS
 
   /* ================= GHÉP 5 BÀI ================= */
   const L = (n, i, f, ...a) => ci => f(R(n * 1009 + i * 37 + ci * 7 + 11), ci, ...a);
-  const T = (n, title, mcs, tfs, shs) => StudentTest.add({grade: 'lop10', id: `tong-hop-${n}`, topic: 2, title, time: 20, counts: {mc: 8, tf: 2, short: 4}, mcPt: .5, tfPt: 1, shortPt: 1, codes: [`TH${n}A`, `TH${n}B`, `TH${n}C`, `TH${n}D`],
+  const T = (n, title, mcs, tfs, shs) => StudentTest.add({grade: 'lop10', id: `tong-hop-${n}`, topic: 93, title, time: 20, counts: {mc: 8, tf: 2, short: 4}, mcPt: .5, tfPt: 1, shortPt: 1, codes: [`TH${n}A`, `TH${n}B`, `TH${n}C`, `TH${n}D`],
     mc: mcs.map((x, i) => L(n, i, x[0], x[1])), tf: tfs.map((x, i) => L(n, 20 + i, x[0], x[1])), short: shs.map((x, i) => L(n, 30 + i, x[0], x[1]))});
   T(1, 'Test tổng hợp 1 – Mệnh đề, tập hợp và bất phương trình bậc nhất hai ẩn',
     [[B.isProp, 0], [B.negQ, {}], [B.intNote, {}], [B.subsets, {kind: 'all'}], [B.isLin], [B.solPair, {}], [B.origin], [B.sysPair, {lines: 1}]],
@@ -5343,7 +5343,7 @@ const {mcOf, tfOf, shOf} = GK1;
 /* 12 TN × 0,25 + 4 Đ/S × 1 + 6 TLN × 0,5 = 10 điểm; 90 phút; 4 mã đề */
 {
   for(let n = 1; n <= 5; n++){
-    StudentTest.add({grade:'lop10', id:`giua-ki-${n}`, topic:4, title:`Đề ôn tập giữa học kì I – Đề ${n}`, time:90, counts:{mc:12, tf:4, short:6}, mcPt:.25, tfPt:1, shortPt:.5, codes:[`G${n}A`, `G${n}B`, `G${n}C`, `G${n}D`],
+    StudentTest.add({grade:'lop10', id:`giua-ki-${n}`, topic:90, title:`Đề ôn tập giữa học kì I – Đề ${n}`, time:90, counts:{mc:12, tf:4, short:6}, mcPt:.25, tfPt:1, shortPt:.5, codes:[`G${n}A`, `G${n}B`, `G${n}C`, `G${n}D`],
       mc:Array.from({length:12}, (_, i) => ci => mcOf(n, i, ci)),
       tf:Array.from({length:4}, (_, i) => ci => { const q = tfOf(n, i, ci); return {stem:q.stem, items:q.items.map((it, j) => { const ok = (j + ci) % 2 === 0; return {text:it.t[ok ? 0 : 1], ok, sol:it.s[ok ? 0 : 1]}; })}; }),
       short:Array.from({length:6}, (_, i) => ci => { const q = shOf(n, i, ci); return {q:q.q, ans:q.ans, sol:q.sol}; })});
@@ -5352,7 +5352,7 @@ const {mcOf, tfOf, shOf} = GK1;
 /* ---- Luyện tập THEO MA TRẬN giữa kì (tuần 8): 60 phút, 10 TN × 0,4 + 3 Đ/S × 1 + 4 TLN × 0,75 = 10 điểm. Đề 1 trùng đề in cho giáo viên (bộ 7: mã 701–704), Đề 2 là bộ số khác. ---- */
 {
   const {mtMc, mtTf, mtSh} = GK1;
-  [[1, 7], [2, 8]].forEach(([k, n]) => StudentTest.add({grade:'lop10', id:`gk-mt-${k}`, topic:4, title:`Luyện tập giữa học kì I theo ma trận – Đề ${k}`, time:60, pill:'LUYỆN TẬP GIỮA HỌC KÌ I', counts:{mc:10, tf:3, short:4}, mcPt:.4, tfPt:1, shortPt:.75, codes:['A', 'B', 'C', 'D'].map(c => `M${k}${c}`),
+  [[1, 7], [2, 8]].forEach(([k, n]) => StudentTest.add({grade:'lop10', id:`gk-mt-${k}`, topic:90, title:`Luyện tập giữa học kì I theo ma trận – Đề ${k}`, time:60, pill:'LUYỆN TẬP GIỮA HỌC KÌ I', counts:{mc:10, tf:3, short:4}, mcPt:.4, tfPt:1, shortPt:.75, codes:['A', 'B', 'C', 'D'].map(c => `M${k}${c}`),
     lead:'Cấu trúc đề giữa học kì I của tổ Toán: 10 câu trắc nghiệm (4 điểm), 3 câu đúng/sai (3 điểm), 4 câu trả lời ngắn (3 điểm); làm trong 60 phút. Nội dung: Mệnh đề và tập hợp, Bất phương trình và hệ bất phương trình bậc nhất hai ẩn, Hệ thức lượng trong tam giác.',
     mc:Array.from({length:10}, (_, i) => ci => mtMc(n, i, ci)),
     tf:Array.from({length:3}, (_, i) => ci => { const q = mtTf(n, i, ci); return {stem:q.stem, items:q.items.map((it, j) => { const ok = (j + ci + i) % 2 === 0; return {text:it.t[ok ? 0 : 1], ok, sol:it.s[ok ? 0 : 1]}; })}; }),
@@ -5935,7 +5935,7 @@ globalThis.C2B11 = {mc:[tn1, tn2, tn3, tn4, tn5, tn6, tn7, tn8, tn9, tn10], tf:[
 
   /* ================= GHÉP 5 BÀI ================= */
   const L = (n, i, f, ...a) => ci => f(R(n * 1013 + i * 41 + ci * 7 + 5), ci, ...a);
-  const T = (n, title, mcs, tfs, shs) => StudentTest.add({grade: 'lop11', id: `tong-hop-${n}`, topic: 1, title, time: 20, counts: {mc: 8, tf: 2, short: 4}, mcPt: .5, tfPt: 1, shortPt: 1, codes: [`TH${n}A`, `TH${n}B`, `TH${n}C`, `TH${n}D`],
+  const T = (n, title, mcs, tfs, shs) => StudentTest.add({grade: 'lop11', id: `tong-hop-${n}`, topic: 93, title, time: 20, counts: {mc: 8, tf: 2, short: 4}, mcPt: .5, tfPt: 1, shortPt: 1, codes: [`TH${n}A`, `TH${n}B`, `TH${n}C`, `TH${n}D`],
     mc: mcs.map((x, i) => L(n, i, x[0], x[1] || {})), tf: tfs.map((x, i) => L(n, 20 + i, x[0], x[1] || {})), short: shs.map((x, i) => L(n, 30 + i, x[0], x[1] || {}))});
   T(1, 'Test tổng hợp 1 – Hàm số lượng giác và phương trình lượng giác',
     [[B.conv, {toRad: true}], [B.sign], [B.exact], [B.domain, {simple: true}], [B.parity, {even: false}], [B.range, {min: false}], [B.solve, {simple: true, fns: ['sin']}], [B.noSol]],
@@ -5975,7 +5975,7 @@ const {mc, tf, sh} = GK11;
    Đề 1 trùng đề in cho giáo viên (mã 121–124); Đề 2 là bộ số khác. */
 (() => {
 const {mc, tf, sh} = C2B11;
-[0, 1].forEach(n => StudentTest.add({grade:'lop11', id:`c2-${n + 1}`, topic:2, title:`Kiểm tra chương II – Đề ${n + 1}`, time:45, counts:{mc:10, tf:3, short:2}, mcPt:.5, tfPt:1, shortPt:1, codes:['A', 'B', 'C', 'D'].map(c => `C2${n + 1}${c}`),
+[0, 1].forEach(n => StudentTest.add({grade:'lop11', id:`c2-${n + 1}`, topic:92, title:`Kiểm tra chương II – Đề ${n + 1}`, time:45, counts:{mc:10, tf:3, short:2}, mcPt:.5, tfPt:1, shortPt:1, codes:['A', 'B', 'C', 'D'].map(c => `C2${n + 1}${c}`),
   lead:'Chương II. Dãy số. Cấp số cộng và cấp số nhân: 10 câu trắc nghiệm (5 điểm), 3 câu đúng/sai (3 điểm), 2 câu trả lời ngắn (2 điểm); làm trong 45 phút. Làm chắc phần trắc nghiệm và các ý đầu của câu đúng/sai để đạt 7–8 điểm; ý cuối và hai câu trả lời ngắn dành cho mục tiêu 9–10 điểm.',
   mc:mc.map(f => ci => f(ci, n)),
   tf:tf.map((f, i) => ci => { const q = f(ci, n); return {stem:q.stem, items:q.items.map((it, j) => { const ok = (j + ci + i) % 2 === 0; return {text:it.t[ok ? 0 : 1], ok, sol:it.s[ok ? 0 : 1]}; })}; }),
@@ -8021,7 +8021,7 @@ lesson(89, 'td-logic-suy-luan-dirichlet', 'Bài 5.2: Các bài toán logic suy l
    IV. Chu vi – diện tích hình chữ nhật · V. Toán lời văn: đủ hay thiếu, nhiều bước.
    Mỗi dạng 5–6 kiểu bài, mỗi kiểu có 3 mức (nhận biết – thông hiểu – vận dụng); số liệu sinh ngẫu nhiên.
    ===================================================================== */
-G.topics.splice(G.topics.findIndex(t => t.id === 6) + 1, 0, {id:7, hk:1, name:'Luyện tập giữa học kì I', label:'📝 Giữa kì I'});
+G.topics.splice(G.topics.findIndex(t => t.id === 6) + 1, 0, {id:7, hk:1, name:'Luyện tập giữa học kì I', label:'📝 Giữa kì I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 
 /* ---------- Dạng 1: viết số theo các hàng ---------- */
 const gkNum = (len, zeros) => {   // chữ số d[0..len-1] tính từ hàng đơn vị; có ít nhất `zeros` chữ số 0 và 3 chữ số khác 0
@@ -8537,7 +8537,7 @@ lesson(7, 'gk-de-tong-hop', 'Đề tổng hợp giữa kì I (9 dạng)', 'Mỗi
 (() => {
 const G = App.addGrade({
   id: 'lop8', name: 'Lớp 8', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Đa thức'}, {id:2, hk:1, name:'Hằng đẳng thức đáng nhớ và ứng dụng'} ],
+  topics: [ {id:1, hk:1, name:'Đa thức', label:'Chương I'}, {id:2, hk:1, name:'Hằng đẳng thức đáng nhớ và ứng dụng', label:'Chương II'} ],
 });
 const lesson = G.lesson;
 
@@ -9141,7 +9141,7 @@ const g14d = lv => {
     sol:`Đáp án: <b>${good}</b> Các khẳng định còn lại thiếu điều kiện “là hình bình hành / hình chữ nhật / hình thoi” nên chưa chắc đúng.`});
 };
 
-G.topics.push({id:3, hk:1, name:'Tứ giác'});
+G.topics.push({id:3, hk:1, name:'Tứ giác', label:'Chương III'});
 lesson(3,'tu-giac','Bài 10. Tứ giác','Nhận biết cạnh, góc, đường chéo; tổng các góc bằng 360°; góc ngoài; chu vi.',[g10b,g10a,g10c,g10d]);
 lesson(3,'hinh-thang-can','Bài 11. Hình thang cân','Góc của hình thang; góc, cạnh, đường chéo của hình thang cân; dấu hiệu nhận biết.',[g11a,g11b,g11c,g11d]);
 lesson(3,'hinh-binh-hanh','Bài 12. Hình bình hành','Tính chất về cạnh, góc, đường chéo; dấu hiệu nhận biết; tìm x.',[g12a,g12b,g12c,g12d]);
@@ -9167,10 +9167,10 @@ lesson(3,'on-tap-c3','Ôn tập chương III','Tổng hợp: góc tứ giác, h�
 const G = App.addGrade({
   id: 'lop9', name: 'Lớp 9', subject: 'Toán', book: 'Kết nối tri thức',
   topics: [
-    {id:1, hk:1, name:'Phương trình và hệ hai phương trình bậc nhất hai ẩn'},
-    {id:2, hk:1, name:'Phương trình và bất phương trình bậc nhất một ẩn'},
-    {id:3, hk:1, name:'Căn bậc hai và căn bậc ba'},
-    {id:4, hk:1, name:'Hệ thức lượng trong tam giác vuông'},
+    {id:1, hk:1, name:'Phương trình và hệ hai phương trình bậc nhất hai ẩn', label:'Chương I'},
+    {id:2, hk:1, name:'Phương trình và bất phương trình bậc nhất một ẩn', label:'Chương II'},
+    {id:3, hk:1, name:'Căn bậc hai và căn bậc ba', label:'Chương III'},
+    {id:4, hk:1, name:'Hệ thức lượng trong tam giác vuông', label:'Chương IV'},
   ],
 });
 const lesson = G.lesson;
@@ -10362,7 +10362,7 @@ const g17d = lv => {
     hint:`Hai đường tròn cắt nhau ⇔ ${m("R - r \\lt OO' \\lt R + r")}.`, sol:`${tb(Rr-r)} ${m("\\lt OO' \\lt")} ${tb(Rr+r)}.`});
 };
 
-G.topics.push({id:5, hk:1, name:'Đường tròn'});
+G.topics.push({id:5, hk:1, name:'Đường tròn', label:'Chương V'});
 lesson(5,'mo-dau-duong-tron','Bài 13. Mở đầu về đường tròn','Vị trí của điểm đối với đường tròn; bán kính, đường kính; tính đối xứng của đường tròn.',[g13b,g13a,g13d,g13c]);
 lesson(5,'cung-va-day','Bài 14. Cung và dây của một đường tròn','Dây và đường kính; khoảng cách từ tâm đến dây; góc ở tâm, số đo cung.',[g14d,g14a,g14b,g14c]);
 lesson(5,'do-dai-cung-quat','Bài 15. Độ dài của cung tròn. Diện tích hình quạt tròn và hình vành khuyên','Độ dài đường tròn, cung tròn; diện tích hình quạt, hình vành khuyên; bài toán thực tế.',[g15a,g15b,g15c,g15d]);
@@ -10432,7 +10432,7 @@ const gTs6 = lv => {
   return QS({direct:lv===3,text,hint:'Nối tâm với hai tiếp điểm; khai thác hai góc vuông và tính chất hai tiếp tuyến.',steps:lv===1?steps.slice(0,3):steps,sol:`Vì ${tm('OA\\perp MA')} và ${tm('OB\\perp MB')}, bốn điểm ${tm('O,A,M,B')} cùng thuộc đường tròn đường kính ${tm('OM')}. ${tm(`MA=${t}`)} cm; ${tm(`OH=${oh}`)} cm; ${tm(`AB=${ab}`)} cm.`});
 };
 
-G.topics.push({id:6,hk:2,name:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học'});
+G.topics.push({id:6, hk:2, name:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học', label:'🎓 Ôn thi vào 10', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 lesson(6,'on-thi-tiep-tuyen','Hình học 1. Tiếp tuyến của đường tròn','Ôn tuyển sinh từ cơ bản đến nâng cao: nhận biết và chứng minh tiếp tuyến; tính độ dài; hai tiếp tuyến; dây tiếp điểm; tiếp tuyến–cát tuyến; bài tổng hợp.',[gTs1,gTs2,gTs3,gTs4,gTs5,gTs6], {intro:[
   {t:`Tiếp tuyến và bán kính`, b:`<ul><li>Tiếp tuyến của đường tròn vuông góc với bán kính tại tiếp điểm.</li><li>Đường thẳng ${tm('d')} tiếp xúc với ${tm('(O;R)')} khi và chỉ khi khoảng cách từ ${tm('O')} đến ${tm('d')} bằng ${tm('R')}.</li><li>Dấu hiệu: đường thẳng đi qua một điểm của đường tròn và vuông góc với bán kính tại điểm đó là tiếp tuyến.</li></ul>`, ex:`Thấy chữ “tiếp tuyến” hay “tiếp điểm”: nối ngay tâm với tiếp điểm để có góc vuông.`},
   {t:`Hai tiếp tuyến cắt nhau`, b:`Từ ${tm('A')} vẽ hai tiếp tuyến ${tm('AB')}, ${tm('AC')} với ${tm('(O)')} (${tm('B')}, ${tm('C')} là tiếp điểm): ${tm('AB = AC')}; ${tm('AO')} là tia phân giác của ${tm('\\widehat{BAC}')} và của ${tm('\\widehat{BOC}')}; ${tm('AO \\perp BC')} tại trung điểm của ${tm('BC')}.`, warn:`Độ dài tiếp tuyến tính bằng định lí Pythagore trong tam giác vuông ${tm('OBA')}: ${tm('AB^2 = OA^2 - R^2')}. Hệ thức dạng ${tm('OH \\cdot OA = R^2')} (đường cao trong tam giác vuông) không được viện dẫn trực tiếp — phải chứng minh lại bằng tam giác đồng dạng.`},
@@ -12073,7 +12073,7 @@ lesson(6,'on-thi-hinh-hoc-chung-minh-1','Hình học 7a. Chứng minh: bốn đi
 (() => {
 const G = App.addGrade({
   id: 'lop10', name: 'Lớp 10', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Mệnh đề và tập hợp'}, {id:2, hk:1, name:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn'}, {id:3, hk:1, name:'Hệ thức lượng trong tam giác'}, {id:4, hk:1, name:'Các số liệu đặc trưng của mẫu số liệu không ghép nhóm'} ],
+  topics: [ {id:1, hk:1, name:'Mệnh đề và tập hợp', label:'Chương I'}, {id:2, hk:1, name:'Bất phương trình và hệ bất phương trình bậc nhất hai ẩn', label:'Chương II'}, {id:3, hk:1, name:'Hệ thức lượng trong tam giác', label:'Chương III'}, {id:4, hk:1, name:'Các số đặc trưng của mẫu số liệu không ghép nhóm', label:'Chương V'} ],
 });
 const lesson = G.lesson;
 
@@ -12972,7 +12972,8 @@ lesson(3,'on-tap-c3','Ôn tập chương III – Bộ 20 câu','Mỗi đề 20 c
    6 bài: 1 Giá trị lượng giác · 2 Côsin – sin · 3 Diện tích – bán kính · 4–5 Thực tế có hình · Đề tổng hợp 15 câu.
    Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số tính lại bằng phép tính độc lập (c3chk).
    ===================================================================== */
-G.topics.push({id:91, hk:1, name:'Củng cố kiểm tra Chương III'});
+G.topics.push({id:93, hk:1, name:'Kiểm tra và ôn tập Chương I – II', label:'📝 Kiểm tra Chương I – II', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
+G.topics.push({id:91, hk:1, name:'Củng cố kiểm tra Chương III', label:'📝 Củng cố Chương III', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 const c3chk = (ok, msg) => { if(!ok) throw new Error('c3k: ' + msg); };
 const c3rad = d => d * Math.PI / 180;
 const c3KT = (t, b, warn, ex) => ({t, b, warn, ex});
@@ -13517,7 +13518,7 @@ lesson(4,'so-gan-dung-sai-so','Bài 12. Số gần đúng và sai số','Sai s�
    Mỗi dạng = lv => câu hỏi; mức 1 → 3 chuyển sang loại câu khó hơn. Đáp án luôn tính trước khi dựng đề (trong GK1).
    ===================================================================== */
 {
-{ const i91 = G.topics.findIndex(t => t.id === 91); G.topics.splice(i91 < 0 ? G.topics.length : i91, 0, {id:90, hk:1, name:'Ôn tập giữa học kì I'}); }
+{ G.topics.push({id:90, hk:1, name:'Ôn tập giữa học kì I', label:'📝 Giữa kì I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
 const rg = () => GK1.rng((Math.random() * 4294967296) >>> 0);
 const HINT = {
   isProp:'Mệnh đề là câu khẳng định, xác định được là đúng hoặc sai. Câu hỏi, câu cảm thán, câu mệnh lệnh hay câu còn biến thì không phải.',
@@ -13615,7 +13616,7 @@ lesson(90, 'on-tap-giua-ki-1', 'Ôn tập giữa học kì I', 'Tổng hợp Ch�
 (() => {
 const G = App.addGrade({
   id: 'lop11', name: 'Lớp 11', subject: 'Toán', book: 'Kết nối tri thức',
-  topics: [ {id:1, hk:1, name:'Hàm số lượng giác và phương trình lượng giác'}, {id:2, hk:1, name:'Dãy số. Cấp số cộng và cấp số nhân'}, {id:3, hk:1, name:'Ôn tập giữa học kì I (theo ma trận)'} ],
+  topics: [ {id:1, hk:1, name:'Hàm số lượng giác và phương trình lượng giác', label:'Chương I'}, {id:2, hk:1, name:'Dãy số. Cấp số cộng và cấp số nhân', label:'Chương II'}, {id:3, hk:1, name:'Ôn tập giữa học kì I (theo ma trận)', label:'📝 Giữa kì I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'} ],
 });
 const lesson = G.lesson;
 
@@ -14523,7 +14524,8 @@ lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp s�
    6 bài: 1 Dãy số · 2 Cấp số cộng · 3 Cấp số nhân · 4 Thực tế CSC (có hình) · 5 Thực tế CSN (có hình) · Đề tổng hợp 15 câu.
    Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số được tính lại bằng phép tính độc lập (k2chk).
    ===================================================================== */
-{ const i2 = G.topics.findIndex(t => t.id === 2); G.topics.splice(i2 < 0 ? G.topics.length : i2 + 1, 0, {id:92, hk:1, name:'Củng cố Chương II (ôn tập tổng hợp)'}); }
+{ const i2 = G.topics.findIndex(t => t.id === 2); G.topics.splice(i2 < 0 ? G.topics.length : i2 + 1, 0, {id:92, hk:1, name:'Củng cố Chương II (ôn tập tổng hợp)', label:'📝 Củng cố Chương II', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
+{ const i92 = G.topics.findIndex(t => t.id === 92); G.topics.splice(i92, 0, {id:93, hk:1, name:'Kiểm tra và ôn tập Chương I', label:'📝 Kiểm tra Chương I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
 const k2chk = (ok, msg) => { if(!ok) throw new Error('c2k: ' + msg); };
 const K2T = 'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo';
 const k2kt = (t, b, warn, ex) => ({t, b, warn, ex});
@@ -15087,7 +15089,7 @@ let HF={q:'',st:'all'};
 function renderHome(){
   const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g),max=gradeMaxStars(g);
   const hks=[...new Set(g.topics.map(t=>t.hk))];
-  const topics=[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>(a.grp?1:0)-(b.grp?1:0));
+  const topics=[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>{const r=t=>!t.grp?0:/^📝/.test(t.grp)?2:1;return r(a)-r(b)});   // chủ đề theo chương trước; nhóm 🧠 Toán tư duy; nhóm 📝 Ôn tập · Củng cố · Kiểm tra xếp cuối
   const vis=topics.flatMap(t=>g.lessons.filter(l=>l.t===t.id)),next=vis.find(l=>{const x=lessonStars(l.id);return x>0&&x<9})||vis.find(l=>!lessonStars(l.id));
   const cnt={all:vis.length,todo:0,doing:0,done:0};vis.forEach(l=>{const x=lessonStars(l.id);cnt[stOf(Math.round(x/9*100),x>0)]++});
   const got=vis.reduce((n,l)=>n+lessonStars(l.id),0),possible=vis.length*9,gp=possible?Math.round(got/possible*100):0;

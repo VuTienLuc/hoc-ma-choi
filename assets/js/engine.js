@@ -48,7 +48,7 @@ let HF={q:'',st:'all'};
 function renderHome(){
   const g=S.grade,hkKey=`hoctap:${g.id}:hk`,hk=+(store.get(hkKey)||1),total=gradeStars(g),max=gradeMaxStars(g);
   const hks=[...new Set(g.topics.map(t=>t.hk))];
-  const topics=[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>(a.grp?1:0)-(b.grp?1:0));
+  const topics=[...g.topics.filter(t=>hks.length<2||t.hk===hk)].sort((a,b)=>{const r=t=>!t.grp?0:/^📝/.test(t.grp)?2:1;return r(a)-r(b)});   // chủ đề theo chương trước; nhóm 🧠 Toán tư duy; nhóm 📝 Ôn tập · Củng cố · Kiểm tra xếp cuối
   const vis=topics.flatMap(t=>g.lessons.filter(l=>l.t===t.id)),next=vis.find(l=>{const x=lessonStars(l.id);return x>0&&x<9})||vis.find(l=>!lessonStars(l.id));
   const cnt={all:vis.length,todo:0,doing:0,done:0};vis.forEach(l=>{const x=lessonStars(l.id);cnt[stOf(Math.round(x/9*100),x>0)]++});
   const got=vis.reduce((n,l)=>n+lessonStars(l.id),0),possible=vis.length*9,gp=possible?Math.round(got/possible*100):0;
