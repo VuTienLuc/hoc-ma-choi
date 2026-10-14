@@ -664,4 +664,42 @@ Lecture.addPractice('lop9','on-thi-he-phuong-trinh-thuc-te',[
  ]},
 ]);
 
+/* ---------- Hình học 7a. Chứng minh – 5 dạng × 2 câu tương tự ---------- */
+{
+const H0 = `Cho tam giác nhọn ${m('ABC')} có hai đường cao ${m('BD')}, ${m('CE')} cắt nhau tại ${m('H')}.`;
+const hw = s => `\\widehat{${s}}`;
+Lecture.addPractice('lop9','on-thi-hinh-hoc-chung-minh-1',[
+ {dang:'Bốn điểm cùng thuộc một đường tròn',items:[
+  {de:`${H0} Chứng minh bốn điểm ${m('B,C,D,E')} cùng thuộc một đường tròn. Biết ${m('BC=14')} cm, tính bán kính đường tròn đó.`,
+   sol:[`${m('BD\\perp AC')} nên tam giác ${m('BDC')} vuông tại ${m('D')}; ${m('CE\\perp AB')} nên tam giác ${m('BEC')} vuông tại ${m('E')}. Hai tam giác có chung cạnh huyền ${m('BC')}.`,`Gọi ${m('M')} là trung điểm ${m('BC')}. Trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền: ${m('MD=ME=\\frac{BC}{2}=MB=MC')}.`,`Vậy ${m('B,C,D,E')} cùng thuộc đường tròn tâm ${m('M')}, bán kính ${m('\\frac{14}{2}=7')} cm.`],ans:`${tb('R=7')} cm.`,lines:3},
+  {de:`${H0} Gọi ${m('N')} là trung điểm của ${m('AH')}. Chứng minh ${m('A,E,H,D')} cùng thuộc đường tròn tâm ${m('N')}; biết ${m('AH=18')} cm, tính ${m('NE')}.`,
+   sol:[`${m('HE\\perp AB')} (vì ${m('H\\in CE')}) nên tam giác ${m('AEH')} vuông tại ${m('E')}; ${m('HD\\perp AC')} nên tam giác ${m('ADH')} vuông tại ${m('D')}. Chung cạnh huyền ${m('AH')}.`,`${m('NE=ND=\\frac{AH}{2}=NA=NH')} (trung tuyến ứng với cạnh huyền).`,`Vậy bốn điểm thuộc đường tròn tâm ${m('N')}; ${m('NE=\\frac{18}{2}=9')} cm.`],ans:`${tb('NE=9')} cm.`,lines:3},
+ ]},
+ {dang:'Tứ giác nội tiếp, tính góc',items:[
+  {de:`Tứ giác ${m('ABCD')} nội tiếp ${m('(O)')}, ${m('\\widehat{ABC}=105^\\circ')}, ${m('\\widehat{BDC}=35^\\circ')}. Tính ${m('\\widehat{ADC}')} và ${m('\\widehat{BAC}')}.`,
+   sol:[`${m('\\widehat{ADC}')} và ${m('\\widehat{ABC}')} là hai góc đối của tứ giác nội tiếp: ${m('\\widehat{ADC}=180^\\circ-105^\\circ=75^\\circ')}.`,`${m('\\widehat{BAC}')} và ${m('\\widehat{BDC}')} là hai góc nội tiếp cùng chắn cung ${m('BC')}: ${m('\\widehat{BAC}=35^\\circ')}.`],ans:`${tb('\\widehat{ADC}=75^\\circ')}; ${tb('\\widehat{BAC}=35^\\circ')}.`,lines:3},
+  {de:`Tứ giác ${m('ABCD')} nội tiếp ${m('(O)')}, ${m('\\widehat{BAD}=105^\\circ')}, ${m('\\widehat{ABD}=35^\\circ')}. Tính ${m('\\widehat{ACB}')} và ${m('\\widehat{BCD}')}.`,
+   sol:[`Tam giác ${m('ABD')}: ${m('\\widehat{ADB}=180^\\circ-105^\\circ-35^\\circ=40^\\circ')}.`,`${m('\\widehat{ACB}')} và ${m('\\widehat{ADB}')} cùng chắn cung ${m('AB')} nên ${m('\\widehat{ACB}=40^\\circ')}.`,`${m('\\widehat{BCD}')} và ${m('\\widehat{BAD}')} là hai góc đối: ${m('\\widehat{BCD}=180^\\circ-105^\\circ=75^\\circ')}.`],ans:`${tb('\\widehat{ACB}=40^\\circ')}; ${tb('\\widehat{BCD}=75^\\circ')}.`,lines:3},
+ ]},
+ {dang:'Chứng minh song song',items:[
+  {de:`${H0} Biết ${m('\\widehat{ACB}=55^\\circ')}. Tính ${m('\\widehat{BED}')} và ${m('\\widehat{AED}')}.`,
+   sol:[`${m('B,C,D,E')} thuộc đường tròn đường kính ${m('BC')} (hai tam giác vuông ${m('BDC, BEC')} chung cạnh huyền).`,`Tứ giác ${m('BCDE')} nội tiếp: ${m('\\widehat{BED}=180^\\circ-\\widehat{BCD}=180^\\circ-55^\\circ=125^\\circ')}.`,`${m('\\widehat{AED}')} kề bù với ${m('\\widehat{BED}')}: ${m('\\widehat{AED}=180^\\circ-125^\\circ=55^\\circ')}.`],ans:`${tb('\\widehat{BED}=125^\\circ')}; ${tb('\\widehat{AED}=55^\\circ')}.`,lines:4},
+  {hard:true,de:`${H0} Tia ${m('Ay')} là tiếp tuyến tại ${m('A')} của đường tròn ngoại tiếp tam giác ${m('ABC')}, nằm trên nửa mặt phẳng bờ ${m('AC')} không chứa ${m('B')}. Biết ${m('\\widehat{ABC}=70^\\circ')}. Chứng minh ${m('Ay\\parallel DE')} và tính ${m('\\widehat{ADE}')}.`,
+   sol:[`${m('B,C,D,E')} thuộc đường tròn đường kính ${m('BC')}; trong tứ giác nội tiếp ${m('BCDE')}: ${m('\\widehat{CDE}+\\widehat{CBE}=180^\\circ')}. Mà ${m('\\widehat{ADE}+\\widehat{CDE}=180^\\circ')} (kề bù) nên ${m('\\widehat{ADE}=\\widehat{ABC}=70^\\circ')}.`,`Tiếp tuyến – dây cung: ${m('\\widehat{yAC}=\\widehat{ABC}=70^\\circ')}.`,`Vậy ${m('\\widehat{yAC}=\\widehat{ADE}')}, hai góc so le trong với cát tuyến ${m('AC')}, nên ${m('Ay\\parallel DE')}.`],ans:`${tb('Ay\\parallel DE')}; ${tb('\\widehat{ADE}=70^\\circ')}.`,lines:4},
+ ]},
+ {dang:'Vuông góc, trực tâm',items:[
+  {de:`${H0} Biết ${m('\\widehat{BAC}=65^\\circ')}. Tính ${m('\\widehat{BHC}')}.`,
+   sol:[`Tứ giác ${m('AEHD')} có ${m('\\widehat{AEH}=\\widehat{ADH}=90^\\circ')}, nên ${m('\\widehat{EHD}=360^\\circ-90^\\circ-90^\\circ-65^\\circ=115^\\circ')}.`,`${m('\\widehat{BHC}=\\widehat{EHD}')} (đối đỉnh) nên ${m('\\widehat{BHC}=115^\\circ')}.`],ans:`${tb('\\widehat{BHC}=115^\\circ')}.`,lines:3},
+  {hard:true,de:`${H0} Tia ${m('AH')} cắt ${m('BC')} tại ${m('F')}. Biết ${m('\\widehat{ABC}=62^\\circ')}, ${m('\\widehat{ACB}=58^\\circ')}. Chứng minh ${m('AF\\perp BC')} rồi tính ${m('\\widehat{BAF}')}, ${m('\\widehat{CAF}')} và ${m('\\widehat{BHC}')}.`,
+   sol:[`${m('H')} là giao của hai đường cao ${m('BD, CE')} nên là trực tâm; ba đường cao đồng quy, vậy ${m('AF\\perp BC')}.`,`Tam giác ${m('ABF')} vuông tại ${m('F')}: ${m('\\widehat{BAF}=90^\\circ-62^\\circ=28^\\circ')}. Tam giác ${m('ACF')} vuông tại ${m('F')}: ${m('\\widehat{CAF}=90^\\circ-58^\\circ=32^\\circ')}.`,`${m('\\widehat{BAC}=28^\\circ+32^\\circ=60^\\circ')}. Tứ giác ${m('AEHD')}: ${m('\\widehat{EHD}=180^\\circ-60^\\circ=120^\\circ')}, nên ${m('\\widehat{BHC}=120^\\circ')} (đối đỉnh).`],ans:`${tb('\\widehat{BAF}=28^\\circ')}; ${tb('\\widehat{CAF}=32^\\circ')}; ${tb('\\widehat{BHC}=120^\\circ')}.`,lines:4},
+ ]},
+ {dang:'Hệ thức bằng tam giác đồng dạng',items:[
+  {de:`${H0} Chứng minh ${m('AD\\cdot AC=AE\\cdot AB')}. Biết ${m('AB=12')} cm, ${m('AC=15')} cm, ${m('AD=8')} cm; tính ${m('AE')}.`,
+   sol:[`Xét ${m('\\triangle ADB')} và ${m('\\triangle AEC')}: ${m('\\widehat{ADB}=\\widehat{AEC}=90^\\circ')}, ${m('\\widehat{A}')} chung, nên ${m('\\triangle ADB\\sim\\triangle AEC')} (g.g).`,`Suy ra ${m('\\frac{AD}{AE}=\\frac{AB}{AC}')}, tức ${m('AD\\cdot AC=AE\\cdot AB')}.`,`${m('AE=\\frac{AD\\cdot AC}{AB}=\\frac{8\\cdot 15}{12}=10')} cm.`],ans:`${tb('AE=10')} cm.`,lines:4},
+  {hard:true,de:`${H0} Chứng minh ${m('HB\\cdot HD=HC\\cdot HE')}. Biết ${m('HB=12')} cm, ${m('HD=5')} cm, ${m('HC=10')} cm; tính ${m('HE')}.`,
+   sol:[`Xét ${m('\\triangle HBE')} và ${m('\\triangle HCD')}: ${m('\\widehat{HEB}=\\widehat{HDC}=90^\\circ')}; ${m('\\widehat{BHE}=\\widehat{CHD}')} (đối đỉnh). Vậy ${m('\\triangle HBE\\sim\\triangle HCD')} (g.g).`,`Suy ra ${m('\\frac{HB}{HC}=\\frac{HE}{HD}')}, tức ${m('HB\\cdot HD=HC\\cdot HE')}.`,`${m('HE=\\frac{HB\\cdot HD}{HC}=\\frac{12\\cdot 5}{10}=6')} cm.`],ans:`${tb('HE=6')} cm.`,lines:4},
+ ]},
+]);
+}
+
 })();

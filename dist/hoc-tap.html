@@ -11762,6 +11762,231 @@ lesson(6,'on-thi-he-phuong-trinh-thuc-te','Đại số 6. Thực tế lập hệ
 ]});
 }
 
+/* =====================================================================
+   ÔN THI TUYỂN SINH VÀO LỚP 10 – HÌNH HỌC 7a. CHỨNG MINH: BỐN ĐIỂM CÙNG THUỘC ĐƯỜNG TRÒN, SONG SONG, VUÔNG GÓC, HỆ THỨC
+   ===================================================================== */
+{
+const m = tm, hv = s => `\\widehat{${s}}`;
+const dirH = (p, q) => Math.atan2(q[1]-p[1], q[0]-p[0])*180/Math.PI;
+const rightH = (A, P, Q) => { const a1 = dirH(A, P), a2 = dirH(A, Q); return [A[0], A[1], Math.abs(((a2-a1+540)%360)-180-90) < 1 ? a1 : a2]; };
+const footH = (X, P, Q) => { const dx = Q[0]-P[0], dy = Q[1]-P[1], t = ((X[0]-P[0])*dx + (X[1]-P[1])*dy)/(dx*dx + dy*dy); return [P[0]+t*dx, P[1]+t*dy]; };
+const meetH = (P1, P2, P3, P4) => { const d1 = [P2[0]-P1[0], P2[1]-P1[1]], d2 = [P4[0]-P3[0], P4[1]-P3[1]], den = d1[0]*d2[1] - d1[1]*d2[0], t = ((P3[0]-P1[0])*d2[1] - (P3[1]-P1[1])*d2[0])/den; return [P1[0]+t*d1[0], P1[1]+t*d1[1]]; };
+const A7 = [2, 5.2], B7 = [0, 0], C7 = [6, 0];
+const D7 = footH(B7, A7, C7), E7 = footH(C7, A7, B7), H7 = meetH(B7, D7, C7, E7), F7 = footH(A7, B7, C7);
+
+/* Tam giác nhọn ABC, hai đường cao BD, CE cắt nhau tại H; o.circ = 'BC' | 'AH' vẽ đường tròn đường kính tương ứng; o.af vẽ AF vuông góc BC */
+const ortho7 = (o = {}) => {
+  const C = [];
+  if(o.circ === 'BC') C.push({x:3, y:0, r:3, lab:'M'});
+  if(o.circ === 'AH'){ const N = [(A7[0]+H7[0])/2, (A7[1]+H7[1])/2]; C.push({x:N[0], y:N[1], r:Math.hypot(A7[0]-H7[0], A7[1]-H7[1])/2, lab:'N'}); }
+  const S = [[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...D7],[...C7,...E7]];
+  if(o.af) S.push([...A7,...F7,true]);
+  const P = [[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...D7,'D',20],[...E7,'E',160],[...H7,'H',-100]];
+  if(o.af) P.push([...F7,'F',-90]);
+  const right = [rightH(D7,B7,A7), rightH(E7,C7,A7)];
+  if(o.af) right.push(rightH(F7,A7,C7));
+  return circleSVG({C, P, S, right});
+};
+
+/* Đường tròn ngoại tiếp tam giác ABC, tiếp tuyến d tại A, đoạn DE */
+const tan7 = () => {
+  const a2 = A7[0]**2 + A7[1]**2, b2 = B7[0]**2 + B7[1]**2, c2 = C7[0]**2 + C7[1]**2;
+  const dd = 2*(A7[0]*(B7[1]-C7[1]) + B7[0]*(C7[1]-A7[1]) + C7[0]*(A7[1]-B7[1]));
+  const O = [(a2*(B7[1]-C7[1]) + b2*(C7[1]-A7[1]) + c2*(A7[1]-B7[1]))/dd, (a2*(C7[0]-B7[0]) + b2*(A7[0]-C7[0]) + c2*(B7[0]-A7[0]))/dd];
+  const r = Math.hypot(A7[0]-O[0], A7[1]-O[1]), dir = [-(A7[1]-O[1]), A7[0]-O[0]];
+  return circleSVG({C:[{x:O[0], y:O[1], r, lab:'O'}],
+    P:[[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...D7,'D',20],[...E7,'E',160]],
+    S:[[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...D7,true],[...C7,...E7,true],[...D7,...E7]],
+    L:[[A7[0], A7[1], A7[0]+dir[0], A7[1]+dir[1], 'd']]});
+};
+
+const quad7 = () => {
+  const pt = t => [3*Math.cos(t*Math.PI/180), 3*Math.sin(t*Math.PI/180)];
+  const A = pt(140), B = pt(220), C = pt(320), D = pt(40);
+  return circleSVG({C:[{x:0, y:0, r:3, lab:'O', lp:14}], P:[[...A,'A',140],[...B,'B',220],[...C,'C',320],[...D,'D',40]],
+    S:[[...A,...B],[...B,...C],[...C,...D],[...D,...A],[...A,...C,true],[...B,...D,true]]});
+};
+
+const head7 = `Cho tam giác nhọn ${m('ABC')} có hai đường cao ${m('BD')} và ${m('CE')} cắt nhau tại ${m('H')} (${m('D \\in AC')}, ${m('E \\in AB')}).`;
+const tanHead7 = `Tam giác nhọn ${m('ABC')} nội tiếp đường tròn ${m('(O)')}; ${m('d')} là tiếp tuyến của ${m('(O)')} tại ${m('A')}, ${m('Ax')} là tia của ${m('d')} nằm trên nửa mặt phẳng bờ ${m('AB')} không chứa ${m('C')}; ${m('BD \\perp AC')}, ${m('CE \\perp AB')} (${m('D \\in AC')}, ${m('E \\in AB')}).`;
+
+/* Dạng 1. Bốn điểm cùng thuộc một đường tròn (hai góc vuông cùng nhìn một đoạn) */
+const CFG7 = [
+  {pts:'B, C, D, E', p:['B','C','D','E'], dia:'BC', other:'AH', circ:'BC', mid:'M', r1:'D', t1:'BDC', r2:'E', t2:'BEC', ang:'\\widehat{BDC} = \\widehat{BEC} = 90^\\circ'},
+  {pts:'A, E, H, D', p:['A','H','E','D'], dia:'AH', other:'BC', circ:'AH', mid:'N', r1:'E', t1:'AEH', r2:'D', t2:'ADH', ang:'\\widehat{AEH} = \\widehat{ADH} = 90^\\circ'}
+];
+const gHa1 = lv => {
+  const c = pick(CFG7), fig = ortho7({circ:c.circ});
+  if(lv === 1){
+    const good = `đường tròn đường kính ${m(c.dia)}`;
+    return QC({text:`${head7} Vì ${m(c.ang)} nên bốn điểm ${m(c.pts)} cùng thuộc đường tròn nào?`, fig,
+      opts:[good, `đường tròn đường kính ${m(c.other)}`, `đường tròn đường kính ${m('DE')}`, `đường tròn tâm ${m('A')} bán kính ${m('AH')}`], ans:good,
+      hint:'Trong tam giác vuông, trung điểm cạnh huyền cách đều ba đỉnh. Hãy tìm cạnh huyền chung của hai tam giác vuông.',
+      sol:`Hai tam giác vuông ${m(c.t1)} (vuông tại ${m(c.r1)}) và ${m(c.t2)} (vuông tại ${m(c.r2)}) có chung cạnh huyền ${m(c.dia)}. Trung điểm ${m(c.mid)} của ${m(c.dia)} cách đều bốn điểm, nên bốn điểm thuộc <b>đường tròn đường kính ${m(c.dia)}</b>.`});
+  }
+  const k = R(3, 12);
+  if(lv === 2){
+    const askR = R(0, 1) === 0;
+    return QB({text:askR ? `${head7} Biết ${m(`${c.dia} = ${2*k}`)} cm. Tính bán kính của đường tròn đi qua bốn điểm ${m(c.pts)}.`
+                         : `${head7} Đường tròn đi qua bốn điểm ${m(c.pts)} có bán kính ${m(`${k}`)} cm. Tính độ dài ${m(c.dia)}.`,
+      tpl:askR ? `${m('R =')} [_] cm` : `${m(c.dia + ' =')} [_] cm`, ans:[askR ? k : 2*k], fig,
+      hint:'Bốn điểm cùng thuộc đường tròn có đường kính là cạnh huyền chung của hai tam giác vuông; bán kính bằng nửa đường kính.',
+      sol:`Vì ${m(c.ang)} nên ${m(c.pts)} cùng thuộc đường tròn đường kính ${m(c.dia)}.<br>${askR ? `${m(`R = \\dfrac{${c.dia}}{2} = \\dfrac{${2*k}}{2} =`)} ${tb(k)} cm.` : `${m(`${c.dia} = 2R = 2\\cdot ${k} =`)} ${tb(2*k)} cm.`}`});
+  }
+  const [P, Q, X, Y] = c.p, M = c.mid, half = s => m(`\\dfrac{1}{2}${s}`);
+  const mkOpts = () => [half(c.dia), m(c.dia), m(`2${c.dia}`), m(`\\dfrac{1}{3}${c.dia}`)];
+  const good3 = `${m(`${M}${P} = ${M}${Q} = ${M}${X} = ${M}${Y}`)}, nên bốn điểm cùng thuộc đường tròn tâm ${m(M)}`;
+  return QS({direct:true, fig,
+    text:`${head7} Gọi ${m(M)} là trung điểm của ${m(c.dia)}. Biết ${m(`${c.dia} = ${2*k}`)} cm. Tính bán kính đường tròn đi qua bốn điểm ${m(c.pts)}.`,
+    hint:`Chứng minh bốn điểm cách đều ${m(M)} (trung tuyến ứng với cạnh huyền).`,
+    steps:[
+      {tag:'Trung tuyến thứ nhất', ask:`Tam giác ${m(c.t1)} vuông tại ${m(c.r1)} có ${m(M + c.r1)} là trung tuyến ứng với cạnh huyền ${m(c.dia)}. Khi đó ${m(M + c.r1)} bằng`, opts:mkOpts(), ans:half(c.dia),
+        hint:'Trong tam giác vuông, trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền.'},
+      {tag:'Trung tuyến thứ hai', ask:`Tương tự, tam giác ${m(c.t2)} vuông tại ${m(c.r2)} có ${m(M + c.r2)} là trung tuyến ứng với cạnh huyền ${m(c.dia)}. Khi đó ${m(M + c.r2)} bằng`, opts:mkOpts(), ans:half(c.dia),
+        hint:'Cùng lập luận như bước trước.'},
+      {tag:'Kết luận', ask:`Kết luận nào đúng?`, opts:[good3, `${m(`${M}${P} = ${M}${Q}`)} nhưng ${m(X + ',\\ ' + Y)} thẳng hàng với ${m(M)}`, `${m(M)} là trọng tâm của tứ giác`, `${m(`${M}${X} \\gt ${M}${Y}`)} nên không cùng đường tròn`], ans:good3,
+        hint:`${m(M + P)} và ${m(M + Q)} cũng bằng nửa ${m(c.dia)}.`},
+      {tag:'Tính bán kính', ask:`Với ${m(`${c.dia} = ${2*k}`)} cm, bán kính đường tròn tâm ${m(M)} là`, tpl:`${m('R =')} [_] cm`, ans:[k], hint:'Bán kính là khoảng cách từ tâm đến một điểm trên đường tròn.'}
+    ],
+    sol:`Trong tam giác vuông ${m(c.t1)}: ${m(`${M}${X} = \\dfrac{1}{2}${c.dia}`)}; trong tam giác vuông ${m(c.t2)}: ${m(`${M}${Y} = \\dfrac{1}{2}${c.dia}`)}. Lại có ${m(`${M}${P} = ${M}${Q} = \\dfrac{1}{2}${c.dia}`)}. Vậy ${m(c.pts)} cách đều ${m(M)} một khoảng ${m(`\\dfrac{${2*k}}{2}`)} = ${tb(k)} cm, tức là cùng thuộc đường tròn tâm ${m(M)}, bán kính ${tb(k)} cm.`});
+};
+
+/* Dạng 2. Tứ giác nội tiếp: tính góc */
+const gHa2 = lv => {
+  const fig = quad7();
+  if(lv === 1){
+    const al = R(12, 24)*5, p = pick([['BAD','BCD'],['ABC','ADC'],['BCD','BAD'],['ADC','ABC']]);
+    return QB({text:`Tứ giác ${m('ABCD')} nội tiếp đường tròn ${m('(O)')}. Biết ${m(`${hv(p[0])} = ${al}^\\circ`)}. Tính ${m(hv(p[1]))}.`, fig,
+      tpl:`${m(hv(p[1]) + ' =')} [_]${m('^\\circ')}`, ans:[180-al],
+      hint:'Trong tứ giác nội tiếp, hai góc đối có tổng số đo bằng 180°.',
+      sol:`${m(hv(p[0]))} và ${m(hv(p[1]))} là hai góc đối của tứ giác nội tiếp nên ${m(`${hv(p[0])} + ${hv(p[1])} = 180^\\circ`)}.<br>${m(`${hv(p[1])} = 180^\\circ - ${al}^\\circ =`)} ${tb(`${180-al}^\\circ`)}.`});
+  }
+  if(lv === 2){
+    const g = R(5, 12)*5, b = R(5, 13)*5;
+    return QB({text:`Tứ giác ${m('ABCD')} nội tiếp đường tròn ${m('(O)')}, hai đường chéo ${m('AC, BD')}. Biết ${m(`${hv('BAC')} = ${g}^\\circ`)} và ${m(`${hv('ABD')} = ${b}^\\circ`)}. Tính ${m(hv('BDC'))} và ${m(hv('ACD'))}.`, fig,
+      tpl:`${m(hv('BDC') + ' =')} [_]${m('^\\circ')} &nbsp; ${m(hv('ACD') + ' =')} [_]${m('^\\circ')}`, ans:[g, b],
+      hint:'Hai góc nội tiếp cùng chắn một cung thì bằng nhau. Xác định mỗi góc chắn cung nào.',
+      sol:`${m(hv('BAC'))} và ${m(hv('BDC'))} là hai góc nội tiếp cùng chắn cung ${m('BC')} nên ${m(`${hv('BDC')} = ${hv('BAC')} =`)} ${tb(`${g}^\\circ`)}.<br>${m(hv('ABD'))} và ${m(hv('ACD'))} là hai góc nội tiếp cùng chắn cung ${m('AD')} nên ${m(`${hv('ACD')} = ${hv('ABD')} =`)} ${tb(`${b}^\\circ`)}.`});
+  }
+  const al = R(14, 20)*5, b = R(5, 10)*5;
+  return QB({text:`Tứ giác ${m('ABCD')} nội tiếp đường tròn ${m('(O)')}, hai đường chéo ${m('AC, BD')}. Biết ${m(`${hv('BAD')} = ${al}^\\circ`)} và ${m(`${hv('ABD')} = ${b}^\\circ`)}. Tính ${m(hv('ACB'))} và ${m(hv('BCD'))}.`, fig,
+    tpl:`${m(hv('ACB') + ' =')} [_]${m('^\\circ')} &nbsp; ${m(hv('BCD') + ' =')} [_]${m('^\\circ')}`, ans:[180-al-b, 180-al],
+    hint:'Tam giác ABD cho góc ADB; góc ACB và góc ADB cùng chắn một cung. Góc BCD đối với góc BAD.',
+    sol:`Tam giác ${m('ABD')}: ${m(`${hv('ADB')} = 180^\\circ - ${al}^\\circ - ${b}^\\circ = ${180-al-b}^\\circ`)}.<br>${m(hv('ACB'))} và ${m(hv('ADB'))} là hai góc nội tiếp cùng chắn cung ${m('AB')} nên ${m(`${hv('ACB')} =`)} ${tb(`${180-al-b}^\\circ`)}.<br>${m(hv('BCD'))} và ${m(hv('BAD'))} là hai góc đối của tứ giác nội tiếp nên ${m(`${hv('BCD')} = 180^\\circ - ${al}^\\circ =`)} ${tb(`${180-al}^\\circ`)}.`});
+};
+
+/* Dạng 3. Chứng minh hai đường thẳng song song */
+const gHa3 = lv => {
+  if(lv === 1){
+    const goods = ['hai góc so le trong bằng nhau', 'hai góc đồng vị bằng nhau', 'hai góc trong cùng phía bù nhau'];
+    const bads = ['hai góc so le trong bù nhau', 'hai góc đồng vị bù nhau', 'hai góc trong cùng phía bằng nhau', 'hai góc kề bù'];
+    const good = pick(goods), opts = [good, ...bads.slice().sort(() => Math.random() - .5).slice(0, 3)];
+    return QC({text:`Hai đường thẳng ${m('a, b')} bị cắt bởi đường thẳng ${m('c')}. Điều kiện nào <b>đủ</b> để kết luận ${m('a \\parallel b')}?`, opts, ans:good,
+      hint:'Nhớ lại ba dấu hiệu nhận biết hai đường thẳng song song ở lớp 7.',
+      sol:`Dấu hiệu song song: hai góc so le trong bằng nhau, hoặc hai góc đồng vị bằng nhau, hoặc hai góc trong cùng phía bù nhau. Đáp án: <b>${good}</b>.`});
+  }
+  const g = R(8, 13)*5, fig = tan7();
+  if(lv === 2)
+    return QB({text:`${tanHead7} Biết ${m(`${hv('ACB')} = ${g}^\\circ`)}. Tính ${m(hv('xAB'))} và ${m(hv('BED'))}.`, fig,
+      tpl:`${m(hv('xAB') + ' =')} [_]${m('^\\circ')} &nbsp; ${m(hv('BED') + ' =')} [_]${m('^\\circ')}`, ans:[g, 180-g],
+      hint:'Góc tạo bởi tiếp tuyến và dây cung bằng góc nội tiếp chắn cung đó. Tứ giác BCDE nội tiếp (đường kính BC): hai góc đối bù nhau.',
+      sol:`Góc tạo bởi tiếp tuyến ${m('Ax')} và dây ${m('AB')} bằng góc nội tiếp chắn cung ${m('AB')}: ${m(`${hv('xAB')} = ${hv('ACB')} =`)} ${tb(`${g}^\\circ`)}.<br>${m(`${hv('BDC')} = ${hv('BEC')} = 90^\\circ`)} nên ${m('B, C, D, E')} thuộc đường tròn đường kính ${m('BC')}. Trong tứ giác nội tiếp ${m('BCDE')}: ${m(`${hv('BED')} + ${hv('BCD')} = 180^\\circ`)}, mà ${m(`${hv('BCD')} = ${hv('ACB')} = ${g}^\\circ`)} nên ${m(`${hv('BED')} = 180^\\circ - ${g}^\\circ =`)} ${tb(`${180-g}^\\circ`)}.<br>Suy ra ${m(`${hv('AED')} = 180^\\circ - ${hv('BED')} = ${g}^\\circ = ${hv('xAB')}`)}: hai góc so le trong bằng nhau, nên ${m('d \\parallel DE')}.`});
+  const g1 = m(hv('ACB'));
+  return QS({direct:true, fig,
+    text:`${tanHead7} Chứng minh ${m('d \\parallel DE')} rồi tính ${m(hv('BED'))}, biết ${m(`${hv('ACB')} = ${g}^\\circ`)}.`,
+    hint:'Chứng minh hai góc so le trong cùng bằng góc ACB.',
+    steps:[
+      {tag:'Tứ giác BCDE', ask:`${m('B, C, D, E')} thuộc đường tròn đường kính ${m('BC')} (vì ${m(`${hv('BDC')} = ${hv('BEC')} = 90^\\circ`)}). Khi đó ${m(hv('AED'))} bằng góc nào?`, opts:[g1, m(hv('ABC')), m(hv('BAC')), m(hv('BDE'))], ans:g1,
+        hint:`${m(hv('AED'))} và ${m(hv('ACB'))} cùng bù với ${m(hv('BED'))}.`},
+      {tag:'Tiếp tuyến – dây', ask:`Vì ${m('d')} tiếp xúc với ${m('(O)')} tại ${m('A')}, góc ${m(hv('xAB'))} bằng góc nào?`, opts:[g1, m(hv('ABC')), m(hv('BAC')), m(hv('AOB'))], ans:g1,
+        hint:'Góc tạo bởi tiếp tuyến và dây cung bằng góc nội tiếp chắn cung đó.'},
+      {tag:'Song song', ask:`Vậy ${m(`${hv('xAB')} = ${hv('AED')}`)}; hai góc này ở vị trí nào đối với cát tuyến ${m('AB')}?`, opts:['so le trong', 'đồng vị', 'trong cùng phía', 'kề bù'], ans:'so le trong',
+        hint:'Hai góc nằm ở hai phía khác nhau của cát tuyến, ở trong hai đường thẳng.'},
+      {tag:'Tính góc', ask:`Với ${m(`${hv('ACB')} = ${g}^\\circ`)}, tính ${m(hv('BED'))}.`, tpl:`${m(hv('BED') + ' =')} [_]${m('^\\circ')}`, ans:[180-g], hint:`${m(hv('BED'))} kề bù với ${m(hv('AED'))}.`}
+    ],
+    sol:`${m(`${hv('AED')} = ${hv('ACB')}`)} (cùng bù với ${m(hv('BED'))} trong tứ giác nội tiếp ${m('BCDE')}); ${m(`${hv('xAB')} = ${hv('ACB')}`)} (tiếp tuyến – dây cung). Vậy ${m(`${hv('xAB')} = ${hv('AED')}`)}, hai góc so le trong nên ${m('d \\parallel DE')}. ${m(`${hv('BED')} = 180^\\circ - ${g}^\\circ =`)} ${tb(`${180-g}^\\circ`)}.`});
+};
+
+/* Dạng 4. Chứng minh vuông góc, trực tâm */
+const gHa4 = lv => {
+  if(lv === 1){
+    const al = R(5, 14)*5;
+    return QB({text:`${head7} Biết ${m(`${hv('BAC')} = ${al}^\\circ`)}. Tính ${m(hv('BHC'))}.`, fig:ortho7(),
+      tpl:`${m(hv('BHC') + ' =')} [_]${m('^\\circ')}`, ans:[180-al],
+      hint:`Xét tứ giác AEHD có hai góc vuông; ${m(hv('BHC'))} đối đỉnh với ${m(hv('EHD'))}.`,
+      sol:`Tứ giác ${m('AEHD')} có ${m(`${hv('AEH')} = ${hv('ADH')} = 90^\\circ`)} nên ${m(`${hv('EHD')} = 360^\\circ - 90^\\circ - 90^\\circ - ${al}^\\circ = ${180-al}^\\circ`)}.<br>${m(hv('BHC'))} và ${m(hv('EHD'))} là hai góc đối đỉnh nên ${m(`${hv('BHC')} =`)} ${tb(`${180-al}^\\circ`)}.`});
+  }
+  const b = R(10, 15)*5, g = R(10, 15)*5, al = 180 - b - g;
+  if(lv === 2)
+    return QB({text:`${head7} Tia ${m('AH')} cắt ${m('BC')} tại ${m('F')}. Biết ${m(`${hv('ABC')} = ${b}^\\circ`)} và ${m(`${hv('ACB')} = ${g}^\\circ`)}. Tính ${m(hv('BAF'))} và ${m(hv('CAF'))}.`, fig:ortho7({af:true}),
+      tpl:`${m(hv('BAF') + ' =')} [_]${m('^\\circ')} &nbsp; ${m(hv('CAF') + ' =')} [_]${m('^\\circ')}`, ans:[90-b, 90-g],
+      hint:`Ba đường cao của tam giác đồng quy tại H nên ${m('AF')} cũng là đường cao. Dùng tam giác vuông ${m('ABF')}, ${m('ACF')}.`,
+      sol:`${m('H')} là giao của hai đường cao ${m('BD, CE')} nên ${m('H')} là trực tâm; ba đường cao đồng quy nên ${m('AH \\perp BC')} tại ${m('F')}.<br>Tam giác ${m('ABF')} vuông tại ${m('F')}: ${m(`${hv('BAF')} = 90^\\circ - ${b}^\\circ =`)} ${tb(`${90-b}^\\circ`)}.<br>Tam giác ${m('ACF')} vuông tại ${m('F')}: ${m(`${hv('CAF')} = 90^\\circ - ${g}^\\circ =`)} ${tb(`${90-g}^\\circ`)}.`});
+  const goodH = 'trực tâm', goodP = m('AF \\perp BC');
+  return QS({direct:true, fig:ortho7({af:true}),
+    text:`${head7} Tia ${m('AH')} cắt ${m('BC')} tại ${m('F')}. Biết ${m(`${hv('BAC')} = ${al}^\\circ`)} và ${m(`${hv('ACB')} = ${g}^\\circ`)}. Chứng minh ${m('AF \\perp BC')} rồi tính ${m(hv('BHC'))}.`,
+    hint:'Nhận ra H là trực tâm, rồi dùng góc ở tứ giác AEHD.',
+    steps:[
+      {tag:'Nhận diện H', ask:`${m('H')} là giao điểm của hai đường cao ${m('BD')} và ${m('CE')} của tam giác ${m('ABC')}. Vậy ${m('H')} là`, opts:[goodH, 'trọng tâm', 'tâm đường tròn ngoại tiếp', 'tâm đường tròn nội tiếp'], ans:goodH,
+        hint:'Giao điểm các đường cao có một tên riêng.'},
+      {tag:'Vuông góc', ask:`Ba đường cao của tam giác đồng quy tại ${m('H')}, nên`, opts:[goodP, m('AF \\parallel BC'), m('AF = BC'), `${m('F')} là trung điểm của ${m('BC')}`], ans:goodP,
+        hint:`${m('AH')} là đường cao thứ ba.`},
+      {tag:'Tính góc CAF', ask:`Tam giác ${m('ACF')} vuông tại ${m('F')}, ${m(`${hv('ACB')} = ${g}^\\circ`)}. Tính ${m(hv('CAF'))}.`, tpl:`${m(hv('CAF') + ' =')} [_]${m('^\\circ')}`, ans:[90-g], hint:'Hai góc nhọn của tam giác vuông phụ nhau.'},
+      {tag:'Tính góc BHC', ask:`Tứ giác ${m('AEHD')} có hai góc vuông tại ${m('E, D')} và ${m(`${hv('BAC')} = ${al}^\\circ`)}. Tính ${m(hv('BHC'))} (đối đỉnh với ${m(hv('EHD'))}).`, tpl:`${m(hv('BHC') + ' =')} [_]${m('^\\circ')}`, ans:[180-al], hint:'Tổng bốn góc của một tứ giác bằng 360°.'}
+    ],
+    sol:`${m('H')} là trực tâm nên ${m('AH \\perp BC')} tại ${m('F')}. ${m(`${hv('CAF')} = 90^\\circ - ${g}^\\circ = ${90-g}^\\circ`)}. Trong tứ giác ${m('AEHD')}: ${m(`${hv('EHD')} = 360^\\circ - 90^\\circ - 90^\\circ - ${al}^\\circ = ${180-al}^\\circ`)}, nên ${m(`${hv('BHC')} =`)} ${tb(`${180-al}^\\circ`)} (đối đỉnh).`});
+};
+
+/* Dạng 5. Hệ thức bằng tam giác đồng dạng */
+const gHa5 = lv => {
+  const SIM = [
+    {rel:'AD\\cdot AC = AE\\cdot AB', nm:['AD','AC','AE','AB'], good:'\\triangle ADB \\sim \\triangle AEC', bad:['\\triangle ADB \\sim \\triangle ACE','\\triangle AEC \\sim \\triangle BDC','\\triangle ABD \\sim \\triangle BCE'],
+      ang:'\\widehat{ADB} = \\widehat{AEC} = 90^\\circ', com:'\\widehat{A}', ratio:'\\dfrac{AD}{AE} = \\dfrac{AB}{AC}', t1:'\\triangle ADB', t2:'\\triangle AEC'},
+    {rel:'BE\\cdot BA = BD\\cdot BC', nm:['BE','BA','BD','BC'], good:'\\triangle BEC \\sim \\triangle BDA', bad:['\\triangle BEC \\sim \\triangle BAD','\\triangle BDA \\sim \\triangle CEB','\\triangle BDC \\sim \\triangle AEC'],
+      ang:'\\widehat{BEC} = \\widehat{BDA} = 90^\\circ', com:'\\widehat{B}', ratio:'\\dfrac{BE}{BD} = \\dfrac{BC}{BA}', t1:'\\triangle BEC', t2:'\\triangle BDA'}
+  ];
+  if(lv === 1){
+    const t = pick(SIM);
+    return QC({text:`${head7} Để chứng minh hệ thức ${m(t.rel)}, ta cần chứng minh hai tam giác nào đồng dạng?`, fig:ortho7(),
+      opts:[m(t.good), ...t.bad.map(m)], ans:m(t.good),
+      hint:'Hệ thức a·b = c·d suy ra từ tỉ số a/c = d/b. Tìm hai tam giác vuông có chung một góc nhọn và chứa cả bốn đoạn.',
+      sol:`Hai tam giác ${m(t.good)} có ${m(t.ang)} và ${m(t.com)} chung nên đồng dạng (g.g). Từ đó suy ra tỉ số các cạnh tương ứng bằng nhau và được ${m(t.rel)}.`});
+  }
+  if(lv === 2){
+    const t = pick(SIM), nm = t.nm, u = pick([[1,2],[2,3],[3,4],[2,5],[3,5],[1,3]]), s1 = R(2, 5), s2 = R(2, 5);
+    const vals = [u[0]*s1, u[1]*s2, u[0]*s2, u[1]*s1];            // nm0·nm1 = nm2·nm3, cos = u0/u1
+    const k = R(0, 3), pr = k < 2 ? 1 - k : 5 - k, o1 = k < 2 ? 2 : 0, o2 = k < 2 ? 3 : 1;
+    const given = [0, 1, 2, 3].filter(i => i !== k).map(i => `${m(`${nm[i]} = ${vals[i]}`)} cm`).join(', ');
+    return QB({text:`${head7} Biết ${given}. Tính ${m(nm[k])}.`, fig:ortho7(),
+      tpl:`${m(nm[k] + ' =')} [_] cm`, ans:[vals[k]],
+      hint:`Chứng minh hai tam giác vuông đồng dạng để có hệ thức ${m(t.rel)}, rồi thay số.`,
+      sol:`Xét ${m(t.t1)} và ${m(t.t2)}: ${m(t.ang)}, ${m(t.com)} chung nên ${m(t.good)} (g.g).<br>Suy ra ${m(t.ratio)}, tức ${m(t.rel)}.<br>${m(`${nm[k]} = \\dfrac{${nm[o1]}\\cdot ${nm[o2]}}{${nm[pr]}} = \\dfrac{${vals[o1]}\\cdot ${vals[o2]}}{${vals[pr]}} =`)} ${tb(vals[k])} cm.`});
+  }
+  const a = R(2, 5), b = R(2, 5), c = R(2, 5), d = R(2, 5), hb = a*b, hd = c*d, hc = a*c, he = b*d;
+  const goodR = m('HB\\cdot HD = HC\\cdot HE'), goodS = m('\\triangle HBE \\sim \\triangle HCD');
+  return QS({direct:true, fig:ortho7(),
+    text:`${head7} Biết ${m(`HB = ${hb}`)} cm, ${m(`HD = ${hd}`)} cm, ${m(`HC = ${hc}`)} cm. Tính ${m('HE')}.`,
+    hint:`Chứng minh ${m('\\triangle HBE \\sim \\triangle HCD')} để có hệ thức giữa bốn đoạn.`,
+    steps:[
+      {tag:'Góc bằng nhau', ask:`Trong hai tam giác ${m('HBE')} và ${m('HCD')} có ${m(`${hv('HEB')} = ${hv('HDC')} = 90^\\circ`)}. Hai góc ${m(hv('BHE'))} và ${m(hv('CHD'))} bằng nhau vì hai góc này`, opts:['đối đỉnh', 'so le trong', 'kề bù', 'cùng phụ với một góc'], ans:'đối đỉnh',
+        hint:`${m('B, H, D')} thẳng hàng và ${m('C, H, E')} thẳng hàng.`},
+      {tag:'Đồng dạng', ask:`Vậy hai tam giác đồng dạng là`, opts:[goodS, m('\\triangle HBE \\sim \\triangle HDC'), m('\\triangle HBE \\sim \\triangle HBD'), m('\\triangle HEB \\sim \\triangle HCB')], ans:goodS,
+        hint:'Ghép các đỉnh có góc bằng nhau: góc vuông với góc vuông, góc ở H với góc ở H.'},
+      {tag:'Hệ thức', ask:`Từ đồng dạng suy ra hệ thức`, opts:[goodR, m('HB\\cdot HE = HC\\cdot HD'), m('HB\\cdot HC = HD\\cdot HE'), m('HB + HD = HC + HE')], ans:goodR,
+        hint:`Tỉ số các cạnh tương ứng: ${m('\\dfrac{HB}{HC} = \\dfrac{HE}{HD}')}.`},
+      {tag:'Tính HE', ask:`Với ${m(`HB = ${hb}`)}, ${m(`HD = ${hd}`)}, ${m(`HC = ${hc}`)} (cm), tính ${m('HE')}.`, tpl:`${m('HE =')} [_] cm`, ans:[he], hint:'Thay số vào hệ thức rồi chia.'}
+    ],
+    sol:`Xét ${m('\\triangle HBE')} và ${m('\\triangle HCD')}: ${m(`${hv('HEB')} = ${hv('HDC')} = 90^\\circ`)}, ${m(`${hv('BHE')} = ${hv('CHD')}`)} (đối đỉnh) nên ${m('\\triangle HBE \\sim \\triangle HCD')} (g.g). Suy ra ${m('\\dfrac{HB}{HC} = \\dfrac{HE}{HD}')}, tức ${m('HB\\cdot HD = HC\\cdot HE')}. Vậy ${m(`HE = \\dfrac{HB\\cdot HD}{HC} = \\dfrac{${hb}\\cdot ${hd}}{${hc}} =`)} ${tb(he)} cm.`});
+};
+
+lesson(6,'on-thi-hinh-hoc-chung-minh-1','Hình học 7a. Chứng minh: bốn điểm cùng đường tròn, song song, vuông góc, hệ thức','Ôn tuyển sinh Bài 7 (câu a, b): bốn điểm cùng thuộc một đường tròn; tứ giác nội tiếp và tính góc; chứng minh song song; vuông góc – trực tâm; hệ thức bằng tam giác đồng dạng.',[gHa1,gHa2,gHa3,gHa4,gHa5], {intro:[
+  {t:`Chứng minh bốn điểm cùng thuộc một đường tròn`, b:`<ul><li>Hai tam giác vuông <b>chung cạnh huyền</b>: trung điểm cạnh huyền cách đều cả bốn đỉnh (trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền).</li><li>Tổng quát: chỉ ra một điểm cách đều bốn điểm — đó là tâm của đường tròn.</li><li>Ví dụ: ${tm('\\widehat{BDC} = \\widehat{BEC} = 90^\\circ')} thì ${tm('B, C, D, E')} thuộc đường tròn đường kính ${tm('BC')}.</li></ul>`, warn:`Đề năm nay không cho viện dẫn trực tiếp “dấu hiệu nhận biết tứ giác nội tiếp” (hai góc đối bù nhau, hai góc cùng nhìn một cạnh bằng nhau): hãy chứng minh lại bằng trung điểm cạnh huyền như trên.`, ex:`Thấy hai góc ${tm('90^\\circ')} cùng “nhìn” một đoạn thẳng thì nghĩ ngay đến đường tròn có đường kính là đoạn đó.`},
+  {t:`Tứ giác nội tiếp và “chuyển góc”`, b:`<ul><li>Tứ giác nội tiếp có hai góc đối bù nhau; góc ngoài bằng góc trong của đỉnh đối diện.</li><li>Hai góc nội tiếp cùng chắn một cung thì bằng nhau.</li><li>Góc tạo bởi tiếp tuyến và dây cung bằng góc nội tiếp chắn cung đó.</li></ul>`, warn:`Mỗi lần dùng góc nội tiếp phải nói rõ hai góc cùng chắn <b>cung nào</b> và hai đỉnh nằm cùng phía đối với dây.`, ex:`Tìm bốn điểm cùng đường tròn trước, rồi mới “chuyển góc”: chứng minh song song hay đồng dạng thường bắt đầu từ một cặp góc bằng nhau.`},
+  {t:`Song song và vuông góc`, b:`<ul><li>Hai đường thẳng song song nếu có cặp góc <b>so le trong</b> bằng nhau, hoặc <b>đồng vị</b> bằng nhau, hoặc <b>trong cùng phía</b> bù nhau.</li><li>Ba đường cao của tam giác đồng quy tại <b>trực tâm</b>: nếu ${tm('BD, CE')} là hai đường cao cắt nhau tại ${tm('H')} thì ${tm('AH \\perp BC')}.</li><li>Tính góc: ${tm('\\widehat{BHC} = 180^\\circ - \\widehat{BAC}')} (tam giác nhọn).</li></ul>`, warn:`Khi kết luận song song, phải nêu đúng tên cặp góc, vị trí (so le trong, đồng vị…) và cát tuyến.`, ex:`Chứng minh vuông góc: thử đường cao, góc nội tiếp chắn nửa đường tròn, hoặc “cùng vuông góc với đường thứ ba thì song song”.`},
+  {t:`Hệ thức và tam giác đồng dạng`, b:`<ul><li>Hệ thức ${tm('a\\cdot b = c\\cdot d')} đổi thành tỉ số ${tm('\\dfrac{a}{c} = \\dfrac{d}{b}')}: tìm hai tam giác chứa đủ bốn đoạn ${tm('a, b, c, d')}.</li><li>Hai tam giác vuông có chung một góc nhọn (hoặc một cặp góc đối đỉnh) thì đồng dạng (g.g).</li><li>Với trực tâm: ${tm('\\triangle HBE \\sim \\triangle HCD')} cho ${tm('HB\\cdot HD = HC\\cdot HE')}.</li></ul>`, warn:`Viết các đỉnh đồng dạng <b>đúng thứ tự tương ứng</b>: viết lệch thứ tự thì tỉ số suy ra sẽ sai.`, ex:`Chép bốn đoạn của hệ thức ra nháp, mỗi tam giác lấy hai đoạn; nếu hai tam giác tìm được “cùng góc nhọn” là chắc đúng hướng.`}
+]});
+}
+
 })();
 
 </script>

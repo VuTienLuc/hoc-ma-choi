@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-14 – Ôn thi vào 10, chủ đề 8: Hình học 7a. Chứng minh (bốn điểm cùng đường tròn, song song, vuông góc, hệ thức)
+
+- **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề ôn thi vào lớp 10 kế tiếp (chủ đề 8), trọn bộ học sinh + bài giảng + phiếu luyện tập 2 trang A4.
+- **Kết quả:** (A) Bài `on-thi-hinh-hoc-chung-minh-1` (chương 6 `data/lop9.js`), 5 dạng × 3 mức, số đo sinh ngẫu nhiên, đáp số nguyên, có hình SVG, mức 3 là câu nhiều bước (QS): gHa1 bốn điểm cùng đường tròn (chứng minh lại bằng trung điểm cạnh huyền, không viện dẫn dấu hiệu tứ giác nội tiếp) · gHa2 tứ giác nội tiếp, tính góc · gHa3 chứng minh song song (so le trong, tiếp tuyến – dây cung) · gHa4 vuông góc, trực tâm, góc BHC · gHa5 hệ thức bằng tam giác đồng dạng; có thẻ Kiến thức – Lưu ý – Mẹo (4 mục). (B) Bài giảng cùng mã (title, 3 kt, 5 method + 5 vd, sum). (C) Phiếu luyện tập 10 bài (7 cơ bản + 3 ★), in đúng 2 trang A4 cả bản học sinh lẫn bản lời giải (đã xuất PDF và xem ảnh).
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`.
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (37/37); `python3 tools/test_baigiang.py lop9` → ĐẠT (chiếu 636 trang, không tràn); `python3 tools/build.py` → ĐẠT; PDF phiếu đo bằng `pdfinfo`: 2 trang (đề) và 2 trang (lời giải).
+- **Việc thủ công:** Thầy đối chiếu cách trình bày chứng minh với quy ước đề năm nay; chủ đề kế tiếp: 9 Hình học 7b (hệ thức, thẳng hàng, đồng quy).
+
 ### 2026-10-13 – Ôn thi vào 10, chủ đề 7: Đại số 6. Thực tế lập hệ phương trình (vận dụng cao)
 
 - **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề ôn thi vào lớp 10 kế tiếp (chủ đề 7), trọn bộ học sinh + bài giảng + phiếu luyện tập 2 trang A4.

@@ -402,6 +402,44 @@ window.ParabFig = (p,q,pts=[]) => {
   return s+'</svg>';
 };
 
+/* Hình cho Hình học 7a: tam giác nhọn ABC, đường cao BD, CE, trực tâm H */
+const hv7 = s => `\\widehat{${s}}`;
+const dirH = (p, q) => Math.atan2(q[1]-p[1], q[0]-p[0])*180/Math.PI;
+const rightH = (A, P, Q) => { const a1 = dirH(A, P), a2 = dirH(A, Q); return [A[0], A[1], Math.abs(((a2-a1+540)%360)-180-90) < 1 ? a1 : a2]; };
+const footH = (X, P, Q) => { const dx = Q[0]-P[0], dy = Q[1]-P[1], t = ((X[0]-P[0])*dx + (X[1]-P[1])*dy)/(dx*dx + dy*dy); return [P[0]+t*dx, P[1]+t*dy]; };
+const meetH = (P1, P2, P3, P4) => { const d1 = [P2[0]-P1[0], P2[1]-P1[1]], d2 = [P4[0]-P3[0], P4[1]-P3[1]], den = d1[0]*d2[1] - d1[1]*d2[0], t = ((P3[0]-P1[0])*d2[1] - (P3[1]-P1[1])*d2[0])/den; return [P1[0]+t*d1[0], P1[1]+t*d1[1]]; };
+const A7 = [2, 5.2], B7 = [0, 0], C7 = [6, 0];
+const D7 = footH(B7, A7, C7), E7 = footH(C7, A7, B7), H7 = meetH(B7, D7, C7, E7), F7 = footH(A7, B7, C7);
+const ortho7 = (o = {}) => {
+  const C = [];
+  if(o.circ === 'BC') C.push({x:3, y:0, r:3, lab:'M'});
+  if(o.circ === 'AH'){ const N = [(A7[0]+H7[0])/2, (A7[1]+H7[1])/2]; C.push({x:N[0], y:N[1], r:Math.hypot(A7[0]-H7[0], A7[1]-H7[1])/2, lab:'N'}); }
+  const S = [[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...D7],[...C7,...E7]];
+  if(o.af) S.push([...A7,...F7,true]);
+  const P = [[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...D7,'D',20],[...E7,'E',160],[...H7,'H',-100]];
+  if(o.af) P.push([...F7,'F',-90]);
+  const right = [rightH(D7,B7,A7), rightH(E7,C7,A7)];
+  if(o.af) right.push(rightH(F7,A7,C7));
+  return circleSVG({C, P, S, right});
+};
+const tan7 = () => {
+  const a2 = A7[0]**2 + A7[1]**2, b2 = B7[0]**2 + B7[1]**2, c2 = C7[0]**2 + C7[1]**2;
+  const dd = 2*(A7[0]*(B7[1]-C7[1]) + B7[0]*(C7[1]-A7[1]) + C7[0]*(A7[1]-B7[1]));
+  const O = [(a2*(B7[1]-C7[1]) + b2*(C7[1]-A7[1]) + c2*(A7[1]-B7[1]))/dd, (a2*(C7[0]-B7[0]) + b2*(A7[0]-C7[0]) + c2*(B7[0]-A7[0]))/dd];
+  const r = Math.hypot(A7[0]-O[0], A7[1]-O[1]), dir7 = [-(A7[1]-O[1]), A7[0]-O[0]];
+  return circleSVG({C:[{x:O[0], y:O[1], r, lab:'O'}],
+    P:[[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...D7,'D',20],[...E7,'E',160]],
+    S:[[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...D7,true],[...C7,...E7,true],[...D7,...E7]],
+    L:[[A7[0], A7[1], A7[0]+dir7[0], A7[1]+dir7[1], 'd']]});
+};
+const quad7 = () => {
+  const pt = t => [3*Math.cos(t*Math.PI/180), 3*Math.sin(t*Math.PI/180)];
+  const A = pt(140), B = pt(220), C = pt(320), D = pt(40);
+  return circleSVG({C:[{x:0, y:0, r:3, lab:'O', lp:14}], P:[[...A,'A',140],[...B,'B',220],[...C,'C',320],[...D,'D',40]],
+    S:[[...A,...B],[...B,...C],[...C,...D],[...D,...A],[...A,...C,true],[...B,...D,true]]});
+};
+const head7 = `Cho tam giác nhọn ${m('ABC')} có hai đường cao ${m('BD')}, ${m('CE')} cắt nhau tại ${m('H')}.`;
+
 Lecture.add({grade:'lop9',gradeName:'Toán 9',chapter:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học',lessons:[
 {id:'on-thi-tiep-tuyen',name:'Hình học 1. Tiếp tuyến của đường tròn',desc:'Hệ thống đầy đủ các dạng tiếp tuyến từ nhận biết, tính toán đến chứng minh tổng hợp và vận dụng nâng cao.',slides:[
  {kind:'title',tag:'Ôn thi tuyển sinh · Hình học 1',title:'Tiếp tuyến của đường tròn',sub:'Từ nền tảng đến vận dụng nâng cao',points:['Nắm chắc tính chất, dấu hiệu và các mô hình hình học thường gặp.','Giải thành thạo sáu dạng bài tính toán và chứng minh.','Biết trình bày lời giải có căn cứ, tránh suy luận thiếu điều kiện.']},
@@ -636,6 +674,28 @@ Lecture.add({grade:'lop9',gradeName:'Toán 9',chapter:'Ôn thi tuyển sinh vào
  {kind:'method',tag:'Dạng 5',title:'Phần trăm, tăng – giảm, dung dịch',steps:[`Tăng ${m('p\\%')}: phần tăng ${m('\\dfrac{p}{100}x')}; giảm ${m('q\\%')}: phần giảm ${m('\\dfrac{q}{100}y')}.`,`Dung dịch: phương trình 1 theo khối lượng, phương trình 2 theo <b>khối lượng chất tan</b>.`,`Nhân hai vế với 100 để bỏ mẫu, rồi giải hệ.`]},
  {kind:'vd',tag:'Ví dụ 5 · Dạng 5',label:'Ví dụ 5',de:`Trộn dung dịch muối nồng độ 10% với dung dịch muối nồng độ 30% để được 20 kg dung dịch nồng độ 25%. Tính khối lượng dung dịch 10% cần dùng.`,sol:[`Gọi ${m('x,\\ y')} (kg) là khối lượng dung dịch 10% và 30%. Tổng: ${m('x + y = 20')} (1).`,`Khối lượng muối: ${m('0{,}1x + 0{,}3y = 0{,}25 \\cdot 20')}; nhân 100: ${m('10x + 30y = 500')} (2).`,`Nhân (1) với 10: ${m('10x + 10y = 200')}. Lấy (2) trừ vế cho kết quả đó: ${m('20y = 300')}, ${m('y = 15')}; ${m('x = 5')}.`],ans:`${tb('5')} kg dung dịch 10%.`},
  {kind:'sum',tag:'Tổng kết',title:'Checklist trước khi nộp bài',body:`<ul><li>Hai ẩn có <b>đơn vị</b> và <b>điều kiện</b>.</li><li>Hai phương trình từ <b>hai dữ kiện khác nhau</b>; bỏ số thập phân bằng cách nhân hai vế.</li><li>Giải hệ, <b>thử lại</b> cả hai dữ kiện; kết luận đúng đại lượng hỏi.</li></ul>`}
+]},
+{id:'on-thi-hinh-hoc-chung-minh-1',name:'Hình học 7a. Chứng minh: bốn điểm cùng đường tròn, song song, vuông góc, hệ thức',desc:'Ôn thi vào 10 – Bài 7 (câu a, b): bốn điểm cùng đường tròn, tứ giác nội tiếp, song song, vuông góc – trực tâm, hệ thức bằng tam giác đồng dạng.',slides:[
+ {kind:'title',tag:'Ôn thi tuyển sinh · Hình học 7a',title:'Chứng minh trong hình học',sub:'Câu a, b của bài hình trong đề TP.HCM 2026–2027',points:['Chứng minh bốn điểm cùng thuộc một đường tròn bằng trung điểm cạnh huyền.','Dùng góc nội tiếp, tiếp tuyến – dây cung để chuyển góc, chứng minh song song, vuông góc.','Chứng minh hệ thức bằng tam giác đồng dạng.']},
+ {kind:'kt',tag:'Kiến thức nền 1',title:'Bốn điểm cùng thuộc một đường tròn',fig:ortho7({circ:'BC'}),body:box(`Hai tam giác vuông <b>chung cạnh huyền</b> ${m('BC')}: trung điểm ${m('M')} của ${m('BC')} thỏa ${m('MB=MC=MD=ME=\\dfrac{BC}{2}')}.`)+box(`Vậy ${m('B,C,D,E')} thuộc đường tròn tâm ${m('M')}, đường kính ${m('BC')}.`)+note(`Không viện dẫn trực tiếp “dấu hiệu tứ giác nội tiếp”: phải chứng minh lại như trên.`)},
+ {kind:'kt',tag:'Kiến thức nền 2',title:'Góc với đường tròn',fig:quad7(),body:box(`Tứ giác nội tiếp: hai góc đối bù nhau, ${m('\\widehat{BAD}+\\widehat{BCD}=180^\\circ')}.`)+box(`Hai góc nội tiếp cùng chắn một cung thì bằng nhau, ví dụ ${m('\\widehat{ACB}=\\widehat{ADB}')}.`)+box(`Góc tạo bởi tiếp tuyến và dây cung bằng góc nội tiếp chắn cung đó.`)},
+ {kind:'kt',tag:'Kiến thức nền 3',title:'Song song, vuông góc, hệ thức',fig:ortho7({af:true}),body:box(`Song song: cặp góc <b>so le trong</b> hoặc <b>đồng vị</b> bằng nhau, hoặc <b>trong cùng phía</b> bù nhau.`)+box(`Ba đường cao đồng quy tại trực tâm ${m('H')}: ${m('AH\\perp BC')}.`)+box(`Hệ thức ${m('a\\cdot b=c\\cdot d')} đến từ ${m('\\dfrac{a}{c}=\\dfrac{d}{b}')}: hai tam giác đồng dạng (g.g).`)},
+
+ {kind:'method',tag:'Dạng 1',title:'Bốn điểm cùng thuộc một đường tròn',steps:[`Tìm hai tam giác vuông có chung cạnh huyền.`,`Gọi trung điểm cạnh huyền; trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền.`,`Kết luận bốn điểm cách đều trung điểm, tính bán kính bằng nửa cạnh huyền.`]},
+ {kind:'vd',tag:'Ví dụ 1 · Dạng 1',label:'Ví dụ 1',de:`${head7} Chứng minh ${m('B,C,D,E')} cùng thuộc một đường tròn. Biết ${m('BC=10')} cm, tính bán kính.`,fig:ortho7({circ:'BC'}),sol:[`${m('BD\\perp AC')} nên tam giác ${m('BDC')} vuông tại ${m('D')}; ${m('CE\\perp AB')} nên tam giác ${m('BEC')} vuông tại ${m('E')}. Hai tam giác có chung cạnh huyền ${m('BC')}.`,`Gọi ${m('M')} là trung điểm ${m('BC')}: ${m('MD=\\dfrac{BC}{2}')} và ${m('ME=\\dfrac{BC}{2}')} (trung tuyến ứng với cạnh huyền).`,`Do đó ${m('MB=MC=MD=ME=5')} cm: bốn điểm thuộc đường tròn tâm ${m('M')}.`],ans:`${tb('R=5')} cm.`},
+
+ {kind:'method',tag:'Dạng 2',title:'Tứ giác nội tiếp, tính góc',steps:[`Ghi rõ mỗi góc chắn cung nào.`,`Hai góc đối của tứ giác nội tiếp bù nhau.`,`Hai góc nội tiếp cùng chắn một cung thì bằng nhau; dùng tổng ba góc tam giác khi cần.`]},
+ {kind:'vd',tag:'Ví dụ 2 · Dạng 2',label:'Ví dụ 2',de:`Tứ giác ${m('ABCD')} nội tiếp ${m('(O)')}, ${m('\\widehat{BAD}=100^\\circ')}, ${m('\\widehat{ABD}=30^\\circ')}. Tính ${m('\\widehat{ACB}')} và ${m('\\widehat{BCD}')}.`,fig:quad7(),sol:[`Tam giác ${m('ABD')}: ${m('\\widehat{ADB}=180^\\circ-100^\\circ-30^\\circ=50^\\circ')}.`,`${m('\\widehat{ACB}')} và ${m('\\widehat{ADB}')} cùng chắn cung ${m('AB')} nên ${m('\\widehat{ACB}=50^\\circ')}.`,`${m('\\widehat{BCD}')} và ${m('\\widehat{BAD}')} là hai góc đối nên ${m('\\widehat{BCD}=180^\\circ-100^\\circ=80^\\circ')}.`],ans:`${tb('\\widehat{ACB}=50^\\circ')}; ${tb('\\widehat{BCD}=80^\\circ')}.`},
+
+ {kind:'method',tag:'Dạng 3',title:'Chứng minh song song',steps:[`Chứng minh bốn điểm cùng đường tròn để có các góc bằng nhau.`,`Dùng tiếp tuyến – dây cung hoặc góc nội tiếp để có cặp góc so le trong (hoặc đồng vị) bằng nhau.`,`Nêu rõ vị trí cặp góc rồi kết luận song song.`]},
+ {kind:'vd',tag:'Ví dụ 3 · Dạng 3',label:'Ví dụ 3',de:`Tam giác nhọn ${m('ABC')} nội tiếp ${m('(O)')}, ${m('d')} là tiếp tuyến tại ${m('A')} (tia ${m('Ax')} nằm trên nửa mặt phẳng bờ ${m('AB')} không chứa ${m('C')}); ${m('BD\\perp AC')}, ${m('CE\\perp AB')}. Chứng minh ${m('d\\parallel DE')}; biết ${m('\\widehat{ACB}=60^\\circ')}, tính ${m('\\widehat{BED}')}.`,fig:tan7(),sol:[`${m('B,C,D,E')} thuộc đường tròn đường kính ${m('BC')}, nên ${m('\\widehat{BED}+\\widehat{BCD}=180^\\circ')}. Mà ${m('\\widehat{AED}+\\widehat{BED}=180^\\circ')} (kề bù), suy ra ${m('\\widehat{AED}=\\widehat{ACB}')}.`,`Tiếp tuyến – dây cung: ${m('\\widehat{xAB}=\\widehat{ACB}')}. Vậy ${m('\\widehat{xAB}=\\widehat{AED}')}.`,`Hai góc này so le trong với cát tuyến ${m('AB')}, nên ${m('d\\parallel DE')}.`,`${m('\\widehat{BED}=180^\\circ-60^\\circ=120^\\circ')}.`],ans:`${tb('d\\parallel DE')}; ${tb('\\widehat{BED}=120^\\circ')}.`},
+
+ {kind:'method',tag:'Dạng 4',title:'Vuông góc, trực tâm',steps:[`Hai đường cao cắt nhau tại ${m('H')}: ${m('H')} là trực tâm, nên ${m('AH\\perp BC')}.`,`Tứ giác ${m('AEHD')} có hai góc vuông: ${m('\\widehat{EHD}=180^\\circ-\\widehat{BAC}')}.`,`Hai góc đối đỉnh bằng nhau nên ${m('\\widehat{BHC}=\\widehat{EHD}')}.`]},
+ {kind:'vd',tag:'Ví dụ 4 · Dạng 4',label:'Ví dụ 4',de:`${head7} Biết ${m('\\widehat{BAC}=50^\\circ')}. Chứng minh ${m('AH\\perp BC')} và tính ${m('\\widehat{BHC}')}.`,fig:ortho7({af:true}),sol:[`${m('H')} là giao của hai đường cao nên là trực tâm; ba đường cao đồng quy, vậy ${m('AH\\perp BC')}.`,`Tứ giác ${m('AEHD')}: ${m('\\widehat{EHD}=360^\\circ-90^\\circ-90^\\circ-50^\\circ=130^\\circ')}.`,`${m('\\widehat{BHC}=\\widehat{EHD}')} (đối đỉnh) nên ${m('\\widehat{BHC}=130^\\circ')}.`],ans:`${tb('\\widehat{BHC}=130^\\circ')}.`},
+
+ {kind:'method',tag:'Dạng 5',title:'Hệ thức bằng tam giác đồng dạng',steps:[`Chép bốn đoạn của hệ thức, tìm hai tam giác mỗi tam giác chứa hai đoạn.`,`Chỉ ra hai góc bằng nhau (góc vuông, góc chung, đối đỉnh) rồi kết luận g.g, viết đúng thứ tự đỉnh.`,`Lập tỉ số, nhân chéo để được hệ thức, thay số.`]},
+ {kind:'vd',tag:'Ví dụ 5 · Dạng 5',label:'Ví dụ 5',de:`${head7} Chứng minh ${m('AD\\cdot AC=AE\\cdot AB')}. Biết ${m('AB=10')} cm, ${m('AC=8')} cm, ${m('AD=5')} cm; tính ${m('AE')}.`,fig:ortho7(),sol:[`Xét ${m('\\triangle ADB')} và ${m('\\triangle AEC')}: ${m('\\widehat{ADB}=\\widehat{AEC}=90^\\circ')}, ${m('\\widehat{A}')} chung, nên ${m('\\triangle ADB\\sim\\triangle AEC')} (g.g).`,`Suy ra ${m('\\dfrac{AD}{AE}=\\dfrac{AB}{AC}')}, tức ${m('AD\\cdot AC=AE\\cdot AB')}.`,`${m('AE=\\dfrac{AD\\cdot AC}{AB}=\\dfrac{5\\cdot 8}{10}=4')} cm.`],ans:`${tb('AE=4')} cm.`},
+ {kind:'sum',tag:'Tổng kết',title:'Checklist trước khi nộp bài',body:`<ul><li>Bốn điểm cùng đường tròn: nêu <b>hai tam giác vuông chung cạnh huyền</b> và trung điểm cạnh huyền.</li><li>Mỗi góc nội tiếp ghi rõ <b>chắn cung nào</b>; song song nêu đúng <b>vị trí cặp góc</b>.</li><li>Hệ thức: tam giác đồng dạng <b>đúng thứ tự đỉnh</b>, rồi nhân chéo.</li></ul>`}
 ]}
 ]});
 })();
