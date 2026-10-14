@@ -396,3 +396,89 @@ Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương II. Dãy s�
 ]},
 ]});
 })();
+
+/* =====================================================================
+   CHƯƠNG III. MẪU SỐ LIỆU GHÉP NHÓM – Bài 8 (thầy yêu cầu 14/10/2026, /tron-bo)
+   5 dạng: xác định nhóm · chia nhóm · lập bảng tần số · đọc biểu đồ cột · tần số tương đối, tần số tích luỹ.
+   Quy ước nhóm [a; b): chứa a, không chứa b. Tình huống tự soạn ghi [Minh họa] ở phiếu trên lớp.
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const S = t => `<p>${t}</p>`;
+const TITLE = (name, pts) => ({kind:'title', tag:'Toán 11 · Kết nối tri thức · Chương III', title:name, sub:'Mục tiêu bài học', points:pts});
+const HOME = n => box(`Về nhà: làm các bài tập cuối ${n} trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 11, ${n}.`);
+const gr = (a, b) => m(`[${a};\\,${b})`);
+const E1 = [150, 155, 160, 165, 170, 175], F1 = [4, 8, 12, 10, 6];     // biểu đồ chiều cao (40 học sinh)
+const HIST1 = histSVG(E1, F1, 2, {unit:'cm'});
+const TAB3 = `<table class="lk-table"><tr><th>Nhóm</th>${[[40,45],[45,50],[50,55],[55,60],[60,65],[65,70]].map(g => `<th>${gr(g[0], g[1])}</th>`).join('')}</tr><tr><td>Tần số</td><td>1</td><td>3</td><td>4</td><td>4</td><td>2</td><td>1</td></tr></table>`;
+
+Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương III. Mẫu số liệu ghép nhóm', lessons:[
+
+/* ---------------- BÀI 8 ---------------- */
+{ id:'bai-8', name:'Bài 8. Mẫu số liệu ghép nhóm', desc:'Nhóm số liệu; chia nhóm; bảng tần số ghép nhóm; biểu đồ cột; tần số tương đối và tần số tích luỹ.', slides:[
+  TITLE('Bài 8. Mẫu số liệu ghép nhóm', ['Nhận biết nhóm số liệu dạng [a; b), độ dài nhóm; biết số liệu thuộc nhóm nào.', 'Chia nhóm và lập bảng tần số ghép nhóm từ số liệu thô.', 'Đọc biểu đồ cột; tính tần số tương đối, tần số tích luỹ.']),
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Ghép nhóm số liệu',
+   body: box(`Khi có nhiều số liệu, ta chia chúng thành các <b>nhóm</b> kề nhau, mỗi nhóm có dạng ${m('[a;\\,b)')}: gồm các số ${m('x')} thoả ${m('a \\le x \\lt b')}.`) +
+     S(`Độ dài của nhóm là ${m('b - a')}; các nhóm thường chọn có cùng độ dài.`) +
+     note(`Nhóm ${m('[a;\\,b)')} <b>chứa</b> ${m('a')}, <b>không chứa</b> ${m('b')}: số liệu đúng bằng ${m('b')} thuộc nhóm kế tiếp.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Bảng tần số ghép nhóm',
+   body: S(`<b>Tần số</b> ${m('m_i')} của một nhóm là số số liệu thuộc nhóm đó. <b>Cỡ mẫu</b> ${m('n = m_1 + m_2 + \\cdots + m_k')}.`) + TAB3 +
+     S(`Bảng cho biết cân nặng (kg) của ${m('15')} học sinh: ${m('n = 1 + 3 + 4 + 4 + 2 + 1 = 15')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Tần số tương đối và tần số tích luỹ',
+   body: box(`Tần số tương đối của nhóm: ${m('f_i = \\dfrac{m_i}{n}\\cdot 100\\%')}. Tổng các tần số tương đối bằng ${m('100\\%')}.`) +
+     S(`<b>Tần số tích luỹ</b> của một nhóm là tổng tần số của nhóm đó và tất cả các nhóm đứng trước: ${m('M_i = m_1 + m_2 + \\cdots + m_i')}.`) +
+     S(`${m('M_i')} cho biết có bao nhiêu số liệu <b>nhỏ hơn</b> đầu mút phải của nhóm thứ ${m('i')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Biểu đồ cột (histogram)',
+   body: S('Mỗi nhóm ứng với một cột; các cột liền nhau, chiều cao cột bằng tần số (hoặc tần số tương đối).') + S('Mốc các nhóm ghi trên trục ngang; cỡ mẫu bằng tổng chiều cao các cột.') +
+     note('Đọc đúng vạch trên trục tung. Nếu trục chia theo bước 2, một cột chạm vạch thứ ba nghĩa là tần số 6.'), fig:HIST1},
+
+  {kind:'method', tag:'Dạng 1', title:'Xác định số liệu thuộc nhóm nào',
+   steps:[`Với từng nhóm ${m('[a;\\,b)')}, kiểm tra ${m('a \\le x \\lt b')}.`, `Số liệu bằng đầu mút chung của hai nhóm thì thuộc nhóm bên <b>phải</b>.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Các nhóm: ${gr(10, 20)}, ${gr(20, 30)}, ${gr(30, 40)}. Số liệu ${m('x = 20')} thuộc nhóm nào? Độ dài mỗi nhóm bằng bao nhiêu?`,
+   sol:[`${m('10 \\le 20 \\lt 20')} sai (không lấy đầu mút phải); ${m('20 \\le 20 \\lt 30')} đúng.`, `Độ dài nhóm: ${m('20 - 10 = 10')}.`], ans:`${tb('20 \\in [20;\\,30)')}, độ dài nhóm ${tb('10')}.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Chia nhóm số liệu',
+   steps:[`Tìm giá trị nhỏ nhất ${m('m')} và lớn nhất ${m('M')}.`, `Số nhóm = ${m('\\dfrac{M - m}{\\text{độ dài nhóm}}')} làm tròn <b>lên</b> (nếu chia hết mà ${m('M')} nằm đúng đầu mút phải thì cần thêm một nhóm).`, `Viết các nhóm nối liền nhau từ ${m('m')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Mẫu số liệu có giá trị nhỏ nhất ${m('12')}, lớn nhất ${m('47')}. Chia thành các nhóm độ dài ${m('10')}, nhóm đầu bắt đầu từ ${m('12')}. Viết các nhóm.`,
+   sol:[`${m('47 - 12 = 35')}; ${m('35:10 = 3{,}5')}, làm tròn lên: ${m('4')} nhóm.`, `Các nhóm: ${gr(12, 22)}, ${gr(22, 32)}, ${gr(32, 42)}, ${gr(42, 52)}.`], ans:`${tb('4')} nhóm; ${m('47 \\in [42;\\,52)')}.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Lập bảng tần số ghép nhóm từ số liệu thô',
+   steps:[`Chia nhóm (dạng 2).`, `Duyệt từng số liệu, gạch vào nhóm chứa nó (chú ý số bằng đầu mút).`, `Đếm tần số từng nhóm; cộng lại, kiểm tra bằng số số liệu ban đầu.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 3', label:'Ví dụ 3', de:`Cân nặng (kg) của 15 học sinh: ${m('42;\\ 45;\\ 48;\\ 50;\\ 50;\\ 52;\\ 53;\\ 55;\\ 55;\\ 56;\\ 58;\\ 60;\\ 61;\\ 65;\\ 49')}. Lập bảng tần số ghép nhóm với các nhóm ${gr(40, 45)}, ${gr(45, 50)}, …, ${gr(65, 70)}.`,
+   sol:[`${gr(40, 45)}: ${m('42')} → 1. &nbsp; ${gr(45, 50)}: ${m('45;\\ 48;\\ 49')} → 3 (45 thuộc nhóm này).`, `${gr(50, 55)}: ${m('50;\\ 50;\\ 52;\\ 53')} → 4. &nbsp; ${gr(55, 60)}: ${m('55;\\ 55;\\ 56;\\ 58')} → 4.`, `${gr(60, 65)}: ${m('60;\\ 61')} → 2. &nbsp; ${gr(65, 70)}: ${m('65')} → 1.`, `Kiểm tra: ${m('1 + 3 + 4 + 4 + 2 + 1 = 15')}.`], ans:`Tần số: ${tb('1,\\ 3,\\ 4,\\ 4,\\ 2,\\ 1')}.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Đọc biểu đồ cột',
+   steps:[`Ghi tần số của từng cột (đọc theo vạch trục tung).`, `Cỡ mẫu = tổng tần số các cột.`, `Hỏi “từ … đến dưới …” thì cộng tần số các nhóm nằm trọn trong khoảng đó.`]},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 4', label:'Ví dụ 4', de:`Biểu đồ cho chiều cao của học sinh một lớp. (a) Có bao nhiêu học sinh được khảo sát? (b) Có bao nhiêu em cao từ 160 cm đến dưới 170 cm?`,
+   sol:[`Đọc các cột: ${m('4,\\ 8,\\ 12,\\ 10,\\ 6')}.`, `(a) ${m('n = 4 + 8 + 12 + 10 + 6 = 40')}.`, `(b) Gồm hai nhóm ${gr(160, 165)} và ${gr(165, 170)}: ${m('12 + 10 = 22')}.`], ans:`(a) ${tb('40')} học sinh; (b) ${tb('22')} học sinh.`, fig:HIST1},
+
+  {kind:'method', tag:'Dạng 5', title:'Tần số tương đối và tần số tích luỹ',
+   steps:[`Cỡ mẫu ${m('n')} = tổng tần số.`, `Tần số tương đối của nhóm: ${m('\\dfrac{m_i}{n}\\cdot 100\\%')}.`, `Tần số tích luỹ: cộng dồn từ nhóm đầu đến nhóm cần tìm.`]},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 5', label:'Ví dụ 5', de:`Với biểu đồ chiều cao ở Ví dụ 4, tính tần số tương đối của nhóm ${gr(160, 165)} và cho biết có bao nhiêu em cao dưới 165 cm.`,
+   sol:[`${m('n = 40')}, tần số nhóm ${gr(160, 165)} là ${m('12')}: ${m('\\dfrac{12}{40}\\cdot 100\\% = 30\\%')}.`, `Dưới 165 cm: cộng dồn đến nhóm ${gr(160, 165)}: ${m('4 + 8 + 12 = 24')}.`], ans:`${tb('30\\%')}; tần số tích luỹ ${tb('24')} học sinh.`, fig:HIST1},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 5', label:'Ví dụ 6', de:`Bảng tần số ghép nhóm: nhóm ${gr(0, 10)} có ${m('x')} số liệu, nhóm ${gr(10, 20)} có ${m('12')}, nhóm ${gr(20, 30)} có ${m('8')}. Biết nhóm ${gr(20, 30)} có tần số tương đối ${m('20\\%')}. Tìm ${m('x')}.`,
+   sol:[`${m('\\dfrac{8}{n} = 20\\% \\Rightarrow n = 40')}.`, `${m('x = 40 - 12 - 8 = 20')}.`], ans:`${tb('x = 20')}.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Mẫu số liệu có giá trị nhỏ nhất ${m('3')}, lớn nhất ${m('29')}. Muốn chia thành <b>đúng 4 nhóm</b> cùng độ dài, nhóm đầu bắt đầu từ ${m('3')}, độ dài nhóm (số nguyên) nhỏ nhất là bao nhiêu?`,
+   sol:[`${m('29 - 3 = 26')}; cần ${m('4L \\gt 26')}.`, `${m('L = 6 \\Rightarrow 24 \\le 26')} (thiếu); ${m('L = 7 \\Rightarrow 28 \\gt 26')} (đủ).`], ans:`Độ dài nhỏ nhất ${tb('7')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Số lần chạm bóng của 12 bạn: ${m('3;\\ 5;\\ 5;\\ 7;\\ 8;\\ 10;\\ 10;\\ 12;\\ 13;\\ 15;\\ 17;\\ 20')}. Ghép nhóm ${gr(0, 5)}, ${gr(5, 10)}, ${gr(10, 15)}, ${gr(15, 20)}, ${gr(20, 25)}. Lập bảng tần số và tính tần số tương đối nhóm ${gr(10, 15)}.`,
+   sol:[`${gr(0, 5)}: 3 → 1. ${gr(5, 10)}: 5; 5; 7; 8 → 4. ${gr(10, 15)}: 10; 10; 12; 13 → 4. ${gr(15, 20)}: 15; 17 → 2. ${gr(20, 25)}: 20 → 1.`, `Tổng ${m('1 + 4 + 4 + 2 + 1 = 12')}. Tần số tương đối nhóm ${gr(10, 15)}: ${m('\\dfrac{4}{12}\\cdot 100\\% \\approx 33{,}3\\%')}.`]},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Từ biểu đồ Ví dụ 4, tính tỉ lệ phần trăm học sinh cao từ 165 cm trở lên.`,
+   sol:[`Từ 165 cm trở lên: ${m('10 + 6 = 16')} em, ${m('\\dfrac{16}{40}\\cdot 100\\% = 40\\%')}.`], ans:`${tb('40\\%')}.`, fig:HIST1},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>Nhóm ${m('[a;\\,b)')} chứa ${m('a')}, không chứa ${m('b')}; độ dài ${m('b - a')}.</li><li>Cỡ mẫu ${m('n = m_1 + \\cdots + m_k')}; tần số tương đối ${m('\\dfrac{m_i}{n}\\cdot 100\\%')}; tần số tích luỹ là tổng cộng dồn.</li><li>Biểu đồ cột: cột liền nhau, chiều cao bằng tần số.</li></ul>` + HOME('Bài 8')},
+]},
+]});
+})();

@@ -210,3 +210,55 @@ Lecture.addPractice('lop11', 'bai-7', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   BÀI 8. MẪU SỐ LIỆU GHÉP NHÓM (thầy yêu cầu 14/10/2026) – 7 cơ bản + 3 vận dụng (★), xếp theo 5 dạng của bài giảng bai-8.
+   ===================================================================== */
+(() => {
+const m = tm, gr = (a, b) => m(`[${a};\\,${b})`);
+const HA = histSVG([40, 50, 60, 70, 80, 90], [2, 6, 10, 8, 4], 2, {unit:'điểm'});
+const HB = histSVG([0, 5, 10, 15, 20], [4, 10, 12, 8], 2, {unit:'phút'});
+const T = (heads, vals) => `<table class="lk-table"><tr><th>Nhóm</th>${heads.map(h => `<th>${h}</th>`).join('')}</tr><tr><td>Tần số</td>${vals.map(v => `<td>${v}</td>`).join('')}</tr></table>`;
+Lecture.addPractice('lop11', 'bai-8', [
+ {dang:'Xác định nhóm và độ dài nhóm', items:[
+  {de:`Cho nhóm số liệu ${gr(30, 50)}. Tìm độ dài của nhóm và cho biết số ${m('50')} có thuộc nhóm này không.`,
+   sol:[`Độ dài nhóm bằng đầu mút phải trừ đầu mút trái: ${m('50 - 30 = 20')}.`, `Nhóm ${m('[a;\\,b)')} không chứa ${m('b')} nên ${m('50 \\notin [30;\\,50)')}.`],
+   ans:`Độ dài ${tb('20')}; số ${m('50')} <b>không</b> thuộc nhóm.`},
+  {de:`Các nhóm liên tiếp ${gr(0, 10)}, ${gr(10, 20)}, ${gr(20, 30)}, ${gr(30, 40)}, ${gr(40, 50)}. Số liệu ${m('x = 30')} thuộc nhóm nào?`,
+   sol:[`Xét ${m('a \\le x \\lt b')}: ${m('20 \\le 30 \\lt 30')} sai; ${m('30 \\le 30 \\lt 40')} đúng.`, `Số liệu bằng đầu mút chung thì thuộc nhóm bên phải.`],
+   ans:`${tb('x \\in [30;\\,40)')}.`},
+ ]},
+ {dang:'Chia nhóm số liệu', items:[
+  {de:`Mẫu số liệu có giá trị nhỏ nhất ${m('8')}, lớn nhất ${m('53')}. Chia thành các nhóm độ dài ${m('10')}, nhóm đầu bắt đầu từ ${m('8')}. Cần bao nhiêu nhóm? Viết các nhóm.`,
+   sol:[`${m('53 - 8 = 45')}; ${m('45:10 = 4{,}5')}, làm tròn lên được ${m('5')} nhóm.`, `Các nhóm: ${gr(8, 18)}, ${gr(18, 28)}, ${gr(28, 38)}, ${gr(38, 48)}, ${gr(48, 58)}.`],
+   ans:`${tb('5')} nhóm; ${m('53 \\in [48;\\,58)')}.`},
+  {hard:true, de:`Mẫu số liệu có giá trị nhỏ nhất ${m('5')}, lớn nhất ${m('45')}. Chia thành các nhóm độ dài ${m('10')}, nhóm đầu bắt đầu từ ${m('5')}, mỗi nhóm dạng ${m('[a;\\,b)')}. Cần ít nhất bao nhiêu nhóm để chứa mọi số liệu? Vì sao không phải ${m('4')}?`,
+   sol:[`${m('45 - 5 = 40')} chia hết cho ${m('10')}, nhưng ${m('4')} nhóm chỉ phủ đến ${gr(35, 45)}, mà nhóm này <b>không chứa</b> ${m('45')}.`, `Nhóm thứ 5 là ${gr(45, 55)} chứa ${m('45')}.`],
+   ans:`Cần ít nhất ${tb('5')} nhóm.`},
+ ]},
+ {dang:'Lập bảng tần số ghép nhóm', items:[
+  {de:`Điểm kiểm tra của 12 học sinh: ${m('4;\\ 5;\\ 6;\\ 6;\\ 7;\\ 7;\\ 7;\\ 8;\\ 8;\\ 9;\\ 9;\\ 10')}. Ghép nhóm ${gr(4, 6)}, ${gr(6, 8)}, ${gr(8, 10)}, ${gr(10, 12)}. Lập bảng tần số và cho biết nhóm có tần số lớn nhất.`,
+   sol:[`${gr(4, 6)}: 4; 5 → 2. &nbsp; ${gr(6, 8)}: 6; 6; 7; 7; 7 → 5.`, `${gr(8, 10)}: 8; 8; 9; 9 → 4. &nbsp; ${gr(10, 12)}: 10 → 1 (10 thuộc nhóm bên phải).`, `Kiểm tra: ${m('2 + 5 + 4 + 1 = 12')}.`],
+   ans:`Tần số ${tb('2,\\ 5,\\ 4,\\ 1')}; lớn nhất ở nhóm ${tb('[6;\\,8)')}.`},
+  {hard:true, de:`Thời gian đi từ nhà đến trường (phút) của 20 học sinh: ${m('12;\\ 15;\\ 15;\\ 18;\\ 20;\\ 20;\\ 22;\\ 25;\\ 25;\\ 25;\\ 28;\\ 30;\\ 30;\\ 32;\\ 35;\\ 35;\\ 38;\\ 40;\\ 40;\\ 45')}. Ghép nhóm ${gr(10, 20)}, ${gr(20, 30)}, ${gr(30, 40)}, ${gr(40, 50)}. Lập bảng tần số; tính tỉ lệ phần trăm học sinh đi từ 30 phút trở lên.`,
+   sol:[`${gr(10, 20)}: 12; 15; 15; 18 → 4. &nbsp; ${gr(20, 30)}: 20; 20; 22; 25; 25; 25; 28 → 7.`, `${gr(30, 40)}: 30; 30; 32; 35; 35; 38 → 6. &nbsp; ${gr(40, 50)}: 40; 40; 45 → 3.`, `Kiểm tra: ${m('4 + 7 + 6 + 3 = 20')}.`, `Từ 30 phút trở lên: ${m('6 + 3 = 9')} em, ${m('\\dfrac{9}{20}\\cdot 100\\% = 45\\%')}.`],
+   ans:`Tần số ${tb('4,\\ 7,\\ 6,\\ 3')}; tỉ lệ ${tb('45\\%')}.`},
+ ]},
+ {dang:'Đọc biểu đồ cột', items:[
+  {de:`Biểu đồ cột cho điểm kiểm tra của học sinh một lớp. Có bao nhiêu học sinh được kiểm tra? Bao nhiêu em có điểm từ 60 đến dưới 80?`, fig:HA,
+   sol:[`Các cột: ${m('2,\\ 6,\\ 10,\\ 8,\\ 4')}; ${m('n = 2 + 6 + 10 + 8 + 4 = 30')}.`, `Từ 60 đến dưới 80 gồm hai nhóm ${gr(60, 70)} và ${gr(70, 80)}: ${m('10 + 8 = 18')}.`],
+   ans:`${tb('30')} học sinh; ${tb('18')} học sinh.`},
+  {hard:true, de:`Biểu đồ cột cho thời gian luyện tập (phút) của các thành viên một câu lạc bộ, nhưng cột của nhóm ${gr(20, 25)} đã bị mờ. Biết có tất cả ${m('40')} thành viên. Tìm tần số nhóm ${gr(20, 25)} và tỉ lệ phần trăm thành viên luyện tập <b>dưới 10 phút</b>.`, fig:HB,
+   sol:[`Bốn cột còn lại: ${m('4,\\ 10,\\ 12,\\ 8')}, tổng ${m('34')}.`, `Tần số nhóm ${gr(20, 25)}: ${m('40 - 34 = 6')}.`, `Dưới 10 phút gồm ${gr(0, 5)} và ${gr(5, 10)}: ${m('4 + 10 = 14')} em, ${m('\\dfrac{14}{40}\\cdot 100\\% = 35\\%')}.`],
+   ans:`Tần số ${tb('6')}; tỉ lệ ${tb('35\\%')}.`},
+ ]},
+ {dang:'Tần số tương đối và tần số tích luỹ', items:[
+  {de:`Bảng tần số ghép nhóm số quả bóng rổ ném trúng của 25 bạn:<br>${T([gr(0, 5), gr(5, 10), gr(10, 15), gr(15, 20), gr(20, 25)], [3, 6, 8, 5, 3])}Tính tần số tương đối của nhóm ${gr(10, 15)} và tần số tích luỹ của nhóm này.`,
+   sol:[`Cỡ mẫu ${m('3 + 6 + 8 + 5 + 3 = 25')}.`, `Tần số tương đối: ${m('\\dfrac{8}{25}\\cdot 100\\% = 32\\%')}.`, `Tần số tích luỹ: ${m('3 + 6 + 8 = 17')} (số bạn ném trúng dưới 15 quả).`],
+   ans:`${tb('32\\%')}; ${tb('17')}.`},
+  {de:`Bảng tần số ghép nhóm có một ô bị mờ:<br>${T([gr(0, 10), gr(10, 20), gr(20, 30), gr(30, 40)], ['<b>x</b>', 12, 8, 4])}Biết nhóm ${gr(20, 30)} có tần số tương đối ${m('25\\%')}. Tìm ${m('x')}.`,
+   sol:[`${m('\\dfrac{8}{n} = 25\\%')} nên ${m('n = 32')}.`, `${m('x = 32 - (12 + 8 + 4) = 8')}.`],
+   ans:`${tb('x = 8')}.`},
+ ]},
+]);
+})();

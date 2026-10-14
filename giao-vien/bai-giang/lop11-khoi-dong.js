@@ -813,3 +813,272 @@ a) Viết $A_n$ theo $n$. b) Sau $5$ năm có bao nhiêu tiền (làm tròn đ�
 | Exit 3 | 3 |
 | Về nhà | a) $A_n=80\cdot 1{,}07^n$ · b) $112{,}20$ triệu đồng · c) $11$ năm |
 `);
+
+/* =====================================================================
+   PHIẾU HỌC TẬP TRÊN LỚP – Toán 11 · Bài 8. Mẫu số liệu ghép nhóm (thầy yêu cầu 14/10/2026)
+   Bám Ví dụ 1–6 của bài giảng bai-8 (lop11.js). Tình huống tự soạn ghi **[Minh họa]**.
+   ===================================================================== */
+Lecture.addSheet('lop11', 'bai-8', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 8. Mẫu số liệu ghép nhóm
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Lớp có $40$ học sinh, $14$ em đạt loại giỏi. Tỉ lệ phần trăm học sinh giỏi là: ………………………
+
+**Câu 2.** Tính số trung bình của mẫu số liệu $3,\ 5,\ 5,\ 8,\ 9$. Đáp án: ………………………
+
+**Câu 3.** Số $20$ có thoả mãn $10\le x<20$ không? Đáp án: ………………………
+
+**Câu 4.** Cho cấp số nhân có $u_1=3,\ q=2$. Tính $u_4$. Đáp án: ………………………
+
+## 2. Tình huống mở đầu **[Minh họa]**
+
+Chiều cao (cm) của $12$ học sinh trong một tổ: $151,\ 153,\ 155,\ 156,\ 158,\ 160,\ 160,\ 162,\ 164,\ 165,\ 168,\ 171$.
+
+**Em nhận thấy:** ………………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Nếu khảo sát cả trường với hàng trăm số liệu như thế, làm cách nào gom chúng vào vài nhóm để dễ nhìn, và một số nằm đúng ở mốc giữa hai nhóm thì xếp vào nhóm nào?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Trong các nhóm sau, số liệu $25$ thuộc nhóm nào?
+
+A. $[20;25)$
+
+B. $[25;30)$
+
+C. $[30;35)$
+
+D. Không thuộc nhóm nào
+
+**Câu B.** Mẫu số liệu có giá trị nhỏ nhất $4$, lớn nhất $24$. Chia thành các nhóm độ dài $5$, nhóm đầu bắt đầu từ $4$, mỗi nhóm dạng $[a;b)$. Cần ít nhất bao nhiêu nhóm?
+
+A. $3$
+
+B. $4$
+
+C. $5$
+
+D. $6$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Nhóm $[35;50)$ có độ dài bao nhiêu? Đáp số: ………………………
+
+**Câu 2 ★.** Trong các số $19;\ 20;\ 25;\ 30$, những số nào thuộc nhóm $[20;30)$? Đáp số: ………………………
+
+**Câu 3 ★.** Cấp số nhân có $u_1=3,\ q=2$. Tính $S_5$. Đáp số: ………………………
+
+**Câu 4 ★★.** Cân nặng (kg) của $10$ học sinh: $41;\ 44;\ 45;\ 47;\ 49;\ 50;\ 52;\ 54;\ 55;\ 58$. Lập tần số của các nhóm $[40;45),\ [45;50),\ [50;55),\ [55;60)$. Đáp số: ………………………
+
+**Câu 5 ★★.** Bảng tần số của $5$ nhóm liên tiếp là $4,\ 10,\ 12,\ 8,\ 6$. Tính tần số tương đối và tần số tích luỹ của nhóm thứ ba. Đáp số: ………………………
+
+**Câu 6 ★★.** Giá trị nhỏ nhất là $12$, lớn nhất là $47$. Muốn chia thành đúng $4$ nhóm cùng độ dài (nhóm đầu bắt đầu từ $12$), độ dài nguyên nhỏ nhất là bao nhiêu? Đáp số: ………………………
+
+**Câu 7 ★★★.** Bảng tần số các nhóm $[0;10),\ [10;20),\ [20;30),\ [30;40)$ là $x,\ 9,\ 6,\ 3$. Biết nhóm $[10;20)$ có tần số tương đối $36\%$. Tìm $x$. …………………………………………………………………………………
+
+……………………………………………………………………………………………………………………………………
+
+## 5. Tìm lỗi sai
+
+Bạn Bình ghép nhóm $10,\ 12,\ 15,\ 17,\ 20,\ 24$ vào $[10;15),\ [15;20),\ [20;25)$: *"$[10;15)$: $10,12,15$ nên $3$; $[15;20)$: $17,20$ nên $2$; $[20;25)$: $24$ nên $1$."*
+
+**Lỗi ở:** ……………………………………………………………………………
+
+**Lời giải đúng:** …………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1 (trắc nghiệm).** Bảng tần số của $20$ học sinh: $[0;5)$: $3$; $[5;10)$: $7$; $[10;15)$: $6$; $[15;20)$: $4$. Tần số tương đối của nhóm $[5;10)$ là
+
+A. $7\%$
+
+B. $35\%$
+
+C. $30\%$
+
+D. $17{,}5\%$
+
+**Câu 2 (đúng – sai).** Dùng bảng tần số ở Câu 1. Xét tính đúng – sai của các mệnh đề:
+
+a) Cỡ mẫu bằng $20$.  ☐ Đ ☐ S
+
+b) Có $10$ học sinh có giá trị nhỏ hơn $10$.  ☐ Đ ☐ S
+
+c) Tần số tích luỹ của nhóm $[10;15)$ bằng $6$.  ☐ Đ ☐ S
+
+d) Số liệu $15$ thuộc nhóm $[10;15)$.  ☐ Đ ☐ S
+
+**Câu 3 (trả lời ngắn – ôn chủ đề cũ).** Cấp số cộng có $u_1=5,\ d=3$. Tính $u_{10}$. Đáp số: …………
+
+## 7. Một phút suy ngẫm
+
+Bước nào trong bài hôm nay em sẽ **kiểm tra lại** nếu gặp trong đề thi? ……………………………………………………………………
+
+## 8. Vận dụng về nhà **[Minh họa]**
+
+Khảo sát thời gian ngủ mỗi đêm (giờ) của ít nhất $20$ bạn hoặc người thân (không ghi tên). Chọn các nhóm độ dài $1$ giờ, ví dụ $[5;6),\ [6;7),\ \ldots$.
+
+a) Lập bảng tần số ghép nhóm. b) Tính tần số tương đối của từng nhóm. c) Nhóm nào có nhiều người nhất? Bao nhiêu phần trăm ngủ từ $8$ giờ trở lên?
+
+**Sản phẩm:** bảng tính (Google Sheets/Excel) có cột nhóm, tần số, tần số tương đối (công thức chia cho tổng) và biểu đồ cột (đặt khoảng cách giữa các cột bằng $0$), chụp ảnh màn hình kèm nhận xét hai câu. **Hạn nộp:** tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Bài 8. Mẫu số liệu ghép nhóm
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương III · Bài 8. Mẫu số liệu ghép nhóm** (sách Kết nối tri thức với cuộc sống). Thầy đối chiếu tên chương và các mục của bài với sách in.
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con, học sinh không dùng điện thoại trên lớp; tiết học bài mới.
+- Phiếu bám số liệu của bài giảng: **Ví dụ 1** (nhóm $[10;20),\ [20;30)$, số $20$) → Do Now 3, câu bản lề A; **Ví dụ 2** (chia nhóm, $47-12$) → câu bản lề B, Câu 6; **Ví dụ 3** (lập bảng tần số 15 cân nặng) → Câu 4, Tìm lỗi sai; **Ví dụ 4–5** (biểu đồ chiều cao 40 em) → Câu 5; **Ví dụ 6** (tần số khuyết) → Câu 7.
+- Hai tình huống **[Minh họa]** (chiều cao 12 học sinh, khảo sát giờ ngủ) do người soạn tự đặt, không trích từ SGK. Hãy đối chiếu với phần Mở đầu của Bài 8 trong SGK nếu thầy muốn dùng tình huống sách.
+- Biểu đồ cột (histogram) không in trong phiếu; chiếu từ bài giảng (Ví dụ 4) hoặc vẽ lên bảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* huy động kiến thức cũ (tỉ lệ phần trăm, số trung bình, bất đẳng thức kép, cấp số nhân); gợi nhu cầu gom số liệu thành nhóm.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với 12 số đo chiều cao.
+- *Sản phẩm:* bài Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+- *Tổ chức:* xem Mục 4.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* xác định số liệu thuộc nhóm nào (đầu mút trái lấy, đầu mút phải không lấy); chia nhóm; lập bảng tần số; tính tần số tương đối và tần số tích luỹ; tìm tần số khuyết.
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài về nhà dùng bảng tính.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; ảnh bảng tính và biểu đồ cột.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình, giáo viên đi quanh |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hình thành kiến thức** | *Giáo viên tự dạy theo bài giảng: Kiến thức trọng tâm 1–4, Dạng 1–5, Ví dụ 1–6* |
+| ~14 | Câu hỏi bản lề A (Mục 3), nằm trong phần trên | Dừng sau Ví dụ 1; giơ thẻ A/B/C/D (2 phút) |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Câu 1–7, làm cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) | |
+
+*Câu hỏi bản lề B dùng sau Ví dụ 2 (chia nhóm), hoặc thay câu A khi lớp đã vững. Hai phút bản lề nằm trong 18 phút hình thành kiến thức.*
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Truy xuất kiến thức cũ trước khi học mới giúp nhớ lâu; tự chấm không lấy điểm nên giảm áp lực.
+- **Tổ chức theo 5512:** (1) chiếu 4 câu, nói rõ "không điểm"; (2) học sinh làm một mình 3 phút; (3) giáo viên chiếu đáp án, học sinh tự chấm bằng bút khác màu; (4) giáo viên nhấn Câu 3 vì đây là kiến thức nền của nhóm $[a;b)$.
+- **Đáp án:**
+  1. $\dfrac{14}{40}\cdot 100\%=35\%$.
+  2. $\dfrac{3+5+5+8+9}{5}=6$.
+  3. **Không**, vì $20<20$ sai.
+  4. $u_4=3\cdot 2^3=24$.
+- **Lỗi dự kiến:** câu 1 ghi $0{,}35$ hoặc $2{,}8$; câu 3 trả lời "có" vì thấy dấu bằng ở $x=10$; câu 4 viết $3\cdot 2^4=48$.
+- **Ít công nghệ:** viết trên giấy nháp, chiếu đáp án. **Công cụ số:** Plickers hoặc Azota chấm phiếu giấy.
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.** Không có câu trả lời "đúng" nên học sinh yếu cũng tham gia được.
+- **Tổ chức theo 5512:** (1) chiếu 12 số, hỏi "em nhận thấy gì, em thắc mắc gì"; (2) học sinh ghi ý kiến cá nhân 1 phút, chia sẻ với bạn cùng bàn; (3) gọi 3–4 em, ghi lên bảng hai cột; (4) giáo viên chốt: số liệu nhiều thì khó nhìn, cần gom vào các khoảng; nảy sinh câu hỏi số đúng mốc.
+- **Đáp án gợi ý:** các số nằm trong khoảng $151$–$171$; có thể gom thành các khoảng $[150;155),\ [155;160),\ [160;165),\ [165;170),\ [170;175)$ với tần số $2,\ 3,\ 4,\ 2,\ 1$ (số $160$ và $165$ nằm đúng mốc, thuộc nhóm bên phải).
+- **Lỗi dự kiến:** học sinh xếp $160$ vào nhóm bên trái → hỏi "nhóm $[a;b)$ lấy hay không lấy $b$?", quay lại ở Ví dụ 1.
+- **Ít công nghệ:** viết trên bảng. **Công cụ số:** Padlet/Jamboard (không bắt buộc).
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Vừa.** Mỗi phương án nhiễu tương ứng một lỗi thật; giáo viên quyết định dạy tiếp hay dạy lại ngay trong tiết.
+- **Tổ chức theo 5512:** (1) chiếu câu hỏi, cho 1 phút nghĩ; (2) học sinh khoanh vào phiếu và giơ thẻ A/B/C/D cùng lúc khi giáo viên đếm 3; (3) giáo viên đếm nhanh các lựa chọn; (4) gọi một em chọn đáp án sai giải thích vì sao em chọn.
+- **Câu A – đáp án B:** $25\in[25;30)$ vì $25\le 25<30$.
+
+| Phương án | Ứng với lỗi |
+|---|---|
+| A. $[20;25)$ | Lấy đầu mút phải vào nhóm |
+| C. $[30;35)$ | Nhìn nhóm "kế tiếp" mà không kiểm tra bất đẳng thức |
+| D. Không thuộc nhóm nào | Cho rằng đầu mút chung không thuộc nhóm nào |
+
+- **Câu B – đáp án C:** $24-4=20$ chia hết cho $5$ nhưng $24$ nằm đúng đầu mút phải của nhóm thứ $4$ là $[19;24)$ (không chứa $24$), nên cần nhóm thứ $5$ là $[24;29)$.
+
+| Phương án | Ứng với lỗi |
+|---|---|
+| A. $3$ | Lấy $20:5-1$ |
+| B. $4$ | Chia $20:5=4$ mà quên đầu mút phải không thuộc nhóm |
+| D. $6$ | Làm tròn lên rồi cộng thêm $1$ |
+
+- **Nếu hơn khoảng 20% chọn sai:** dừng lại, làm lại Ví dụ 1 hoặc 2 với số khác, cho học sinh thảo luận cặp 1 phút rồi giơ thẻ lại. Nếu hơn 80% đúng: đi tiếp.
+- **Ít công nghệ:** thẻ ABCD tự làm. **Công cụ số:** Plickers.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer)
+- **Bằng chứng: Mạnh** (Rohrer 2020: 60,7% so với 37,6%, $d=0{,}83$). Trộn dạng bài buộc học sinh tự chọn cách giải. Báo trước với lớp là sẽ thấy khó hơn so với làm từng dạng.
+- **Tổ chức theo 5512:** (1) phát phiếu, nêu quy tắc "không xếp theo dạng"; (2) làm cá nhân 6 phút; (3) 2 phút đối chiếu cặp đôi, gọi 2–3 em báo cáo câu ★★ và ★★★; (4) chiếu lời giải, nhấn các bước dễ sai.
+- **Đáp án và lời giải ngắn:**
+  1. $50-35=15$.
+  2. $20;\ 25$ (vì $20\le x<30$; $19$ nhỏ hơn, $30$ không thuộc).
+  3. $S_5=\dfrac{3(1-2^5)}{1-2}=93$. *(dạng cũ – Bài 7)*
+  4. $[40;45)$: $41,44$ → $2$; $[45;50)$: $45,47,49$ → $3$; $[50;55)$: $50,52,54$ → $3$; $[55;60)$: $55,58$ → $2$ (tổng $10$).
+  5. $n=40$; tần số tương đối $\dfrac{12}{40}=30\%$; tần số tích luỹ $4+10+12=26$.
+  6. $47-12=35$; cần $4L>35$; $L=8$ cho $32$ (thiếu), $L=9$ cho $36$ (đủ). Đáp số $9$.
+  7. $\dfrac{9}{n}=36\%\Rightarrow n=25$; $x=25-9-6-3=7$.
+- **Lỗi dự kiến:** câu 2 chọn cả $30$; câu 4 xếp $45$ vào nhóm $[40;45)$ (kết quả $3,2,3,2$); câu 5 nhầm tần số tích luỹ với tần số nhóm; câu 6 trả lời $8$ vì chia $35:4=8{,}75$ rồi làm tròn xuống; câu 7 quên tìm $n$ trước.
+- **Ít công nghệ:** giấy, bảng con. **Công cụ số:** bảng tính (hàm COUNTIFS) để kiểm tra tần số các nhóm.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Vừa – Mạnh.**
+- **Tổ chức theo 5512:** (1) chiếu lời giải của "bạn Bình", không ghi tên người thật; (2) học sinh tự tìm lỗi 1 phút, trao đổi cặp đôi; (3) gọi một em chỉ lỗi, **khen phần đúng trước** (tổng $3+2+1=6$ đúng với số số liệu); (4) chốt quy tắc.
+- **Đáp án:** lỗi ở việc xếp $15$ và $20$ (đầu mút phải) vào nhóm bên trái. Đúng là $[10;15)$: $10,12$ → $2$; $[15;20)$: $15,17$ → $2$; $[20;25)$: $20,24$ → $2$.
+- **Lỗi liên quan cần theo dõi:** chỉ kiểm tra tổng tần số mà không kiểm tra từng số.
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh** khi có phản hồi và có chữa bài.
+- **Tổ chức theo 5512:** (1) phát phiếu cắt đôi hoặc dùng cuối phiếu; (2) làm cá nhân 4 phút, không trao đổi; (3) thu phiếu; (4) chia chồng (Mục 5) rồi chữa ở đầu tiết sau.
+- **Đáp án:**
+  - Câu 1: **B.** $\dfrac{7}{20}\cdot 100\%=35\%$. (Nhiễu: A là tần số $7$ quên chia cho $n$; C là $\dfrac{6}{20}$, lấy nhầm nhóm bên cạnh; D là $\dfrac{7}{40}$, chia nhầm cho $40$.)
+  - Câu 2: a) **Đúng** ($3+7+6+4=20$). b) **Đúng** ($3+7=10$ em, các nhóm $[0;5)$ và $[5;10)$). c) **Sai** (tần số tích luỹ là $3+7+6=16$, còn $6$ là tần số của riêng nhóm). d) **Sai** ($15\in[15;20)$ vì nhóm $[10;15)$ không chứa $15$).
+  - Câu 3 (ôn chủ đề cũ): **32** ($u_{10}=5+9\cdot 3=32$).
+- **Lỗi dự kiến:** câu 1 chọn A; câu 2c chọn "đúng" vì nhầm tần số với tần số tích luỹ; câu 2d chọn "đúng"; câu 3 ghi $35$ (dùng $u_1+10d$).
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*)
+- **Bằng chứng: Mạnh** (EEF: +8 tháng). Học sinh tự nêu bước hay sai, ví dụ "đầu mút phải không thuộc nhóm" hay "kiểm tra tổng tần số bằng cỡ mẫu". Giáo viên không chấm; có thể đọc lướt vài phiếu để chọn Do Now tiết sau.
+
+### 4.8. Vận dụng về nhà
+- **Đáp án mẫu:** bài làm mở, kết quả phụ thuộc số liệu thu thập. Kiểm tra: tổng các tần số bằng số người khảo sát; tổng các tần số tương đối bằng $100\%$; biểu đồ có các cột liền nhau; số người ngủ từ $8$ giờ trở lên bằng tổng tần số các nhóm từ $[8;9)$ trở đi.
+- **Lỗi dự kiến:** xếp giá trị đúng $7$ giờ vào nhóm $[6;7)$; tính tần số tương đối bằng cách chia cho số nhóm; để khoảng cách giữa các cột khác $0$.
+- **Tích hợp năng lực số (gợi ý của người soạn, mức Nâng cao 1 – Thông tư 02/2025, Công văn 3456):** học sinh **tạo sản phẩm số** là bảng tính và biểu đồ cột; dùng hàm COUNTIFS để đếm tần số và công thức chia để ra tần số tương đối; không ghi tên người được khảo sát để bảo vệ dữ liệu cá nhân.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Dạy tiếp Bài 9; giao thêm Câu 7 dạng mở rộng |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại: chia nhóm nhỏ, làm lại Ví dụ 1, 3, 5 với số khác |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh 5 phút đầu tiết sau bằng đúng câu bị sai nhiều |
+
+**Gợi ý Do Now cho tiết sau:** (1) bài vừa học: nhóm $[20;30)$ có chứa $30$ không ($\text{không}$); (2) câu học sinh sai nhiều nhất trong Exit ticket; (3) tính tần số tương đối của nhóm có tần số $9$ trong mẫu cỡ $30$ (đáp án $30\%$); (4) một câu cấp số nhân để giữ giãn cách.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát kèm mẫu chưa hoàn chỉnh cho Câu 4: "$[40;45)$: số nào thoả $40\le x<45$? ……"; cho phép dùng Ví dụ 3 làm ví dụ mẫu; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 7, rồi câu hỏi mở: *với cùng một mẫu số liệu, nếu đổi độ dài nhóm từ $5$ sang $10$, tần số tương đối của một nhóm thay đổi thế nào? Cho ví dụ cho thấy hình dạng biểu đồ cột có thể thay đổi.*
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $35\%$ |
+| Do Now 2 | $6$ |
+| Do Now 3 | Không |
+| Do Now 4 | $24$ |
+| Bản lề A | B |
+| Bản lề B | C |
+| Luyện tập 1 | $15$ |
+| Luyện tập 2 | $20;\ 25$ |
+| Luyện tập 3 | $93$ |
+| Luyện tập 4 | $2;\ 3;\ 3;\ 2$ |
+| Luyện tập 5 | $30\%$ và $26$ |
+| Luyện tập 6 | $9$ |
+| Luyện tập 7 | $x=7$ |
+| Tìm lỗi sai | Xếp đầu mút phải vào nhóm bên trái; đúng là $2,\ 2,\ 2$ |
+| Exit 1 | B |
+| Exit 2 | a) Đ · b) Đ · c) S · d) S |
+| Exit 3 | $32$ |
+| Về nhà | Bài mở: tổng tần số bằng số người khảo sát; tổng tần số tương đối $100\%$ |
+`);

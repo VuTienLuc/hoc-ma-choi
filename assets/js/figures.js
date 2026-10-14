@@ -473,3 +473,17 @@ function ladderSVG(n,o={}){
   if(o.bot)s+=T(cx,yb+20,o.bot);
   return s+T(160,238,o.cap||'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted')+'</svg>';
 }
+/* Biểu đồ cột (histogram) của mẫu số liệu ghép nhóm: các cột liền nhau, mốc nhóm ghi dưới trục.
+   edges = [a0,a1,…,an] (n+1 mốc), freqs = n tần số, step = bước lưới trục tung; o.unit = nhãn trục hoành, o.yl = nhãn trục tung,
+   o.show = true → ghi tần số trên đầu cột. */
+function histSVG(edges,freqs,step,o={}){
+  const n=freqs.length,W=440,H=270,x0=48,x1=W-16,y0=212,top=26,max=Math.ceil(Math.max(...freqs)/step)*step+(Math.max(...freqs)%step===0?step:0),sc=(y0-top)/max,bw=(x1-x0)/n;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Biểu đồ cột mẫu số liệu ghép nhóm gồm ${n} nhóm">`;
+  for(let v=0;v<=max;v+=step){const y=y0-v*sc;s+=`<line class="sv-grid" x1="${x0}" y1="${y}" x2="${x1}" y2="${y}"/><text class="sv-muted" x="${x0-8}" y="${y+5}" font-size="13" text-anchor="end">${v}</text>`}
+  freqs.forEach((f,i)=>{const x=x0+bw*i,h=f*sc;s+=`<rect class="sv-bar" x="${x.toFixed(1)}" y="${(y0-h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" stroke-width="1.5"/>`;
+    if(o.show)s+=`<text class="sv-txt" x="${(x+bw/2).toFixed(1)}" y="${(y0-h-6).toFixed(1)}" font-size="14" text-anchor="middle">${f}</text>`});
+  edges.forEach((e,i)=>{s+=`<text class="sv-txt" x="${(x0+bw*i).toFixed(1)}" y="${y0+20}" font-size="14" text-anchor="middle">${e}</text>`});
+  s+=`<line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}"/><line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${top-8}" x2="${x0}" y2="${y0}"/>`;
+  s+=`<text class="sv-muted" x="${x0-40}" y="${top-12}" font-size="13">${o.yl||'Tần số'}</text><text class="sv-muted" x="${x1}" y="${y0+42}" font-size="13" text-anchor="end">${o.unit||''}</text>`;
+  return s+'</svg>';
+}

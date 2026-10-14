@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-14 – Toán 11 · Chương III · Bài 8. Mẫu số liệu ghép nhóm (trọn bộ)
+
+- **Yêu cầu:** “Tạo Chương III – Bài 8. Mẫu số liệu ghép nhóm – lớp 11” theo quy trình /tron-bo.
+- **Kết quả:** chủ đề mới id 4 (`label:'Chương III'`), bài `mau-so-lieu-ghep-nhom`: 5 dạng × 3 mức (xác định nhóm, chia nhóm, lập bảng tần số, đọc biểu đồ cột có hình, tần số tương đối – tích luỹ), hàm vẽ mới `histSVG`; bài giảng `bai-8` (4 kiến thức, 5 dạng, 6 ví dụ, 3 luyện tập); phiếu luyện tập 10 bài (7 + 3★); giải SGK 4 câu (đề theo dạng, **chưa tra số trang/số bài**); phiếu trên lớp (Phần A 2 trang A4 + Phần B). Đáp số sinh ngẫu nhiên được đối chiếu bằng bộ giải độc lập (0 sai).
+- **Tệp thay đổi:** `data/lop11.js`, `assets/js/figures.js`, `giao-vien/bai-giang/lop11.js`, `lop11-luyen-tap.js`, `lop11-giai-sgk.js`, `lop11-khoi-dong.js`, `KE-HOACH-TRON-BO.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (42/42); `python3 tools/build.py` → chạy ở bước đưa lên web.
+- **Việc thủ công:** đối chiếu tên chương, tên mục và số trang/số bài SGK của Bài 8; xem các tình huống **[Minh họa]** (chiều cao 12 học sinh, khảo sát giờ ngủ).
+
 ### 2026-10-14 – Menu: chủ đề theo Chương SGK + mục riêng “Ôn tập · Củng cố · Kiểm tra”
 
 - **Yêu cầu:** Các chủ đề ôn tập, củng cố chương, ôn tập kiểm tra cuối chương, giữa kì, cuối kì xếp vào cùng một menu riêng; các chủ đề còn lại theo đúng Chương SGK Kết nối tri thức.

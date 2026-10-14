@@ -211,3 +211,40 @@ Lecture.addSgk('lop11', 'bai-7', [
      box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 7. Cấp số nhân.')},
 ]);
 })();
+
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – Toán 11 · Chương III · Bài 8. Mẫu số liệu ghép nhóm (câu vận dụng, câu khó) – thầy yêu cầu 14/10/2026
+   LƯU Ý: đề ghi tóm tắt theo DẠNG của các bài vận dụng/bài tập cuối Bài 8; số trang và số bài chưa được tra trong sách in – thầy đối chiếu.
+   ===================================================================== */
+(() => {
+const m = tm, gr = (a, b) => m(`[${a};\\,${b})`), box = h => `<div class="lk-box">${h}</div>`;
+const T = (heads, vals) => `<table class="lk-table"><tr><th>Nhóm</th>${heads.map(h => `<th>${h}</th>`).join('')}</tr><tr><td>Tần số</td>${vals.map(v => `<td>${v}</td>`).join('')}</tr></table>`;
+const HC = histSVG([0, 10, 20, 30, 40], [6, 14, 18, 12], 2, {unit:'phút'});
+Lecture.addSgk('lop11', 'bai-8', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 8. Mẫu số liệu ghép nhóm', sub:'Các câu vận dụng, câu khó – SGK tập 1 (thầy đối chiếu số trang, số bài)',
+   points:['Lập bảng tần số tương đối từ bảng tần số ghép nhóm.', 'Ghép nhóm số liệu thô, đếm đúng số liệu nằm ở đầu mút.', 'Đọc biểu đồ cột: tần số tích luỹ, phần trăm.', 'Tìm tần số khuyết khi biết tần số tương đối.', 'Lưu ý: đề ghi tóm tắt theo dạng bài của SGK; số trang và số bài chưa tra, mời thầy đối chiếu.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba điều cần nhớ',
+   body:`<ol class="lk-steps"><li>Nhóm ${m('[a;\\,b)')} chứa ${m('a')}, không chứa ${m('b')}.</li><li>Tần số tương đối ${m('= \\dfrac{\\text{tần số}}{n}\\cdot 100\\%')}; tần số tích luỹ là tổng cộng dồn.</li><li>Cỡ mẫu ${m('n')} bằng tổng tất cả tần số.</li></ol>`},
+
+  {kind:'vd', tag:'Vận dụng · Bảng tần số tương đối', label:'Câu 1', de:`Khối lượng (g) của 40 củ khoai: ${T([gr(100, 150), gr(150, 200), gr(200, 250), gr(250, 300), gr(300, 350)], [4, 10, 14, 8, 4])}Lập bảng tần số tương đối ghép nhóm. Bao nhiêu phần trăm số củ khoai nặng dưới 250 g?`,
+   sol:[`Cỡ mẫu ${m('n = 4 + 10 + 14 + 8 + 4 = 40')}.`, `Tần số tương đối: ${m('\\dfrac{4}{40} = 10\\%;\\ \\dfrac{10}{40} = 25\\%;\\ \\dfrac{14}{40} = 35\\%;\\ \\dfrac{8}{40} = 20\\%;\\ \\dfrac{4}{40} = 10\\%')} (tổng ${m('100\\%')}).`, `Dưới 250 g gồm ba nhóm đầu: ${m('10\\% + 25\\% + 35\\% = 70\\%')} (hoặc ${m('\\dfrac{28}{40}')}).`],
+   ans:`${tb('10\\%,\\ 25\\%,\\ 35\\%,\\ 20\\%,\\ 10\\%')}; dưới 250 g: ${tb('70\\%')}.`},
+
+  {kind:'vd', tag:'Vận dụng · Ghép nhóm số liệu thô', label:'Câu 2', de:`Thời gian chờ (phút) của 15 khách hàng: ${m('1;\\ 2;\\ 3;\\ 4;\\ 5;\\ 5;\\ 6;\\ 7;\\ 8;\\ 9;\\ 10;\\ 10;\\ 12;\\ 14;\\ 15')}. Ghép thành các nhóm ${gr(0, 5)}, ${gr(5, 10)}, ${gr(10, 15)}, ${gr(15, 20)}. Lập bảng tần số và tính tỉ lệ khách chờ từ 10 phút trở lên.`,
+   sol:[`${gr(0, 5)}: 1; 2; 3; 4 → 4. &nbsp; ${gr(5, 10)}: 5; 5; 6; 7; 8; 9 → 6 (số 5 thuộc nhóm này).`, `${gr(10, 15)}: 10; 10; 12; 14 → 4. &nbsp; ${gr(15, 20)}: 15 → 1 (số 15 thuộc nhóm bên phải).`, `Kiểm tra: ${m('4 + 6 + 4 + 1 = 15')}. Từ 10 phút trở lên: ${m('4 + 1 = 5')} khách, ${m('\\dfrac{5}{15} \\approx 33{,}3\\%')}.`],
+   ans:`Tần số ${tb('4,\\ 6,\\ 4,\\ 1')}; tỉ lệ ${tb('\\approx 33{,}3\\%')}.`},
+
+  {kind:'vd', tag:'Vận dụng cao · Đọc biểu đồ cột', label:'Câu 3', de:`Biểu đồ cột cho thời gian (phút) 50 học sinh làm xong một bài tập. (a) Bao nhiêu phần trăm học sinh làm xong trong dưới 30 phút? (b) Nếu xếp thời gian từ nhỏ đến lớn, số liệu thứ 25 thuộc nhóm nào?`, fig:HC,
+   sol:[`Đọc các cột: ${m('6,\\ 14,\\ 18,\\ 12')}; ${m('n = 50')}.`, `(a) Dưới 30 phút: ${m('6 + 14 + 18 = 38')} em, ${m('\\dfrac{38}{50}\\cdot 100\\% = 76\\%')}.`, `(b) Tần số tích luỹ: ${m('6;\\ 20;\\ 38;\\ 50')}. Vì ${m('20 \\lt 25 \\le 38')} nên số liệu thứ 25 thuộc nhóm ${gr(20, 30)}.`],
+   ans:`(a) ${tb('76\\%')}; (b) nhóm ${tb('[20;\\,30)')}.`},
+
+  {kind:'vd', tag:'Vận dụng cao · Tần số khuyết', label:'Câu 4', de:`Bảng tần số tương đối của các nhóm ${gr(0, 10)}, ${gr(10, 20)}, ${gr(20, 30)}, ${gr(30, 40)} lần lượt là ${m('15\\%;\\ x\\%;\\ 35\\%;\\ 20\\%')}. Biết nhóm ${gr(30, 40)} có ${m('12')} số liệu. Tìm ${m('x')}, cỡ mẫu và tần số của nhóm ${gr(10, 20)}.`,
+   sol:[`Tổng tần số tương đối bằng ${m('100\\%')}: ${m('x = 100 - 15 - 35 - 20 = 30')}.`, `${m('20\\% \\cdot n = 12 \\Rightarrow n = 60')}.`, `Tần số nhóm ${gr(10, 20)}: ${m('30\\% \\cdot 60 = 18')}.`],
+   ans:`${tb('x = 30')}; ${tb('n = 60')}; tần số ${tb('18')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp khi giải các bài này',
+   body:`<ul><li>Xếp số đúng bằng đầu mút phải vào nhóm bên trái (đúng là nhóm bên phải).</li><li>Quên cộng lại để kiểm tra tổng tần số bằng cỡ mẫu.</li><li>Nhầm tần số tích luỹ với tần số của riêng nhóm.</li><li>Quên rằng tổng các tần số tương đối bằng ${m('100\\%')}.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 8. Mẫu số liệu ghép nhóm.')},
+]);
+})();

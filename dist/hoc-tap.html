@@ -1758,6 +1758,20 @@ function ladderSVG(n,o={}){
   if(o.bot)s+=T(cx,yb+20,o.bot);
   return s+T(160,238,o.cap||'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted')+'</svg>';
 }
+/* Biểu đồ cột (histogram) của mẫu số liệu ghép nhóm: các cột liền nhau, mốc nhóm ghi dưới trục.
+   edges = [a0,a1,…,an] (n+1 mốc), freqs = n tần số, step = bước lưới trục tung; o.unit = nhãn trục hoành, o.yl = nhãn trục tung,
+   o.show = true → ghi tần số trên đầu cột. */
+function histSVG(edges,freqs,step,o={}){
+  const n=freqs.length,W=440,H=270,x0=48,x1=W-16,y0=212,top=26,max=Math.ceil(Math.max(...freqs)/step)*step+(Math.max(...freqs)%step===0?step:0),sc=(y0-top)/max,bw=(x1-x0)/n;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Biểu đồ cột mẫu số liệu ghép nhóm gồm ${n} nhóm">`;
+  for(let v=0;v<=max;v+=step){const y=y0-v*sc;s+=`<line class="sv-grid" x1="${x0}" y1="${y}" x2="${x1}" y2="${y}"/><text class="sv-muted" x="${x0-8}" y="${y+5}" font-size="13" text-anchor="end">${v}</text>`}
+  freqs.forEach((f,i)=>{const x=x0+bw*i,h=f*sc;s+=`<rect class="sv-bar" x="${x.toFixed(1)}" y="${(y0-h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" stroke-width="1.5"/>`;
+    if(o.show)s+=`<text class="sv-txt" x="${(x+bw/2).toFixed(1)}" y="${(y0-h-6).toFixed(1)}" font-size="14" text-anchor="middle">${f}</text>`});
+  edges.forEach((e,i)=>{s+=`<text class="sv-txt" x="${(x0+bw*i).toFixed(1)}" y="${y0+20}" font-size="14" text-anchor="middle">${e}</text>`});
+  s+=`<line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}"/><line class="sv-ink" stroke-width="2.5" x1="${x0}" y1="${top-8}" x2="${x0}" y2="${y0}"/>`;
+  s+=`<text class="sv-muted" x="${x0-40}" y="${top-12}" font-size="13">${o.yl||'Tần số'}</text><text class="sv-muted" x="${x1}" y="${y0+42}" font-size="13" text-anchor="end">${o.unit||''}</text>`;
+  return s+'</svg>';
+}
 
 </script>
 <script>/* assets/js/generators.js */
@@ -15035,6 +15049,173 @@ lesson(92, 'c2k-de-tong-hop', 'Củng cố Chương II · Đề tổng hợp 15 
   k2kt('Dễ sai về thực tế', `Đọc ${tm('u_1')}, ${tm('d')} hoặc ${tm('q')} từ hình; phân biệt hỏi một số hạng hay hỏi tổng; lãi kép nhân, lãi đơn cộng; “giảm ${tm('r\\%')}” là nhân với ${tm('1 - r/100')}.`, 'Quãng đường bóng nảy: lần rơi đầu một lần, các lần nảy sau hai lần. “Vượt quá” là lớn hơn hẳn.', 'Kiểm tra đơn vị và tính hợp lý của kết quả.')
 ]});
 }
+/* =====================================================================
+   CHƯƠNG III. MẪU SỐ LIỆU GHÉP NHÓM – Bài 8 (thầy yêu cầu 14/10/2026, /tron-bo)
+   Chủ đề 4, nhãn "Chương III". Một bài, 5 dạng × 3 mức, có biểu đồ cột (histSVG).
+   Dạng 1 Xác định nhóm · 2 Chia nhóm (số nhóm, độ dài) · 3 Lập bảng tần số từ số liệu thô · 4 Đọc biểu đồ cột (thực tế) · 5 Tần số tương đối, tần số tích luỹ.
+   Quy ước nhóm: [a; b) chứa a, không chứa b. Đáp án chọn trước rồi mới dựng đề; mọi đáp số được đếm lại bằng phép lọc độc lập (b8chk).
+   ===================================================================== */
+{ const i2 = G.topics.findIndex(t => t.id === 2); G.topics.splice(i2 < 0 ? G.topics.length : i2 + 1, 0, {id:4, hk:1, name:'Mẫu số liệu ghép nhóm', label:'Chương III'}); }
+const b8chk = (ok, msg) => { if(!ok) throw new Error('b8: ' + msg); };
+const gr8 = (a, b) => tm(`[${a};\\,${b})`);
+const tab8 = (heads, rows) => `<table class="lk-table"><tr>${heads.map(h => `<th>${h}</th>`).join('')}</tr>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</table>`;
+const cnt8 = (v, a, b) => v.filter(x => x >= a && x < b).length;           // đếm độc lập: a ≤ x < b
+const edges8 = (s, len, k) => Array.from({length:k + 1}, (_, i) => s + i * len);
+const tabF8 = (e, f, extra) => tab8(['Nhóm', ...f.map((_, i) => gr8(e[i], e[i + 1]))], [['Tần số', ...f], ...(extra ? [extra] : [])]);
+const CT8 = [
+  {w:'thời gian chạy 100 m (giây)', who:'các bạn nam của một lớp', s:12, len:2},
+  {w:'số trang sách đọc được trong một tuần', who:'các học sinh của một lớp', s:20, len:10},
+  {w:'cân nặng (kg)', who:'các học sinh của một lớp', s:40, len:5},
+  {w:'chiều cao (cm)', who:'các học sinh của một lớp', s:150, len:5},
+  {w:'quãng đường đi từ nhà đến trường (km)', who:'các học sinh của một khối', s:1, len:2}
+];
+const fSplit8 = (n, k, lo, hi, ev) => { if(ev) return fSplit8(n / 2, k, Math.ceil(lo / 2), Math.floor(hi / 2)).map(x => 2 * x); for(let t = 0; t < 4000; t++){ const f = Array.from({length:k}, () => R(lo, hi)); if(f.reduce((x, y) => x + y, 0) === n && (!ev || f.every(x => x % 2 === 0))) return f; } throw new Error('b8: fSplit'); };
+
+/* Dạng 1. Xác định nhóm */
+const g8a = lv => {
+  if(lv === 1){
+    const len = pick([2, 5, 10, 20]), a = R(1, 8) * len, b = a + len;
+    if(pick([0, 1]) === 0)
+      return QB({text:`Cho nhóm số liệu ${gr8(a, b)}. Độ dài của nhóm này bằng bao nhiêu?`, tpl:'[_]', ans:[len],
+        hint:'Độ dài của nhóm bằng hiệu giữa đầu mút phải và đầu mút trái.',
+        sol:`${tm(`${b} - ${a} = ${len}`)}. Độ dài của nhóm là ${tb(len)}.`});
+    return QB({text:`Các nhóm số liệu liên tiếp có cùng độ dài. Biết nhóm ${gr8(a, b)}; nhóm đứng ngay sau nó có đầu mút trái bằng bao nhiêu?`, tpl:'[_]', ans:[b],
+      hint:'Các nhóm nối liền nhau: đầu mút phải của nhóm trước và đầu mút trái của nhóm sau liên hệ thế nào?',
+      sol:`Nhóm liền sau bắt đầu đúng tại đầu mút phải của nhóm trước, nên nhóm đó là ${tm(`[${b};\\,${b + len})`)}. Đầu mút trái bằng ${tb(b)}.`});
+  }
+  const len = pick([5, 10, 20]), s = R(1, 6) * len, k = 5, e = edges8(s, len, k), idx = R(0, k - 1);
+  const labels = Array.from({length:k}, (_, i) => gr8(e[i], e[i + 1]));
+  if(lv === 2){
+    const x = e[idx] + R(1, len - 1);
+    return QC({text:`Mẫu số liệu được chia thành 5 nhóm: ${labels.join(', ')}. Số liệu <b>x = ${x}</b> thuộc nhóm nào?`, opts:labels, ans:labels[idx], keepOrder:true,
+      hint:'So sánh x với đầu mút trái và đầu mút phải của từng nhóm.',
+      sol:`${tm(`${e[idx]} \\le ${x} \\lt ${e[idx + 1]}`)} nên x thuộc nhóm ${tb(`[${e[idx]};\\,${e[idx + 1]})`)}.`});
+  }
+  // mức 3: danh sách có giá trị nằm đúng ở đầu mút
+  const a = e[idx + 0], b = e[idx + 1];
+  const vals = shuffle([...new Set([a, b, a + R(1, len - 1), b - 1, a - 1, b + R(1, len - 1), a - R(2, 4)])]);
+  const ans = cnt8(vals, a, b);
+  b8chk(ans >= 2 && ans <= 4, 'g8a3');
+  return QB({text:`Chia mẫu số liệu thành các nhóm cùng độ dài ${len}, trong đó có nhóm ${gr8(a, b)}. Trong các số liệu sau: <b>${vals.join('; ')}</b>, có bao nhiêu số liệu thuộc nhóm ${gr8(a, b)}?`, tpl:'[_] số liệu', ans:[ans],
+    hint:'Xét từng số: nhóm ' + 'dạng [a; b) lấy đầu mút nào, bỏ đầu mút nào? Chú ý các số đúng bằng đầu mút.',
+    sol:`Nhóm ${gr8(a, b)} gồm các số ${tm(`${a} \\le x \\lt ${b}`)}: lấy ${a}, không lấy ${b}. Các số thoả mãn: ${vals.filter(x => x >= a && x < b).sort((p, q) => p - q).join('; ')}. Có ${tb(ans)} số liệu.`});
+};
+
+/* Dạng 2. Chia nhóm */
+const g8b = lv => {
+  const c = pick(CT8);
+  if(lv === 1){
+    const len = pick([5, 10]), m = R(10, 40), k = R(3, 6), M = m + (k - 1) * len + R(1, len - 1);
+    return QB({text:`Một mẫu số liệu về ${c.w} có giá trị nhỏ nhất là <b>${m}</b>, lớn nhất là <b>${M}</b>. Người ta chia thành các nhóm có độ dài <b>${len}</b>, nhóm đầu tiên bắt đầu từ ${m} (mỗi nhóm có dạng ${tm('[a;\\,b)')}). Cần ít nhất bao nhiêu nhóm để chứa mọi số liệu?`, tpl:'[_] nhóm', ans:[k],
+      hint:'Mỗi nhóm “phủ” được một đoạn dài bằng độ dài nhóm. Tính khoảng cách từ giá trị nhỏ nhất đến giá trị lớn nhất rồi so với độ dài nhóm.',
+      sol:`${tm(`${M} - ${m} = ${M - m}`)}; ${tm(`${M - m}:${len} = ${((M - m) / len).toFixed(2).replace(/\.?0+$/, '')}`)}, làm tròn lên được ${tb(k)} nhóm: ${tm(`[${m};\\,${m + len}),\\ \\ldots,\\ [${m + (k - 1) * len};\\,${m + k * len})`)}.`});
+  }
+  if(lv === 2){
+    const len = pick([4, 5, 10]), m = R(10, 40), k = R(4, 7), M = m + (k - 1) * len + R(1, len - 1), last = m + k * len;
+    return QB({text:`Số liệu về ${c.w} có giá trị nhỏ nhất ${m}, lớn nhất ${M}. Chia thành các nhóm cùng độ dài ${len}, nhóm đầu bắt đầu từ ${m}, mỗi nhóm dạng ${tm('[a;\\,b)')} và dùng <b>ít nhóm nhất</b> có thể. Đầu mút phải của nhóm cuối cùng bằng bao nhiêu?`, tpl:'[_]', ans:[last],
+      hint:'Trước hết tìm số nhóm cần dùng; các nhóm nối liền nhau từ giá trị đầu.',
+      sol:`${tm(`(${M} - ${m}):${len}`)} làm tròn lên cho ${k} nhóm. Nhóm cuối là ${tm(`[${m + (k - 1) * len};\\,${last})`)}, đầu mút phải bằng ${tb(last)}.`});
+  }
+  const k = pick([4, 5, 6, 7]), m = R(10, 40); let R0; do { R0 = R(2 * k + 3, 9 * k); } while(R0 % k === 0);
+  const M = m + R0, L = Math.ceil(R0 / k);
+  b8chk(k * L > R0 && (L - 1) * k <= R0 && L >= 1, 'g8b3');
+  return QB({text:`Số liệu về ${c.w} có giá trị nhỏ nhất ${m}, lớn nhất ${M}. Muốn chia thành đúng <b>${k}</b> nhóm có <b>cùng độ dài</b>, nhóm đầu bắt đầu từ ${m}, mỗi nhóm dạng ${tm('[a;\\,b)')} và chứa được mọi số liệu. Độ dài nhóm là số nguyên dương nhỏ nhất bằng bao nhiêu?`, tpl:'[_]', ans:[L],
+    hint:`Cần ${tm(`${k} \\cdot (\\text{độ dài}) \\gt ${M} - ${m}`)}: vì nhóm cuối không lấy đầu mút phải nên không được để giá trị lớn nhất nằm đúng đầu mút đó.`,
+    sol:`${tm(`${M} - ${m} = ${R0}`)}, ${tm(`${R0}:${k} \\approx ${(R0 / k).toFixed(2)}`)}. Cần ${tm(`${k}L \\gt ${R0}`)} nên ${tm(`L \\ge ${L}`)}: ${tm(`${k}\\cdot ${L - 1} = ${k * (L - 1)} \\le ${R0}`)} (thiếu), ${tm(`${k}\\cdot ${L} = ${k * L} \\gt ${R0}`)} (đủ). Độ dài nhỏ nhất là ${tb(L)}.`});
+};
+
+/* Dạng 3. Lập bảng tần số ghép nhóm từ số liệu thô */
+const mkData8 = (e, f) => { const v = []; f.forEach((c, i) => { for(let j = 0; j < c; j++) v.push(j === 0 && c >= 2 ? e[i] : R(e[i], e[i + 1] - 1)); }); return shuffle(v); };
+const g8c = lv => {
+  const c = pick(CT8), s = c.s + c.len * R(0, 2);
+  if(lv === 1){
+    const k = 3, e = edges8(s, c.len, k), f = Array.from({length:k}, () => R(2, 5)), v = mkData8(e, f), t = R(0, k - 1);
+    b8chk(f.every((x, i) => cnt8(v, e[i], e[i + 1]) === x), 'g8c1');
+    return QB({text:`Số liệu về ${c.w} của ${c.who} (${v.length} số liệu): <b>${v.join('; ')}</b>.<br>Ghép thành các nhóm ${[0, 1, 2].map(i => gr8(e[i], e[i + 1])).join(', ')}. Tần số của nhóm ${gr8(e[t], e[t + 1])} bằng bao nhiêu?`, tpl:'[_]', ans:[f[t]],
+      hint:'Đếm các số liệu x thoả ' + 'đầu mút trái ≤ x < đầu mút phải của nhóm đó; gạch từng số đã đếm để không sót.',
+      sol:`Các số thuộc ${gr8(e[t], e[t + 1])}: ${v.filter(x => x >= e[t] && x < e[t + 1]).sort((p, q) => p - q).join('; ')}. Tần số là ${tb(f[t])}.`});
+  }
+  if(lv === 2){
+    const k = 4, e = edges8(s, c.len, k); let f; do { f = Array.from({length:k}, () => R(3, 9)); } while(f.filter(x => x === Math.max(...f)).length > 1);
+    const v = mkData8(e, f), t = f.indexOf(Math.max(...f));
+    b8chk(f.every((x, i) => cnt8(v, e[i], e[i + 1]) === x), 'g8c2');
+    const labels = Array.from({length:k}, (_, i) => gr8(e[i], e[i + 1]));
+    return QC({text:`Số liệu về ${c.w} của ${c.who} (${v.length} số liệu): <b>${v.join('; ')}</b>.<br>Ghép thành 4 nhóm ${labels.join(', ')}. Nhóm nào có tần số lớn nhất?`, opts:labels, ans:labels[t], keepOrder:true,
+      hint:'Lập bảng tần số của cả bốn nhóm rồi so sánh; số liệu nằm đúng đầu mút thì thuộc nhóm bên phải.',
+      sol:`Bảng tần số: ${tm(f.map((x, i) => `[${e[i]};\\,${e[i + 1]}):\\ ${x}`).join(';\\ \\ '))}. Tần số lớn nhất là ${f[t]}, ứng với nhóm ${tb(`[${e[t]};\\,${e[t + 1]})`)}.`});
+  }
+  const k = 5, e = edges8(s, c.len, k), f = fSplit8(R(22, 28), k, 3, 9), v = mkData8(e, f), t = R(2, 3);
+  b8chk(f.every((x, i) => cnt8(v, e[i], e[i + 1]) === x) && v.every(x => x >= e[0] && x < e[k]), 'g8c3');
+  const ans = v.filter(x => x >= e[t]).length;
+  b8chk(ans === f.slice(t).reduce((p, q) => p + q, 0), 'g8c3b');
+  return QB({text:`Số liệu về ${c.w} của ${c.who} (${v.length} số liệu): <b>${v.join('; ')}</b>.<br>Ghép thành 5 nhóm cùng độ dài ${c.len}, nhóm đầu là ${gr8(e[0], e[1])}. Có bao nhiêu số liệu <b>từ ${e[t]} trở lên</b>?`, tpl:'[_] số liệu', ans:[ans],
+    hint:'Lập bảng tần số 5 nhóm (chú ý số đúng bằng đầu mút), rồi cộng tần số các nhóm cần thiết.',
+    sol:`Bảng tần số: ${tm(f.map((x, i) => `[${e[i]};\\,${e[i + 1]}):\\ ${x}`).join(';\\ \\ '))}. “Từ ${e[t]} trở lên” gồm các nhóm từ ${tm(`[${e[t]};\\,${e[t + 1]})`)} đến hết: ${tm(f.slice(t).join(' + ') + ' = ' + ans)}. Đáp số ${tb(ans)}.`});
+};
+
+/* Dạng 4. Đọc biểu đồ cột (thực tế) */
+const CTH8 = [
+  {w:'thời gian tự học ở nhà mỗi tối (phút)', s:20, len:20, u:'phút'},
+  {w:'chiều cao (cm)', s:150, len:5, u:'cm'},
+  {w:'thời gian đi từ nhà đến trường (phút)', s:5, len:5, u:'phút'},
+  {w:'cân nặng (kg)', s:40, len:5, u:'kg'}
+];
+const g8d = lv => {
+  const c = pick(CTH8), k = 5, e = edges8(c.s, c.len, k), head = `Biểu đồ cột sau cho biết ${c.w} của các học sinh lớp 11A được khảo sát.`;
+  if(lv === 1){
+    const f = fSplit8(R(24, 36), k, 2, 12), n = f.reduce((p, q) => p + q, 0);
+    return QB({text:`${head} Có bao nhiêu học sinh được khảo sát?`, fig:histSVG(e, f, 2, {show:true, unit:c.u}), tpl:'[_] học sinh', ans:[n],
+      hint:'Mỗi cột cho tần số của một nhóm, tức số học sinh thuộc nhóm đó. Số học sinh được khảo sát là tổng của những tần số nào?',
+      sol:`${tm(f.join(' + ') + ' = ' + n)}. Có ${tb(n)} học sinh.`});
+  }
+  const n = pick([20, 40]), f = fSplit8(n, k, 2, 16, true), i = R(0, 2);
+  if(lv === 2){
+    const ans = f[i] + f[i + 1];
+    return QB({text:`${head} Có bao nhiêu học sinh có ${c.w.replace(/ \(.*\)/, '')} từ <b>${e[i]}</b> đến dưới <b>${e[i + 2]}</b> ${c.u}?`, fig:histSVG(e, f, 2, {unit:c.u}), tpl:'[_] học sinh', ans:[ans],
+      hint:'Đọc chiều cao từng cột so với các vạch ngang của lưới (mỗi vạch cách nhau 2). Khoảng cần tìm gồm những nhóm nào?',
+      sol:`Khoảng ${tm(`[${e[i]};\\,${e[i + 2]})`)} gồm hai nhóm ${gr8(e[i], e[i + 1])} và ${gr8(e[i + 1], e[i + 2])}, tần số ${f[i]} và ${f[i + 1]}: ${tm(`${f[i]} + ${f[i + 1]} = ${ans}`)}. Đáp số ${tb(ans)} học sinh.`});
+  }
+  const j = R(1, 3), tail = f.slice(j).reduce((p, q) => p + q, 0), pct = tail * 100 / n;
+  b8chk(Number.isInteger(pct) && f.reduce((p, q) => p + q, 0) === n, 'g8d3');
+  return QB({text:`${head} Hỏi số học sinh có ${c.w.replace(/ \(.*\)/, '')} <b>từ ${e[j]} ${c.u} trở lên</b> chiếm bao nhiêu phần trăm số học sinh được khảo sát?`, fig:histSVG(e, f, 2, {unit:c.u}), tpl:'[_] %', ans:[pct],
+    hint:'Đọc tần số từng cột để tìm cỡ mẫu và số học sinh cần đếm, rồi lấy tỉ số rồi nhân 100%.',
+    sol:`Tần số các nhóm: ${tm(f.join(',\\ '))}, cỡ mẫu ${tm(`n = ${n}`)}. Từ ${e[j]} trở lên: ${tm(f.slice(j).join(' + ') + ' = ' + tail)} học sinh. ${tm(`\\dfrac{${tail}}{${n}}\\cdot 100\\% = ${pct}\\%`)}. Đáp số ${tb(pct + '\\%')}.`});
+};
+
+/* Dạng 5. Tần số tương đối và tần số tích luỹ */
+const g8e = lv => {
+  const k = 5, n = pick([20, 25, 50]), c = pick(CT8), s = c.s + c.len * R(0, 2), e = edges8(s, c.len, k), f = fSplit8(n, k, 2, Math.floor(n / 3));
+  const rel = x => x * 100 / n;
+  b8chk(f.every(x => Number.isInteger(rel(x))), 'g8e');
+  if(lv === 1){
+    const t = R(0, k - 1);
+    return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabF8(e, f)}Tần số tương đối của nhóm ${gr8(e[t], e[t + 1])} bằng bao nhiêu phần trăm?`, tpl:'[_] %', ans:[rel(f[t])],
+      hint:'Tần số tương đối của một nhóm là tỉ số giữa tần số nhóm và cỡ mẫu (tổng các tần số), tính theo phần trăm.',
+      sol:`Cỡ mẫu ${tm(`n = ${f.join(' + ')} = ${n}`)}. ${tm(`\\dfrac{${f[t]}}{${n}}\\cdot 100\\% = ${rel(f[t])}\\%`)}. Đáp số ${tb(rel(f[t]) + '\\%')}.`});
+  }
+  if(lv === 2){
+    const t = R(1, 3), F = f.slice(0, t + 1).reduce((p, q) => p + q, 0);
+    return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabF8(e, f)}Có bao nhiêu số liệu <b>nhỏ hơn ${e[t + 1]}</b>? (Đó là tần số tích luỹ của nhóm ${gr8(e[t], e[t + 1])}.)`, tpl:'[_] số liệu', ans:[F],
+      hint:'Tần số tích luỹ của một nhóm là tổng tần số của nhóm đó và tất cả các nhóm đứng trước nó.',
+      sol:`Các nhóm có số liệu nhỏ hơn ${e[t + 1]}: từ ${gr8(e[0], e[1])} đến ${gr8(e[t], e[t + 1])}. ${tm(f.slice(0, t + 1).join(' + ') + ' = ' + F)}. Đáp số ${tb(F)}.`});
+  }
+  // mức 3: ô khuyết, cho tần số tương đối của một nhóm
+  const m = R(0, k - 1); let t; do { t = R(0, k - 1); } while(t === m);
+  const p = rel(f[t]), cells = f.map((x, i) => i === m ? '<b>x</b>' : x);
+  b8chk(n * p === f[t] * 100, 'g8e3');
+  return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who} có một ô bị mờ:<br>${tab8(['Nhóm', ...f.map((_, i) => gr8(e[i], e[i + 1]))], [['Tần số', ...cells]])}Biết nhóm ${gr8(e[t], e[t + 1])} có tần số tương đối bằng <b>${p}%</b>. Tìm giá trị của x.`, tpl:`${tm('x =')} [_]`, ans:[f[m]],
+    hint:'Từ tần số và tần số tương đối của nhóm đã cho, tìm cỡ mẫu n; sau đó x bằng n trừ tổng các tần số còn lại.',
+    sol:`${tm(`\\dfrac{${f[t]}}{n} = ${p}\\%`)} nên ${tm(`n = ${f[t]}:${p / 100} = ${n}`)}. Tổng các tần số còn lại là ${f.filter((_, i) => i !== m).join(' + ')} = ${n - f[m]}, suy ra ${tm(`x = ${n} - ${n - f[m]}`)} = ${tb(f[m])}.`});
+};
+
+const K8KT = [
+  {t:'Nhóm số liệu', b:`Chia các số liệu thành những nhóm kề nhau, mỗi nhóm có dạng ${tm('[a;\\,b)')}: chứa ${tm('a')}, <b>không</b> chứa ${tm('b')}. Độ dài nhóm là ${tm('b - a')}. Các nhóm thường có cùng độ dài.`, warn:'Số liệu đúng bằng đầu mút phải thì thuộc nhóm <b>kế tiếp</b> (bên phải).', ex:'Với nhóm [10; 20): lấy 10, không lấy 20.'},
+  {t:'Chia nhóm', b:`Số nhóm cần dùng: lấy ${tm('\\dfrac{\\text{giá trị lớn nhất} - \\text{giá trị nhỏ nhất}}{\\text{độ dài nhóm}}')} rồi làm tròn lên. Nhóm đầu bắt đầu từ giá trị nhỏ nhất (hoặc số tròn nhỏ hơn).`, warn:'Chia hết cũng phải kiểm tra: giá trị lớn nhất nằm đúng đầu mút phải của nhóm cuối thì cần thêm nhóm.', ex:'Thường chọn khoảng 5 đến 15 nhóm.'},
+  {t:'Bảng tần số ghép nhóm', b:`Tần số ${tm('m_i')} của nhóm là số số liệu thuộc nhóm; cỡ mẫu ${tm('n = m_1 + m_2 + \\ldots + m_k')}. Tần số tương đối ${tm('f_i = \\dfrac{m_i}{n}\\cdot 100\\%')}; tần số tích luỹ của nhóm là tổng tần số từ nhóm đầu đến nhóm đó.`, warn:'Tổng các tần số tương đối bằng 100%. Đếm xong hãy cộng lại để kiểm tra bằng cỡ mẫu.', ex:'Gạch từng số đã đếm để không sót, không trùng.'},
+  {t:'Biểu đồ cột (histogram)', b:'Các cột liền nhau, mỗi cột ứng với một nhóm, chiều cao cột bằng tần số (hoặc tần số tương đối). Mốc các nhóm ghi trên trục ngang.', warn:'Đọc đúng vạch trên trục tung; cột lọt giữa hai vạch thì nội suy cẩn thận.', ex:'Cỡ mẫu bằng tổng chiều cao tất cả các cột.'}
+];
+lesson(4, 'mau-so-lieu-ghep-nhom', 'Bài 8. Mẫu số liệu ghép nhóm', 'Xác định nhóm số liệu; chia nhóm; lập bảng tần số ghép nhóm; đọc biểu đồ cột; tần số tương đối và tần số tích luỹ.', [g8a, g8b, g8c, g8d, g8e], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K8KT});
+
 })();
 
 </script>
