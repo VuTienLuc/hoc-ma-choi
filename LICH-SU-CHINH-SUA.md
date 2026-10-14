@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-14 – Toán 10: bộ “Củng cố kiểm tra Chương III” (học sinh)
+
+- **Yêu cầu:** Thêm bộ ôn tập chương III – Toán 10 cho học sinh làm củng cố trước bài kiểm tra, tương tự bộ ôn giữa kì cũ: câu dễ sai – dễ nhầm, có toán thực tế kèm hình vẽ.
+- **Kết quả:** Chủ đề mới 91 “Củng cố kiểm tra Chương III” (cuối `data/lop10.js`, trong khối Chương III) gồm 6 bài, mỗi bài có thẻ Kiến thức · Chỗ dễ sai · Mẹo: (1) `c3k-luong-giac` góc bù và dấu, tam giác A+B+C=180°, so sánh/tìm góc, biểu thức chia cho cos α; (2) `c3k-cong-thuc` viết đúng côsin/sin theo tên đỉnh, ba cạnh → góc (kể cả 120°), nhận dạng tam giác, định lí sin; (3) `c3k-dien-tich` diện tích góc tù, Heron – nửa chu vi – đường cao, r và R, từ diện tích tìm góc nhọn/tù; (4) `c3k-thuc-te-1` hai tàu theo góc phương vị, đo khoảng cách qua hồ, hàng rào – chi phí, mái nhà tam giác cân; (5) `c3k-thuc-te-2` thang dựa tường, đo cây từ hai điểm (45°–60°), toà nhà và cột cờ, tấm kính tròn vỡ; (6) `c3k-de-tong-hop` đề 15 câu (6 cơ bản, 5 vận dụng, 4 nâng cao). Mỗi dạng 3 mức, đáp số sinh ngẫu nhiên, kiểm tra bằng phép tính độc lập (`c3chk`). Hình mới `bearingSVG` (hai hướng đi từ cảng, có mũi tên Bắc) trong `assets/js/figures.js`; dùng thêm `triSVG`, `rtTriSVG`, `treeSVG`, `obsSVG`, `circTriSVG`. Chủ đề “Ôn giữa kì” nay đứng trước chủ đề 91.
+- **Tệp thay đổi:** `data/lop10.js`, `assets/js/figures.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`.
+- **Kiểm thử:** `node tools/kiem-tra.js 150` → ĐẠT; tự giải lại độc lập hơn 8 000 câu sinh ngẫu nhiên (lượng giác, diện tích, nhận dạng, chi phí, chiều cao) → không sai đáp số; `python3 tools/test.py` → ĐẠT (28 500 câu); xem ảnh trang bài thực tế trên trình duyệt (không còn công thức thô, hình hiển thị).
+- **Việc thủ công:** Thầy xem lại độ khó từng mức và cách ghi hướng đi (góc phương vị) cho hợp với cách thầy dạy.
+
 ### 2026-10-14 – Ôn thi vào 10, chủ đề 8: Hình học 7a. Chứng minh (bốn điểm cùng đường tròn, song song, vuông góc, hệ thức)
 
 - **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề ôn thi vào lớp 10 kế tiếp (chủ đề 8), trọn bộ học sinh + bài giảng + phiếu luyện tập 2 trang A4.

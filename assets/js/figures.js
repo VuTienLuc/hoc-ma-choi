@@ -403,3 +403,29 @@ function circTriSVG(o={}){
   if(o.side)s+=T((P[1][0]+P[2][0])/2,(P[1][1]+P[2][1])/2+16,o.side,15);
   return s+'</svg>';
 }
+
+/* Hai hướng đi từ A theo góc phương vị (đo từ hướng Bắc, theo chiều kim đồng hồ), 0 ≤ t1 < t2 ≤ 180.
+   o.t1, o.t2: góc phương vị (độ) · o.l1, o.l2: nhãn quãng đường AB, AC · o.bc: nhãn khoảng cách BC · o.n=['A','B','C'] */
+function bearingSVG(o={}){
+  const T=(x,y,s,fs=16,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const n=o.n||['A','B','C'], t1=o.t1||0, t2=o.t2||90, Ax=100, Ay=112, L=88, Ln=100, rd=d=>d*Math.PI/180;
+  const pt=(d,r)=>[Ax+r*Math.sin(rd(d)),Ay-r*Math.cos(rd(d))];
+  const B=pt(t1,L), C=pt(t2,L), N=pt(0,Ln);
+  const arc=(r,a,b)=>{const p=pt(a,r),q=pt(b,r);return `<path class="sv-tick" stroke-width="2.5" fill="none" d="M${p[0].toFixed(1)} ${p[1].toFixed(1)} A${r} ${r} 0 0 1 ${q[0].toFixed(1)} ${q[1].toFixed(1)}"/>`};
+  let s=`<svg viewBox="0 0 320 250" role="img" aria-label="Hai hướng đi từ ${n[0]}">`;
+  s+=`<line class="sv-ink" stroke-width="1.8" stroke-dasharray="6 5" x1="${Ax}" y1="${Ay}" x2="${N[0]}" y2="${N[1]}"/><path class="sv-ink" stroke-width="2" d="M${Ax-6} ${N[1]+10} L${Ax} ${N[1]} L${Ax+6} ${N[1]+10}"/>`+T(Ax-9,N[1]-2,'Bắc',15,'end');
+  s+=`<line class="sv-ink" stroke-width="3" x1="${Ax}" y1="${Ay}" x2="${B[0].toFixed(1)}" y2="${B[1].toFixed(1)}"/><line class="sv-ink" stroke-width="3" x1="${Ax}" y1="${Ay}" x2="${C[0].toFixed(1)}" y2="${C[1].toFixed(1)}"/>`;
+  s+=`<line class="sv-ink" stroke-width="2" stroke-dasharray="3 4" x1="${B[0].toFixed(1)}" y1="${B[1].toFixed(1)}" x2="${C[0].toFixed(1)}" y2="${C[1].toFixed(1)}"/>`;
+  if(t1>0)s+=arc(34,0,t1); s+=arc(52,0,t2);
+  const l1=pt(t1/2,34+15), l2=pt(t2/2,52+16);
+  if(t1>0)s+=t1<35?T(Ax-8,Ay-36,`${t1}°`,13,'end'):T(l1[0],l1[1],`${t1}°`,13);
+  s+=T(l2[0]+10,l2[1],`${t2}°`,13);
+  s+=`<circle class="sv-dot" cx="${Ax}" cy="${Ay}" r="4.5"/>`+T(Ax-14,Ay+6,n[0],18);
+  const lab=(P,d,t)=>{const q=pt(d,L+18);return T(q[0]+(Math.sin(rd(d))>.3?6:0),q[1]+(Math.cos(rd(d))<-.3?8:0),t,18,Math.sin(rd(d))>.3?'start':'middle')};
+  s+=lab(B,t1,n[1])+lab(C,t2,n[2]);
+  const mid=pt((t1+t2)/2,L*.62);
+  if(o.l1){const m=pt(t1,L*.9);s+=T(m[0]-24*Math.cos(rd(t1))-2,m[1]-24*Math.sin(rd(t1)),o.l1,14,'end')}
+  if(o.l2){const m=pt(t2,L*.9);s+=T(m[0]+22*Math.cos(rd(t2)),m[1]+22*Math.sin(rd(t2)),o.l2,14,Math.cos(rd(t2))<-.2?'end':'start')}
+  if(o.bc){const m=[(B[0]+C[0])/2,(B[1]+C[1])/2];s+=T(m[0]+36,m[1]+(t2-t1>=90?2:6),o.bc,15,'start')}
+  return s+T(160,242,'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted')+'</svg>';
+}

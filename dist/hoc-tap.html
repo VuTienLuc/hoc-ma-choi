@@ -1689,6 +1689,32 @@ function circTriSVG(o={}){
   return s+'</svg>';
 }
 
+/* Hai hướng đi từ A theo góc phương vị (đo từ hướng Bắc, theo chiều kim đồng hồ), 0 ≤ t1 < t2 ≤ 180.
+   o.t1, o.t2: góc phương vị (độ) · o.l1, o.l2: nhãn quãng đường AB, AC · o.bc: nhãn khoảng cách BC · o.n=['A','B','C'] */
+function bearingSVG(o={}){
+  const T=(x,y,s,fs=16,anc='middle',cls='sv-txt')=>`<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${fs}" text-anchor="${anc}" dominant-baseline="middle">${s}</text>`;
+  const n=o.n||['A','B','C'], t1=o.t1||0, t2=o.t2||90, Ax=100, Ay=112, L=88, Ln=100, rd=d=>d*Math.PI/180;
+  const pt=(d,r)=>[Ax+r*Math.sin(rd(d)),Ay-r*Math.cos(rd(d))];
+  const B=pt(t1,L), C=pt(t2,L), N=pt(0,Ln);
+  const arc=(r,a,b)=>{const p=pt(a,r),q=pt(b,r);return `<path class="sv-tick" stroke-width="2.5" fill="none" d="M${p[0].toFixed(1)} ${p[1].toFixed(1)} A${r} ${r} 0 0 1 ${q[0].toFixed(1)} ${q[1].toFixed(1)}"/>`};
+  let s=`<svg viewBox="0 0 320 250" role="img" aria-label="Hai hướng đi từ ${n[0]}">`;
+  s+=`<line class="sv-ink" stroke-width="1.8" stroke-dasharray="6 5" x1="${Ax}" y1="${Ay}" x2="${N[0]}" y2="${N[1]}"/><path class="sv-ink" stroke-width="2" d="M${Ax-6} ${N[1]+10} L${Ax} ${N[1]} L${Ax+6} ${N[1]+10}"/>`+T(Ax-9,N[1]-2,'Bắc',15,'end');
+  s+=`<line class="sv-ink" stroke-width="3" x1="${Ax}" y1="${Ay}" x2="${B[0].toFixed(1)}" y2="${B[1].toFixed(1)}"/><line class="sv-ink" stroke-width="3" x1="${Ax}" y1="${Ay}" x2="${C[0].toFixed(1)}" y2="${C[1].toFixed(1)}"/>`;
+  s+=`<line class="sv-ink" stroke-width="2" stroke-dasharray="3 4" x1="${B[0].toFixed(1)}" y1="${B[1].toFixed(1)}" x2="${C[0].toFixed(1)}" y2="${C[1].toFixed(1)}"/>`;
+  if(t1>0)s+=arc(34,0,t1); s+=arc(52,0,t2);
+  const l1=pt(t1/2,34+15), l2=pt(t2/2,52+16);
+  if(t1>0)s+=t1<35?T(Ax-8,Ay-36,`${t1}°`,13,'end'):T(l1[0],l1[1],`${t1}°`,13);
+  s+=T(l2[0]+10,l2[1],`${t2}°`,13);
+  s+=`<circle class="sv-dot" cx="${Ax}" cy="${Ay}" r="4.5"/>`+T(Ax-14,Ay+6,n[0],18);
+  const lab=(P,d,t)=>{const q=pt(d,L+18);return T(q[0]+(Math.sin(rd(d))>.3?6:0),q[1]+(Math.cos(rd(d))<-.3?8:0),t,18,Math.sin(rd(d))>.3?'start':'middle')};
+  s+=lab(B,t1,n[1])+lab(C,t2,n[2]);
+  const mid=pt((t1+t2)/2,L*.62);
+  if(o.l1){const m=pt(t1,L*.9);s+=T(m[0]-24*Math.cos(rd(t1))-2,m[1]-24*Math.sin(rd(t1)),o.l1,14,'end')}
+  if(o.l2){const m=pt(t2,L*.9);s+=T(m[0]+22*Math.cos(rd(t2)),m[1]+22*Math.sin(rd(t2)),o.l2,14,Math.cos(rd(t2))<-.2?'end':'start')}
+  if(o.bc){const m=[(B[0]+C[0])/2,(B[1]+C[1])/2];s+=T(m[0]+36,m[1]+(t2-t1>=90?2:6),o.bc,15,'start')}
+  return s+T(160,242,'Hình minh hoạ (không đúng tỉ lệ)',12,'middle','sv-muted')+'</svg>';
+}
+
 </script>
 <script>/* assets/js/generators.js */
 /* ---------- Bộ sinh câu hỏi dùng chung ---------- */
@@ -12895,6 +12921,455 @@ lesson(3,'on-tap-c3','Ôn tập chương III – Bộ 20 câu','Mỗi đề 20 c
   {t:'Diện tích và bán kính', b:`${tm('S=\\dfrac{1}{2}bc\\sin A=\\sqrt{p(p-a)(p-b)(p-c)}=pr=\\dfrac{abc}{4R}')}.`, warn:`Trong công thức Heron, ${tm('p')} là nửa chu vi.`, ex:'Biết ba cạnh thì tính nửa chu vi và diện tích trước, sau đó tìm bán kính.'},
   {t:'Cấu trúc mỗi đề', b:'Câu 1–7 cơ bản; câu 8–14 thông hiểu và vận dụng; câu 15–20 nâng cao, gắn với đo đạc và chi phí thực tế.', warn:'Chỉ làm tròn ở kết quả cuối và luôn ghi đúng đơn vị.', ex:'Nếu chưa chọn được công thức, hãy vẽ tam giác và đánh dấu toàn bộ dữ kiện.'}
 ]});
+
+/* =====================================================================
+   CỦNG CỐ KIỂM TRA CHƯƠNG III – chủ đề 91 (thầy yêu cầu 14/10/2026)
+   Bộ ôn tập cho bài kiểm tra: câu dễ sai – dễ nhầm, toán thực tế có hình vẽ.
+   6 bài: 1 Giá trị lượng giác · 2 Côsin – sin · 3 Diện tích – bán kính · 4–5 Thực tế có hình · Đề tổng hợp 15 câu.
+   Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số tính lại bằng phép tính độc lập (c3chk).
+   ===================================================================== */
+G.topics.push({id:91, hk:1, name:'Củng cố kiểm tra Chương III'});
+const c3chk = (ok, msg) => { if(!ok) throw new Error('c3k: ' + msg); };
+const c3rad = d => d * Math.PI / 180;
+const c3KT = (t, b, warn, ex) => ({t, b, warn, ex});
+const C3T = 'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo';
+const FN = {sin:'\\sin', cos:'\\cos', tan:'\\tan', cot:'\\cot'};
+const SGN = {sin:'', cos:'-', tan:'-', cot:'-'};          // dấu khi đổi sang góc bù
+const NUMF = {sin:x => Math.sin(c3rad(x)), cos:x => Math.cos(c3rad(x)), tan:x => Math.tan(c3rad(x)), cot:x => 1 / Math.tan(c3rad(x))};
+const SQ2 = '\\sqrt{2}', SQ3 = '\\sqrt{3}';
+// đáp số: nguyên → ô số; phân số → ô phân số
+const fracAns = (name, n, d) => { const g = gcd(n, d) || 1; n /= g; d /= g; if(d < 0){ n = -n; d = -d; }
+  return d === 1 ? {tpl:blank(name), ans:[n], v:String(n)} : {tpl:fblank(name), ans:[{frac:[n, d], mode:'eq'}], v:tfrac(n, d)}; };
+const poly = terms => { let out = ''; terms.filter(t => t[0]).forEach(([c, s], i) => { const ab = Math.abs(c), co = (ab === 1 && s) ? '' : ab;
+  out += (i ? (c < 0 ? ' - ' : ' + ') : (c < 0 ? '-' : '')) + co + s; }); return out || '0'; };
+const trip3 = () => { const [p, q, h] = pick(TRIP), sw = Math.random() < .5; return sw ? {o:p, a:q, h} : {o:q, a:p, h}; };   // sin = o/h, |cos| = a/h
+const nr9 = (x, y) => Math.abs(x - y) < 1e-9;
+const pm = n => n < 0 ? `(${n})` : String(n);
+
+/* ---------- BÀI 1. GIÁ TRỊ LƯỢNG GIÁC – CHỖ DỄ SAI ---------- */
+const SGN_NEG = [['\\sin\\alpha\\cdot\\cos\\alpha', '(+)\\cdot(-) = -'], ['\\sin\\alpha\\cdot\\tan\\alpha', '(+)\\cdot(-) = -'], ['\\tan\\alpha + \\cot\\alpha', '(-) + (-) = -'],
+  ['\\cos\\alpha - \\sin\\alpha', '(-) - (+) = -'], ['\\sin\\alpha\\cdot\\cot\\alpha', '(+)\\cdot(-) = -'], ['\\cos\\alpha + \\tan\\alpha', '(-) + (-) = -']];
+const SGN_POS = [['\\cos\\alpha\\cdot\\tan\\alpha', '(-)\\cdot(-) = +'], ['\\sin\\alpha - \\cos\\alpha', '(+) - (-) = +'], ['\\cos\\alpha\\cdot\\cot\\alpha', '(-)\\cdot(-) = +'],
+  ['\\tan\\alpha\\cdot\\cot\\alpha', '(-)\\cdot(-) = +'], ['\\sin\\alpha - \\tan\\alpha', '(+) - (-) = +']];
+const cA1 = lv => {   // góc bù và dấu
+  if(lv === 1){
+    const a = pick([20,30,40,50,60,70]), b = 180 - a, bad = pick(['sin','cos','tan','cot']);
+    const eq = f => `${FN[f]} ${DG(b)} = ${f === bad ? (SGN[f] ? '' : '-') : SGN[f]}${FN[f]} ${DG(a)}`;
+    return QC({text:`Hai góc ${tm(DG(a))} và ${tm(DG(b))} bù nhau. Đẳng thức nào sau đây <b>sai</b>?`, opts:['sin','cos','tan','cot'].map(f => tm(eq(f))), ans:tm(eq(bad)),
+      hint:'Hai góc bù nhau thì sin bằng nhau, còn côsin, tang, côtang đối nhau.',
+      sol:`Vì ${tm(`${DG(a)} + ${DG(b)} = 180^\\circ`)} nên ${TABLE}. Đẳng thức sai là ${tb(eq(bad))}.`});
+  }
+  if(lv === 2){
+    const wantNeg = Math.random() < .5, good = pick(wantNeg ? SGN_NEG : SGN_POS), bads = shuffle(wantNeg ? SGN_POS : SGN_NEG).slice(0, 3);
+    return QC({text:`Cho ${tm('90^\\circ \\lt \\alpha \\lt 180^\\circ')}. Biểu thức nào sau đây mang dấu <b>${wantNeg ? 'âm' : 'dương'}</b>?`, opts:[good, ...bads].map(x => tm(x[0])), ans:tm(good[0]),
+      hint:`Với góc tù: ${tm('\\sin\\alpha \\gt 0')}; còn ${tm('\\cos\\alpha')}, ${tm('\\tan\\alpha')}, ${tm('\\cot\\alpha')} đều âm. Xét dấu từng biểu thức.`,
+      sol:`Góc tù: ${tm('\\sin\\alpha \\gt 0')}, ${tm('\\cos\\alpha \\lt 0')}, ${tm('\\tan\\alpha \\lt 0')}, ${tm('\\cot\\alpha \\lt 0')}. ` + [good, ...bads].map(x => `${tm(x[0])}: ${tm(x[1])}`).join('; ') + `. Đáp án: ${tb(good[0])}.`});
+  }
+  const x = R(15, 80), v = R(0, 3);
+  const C = [{c:`\\sin\\alpha = \\sin ${DG(x)}`, ex:`${tm('\\alpha')} là góc tù`, why:`${tm('\\sin\\alpha = \\sin\\beta')} khi hai góc bằng nhau hoặc bù nhau, nên ${tm(`\\alpha = ${DG(x)}`)} hoặc ${tm(`\\alpha = ${DG(180 - x)}`)}; góc tù là ${tm(`\\alpha = ${DG(180 - x)}`)}`},
+    {c:`\\cos\\alpha = -\\cos ${DG(x)}`, ex:tm('0^\\circ \\le \\alpha \\le 180^\\circ'), why:`${tm(`-\\cos ${DG(x)} = \\cos(180^\\circ - ${DG(x)})`)}, mà côsin là hàm đơn điệu trên ${tm('[0^\\circ;\\ 180^\\circ]')}, nên ${tm(`\\alpha = ${DG(180 - x)}`)}`},
+    {c:`\\tan\\alpha = -\\tan ${DG(x)}`, ex:tm('0^\\circ \\lt \\alpha \\lt 180^\\circ'), why:`${tm(`-\\tan ${DG(x)} = \\tan(180^\\circ - ${DG(x)})`)} và ${tm('\\tan\\alpha')} âm chỉ khi ${tm('\\alpha')} tù, nên ${tm(`\\alpha = ${DG(180 - x)}`)}`},
+    {c:`\\cot\\alpha = -\\cot ${DG(x)}`, ex:tm('0^\\circ \\lt \\alpha \\lt 180^\\circ'), why:`${tm(`-\\cot ${DG(x)} = \\cot(180^\\circ - ${DG(x)})`)} và ${tm('\\cot\\alpha')} âm chỉ khi ${tm('\\alpha')} tù, nên ${tm(`\\alpha = ${DG(180 - x)}`)}`}][v];
+  return QB({text:`Cho ${tm(C.c)}, trong đó ${C.ex}. Tính số đo ${tm('\\alpha')}.`, tpl:`<span class="eq">${tm('\\alpha =')} [_]°</span>`, ans:[180 - x],
+    hint:`Đưa vế phải về cùng một hàm lượng giác của góc bù ${tm(DG(180))} trừ ${tm(DG(x))}: ${TABLE}.`,
+    sol:`${C.why}. Vậy ${tb(`\\alpha = ${DG(180 - x)}`)}.`});
+};
+
+const cA2 = lv => {   // tam giác ABC: A + B + C = 180°
+  if(lv === 1){
+    const [X, Y, Z] = shuffle(['A','B','C']), f = pick(['sin','cos','tan','cot']);
+    const rel = (g, flip) => `${FN[g]}(${X} + ${Y}) = ${flip ? (SGN[g] ? '' : '-') : SGN[g]}${FN[g]} ${Z}`;
+    return QC({text:`Trong tam giác ${tm('ABC')}, đẳng thức nào sau đây <b>đúng</b>?`, opts:['sin','cos','tan','cot'].map(g => tm(rel(g, g !== f))), ans:tm(rel(f, false)),
+      hint:`Tổng ba góc của tam giác bằng ${tm('180^\\circ')}, nên ${tm(`${X} + ${Y}`)} và ${tm(Z)} là hai góc bù nhau.`,
+      sol:`${tm(`${X} + ${Y} = 180^\\circ - ${Z}`)}, nên ${tm(`${FN[f]}(${X} + ${Y}) = ${FN[f]}(180^\\circ - ${Z}) = ${SGN[f]}${FN[f]} ${Z}`)}. Đáp án: ${tb(rel(f, false))}.`});
+  }
+  const t = trip3();
+  if(lv === 2){
+    const askSin = Math.random() < .5, r = askSin ? fracAns('\\sin(B + C)', t.o, t.h) : fracAns('\\cos(B + C)', t.a, t.h);
+    return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`\\cos A = -${tf(t.a, t.h)}`)}. Tính ${tm(askSin ? '\\sin(B + C)' : '\\cos(B + C)')}.`, tpl:r.tpl, ans:r.ans,
+      hint:`${tm('B + C = 180^\\circ - A')}. Dùng công thức góc bù${askSin ? `, rồi ${tm('\\sin^2 A + \\cos^2 A = 1')}` : ''}.`,
+      sol: askSin
+        ? `${tm('\\sin(B + C) = \\sin(180^\\circ - A) = \\sin A')}. Vì ${tm('\\sin A \\gt 0')} nên ${tm(`\\sin A = \\sqrt{1 - ${tf(t.a * t.a, t.h * t.h)}} = `)} ${tb(r.v)}.`
+        : `${tm('\\cos(B + C) = \\cos(180^\\circ - A) = -\\cos A')} ${tm(`= ${tf(t.a, t.h)}`)}. Vậy ${tb(r.v)}.`});
+  }
+  const m = R(1, 3), n = R(1, 3), r = fracAns('E', m * t.o - n * t.a, t.h);
+  return QB({text:`Cho tam giác ${tm('ABC')} có ${tm(`\\cos A = -${tf(t.a, t.h)}`)}. Tính ${tm(`E = ${poly([[m, '\\sin(B + C)'], [n, '\\cos A']])}`)}.`, tpl:r.tpl, ans:r.ans, wide:true,
+    hint:`Đổi ${tm('\\sin(B + C)')} về ${tm('\\sin A')}; góc ${tm('A')} tù (côsin âm) nên ${tm('\\sin A \\gt 0')}.`,
+    sol:`${tm('\\sin(B + C) = \\sin A')} và ${tm(`\\sin A = \\sqrt{1 - ${tf(t.a * t.a, t.h * t.h)}} = ${tf(t.o, t.h)}`)}. ${tm(`E = ${m}\\cdot ${tf(t.o, t.h)} + ${n}\\cdot\\left(-${tf(t.a, t.h)}\\right) = ${tf(m * t.o - n * t.a, t.h)} =`)} ${tb(r.v)}.`});
+};
+
+const cA3 = lv => {   // so sánh – tìm góc từ đẳng thức lượng giác
+  if(lv === 1){
+    const f = pick(['sin','cos','tan','cot']), a = pick([20,30,40,50,60,70,80]), b = 180 - a, v = x => Math.round(NUMF[f](x) * 1e9) / 1e9;
+    return QCmp('Điền dấu thích hợp:', tm(`${FN[f]} ${DG(b)}`), tm(`${FN[f]} ${DG(a)}`), v(b), v(a),
+      {hint:`${tm(DG(b))} và ${tm(DG(a))} là hai góc bù nhau. Nhớ lại bảng: ${TABLE}.`,
+       sol: f === 'sin' ? `${tm(`\\sin ${DG(b)} = \\sin ${DG(a)}`)} (hai góc bù nhau có sin bằng nhau). Vậy ${tb('=')}.`
+         : `${tm(`${FN[f]} ${DG(b)} = -${FN[f]} ${DG(a)}`)} và ${tm(`${FN[f]} ${DG(a)} \\gt 0`)} (góc nhọn), nên vế trái âm, nhỏ hơn vế phải. Vậy ${tb('\\lt')}.`});
+  }
+  if(lv === 2){
+    const f = pick(['sin','cos','tan','cot']), x = pick([20,25,30,35,40,50,55,60,65,70]), both = f === 'sin';
+    const good = both ? `${x}° hoặc ${180 - x}°` : `${x}°`;
+    return QC({text:`Cho ${tm('0^\\circ \\lt \\alpha \\lt 180^\\circ')} thoả mãn ${tm(`${FN[f]}\\alpha = ${FN[f]} ${DG(x)}`)}. Khi đó ${tm('\\alpha')} bằng`,
+      opts:both ? [good, `${x}°`, `${180 - x}°`, `${90 - x}° hoặc ${90 + x}°`] : [good, `${180 - x}°`, `${x}° hoặc ${180 - x}°`, `${90 - x}°`], ans:good,
+      hint: both ? 'Hai góc khác nhau trong khoảng đang xét có thể có cùng sin; hãy nhớ góc bù.' : 'Xét xem hai góc bù nhau có cho cùng giá trị hay giá trị đối nhau.',
+      sol: both ? `${tm('\\sin\\alpha = \\sin\\beta')} xảy ra khi ${tm('\\alpha = \\beta')} hoặc ${tm('\\alpha = 180^\\circ - \\beta')}. Cả hai đều thuộc khoảng đã cho, nên ${tb(`\\alpha = ${DG(x)}\\text{ hoặc }${DG(180 - x)}`)}.`
+        : `Hai góc bù nhau có ${FN[f] === '\\cos' ? 'côsin' : FN[f] === '\\tan' ? 'tang' : 'côtang'} đối nhau (khác nhau, trừ khi bằng 0), nên đẳng thức chỉ xảy ra khi hai góc bằng nhau: ${tb(`\\alpha = ${DG(x)}`)}.`});
+  }
+  const al = pick([100,110,120,130,140,150,160]), big = Math.random() < .5, fs = ['sin','cos','tan','cot'];
+  const vals = fs.map(f => NUMF[f](al)), sorted = vals.map((v, i) => [v, i]).sort((p, q) => p[0] - q[0]);
+  c3chk(sorted[1][0] - sorted[0][0] > 1e-6 && sorted[3][0] - sorted[2][0] > 1e-6, 'trùng giá trị cực trị');
+  const pickI = big ? sorted[3][1] : sorted[0][1], r2 = x => tdec(Math.round(x * 100) / 100);
+  return QC({text:`Trong bốn số ${fs.map(f => tm(`${FN[f]} ${DG(al)}`)).join(', ')}, số nào <b>${big ? 'lớn nhất' : 'nhỏ nhất'}</b>?`, opts:fs.map(f => tm(`${FN[f]} ${DG(al)}`)), ans:tm(`${FN[fs[pickI]]} ${DG(al)}`),
+    hint:`Góc tù: chỉ ${tm('\\sin')} dương. Với ba số âm, so sánh độ lớn (giá trị tuyệt đối) của chúng.`,
+    sol:`Tính gần đúng: ${fs.map((f, i) => tm(`${FN[f]} ${DG(al)} \\approx ${r2(vals[i])}`)).join('; ')}. Số ${big ? 'lớn nhất' : 'nhỏ nhất'} là ${tb(`${FN[fs[pickI]]} ${DG(al)}`)}.`});
+};
+
+const cA4 = lv => {   // biểu thức đẳng cấp: chia cho cos α
+  if(lv === 1){
+    const t = R(2, 5), u = R(1, 3), v = pick([-3,-2,-1,1,2,3]), val = u * t + v, uc = u === 1 ? '' : `${u}\\cdot `;
+    return QB({text:`Cho ${tm(`\\tan\\alpha = ${t}`)}. Tính ${tm(`P = \\dfrac{${poly([[u, '\\sin\\alpha'], [v, '\\cos\\alpha']])}}{\\cos\\alpha}`)}.`, tpl:blank('P'), ans:[val],
+      hint:`Tách tử thành hai hạng tử, mỗi hạng tử chia cho ${tm('\\cos\\alpha')}; dùng ${tm('\\dfrac{\\sin\\alpha}{\\cos\\alpha} = \\tan\\alpha')}.`,
+      sol:`${tm(`P = ${uc}\\dfrac{\\sin\\alpha}{\\cos\\alpha} ${v < 0 ? '-' : '+'} ${Math.abs(v)} = ${uc}\\tan\\alpha ${v < 0 ? '-' : '+'} ${Math.abs(v)} = ${u}\\cdot ${t} ${v < 0 ? '-' : '+'} ${Math.abs(v)} =`)} ${tb(val)}.`});
+  }
+  if(lv === 2){
+    let t, u, v, w, z, den;
+    do{ t = pick([2,3,4,-2,-3,-4]); u = R(1, 4); v = pick([-3,-2,-1,1,2,3]); w = R(1, 3); z = pick([-3,-2,-1,1,2,3]); den = w * t + z; }while(den === 0 || u * t + v === 0);
+    const r = fracAns('P', u * t + v, den);
+    return QB({text:`Cho ${tm(`\\tan\\alpha = ${t}`)}. Tính ${tm(`P = \\dfrac{${poly([[u, '\\sin\\alpha'], [v, '\\cos\\alpha']])}}{${poly([[w, '\\sin\\alpha'], [z, '\\cos\\alpha']])}}`)}.`, tpl:r.tpl, ans:r.ans,
+      hint:`Chia cả tử và mẫu cho ${tm('\\cos\\alpha')} (khác 0 vì ${tm('\\tan\\alpha')} xác định) để đưa về ${tm('\\tan\\alpha')}.`,
+      sol:`Chia tử và mẫu cho ${tm('\\cos\\alpha')}: ${tm(`P = \\dfrac{${poly([[u, '\\tan\\alpha'], [v, '']])}}{${poly([[w, '\\tan\\alpha'], [z, '']])}} = \\dfrac{${u}\\cdot ${pm(t)} ${v < 0 ? '-' : '+'} ${Math.abs(v)}}{${w}\\cdot ${pm(t)} ${z < 0 ? '-' : '+'} ${Math.abs(z)}} = \\dfrac{${u * t + v}}{${den}}`)}. Vậy ${tb(r.v)}.`});
+  }
+  let t, a, b, c, d, e, num, den;
+  do{ t = pick([2,3,4,-2,-3]); a = R(1, 3); b = pick([-3,-2,-1,1,2,3]); c = pick([-2,-1,1,2,3]); d = R(1, 3); e = R(1, 3); num = a * t * t + b * t + c; den = d * t * t + e; }while(num === 0);
+  const r = fracAns('Q', num, den);
+  return QB({text:`Cho ${tm(`\\tan\\alpha = ${t}`)}. Tính ${tm(`Q = \\dfrac{${poly([[a, '\\sin^2\\alpha'], [b, '\\sin\\alpha\\cos\\alpha'], [c, '\\cos^2\\alpha']])}}{${poly([[d, '\\sin^2\\alpha'], [e, '\\cos^2\\alpha']])}}`)}.`, tpl:r.tpl, ans:r.ans, wide:true,
+    hint:`Chia cả tử và mẫu cho ${tm('\\cos^2\\alpha')} để mọi hạng tử đều đưa về ${tm('\\tan\\alpha')}.`,
+    sol:`Chia tử và mẫu cho ${tm('\\cos^2\\alpha')}: ${tm(`Q = \\dfrac{${poly([[a, '\\tan^2\\alpha'], [b, '\\tan\\alpha'], [c, '']])}}{${poly([[d, '\\tan^2\\alpha'], [e, '']])}} = \\dfrac{${a}\\cdot ${t * t} ${b < 0 ? '-' : '+'} ${Math.abs(b)}\\cdot ${pm(t)} ${c < 0 ? '-' : '+'} ${Math.abs(c)}}{${d}\\cdot ${t * t} + ${e}} = \\dfrac{${num}}{${den}}`)}. Vậy ${tb(r.v)}.`});
+};
+
+lesson(91, 'c3k-luong-giac', 'Củng cố Chương III · 1. Giá trị lượng giác – chỗ dễ sai', 'Góc bù và dấu; tam giác có A + B + C = 180°; so sánh và tìm góc; biểu thức chia cho cos α.', [cA1, cA2, cA3, cA4], {introTitle:C3T, intro:[
+  c3KT('Góc bù nhau', `${tm('\\sin(180^\\circ - \\alpha) = \\sin\\alpha')}; ${tm('\\cos(180^\\circ - \\alpha) = -\\cos\\alpha')}; ${tm('\\tan(180^\\circ - \\alpha) = -\\tan\\alpha')}; ${tm('\\cot(180^\\circ - \\alpha) = -\\cot\\alpha')}.`, 'Chỉ <b>sin</b> giữ nguyên dấu; côsin, tang, côtang đều đổi dấu.', `Góc tù: chỉ ${tm('\\sin')} dương. Nhớ “sin giữ – còn lại đổi”.`),
+  c3KT('Tam giác ABC', `${tm('A + B + C = 180^\\circ')} nên ${tm('\\sin(A + B) = \\sin C')}, ${tm('\\cos(A + B) = -\\cos C')}, ${tm('\\tan(A + B) = -\\tan C')}.`, `Rất hay quên dấu trừ ở ${tm('\\cos')} và ${tm('\\tan')}.`, `Thấy ${tm('B + C')}, hãy đổi ngay thành ${tm('180^\\circ - A')}.`),
+  c3KT('Biết một giá trị, tìm giá trị khác', `${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')}; ${tm('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')}.`, `${tm('\\sin\\alpha \\ge 0')} với mọi ${tm('\\alpha')} trong ${tm('[0^\\circ;\\ 180^\\circ]')}; dấu của ${tm('\\cos\\alpha')} phụ thuộc góc nhọn hay tù.`, `Biểu thức thuần nhất theo ${tm('\\sin, \\cos')}: chia cả tử và mẫu cho ${tm('\\cos\\alpha')} (hoặc ${tm('\\cos^2\\alpha')}) để đưa về ${tm('\\tan\\alpha')}.`)
+]});
+
+/* ---------- BÀI 2. ĐỊNH LÍ CÔSIN, ĐỊNH LÍ SIN – CHỖ HAY NHẦM ---------- */
+const C3N = [['M','N','P'], ['D','E','F'], ['X','Y','Z'], ['K','L','H']];
+const cB1 = lv => {   // viết đúng công thức với tên đỉnh bất kì
+  const vs = pick(C3N), i = R(0, 2), V = vs[i], U1 = vs[(i + 1) % 3], U2 = vs[(i + 2) % 3], opp = U1 + U2, s1 = V + U1, s2 = V + U2, tri = vs.join('');
+  if(lv === 1){
+    const good = `${opp}^2 = ${s1}^2 + ${s2}^2 - 2\\cdot ${s1}\\cdot ${s2}\\cos ${V}`;
+    const bads = shuffle([`${opp}^2 = ${s1}^2 + ${s2}^2 + 2\\cdot ${s1}\\cdot ${s2}\\cos ${V}`, `${opp}^2 = ${s1}^2 + ${s2}^2 - 2\\cdot ${s1}\\cdot ${s2}\\cos ${U1}`,
+      `${opp}^2 = ${s1}^2 + ${s2}^2 - ${s1}\\cdot ${s2}\\cos ${V}`, `${opp}^2 = ${s1}^2 + ${s2}^2 - 2\\cdot ${s1}\\cdot ${s2}\\sin ${V}`]).slice(0, 3);
+    return QC({text:`Cho tam giác ${tm(tri)}. Công thức nào sau đây là định lí côsin <b>đúng</b> cho cạnh ${tm(opp)}?`, opts:[good, ...bads].map(tm), ans:tm(good),
+      hint:`Cạnh cần tính là ${tm(opp)}, đối diện đỉnh ${tm(V)}. Góc trong công thức phải là góc xen giữa hai cạnh còn lại.`,
+      sol:`Cạnh ${tm(opp)} đối diện góc ${tm(V)}; hai cạnh kề ${tm(V)} là ${tm(s1)} và ${tm(s2)}. Vậy ${tb(good)}.`});
+  }
+  if(lv === 2){
+    const good = `\\cos ${V} = \\dfrac{${s1}^2 + ${s2}^2 - ${opp}^2}{2\\cdot ${s1}\\cdot ${s2}}`;
+    const bads = shuffle([`\\cos ${V} = \\dfrac{${opp}^2 - ${s1}^2 - ${s2}^2}{2\\cdot ${s1}\\cdot ${s2}}`, `\\cos ${V} = \\dfrac{${s1}^2 + ${s2}^2 - ${opp}^2}{${s1}\\cdot ${s2}}`,
+      `\\cos ${V} = \\dfrac{${s1}^2 + ${s2}^2 + ${opp}^2}{2\\cdot ${s1}\\cdot ${s2}}`, `\\cos ${V} = \\dfrac{${opp}^2 + ${s1}^2 - ${s2}^2}{2\\cdot ${opp}\\cdot ${s1}}`]).slice(0, 3);
+    return QC({text:`Cho tam giác ${tm(tri)}. Hệ quả của định lí côsin cho góc ${tm(V)} là`, opts:[good, ...bads].map(tm), ans:tm(good),
+      hint:`Bình phương cạnh đối diện ${tm(V)} luôn bị trừ; mẫu số có hệ số 2 và là tích hai cạnh kề ${tm(V)}.`,
+      sol:`Từ ${tm(`${opp}^2 = ${s1}^2 + ${s2}^2 - 2\\cdot ${s1}\\cdot ${s2}\\cos ${V}`)}, chuyển vế và chia cho ${tm(`2\\cdot ${s1}\\cdot ${s2}`)}: ${tb(good)}.`});
+  }
+  const good = `\\dfrac{${opp}}{\\sin ${V}} = 2R`;
+  const bads = shuffle([`\\dfrac{${s1}}{\\sin ${V}} = 2R`, `\\dfrac{${opp}}{\\cos ${V}} = 2R`, `${opp}\\cdot\\sin ${V} = 2R`, `\\dfrac{\\sin ${V}}{${opp}} = 2R`]).slice(0, 3);
+  return QC({text:`Cho tam giác ${tm(tri)} nội tiếp đường tròn bán kính ${tm('R')}. Đẳng thức nào sau đây <b>đúng</b>?`, opts:[good, ...bads].map(tm), ans:tm(good),
+    hint:`Trong định lí sin, mỗi cạnh được chia cho sin của góc <b>đối diện</b> với nó.`,
+    sol:`Cạnh ${tm(opp)} đối diện góc ${tm(V)}, nên theo định lí sin ${tb(good)}.`});
+};
+
+const cB2 = lv => {   // tính góc từ ba cạnh (hệ quả định lí côsin)
+  const A = [90, 60, 120][lv - 1], k = lv === 1 ? R(1, 2) : 1, [b0, c0, a0] = pick(A === 90 ? P90 : A === 60 ? P60 : P120), [b, c, a] = [b0 * k, c0 * k, a0 * k];
+  const N = b * b + c * c - a * a, cosT = A === 90 ? '0' : A === 60 ? tf(1, 2) : '-' + tf(1, 2);
+  c3chk(nr9(N / (2 * b * c), Math.cos(c3rad(A))), 'cos A');
+  return QB({text:`Tam giác ${tm('ABC')} có ${tm(`BC = ${a}`)}, ${tm(`CA = ${b}`)}, ${tm(`AB = ${c}`)}. Tính số đo góc ${tm('A')}.`, fig:triSVG({a, b, c, la:`${a}`, lb:`${b}`, lc:`${c}`, gA:'?'}),
+    tpl:`<span class="eq">${tm('\\widehat{A} =')} [_]°</span>`, ans:[A],
+    hint:`Dùng hệ quả ${tm('\\cos A = \\dfrac{b^2 + c^2 - a^2}{2bc}')} với ${tm('a')} là cạnh đối diện góc ${tm('A')}. Côsin âm thì góc tù.`,
+    sol:`${tm(`\\cos A = \\dfrac{${b}^2 + ${c}^2 - ${a}^2}{2\\cdot ${b}\\cdot ${c}} = \\dfrac{${N}}{${2 * b * c}} = ${cosT}`)}. ${A === 120 ? 'Côsin âm nên góc tù. ' : ''}Vậy ${tb(`\\widehat{A} = ${DG(A)}`)}.`});
+};
+
+const cB3 = lv => {   // nhận dạng tam giác
+  if(lv === 1){
+    const S = pick([[3,4,6],[2,3,4],[4,5,8],[6,8,10],[5,12,13],[8,15,17],[4,5,6],[5,7,8],[7,8,10],[6,7,9]]), k = R(1, 2), sd = S.map(x => x * k), [x, y, z] = sd;
+    const d = x * x + y * y - z * z, ans = d === 0 ? 'Tam giác vuông' : d > 0 ? 'Tam giác nhọn' : 'Tam giác tù';
+    c3chk(x + y > z, 'bất đẳng thức tam giác');
+    return QC({text:`Tam giác có ba cạnh ${tm(shuffle(sd).join(',\\ '))}. Đó là tam giác`, opts:['Tam giác nhọn', 'Tam giác vuông', 'Tam giác tù', 'Không tồn tại tam giác như vậy'], ans, keepOrder:true,
+      hint:`So sánh bình phương cạnh lớn nhất với tổng bình phương hai cạnh còn lại.`,
+      sol:`Cạnh lớn nhất ${tm(String(z))}: ${tm(`${x}^2 + ${y}^2 = ${x * x + y * y}`)} và ${tm(`${z}^2 = ${z * z}`)}. ${tm(`${x * x + y * y} ${d === 0 ? '=' : d > 0 ? '\\gt' : '\\lt'} ${z * z}`)} nên đây là ${tb(`\\text{${ans.toLowerCase()}}`)}.`});
+  }
+  if(lv === 2){
+    const F = [{rel:'a^2 = b^2 + c^2 + bc', A:120, c:'-\\dfrac{1}{2}'}, {rel:'a^2 = b^2 + c^2 - bc', A:60, c:'\\dfrac{1}{2}'}, {rel:`a^2 = b^2 + c^2 + ${SQ2}\\,bc`, A:135, c:`-\\dfrac{${SQ2}}{2}`},
+      {rel:`a^2 = b^2 + c^2 - ${SQ2}\\,bc`, A:45, c:`\\dfrac{${SQ2}}{2}`}, {rel:`a^2 = b^2 + c^2 + ${SQ3}\\,bc`, A:150, c:`-\\dfrac{${SQ3}}{2}`}, {rel:`a^2 = b^2 + c^2 - ${SQ3}\\,bc`, A:30, c:`\\dfrac{${SQ3}}{2}`}];
+    const f = pick(F), others = shuffle([30,45,60,90,120,135,150].filter(x => x !== f.A && x !== 180 - f.A)).slice(0, 2), opts = [`${f.A}°`, `${180 - f.A}°`, ...others.map(x => `${x}°`)];
+    return QC({text:`Tam giác ${tm('ABC')} có ${tm(f.rel)} (với ${tm('a = BC,\\ b = CA,\\ c = AB')}). Số đo góc ${tm('A')} bằng`, opts, ans:`${f.A}°`,
+      hint:`So sánh với định lí côsin ${tm('a^2 = b^2 + c^2 - 2bc\\cos A')} để tìm ${tm('\\cos A')}, chú ý dấu.`,
+      sol:`Đồng nhất với ${tm('a^2 = b^2 + c^2 - 2bc\\cos A')} ta được ${tm(`\\cos A = ${f.c}`)}. Vậy ${tb(`\\widehat{A} = ${DG(f.A)}`)}.`});
+  }
+  const right = Math.random() < .5, X = pick(['A','B','C']), [Y, Z] = ['A','B','C'].filter(w => w !== X);
+  if(right) return QC({text:`Tam giác ${tm('ABC')} có ${tm(`\\sin^2 ${X} = \\sin^2 ${Y} + \\sin^2 ${Z}`)}. Khẳng định nào sau đây đúng?`,
+    opts:[`Tam giác vuông tại ${X}`, `Tam giác vuông tại ${Y}`, `Tam giác vuông tại ${Z}`, 'Tam giác đều'], ans:`Tam giác vuông tại ${X}`,
+    hint:`Theo định lí sin, ${tm('\\sin A = \\dfrac{a}{2R}')}. Thay vào đẳng thức để được quan hệ giữa các cạnh.`,
+    sol:`Vì ${tm('\\sin A = \\dfrac{a}{2R}')} (tương tự với ${tm('B, C')}), đẳng thức tương đương ${tm(`${X.toLowerCase()}^2 = ${Y.toLowerCase()}^2 + ${Z.toLowerCase()}^2`)}. Theo định lí Pythagore đảo, ${tb(`\\text{tam giác vuông tại } ${X}`)}.`});
+  return QC({text:`Tam giác ${tm('ABC')} có ${tm(`\\sin^2 ${X} \\gt \\sin^2 ${Y} + \\sin^2 ${Z}`)}. Khẳng định nào sau đây đúng?`,
+    opts:[`Góc ${X} tù`, `Góc ${X} nhọn`, `Tam giác vuông tại ${X}`, 'Tam giác đều'], ans:`Góc ${X} tù`,
+    hint:`Chuyển đẳng thức sang các cạnh bằng ${tm('\\sin A = \\dfrac{a}{2R}')}, rồi xét dấu của ${tm('\\cos')} nhờ định lí côsin.`,
+    sol:`Đẳng thức tương đương ${tm(`${X.toLowerCase()}^2 \\gt ${Y.toLowerCase()}^2 + ${Z.toLowerCase()}^2`)}, nên ${tm(`\\cos ${X} = \\dfrac{${Y.toLowerCase()}^2 + ${Z.toLowerCase()}^2 - ${X.toLowerCase()}^2}{2${Y.toLowerCase()}${Z.toLowerCase()}} \\lt 0`)}. Vậy ${tb(`\\text{góc } ${X} \\text{ tù}`)}.`});
+};
+
+const SINT = {30:tf(1, 2), 45:tf(SQ2, 2), 60:tf(SQ3, 2), 90:'1', 120:tf(SQ3, 2)};
+const cB4 = lv => {   // định lí sin: ghép cạnh với góc đối diện
+  const [A, B] = [[30, 90], [45, 90], [30, 120]][lv - 1], a = R(3, 12), C = 180 - A - B, sA = NUMF.sin(A), sB = NUMF.sin(B), sC = NUMF.sin(C);
+  const bv = a * sB / sA, cv = a * sC / sA, coef = lv === 1 ? 2 : 1;
+  c3chk(nr9(bv, lv === 1 ? 2 * a : lv === 2 ? a * Math.SQRT2 : a * Math.sqrt(3)), 'cạnh b');
+  const tpl = lv === 1 ? `<span class="eq">${tm('CA =')} [_] m</span>` : `<span class="eq">${tm('CA =')} [_] ${tm(lv === 2 ? SQ2 : SQ3)} m</span>`;
+  return QB({text:`Tam giác ${tm('ABC')} có ${tm(`\\widehat{A} = ${DG(A)}`)}, ${tm(`\\widehat{B} = ${DG(B)}`)} và ${tm(`BC = ${a}`)} m. Tính độ dài ${tm('CA')}.`,
+    fig:triSVG({a, b:bv, c:cv, la:`${a} m`, lb:'?', gA:`${A}°`, gB:`${B}°`}), tpl, ans:[lv === 1 ? 2 * a : a], wide:true,
+    hint:`${tm('BC')} đối diện góc ${tm('A')}, còn ${tm('CA')} đối diện góc ${tm('B')}. Viết ${tm('\\dfrac{BC}{\\sin A} = \\dfrac{CA}{\\sin B}')}.`,
+    sol:`Theo định lí sin, ${tm(`CA = \\dfrac{BC\\cdot\\sin B}{\\sin A} = \\dfrac{${a}\\cdot ${SINT[B]}}{${SINT[A]}} = ${lv === 1 ? 2 * a : a + (lv === 2 ? SQ2 : SQ3)}`)}. Vậy ${tb(lv === 1 ? `CA = ${2 * a}\\text{ m}` : `CA = ${a}${lv === 2 ? SQ2 : SQ3}\\text{ m}`)}.`});
+};
+
+lesson(91, 'c3k-cong-thuc', 'Củng cố Chương III · 2. Định lí côsin, định lí sin – chỗ hay nhầm', 'Viết đúng công thức theo tên đỉnh; tính góc từ ba cạnh (góc tù!); nhận dạng tam giác; định lí sin ghép cạnh với góc đối.', [cB1, cB2, cB3, cB4], {introTitle:C3T, intro:[
+  c3KT('Định lí côsin', `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}; hệ quả ${tm('\\cos A = \\dfrac{b^2 + c^2 - a^2}{2bc}')}.`, 'Cạnh bên trái là cạnh <b>đối diện</b> góc; góc trong công thức phải <b>xen giữa</b> hai cạnh còn lại. Đổi tên đỉnh thì đổi theo đúng quy tắc, không chép máy móc.', `Côsin <b>âm</b> thì góc <b>tù</b>: ${tm('\\cos A = -\\dfrac{1}{2}')} cho ${tm('A = 120^\\circ')}, không phải ${tm('60^\\circ')}.`),
+  c3KT('Định lí sin', `${tm('\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C} = 2R')}.`, `Ghép cạnh với góc <b>đối diện</b>. Biết ${tm('\\sin')} thì góc có thể nhọn hoặc tù (hai bù nhau); biết ${tm('\\cos')} thì góc xác định duy nhất.`, `Cần góc thứ ba? ${tm('C = 180^\\circ - A - B')} trước rồi mới dùng định lí sin.`),
+  c3KT('Nhận dạng tam giác', `Cạnh lớn nhất ${tm('a')}: ${tm('a^2 \\lt b^2 + c^2')} nhọn; ${tm('a^2 = b^2 + c^2')} vuông; ${tm('a^2 \\gt b^2 + c^2')} tù.`, `Phải so sánh với cạnh <b>lớn nhất</b>. Đẳng thức theo ${tm('\\sin')} đổi được sang cạnh nhờ ${tm('\\sin A = \\dfrac{a}{2R}')}.`, 'Gặp đẳng thức lượng giác của ba góc: đổi sin thành cạnh, côsin thành cạnh bằng định lí côsin rồi nhận xét.')
+]});
+
+/* ---------- BÀI 3. DIỆN TÍCH, BÁN KÍNH, ĐƯỜNG CAO – CHỖ HAY NHẦM ---------- */
+const cC1 = lv => {   // S = ½ bc sin A, kể cả góc tù
+  const A = [30, 150, 120][lv - 1], u = R(1, 6), v = R(1, 6), b = 2 * u, c = 2 * v, S = u * v, a = Math.sqrt(b * b + c * c - 2 * b * c * Math.cos(c3rad(A)));
+  c3chk(nr9(.5 * b * c * Math.sin(c3rad(A)), A === 120 ? S * Math.sqrt(3) : S), 'diện tích');
+  const sinT = A === 120 ? tf(SQ3, 2) : tf(1, 2), res = A === 120 ? `${S}${SQ3}` : String(S);
+  return QB({text:`Tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)} cm, ${tm(`AC = ${b}`)} cm và ${tm(`\\widehat{A} = ${DG(A)}`)}. Tính diện tích tam giác.`, fig:triSVG({a, b, c, lb:`${b} cm`, lc:`${c} cm`, gA:`${A}°`}),
+    tpl:A === 120 ? `<span class="eq">${tm('S =')} [_] ${tm(SQ3)} cm²</span>` : '[_] cm²', ans:[S],
+    hint:`Dùng ${tm('S = \\dfrac{1}{2}bc\\sin A')}.${A === 150 ? ` Góc tù: nhớ ${tm('\\sin 150^\\circ')} bằng sin của góc bù.` : ''}`,
+    sol:`${tm(`S = \\dfrac{1}{2}\\cdot ${b}\\cdot ${c}\\cdot\\sin ${DG(A)} = \\dfrac{1}{2}\\cdot ${b * c}\\cdot ${sinT} = ${res}`)}${A === 150 ? ` (vì ${tm('\\sin 150^\\circ = \\sin 30^\\circ')})` : ''}. Vậy ${tb(`S = ${res}\\text{ cm}^2`)}.`});
+};
+
+const cC2 = lv => {   // công thức Heron: nửa chu vi, diện tích, đường cao
+  const k = R(1, 2), sd = pick(HERON).map(x => x * k), [a, b, c] = sd, p = (a + b + c) / 2, S = Math.round(heronS(sd));
+  c3chk(nr9(S, heronS(sd)) || Math.abs(S - heronS(sd)) < 1e-6, 'Heron nguyên');
+  const fig = triSVG({a, b, c, la:`${a}`, lb:`${b}`, lc:`${c}`}), srt = [...sd].sort((x, y) => x - y);
+  if(lv === 1){
+    const opts = [`p = ${tdec(p)}`, `p = ${tdec(2 * p)}`, `p = ${tdec(Math.round(2 * p / 3 * 100) / 100)}`, `p = ${tdec((srt[0] + srt[1]) / 2)}`];
+    return QC({text:`Tam giác có ba cạnh ${tm(`${a},\\ ${b},\\ ${c}`)}. Trong công thức Heron, ${tm('p')} bằng`, fig, opts:opts.map(tm), ans:tm(opts[0]),
+      hint:`${tm('p')} là <b>nửa</b> chu vi, không phải chu vi.`,
+      sol:`${tm(`p = \\dfrac{${a} + ${b} + ${c}}{2} = ${p}`)}. Đáp án: ${tb(opts[0])}.`});
+  }
+  if(lv === 2) return QB({text:`Tính diện tích tam giác có ba cạnh ${tm(`${a},\\ ${b},\\ ${c}`)}.`, fig, tpl:blank('S'), ans:[S],
+    hint:`Tính nửa chu vi ${tm('p')} trước, rồi dùng ${tm('S = \\sqrt{p(p - a)(p - b)(p - c)}')}.`,
+    sol:`${tm(`p = ${p}`)}; ${tm(`S = \\sqrt{${p}\\cdot ${p - a}\\cdot ${p - b}\\cdot ${p - c}} = ${S}`)}. Vậy ${tb(`S = ${S}`)}.`});
+  const s = pick(sd), r = fracAns('h', 2 * S, s);
+  return QB({text:`Tam giác có ba cạnh ${tm(`${a},\\ ${b},\\ ${c}`)}. Tính độ dài đường cao hạ từ đỉnh xuống cạnh có độ dài ${tm(String(s))}.`, fig, tpl:r.tpl, ans:r.ans,
+    hint:`Tính diện tích bằng công thức Heron, rồi dùng ${tm('S = \\dfrac{1}{2}\\cdot\\text{cạnh}\\cdot\\text{đường cao}')}.`,
+    sol:`${tm(`p = ${p}`)}; ${tm(`S = \\sqrt{${p}\\cdot ${p - a}\\cdot ${p - b}\\cdot ${p - c}} = ${S}`)}. Từ ${tm(`S = \\dfrac{1}{2}\\cdot ${s}\\cdot h`)} suy ra ${tm(`h = \\dfrac{2S}{${s}} = \\dfrac{${2 * S}}{${s}} =`)} ${tb(r.v)}.`});
+};
+
+const cC3 = lv => {   // bán kính nội tiếp r, ngoại tiếp R (dễ nhầm hai bán kính)
+  if(lv < 3){
+    const [u, v, w] = pick(TRIP), kk = R(1, 2), [x, y, z] = [u * kk, v * kk, w * kk], fig = rtTriSVG({w:x, h:y, ab:`${y} cm`, ac:`${x} cm`});
+    if(lv === 1){ const r = (x + y - z) / 2, S = x * y / 2, p = (x + y + z) / 2; c3chk(nr9(S / p, r), 'r');
+      return QB({text:`Tam giác vuông có hai cạnh góc vuông dài ${tm(`${x}`)} cm và ${tm(`${y}`)} cm. Tính bán kính ${tm('r')} của đường tròn <b>nội tiếp</b>.`, fig, tpl:'[_] cm', ans:[r],
+        hint:`Tính cạnh huyền, nửa chu vi ${tm('p')} và diện tích ${tm('S')}; dùng ${tm('S = pr')}.`,
+        sol:`Cạnh huyền ${tm(`\\sqrt{${x}^2 + ${y}^2} = ${z}`)}; ${tm(`p = ${p}`)}, ${tm(`S = \\dfrac{1}{2}\\cdot ${x}\\cdot ${y} = ${S}`)}. ${tm(`r = \\dfrac{S}{p} = \\dfrac{${S}}{${p}} = ${r}`)}. Vậy ${tb(`r = ${r}\\text{ cm}`)}.`}); }
+    const r = fracAns('R', z, 2);
+    return QB({text:`Tam giác vuông có hai cạnh góc vuông dài ${tm(`${x}`)} cm và ${tm(`${y}`)} cm. Tính bán kính ${tm('R')} của đường tròn <b>ngoại tiếp</b>.`, fig, tpl:r.tpl + ' cm', ans:r.ans,
+      hint:'Trong tam giác vuông, tâm đường tròn ngoại tiếp ở vị trí đặc biệt trên cạnh huyền.',
+      sol:`Cạnh huyền ${tm(`\\sqrt{${x}^2 + ${y}^2} = ${z}`)}. Tâm đường tròn ngoại tiếp là trung điểm cạnh huyền nên ${tm(`R = \\dfrac{${z}}{2} =`)} ${tb(r.v)} cm.`});
+  }
+  const k = R(2, 9), a = `${k}\\sqrt{3}`, askR = Math.random() < .5, r = askR ? fracAns('R', k, 1) : fracAns('r', k, 2);
+  c3chk(nr9(k * Math.sqrt(3) / Math.sqrt(3), k), 'R đều');
+  return QB({text:`Tam giác đều có cạnh ${tm(`${a}`)} cm. Tính bán kính đường tròn ${askR ? '<b>ngoại tiếp</b> ' + tm('R') : '<b>nội tiếp</b> ' + tm('r')}.`,
+    fig:askR ? circTriSVG({side:`${k}√3 cm`, R:'R'}) : triSVG({a:3, b:3, c:3, la:`${k}√3`, lb:`${k}√3`, lc:`${k}√3`}), tpl:r.tpl + ' cm', ans:r.ans, wide:true,
+    hint:`Tính diện tích ${tm('S = \\dfrac{a^2\\sqrt{3}}{4}')}, rồi dùng ${askR ? tm('S = \\dfrac{abc}{4R}') : tm('S = pr')}.`,
+    sol:`${tm(`S = \\dfrac{a^2\\sqrt{3}}{4} = \\dfrac{3\\cdot ${k * k}\\sqrt{3}}{4}`)}. ${askR ? tm(`R = \\dfrac{abc}{4S} = \\dfrac{3\\sqrt{3}\\cdot ${k * k * k}}{3\\sqrt{3}\\cdot ${k * k}} =`) : tm(`p = \\dfrac{3${a}}{2},\\ r = \\dfrac{S}{p} =`)} ${tb(r.v)} cm.`});
+};
+
+const cC4 = lv => {   // từ diện tích suy ra sin A và góc A (nhọn hay tù)
+  if(lv === 1){
+    const t = trip3(), m1 = R(1, 2), m2 = R(2, 6), b = t.h * m1, c = 2 * m2, S = m1 * m2 * t.o, r = fracAns('\\sin A', 2 * S, b * c);
+    c3chk(nr9(2 * S / (b * c), t.o / t.h), 'sin A');
+    return QB({text:`Tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)}, ${tm(`AC = ${b}`)} và diện tích ${tm(`S = ${S}`)}. Tính ${tm('\\sin A')}.`, tpl:r.tpl, ans:r.ans,
+      hint:`Từ ${tm('S = \\dfrac{1}{2}bc\\sin A')} suy ra ${tm('\\sin A')} theo ${tm('S, b, c')}.`,
+      sol:`${tm(`\\sin A = \\dfrac{2S}{bc} = \\dfrac{2\\cdot ${S}}{${b}\\cdot ${c}} = \\dfrac{${2 * S}}{${b * c}} =`)} ${tb(r.v)}.`});
+  }
+  const A0 = pick([30, 45, 60]), obt = lv === 3, A = obt ? 180 - A0 : A0, u = R(1, 6), v = R(1, 6), b = 2 * u, c = 2 * v, w = A0 === 30 ? '' : A0 === 45 ? SQ2 : SQ3;
+  const Sx = `${u * v}${w}`, sinv = A0 === 30 ? tf(1, 2) : A0 === 45 ? tf(SQ2, 2) : tf(SQ3, 2);
+  c3chk(nr9(.5 * b * c * Math.sin(c3rad(A)), u * v * (A0 === 30 ? 1 : A0 === 45 ? Math.SQRT2 : Math.sqrt(3))), 'S');
+  return QB({text:`Tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)}, ${tm(`AC = ${b}`)}, diện tích ${tm(`S = ${Sx}`)} và góc ${tm('A')} là góc <b>${obt ? 'tù' : 'nhọn'}</b>. Tính số đo góc ${tm('A')}.`,
+    tpl:`<span class="eq">${tm('\\widehat{A} =')} [_]°</span>`, ans:[A],
+    hint:`Tính ${tm('\\sin A = \\dfrac{2S}{bc}')}. Mỗi giá trị của sin ứng với hai góc bù nhau; đề cho góc ${obt ? 'tù' : 'nhọn'} để chọn.`,
+    sol:`${tm(`\\sin A = \\dfrac{2S}{bc} = \\dfrac{${2 * u * v}${w}}{${b * c}} = ${sinv}`)}. Suy ra ${tm(`A = ${DG(A0)}`)} hoặc ${tm(`A = ${DG(180 - A0)}`)}; góc ${obt ? 'tù' : 'nhọn'} nên ${tb(`\\widehat{A} = ${DG(A)}`)}.`});
+};
+
+lesson(91, 'c3k-dien-tich', 'Củng cố Chương III · 3. Diện tích, bán kính, đường cao – chỗ hay nhầm', 'Diện tích với góc tù; công thức Heron và nửa chu vi; đường cao; bán kính nội tiếp r và ngoại tiếp R; từ diện tích tìm góc.', [cC1, cC2, cC3, cC4], {introTitle:C3T, intro:[
+  c3KT('Các công thức diện tích', `${tm('S = \\dfrac{1}{2}bc\\sin A = \\sqrt{p(p - a)(p - b)(p - c)} = pr = \\dfrac{abc}{4R} = \\dfrac{1}{2}a h_a')}.`, `${tm('p')} là <b>nửa</b> chu vi. Góc tù vẫn có ${tm('\\sin \\gt 0')}: ${tm('\\sin 150^\\circ = \\sin 30^\\circ')}, ${tm('\\sin 120^\\circ = \\sin 60^\\circ')}.`, 'Chọn công thức có nhiều dữ kiện đề đã cho nhất. Có ba cạnh: Heron; có hai cạnh và góc xen giữa: ½·b·c·sin A.'),
+  c3KT('Hai bán kính', `${tm('r = \\dfrac{S}{p}')} (nội tiếp), ${tm('R = \\dfrac{abc}{4S}')} (ngoại tiếp). Tam giác vuông: ${tm('R = \\dfrac{\\text{cạnh huyền}}{2}')}.`, `Rất hay lẫn ${tm('r')} với ${tm('R')} và quên chia cho ${tm('4')} hoặc cho ${tm('p')}.`, `Tam giác đều cạnh ${tm('a')}: ${tm('R = \\dfrac{a\\sqrt{3}}{3}')}, ${tm('r = \\dfrac{a\\sqrt{3}}{6}')} (${tm('R = 2r')}).`),
+  c3KT('Từ diện tích tìm góc', `${tm('\\sin A = \\dfrac{2S}{bc}')}.`, `Một giá trị sin ứng với <b>hai</b> góc bù nhau (nhọn và tù). Phải dựa vào đề (nhọn/tù) để chọn.`, 'Tính ngay sin A rồi đối chiếu bảng giá trị đặc biệt.')
+]});
+
+/* ---------- BÀI 4. TOÁN THỰC TẾ CÓ HÌNH (1): HÀNH TRÌNH, KHOẢNG CÁCH, MÁI NHÀ ---------- */
+const cD1 = lv => {   // hai tàu rời cảng theo hai hướng (góc phương vị)
+  const A = [90, 60, 120][lv - 1], k = lv === 3 ? 2 : R(1, 2), [b0, c0, a0] = pick(A === 90 ? P90 : A === 60 ? P60 : P120), [b, c, a] = [b0 * k, c0 * k, a0 * k];
+  const t1 = pick([0, 10, 20, 30, 40, 45, 60]), t2 = t1 + A, Bp = [c * Math.sin(c3rad(t1)), c * Math.cos(c3rad(t1))], Cp = [b * Math.sin(c3rad(t2)), b * Math.cos(c3rad(t2))];
+  c3chk(nr9(Math.hypot(Bp[0] - Cp[0], Bp[1] - Cp[1]), a), 'khoảng cách hai tàu');
+  const dir = t => t === 0 ? '0° (hướng Bắc)' : t === 180 ? '180° (hướng Nam)' : t === 90 ? '90° (hướng Đông)' : `${t}°`;
+  const body = lv === 3
+    ? `tàu thứ nhất chạy theo hướng ${dir(t1)} với vận tốc <b>${c0} km/h</b>, tàu thứ hai chạy theo hướng ${dir(t2)} với vận tốc <b>${b0} km/h</b>. Hỏi sau <b>2 giờ</b>, hai tàu cách nhau bao nhiêu ki-lô-mét?`
+    : `tàu thứ nhất chạy theo hướng ${dir(t1)} được <b>${c} km</b>, tàu thứ hai chạy theo hướng ${dir(t2)} được <b>${b} km</b>. Hỏi lúc đó hai tàu cách nhau bao nhiêu ki-lô-mét?`;
+  return QB({text:`Từ cảng ${tm('A')}, hai tàu cùng khởi hành: ${body} (Hướng được đo từ hướng Bắc theo chiều kim đồng hồ.)`,
+    fig:bearingSVG({t1, t2, l1:`${c} km`, l2:`${b} km`, bc:'?'}), tpl:'[_] km', ans:[a], wide:true,
+    hint:`Góc ${tm('\\widehat{BAC}')} bằng hiệu hai góc phương vị. Biết hai cạnh và góc xen giữa thì dùng định lí côsin.`,
+    sol:`${tm(`\\widehat{BAC} = ${t2}^\\circ - ${t1}^\\circ = ${DG(A)}`)}. ${lv === 3 ? `Sau 2 giờ: ${tm(`AB = ${c}`)} km, ${tm(`AC = ${b}`)} km. ` : ''}${tm(`BC^2 = ${lawA(b, c, A)} = ${a * a}`)}, nên ${tm('BC =')} ${tb(`${a}\\text{ km}`)}.`});
+};
+
+const cD2 = lv => {   // đo khoảng cách qua hồ bằng hai góc và định lí sin
+  const [A, B] = [[45, 45], [30, 30], [30, 120]][lv - 1], k = R(5, 40), C = 180 - A - B;
+  const ab = lv === 1 ? `${k}\\sqrt{2}` : lv === 2 ? `${k}\\sqrt{3}` : `${k}`, abv = lv === 1 ? k * Math.SQRT2 : lv === 2 ? k * Math.sqrt(3) : k;
+  const bcv = abv * NUMF.sin(A) / NUMF.sin(C), acv = abv * NUMF.sin(B) / NUMF.sin(C);
+  c3chk(nr9(acv, lv === 3 ? k * Math.sqrt(3) : k), 'AC qua hồ');
+  return QB({text:`Hai điểm ${tm('A, B')} nằm trên một bờ hồ, ${tm('C')} là gốc cây ở bờ đối diện. Đo được ${tm(`AB = ${ab}`)} m, ${tm(`\\widehat{CAB} = ${DG(A)}`)} và ${tm(`\\widehat{CBA} = ${DG(B)}`)}. Tính khoảng cách ${tm('AC')} từ ${tm('A')} đến gốc cây.`,
+    fig:triSVG({a:bcv, b:acv, c:abv, lc:`${lv === 3 ? k : ab.replace('\\sqrt{2}', '√2').replace('\\sqrt{3}', '√3')} m`, lb:'?', gA:`${A}°`, gB:`${B}°`}),
+    tpl:lv === 3 ? `<span class="eq">${tm('AC =')} [_] ${tm(SQ3)} m</span>` : '[_] m', ans:[k], wide:true,
+    hint:`Tính góc ${tm('C')} bằng ${tm('180^\\circ - A - B')} trước. ${tm('AC')} đối diện góc nào? ${tm('AB')} đối diện góc nào?`,
+    sol:`${tm(`\\widehat{C} = 180^\\circ - ${DG(A)} - ${DG(B)} = ${DG(C)}`)}. Theo định lí sin, ${tm(`\\dfrac{AC}{\\sin B} = \\dfrac{AB}{\\sin C}`)}, nên ${tm(`AC = \\dfrac{${ab}\\cdot\\sin ${DG(B)}}{\\sin ${DG(C)}} = ${lv === 3 ? k + SQ3 : k}`)}. Vậy ${tb(lv === 3 ? `AC = ${k}${SQ3}\\text{ m}` : `AC = ${k}\\text{ m}`)}.`});
+};
+
+const cD3 = lv => {   // khu đất tam giác: hàng rào, chi phí
+  const price = pick([30, 40, 50, 80, 100, 120]);
+  if(lv === 1){ const [b0, c0, a0] = pick(P120), k = R(1, 2), [b, c, a] = [b0 * k, c0 * k, a0 * k], cost = a * price;
+    return QB({text:`Khu đất hình tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)} m, ${tm(`AC = ${b}`)} m và ${tm(`\\widehat{A} = 120^\\circ`)}. Người ta làm hàng rào dọc cạnh ${tm('BC')}, chi phí <b>${price} nghìn đồng/m</b>. Tính tổng chi phí làm hàng rào.`,
+      fig:triSVG({a, b, c, la:'?', lb:`${b} m`, lc:`${c} m`, gA:'120°'}), tpl:'[_] nghìn đồng', ans:[cost], wide:true,
+      hint:'Cần độ dài hàng rào trước: biết hai cạnh và góc xen giữa thì dùng định lí côsin.',
+      sol:`${tm(`BC^2 = ${lawA(b, c, 120)} = ${a * a}`)}, nên ${tm(`BC = ${a}`)} m. Chi phí: ${tm(`${a}\\cdot ${price} = ${cost}`)} nghìn đồng. Đáp số: ${tb(`${fmt(cost)}\\text{ nghìn đồng}`)}.`}); }
+  if(lv === 2){ const [b0, c0, a0] = pick(P60), k = R(1, 2), [b, c, a] = [b0 * k, c0 * k, a0 * k], cost = (a + b + c) * price;
+    return QB({text:`Khu đất hình tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)} m, ${tm(`AC = ${b}`)} m và ${tm(`\\widehat{A} = 60^\\circ`)}. Người ta rào <b>cả ba cạnh</b>, chi phí <b>${price} nghìn đồng/m</b>. Tính tổng chi phí làm hàng rào.`,
+      fig:triSVG({a, b, c, la:'?', lb:`${b} m`, lc:`${c} m`, gA:'60°'}), tpl:'[_] nghìn đồng', ans:[cost], wide:true,
+      hint:'Phải tìm cạnh còn lại bằng định lí côsin, rồi tính chu vi (đừng quên cả ba cạnh).',
+      sol:`${tm(`BC^2 = ${lawA(b, c, 60)} = ${a * a}`)}, nên ${tm(`BC = ${a}`)} m. Chu vi ${tm(`${a} + ${b} + ${c} = ${a + b + c}`)} m. Chi phí: ${tm(`${a + b + c}\\cdot ${price} = ${cost}`)} nghìn đồng. Đáp số: ${tb(`${fmt(cost)}\\text{ nghìn đồng}`)}.`}); }
+  const u = R(2, 8), v = R(2, 8), b = 2 * u, c = 2 * v, S = u * v, cost = S * price, a = Math.sqrt(b * b + c * c - 2 * b * c * Math.cos(c3rad(150)));
+  return QB({text:`Khu đất hình tam giác ${tm('ABC')} có ${tm(`AB = ${c}`)} m, ${tm(`AC = ${b}`)} m và ${tm(`\\widehat{A} = 150^\\circ`)}. Chủ đất lát cỏ toàn bộ khu đất, chi phí <b>${price} nghìn đồng/m²</b>. Tính tổng chi phí lát cỏ.`,
+    fig:triSVG({a, b, c, la:'?', lb:`${b} m`, lc:`${c} m`, gA:'150°'}), tpl:'[_] nghìn đồng', ans:[cost], wide:true,
+    hint:`Tính diện tích bằng ${tm('S = \\dfrac{1}{2}bc\\sin A')}, chú ý ${tm('\\sin 150^\\circ')}; rồi nhân với đơn giá trên mỗi mét vuông.`,
+    sol:`${tm(`S = \\dfrac{1}{2}\\cdot ${b}\\cdot ${c}\\cdot\\sin 150^\\circ = \\dfrac{1}{2}\\cdot ${b * c}\\cdot\\dfrac{1}{2} = ${S}`)} m². Chi phí: ${tm(`${S}\\cdot ${price} = ${cost}`)} nghìn đồng. Đáp số: ${tb(`${fmt(cost)}\\text{ nghìn đồng}`)}.`});
+};
+
+const cD4 = lv => {   // mặt cắt mái nhà tam giác cân, góc ở đỉnh 120°
+  const k = R(2, 8), b = 2 * k, a = b * Math.sqrt(3), fig = triSVG({a, b, c:b, la:'?', lb:`${b} m`, lc:`${b} m`, gA:'120°'});
+  const stem = `Mặt cắt ngang của một mái nhà là tam giác cân ${tm('ABC')} (cân tại ${tm('A')}) có ${tm(`AB = AC = ${b}`)} m và góc ở đỉnh ${tm(`\\widehat{BAC} = 120^\\circ`)}.`;
+  c3chk(nr9(b * Math.cos(c3rad(60)), k) && nr9(.5 * b * b * Math.sin(c3rad(120)), k * k * Math.sqrt(3) ), 'mái nhà');
+  if(lv === 1) return QB({text:`${stem} Tính chiều cao ${tm('AH')} từ đỉnh ${tm('A')} xuống cạnh ${tm('BC')}.`, fig, tpl:'[_] m', ans:[k],
+    hint:'Tam giác cân: đường cao từ đỉnh cũng là phân giác và trung tuyến. Xét tam giác vuông ' + tm('AHB') + '.',
+    sol:`${tm('AH')} cũng là phân giác nên ${tm('\\widehat{BAH} = 60^\\circ')}. Trong tam giác vuông ${tm('AHB')}: ${tm(`AH = AB\\cos 60^\\circ = ${b}\\cdot\\dfrac{1}{2} = ${k}`)}. Vậy ${tb(`AH = ${k}\\text{ m}`)}.`});
+  if(lv === 2) return QB({text:`${stem} Tính độ rộng ${tm('BC')} của nền nhà.`, fig, tpl:`<span class="eq">${tm('BC =')} [_] ${tm(SQ3)} m</span>`, ans:[b],
+    hint:'Biết hai cạnh và góc xen giữa: dùng định lí côsin; chú ý côsin của góc tù là số âm.',
+    sol:`${tm(`BC^2 = ${b}^2 + ${b}^2 - 2\\cdot ${b}\\cdot ${b}\\cos 120^\\circ = ${2 * b * b} + ${b * b} = ${3 * b * b}`)}. Suy ra ${tb(`BC = ${b}${SQ3}\\text{ m}`)}.`});
+  return QB({text:`${stem} Tính diện tích mặt cắt ngang của mái nhà.`, fig, tpl:`<span class="eq">${tm('S =')} [_] ${tm(SQ3)} m²</span>`, ans:[k * k],
+    hint:`Dùng ${tm('S = \\dfrac{1}{2}bc\\sin A')} với góc xen giữa là góc ở đỉnh; ${tm('\\sin 120^\\circ = \\sin 60^\\circ')}.`,
+    sol:`${tm(`S = \\dfrac{1}{2}\\cdot ${b}\\cdot ${b}\\cdot\\sin 120^\\circ = \\dfrac{1}{2}\\cdot ${b * b}\\cdot\\dfrac{${SQ3}}{2} = ${k * k}${SQ3}`)}. Vậy ${tb(`S = ${k * k}${SQ3}\\text{ m}^2`)}.`});
+};
+
+lesson(91, 'c3k-thuc-te-1', 'Củng cố Chương III · 4. Toán thực tế có hình: hành trình, khoảng cách, mái nhà', 'Hai tàu theo hai hướng (góc phương vị); đo khoảng cách qua hồ; hàng rào và chi phí; mái nhà tam giác cân.', [cD1, cD2, cD3, cD4], {introTitle:'Quy trình giải toán thực tế · Chỗ dễ sai · Mẹo', intro:[
+  c3KT('Vẽ hình, chọn công thức', `Đọc đề, vẽ tam giác, ghi độ dài và góc vào đúng chỗ. Hai cạnh + góc xen giữa: định lí côsin. Một cạnh + hai góc: định lí sin. Diện tích: ${tm('\\dfrac{1}{2}bc\\sin A')} hoặc Heron.`, 'Xác định đúng cạnh nào <b>đối diện</b> góc nào và góc nào <b>xen giữa</b> hai cạnh đã biết.', 'Ghi dữ kiện lên hình trước khi tính; kiểm tra tổng ba góc bằng ' + tm('180^\\circ') + '.'),
+  c3KT('Hướng đi (góc phương vị)', 'Góc phương vị đo từ hướng <b>Bắc</b> theo chiều kim đồng hồ. Góc giữa hai hướng đi bằng <b>hiệu</b> hai góc phương vị.', `Hướng ${tm('150^\\circ')} so với hướng ${tm('30^\\circ')} lệch ${tm('120^\\circ')} (tù), không phải ${tm('60^\\circ')}.`, 'Vẽ mũi tên Bắc và hai tia đi từ cảng rồi mới đọc góc.'),
+  c3KT('Góc tù và đơn vị', `${tm('\\cos 120^\\circ = -\\dfrac{1}{2}')}: trừ đi một số âm là <b>cộng</b>. Cuối bài ghi đúng đơn vị (m, km, m², nghìn đồng).`, 'Chi phí = đơn giá × <b>độ dài</b> (hàng rào) hoặc × <b>diện tích</b> (lát cỏ); đừng nhầm.', 'Khi kết quả là số vô tỉ như ' + tm('b\\sqrt{3}') + ', đề thường cho ô trống ghi sẵn ' + tm(SQ3) + '.')
+]});
+
+/* ---------- BÀI 5. TOÁN THỰC TẾ CÓ HÌNH (2): ĐO CHIỀU CAO, THANG DỰA TƯỜNG, ĐƯỜNG TRÒN ---------- */
+const cE1 = lv => {   // thang dựa tường (sin hay cos?)
+  const k = R(2, 7), L = 2 * k, d = R(3, 12);
+  if(lv === 1) return QB({text:`Một chiếc thang dài <b>${L} m</b> dựa vào bức tường thẳng đứng, tạo với mặt đất góc ${tm('30^\\circ')}. Tính độ cao của đầu thang so với mặt đất.`,
+    fig:rtTriSVG({n:['H','T','A'], w:k * Math.sqrt(3), h:k, ab:'?', bc:`${L} m`, aC:'30°'}), tpl:'[_] m', ans:[k],
+    hint:`Độ cao ${tm('HT')} là cạnh <b>đối</b> diện với góc ${tm('30^\\circ')} ở chân thang: dùng ${tm('\\sin')} hay ${tm('\\cos')}?`,
+    sol:`Trong tam giác vuông ${tm('HTA')}: ${tm(`HT = TA\\sin 30^\\circ = ${L}\\cdot\\dfrac{1}{2} = ${k}`)}. Vậy ${tb(`HT = ${k}\\text{ m}`)}.`});
+  if(lv === 2) return QB({text:`Một chiếc thang dài <b>${L} m</b> dựa vào bức tường thẳng đứng, tạo với mặt đất góc ${tm('60^\\circ')}. Tính độ cao của đầu thang so với mặt đất.`,
+    fig:rtTriSVG({n:['H','T','A'], w:k, h:k * Math.sqrt(3), ab:'?', bc:`${L} m`, aC:'60°'}), tpl:`<span class="eq">${tm('HT =')} [_] ${tm(SQ3)} m</span>`, ans:[k],
+    hint:`${tm('HT')} là cạnh đối diện với góc ${tm('60^\\circ')} ở chân thang; thang là cạnh huyền.`,
+    sol:`${tm(`HT = TA\\sin 60^\\circ = ${L}\\cdot\\dfrac{${SQ3}}{2} = ${k}${SQ3}`)}. Vậy ${tb(`HT = ${k}${SQ3}\\text{ m}`)}.`});
+  return QB({text:`Chân một chiếc thang cách chân tường <b>${d} m</b> và thang tạo với mặt đất góc ${tm('60^\\circ')}. Tính chiều dài chiếc thang.`,
+    fig:rtTriSVG({n:['H','T','A'], w:d, h:d * Math.sqrt(3), ac:`${d} m`, bc:'?', aC:'60°'}), tpl:'[_] m', ans:[2 * d],
+    hint:`${tm('HA')} là cạnh <b>kề</b> với góc ${tm('60^\\circ')}, còn chiều dài thang là cạnh huyền: dùng ${tm('\\cos')}.`,
+    sol:`${tm(`\\cos 60^\\circ = \\dfrac{HA}{TA}`)} nên ${tm(`TA = \\dfrac{HA}{\\cos 60^\\circ} = \\dfrac{${d}}{\\frac{1}{2}} = ${2 * d}`)}. Vậy ${tb(`${2 * d}\\text{ m}`)}.`});
+};
+
+const cE2 = lv => {   // đo chiều cao bằng một hay hai điểm quan sát
+  if(lv === 1){ const d = R(5, 25);
+    return QB({text:`Một người đứng tại ${tm('A')}, cách chân cột cờ ${tm('H')} một đoạn ${tm(`AH = ${d}`)} m, nhìn đỉnh cột cờ ${tm('T')} với góc nâng ${tm('60^\\circ')}. Tính chiều cao ${tm('HT')} của cột cờ.`,
+      fig:rtTriSVG({n:['H','T','A'], w:d, h:d * Math.sqrt(3), ab:'?', ac:`${d} m`, aC:'60°'}), tpl:`<span class="eq">${tm('HT =')} [_] ${tm(SQ3)} m</span>`, ans:[d],
+      hint:`Biết cạnh kề ${tm('AH')} và cần cạnh đối ${tm('HT')}: dùng ${tm('\\tan')}.`,
+      sol:`${tm(`HT = AH\\tan 60^\\circ = ${d}${SQ3}`)}. Vậy ${tb(`HT = ${d}${SQ3}\\text{ m}`)}.`}); }
+  const k = R(3, 12), d = 2 * k, A = 30, B = lv === 2 ? 60 : 60, a0 = lv === 2 ? 30 : 45;
+  if(lv === 2){
+    c3chk(nr9(d * NUMF.sin(60), k * Math.sqrt(3)), 'cây 30-60');
+    return QB({text:`Hai điểm quan sát ${tm('A, B')} cùng nằm về một phía của một cây, thẳng hàng với chân cây ${tm('H')}, ${tm(`AB = ${d}`)} m. Từ ${tm('A')} nhìn ngọn cây ${tm('T')} với góc nâng ${tm('30^\\circ')}, từ ${tm('B')} (gần cây hơn) với góc nâng ${tm('60^\\circ')}. Tính chiều cao cây.`,
+      fig:treeSVG({d:`${d} m`, a:'30°', b:'60°', h:'?'}), tpl:`<span class="eq">${tm('HT =')} [_] ${tm(SQ3)} m</span>`, ans:[k], wide:true,
+      hint:`Góc ${tm('\\widehat{ABT}')} là góc bù với ${tm('60^\\circ')}. Tính góc ${tm('\\widehat{ATB}')} rồi xem tam giác ${tm('ATB')} có đặc điểm gì.`,
+      sol:`${tm('\\widehat{ABT} = 180^\\circ - 60^\\circ = 120^\\circ')}, nên ${tm('\\widehat{ATB} = 180^\\circ - 30^\\circ - 120^\\circ = 30^\\circ')}. Tam giác ${tm('ATB')} cân tại ${tm('B')}: ${tm(`BT = AB = ${d}`)}. Trong tam giác vuông ${tm('BHT')}: ${tm(`HT = BT\\sin 60^\\circ = ${d}\\cdot\\dfrac{${SQ3}}{2} = ${k}${SQ3}`)}. Vậy ${tb(`HT = ${k}${SQ3}\\text{ m}`)}.`}); }
+  // lv 3: 45° và 60° – kết quả dạng m + n√3
+  const x = d / (Math.sqrt(3) - 1), h = x * Math.sqrt(3);
+  c3chk(nr9(h, 3 * k + k * Math.sqrt(3)), 'cây 45-60');
+  return QB({text:`Hai điểm quan sát ${tm('A, B')} cùng nằm về một phía của một cây, thẳng hàng với chân cây ${tm('H')}, ${tm(`AB = ${d}`)} m. Từ ${tm('A')} nhìn ngọn cây ${tm('T')} với góc nâng ${tm('45^\\circ')}, từ ${tm('B')} (gần cây hơn) với góc nâng ${tm('60^\\circ')}. Tính chiều cao cây.`,
+    fig:treeSVG({d:`${d} m`, a:'45°', b:'60°', h:'?'}), tpl:`<span class="eq">${tm('HT =')} [_] ${tm('+')} [_] ${tm(SQ3)} m</span>`, ans:[3 * k, k], wide:true,
+    hint:`Đặt ${tm('BH = x')}. Từ hai tam giác vuông viết ${tm('HT')} theo ${tm('x')} bằng ${tm('\\tan 60^\\circ')} và bằng ${tm('(x + AB)\\tan 45^\\circ')}, rồi giải phương trình.`,
+    sol:`Đặt ${tm('BH = x')}: ${tm(`HT = x\\tan 60^\\circ = x${SQ3}`)} và ${tm(`HT = (x + ${d})\\tan 45^\\circ = x + ${d}`)}. Suy ra ${tm(`x${SQ3} = x + ${d}`)}, ${tm(`x = \\dfrac{${d}}{${SQ3} - 1} = ${k}(${SQ3} + 1)`)}. Vậy ${tm(`HT = x${SQ3} = ${k}(3 + ${SQ3}) =`)} ${tb(`${3 * k} + ${k}${SQ3}\\text{ m}`)}.`});
+};
+
+const cE3 = lv => {   // đài quan sát, toà nhà và cột cờ
+  const h = pick([6, 8, 10, 12, 15]), d = R(8, 30);
+  const stem = a => `Anh Nam đứng tại điểm ${tm('P')} trên đài quan sát cao <b>${h} m</b> so với mặt đất, cách chân toà nhà (theo phương ngang) <b>${d} m</b>. Từ ${tm('P')} anh nhìn thấy nóc toà nhà (điểm ${tm('C')}) với góc nâng ${tm(`${a}^\\circ`)}`;
+  if(lv === 1) return QB({text:`${stem(45)}. Tính chiều cao toà nhà.`, fig:obsSVG({h:`${h} m`, d:`${d} m`, a:'45°', hb:'?'}), tpl:'[_] m', ans:[h + d],
+    hint:`Phần toà nhà cao hơn tầm mắt tính từ ${tm('P')}; nhớ cộng thêm độ cao của đài quan sát.`,
+    sol:`Phần cao hơn ${tm('P')}: ${tm(`d\\tan 45^\\circ = ${d}`)} m. Chiều cao toà nhà ${tm(`${h} + ${d} =`)} ${tb(`${h + d}\\text{ m}`)}.`});
+  if(lv === 2) return QB({text:`${stem(60)}. Tính chiều cao toà nhà.`, fig:obsSVG({h:`${h} m`, d:`${d} m`, a:'60°', hb:'?'}), tpl:`<span class="eq">[_] ${tm('+')} [_] ${tm(SQ3)} m</span>`, ans:[h, d],
+    hint:`Phần toà nhà cao hơn ${tm('P')} bằng ${tm('d\\tan 60^\\circ')}; cộng thêm độ cao của đài quan sát.`,
+    sol:`Phần cao hơn ${tm('P')}: ${tm(`${d}\\tan 60^\\circ = ${d}${SQ3}`)} m. Chiều cao toà nhà ${tm(`${h} + ${d}${SQ3}`)}. Vậy ${tb(`${h} + ${d}${SQ3}\\text{ m}`)}.`});
+  return QB({text:`${stem(45)} và đỉnh cột cờ đặt trên nóc toà nhà (điểm ${tm('D')}) với góc nâng ${tm('60^\\circ')}. Tính chiều cao cột cờ ${tm('CD')}.`, fig:obsSVG({h:`${h} m`, d:`${d} m`, a:'45°', hf:'?'}),
+    tpl:`<span class="eq">${tm('CD =')} [_] ${tm(SQ3)} ${tm('-')} [_] m</span>`, ans:[d, d], wide:true,
+    hint:`Tính độ cao của ${tm('C')} và của ${tm('D')} so với ${tm('P')} bằng tang của hai góc nâng, rồi lấy hiệu.`,
+    sol:`So với ${tm('P')}: ${tm(`C`)} cao ${tm(`d\\tan 45^\\circ = ${d}`)} m; ${tm('D')} cao ${tm(`d\\tan 60^\\circ = ${d}${SQ3}`)} m. ${tm(`CD = ${d}${SQ3} - ${d}`)}. Vậy ${tb(`CD = ${d}${SQ3} - ${d}\\text{ m}`)}.`});
+};
+
+const cE4 = lv => {   // tấm kính tròn bị vỡ: bán kính ngoại tiếp
+  const A = [30, 150, 120][lv - 1], k = R(3, 20), a = lv === 3 ? `${k}\\sqrt{3}` : `${k}`;
+  c3chk(nr9((lv === 3 ? k * Math.sqrt(3) : k) / (2 * NUMF.sin(A)), k), 'R');
+  return QB({text:`Một tấm kính hình tròn bị vỡ, chỉ còn mảnh hình tam giác ${tm('ABC')} có ba đỉnh nằm trên mép tấm kính. Đo được ${tm(`BC = ${a}`)} dm và ${tm(`\\widehat{A} = ${DG(A)}`)}. Tính bán kính ${tm('R')} của tấm kính ban đầu.`,
+    fig:circTriSVG({pts:[90, 270 - A, 270 + A], side:`${k}${lv === 3 ? '√3' : ''} dm`, R:'R'}), tpl:'[_] dm', ans:[k], wide:true,
+    hint:`Tấm kính tròn đi qua ba đỉnh nên ${tm('R')} là bán kính đường tròn ngoại tiếp: dùng định lí sin, ${tm('BC')} đối diện góc ${tm('A')}.`,
+    sol:`${tm(`R = \\dfrac{BC}{2\\sin A} = \\dfrac{${a}}{2\\sin ${DG(A)}} = \\dfrac{${a}}{2\\cdot ${A === 120 ? tf(SQ3, 2) : tf(1, 2)}} = ${k}`)}${A === 150 ? ` (vì ${tm('\\sin 150^\\circ = \\sin 30^\\circ')})` : ''}. Vậy ${tb(`R = ${k}\\text{ dm}`)}.`});
+};
+
+lesson(91, 'c3k-thuc-te-2', 'Củng cố Chương III · 5. Toán thực tế có hình: thang, đo chiều cao, tấm kính tròn', 'Thang dựa tường (sin hay cos); đo cây từ hai điểm (góc ngoài); toà nhà và cột cờ; bán kính tấm kính tròn.', [cE1, cE2, cE3, cE4], {introTitle:'Quy trình giải toán thực tế · Chỗ dễ sai · Mẹo', intro:[
+  c3KT('Tam giác vuông', `${tm('\\sin = \\dfrac{\\text{đối}}{\\text{huyền}}')}, ${tm('\\cos = \\dfrac{\\text{kề}}{\\text{huyền}}')}, ${tm('\\tan = \\dfrac{\\text{đối}}{\\text{kề}}')}. Xác định cạnh đối, cạnh kề <b>so với góc đang xét</b>.`, `Nhầm ${tm('\\sin')} với ${tm('\\cos')} khi đổi góc ${tm('30^\\circ')} thành ${tm('60^\\circ')}; nhầm cạnh đối với cạnh kề.`, 'Ghi “đối – kề – huyền” lên hình trước khi chọn tỉ số.'),
+  c3KT('Đo chiều cao từ hai điểm', `Hai điểm ${tm('A, B')} thẳng hàng với chân vật: góc ở ${tm('B')} trong tam giác ${tm('ABT')} là góc <b>bù</b> với góc nâng tại ${tm('B')}. Tính góc ở ngọn rồi dùng định lí sin, hoặc đặt ${tm('BH = x')} và lập phương trình.`, 'Quên đổi góc bù, hoặc dùng nhầm góc nâng làm góc của tam giác ' + tm('ABT') + '.', `Góc nâng ${tm('30^\\circ')} và ${tm('60^\\circ')}: tam giác ${tm('ATB')} cân, ${tm('BT = AB')}.`),
+  c3KT('Độ cao của người quan sát', `Chiều cao vật = độ cao của mắt (hoặc đài quan sát) + phần nhìn lên: ${tm('d\\tan\\alpha')}.`, 'Rất hay quên cộng độ cao của chỗ đứng.', `Vẽ đường ngang qua ${tm('P')} để tách phần “cao hơn tầm mắt”.`),
+  c3KT('Tấm kính tròn – đường tròn ngoại tiếp', `${tm('R = \\dfrac{a}{2\\sin A}')}.`, `Góc ${tm('A')} tù vẫn có ${tm('\\sin A \\gt 0')}: ${tm('\\sin 150^\\circ = \\dfrac{1}{2}')}, không thể bỏ qua.`, 'Cạnh ' + tm('BC') + ' phải ghép với góc đối ' + tm('A') + ', không dùng góc khác.')
+]});
+
+/* ---------- ĐỀ TỔNG HỢP 15 CÂU ---------- */
+const c3R = (make, band, type) => () => Object.assign(make(), {reviewBand:band, reviewType:type});
+const REVIEW_C3K = [
+  c3R(() => cA1(1), 1, 'luong-giac'),   // 1. góc bù – đẳng thức sai
+  c3R(() => cA2(1), 1, 'luong-giac'),   // 2. tam giác ABC: A + B + C = 180°
+  c3R(() => cB1(1), 1, 'cong-thuc'),    // 3. viết đúng định lí côsin
+  c3R(() => cB2(1), 1, 'cosin'),        // 4. ba cạnh → góc vuông
+  c3R(() => cB3(1), 1, 'nhan-dang'),    // 5. nhận dạng bằng ba cạnh
+  c3R(() => cC2(1), 1, 'dien-tich'),    // 6. nửa chu vi
+  c3R(() => cA2(2), 2, 'luong-giac'),   // 7. sin(B + C), cos(B + C)
+  c3R(() => cB4(2), 2, 'sin'),          // 8. định lí sin tính cạnh
+  c3R(() => cC1(2), 2, 'dien-tich'),    // 9. diện tích với góc 150°
+  c3R(() => cC3(2), 2, 'ban-kinh'),     // 10. R của tam giác vuông
+  c3R(() => cD1(2), 2, 'thuc-te'),      // 11. hai tàu, góc 60°
+  c3R(() => cB3(3), 3, 'nhan-dang'),    // 12. nhận dạng bằng sin²
+  c3R(() => cC4(3), 3, 'dien-tich'),    // 13. từ diện tích tìm góc tù
+  c3R(() => cD2(3), 3, 'thuc-te'),      // 14. khoảng cách qua hồ
+  c3R(() => cE2(3), 3, 'thuc-te')       // 15. đo cây từ hai điểm
+];
+lesson(91, 'c3k-de-tong-hop', 'Củng cố Chương III · Đề tổng hợp 15 câu', 'Mỗi đề 15 câu: 6 câu cơ bản, 5 câu thông hiểu – vận dụng, 4 câu nâng cao có hình thực tế. Dễ sai: góc bù, góc tù, cạnh đối – cạnh kề.', REVIEW_C3K, {count:15, introTitle:C3T, intro:[
+  c3KT('Dễ sai về lượng giác', `Góc bù: chỉ ${tm('\\sin')} giữ nguyên dấu. Tam giác ${tm('ABC')}: ${tm('\\cos(B + C) = -\\cos A')}.`, `Góc tù: ${tm('\\cos, \\tan, \\cot')} âm, ${tm('\\sin')} dương.`, 'Thấy ' + tm('B + C') + ' hãy đổi ngay ra ' + tm('180^\\circ - A') + '.'),
+  c3KT('Dễ nhầm về công thức', `Côsin: góc <b>xen giữa</b>. Sin: cạnh với góc <b>đối diện</b>. Heron: ${tm('p')} là nửa chu vi. ${tm('r = \\dfrac{S}{p}')}, ${tm('R = \\dfrac{abc}{4S}')}.`, `Côsin âm thì góc tù (${tm('120^\\circ')}, không phải ${tm('60^\\circ')}).`, 'Vẽ tam giác, ghi dữ kiện, rồi mới chọn công thức.'),
+  c3KT('Dễ sai về thực tế', 'Đổi hướng đi thành góc bằng hiệu hai góc phương vị; thêm độ cao người quan sát; góc nâng ở điểm thứ hai là góc bù trong tam giác.', 'Đơn vị cuối bài và việc làm tròn.', 'Ước lượng trước giúp phát hiện kết quả vô lý.')
+]});
 }
 
 /* =====================================================================
@@ -12998,7 +13473,7 @@ lesson(4,'so-gan-dung-sai-so','Bài 12. Số gần đúng và sai số','Sai s�
    Mỗi dạng = lv => câu hỏi; mức 1 → 3 chuyển sang loại câu khó hơn. Đáp án luôn tính trước khi dựng đề (trong GK1).
    ===================================================================== */
 {
-G.topics.push({id:90, hk:1, name:'Ôn tập giữa học kì I'});
+{ const i91 = G.topics.findIndex(t => t.id === 91); G.topics.splice(i91 < 0 ? G.topics.length : i91, 0, {id:90, hk:1, name:'Ôn tập giữa học kì I'}); }
 const rg = () => GK1.rng((Math.random() * 4294967296) >>> 0);
 const HINT = {
   isProp:'Mệnh đề là câu khẳng định, xác định được là đúng hoặc sai. Câu hỏi, câu cảm thán, câu mệnh lệnh hay câu còn biến thì không phải.',
