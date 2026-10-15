@@ -936,6 +936,7 @@ h1 .h1en{font-size:.55em;font-weight:600}
 /* Ma trận đề theo mẫu của tổ (kiemtra.js, t.matrix) */
 .kt-mx2{font-size:7.6pt}.kt-mx2 td,.kt-mx2 th{padding:1.5pt 2.5pt;line-height:1.25}.kt-mx2 .kt-lft{text-align:left}
 .kt-dt{border-collapse:collapse;margin:3pt auto;font-size:9pt}.kt-dt th,.kt-dt td{border:.7pt solid var(--ink);padding:1pt 6pt;text-align:center}
+.hub-chtab{width:100%;border-collapse:collapse;margin:8px 0}.hub-chtab caption{text-align:left;font-weight:700;padding:4px 0}.hub-chtab td{padding:6px 4px;border-top:1px solid var(--line,#e5e7eb)}.hub-chtab td:last-child{width:84px}.hub-chtab input{width:64px;min-height:40px;font-size:16px;text-align:center;border:1px solid var(--line,#cbd5e1);border-radius:10px;background:transparent;color:inherit}
 
 </style>
 <style>
@@ -3498,8 +3499,8 @@ const Hub = (() => {
     const refresh = async () => { bust(); await Hub.load(true).catch(() => {}); c.redraw(); };
     if(r.teacher){
       const g = gradeNum(c.lop), tgt = q => !q.target ? 'mọi lớp' : /^\d+$/.test(q.target) ? 'khối ' + q.target : 'lớp ' + q.target;
-      box.innerHTML = `<section class="hub-card hub-daily"><h3>🌅 Bộ câu hỏi hôm nay</h3><p>Bốc <b>mỗi chương một câu</b> (đủ 3 mức: làm quen · luyện tập · thử thách) cho cả khối ${g || ''} và đăng luôn, hạn hết hôm nay. Thưởng 1–3 ⭐ theo mức.</p>
-        <div class="hub-row"><button type="button" class="btn primary" id="qaDaily" disabled>🎲 Bốc bộ hôm nay</button><label class="hub-f"><span><input type="checkbox" id="qaAuto"> Tự bốc mỗi ngày khi thầy mở trang này</span></label></div><div class="fb" id="qaDailyMsg"></div></section>
+      box.innerHTML = `<section class="hub-card hub-daily"><h3>🌅 Bộ câu hỏi hôm nay</h3><p>Bốc câu theo <b>từng chương</b> (thầy chọn số câu mỗi chương, mặc định 1; đủ 3 mức: làm quen · luyện tập · thử thách) cho cả khối ${g || ''} và đăng luôn, hạn hết hôm nay. Thưởng 1–3 ⭐ theo mức.</p>
+        <div class="hub-row"><button type="button" class="btn primary" id="qaDaily" disabled>🎲 Bốc bộ hôm nay</button><label class="hub-f"><span><input type="checkbox" id="qaAuto"> Tự bốc mỗi ngày khi thầy mở trang này</span></label></div><div id="qaChap" class="hub-chap"></div><div class="fb" id="qaDailyMsg"></div></section>
         <section class="hub-card"><h3>✍️ Đăng câu hỏi mới</h3>
         <div class="hub-bank"><b>🎲 Lấy nhanh từ ngân hàng bài tập</b><div class="hub-row"><label class="hub-f">Bài<select id="qaBai"><option value="">Đang nạp ngân hàng…</option></select></label><label class="hub-f">Mức<select id="qaLv"><option value="1">1 · Làm quen</option><option value="2" selected>2 · Luyện tập</option><option value="3">3 · Thử thách</option></select></label><div class="hub-f"><span>&nbsp;</span><button type="button" class="btn" id="qaDraw" disabled>🎲 Bốc câu</button></div></div><p class="note-line" id="qaBankMsg">Chọn bài và mức, bấm Bốc câu: ô bên dưới tự điền. Thầy xem lại rồi bấm Đăng; bấm Bốc câu lần nữa để đổi câu khác.</p></div>
         <label class="hub-f">Câu hỏi (công thức viết trong $…$)<textarea id="qaQ" rows="3" maxlength="800" placeholder="Ví dụ: Giá trị của $\\sin 150^\\circ$ bằng?"></textarea></label>
@@ -3534,23 +3535,32 @@ const Hub = (() => {
       const dmsg = (t, ok) => { const m = box.querySelector('#qaDailyMsg'); if(m){ m.className = 'fb show ' + (ok ? 'sol' : 'note'); m.innerHTML = t; } };
       const dayKey = 'hoctap:qdaily:lop' + g, today = new Date().toLocaleDateString('sv-SE'), autoKey = 'hoctap:qdaily-auto:lop' + g;
       let busy = false;
+      const chapters = grd => grd.topics.filter(t => t.id !== 94 && !/^📝/.test(t.label || '')).map(t => ({t, ls:grd.lessons.filter(l => l.t === t.id)})).filter(x => x.ls.length);
+      const cntKey = 'hoctap:qdaily-n:lop' + g, MAXN = 5;
+      const readCounts = grd => { const o = {}, saved = store.get(cntKey) || {}; chapters(grd).forEach(({t}) => { const el = box.querySelector(`[data-chn="${t.id}"]`); o[t.id] = Math.max(0, Math.min(MAXN, Math.floor(Number(el ? el.value : saved[t.id] ?? 1)) || 0)); }); return o; };
+      const drawChap = grd => { const holder = box.querySelector('#qaChap'); if(!holder) return; const saved = store.get(cntKey) || {};
+        holder.innerHTML = `<table class="hub-chtab"><caption>Số câu mỗi chương (0–${MAXN})</caption><tbody>${chapters(grd).map(({t}) => `<tr><td>${esc(t.name)}</td><td><input type="number" min="0" max="${MAXN}" step="1" inputmode="numeric" data-chn="${t.id}" value="${saved[t.id] ?? 1}" aria-label="Số câu chương ${esc(t.name)}"></td></tr>`).join('')}</tbody></table><p class="note-line" id="qaChTot"></p>`;
+        const upd = () => { const c = readCounts(grd), tot = Object.values(c).reduce((a, b) => a + b, 0); store.set(cntKey, c); const e = box.querySelector('#qaChTot'); if(e) e.textContent = `Tổng: ${tot} câu`; const b = box.querySelector('#qaDaily'); if(b && store.get(dayKey) !== today) b.disabled = tot === 0; };
+        holder.querySelectorAll('[data-chn]').forEach(i => i.oninput = upd); upd(); };
       const runDaily = async (grd, auto) => {
         if(busy) return; busy = true; const btn = box.querySelector('#qaDaily'); if(btn) btn.disabled = true;
         try{
           if(store.get(dayKey) === today){ dmsg('Hôm nay đã bốc bộ câu hỏi rồi. Ngày mai thầy bốc tiếp nhé (muốn đăng thêm câu lẻ thì dùng ô bên dưới).', false); return; }
-          const tps = grd.topics.filter(t => t.id !== 94 && !/^📝/.test(t.label || '')).map(t => ({t, ls:grd.lessons.filter(l => l.t === t.id)})).filter(x => x.ls.length), off = Math.floor(Math.random() * 3), made = [];
-          tps.forEach(({t, ls}, i) => { for(let k = 0; k < 6 && !made.some(m => m.t === t); k++){ const l = ls[Math.floor(Math.random() * ls.length)], lv = (i + off) % 3 + 1, d = drawFromBank(l, lv); if(d) made.push({t, l, lv, d}); } });
+          const cnt = readCounts(grd), off = Math.floor(Math.random() * 3), made = []; let seq = 0;
+          chapters(grd).forEach(({t, ls}) => { const want = cnt[t.id] ?? 1, texts = new Set(), pool = [...ls].sort(() => Math.random() - .5);
+            for(let j = 0; j < want; j++, seq++){ const lv = (seq + off) % 3 + 1;
+              for(let k = 0; k < 12; k++){ const l = pool[(j + k) % pool.length], d = drawFromBank(l, lv); if(d && !texts.has(d.q)){ texts.add(d.q); made.push({t, l, lv, d}); break; } } } });
           if(!made.length){ dmsg('Chưa bốc được câu nào phù hợp. Thầy thử lại nhé.', false); return; }
           let ok = 0; for(const m of made){ try{ const res = await Account.call('qPost', {q:m.d.q, opts:m.d.opts, ans:m.d.ans, exp:m.d.exp, stars:m.lv, days:1, target:String(g)}); if(res.ok) ok++; }catch(e){} }
           if(ok) store.set(dayKey, today);
-          if(ok === made.length){ dmsg(`✅ Đã đăng <b>${ok}</b> câu (mỗi chương một câu, mức ${made.map(m => m.lv).join('-')}) cho khối ${g}${auto ? ' – tự bốc hôm nay' : ''}.`, true); await refresh(); }
+          if(ok === made.length){ dmsg(`✅ Đã đăng <b>${ok}</b> câu (${[...new Set(made.map(m => m.t.id))].length} chương, mức ${made.map(m => m.lv).join('-')}) cho khối ${g}${auto ? ' – tự bốc hôm nay' : ''}.`, true); await refresh(); }
           else dmsg(`Đã đăng ${ok}/${made.length} câu. ${ok ? 'Câu còn lại chưa đăng được; thầy kiểm tra danh sách bên dưới.' : 'Chưa đăng được, thử lại nhé.'}`, false);
         } finally { busy = false; if(box.querySelector('#qaDaily') && store.get(dayKey) !== today) box.querySelector('#qaDaily').disabled = false; }
       };
       const ck = box.querySelector('#qaAuto'); if(ck){ ck.checked = !!store.get(autoKey); ck.onchange = () => store.set(autoKey, ck.checked); }
-      needGrade('lop' + g).then(grd => { const btn = box.querySelector('#qaDaily'); if(!grd || !btn || !live(box)) return;
+      needGrade('lop' + g).then(grd => { const btn = box.querySelector('#qaDaily'); if(!grd || !btn || !live(box)) return; drawChap(grd);
         if(store.get(dayKey) === today){ dmsg('Hôm nay đã bốc bộ câu hỏi rồi.', true); btn.disabled = true; return; }
-        btn.disabled = false; btn.onclick = () => runDaily(grd, false);
+        btn.disabled = Object.values(readCounts(grd)).every(v => !v); btn.onclick = () => runDaily(grd, false);
         if(store.get(autoKey)) runDaily(grd, true); });
       const msg = (t, ok) => { const m = box.querySelector('#qaMsg'); m.className = 'fb show ' + (ok ? 'sol' : 'note'); m.innerHTML = t; };
       box.querySelector('#qaPost').onclick = async ev => {

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-15 – Bốc bộ hôm nay: chọn số câu khác nhau cho từng chương
+
+- **Yêu cầu:** Thêm tuỳ chọn bốc số câu khác nhau cho từng chương.
+- **Kết quả:** Thẻ “Bộ câu hỏi hôm nay” có bảng ô nhập 0–5 câu cho mỗi chương (mặc định 1, nhớ theo khối trên máy), hiện tổng số câu; các câu cùng chương lấy từ các bài khác nhau và không trùng đề, mức xoay vòng 1–2–3. Tổng bằng 0 thì khoá nút.
+- **Tệp thay đổi:** `assets/js/hub-plus.js`, `assets/css/style.css`, `tools/test_hub_plus.py`, `dist/hoc-tap.html`
+- **Kiểm thử:** `python3 tools/test_hub_plus.py` (55/55), `node tools/kiem-tra.js` → ĐẠT
+- **Việc thủ công:** Không có.
+
 ### 2026-10-15 – Câu hỏi của thầy: “Bốc bộ hôm nay” (mỗi chương một câu, tự bốc mỗi ngày)
 
 - **Yêu cầu:** Trong “Câu hỏi của thầy”, bốc ngẫu nhiên mỗi chương 1 câu đủ mức độ, mỗi ngày bốc tự động (cách 1: không sửa Apps Script).

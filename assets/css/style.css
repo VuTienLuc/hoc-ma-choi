@@ -919,3 +919,4 @@ h1 .h1en{font-size:.55em;font-weight:600}
 /* Ma trận đề theo mẫu của tổ (kiemtra.js, t.matrix) */
 .kt-mx2{font-size:7.6pt}.kt-mx2 td,.kt-mx2 th{padding:1.5pt 2.5pt;line-height:1.25}.kt-mx2 .kt-lft{text-align:left}
 .kt-dt{border-collapse:collapse;margin:3pt auto;font-size:9pt}.kt-dt th,.kt-dt td{border:.7pt solid var(--ink);padding:1pt 6pt;text-align:center}
+.hub-chtab{width:100%;border-collapse:collapse;margin:8px 0}.hub-chtab caption{text-align:left;font-weight:700;padding:4px 0}.hub-chtab td{padding:6px 4px;border-top:1px solid var(--line,#e5e7eb)}.hub-chtab td:last-child{width:84px}.hub-chtab input{width:64px;min-height:40px;font-size:16px;text-align:center;border:1px solid var(--line,#cbd5e1);border-radius:10px;background:transparent;color:inherit}
