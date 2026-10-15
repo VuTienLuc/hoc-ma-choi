@@ -17,6 +17,10 @@ async def main():
               for(let ci = 20000; ci < 20060; ci++){ try{ const q = StudentTest.build(t, ci), sig = JSON.stringify(q.mc.map(x => x.q)); if(sig !== prev) out.diff++; prev = sig;
                 if(q.mc.length !== 8 || q.tf.length !== 2 || q.short.length !== 4) out.bad.push('số câu ' + ci);
                 if(new Set(q.mc.map(x => x.q)).size !== 8) out.bad.push('trùng câu TN ngày ' + ci);
+                const strs = []; (function w(o){ if(typeof o === 'string') strs.push(o); else if(o && typeof o === 'object') Object.values(o).forEach(w); })(q);
+                const txt = strs.join(' '), outside = txt.split('\\\\(').map((p_, j) => j ? p_.slice(p_.indexOf('\\\\)') + 2) : p_).join('');
+                if(outside.includes('$') || /\\\\[a-zA-Z{]/.test(outside.replace(/<[^>]*>/g, ''))) out.bad.push('công thức ngoài ngoặc hoặc $ lẻ ngày ' + ci);
+                if(/\\\\(sin|cos|tan|cot|ln|log)[a-z0-9]/.test(txt)) out.bad.push('hàm dính chữ (vd cosx) ngày ' + ci);
                 q.mc.forEach(x => { if(new Set(x.opts).size !== 4) out.bad.push('phương án trùng ' + ci); }); }catch(e){ out.bad.push('ngày ' + ci + ': ' + e.message); } }
               return out; }""", g)
             if 'err' in r: bad.append(f'{g}: {r["err"]}'); continue

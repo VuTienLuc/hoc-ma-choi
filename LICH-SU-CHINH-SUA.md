@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-15 – Lệnh nhập câu hỏi ngoài (JSON) vào Ngân hàng Thử thách
+
+- **Yêu cầu:** Làm sẵn lệnh `tools/nhap-cau-hoi.py file.json` để thầy tự nhập câu hỏi từ nguồn ngoài (JSON như tiện ích Gemini JSON hàng loạt).
+- **Kết quả:** Lệnh đọc JSON (mảng hoặc bọc trong object / khối ```json), nhận nhiều tên trường, tự đoán loại câu, kiểm từng câu và báo lỗi rõ lý do, bỏ câu trùng, ghi cộng dồn `data/thu-thach-ngoai-lop10.js` / `-lop11.js` và chèn thẻ `<script>`. Chưa nhập câu nào thật (đã thử bằng JSON mẫu rồi xoá). Sửa lỗi sinh “\cosx” khi hệ số bằng 1 ở mẫu GTLN/GTNN Toán 11; `test_thu_thach.py` quét thêm 60 ngày để bắt công thức hỏng và hàm dính chữ.
+- **Tệp thay đổi:** `tools/nhap-cau-hoi.py`, `data/thu-thach-bank-11.js`, `tools/test_thu_thach.py`, `AGENTS.md`, `CLAUDE.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test_thu_thach.py` → ĐẠT; chạy lệnh nhập với JSON mẫu và JSON kiểu Gemini (có câu lỗi) → báo đúng, ghi đúng, `kiem-tra.js` ĐẠT sau khi nhập
+- **Việc thủ công:** Thầy gửi một tệp JSON mẫu thật của tiện ích Gemini nếu có trường lạ (em bổ sung tên trường).
+
 ### 2026-10-15 – Bốc bộ hôm nay: chọn số câu khác nhau cho từng chương
 
 - **Yêu cầu:** Thêm tuỳ chọn bốc số câu khác nhau cho từng chương.

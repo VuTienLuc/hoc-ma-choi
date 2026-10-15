@@ -39,7 +39,7 @@
     const best = isMax ? Math.round(mx) : Math.round(mn); H.chk(near(mx, Math.abs(n) + m) || Math.abs(mx - (Math.abs(n) + m)) < 1e-6, 'max'); H.chk(Math.abs(mn - (m - Math.abs(n))) < 1e-6, 'min');
     const wr = [m + n, m - n, m + (isMax ? -Math.abs(n) : Math.abs(n)), Math.abs(n), Math.abs(m) + Math.abs(n)].filter(x => x !== best);
     const wrOpt = isMax ? [m + n, m - n, Math.abs(n)] : [m + n, m - n, Math.abs(n)];
-    return H.mc('Vận dụng', `Giá trị ${isMax ? 'lớn' : 'nhỏ'} nhất của hàm số ${M(`y=${m}${n < 0 ? '-' : '+'}${Math.abs(n)}\\${fn}${k === 1 ? '' : '\\ ' + k}x`)} là`, String(best), [...new Set([m + n, m - n, Math.abs(n), m + (isMax ? -Math.abs(n) : Math.abs(n)), m * n])].filter(x => x !== best).map(String),
+    return H.mc('Vận dụng', `Giá trị ${isMax ? 'lớn' : 'nhỏ'} nhất của hàm số ${M(`y=${m}${n < 0 ? '-' : '+'}${Math.abs(n)}\\${fn}\\ ${k === 1 ? '' : k}x`)} là`, String(best), [...new Set([m + n, m - n, Math.abs(n), m + (isMax ? -Math.abs(n) : Math.abs(n)), m * n])].filter(x => x !== best).map(String),
       H.p(`${M('-1\\le\\' + fn + '\\ ' + (k === 1 ? '' : k) + 'x\\le1')} nên ${M(`${m}-${Math.abs(n)}\\le y\\le ${m}+${Math.abs(n)}`)}, tức ${M(`${m - Math.abs(n)}\\le y\\le ${m + Math.abs(n)}`)}.`) + H.p(`Dấu của ${M(n < 0 ? 'n=' + n : 'n')} chỉ làm đổi vị trí đạt max/min, không đổi khoảng giá trị. ${isMax ? 'Giá trị lớn nhất' : 'Giá trị nhỏ nhất'} là <b>${best}</b>.`));
   });
 
