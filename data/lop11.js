@@ -918,6 +918,7 @@ lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp s�
    Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số được tính lại bằng phép tính độc lập (k2chk).
    ===================================================================== */
 { const i2 = G.topics.findIndex(t => t.id === 2); G.topics.splice(i2 < 0 ? G.topics.length : i2 + 1, 0, {id:92, hk:1, name:'Củng cố Chương II (ôn tập tổng hợp)', label:'📝 Củng cố Chương II', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
+G.topics.push({id:94, hk:1, name:'Thử thách hôm nay', label:'📝 Thử thách hôm nay', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 { const i92 = G.topics.findIndex(t => t.id === 92); G.topics.splice(i92, 0, {id:93, hk:1, name:'Kiểm tra và ôn tập Chương I', label:'📝 Kiểm tra Chương I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
 const k2chk = (ok, msg) => { if(!ok) throw new Error('c2k: ' + msg); };
 const K2T = 'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo';

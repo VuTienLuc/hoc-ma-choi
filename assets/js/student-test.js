@@ -13,9 +13,13 @@ const StudentTest = (() => {
   const make = (x, ci) => typeof x === 'function' ? x(ci) : {...x};
   const round = (x, n=2) => Math.round((x + Number.EPSILON) * 10**n) / 10**n;
   const vn = x => String(x).replace('.', ',');
-  const stateKey = t => `hoctap:test:${t.grade}:${t.id}:state`;
-  const metaKey = t => `hoctap:test:${t.grade}:${t.id}:meta`;
-  const starKey = t => `hoctap:${t.grade}:kiem-tra-${t.id}:1`;
+  /* Bài "hằng ngày" (daily:true): mã đề sinh theo ngày (ci = số ngày kể từ 1/1/1970 theo giờ địa phương), mỗi ngày một bộ khoá lưu riêng. */
+  const dayNo = () => { const d = new Date(); return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); };
+  const ymd = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+  const sfx = t => t.daily ? '-' + ymd() : '';
+  const stateKey = t => `hoctap:test:${t.grade}:${t.id}${sfx(t)}:state`;
+  const metaKey = t => `hoctap:test:${t.grade}:${t.id}${sfx(t)}:meta`;
+  const starKey = t => `hoctap:${t.grade}:kiem-tra-${t.id}${sfx(t)}:1`;
   const meta = t => Object.assign({attempts:0,best:0,bestStars:0}, store.get(metaKey(t)) || {});
   const typeset = el => { try{ if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise(el ? [el] : undefined); }catch(e){} };
 
@@ -23,14 +27,16 @@ const StudentTest = (() => {
     const mc = t.mc.map((x, i) => { const q = make(x, ci), pos = (i + ci) % 4, opts = q.opts.slice(1); opts.splice(pos, 0, q.opts[0]); return {...q, opts, a:pos}; });
     const tf = t.tf.map(x => make(x, ci));
     const short = t.short.map(x => make(x, ci));
-    return {code:t.codes[ci], ci, mc, tf, short};
+    return {code:t.daily ? ymd().split('-').reverse().join('/') : t.codes[ci], ci, mc, tf, short};
   }
-  function maxStars(grade){ return TESTS.filter(t => t.grade === grade).length * 3; }
-  function stars(grade){ return TESTS.filter(t => t.grade === grade).reduce((n, t) => n + (Number(store.get(starKey(t))) || 0), 0); }
+  function maxStars(grade){ return TESTS.filter(t => t.grade === grade && !t.daily).length * 3; }
+  function dailyStars(t){ const mid = `:${t.grade}:kiem-tra-${t.id}-`, seen = new Set(); let n = 0;      // khoá thật có thể có tiền tố tài khoản (account.js) → quy về khoá logic rồi đọc bằng store
+    try{ for(let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i), j = k ? k.indexOf(mid) : -1; if(j < 0 || !k.endsWith(':1')) continue; const lk = 'hoctap' + k.slice(j); if(seen.has(lk)) continue; seen.add(lk); n += Number(store.get(lk)) || 0; } }catch(e){} return n; }
+  function stars(grade){ return TESTS.filter(t => t.grade === grade).reduce((n, t) => n + (t.daily ? dailyStars(t) : Number(store.get(starKey(t))) || 0), 0); }
   function tiles(grade, topic){
     return TESTS.filter(t => t.grade === grade && t.topic === topic).map(t => { const m = meta(t), st = Number(store.get(starKey(t))) || 0;
       const fold = x => String(x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').toLowerCase(), pct = Math.round(st / 3 * 100), sk = pct >= 100 ? 'done' : m.attempts ? 'doing' : 'todo', lab = {todo:'Chưa làm', doing:'Đang làm', done:'✓ Hoàn thành'}[sk];
-      return `<a class="tile test-tile les st-${sk}" data-st="${sk}" data-n="${fold(t.title + ' kiem tra')}" href="#/${t.grade}/kiem-tra/${t.id}"><span class="les-top"><b>📝 ${esc(t.title)}</b><span class="chip st-${sk}">${lab}</span></span><span class="tdesc">${t.time} phút · ${t.mc.length} chọn đáp án · ${t.tf.length} đúng–sai · ${t.short.length} trả lời ngắn</span><span class="meta"><span>${m.attempts ? `Đã làm ${m.attempts} lần · Cao nhất ${vn(m.best)}/10` : 'Chưa làm bài'}</span>${starsHTML(st)}</span><span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span></a>`;
+      return `<a class="tile test-tile les st-${sk}" data-st="${sk}" data-n="${fold(t.title + ' kiem tra')}" href="#/${t.grade}/kiem-tra/${t.id}"><span class="les-top"><b>📝 ${esc(t.title)}</b><span class="chip st-${sk}">${lab}</span></span><span class="tdesc">${t.daily ? '🎲 Đề mới mỗi ngày · ' : ''}${t.time} phút · ${t.mc.length} chọn đáp án · ${t.tf.length} đúng–sai · ${t.short.length} trả lời ngắn</span><span class="meta"><span>${m.attempts ? `Đã làm ${m.attempts} lần · Cao nhất ${vn(m.best)}/10` : 'Chưa làm bài'}</span>${starsHTML(st)}</span><span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span></a>`;
     }).join('');
   }
   function blankState(t, ci, attempts){
@@ -47,7 +53,7 @@ const StudentTest = (() => {
   function teacherBar(t){
     if(typeof Account === 'undefined' || !Account.isTeacher || !Account.isTeacher() || typeof TestDeck === 'undefined' || typeof Lecture === 'undefined') return;
     const bar = $('#app .toolbar'); if(!bar) return;
-    bar.insertAdjacentHTML('afterend', `<div class="td-bar card"><b>📽️ Trình chiếu trên lớp</b><span>${t.codes.map((c, i) => `<button class="btn ${i ? '' : 'primary '}small" data-tdplay="${i}">▶ Mã ${esc(c)}</button>`).join('')}</span></div>`);
+    bar.insertAdjacentHTML('afterend', `<div class="td-bar card"><b>📽️ Trình chiếu trên lớp</b><span>${t.daily ? `<button class="btn primary small" data-tdplay="${dayNo()}">▶ Đề hôm nay (${ymd().split('-').reverse().join('/')})</button>` : t.codes.map((c, i) => `<button class="btn ${i ? '' : 'primary '}small" data-tdplay="${i}">▶ Mã ${esc(c)}</button>`).join('')}</span></div>`);
     $$('[data-tdplay]').forEach(b => b.onclick = () => Lecture.open(TestDeck.deck(t, +b.dataset.tdplay), 0));
   }
   function intro(t, g){
@@ -62,7 +68,7 @@ const StudentTest = (() => {
       <div class="test-rules"><h3>Quy định làm bài</h3><ul><li>Không có gợi ý và không hiện đáp án trước khi nộp bài.</li><li>Bài được lưu tự động trên thiết bị; tải lại trang vẫn tiếp tục đúng mã đề và thời gian còn lại.</li><li>Câu đúng–sai chấm theo số ý đúng; điểm thô tối đa ${vn(rawMax(t))} và được quy đổi về thang 10.</li><li>Sau khi nộp, em được xem đáp án và lời giải chi tiết từng bước.</li></ul></div>
       ${m.attempts ? `<p class="test-best">Kết quả tốt nhất: <b>${vn(m.best)}/10</b> · ${starsHTML(m.bestStars)}</p>` : ''}
       <button class="btn primary big" id="testStart">Bắt đầu làm bài</button></section>`);
-    $('#testStart').onclick = () => { const mm = meta(t), ci = mm.attempts % t.codes.length, s = blankState(t, ci, mm.attempts + 1); mm.attempts++; store.set(metaKey(t), mm); store.set(stateKey(t), s); exam(t, g, s); };
+    $('#testStart').onclick = () => { const mm = meta(t), ci = t.daily ? dayNo() : mm.attempts % t.codes.length, s = blankState(t, ci, mm.attempts + 1); mm.attempts++; store.set(metaKey(t), mm); store.set(stateKey(t), s); exam(t, g, s); };
   }
   const countAnswered = s => s.mc.filter(x => x != null).length + s.tf.flat().filter(x => x != null).length + s.short.filter(x => String(x).trim()).length;
   const totalCommands = q => q.mc.length + q.tf.reduce((n,x)=>n+x.items.length,0) + q.short.length;
@@ -113,7 +119,7 @@ const StudentTest = (() => {
     clearInterval(timer);s.submitted=true;s.submittedAt=Date.now();s.result=grade(q,s,t);store.set(stateKey(t),s);
     const m=meta(t);if(s.result.score>m.best)m.best=s.result.score;if(s.result.stars>m.bestStars)m.bestStars=s.result.stars;store.set(metaKey(t),m);
     const prev=Number(store.get(starKey(t)))||0;if(s.result.stars>prev)store.set(starKey(t),s.result.stars);
-    if(!s.rewarded){s.rewarded=true;store.set(stateKey(t),s);try{if(typeof Account!=='undefined'&&Account.on)Account.on('done',{g,l:{id:`kiem-tra-${t.id}`,name:t.title},lv:1,st:s.result.stars,pts:s.result.score,n:10})}catch(e){console.error(e)}}
+    if(!s.rewarded){s.rewarded=true;store.set(stateKey(t),s);try{if(typeof Account!=='undefined'&&Account.on)Account.on('done',{g,l:{id:`kiem-tra-${t.id}${sfx(t)}`,name:t.title+(t.daily?' '+ymd().split('-').reverse().join('/'):'')},lv:1,st:s.result.stars,pts:s.result.score,n:10})}catch(e){console.error(e)}}
     result(t,g,s,auto?'Hết giờ – hệ thống đã tự nộp bài.':'');
   }
   const mark = ok => `<span class="test-mark ${ok?'ok':'bad'}">${ok?'✓ Đúng':'✗ Chưa đúng'}</span>`;

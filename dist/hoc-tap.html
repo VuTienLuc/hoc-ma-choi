@@ -3442,6 +3442,8 @@ const Hub = (() => {
         return `<li class="${it.done ? 'done' : ''}"><span class="qi">${it.done ? '✅' : '🎯'}</span><div><b>${esc(Q.text)}</b>${bar(it.p / Q.n * 100)}</div><small>${it.p}/${Q.n}</small></li>`; }).join('')}</ul>
         <p class="hub-reward ${got ? 'got' : ''}">${got ? '🎉 Em đã nhận thưởng hôm nay: <b>+1 ⭐ và +20 🪙</b>' : 'Xong <b>cả 3 nhiệm vụ</b> hôm nay: thưởng <b>+1 ⭐</b> và <b>+20 🪙</b>!'}</p></section>`;
     }
+    { const dg = c.role === 'teacher' ? c.state.gid : (Account.user && Account.gradeOfClass(Account.user.lop)); // 🎲 Đề Thử thách hôm nay (đề mới mỗi ngày, điểm và sao ghi cho tài khoản)
+      if(dg && typeof StudentTest !== 'undefined' && StudentTest.find(dg, 'thu-thach-ngay')) h += `<section class="hub-card"><h3>🔥 Thử thách hôm nay</h3><p>Đề <b>14 câu</b> mới mỗi ngày, toàn câu hay và dễ sai (Toán 10, Toán 11). Làm xong được <b>điểm /10</b> và tới <b>3 ⭐</b> ghi vào tài khoản của em — ngày mới có đề mới!</p><a class="btn primary" href="${SITE}#/${dg}/kiem-tra/thu-thach-ngay">🎯 Làm Thử thách hôm nay</a></section>`; }
     if(!hasWk){ box.innerHTML = h + note(OLD); return; }
     const any = rows.filter(r => doneNow(r) > 0).length, all3 = rows.filter(r => doneNow(r) >= 3).length;
     h += `<section class="hub-card"><h3>📅 Lớp ${esc(c.lop)} hôm nay</h3><div class="gr-stats"><span><b>${any}</b>/${rows.length} bạn đã xong ≥ 1 nhiệm vụ</span><span><b>${all3}</b> bạn xong cả 3 🎉</span></div>${bar(rows.length ? any / rows.length * 100 : 0)}</section>`;
@@ -3514,10 +3516,12 @@ const Hub = (() => {
         const sel = box.querySelector('#qaBai'); if(!sel || !live(box)) return;
         if(!g){ sel.innerHTML = '<option value="">Khối này chưa có ngân hàng bài</option>'; return; }
         const tp = g.topics.map(t => ({t, ls:g.lessons.filter(l => l.t === t.id)})).filter(x => x.ls.length);
-        sel.innerHTML = tp.map(({t, ls}) => `<optgroup label="${esc(t.name)}">${ls.map(l => `<option value="${esc(l.id)}">${esc(l.name)}</option>`).join('')}</optgroup>`).join('');
+        const hasT = typeof TTB !== 'undefined' && TTB.size && TTB.size('lop' + gradeNum(c.lop));
+        sel.innerHTML = (hasT ? '<optgroup label="🎯 Ngân hàng Thử thách (câu hay, dễ sai)"><option value="__ttb">Câu ngẫu nhiên – Ngân hàng Thử thách</option></optgroup>' : '') + tp.map(({t, ls}) => `<optgroup label="${esc(t.name)}">${ls.map(l => `<option value="${esc(l.id)}">${esc(l.name)}</option>`).join('')}</optgroup>`).join('');
         const btn = box.querySelector('#qaDraw'); btn.disabled = false;
         btn.onclick = () => {
-          const l = g.lessons.find(x => x.id === sel.value), d = l && drawFromBank(l, +box.querySelector('#qaLv').value);
+          const isT = sel.value === '__ttb', l = isT ? {name:'Ngân hàng Thử thách'} : g.lessons.find(x => x.id === sel.value);
+          let d = null; if(isT){ try{ const x = TTB.fromBank('lop' + gradeNum(c.lop), Math.floor(Math.random() * 1e9)); d = {q:plain(x.q), opts:x.opts.map(plain), ans:x.ans, exp:plain(x.exp).slice(0, 600)}; }catch(e){} } else d = l && drawFromBank(l, +box.querySelector('#qaLv').value);
           if(!d){ bankMsg('Bài này chưa có câu trắc nghiệm phù hợp (không hình). Thầy chọn bài hoặc mức khác nhé.'); return; }
           box.querySelector('#qaQ').value = d.q; LET.forEach((_, i) => { box.querySelector('#qaO' + i).value = d.opts[i] || ''; });
           box.querySelector(`input[name=qaAns][value="${d.ans}"]`).checked = true; box.querySelector('#qaE').value = d.exp;
@@ -4379,9 +4383,13 @@ const StudentTest = (() => {
   const make = (x, ci) => typeof x === 'function' ? x(ci) : {...x};
   const round = (x, n=2) => Math.round((x + Number.EPSILON) * 10**n) / 10**n;
   const vn = x => String(x).replace('.', ',');
-  const stateKey = t => `hoctap:test:${t.grade}:${t.id}:state`;
-  const metaKey = t => `hoctap:test:${t.grade}:${t.id}:meta`;
-  const starKey = t => `hoctap:${t.grade}:kiem-tra-${t.id}:1`;
+  /* Bài "hằng ngày" (daily:true): mã đề sinh theo ngày (ci = số ngày kể từ 1/1/1970 theo giờ địa phương), mỗi ngày một bộ khoá lưu riêng. */
+  const dayNo = () => { const d = new Date(); return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); };
+  const ymd = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+  const sfx = t => t.daily ? '-' + ymd() : '';
+  const stateKey = t => `hoctap:test:${t.grade}:${t.id}${sfx(t)}:state`;
+  const metaKey = t => `hoctap:test:${t.grade}:${t.id}${sfx(t)}:meta`;
+  const starKey = t => `hoctap:${t.grade}:kiem-tra-${t.id}${sfx(t)}:1`;
   const meta = t => Object.assign({attempts:0,best:0,bestStars:0}, store.get(metaKey(t)) || {});
   const typeset = el => { try{ if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise(el ? [el] : undefined); }catch(e){} };
 
@@ -4389,14 +4397,16 @@ const StudentTest = (() => {
     const mc = t.mc.map((x, i) => { const q = make(x, ci), pos = (i + ci) % 4, opts = q.opts.slice(1); opts.splice(pos, 0, q.opts[0]); return {...q, opts, a:pos}; });
     const tf = t.tf.map(x => make(x, ci));
     const short = t.short.map(x => make(x, ci));
-    return {code:t.codes[ci], ci, mc, tf, short};
+    return {code:t.daily ? ymd().split('-').reverse().join('/') : t.codes[ci], ci, mc, tf, short};
   }
-  function maxStars(grade){ return TESTS.filter(t => t.grade === grade).length * 3; }
-  function stars(grade){ return TESTS.filter(t => t.grade === grade).reduce((n, t) => n + (Number(store.get(starKey(t))) || 0), 0); }
+  function maxStars(grade){ return TESTS.filter(t => t.grade === grade && !t.daily).length * 3; }
+  function dailyStars(t){ const mid = `:${t.grade}:kiem-tra-${t.id}-`, seen = new Set(); let n = 0;      // khoá thật có thể có tiền tố tài khoản (account.js) → quy về khoá logic rồi đọc bằng store
+    try{ for(let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i), j = k ? k.indexOf(mid) : -1; if(j < 0 || !k.endsWith(':1')) continue; const lk = 'hoctap' + k.slice(j); if(seen.has(lk)) continue; seen.add(lk); n += Number(store.get(lk)) || 0; } }catch(e){} return n; }
+  function stars(grade){ return TESTS.filter(t => t.grade === grade).reduce((n, t) => n + (t.daily ? dailyStars(t) : Number(store.get(starKey(t))) || 0), 0); }
   function tiles(grade, topic){
     return TESTS.filter(t => t.grade === grade && t.topic === topic).map(t => { const m = meta(t), st = Number(store.get(starKey(t))) || 0;
       const fold = x => String(x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').toLowerCase(), pct = Math.round(st / 3 * 100), sk = pct >= 100 ? 'done' : m.attempts ? 'doing' : 'todo', lab = {todo:'Chưa làm', doing:'Đang làm', done:'✓ Hoàn thành'}[sk];
-      return `<a class="tile test-tile les st-${sk}" data-st="${sk}" data-n="${fold(t.title + ' kiem tra')}" href="#/${t.grade}/kiem-tra/${t.id}"><span class="les-top"><b>📝 ${esc(t.title)}</b><span class="chip st-${sk}">${lab}</span></span><span class="tdesc">${t.time} phút · ${t.mc.length} chọn đáp án · ${t.tf.length} đúng–sai · ${t.short.length} trả lời ngắn</span><span class="meta"><span>${m.attempts ? `Đã làm ${m.attempts} lần · Cao nhất ${vn(m.best)}/10` : 'Chưa làm bài'}</span>${starsHTML(st)}</span><span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span></a>`;
+      return `<a class="tile test-tile les st-${sk}" data-st="${sk}" data-n="${fold(t.title + ' kiem tra')}" href="#/${t.grade}/kiem-tra/${t.id}"><span class="les-top"><b>📝 ${esc(t.title)}</b><span class="chip st-${sk}">${lab}</span></span><span class="tdesc">${t.daily ? '🎲 Đề mới mỗi ngày · ' : ''}${t.time} phút · ${t.mc.length} chọn đáp án · ${t.tf.length} đúng–sai · ${t.short.length} trả lời ngắn</span><span class="meta"><span>${m.attempts ? `Đã làm ${m.attempts} lần · Cao nhất ${vn(m.best)}/10` : 'Chưa làm bài'}</span>${starsHTML(st)}</span><span class="prog"><span class="pbar"><i style="width:${pct}%"></i></span><span class="pct">${pct}%</span></span></a>`;
     }).join('');
   }
   function blankState(t, ci, attempts){
@@ -4413,7 +4423,7 @@ const StudentTest = (() => {
   function teacherBar(t){
     if(typeof Account === 'undefined' || !Account.isTeacher || !Account.isTeacher() || typeof TestDeck === 'undefined' || typeof Lecture === 'undefined') return;
     const bar = $('#app .toolbar'); if(!bar) return;
-    bar.insertAdjacentHTML('afterend', `<div class="td-bar card"><b>📽️ Trình chiếu trên lớp</b><span>${t.codes.map((c, i) => `<button class="btn ${i ? '' : 'primary '}small" data-tdplay="${i}">▶ Mã ${esc(c)}</button>`).join('')}</span></div>`);
+    bar.insertAdjacentHTML('afterend', `<div class="td-bar card"><b>📽️ Trình chiếu trên lớp</b><span>${t.daily ? `<button class="btn primary small" data-tdplay="${dayNo()}">▶ Đề hôm nay (${ymd().split('-').reverse().join('/')})</button>` : t.codes.map((c, i) => `<button class="btn ${i ? '' : 'primary '}small" data-tdplay="${i}">▶ Mã ${esc(c)}</button>`).join('')}</span></div>`);
     $$('[data-tdplay]').forEach(b => b.onclick = () => Lecture.open(TestDeck.deck(t, +b.dataset.tdplay), 0));
   }
   function intro(t, g){
@@ -4428,7 +4438,7 @@ const StudentTest = (() => {
       <div class="test-rules"><h3>Quy định làm bài</h3><ul><li>Không có gợi ý và không hiện đáp án trước khi nộp bài.</li><li>Bài được lưu tự động trên thiết bị; tải lại trang vẫn tiếp tục đúng mã đề và thời gian còn lại.</li><li>Câu đúng–sai chấm theo số ý đúng; điểm thô tối đa ${vn(rawMax(t))} và được quy đổi về thang 10.</li><li>Sau khi nộp, em được xem đáp án và lời giải chi tiết từng bước.</li></ul></div>
       ${m.attempts ? `<p class="test-best">Kết quả tốt nhất: <b>${vn(m.best)}/10</b> · ${starsHTML(m.bestStars)}</p>` : ''}
       <button class="btn primary big" id="testStart">Bắt đầu làm bài</button></section>`);
-    $('#testStart').onclick = () => { const mm = meta(t), ci = mm.attempts % t.codes.length, s = blankState(t, ci, mm.attempts + 1); mm.attempts++; store.set(metaKey(t), mm); store.set(stateKey(t), s); exam(t, g, s); };
+    $('#testStart').onclick = () => { const mm = meta(t), ci = t.daily ? dayNo() : mm.attempts % t.codes.length, s = blankState(t, ci, mm.attempts + 1); mm.attempts++; store.set(metaKey(t), mm); store.set(stateKey(t), s); exam(t, g, s); };
   }
   const countAnswered = s => s.mc.filter(x => x != null).length + s.tf.flat().filter(x => x != null).length + s.short.filter(x => String(x).trim()).length;
   const totalCommands = q => q.mc.length + q.tf.reduce((n,x)=>n+x.items.length,0) + q.short.length;
@@ -4479,7 +4489,7 @@ const StudentTest = (() => {
     clearInterval(timer);s.submitted=true;s.submittedAt=Date.now();s.result=grade(q,s,t);store.set(stateKey(t),s);
     const m=meta(t);if(s.result.score>m.best)m.best=s.result.score;if(s.result.stars>m.bestStars)m.bestStars=s.result.stars;store.set(metaKey(t),m);
     const prev=Number(store.get(starKey(t)))||0;if(s.result.stars>prev)store.set(starKey(t),s.result.stars);
-    if(!s.rewarded){s.rewarded=true;store.set(stateKey(t),s);try{if(typeof Account!=='undefined'&&Account.on)Account.on('done',{g,l:{id:`kiem-tra-${t.id}`,name:t.title},lv:1,st:s.result.stars,pts:s.result.score,n:10})}catch(e){console.error(e)}}
+    if(!s.rewarded){s.rewarded=true;store.set(stateKey(t),s);try{if(typeof Account!=='undefined'&&Account.on)Account.on('done',{g,l:{id:`kiem-tra-${t.id}${sfx(t)}`,name:t.title+(t.daily?' '+ymd().split('-').reverse().join('/'):'')},lv:1,st:s.result.stars,pts:s.result.score,n:10})}catch(e){console.error(e)}}
     result(t,g,s,auto?'Hết giờ – hệ thống đã tự nộp bài.':'');
   }
   const mark = ok => `<span class="test-mark ${ok?'ok':'bad'}">${ok?'✓ Đúng':'✗ Chưa đúng'}</span>`;
@@ -5994,6 +6004,506 @@ const {mc, tf, sh} = C2B11;
   mc:mc.map(f => ci => f(ci, n)),
   tf:tf.map((f, i) => ci => { const q = f(ci, n); return {stem:q.stem, items:q.items.map((it, j) => { const ok = (j + ci + i) % 2 === 0; return {text:it.t[ok ? 0 : 1], ok, sol:it.s[ok ? 0 : 1]}; })}; }),
   short:sh.map(f => ci => { const q = f(ci, n); return {q:q.q, ans:q.ans, sol:q.sol}; })}));
+})();
+
+</script>
+<script>/* data/thu-thach-core.js */
+/* =====================================================================
+   NGÂN HÀNG THỬ THÁCH – Toán 10 và Toán 11 (thầy yêu cầu 15/10/2026)
+   Câu MỚI viết riêng (không lấy từ các bộ cũ), chọn chỗ HAY SAI: phủ định lượng từ, điều kiện cần – đủ, đầu mút khoảng,
+   dấu của giá trị lượng giác, đếm số hạng, nghiệm âm của công bội…
+   Mỗi MẪU câu là một hàm (r, H) => câu hỏi: r là bộ sinh số ngẫu nhiên theo hạt giống (cùng hạt giống → cùng câu), H là bộ tiện ích.
+   Đáp án luôn được tính LẠI bằng vét cạn hoặc công thức thứ hai ngay trong mẫu; sai là ném lỗi, bộ dựng sẽ thử hạt giống khác.
+   Dùng: TTB.get(lớp, 'mc'|'tf'|'sh', vị trí, hạt giống) → câu hỏi theo khuôn StudentTest (xem data/thu-thach-kiem-tra.js);
+         TTB.fromBank(lớp, hạt giống) → một câu trắc nghiệm dạng văn bản thường cho “Câu hỏi của thầy”.
+   Thêm mẫu mới: TTB.add('lop10', 'mc', (r, H) => H.mc(level, q, đúng, [sai, sai, sai], lời giải)).
+   ===================================================================== */
+(() => {
+  const POOL = {lop10: {mc: [], tf: [], sh: []}, lop11: {mc: [], tf: [], sh: []}};
+  const rng = s => { let a = s >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; };
+  const gcd = (a, b) => b ? gcd(b, a % b) : Math.abs(a);
+  const H = {
+    M: x => `\\(${x}\\)`,
+    ri: (r, a, b) => a + Math.floor(r() * (b - a + 1)),
+    pick: (r, a) => a[Math.floor(r() * a.length)],
+    shuf: (r, arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; },
+    gcd,
+    frac: (n, d) => { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d) || 1; return [n / g, d / g]; },
+    fr: (n, d) => { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d) || 1; n /= g; d /= g; const s = n < 0 ? '-' : ''; n = Math.abs(n); return d === 1 ? `${s}${n}` : `${s}\\dfrac{${n}}{${d}}`; },
+    /* π nhân phân số: piT(n, d) = (n/d)π */
+    piT: (n, d) => { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d) || 1; n /= g; d /= g; if (n === 0) return '0'; const s = n < 0 ? '-' : '', a = Math.abs(n), top = a === 1 ? '\\pi' : `${a}\\pi`; return d === 1 ? `${s}${top}` : `${s}\\dfrac{${top}}{${d}}`; },
+    sgn: n => n < 0 ? '-' : '+',
+    lin: (a, b, v = 'x') => `${a === 1 ? '' : a === -1 ? '-' : a}${v}${b === 0 ? '' : (b > 0 ? '+' : '-') + Math.abs(b)}`,
+    mc: (level, q, correct, wrongs, sol) => { const w = [...new Set(wrongs)].filter(x => x !== correct); if (w.length < 3) throw new Error('thiếu phương án nhiễu'); return {level, q, opts: [correct, ...w.slice(0, 3)], sol}; },
+    claim: (ok, t, f, sol) => ok ? {text: t, ok: true, sol: sol + ' Vậy khẳng định này <b>đúng</b>.'} : {text: f, ok: false, sol: sol + ' Vậy khẳng định này <b>sai</b>.'},
+    tf: (stem, items) => ({stem, items}),
+    sh: (q, ans, sol) => ({q, ans: String(ans), sol}),
+    p: s => `<p>${s}</p>`,
+    pat: r => { const k = 1 + Math.floor(r() * 3); return H.shuf(r, [0, 1, 2, 3].map(i => i < k)); },   // mẫu đúng–sai: 1 đến 3 ý đúng
+    chk: (ok, msg) => { if (!ok) throw new Error('TTB: ' + msg); }
+  };
+  const check = (kind, it) => {
+    const bad = m => { throw new Error('TTB: ' + m); };
+    if (kind === 'mc') { if (!it.q || !it.sol || !Array.isArray(it.opts) || it.opts.length !== 4 || new Set(it.opts).size !== 4) bad('câu trắc nghiệm không hợp lệ'); }
+    else if (kind === 'tf') { if (!it.stem || !Array.isArray(it.items) || it.items.length !== 4 || it.items.every(x => x.ok) || it.items.every(x => !x.ok) || it.items.some(x => !x.sol)) bad('câu đúng–sai không hợp lệ'); }
+    else if (!it.q || it.ans == null || !it.sol || String(Array.isArray(it.ans) ? it.ans[0] : it.ans).length > 4) bad('câu trả lời ngắn không hợp lệ (đáp số tối đa 4 ký tự)');
+  };
+  const TTB = {
+    POOL, H, rng,
+    add: (grade, kind, f) => POOL[grade][kind].push(f),
+    /* Câu thứ `slot` của loại `kind`: mẫu được chọn theo hạt giống ngày (mỗi vị trí một mẫu khác nhau), số liệu theo (hạt giống, vị trí). */
+    get: (grade, kind, slot, seed) => {
+      const pool = POOL[grade][kind]; if (!pool.length) throw new Error('TTB: ngân hàng rỗng ' + grade + '/' + kind);
+      const order = H.shuf(rng(seed * 7919 + kind.length * 31 + 17), pool.map((_, i) => i)), f = pool[order[slot % pool.length]]; let last;
+      for (let t = 0; t < 120; t++) { try { const it = f(rng(seed * 104729 + slot * 977 + t * 13 + 1), H); check(kind, it); return it; } catch (e) { last = e; } }
+      throw last;
+    },
+    /* Một câu trắc nghiệm ngẫu nhiên (cho nút “Bốc câu” của thầy): trả về {q, opts[4], ans:'A'..'D', exp} ở dạng HTML có \( … \) */
+    fromBank: (grade, seed) => { const n = POOL[grade].mc.length, slot = Math.abs(seed) % n, it = TTB.get(grade, 'mc', slot, Math.floor(Math.abs(seed) / n) + 1), order = H.shuf(rng(seed + 5), [0, 1, 2, 3]);
+      return {q: it.q, opts: order.map(i => it.opts[i]), ans: 'ABCD'[order.indexOf(0)], exp: it.sol, level: it.level}; },
+    size: grade => ({mc: POOL[grade].mc.length, tf: POOL[grade].tf.length, sh: POOL[grade].sh.length})
+  };
+  globalThis.TTB = TTB;
+})();
+
+</script>
+<script>/* data/thu-thach-bank-10.js */
+/* Ngân hàng Thử thách – TOÁN 10 (Chương I, II, III và Bài 12). Xem data/thu-thach-core.js.
+   12 mẫu trắc nghiệm · 3 mẫu đúng–sai · 5 mẫu trả lời ngắn. Mỗi mẫu tự kiểm đáp án bằng vét cạn (H.chk). */
+(() => {
+  const A = (k, f) => TTB.add('lop10', k, f), M = x => `\\(${x}\\)`;
+  const cnt = (n, f) => { let c = 0; for (let i = 0; i < n; i++) if (f(i)) c++; return c; };
+
+  /* ---------- Khoảng: {l, r, lc, rc} ---------- */
+  const inI = (x, I) => (x > I.l || (x === I.l && I.lc)) && (x < I.r || (x === I.r && I.rc));
+  const iTex = I => `${I.lc ? '[' : '('}${I.l};\\,${I.r}${I.rc ? ']' : ')'}`;
+  const ints = I => { const o = []; for (let x = -60; x <= 60; x++) if (inI(x, I)) o.push(x); return o; };
+  const flip = (I, side) => side === 'l' ? {...I, lc: !I.lc} : {...I, rc: !I.rc};
+
+  /* ===================== TRẮC NGHIỆM ===================== */
+  // 1. Phủ định mệnh đề chứa kí hiệu ∀, ∃
+  A('mc', (r, H) => {
+    const ex = H.ri(r, 0, 1) === 1, op = H.pick(r, ['<', '>', '\\le', '\\ge']), neg = {'<': '\\ge', '>': '\\le', '\\le': '\\gt', '\\ge': '\\lt'}[op], a = H.ri(r, 2, 9);
+    const pred = H.pick(r, [`x^2`, `2x+1`, `x^2+x`]), Q = e => e ? '\\exists' : '\\forall', fmt = (e, o) => M(`${Q(e)} x\\in\\mathbb{R},\\ ${pred}\\ ${o === '<' ? '\\lt' : o === '>' ? '\\gt' : o}\\ ${a}`);
+    const opN = neg;
+    return H.mc('Thông hiểu', `Cho mệnh đề ${M('P')}: «${fmt(ex, op)}». Mệnh đề phủ định của ${M('P')} là`, fmt(!ex, opN),
+      [fmt(ex, opN), fmt(!ex, op), fmt(ex, op === '<' ? '\\gt' : op === '>' ? '\\lt' : op === '\\le' ? '\\ge' : '\\le')],
+      H.p(`Phủ định đổi kí hiệu ${M(ex ? '\\exists' : '\\forall')} thành ${M(ex ? '\\forall' : '\\exists')} <b>và</b> phủ định phần điều kiện: ${M(op)} thành ${M(opN)}.`) + H.p(`Mệnh đề phủ định: ${fmt(!ex, opN)}.`));
+  });
+
+  // 2. Điều kiện cần, điều kiện đủ (chia hết)
+  A('mc', (r, H) => {
+    const L = [2, 3, 4, 6, 8, 9, 12]; let a, b; do { a = H.pick(r, L); b = H.pick(r, L); } while (a === b);
+    const imp = (x, y) => { for (let n = 1; n <= 600; n++) if (n % x === 0 && n % y !== 0) return false; return true; };   // x ⇒ y
+    const suf = imp(a, b), nec = imp(b, a), T = ['Điều kiện đủ nhưng không cần', 'Điều kiện cần nhưng không đủ', 'Điều kiện cần và đủ', 'Không là điều kiện cần, cũng không là điều kiện đủ'];
+    const ans = suf && nec ? T[2] : suf ? T[0] : nec ? T[1] : T[3]; H.chk(!(suf && nec), 'a≠b');
+    const why = suf ? `${M(`n \\vdots ${a}`)} thì ${M(`n \\vdots ${b}`)} (vì ${b} là ước của ${a}) nên ${M(`P\\Rightarrow Q`)} đúng` : `chọn ${M(`n=${(() => { for (let n = 1; n <= 600; n++) if (n % a === 0 && n % b !== 0) return n; })()}`)}: chia hết cho ${a} nhưng không chia hết cho ${b}, nên ${M(`P\\Rightarrow Q`)} sai`;
+    const why2 = nec ? `ngược lại, ${M(`Q\\Rightarrow P`)} đúng` : `ngược lại, ${M(`Q\\Rightarrow P`)} sai (phản ví dụ ${M(`n=${(() => { for (let n = 1; n <= 600; n++) if (n % b === 0 && n % a !== 0) return n; })()}`)})`;
+    return H.mc('Vận dụng', `Với ${M('n')} là số tự nhiên, xét ${M('P')}: «${M('n')} chia hết cho ${a}», ${M('Q')}: «${M('n')} chia hết cho ${b}». Phát biểu nào sau đây đúng?<br>«${M('P')} là ... để có ${M('Q')}»`, ans, T.filter(x => x !== ans),
+      H.p(`${M('P')} là điều kiện <b>đủ</b> của ${M('Q')} khi ${M(`P\\Rightarrow Q`)} đúng; là điều kiện <b>cần</b> khi ${M(`Q\\Rightarrow P`)} đúng.`) + H.p(`Ở đây ${why}; ${why2}.`) + H.p(`Kết luận: <b>${ans}</b>.`));
+  });
+
+  // 3. Số số nguyên thuộc A ∩ B (đầu mút mở/đóng)
+  A('mc', (r, H) => { for (let t = 0; t < 200; t++) {
+    const a1 = H.ri(r, -6, 2), a2 = a1 + H.ri(r, 4, 9), b1 = H.ri(r, a1 - 1, a2 - 2), b2 = b1 + H.ri(r, 3, 9), I = {l: a1, r: a2, lc: !!H.ri(r, 0, 1), rc: !!H.ri(r, 0, 1)}, J = {l: b1, r: b2, lc: !!H.ri(r, 0, 1), rc: !!H.ri(r, 0, 1)};
+    const both = x => inI(x, I) && inI(x, J), n = cnt(121, i => both(i - 60)); if (n < 2 || n > 9) continue;
+    const alt = (x, y) => cnt(121, i => inI(i - 60, {...I, lc: x, rc: x}) && inI(i - 60, {...J, lc: y, rc: y}));    // lỗi: coi mọi đầu mút đều đóng / đều mở
+    const wr = [n + 1, n - 1, alt(true, true), alt(false, false), ints(I).length].map(String); const ans = String(n);
+    if (new Set([ans, ...wr.filter(w => w !== ans)]).size < 4) continue;
+    return H.mc('Vận dụng', `Cho ${M(`A=${iTex(I)}`)} và ${M(`B=${iTex(J)}`)}. Số số nguyên thuộc ${M('A\\cap B')} là`, ans, wr,
+      H.p(`${M('A\\cap B')} gồm các số thuộc cả hai khoảng: lấy phần chung ${M(`${Math.max(I.l, J.l)} \\le x \\le ${Math.min(I.r, J.r)}`)}, rồi kiểm tra từng đầu mút (đóng thì lấy, mở thì bỏ).`) + H.p(`Các số nguyên: ${ints(I).filter(x => inI(x, J)).join('; ')}. Có <b>${n}</b> số.`));
+  } throw new Error('mc3'); });
+
+  // 4. Hiệu hai khoảng A \ B
+  A('mc', (r, H) => {
+    const right = H.ri(r, 0, 1) === 1, a = H.ri(r, -5, 1), c = a + H.ri(r, 2, 4), b = c + H.ri(r, 1, 4), d = b + H.ri(r, 2, 5);
+    // right: A=(a;b], B=[c;d) → A\B=(a;c)      left: A=[c;d), B=(a;b] → A\B=(b;d)
+    const A1 = right ? {l: a, r: b, lc: false, rc: true} : {l: c, r: d, lc: true, rc: false}, B1 = right ? {l: c, r: d, lc: true, rc: false} : {l: a, r: b, lc: false, rc: true};
+    const D = right ? {l: a, r: c, lc: false, rc: false} : {l: b, r: d, lc: false, rc: false};
+    for (let k = -2 * 20; k <= 2 * 30; k++) { const x = k / 2; H.chk((inI(x, A1) && !inI(x, B1)) === inI(x, D), 'A\\B'); }
+    const wr = [flip(D, 'r'), flip(D, 'l'), {...D, lc: true, rc: true}, right ? {l: c, r: b, lc: true, rc: true} : {l: c, r: b, lc: true, rc: true}].map(iTex);
+    return H.mc('Thông hiểu', `Cho ${M(`A=${iTex(A1)}`)} và ${M(`B=${iTex(B1)}`)}. Tập ${M('A\\setminus B')} là`, M(iTex(D)), wr.map(M),
+      H.p(`${M('A\\setminus B')} gồm các phần tử thuộc ${M('A')} mà <b>không</b> thuộc ${M('B')}.`) + H.p(right
+        ? `${M('B')} bắt đầu từ ${M(c)} và lấy cả ${M(c)}; ${M('A')} không lấy ${M(a)}. Phần của ${M('A')} nằm bên trái ${M(c)} là ${M(iTex(D))} (không lấy ${M(c)} vì ${M(c)} thuộc ${M('B')}).`
+        : `${M('B')} kết thúc ở ${M(b)} và lấy cả ${M(b)}; ${M('A')} không lấy ${M(d)}. Phần của ${M('A')} nằm bên phải ${M(b)} là ${M(iTex(D))} (không lấy ${M(b)} vì ${M(b)} thuộc ${M('B')}).`));
+  });
+
+  // 5. Số tập con chứa / không chứa phần tử cho trước
+  A('mc', (r, H) => {
+    const n = H.ri(r, 5, 9), kind = H.ri(r, 0, 2), el = [1, 2], N = (1 << n) - 1; let c = 0;
+    for (let m = 0; m <= N; m++) { const has1 = m & 1, has2 = m & 2; if (kind === 0 ? (has1 && !has2) : kind === 1 ? (has1 && has2) : (!has1 && m !== 0)) c++; }
+    const txt = ['chứa phần tử 1 nhưng không chứa phần tử 2', 'chứa cả hai phần tử 1 và 2', 'không chứa phần tử 1 và khác rỗng'][kind];
+    const ans = String(c), wr = [2 ** n, 2 ** (n - 1), 2 ** (n - 2) - 1, 2 ** (n - 1) + 1, 2 ** (n - 2) + 1, 2 ** n - 1].map(String);
+    H.chk(c === (kind === 2 ? 2 ** (n - 1) - 1 : 2 ** (n - 2)), 'subset');
+    return H.mc('Vận dụng', `Cho tập hợp ${M(`A=\\{1;\\,2;\\,\\ldots;\\,${n}\\}`)}. Số tập con của ${M('A')} ${txt} là`, ans, wr,
+      H.p(kind === 2 ? `Bỏ phần tử 1, mỗi phần tử còn lại (${n - 1} phần tử) chọn hoặc không: ${M(`2^{${n - 1}}`)} tập con (kể cả tập rỗng). Loại tập rỗng: ${M(`2^{${n - 1}}-1`)}.` : `Hai phần tử 1 và 2 đã cố định (chọn/không chọn xác định), mỗi phần tử trong ${n - 2} phần tử còn lại chọn hoặc không: ${M(`2^{${n - 2}}`)} tập con.`) + H.p(`Đáp số: <b>${c}</b>.`));
+  });
+
+  // 6. Cặp số nào là nghiệm của hệ bất phương trình (đầu mút nghiêm ngặt)
+  const sysItems = (r, H) => { for (let t = 0; t < 400; t++) {
+    const cf = () => { let a = H.ri(r, -3, 3), b = H.ri(r, -3, 3); if (!a && !b) a = 1; return [a, b]; }, rows = [0, 1, 2].map(() => { const [a, b] = cf(); return {a, b, c: H.ri(r, -5, 6), s: H.ri(r, 0, 1) === 1}; });   // s: true = bất đẳng thức chặt (<)
+    const ok = (x, y, strictAsNon) => rows.every(w => { const v = w.a * x + w.b * y; return w.s && !strictAsNon ? v < w.c : v <= w.c; });
+    const pts = []; for (let x = -6; x <= 6; x++) for (let y = -6; y <= 6; y++) pts.push([x, y]);
+    const good = pts.filter(([x, y]) => ok(x, y, false)), trap = pts.filter(([x, y]) => !ok(x, y, false) && ok(x, y, true)), bad = pts.filter(([x, y]) => !ok(x, y, true));
+    if (good.length < 3 || trap.length < 1 || bad.length < 6) continue;
+    const g = H.pick(r, good), tp = H.pick(r, trap), bs = H.shuf(r, bad).slice(0, 2); return {rows, ok, g, tp, bs}; } throw new Error('sys'); };
+  const sysTex = rows => `\\begin{cases}${rows.map(w => `${H0.lin2(w.a, w.b)}\\ ${w.s ? '\\lt' : '\\le'}\\ ${w.c}`).join(' \\\\ ')}\\end{cases}`;
+  const H0 = {lin2: (a, b) => { const t = (c, v) => c === 0 ? '' : `${c === 1 ? '' : c === -1 ? '-' : c}${v}`, x = t(a, 'x'), y = t(b, 'y'); return x && y ? `${x}${b > 0 ? '+' : ''}${y}` : x || y; }};
+  A('mc', (r, H) => { const S = sysItems(r, H), pt = p => M(`(${p[0]};\\,${p[1]})`), all = H.shuf(r, [S.g, S.tp, ...S.bs]);
+    return H.mc('Vận dụng', `Cặp số ${M('(x;\\,y)')} nào sau đây là nghiệm của hệ bất phương trình ${M(sysTex(S.rows))}?`, pt(S.g), [S.tp, ...S.bs].map(pt),
+      H.p(`Thay từng cặp vào <b>cả ba</b> bất phương trình; chú ý bất phương trình có dấu ${M('\\lt')} không nhận dấu bằng.`) + H.p(`${pt(S.g)} thoả cả ba. ${pt(S.tp)} làm một bất phương trình chặt xảy ra dấu bằng nên <b>không</b> là nghiệm.`));
+  });
+
+  // 7. GTLN, GTNN của F = ax + by trên miền đa giác
+  const poly = (r, H) => { for (let t = 0; t < 300; t++) {
+    const P = [[0, 0], [0, H.ri(r, 3, 6)], [H.ri(r, 2, 6), H.ri(r, 3, 7)], [H.ri(r, 4, 8), 0]], cr = (o, p, q) => (p[0] - o[0]) * (q[1] - o[1]) - (p[1] - o[1]) * (q[0] - o[0]);
+    const s = [cr(P[0], P[1], P[2]), cr(P[1], P[2], P[3]), cr(P[2], P[3], P[0]), cr(P[3], P[0], P[1])]; if (s.every(x => x < 0) || s.every(x => x > 0)) return P; } throw new Error('poly'); };
+  A('mc', (r, H) => { const P = poly(r, H), a = H.ri(r, -4, 4) || 2, b = H.ri(r, -4, 4) || 3, vals = P.map(([x, y]) => a * x + b * y), isMax = H.ri(r, 0, 1) === 1;
+    const best = isMax ? Math.max(...vals) : Math.min(...vals), other = isMax ? Math.min(...vals) : Math.max(...vals); H.chk(new Set(vals).size >= 3, 'vals');
+    const wr = [other, ...vals.filter(v => v !== best && v !== other), a * P[2][0] + b * P[2][1] + 1, vals.reduce((p, q) => p + q, 0)].map(String);
+    const f = `F=${a === 1 ? '' : a === -1 ? '-' : a}x${b > 0 ? '+' : '-'}${Math.abs(b) === 1 ? '' : Math.abs(b)}y`;
+    return H.mc('Vận dụng', `Miền nghiệm của một hệ bất phương trình là tứ giác ${M('ABCD')} với ${M(`A(${P[0]}),\\ B(${P[1]}),\\ C(${P[2]}),\\ D(${P[3]})`)}. Giá trị ${isMax ? 'lớn' : 'nhỏ'} nhất của ${M(f)} trên miền này là`, String(best), wr,
+      H.p(`Giá trị lớn nhất, nhỏ nhất của ${M('F')} trên miền đa giác đạt tại một <b>đỉnh</b>. Tính ${M('F')} tại bốn đỉnh:`) + H.p(P.map((p, i) => `${M('ABCD'[i])}: ${M(String(vals[i]))}`).join('; ') + '.') + H.p(`Giá trị ${isMax ? 'lớn' : 'nhỏ'} nhất là <b>${best}</b>.`));
+  });
+
+  // 8. Dấu của giá trị lượng giác của góc tù
+  const TRI = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 12, 15]];
+  A('mc', (r, H) => { const [p, q0, h0] = H.pick(r, TRI), g = H.gcd(p, h0), [pp, hh] = [p / g, h0 / g], mode = H.ri(r, 0, 2), qq = q0 / H.gcd(q0, h0), cc = q0 / g;
+    // sinα = p/h, α tù: cosα = −q/h, tanα = −p/q
+    const fr = (n, d) => H.fr(n, d), tex = (n, d) => fr(n, d);
+    { const sn = p / h0, cs = -Math.sqrt(1 - sn * sn), tn = sn / cs; H.chk(Math.abs(cs + q0 / h0) < 1e-9 && Math.abs(tn + p / q0) < 1e-9 && Math.abs(sn + tn - (p * q0 - p * h0) / (q0 * h0)) < 1e-9, 'sin-cos-tan'); }
+    if (mode === 0) return H.mc('Thông hiểu', `Cho ${M(`\\sin\\alpha=${fr(p, h0)}`)} với ${M('90^\\circ\\lt\\alpha\\lt180^\\circ')}. Giá trị ${M('\\cos\\alpha')} bằng`, M(fr(-q0, h0)), [fr(q0, h0), fr(-p, q0), fr(q0, p)].map(M),
+      H.p(`${M('\\cos^2\\alpha=1-\\sin^2\\alpha')} = ${M(fr(q0 * q0, h0 * h0))}, nên ${M(`\\cos\\alpha=\\pm${fr(q0, h0)}`)}.`) + H.p(`Góc tù có côsin <b>âm</b>: ${M(`\\cos\\alpha=${fr(-q0, h0)}`)}.`));
+    if (mode === 1) return H.mc('Thông hiểu', `Cho ${M(`\\sin\\alpha=${fr(p, h0)}`)} với ${M('90^\\circ\\lt\\alpha\\lt180^\\circ')}. Giá trị ${M('\\tan\\alpha')} bằng`, M(fr(-p, q0)), [fr(p, q0), fr(-q0, p), fr(q0, p), fr(-p, h0)].map(M),
+      H.p(`${M(`\\cos\\alpha=${fr(-q0, h0)}`)} (góc tù, côsin âm).`) + H.p(`${M(`\\tan\\alpha=\\dfrac{\\sin\\alpha}{\\cos\\alpha}=${fr(-p, q0)}`)}.`));
+    return H.mc('Vận dụng', `Cho ${M(`\\cos\\alpha=${fr(-q0, h0)}`)} với ${M('0^\\circ\\lt\\alpha\\lt180^\\circ')}. Giá trị ${M('\\sin\\alpha+\\tan\\alpha')} bằng`, M(fr(p * q0 - p * h0, q0 * h0)),
+      [fr(p * q0 + p * h0, q0 * h0), fr(-p * q0 - p * h0, q0 * h0), fr(p * h0 - p * q0, q0 * h0), fr(p, h0)].map(M),
+      H.p(`${M('0^\\circ\\lt\\alpha\\lt180^\\circ')} nên ${M('\\sin\\alpha\\gt0')}: ${M(`\\sin\\alpha=${fr(p, h0)}`)}. Côsin âm nên ${M(`\\tan\\alpha=${fr(-p, q0)}`)}.`) + H.p(`${M(`${fr(p, h0)}+\\left(${fr(-p, q0)}\\right)=${fr(p * q0 - p * h0, q0 * h0)}`)}.`));
+  });
+
+  // 9. Rút gọn biểu thức với góc bù
+  A('mc', (r, H) => { for (let t = 0; t < 200; t++) {
+    const a = H.pick(r, [20, 25, 35, 40, 50, 65, 70]), terms = H.shuf(r, [['s', a], ['s', 180 - a], ['c', a], ['c', 180 - a]]).slice(0, 3), sg = terms.map(() => H.pick(r, [1, -1]));
+    const val = (rs, rc) => { let S = 0, C = 0; terms.forEach(([k, d], i) => { const sup = d === a ? 1 : -1; if (k === 's') S += sg[i] * (d === a ? 1 : rs); else C += sg[i] * (d === a ? 1 : rc); }); return [S, C]; };
+    const [S, C] = val(1, -1), D2R = Math.PI / 180, num = terms.reduce((acc, [k, d], i) => acc + sg[i] * (k === 's' ? Math.sin(d * D2R) : Math.cos(d * D2R)), 0);
+    H.chk(Math.abs(num - (S * Math.sin(a * D2R) + C * Math.cos(a * D2R))) < 1e-9, 'rút gọn góc bù');
+    const W1 = val(1, 1), W2 = val(-1, -1), W3 = val(-1, 1), ex = ([s, c]) => { if (!s && !c) return '0'; const t = (k, f) => k === 0 ? '' : `${k > 0 ? '+' : '-'}${Math.abs(k) === 1 ? '' : Math.abs(k)}${f}`, out = (t(s, `\\sin ${a}^\\circ`) + t(c, `\\cos ${a}^\\circ`)); return out.replace(/^\+/, ''); };
+    const key = v => ex(v), opts = [S, C]; const set = new Set([key([S, C])]); const wr = [W1, W2, W3].map(key).filter(x => !set.has(x)); if (new Set(wr).size < 3) continue;
+    const tx = (k, d, s) => `${s > 0 ? '+' : '-'}${k === 's' ? '\\sin' : '\\cos'} ${d}^\\circ`, expr = terms.map(([k, d], i) => tx(k, d, sg[i])).join(' ').replace(/^\+/, '');
+    return H.mc('Vận dụng', `Rút gọn ${M(`P=${expr}`)} (không dùng máy tính), ta được`, M(key([S, C])), wr.map(M),
+      H.p(`Hai góc bù nhau ${M(`${a}^\\circ+${180 - a}^\\circ=180^\\circ`)}: ${M(`\\sin(180^\\circ-\\alpha)=\\sin\\alpha`)} và ${M(`\\cos(180^\\circ-\\alpha)=-\\cos\\alpha`)}.`) + H.p(`Thay ${M(`\\sin ${180 - a}^\\circ=\\sin ${a}^\\circ`)}, ${M(`\\cos ${180 - a}^\\circ=-\\cos ${a}^\\circ`)} rồi thu gọn: ${M(`P=${key([S, C])}`)}.`));
+  } throw new Error('mc9'); });
+
+  // 10. Định lí côsin: tìm góc
+  const T60 = [[5, 8, 7], [3, 8, 7], [7, 15, 13], [8, 15, 13]], T120 = [[3, 5, 7], [7, 8, 13], [5, 16, 19]];
+  A('mc', (r, H) => { const A0 = H.pick(r, [60, 120]), [b, c, a] = H.pick(r, A0 === 60 ? T60 : T120), k = H.pick(r, [1, 2]);
+    const cs = (b * k) ** 2 + (c * k) ** 2 - (a * k) ** 2, cosA = cs / (2 * b * c * k * k); H.chk(Math.abs(cosA - (A0 === 60 ? .5 : -.5)) < 1e-9, 'cos');
+    return H.mc('Thông hiểu', `Tam giác ${M('ABC')} có ${M(`BC=${a * k},\\ CA=${b * k},\\ AB=${c * k}`)}. Số đo góc ${M('A')} bằng`, M(`${A0}^\\circ`), [A0 === 60 ? 120 : 60, 30, 150].map(x => M(`${x}^\\circ`)),
+      H.p(`${M(`\\cos A=\\dfrac{CA^2+AB^2-BC^2}{2\\cdot CA\\cdot AB}`)} = ${M(`\\dfrac{${(b * k) ** 2}+${(c * k) ** 2}-${(a * k) ** 2}}{2\\cdot ${b * k}\\cdot ${c * k}}=${H.fr(cs, 2 * b * c * k * k)}`)}.`) + H.p(`Suy ra ${M(`A=${A0}^\\circ`)} (cạnh đối diện góc ${M('A')} là ${M('BC')}).`));
+  });
+
+  // 11. Bán kính đường tròn ngoại tiếp
+  A('mc', (r, H) => { const kind = H.pick(r, ['h', 'r2', 'r3']), a0 = kind === 'r3' ? H.pick(r, [6, 9, 12]) : H.pick(r, [6, 8, 10, 12]);
+    const ang = kind === 'h' ? H.pick(r, [30, 150]) : kind === 'r2' ? H.pick(r, [45, 135]) : H.pick(r, [60, 120]);
+    const [R, w] = kind === 'h' ? [`${a0}`, [`${2 * a0}`, `${a0 / 2}`, `${a0}\\sqrt{3}`]] : kind === 'r2' ? [`${a0 / 2}\\sqrt{2}`, [`${a0}\\sqrt{2}`, `${a0}`, `${a0 / 2}`]] : [`${a0 / 3}\\sqrt{3}`, [`${2 * a0 / 3}\\sqrt{3}`, `${a0}\\sqrt{3}`, `${a0 / 3}`]];
+    const num = {h: a0, r2: a0 / Math.SQRT2, r3: a0 / Math.sqrt(3)}[kind]; H.chk(Math.abs(num - a0 / (2 * Math.sin(ang * Math.PI / 180))) < 1e-9, 'R');
+    return H.mc('Thông hiểu', `Tam giác ${M('ABC')} có ${M(`BC=${a0}`)} và ${M(`\\widehat{A}=${ang}^\\circ`)}. Bán kính đường tròn ngoại tiếp tam giác ${M('ABC')} bằng`, M(R), w.map(M),
+      H.p(`Định lí sin: ${M('\\dfrac{BC}{\\sin A}=2R')}, nên ${M('R=\\dfrac{BC}{2\\sin A}')}. Chú ý <b>có hệ số 2</b>.`) + H.p(`${M(`\\sin ${ang}^\\circ=${kind === 'h' ? '\\dfrac12' : kind === 'r2' ? '\\dfrac{\\sqrt2}{2}' : '\\dfrac{\\sqrt3}{2}'}`)} (góc ${ang}° và ${180 - ang}° có cùng sin), suy ra ${M(`R=${R}`)}.`));
+  });
+
+  // 12. Hai tàu rời bến (định lí côsin)
+  A('mc', (r, H) => { const pick = H.pick(r, [[60, [5, 8, 7]], [60, [3, 8, 7]], [60, [7, 15, 13]], [120, [3, 5, 7]], [120, [7, 8, 13]], [90, [3, 4, 5]], [90, [5, 12, 13]]]), [ang, [u, v, d]] = pick, t = H.ri(r, 2, 4);
+    const cosv = {60: .5, 90: 0, 120: -.5}[ang], dd = Math.sqrt((u * t) ** 2 + (v * t) ** 2 - 2 * u * t * v * t * cosv); H.chk(Math.abs(dd - d * t) < 1e-9, 'tàu');
+    const wrongN = (u * t) ** 2 + (v * t) ** 2 + 2 * u * t * v * t * cosv, wrongS = ang === 90 ? (u + v) * t : Math.round(wrongN);
+    const wr = [`\\sqrt{${wrongN}}`, `${(u + v) * t}`, `${Math.abs(u - v) * t}`, `${d * t + t}`].filter((x, i) => i !== 0 || Math.sqrt(wrongN) % 1 !== 0 || Math.sqrt(wrongN) !== d * t);
+    const tail = Math.sqrt(wrongN) % 1 === 0 ? `${Math.sqrt(wrongN)}` : `\\sqrt{${wrongN}}`;
+    return H.mc('Vận dụng', `Hai tàu thuỷ cùng xuất phát từ cảng ${M('O')} theo hai hướng tạo với nhau góc ${M(`${ang}^\\circ`)}. Tàu thứ nhất chạy ${u} km/h, tàu thứ hai chạy ${v} km/h. Sau ${t} giờ, hai tàu cách nhau bao nhiêu kilômét?`, M(`${d * t}`), [tail, `${(u + v) * t}`, `${Math.abs(u - v) * t}`, `${d * t + t}`].map(M),
+      H.p(`Sau ${t} giờ: ${M(`OA=${u * t}`)} km, ${M(`OB=${v * t}`)} km, ${M(`\\widehat{AOB}=${ang}^\\circ`)}.`) + H.p(`Định lí côsin: ${M(`AB^2=${(u * t) ** 2}+${(v * t) ** 2}-2\\cdot ${u * t}\\cdot ${v * t}\\cdot\\cos ${ang}^\\circ=${(d * t) ** 2}`)}. Vậy ${M(`AB=${d * t}`)} km.`) + H.p(`Lỗi hay gặp: dùng dấu ${M('+')} thay vì ${M('-')} trước ${M('2ab\\cos')}, hoặc lấy tổng quãng đường.`));
+  });
+
+  /* ===================== ĐÚNG – SAI ===================== */
+  // 1. Mệnh đề chia hết: kéo theo, đảo, phủ định
+  A('tf', (r, H) => { let a, b; for (let t = 0; t < 100; t++) { a = H.pick(r, [4, 6, 8, 9, 12, 15, 18]); b = H.pick(r, [2, 3, 4, 6, 9]); if (a !== b && (a % b === 0 || b % a === 0 || (a % b && b % a && H.gcd(a, b) > 1))) break; }
+    const imp = (x, y) => { for (let n = 1; n <= 720; n++) if (n % x === 0 && n % y !== 0) return false; return true; }, cex = (x, y) => { for (let n = 1; n <= 720; n++) if (n % x === 0 && n % y !== 0) return n; return null; };
+    const w = H.pat(r), P = `«${M('n')} chia hết cho ${a}»`, Q = `«${M('n')} chia hết cho ${b}»`, pq = imp(a, b), qp = imp(b, a), k = cex(b, a), k2 = cex(a, b);
+    const kk = (w[3] && !pq) ? k2 : a * b, kkOk = kk % a === 0 && kk % b !== 0;                      // ý 4: số kk có phải phản ví dụ của P ⇒ Q không
+    return H.tf(`Với ${M('n')} là số tự nhiên, xét ${M('P')}: ${P} và ${M('Q')}: ${Q}. Xét tính đúng – sai của các khẳng định sau:`, [
+      H.claim(pq, `Mệnh đề ${M('P\\Rightarrow Q')} là mệnh đề đúng.`, `Mệnh đề ${M('P\\Rightarrow Q')} là mệnh đề đúng.`, H.p(pq ? `Mọi số chia hết cho ${a} đều chia hết cho ${b}.` : `Phản ví dụ: ${M(`n=${k2}`)} chia hết cho ${a} nhưng không chia hết cho ${b}.`)),
+      H.claim(qp, `Mệnh đề đảo ${M('Q\\Rightarrow P')} là mệnh đề đúng.`, `Mệnh đề đảo ${M('Q\\Rightarrow P')} là mệnh đề đúng.`, H.p(qp ? `Mọi số chia hết cho ${b} đều chia hết cho ${a}.` : `Phản ví dụ: ${M(`n=${k}`)} chia hết cho ${b} nhưng không chia hết cho ${a}.`)),
+      w[0] ? {text: `Phủ định của ${M('P\\Rightarrow Q')} là: «tồn tại ${M('n')} chia hết cho ${a} mà không chia hết cho ${b}».`, ok: true, sol: H.p(`Phủ định của «${M('P\\Rightarrow Q')}» là «${M('P')} đúng và ${M('Q')} sai» với một ${M('n')} nào đó. Vậy khẳng định này <b>đúng</b>.`)}
+           : {text: `Phủ định của ${M('P\\Rightarrow Q')} là: «mọi ${M('n')} chia hết cho ${a} đều không chia hết cho ${b}».`, ok: false, sol: H.p(`Phủ định cần <b>một</b> ${M('n')} thoả ${M('P')} mà không thoả ${M('Q')}, không phải «mọi». Vậy khẳng định này <b>sai</b>.`)},
+      H.claim(kkOk, `Số ${M(`n=${kk}`)} là một phản ví dụ chứng tỏ ${M('P\\Rightarrow Q')} là mệnh đề sai.`, `Số ${M(`n=${kk}`)} là một phản ví dụ chứng tỏ ${M('P\\Rightarrow Q')} là mệnh đề sai.`, H.p(`Phản ví dụ phải thoả ${M('P')} nhưng không thoả ${M('Q')}: ${M(`${kk}`)} ${kk % a === 0 ? 'chia hết' : 'không chia hết'} cho ${a} và ${kk % b === 0 ? 'chia hết' : 'không chia hết'} cho ${b}.`))]);
+  });
+
+  // 2. Các phép toán trên khoảng
+  A('tf', (r, H) => { for (let t = 0; t < 200; t++) {
+    const a = H.ri(r, -6, 0), b = a + H.ri(r, 4, 8), c = H.ri(r, a + 1, b - 1), d = b + H.ri(r, 1, 5), I = {l: a, r: b, lc: !!H.ri(r, 0, 1), rc: !!H.ri(r, 0, 1)}, J = {l: c, r: d, lc: !!H.ri(r, 0, 1), rc: !!H.ri(r, 0, 1)};
+    const inter = {l: c, r: b, lc: J.lc, rc: I.rc}, uni = {l: a, r: d, lc: I.lc, rc: J.rc}, diff = {l: a, r: c, lc: I.lc, rc: !J.lc};
+    for (let k = -2 * 12; k <= 2 * 16; k++) { const x = k / 2; H.chk((inI(x, I) && inI(x, J)) === inI(x, inter) && (inI(x, I) || inI(x, J)) === inI(x, uni) && (inI(x, I) && !inI(x, J)) === inI(x, diff), 'phép toán'); }
+    const w = H.pat(r), wrongI = flip(inter, 'l'), wrongU = flip(uni, 'r'), wrongD = flip(diff, 'r'), nI = ints(I).filter(x => inI(x, J)).length;
+    return H.tf(`Cho ${M(`A=${iTex(I)}`)} và ${M(`B=${iTex(J)}`)}. Xét tính đúng – sai của các khẳng định sau:`, [
+      H.claim(w[0], `${M(`A\\cap B=${iTex(inter)}`)}.`, `${M(`A\\cap B=${iTex(wrongI)}`)}.`, H.p(`Phần chung bắt đầu từ ${M(c)} (đầu mút trái của ${M('B')}, ${J.lc ? 'đóng' : 'mở'}) và kết thúc ở ${M(b)} (đầu mút phải của ${M('A')}, ${I.rc ? 'đóng' : 'mở'}), nên ${M(`A\\cap B=${iTex(inter)}`)}.`)),
+      H.claim(w[1], `${M(`A\\cup B=${iTex(uni)}`)}.`, `${M(`A\\cup B=${iTex(wrongU)}`)}.`, H.p(`Hai khoảng giao nhau nên hợp là một khoảng từ ${M(a)} (theo ${M('A')}) đến ${M(d)} (theo ${M('B')}): ${M(iTex(uni))}.`)),
+      H.claim(w[2], `${M(`A\\setminus B=${iTex(diff)}`)}.`, `${M(`A\\setminus B=${iTex(wrongD)}`)}.`, H.p(`Phần của ${M('A')} nằm bên trái ${M(c)}; đầu mút ${M(c)} ${J.lc ? 'thuộc' : 'không thuộc'} ${M('B')} nên ${J.lc ? 'bị loại khỏi' : 'vẫn thuộc'} hiệu: ${M(`A\\setminus B=${iTex(diff)}`)}.`)),
+      H.claim(w[3], `Có đúng ${nI} số nguyên thuộc ${M('A\\cap B')}.`, `Có đúng ${nI + 1} số nguyên thuộc ${M('A\\cap B')}.`, H.p(`Các số nguyên thuộc ${M('A\\cap B')}: ${ints(I).filter(x => inI(x, J)).join('; ') || 'không có'}. Có ${nI} số.`))]);
+  } throw new Error('tf2'); });
+
+  // 3. Tam giác biết ba cạnh
+  const HER = [[13, 14, 15], [5, 5, 6], [10, 10, 12], [13, 13, 10], [9, 10, 17], [13, 20, 21], [17, 25, 26], [6, 25, 29], [8, 15, 17], [4, 13, 15]];
+  const heron = (a, b, c) => { const p = (a + b + c) / 2, s2 = p * (p - a) * (p - b) * (p - c); return Math.sqrt(s2); };
+  A('tf', (r, H) => { const [a, b, c] = H.shuf(r, H.pick(r, HER)), S = heron(a, b, c); H.chk(Number.isInteger(S), 'S nguyên');
+    const mx = Math.max(a, b, c), o = [a, b, c].filter((x, i, arr) => i !== arr.indexOf(mx)), obtuse = mx * mx > o[0] * o[0] + o[1] * o[1], p = (a + b + c) / 2, w = H.pat(r);
+    const rTex = H.fr(2 * S, a + b + c), rWrong = H.fr(S, a + b + c), num = o[0] * o[0] + o[1] * o[1] - mx * mx, cosT = H.fr(num, 2 * o[0] * o[1]), cosW = H.fr(-num, 2 * o[0] * o[1]);
+    H.chk(o.length === 2, 'hai cạnh còn lại');
+    return H.tf(`Tam giác ${M('ABC')} có ${M(`BC=${a},\\ CA=${b},\\ AB=${c}`)}. Xét tính đúng – sai của các khẳng định sau:`, [
+      H.claim(w[0], `Diện tích tam giác ${M('ABC')} bằng ${M(S)}.`, `Diện tích tam giác ${M('ABC')} bằng ${M(S + (S % 2 ? 1 : 2))}.`, H.p(`Nửa chu vi ${M(`p=${p}`)}; Hê-rông: ${M(`S=\\sqrt{${p}(${p - a})(${p - b})(${p - c})}=${S}`)}.`)),
+      H.claim(obtuse, `Tam giác ${M('ABC')} có một góc tù.`, `Tam giác ${M('ABC')} có một góc tù.`, H.p(`Cạnh lớn nhất là ${mx}; so ${M(`${mx}^2=${mx * mx}`)} với tổng bình phương hai cạnh còn lại ${M(`${o[0] ** 2 + o[1] ** 2}`)}: ${obtuse ? 'lớn hơn' : 'không lớn hơn'}, nên ${obtuse ? 'có' : 'không có'} góc tù.`)),
+      H.claim(w[2], `Bán kính đường tròn nội tiếp tam giác ${M('ABC')} bằng ${M(rTex)}.`, `Bán kính đường tròn nội tiếp tam giác ${M('ABC')} bằng ${M(rWrong)}.`, H.p(`${M('r=\\dfrac{S}{p}')} (${M('p')} là nửa chu vi) ${M(`=\\dfrac{${S}}{${p}}=${rTex}`)}.`)),
+      H.claim(w[3], `Côsin của góc lớn nhất bằng ${M(cosT)}.`, `Côsin của góc lớn nhất bằng ${M(cosW)}.`, H.p(`Góc lớn nhất đối diện cạnh ${mx}: ${M(`\\cos=\\dfrac{${o[0] ** 2}+${o[1] ** 2}-${mx * mx}}{2\\cdot ${o[0]}\\cdot ${o[1]}}=${cosT}`)}.`))]);
+  });
+
+  /* ===================== TRẢ LỜI NGẮN ===================== */
+  // 1. Số tập X thoả B ⊂ X ⊂ A
+  A('sh', (r, H) => { const n = H.ri(r, 7, 11), k = H.ri(r, 2, 4); let c = 0; const N = 1 << n, base = (1 << k) - 1; for (let m = 0; m < N; m++) if ((m & base) === base) c++; H.chk(c === 2 ** (n - k), 'X');
+    return H.sh(`Cho ${M(`A=\\{1;\\,2;\\,\\ldots;\\,${n}\\}`)} và ${M(`B=\\{${[...Array(k)].map((_, i) => i + 1).join(';\\,')}\\}`)}. Có bao nhiêu tập hợp ${M('X')} thoả mãn ${M('B\\subset X\\subset A')} (kể cả ${M('X=B')} và ${M('X=A')})?`, c,
+      H.p(`${M('X')} phải chứa cả ${k} phần tử của ${M('B')}. Mỗi trong ${n - k} phần tử còn lại của ${M('A')} được chọn hoặc không: ${M(`2^{${n - k}}=${c}`)}.`) + H.p(`Đáp số: <b>${c}</b>.`));
+  });
+  // 2. Diện tích bằng công thức Hê-rông
+  A('sh', (r, H) => { const [a, b, c] = H.pick(r, HER), k = H.pick(r, [1, 1, 2]), S = heron(a * k, b * k, c * k); H.chk(Number.isInteger(S) && S < 10000, 'Heron');
+    return H.sh(`Tam giác ${M('ABC')} có ba cạnh dài ${a * k}, ${b * k}, ${c * k} (đơn vị: cm). Tính diện tích tam giác (đơn vị: ${M('\\text{cm}^2')}).`, S,
+      H.p(`Nửa chu vi ${M(`p=\\dfrac{${a * k}+${b * k}+${c * k}}{2}=${(a + b + c) * k / 2}`)}.`) + H.p(`${M(`S=\\sqrt{p(p-a)(p-b)(p-c)}=\\sqrt{${(a + b + c) * k / 2}\\cdot ${(a + b + c) * k / 2 - a * k}\\cdot ${(a + b + c) * k / 2 - b * k}\\cdot ${(a + b + c) * k / 2 - c * k}}=${S}`)}. Đáp số: <b>${S}</b>.`));
+  });
+  // 3. Số cặp số nguyên (x; y) thoả hệ bất phương trình (có biên chặt)
+  A('sh', (r, H) => { for (let t = 0; t < 300; t++) {
+    const s = H.ri(r, 6, 10), u = H.ri(r, 1, 3), v = H.ri(r, 1, 3), w = H.ri(r, 4, 12), strict = H.ri(r, 0, 1) === 1; let n = 0; const sols = [];
+    for (let x = 1; x <= 30; x++) for (let y = 1; y <= 30; y++) if (strict ? x + y < s : x + y <= s) if (u * x + v * y >= w) { n++; sols.push([x, y]); }
+    if (n < 5 || n > 40) continue;
+    return H.sh(`Có bao nhiêu cặp số nguyên dương ${M('(x;\\,y)')} thoả mãn hệ bất phương trình ${M(`\\begin{cases}x+y${strict ? '\\lt' : '\\le'}${s}\\\\ ${u === 1 ? '' : u}x+${v === 1 ? '' : v}y\\ge ${w}\\end{cases}`)}?`, n,
+      H.p(`Liệt kê theo ${M('x')}: với mỗi ${M('x')} đếm các ${M('y')} nguyên dương thoả cả hai bất phương trình. (Chú ý bất phương trình thứ nhất ${strict ? 'có dấu chặt nên ' + M(`x+y=${s}`) + ' không được tính' : 'cho phép ' + M(`x+y=${s}`)}.)`) + H.p(`Tổng cộng có <b>${n}</b> cặp.`));
+  } throw new Error('sh3'); });
+  // 4. Giá trị lớn nhất / nhỏ nhất của F trên đa giác
+  A('sh', (r, H) => { const P = poly(r, H), a = H.ri(r, -4, 5) || 3, b = H.ri(r, -4, 5) || 2, vals = P.map(([x, y]) => a * x + b * y), isMax = H.ri(r, 0, 1) === 1, best = isMax ? Math.max(...vals) : Math.min(...vals);
+    return H.sh(`Miền nghiệm của hệ bất phương trình là tứ giác ${M('ABCD')} với ${M(`A(${P[0]}),\\ B(${P[1]}),\\ C(${P[2]}),\\ D(${P[3]})`)}. Tìm giá trị ${isMax ? 'lớn' : 'nhỏ'} nhất của ${M(`F=${a}x${b >= 0 ? '+' : '-'}${Math.abs(b)}y`)} trên miền đó.`, best,
+      H.p(`${M('F')} đạt ${isMax ? 'lớn' : 'nhỏ'} nhất tại một đỉnh. ${P.map((p, i) => `${M(`F(${'ABCD'[i]})=${vals[i]}`)}`).join('; ')}.`) + H.p(`Đáp số: <b>${best}</b>.`));
+  });
+  // 5. Cạnh thứ ba bằng định lí côsin
+  A('sh', (r, H) => { const [ang, [u, v, d]] = H.pick(r, [[60, [5, 8, 7]], [60, [7, 15, 13]], [120, [3, 5, 7]], [120, [7, 8, 13]], [120, [5, 16, 19]]]), k = H.pick(r, [1, 2, 3]);
+    const cosv = ang === 60 ? .5 : -.5, dd = Math.sqrt((u * k) ** 2 + (v * k) ** 2 - 2 * u * k * v * k * cosv); H.chk(Math.abs(dd - d * k) < 1e-9, 'cạnh 3');
+    return H.sh(`Để đo khoảng cách giữa hai điểm ${M('A')}, ${M('B')} ở hai bên một hồ nước, người ta chọn điểm ${M('C')} sao cho ${M(`CA=${u * k}`)} m, ${M(`CB=${v * k}`)} m và ${M(`\\widehat{ACB}=${ang}^\\circ`)}. Tính ${M('AB')} (đơn vị: mét).`, d * k,
+      H.p(`${M(`AB^2=CA^2+CB^2-2\\cdot CA\\cdot CB\\cdot\\cos C=${(u * k) ** 2}+${(v * k) ** 2}-2\\cdot ${u * k}\\cdot ${v * k}\\cdot\\cos ${ang}^\\circ=${(d * k) ** 2}`)}.`) + H.p(`Đáp số: ${M(`AB=${d * k}`)} m.`));
+  });
+})();
+
+</script>
+<script>/* data/thu-thach-bank-11.js */
+/* Ngân hàng Thử thách – TOÁN 11 (Chương I lượng giác, Chương II dãy số – cấp số cộng – cấp số nhân, Bài 8 mẫu số liệu ghép nhóm).
+   12 mẫu trắc nghiệm · 3 mẫu đúng–sai · 5 mẫu trả lời ngắn. Xem data/thu-thach-core.js. Mỗi mẫu tự kiểm đáp án bằng vét cạn / số (H.chk). */
+(() => {
+  const A = (k, f) => TTB.add('lop11', k, f), M = x => `\\(${x}\\)`, PI = Math.PI, near = (a, b) => Math.abs(a - b) < 1e-9;
+  const FN = {sin: Math.sin, cos: Math.cos, tan: Math.tan, cot: x => 1 / Math.tan(x)};
+
+  /* nghiệm của f(kx)=c trong [lo, hi] (đơn vị π). inc: lấy cả hai đầu mút */
+  const SPECIAL = {sin: [[0, '0'], [.5, '\\dfrac{1}{2}'], [-.5, '-\\dfrac{1}{2}'], [Math.SQRT2 / 2, '\\dfrac{\\sqrt{2}}{2}'], [Math.sqrt(3) / 2, '\\dfrac{\\sqrt{3}}{2}'], [-Math.sqrt(3) / 2, '-\\dfrac{\\sqrt{3}}{2}']],
+    cos: [[0, '0'], [.5, '\\dfrac{1}{2}'], [-.5, '-\\dfrac{1}{2}'], [Math.SQRT2 / 2, '\\dfrac{\\sqrt{2}}{2}'], [Math.sqrt(3) / 2, '\\dfrac{\\sqrt{3}}{2}'], [-Math.sqrt(3) / 2, '-\\dfrac{\\sqrt{3}}{2}']]};
+  const rootsOf = (fn, k, c, lo, hi) => {          // x ∈ [lo·π, hi·π], f(kx)=c  → danh sách x/π
+    const al = (fn === 'sin' ? Math.asin(c) : Math.acos(c)) / PI, fam = fn === 'sin' ? [[al, 2], [1 - al, 2]] : [[al, 2], [-al, 2]], out = [];
+    for (let n = -60; n <= 60; n++) fam.forEach(([o, per]) => { const x = (o + per * n) / k; if (x >= lo - 1e-9 && x <= hi + 1e-9) out.push(x); });
+    const u = []; out.sort((p, q) => p - q).forEach(x => { if (!u.length || x - u[u.length - 1] > 1e-9) u.push(x); }); return u;
+  };
+  const eqTex = (fn, k, c) => `\\${fn}${k === 1 ? '' : k}x=${c}`.replace(/\\(sin|cos)(\d)x/, '\\$1\\ $2x');
+
+  /* ===================== TRẮC NGHIỆM ===================== */
+  // 1. Chu kì của hàm số lượng giác (tan, cot: π/|a|; sin, cos: 2π/|a|)
+  A('mc', (r, H) => { const fn = H.pick(r, ['sin', 'cos', 'tan', 'cot']), a = H.pick(r, [-3, -2, 2, 3, 4, 5]), b = H.pick(r, [[1, 3], [1, 4], [1, 6], [-1, 4], [-1, 3]]), c = H.pick(r, [0, 1, -2]), A_ = Math.abs(a);
+    const per = fn === 'tan' || fn === 'cot' ? 1 : 2, T = per * PI / A_, f = x => FN[fn](a * x + b[0] * PI / b[1]) + c;
+    for (const x of [.13, .7, 1.9, 2.6]) H.chk(near(f(x + T), f(x)) && !near(f(x + T / 2), f(x)), 'chu kì');
+    const ok = H.piT(per, A_), wr = [H.piT(per === 1 ? 2 : 1, A_), H.piT(per, 1), H.piT(per * A_, 1), H.piT(per, A_ * 2)].filter(x => x !== ok);
+    return H.mc('Thông hiểu', `Chu kì tuần hoàn nhỏ nhất của hàm số ${M(`y=\\${fn}\\left(${a}x${b[0] < 0 ? '-' : '+'}${H.piT(1, b[1])}\\right)${c === 0 ? '' : c > 0 ? '+' + c : c}`)} là`, M(ok), wr.map(M),
+      H.p(`Hàm ${M(`y=\\${fn}(ax+b)`)} tuần hoàn với chu kì ${M(fn === 'tan' || fn === 'cot' ? '\\dfrac{\\pi}{|a|}' : '\\dfrac{2\\pi}{|a|}')}. Chú ý: ${fn === 'tan' || fn === 'cot' ? 'tan và cot có chu kì ' + M('\\pi') + ' (không phải ' + M('2\\pi') + ')' : 'sin và cos có chu kì ' + M('2\\pi')}; số hạng tự do ${M('c')} và góc lệch ${M('b')} không đổi chu kì; ${M('|a|')} lấy giá trị tuyệt đối.`) + H.p(`Ở đây ${M(`|a|=${A_}`)} nên chu kì là ${M(ok)}.`));
+  });
+
+  // 2. Tập xác định của y = tan(ax + b)
+  A('mc', (r, H) => { const a = H.pick(r, [2, 3, 4]), [bn, bd] = H.pick(r, [[1, 3], [1, 4], [1, 6], [-1, 6], [-1, 4], [1, 12], [-1, 3]]), beta = bn / bd, x0 = (0.5 - beta) / a, [xn, xd] = H.frac(Math.round((0.5 - beta) * 1000 * 12), a * 1000 * 12);
+    for (let k = -3; k <= 3; k++) H.chk(Math.abs(Math.cos(a * (x0 + k / a) * PI + beta * PI)) < 1e-9, 'tan xác định');
+    const set = (n, d, den) => `\\mathbb{R}\\setminus\\left\\{${H.piT(n, d)}+${den === 1 ? 'k\\pi' : `\\dfrac{k\\pi}{${den}}`}\\ \\middle|\\ k\\in\\mathbb{Z}\\right\\}`;
+    const ok = set(xn, xd, a), w1 = set(xn, xd, 1), [sn, sd] = H.frac(Math.round((0.5 + beta) * 1000 * 12), a * 1000 * 12), w2 = set(sn, sd, a), [tn, td] = H.frac(Math.round((0.5 - beta) * 12), 12), w3 = set(tn, td, a), w4 = set(xn, xd, a * 2);
+    return H.mc('Vận dụng', `Tập xác định của hàm số ${M(`y=\\tan\\left(${a}x${bn < 0 ? '-' : '+'}${H.piT(Math.abs(bn), bd)}\\right)`)} là`, M(ok), [w1, w2, w3, w4].filter(x => x !== ok).map(M),
+      H.p(`Hàm số xác định khi ${M(`\\cos\\left(${a}x${bn < 0 ? '-' : '+'}${H.piT(Math.abs(bn), bd)}\\right)\\ne0`)}, tức ${M(`${a}x${bn < 0 ? '-' : '+'}${H.piT(Math.abs(bn), bd)}\\ne\\dfrac{\\pi}{2}+k\\pi`)}.`) + H.p(`Chuyển vế rồi <b>chia cả hai vế cho ${a}</b> (kể cả phần ${M('k\\pi')}): ${M(`x\\ne${H.piT(xn, xd)}+\\dfrac{k\\pi}{${a}}`)}.`));
+  });
+
+  // 3. Giá trị lớn nhất, nhỏ nhất của y = m + n·sin(kx)
+  A('mc', (r, H) => { const m = H.pick(r, [-3, -2, -1, 1, 2, 3]), n = H.pick(r, [-4, -3, -2, 2, 3, 4]), k = H.pick(r, [1, 2, 3]), isMax = H.ri(r, 0, 1) === 1, fn = H.pick(r, ['sin', 'cos']);
+    let mx = -1e9, mn = 1e9; for (let i = 0; i <= 20000; i++) { const y = m + n * FN[fn](i * 2 * PI / 20000 * 3); mx = Math.max(mx, y); mn = Math.min(mn, y); }
+    const best = isMax ? Math.round(mx) : Math.round(mn); H.chk(near(mx, Math.abs(n) + m) || Math.abs(mx - (Math.abs(n) + m)) < 1e-6, 'max'); H.chk(Math.abs(mn - (m - Math.abs(n))) < 1e-6, 'min');
+    const wr = [m + n, m - n, m + (isMax ? -Math.abs(n) : Math.abs(n)), Math.abs(n), Math.abs(m) + Math.abs(n)].filter(x => x !== best);
+    const wrOpt = isMax ? [m + n, m - n, Math.abs(n)] : [m + n, m - n, Math.abs(n)];
+    return H.mc('Vận dụng', `Giá trị ${isMax ? 'lớn' : 'nhỏ'} nhất của hàm số ${M(`y=${m}${n < 0 ? '-' : '+'}${Math.abs(n)}\\${fn}${k === 1 ? '' : '\\ ' + k}x`)} là`, String(best), [...new Set([m + n, m - n, Math.abs(n), m + (isMax ? -Math.abs(n) : Math.abs(n)), m * n])].filter(x => x !== best).map(String),
+      H.p(`${M('-1\\le\\' + fn + '\\ ' + (k === 1 ? '' : k) + 'x\\le1')} nên ${M(`${m}-${Math.abs(n)}\\le y\\le ${m}+${Math.abs(n)}`)}, tức ${M(`${m - Math.abs(n)}\\le y\\le ${m + Math.abs(n)}`)}.`) + H.p(`Dấu của ${M(n < 0 ? 'n=' + n : 'n')} chỉ làm đổi vị trí đạt max/min, không đổi khoảng giá trị. ${isMax ? 'Giá trị lớn nhất' : 'Giá trị nhỏ nhất'} là <b>${best}</b>.`));
+  });
+
+  // 4. Số nghiệm của f(kx)=c trong một đoạn
+  A('mc', (r, H) => { for (let t = 0; t < 200; t++) {
+    const fn = H.pick(r, ['sin', 'cos']), k = H.pick(r, [2, 3]), [c, ct] = H.pick(r, SPECIAL[fn].filter(x => x[0] !== 0)), rng = H.pick(r, [[0, 2, '[0;\\,2\\pi]'], [-1, 1, '[-\\pi;\\,\\pi]'], [0, 1, '[0;\\,\\pi]']]), xs = rootsOf(fn, k, c, rng[0], rng[1]);
+    xs.forEach(x => H.chk(near(FN[fn](k * x * PI), c), 'nghiệm')); const n = xs.length; if (n < 3) continue;
+    const ok = String(n), wr = [n + 1, n - 1, Math.ceil(n / 2), 2 * n, n + 2].map(String).filter(x => x !== ok);
+    return H.mc('Vận dụng', `Số nghiệm của phương trình ${M(`\\${fn}\\ ${k}x=${ct}`)} trong đoạn ${M(rng[2])} là`, ok, wr,
+      H.p(`Giải ${M(`\\${fn}\\ u=${ct}`)} với ${M(`u=${k}x`)}, rồi chia hai vế cho ${k}. Vì ${M(`x\\in${rng[2]}`)} nên ${M(`u=${k}x`)} chạy trên đoạn dài gấp ${k} lần: có nhiều vòng hơn.`) + H.p(`Lấy hai họ nghiệm và cho ${M('k')} nguyên thích hợp, được các nghiệm ${xs.map(x => M(H.piT(Math.round(x * 1200), 1200))).join('; ')}. Có <b>${n}</b> nghiệm.`));
+  } throw new Error('mc4'); });
+
+  // 5. cos(mx) = cos(x + b): hai họ nghiệm
+  A('mc', (r, H) => { const m = H.pick(r, [2, 3]), [bn, bd] = H.pick(r, [[1, 3], [1, 4], [1, 6], [1, 2], [2, 3]]), b = bn / bd;
+    // (m−1)x = b + 2πk ;  (m+1)x = −b + 2πk
+    const f1 = H.piT(bn, bd * (m - 1)), s1 = H.piT(2, m - 1), f2 = H.piT(-bn, bd * (m + 1)), s2 = H.piT(2, m + 1), fam = (a, s) => `x=${a}+k${s}`;
+    const good = [[bn / bd / (m - 1), 2 / (m - 1)], [-bn / bd / (m + 1), 2 / (m + 1)]];
+    for (let k = -3; k <= 3; k++) good.forEach(([o, p]) => { const x = (o + p * k) * PI; H.chk(near(Math.cos(m * x), Math.cos(x + b * PI)), 'cos=cos'); });
+    const ok = `${M(`x=${f1}+k${s1}`)} hoặc ${M(`x=${f2}+k${s2}`)}`;
+    const mk = (a1, p1, a2, p2) => `${M(`x=${a1}+k${p1}`)} hoặc ${M(`x=${a2}+k${p2}`)}`;
+    const w = [mk(f1, s1, H.piT(bn, bd * (m + 1)), s2), mk(f1, H.piT(2, 1), f2, s2), mk(H.piT(bn, bd), H.piT(2, 1), f2, s2), mk(f1, s1, f2, H.piT(2, 1))];
+    const okFam = [good[0], good[1]];
+    // mọi phương án sai phải sai thật (có k làm phương trình không thoả)
+    const parse = (a1, p1, a2, p2) => [[a1, p1], [a2, p2]];
+    return H.mc('Vận dụng', `Nghiệm của phương trình ${M(`\\cos ${m}x=\\cos\\left(x+${H.piT(bn, bd)}\\right)`)} là`, ok, w.filter(x => x !== ok),
+      H.p(`${M('\\cos u=\\cos v')} khi ${M('u=v+k2\\pi')} hoặc ${M('u=-v+k2\\pi')}.`) + H.p(`${M(`${m}x=x+${H.piT(bn, bd)}+k2\\pi`)} cho ${M(`x=${f1}+k${s1}`)}; ${M(`${m}x=-x-${H.piT(bn, bd)}+k2\\pi`)} cho ${M(`${m + 1}x=-${H.piT(bn, bd)}+k2\\pi`)}, tức ${M(`x=${f2}+k${s2}`)}.`) + H.p(`Chú ý: phải <b>chia cả ${M('k2\\pi')}</b> cho hệ số của ${M('x')}.`));
+  });
+
+  // 6. Đếm số hạng âm của dãy u_n = (n − r1)(n − r2)
+  A('mc', (r, H) => { const r1 = H.ri(r, 1, 5), r2 = r1 + H.ri(r, 3, 8), p = r1 + r2, q = r1 * r2; let c = 0; for (let n = 1; n <= 200; n++) if (n * n - p * n + q < 0) c++; H.chk(c === r2 - r1 - 1, 'số hạng âm');
+    const ok = String(c), wr = [r2 - r1, r2 - r1 + 1, r2 - 1, r2 - r1 - 2, r2].map(String).filter(x => x !== ok);
+    return H.mc('Vận dụng', `Cho dãy số ${M(`(u_n)`)} với ${M(`u_n=n^2-${p}n+${q}`)}. Dãy có bao nhiêu số hạng âm?`, ok, wr,
+      H.p(`${M(`u_n=(n-${r1})(n-${r2})`)}. Dãy âm khi ${M(`${r1}\\lt n\\lt ${r2}`)} (hai nghiệm ${M(`n=${r1}`)}, ${M(`n=${r2}`)} cho số hạng bằng ${M('0')}, <b>không</b> âm).`) + H.p(`Các số tự nhiên ${M('n')}: ${[...Array(r2 - r1 - 1)].map((_, i) => r1 + 1 + i).join('; ')}. Có <b>${c}</b> số hạng âm.`));
+  });
+
+  // 7. Tính đơn điệu và bị chặn của u_n = (an+b)/(cn+d)
+  A('mc', (r, H) => { for (let t = 0; t < 100; t++) {
+    const a = H.ri(r, 1, 6), b = H.ri(r, 1, 9), c = H.ri(r, 1, 4), d = H.ri(r, 1, 9), det = a * d - b * c; if (det === 0) continue;
+    const u = n => (a * n + b) / (c * n + d); let inc = true, dec = true; for (let n = 1; n < 300; n++) { if (!(u(n + 1) > u(n))) inc = false; if (!(u(n + 1) < u(n))) dec = false; }
+    H.chk(inc === (det > 0) && dec === (det < 0), 'đơn điệu');
+    const O = ['Dãy số tăng và bị chặn', 'Dãy số giảm và bị chặn', 'Dãy số tăng và không bị chặn trên', 'Dãy số giảm và không bị chặn dưới'], ans = inc ? O[0] : O[1];
+    return H.mc('Vận dụng', `Cho dãy số ${M('(u_n)')} với ${M(`u_n=\\dfrac{${a}n+${b}}{${c === 1 ? '' : c}n+${d}}`)}. Khẳng định nào sau đây đúng?`, ans, O.filter(x => x !== ans),
+      H.p(`${M(`u_{n+1}-u_n=\\dfrac{(${a}d-${b}c)}{(c(n+1)+d)(cn+d)}`.replace('(' + a + 'd-' + b + 'c)', `${a}\\cdot ${d}-${b}\\cdot ${c}`).replace(/c\(n\+1\)\+d\)\(cn\+d\)/, `${c}(n+1)+${d})(${c}n+${d})`))}: tử số ${M(`=${det}`)} ${det > 0 ? 'dương' : 'âm'}, mẫu số dương, nên dãy ${inc ? 'tăng' : 'giảm'}.`) + H.p(`Dãy bị chặn: mọi số hạng nằm giữa ${M(`u_1=${H.fr(a + b, c + d)}`)} và ${M(`\\dfrac{${a}}{${c}}`)} (giá trị mà dãy tiến tới). Vậy <b>${ans}</b>.`));
+  } throw new Error('mc7'); });
+
+  // 8. Cấp số cộng: biết hai số hạng, tìm số hạng khác
+  A('mc', (r, H) => { for (let t = 0; t < 100; t++) {
+    const d = H.pick(r, [-4, -3, -2, 2, 3, 4, 5]), u1 = H.ri(r, -8, 12), p = H.ri(r, 2, 5), q = p + H.ri(r, 3, 6), n = q + H.ri(r, 5, 12), up = u1 + (p - 1) * d, uq = u1 + (q - 1) * d, ans = u1 + (n - 1) * d;
+    const wr = [up + (n - p + 1) * d, up + (n - p - 1) * d, uq + (n - p) * d, u1 + n * d].filter(x => x !== ans); if (new Set(wr).size < 3) continue;
+    return H.mc('Thông hiểu', `Cấp số cộng ${M('(u_n)')} có ${M(`u_{${p}}=${up}`)} và ${M(`u_{${q}}=${uq}`)}. Số hạng ${M(`u_{${n}}`)} bằng`, String(ans), wr.map(String),
+      H.p(`${M(`u_{${q}}-u_{${p}}=${q - p}d`)} nên ${M(`d=\\dfrac{${uq}-(${up})}{${q - p}}=${d}`)} (chia cho hiệu hai <b>chỉ số</b> ${M(`${q}-${p}`)}).`) + H.p(`${M(`u_{${n}}=u_{${p}}+(${n}-${p})d=${up}+${n - p}\\cdot(${d})=${ans}`)}.`));
+  } throw new Error('mc8'); });
+
+  // 9. Cấp số cộng: tổng các số hạng từ u_p đến u_q
+  A('mc', (r, H) => { for (let t = 0; t < 100; t++) {
+    const d = H.pick(r, [2, 3, 4, 5, -2, -3]), u1 = H.ri(r, 1, 20), p = H.ri(r, 3, 8), q = p + H.ri(r, 5, 12); let S = 0; for (let i = p; i <= q; i++) S += u1 + (i - 1) * d;
+    const up = u1 + (p - 1) * d, uq = u1 + (q - 1) * d, Sq = q * (2 * u1 + (q - 1) * d) / 2, Sp = p * (2 * u1 + (p - 1) * d) / 2, ok = String(S); H.chk(S === (q - p + 1) * (up + uq) / 2 && S === Sq - (p - 1) * (2 * u1 + (p - 2) * d) / 2, 'tổng đoạn');
+    const wr = [(q - p) * (up + uq) / 2, Sq - Sp, (q - p + 1) * (u1 + uq) / 2, (q - p + 1) * (up + uq)].map(String).filter(x => x !== ok); if (new Set(wr).size < 3) continue;
+    return H.mc('Vận dụng', `Cấp số cộng ${M('(u_n)')} có ${M(`u_1=${u1}`)} và công sai ${M(`d=${d}`)}. Tổng ${M(`u_{${p}}+u_{${p + 1}}+\\cdots+u_{${q}}`)} bằng`, ok, wr,
+      H.p(`Từ ${M(`u_{${p}}`)} đến ${M(`u_{${q}}`)} có ${M(`${q}-${p}+1=${q - p + 1}`)} số hạng (cộng thêm 1).`) + H.p(`${M(`u_{${p}}=${up}`)}, ${M(`u_{${q}}=${uq}`)}; tổng ${M(`=\\dfrac{${q - p + 1}(${up}+${uq})}{2}=${S}`)}.`));
+  } throw new Error('mc9'); });
+
+  // 10. Cấp số nhân: hai giá trị của công bội
+  A('mc', (r, H) => { const k = H.ri(r, 2, 5), a = H.pick(r, [1, 2, 3, -1, -2, -3]), b = a * k * k;
+    // u_2 = a, u_4 = b → q^2 = k^2, q = ±k ; mỗi trường hợp đều thoả
+    [k, -k].forEach(q => { const u1 = a / q, u4 = u1 * q ** 3; H.chk(near(u4, b) && near(u1 * q, a), 'CSN q'); });
+    const ok = `${M(`q=${k}`)} hoặc ${M(`q=-${k}`)}`, wr = [`${M(`q=${k}`)}`, `${M(`q=-${k}`)}`, `${M(`q=${k * k}`)} hoặc ${M(`q=-${k * k}`)}`];
+    return H.mc('Vận dụng', `Cấp số nhân ${M('(u_n)')} có ${M(`u_2=${a}`)} và ${M(`u_4=${b}`)}. Công bội ${M('q')} của cấp số nhân đó là`, ok, wr,
+      H.p(`${M(`\\dfrac{u_4}{u_2}=q^2`)} nên ${M(`q^2=\\dfrac{${b}}{${a}}=${k * k}`)}, suy ra ${M(`q=\\pm${k}`)}.`) + H.p(`Cả hai giá trị đều thoả (với ${M(`q=${k}`)}: ${M(`u_1=${H.fr(a, k)}`)}; với ${M(`q=-${k}`)}: ${M(`u_1=${H.fr(a, -k)}`)}). Không được bỏ nghiệm âm.`));
+  });
+
+  // 11. Cấp số nhân: tổng n số hạng đầu khi q âm
+  A('mc', (r, H) => { const u1 = H.pick(r, [1, 2, 3, -1, -2]), q = H.pick(r, [-2, -3]), n = H.ri(r, 4, 7); let S = 0; for (let i = 0; i < n; i++) S += u1 * q ** i; const f = u1 * (1 - q ** n) / (1 - q); H.chk(near(S, f), 'S_n');
+    const un = u1 * q ** (n - 1), wr = [u1 * (1 - Math.abs(q) ** n) / (1 - Math.abs(q)), -S, u1 * (1 - q ** n) / (1 + q), S - un * 2, un].filter(x => Number.isInteger(x) && x !== S);
+    if (new Set(wr).size < 3) throw new Error('nhiễu');
+    return H.mc('Vận dụng', `Cấp số nhân ${M('(u_n)')} có ${M(`u_1=${u1}`)} và công bội ${M(`q=${q}`)}. Tổng ${n} số hạng đầu bằng`, String(S), [...new Set(wr)].map(String),
+      H.p(`${M(`S_n=u_1\\cdot\\dfrac{1-q^n}{1-q}`)} với ${M(`q=${q}`)}: ${M(`q^{${n}}=(${q})^{${n}}=${q ** n}`)} (đặt ${M(q)} trong ngoặc; số mũ ${n} ${n % 2 ? 'lẻ nên giữ dấu âm' : 'chẵn nên dương'}).`) + H.p(`${M(`S_{${n}}=${u1}\\cdot\\dfrac{1-(${q ** n})}{1-(${q})}=${S}`)}.`));
+  });
+
+  // 12. Lãi kép: số năm tối thiểu
+  A('mc', (r, H) => { for (let t = 0; t < 100; t++) {
+    const P = H.pick(r, [50, 80, 100, 120, 200]), rate = H.pick(r, [6, 7, 8, 10, 12]), mult = H.pick(r, [1.5, 2, 2.5]), B = P * mult; let n = 0, v = P; while (v < B) { v *= 1 + rate / 100; n++; if (n > 60) break; }
+    if (n < 4 || n > 16) continue; H.chk(P * (1 + rate / 100) ** n >= B && P * (1 + rate / 100) ** (n - 1) < B, 'lãi kép');
+    const simple = Math.ceil((B - P) / (P * rate / 100)), wr = [n - 1, n + 1, simple, n + 2].filter(x => x !== n); if (new Set(wr).size < 3) continue;
+    return H.mc('Vận dụng', `Gửi ${P} triệu đồng vào ngân hàng với lãi suất ${rate}%/năm, lãi nhập gốc sau mỗi năm. Sau ít nhất bao nhiêu năm thì số tiền cả gốc lẫn lãi đạt từ ${B} triệu đồng trở lên?`, `${n} năm`, wr.map(x => `${x} năm`),
+      H.p(`Số tiền sau ${M('n')} năm lập cấp số nhân: ${M(`A_n=${P}\\cdot(1+${rate / 100})^n=${P}\\cdot${(1 + rate / 100).toFixed(2).replace(/0$/, '')}^n`)} (lãi <b>nhập gốc</b>: nhân, không cộng thêm lãi đơn).`) + H.p(`${M(`A_{${n - 1}}\\approx${(P * (1 + rate / 100) ** (n - 1)).toFixed(2)}\\lt ${B}`)} còn ${M(`A_{${n}}\\approx${(P * (1 + rate / 100) ** n).toFixed(2)}\\ge ${B}`)}. Vậy cần ít nhất <b>${n} năm</b>.`));
+  } throw new Error('mc12'); });
+
+  /* ===================== ĐÚNG – SAI ===================== */
+  // 1. y = m + n sin(kx)
+  A('tf', (r, H) => { const m = H.pick(r, [-2, -1, 1, 2, 3]), n = H.pick(r, [-3, -2, 2, 3, 4]), k = H.pick(r, [2, 3]), w = H.pat(r), M_ = Math.abs(n) + m, mn = m - Math.abs(n), f = x => m + n * Math.sin(k * x);
+    H.chk(near(f(PI / (2 * k)), m + n) && near(f(PI / k), m), 'giá trị');
+    return H.tf(`Cho hàm số ${M(`y=${m}${n < 0 ? '-' : '+'}${Math.abs(n)}\\sin ${k}x`)}. Xét tính đúng – sai của các khẳng định sau:`, [
+      H.claim(w[0], `Hàm số tuần hoàn với chu kì ${M(H.piT(2, k))}.`, `Hàm số tuần hoàn với chu kì ${M(H.piT(1, k))}.`, H.p(`Chu kì của ${M(`\\sin kx`)} là ${M('\\dfrac{2\\pi}{|k|}')} = ${M(H.piT(2, k))}.`)),
+      H.claim(w[1], `Giá trị lớn nhất của hàm số là ${M(M_)}.`, `Giá trị lớn nhất của hàm số là ${M(m + n)}.`.replace(`${m + n}`, `${m + Math.abs(n) === m + n ? M_ + 1 : m + n}`), H.p(`${M(`-${Math.abs(n)}\\le ${n}\\sin ${k}x\\le ${Math.abs(n)}`)}; giá trị lớn nhất là ${M(`${m}+${Math.abs(n)}=${M_}`)}.`)),
+      H.claim(w[2], `Giá trị nhỏ nhất của hàm số là ${M(mn)}.`, `Giá trị nhỏ nhất của hàm số là ${M(mn + 1)}.`, H.p(`Giá trị nhỏ nhất là ${M(`${m}-${Math.abs(n)}=${mn}`)}.`)),
+      H.claim(w[3], `Đồ thị hàm số đi qua điểm ${M(`\\left(${H.piT(1, 2 * k)};\\,${m + n}\\right)`)}.`, `Đồ thị hàm số đi qua điểm ${M(`\\left(${H.piT(1, 2 * k)};\\,${m - n}\\right)`)}.`, H.p(`Với ${M(`x=${H.piT(1, 2 * k)}`)}: ${M(`\\sin ${k}x=\\sin\\dfrac{\\pi}{2}=1`)} nên ${M(`y=${m}+${n}\\cdot1=${m + n}`)}.`))]);
+  });
+  // 2. Cấp số cộng
+  A('tf', (r, H) => { for (let t = 0; t < 100; t++) {
+    const u1 = H.ri(r, -9, 15), d = H.pick(r, [-4, -3, -2, 2, 3, 4, 5]), w = H.pat(r), k = H.ri(r, 8, 15), uk = u1 + (k - 1) * d, Sk = k * (2 * u1 + (k - 1) * d) / 2, tgt = u1 + H.ri(r, 12, 30) * d, inSeq = true, notIn = tgt + (Math.abs(d) > 1 ? 1 : 0), isIn = x => (x - u1) % d === 0 && (x - u1) / d + 1 >= 1;
+    if (isIn(notIn) || !isIn(tgt)) continue;
+    return H.tf(`Cho cấp số cộng ${M('(u_n)')} có ${M(`u_1=${u1}`)} và công sai ${M(`d=${d}`)}. Xét tính đúng – sai của các khẳng định sau:`, [
+      H.claim(w[0], `${M(`u_{${k}}=${uk}`)}.`, `${M(`u_{${k}}=${uk + d}`)}.`, H.p(`${M(`u_{${k}}=u_1+(${k}-1)d=${u1}+${k - 1}\\cdot(${d})=${uk}`)}.`)),
+      H.claim(w[1], `Tổng ${k} số hạng đầu bằng ${M(Sk)}.`, `Tổng ${k} số hạng đầu bằng ${M(Sk + d)}.`, H.p(`${M(`S_{${k}}=\\dfrac{${k}(${u1}+${uk})}{2}=${Sk}`)}.`)),
+      H.claim(w[2], `Dãy số ${M('(u_n)')} là dãy số ${d > 0 ? 'tăng' : 'giảm'}.`, `Dãy số ${M('(u_n)')} là dãy số ${d > 0 ? 'giảm' : 'tăng'}.`, H.p(`Công sai ${M(`d=${d}`)} ${d > 0 ? 'dương' : 'âm'} nên dãy ${d > 0 ? 'tăng' : 'giảm'}.`)),
+      H.claim(w[3], `Số ${M(tgt)} là một số hạng của dãy.`, `Số ${M(notIn)} là một số hạng của dãy.`, H.p(w[3] ? `${M(`${tgt}=${u1}+(n-1)(${d})`)} cho ${M(`n=${(tgt - u1) / d + 1}`)} là số nguyên dương.` : `${M(`${notIn}=${u1}+(n-1)(${d})`)} cho ${M(`n-1=\\dfrac{${notIn - u1}}{${d}}`)} không phải số nguyên.`))]);
+  } throw new Error('tf2'); });
+  // 3. Cấp số nhân với công bội âm
+  A('tf', (r, H) => { const u1 = H.pick(r, [1, 2, 3, -1, -2]), q = H.pick(r, [-3, -2, 2, 3]), w = H.pat(r), n = H.ri(r, 4, 6), un = u1 * q ** (n - 1); let S = 0; for (let i = 0; i < n; i++) S += u1 * q ** i;
+    let mono = true, mono2 = true; for (let i = 1; i < 10; i++) { if (!(u1 * q ** i > u1 * q ** (i - 1))) mono = false; if (!(u1 * q ** i < u1 * q ** (i - 1))) mono2 = false; } const monotone = mono || mono2;
+    return H.tf(`Cho cấp số nhân ${M('(u_n)')} có ${M(`u_1=${u1}`)} và công bội ${M(`q=${q}`)}. Xét tính đúng – sai của các khẳng định sau:`, [
+      H.claim(w[0], `${M(`u_{${n}}=${un}`)}.`, `${M(`u_{${n}}=${u1 * q ** n}`)}.`, H.p(`${M(`u_{${n}}=u_1q^{${n}-1}=${u1}\\cdot(${q})^{${n - 1}}=${un}`)} (số mũ là ${M(`n-1`)}).`)),
+      H.claim(w[1], `Tổng ${n} số hạng đầu bằng ${M(S)}.`, `Tổng ${n} số hạng đầu bằng ${M(-S)}.`.replace(String(-S), String(S === 0 ? 1 : -S)), H.p(`${M(`S_{${n}}=${u1}\\cdot\\dfrac{1-(${q})^{${n}}}{1-(${q})}=${S}`)}.`)),
+      H.claim(!monotone, `Dãy số ${M('(u_n)')} không phải là dãy số tăng, cũng không phải dãy số giảm.`, `Dãy số ${M('(u_n)')} không phải là dãy số tăng, cũng không phải dãy số giảm.`, H.p(q < 0 ? `Công bội âm nên các số hạng đổi dấu xen kẽ: dãy không đơn điệu.` : `${M(`q=${q}\\gt1`)} và ${M(`u_1${u1 > 0 ? '\\gt' : '\\lt'}0`)}: dãy ${u1 > 0 ? 'tăng' : 'giảm'} (đơn điệu).`)),
+      H.claim(w[3], `Số hạng tổng quát là ${M(`u_n=${u1}\\cdot(${q})^{n-1}`)}.`, `Số hạng tổng quát là ${M(`u_n=${u1}\\cdot(${q})^{n}`)}.`, H.p(`Số mũ của ${M('q')} là ${M('n-1')}.`))]);
+  });
+
+  /* ===================== TRẢ LỜI NGẮN ===================== */
+  // 1. Số nghiệm của phương trình trong nửa khoảng (có tan)
+  A('sh', (r, H) => { for (let t = 0; t < 200; t++) {
+    const fn = H.pick(r, ['sin', 'cos']), k = H.pick(r, [2, 3, 4]), [c, ct] = H.pick(r, SPECIAL[fn].filter(x => Math.abs(x[0]) < 1)), lo = H.pick(r, [0, -1]), hi = lo + 2, xs = rootsOf(fn, k, c, lo, hi).filter(x => Math.abs(x - hi) > 1e-9); const n = xs.length; if (n < 4 || n > 16) continue;
+    xs.forEach(x => H.chk(near(FN[fn](k * x * PI), c), 'nghiệm'));
+    return H.sh(`Phương trình ${M(`\\${fn}\\ ${k}x=${ct}`)} có bao nhiêu nghiệm thuộc nửa khoảng ${M(`[${lo === 0 ? '0' : '-2\\pi'};\\,${lo === 0 ? '2\\pi' : '0'})`.replace('-2\\pi', '-\\pi').replace(/2\\pi\)/, '2\\pi)'))}?`.replace('[-\\pi;\\,0)', '[-2\\pi;\\,0)'), n,
+      H.p(`${M(`\\${fn}\\ u=${ct}`)} có hai họ nghiệm; với ${M(`u=${k}x`)} và ${M('x')} chạy trên một đoạn dài ${M('2\\pi')}, ${M('u')} chạy trên đoạn dài ${M(`${k}\\cdot 2\\pi`)}: mỗi họ cho ${k} nghiệm.`) + H.p(`Tổng cộng ${M(`2\\cdot ${k}=${n}`)} nghiệm (đầu mút phải bị loại không là nghiệm). Đáp số: <b>${n}</b>.`));
+  } throw new Error('sh1'); });
+  // 2. Tìm n để S_n = S (cấp số cộng)
+  A('sh', (r, H) => { const u1 = H.pick(r, [2, 3, 5, 7, 4]), d = H.pick(r, [2, 3, 4, 6]), n = H.ri(r, 8, 20), S = n * (2 * u1 + (n - 1) * d) / 2; let found = []; for (let m = 1; m <= 200; m++) if (m * (2 * u1 + (m - 1) * d) / 2 === S) found.push(m); H.chk(found.length === 1 && found[0] === n, 'n duy nhất');
+    const D = (2 * u1 - d) ** 2 + 8 * d * S;
+    return H.sh(`Cấp số cộng ${M('(u_n)')} có ${M(`u_1=${u1}`)}, công sai ${M(`d=${d}`)}. Tổng ${M('n')} số hạng đầu bằng ${M(S)}. Tìm ${M('n')}.`, n,
+      H.p(`${M(`S_n=\\dfrac{n[2\\cdot ${u1}+(n-1)${d}]}{2}=${S}`)} cho ${M(`${d}n^2+${2 * u1 - d}n-${2 * S}=0`)}.`) + H.p(`Phương trình có hai nghiệm, một nghiệm âm (loại vì ${M('n')} nguyên dương); nghiệm dương là ${M(`n=${n}`)}. Đáp số: <b>${n}</b>.`));
+  });
+  // 3. Cấp số nhân: tìm vị trí của một số hạng
+  A('sh', (r, H) => { const u1 = H.pick(r, [1, 2, 3, 5, -2]), q = H.pick(r, [2, 3, -2, -3]), n = H.ri(r, 5, 10), v = u1 * q ** (n - 1); let f = null; for (let m = 1; m <= 40; m++) if (u1 * q ** (m - 1) === v) f = m; H.chk(f === n && Math.abs(v) < 1e7, 'vị trí');
+    return H.sh(`Cho cấp số nhân ${M('(u_n)')} có ${M(`u_1=${u1}`)} và công bội ${M(`q=${q}`)}. Số ${M(fmtN(v))} là số hạng thứ mấy của cấp số nhân đó?`, n,
+      H.p(`${M(`u_n=${u1}\\cdot(${q})^{n-1}=${v}`)} cho ${M(`(${q})^{n-1}=${v / u1}`)}.`) + H.p(`${M(`${v / u1}=(${q})^{${n - 1}}`)} nên ${M(`n-1=${n - 1}`)}, tức ${M(`n=${n}`)}. Đáp số: <b>${n}</b>.`));
+  });
+  const fmtN = v => String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,');
+  // 4. Mẫu số liệu ghép nhóm: tỉ lệ phần trăm nhỏ hơn một mốc
+  A('sh', (r, H) => { for (let t = 0; t < 200; t++) {
+    const n = H.pick(r, [20, 25, 40, 50]), f = (() => { for (let i = 0; i < 400; i++) { const x = [0, 1, 2, 3, 4].map(() => H.ri(r, 2, Math.floor(n / 3))); if (x.reduce((a, b) => a + b, 0) === n) return x; } return null; })(); if (!f) continue;
+    const s = H.pick(r, [10, 20, 30, 40]), len = H.pick(r, [5, 10]), e = [0, 1, 2, 3, 4, 5].map(i => s + i * len), kk = H.ri(r, 2, 4), below = f.slice(0, kk).reduce((a, b) => a + b, 0), pct = below * 100 / n; if (!Number.isInteger(pct)) continue;
+    const tab = `<table class="lk-table"><tr><th>Nhóm</th>${f.map((_, i) => `<th>${M(`[${e[i]};\\,${e[i + 1]})`)}</th>`).join('')}</tr><tr><td>Tần số</td>${f.map(x => `<td>${x}</td>`).join('')}</tr></table>`;
+    return H.sh(`Bảng tần số ghép nhóm về thời gian tự học (phút) của ${n} học sinh:<br>${tab}Bao nhiêu phần trăm số học sinh có thời gian tự học <b>dưới ${e[kk]} phút</b>? (chỉ ghi số, không ghi dấu %)`, pct,
+      H.p(`Dưới ${e[kk]} phút gồm các nhóm từ ${M(`[${e[0]};\\,${e[1]})`)} đến ${M(`[${e[kk - 1]};\\,${e[kk]})`)} (nhóm ${M(`[${e[kk]};\\,${e[kk + 1]})`)} bắt đầu đúng tại ${e[kk]} nên không tính).`) + H.p(`${M(f.slice(0, kk).join(' + ') + '=' + below)} học sinh; ${M(`\\dfrac{${below}}{${n}}\\cdot100\\%=${pct}\\%`)}. Đáp số: <b>${pct}</b>.`));
+  } throw new Error('sh4'); });
+  // 5. Toán thực tế: xếp ghế theo hàng (cấp số cộng)
+  A('sh', (r, H) => { const a = H.ri(r, 8, 20), d = H.pick(r, [2, 3, 4]), n = H.ri(r, 10, 18), S = (() => { let s = 0; for (let i = 0; i < n; i++) s += a + i * d; return s; })(); H.chk(S === n * (2 * a + (n - 1) * d) / 2 && S < 10000, 'ghế');
+    return H.sh(`Một hội trường có ${n} hàng ghế. Hàng thứ nhất có ${a} ghế, mỗi hàng sau nhiều hơn hàng liền trước ${d} ghế. Hội trường có tất cả bao nhiêu ghế?`, S,
+      H.p(`Số ghế các hàng lập cấp số cộng ${M(`u_1=${a},\\ d=${d}`)}; hàng cuối ${M(`u_{${n}}=${a}+${n - 1}\\cdot ${d}=${a + (n - 1) * d}`)}.`) + H.p(`${M(`S_{${n}}=\\dfrac{${n}(${a}+${a + (n - 1) * d})}{2}=${S}`)}. Đáp số: <b>${S}</b>.`));
+  });
+})();
+
+</script>
+<script>/* data/thu-thach-kiem-tra.js */
+/* Thử thách hôm nay – đề ngẫu nhiên theo NGÀY cho Toán 10 và Toán 11 (cả khối cùng một đề trong ngày).
+   14 câu, 25 phút: 8 TN × 0,5 + 2 Đ/S × 1 + 4 TLN × 1 = 10 điểm. Câu hỏi sinh từ ngân hàng data/thu-thach-*.js (TTB).
+   Ngày mới → mã đề mới; sao và điểm tính riêng từng ngày (bài daily:true của student-test.js). */
+(() => {
+  [['lop10', 'Toán 10'], ['lop11', 'Toán 11']].forEach(([grade, nm]) => StudentTest.add({
+    grade, id:'thu-thach-ngay', daily:true, topic:94, title:`Thử thách hôm nay – ${nm}`, time:25, pill:'THỬ THÁCH HÔM NAY',
+    lead:'Đề mới mỗi ngày, gồm những câu hay và dễ sai: đọc kĩ đề, chú ý dấu, điều kiện và đầu mút. Điểm và sao được ghi cho tài khoản của em.',
+    codes:['T1', 'T2', 'T3', 'T4'], counts:{mc:8, tf:2, short:4}, mcPt:.5, tfPt:1, shortPt:1,
+    mc:[...Array(8)].map((_, i) => ci => TTB.get(grade, 'mc', i, ci)),
+    tf:[...Array(2)].map((_, i) => ci => TTB.get(grade, 'tf', i, ci)),
+    short:[...Array(4)].map((_, i) => ci => TTB.get(grade, 'sh', i, ci))}));
 })();
 
 </script>
@@ -13194,6 +13704,7 @@ lesson(3,'on-tap-c3','Ôn tập chương III – Bộ 20 câu','Mỗi đề 20 c
    6 bài: 1 Giá trị lượng giác · 2 Côsin – sin · 3 Diện tích – bán kính · 4–5 Thực tế có hình · Đề tổng hợp 15 câu.
    Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số tính lại bằng phép tính độc lập (c3chk).
    ===================================================================== */
+G.topics.push({id:94, hk:1, name:'Thử thách hôm nay', label:'📝 Thử thách hôm nay', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 G.topics.push({id:93, hk:1, name:'Kiểm tra và ôn tập Chương I – II', label:'📝 Kiểm tra Chương I – II', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 G.topics.push({id:91, hk:1, name:'Củng cố kiểm tra Chương III', label:'📝 Củng cố Chương III', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 const c3chk = (ok, msg) => { if(!ok) throw new Error('c3k: ' + msg); };
@@ -14747,6 +15258,7 @@ lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: dãy số, cấp s�
    Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số được tính lại bằng phép tính độc lập (k2chk).
    ===================================================================== */
 { const i2 = G.topics.findIndex(t => t.id === 2); G.topics.splice(i2 < 0 ? G.topics.length : i2 + 1, 0, {id:92, hk:1, name:'Củng cố Chương II (ôn tập tổng hợp)', label:'📝 Củng cố Chương II', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
+G.topics.push({id:94, hk:1, name:'Thử thách hôm nay', label:'📝 Thử thách hôm nay', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 { const i92 = G.topics.findIndex(t => t.id === 92); G.topics.splice(i92, 0, {id:93, hk:1, name:'Kiểm tra và ôn tập Chương I', label:'📝 Kiểm tra Chương I', grp:'📝 Ôn tập · Củng cố · Kiểm tra'}); }
 const k2chk = (ok, msg) => { if(!ok) throw new Error('c2k: ' + msg); };
 const K2T = 'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo';

@@ -43,7 +43,7 @@ async (REPS) => {
  if(typeof StudentTest!=='undefined'&&StudentTest.TESTS.length){
   try{
    for(const t of StudentTest.TESTS){
-    const stateKey=`hoctap:test:${t.grade}:${t.id}:state`, metaKey=`hoctap:test:${t.grade}:${t.id}:meta`, seen=new Set();
+    const dd=new Date(), sfx=t.daily?`-${dd.getFullYear()}-${String(dd.getMonth()+1).padStart(2,'0')}-${String(dd.getDate()).padStart(2,'0')}`:'', stateKey=`hoctap:test:${t.grade}:${t.id}${sfx}:state`, metaKey=`hoctap:test:${t.grade}:${t.id}${sfx}:meta`, seen=new Set();
     localStorage.removeItem(metaKey); location.hash=`#/${t.grade}/kiem-tra/${t.id}`;
     for(let attempt=0;attempt<4;attempt++){
      localStorage.removeItem(stateKey); StudentTest.route();
@@ -57,7 +57,7 @@ async (REPS) => {
      if(!score||score.textContent.trim()!=='10')out.bad.push(['bài kiểm tra học sinh: làm đúng toàn bộ nhưng không được 10 điểm',t.id,q.code,score&&score.textContent]);
      if(document.querySelectorAll('.test-review').length!==q.mc.length+q.tf.length+q.short.length)out.bad.push(['bài kiểm tra học sinh: trang lời giải không đủ câu',t.id,q.code]);
     }
-    if(seen.size!==4)out.bad.push(['bài kiểm tra học sinh: chưa luân phiên đủ bốn mã đề',t.id,[...seen]]);
+    if(!t.daily&&seen.size!==4)out.bad.push(['bài kiểm tra học sinh: chưa luân phiên đủ bốn mã đề',t.id,[...seen]]);
    }
    out.studentTest=true;
   }catch(e){out.errs.push(['bài kiểm tra học sinh',String(e)])}

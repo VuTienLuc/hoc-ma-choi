@@ -909,6 +909,7 @@ lesson(3,'on-tap-c3','Ôn tập chương III – Bộ 20 câu','Mỗi đề 20 c
    6 bài: 1 Giá trị lượng giác · 2 Côsin – sin · 3 Diện tích – bán kính · 4–5 Thực tế có hình · Đề tổng hợp 15 câu.
    Mỗi dạng 3 mức; đáp án chọn trước khi dựng đề; hint không lộ đáp án; mọi đáp số tính lại bằng phép tính độc lập (c3chk).
    ===================================================================== */
+G.topics.push({id:94, hk:1, name:'Thử thách hôm nay', label:'📝 Thử thách hôm nay', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 G.topics.push({id:93, hk:1, name:'Kiểm tra và ôn tập Chương I – II', label:'📝 Kiểm tra Chương I – II', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 G.topics.push({id:91, hk:1, name:'Củng cố kiểm tra Chương III', label:'📝 Củng cố Chương III', grp:'📝 Ôn tập · Củng cố · Kiểm tra'});
 const c3chk = (ok, msg) => { if(!ok) throw new Error('c3k: ' + msg); };

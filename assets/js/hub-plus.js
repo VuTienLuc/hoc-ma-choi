@@ -56,6 +56,8 @@
         return `<li class="${it.done ? 'done' : ''}"><span class="qi">${it.done ? '✅' : '🎯'}</span><div><b>${esc(Q.text)}</b>${bar(it.p / Q.n * 100)}</div><small>${it.p}/${Q.n}</small></li>`; }).join('')}</ul>
         <p class="hub-reward ${got ? 'got' : ''}">${got ? '🎉 Em đã nhận thưởng hôm nay: <b>+1 ⭐ và +20 🪙</b>' : 'Xong <b>cả 3 nhiệm vụ</b> hôm nay: thưởng <b>+1 ⭐</b> và <b>+20 🪙</b>!'}</p></section>`;
     }
+    { const dg = c.role === 'teacher' ? c.state.gid : (Account.user && Account.gradeOfClass(Account.user.lop)); // 🎲 Đề Thử thách hôm nay (đề mới mỗi ngày, điểm và sao ghi cho tài khoản)
+      if(dg && typeof StudentTest !== 'undefined' && StudentTest.find(dg, 'thu-thach-ngay')) h += `<section class="hub-card"><h3>🔥 Thử thách hôm nay</h3><p>Đề <b>14 câu</b> mới mỗi ngày, toàn câu hay và dễ sai (Toán 10, Toán 11). Làm xong được <b>điểm /10</b> và tới <b>3 ⭐</b> ghi vào tài khoản của em — ngày mới có đề mới!</p><a class="btn primary" href="${SITE}#/${dg}/kiem-tra/thu-thach-ngay">🎯 Làm Thử thách hôm nay</a></section>`; }
     if(!hasWk){ box.innerHTML = h + note(OLD); return; }
     const any = rows.filter(r => doneNow(r) > 0).length, all3 = rows.filter(r => doneNow(r) >= 3).length;
     h += `<section class="hub-card"><h3>📅 Lớp ${esc(c.lop)} hôm nay</h3><div class="gr-stats"><span><b>${any}</b>/${rows.length} bạn đã xong ≥ 1 nhiệm vụ</span><span><b>${all3}</b> bạn xong cả 3 🎉</span></div>${bar(rows.length ? any / rows.length * 100 : 0)}</section>`;
@@ -128,10 +130,12 @@
         const sel = box.querySelector('#qaBai'); if(!sel || !live(box)) return;
         if(!g){ sel.innerHTML = '<option value="">Khối này chưa có ngân hàng bài</option>'; return; }
         const tp = g.topics.map(t => ({t, ls:g.lessons.filter(l => l.t === t.id)})).filter(x => x.ls.length);
-        sel.innerHTML = tp.map(({t, ls}) => `<optgroup label="${esc(t.name)}">${ls.map(l => `<option value="${esc(l.id)}">${esc(l.name)}</option>`).join('')}</optgroup>`).join('');
+        const hasT = typeof TTB !== 'undefined' && TTB.size && TTB.size('lop' + gradeNum(c.lop));
+        sel.innerHTML = (hasT ? '<optgroup label="🎯 Ngân hàng Thử thách (câu hay, dễ sai)"><option value="__ttb">Câu ngẫu nhiên – Ngân hàng Thử thách</option></optgroup>' : '') + tp.map(({t, ls}) => `<optgroup label="${esc(t.name)}">${ls.map(l => `<option value="${esc(l.id)}">${esc(l.name)}</option>`).join('')}</optgroup>`).join('');
         const btn = box.querySelector('#qaDraw'); btn.disabled = false;
         btn.onclick = () => {
-          const l = g.lessons.find(x => x.id === sel.value), d = l && drawFromBank(l, +box.querySelector('#qaLv').value);
+          const isT = sel.value === '__ttb', l = isT ? {name:'Ngân hàng Thử thách'} : g.lessons.find(x => x.id === sel.value);
+          let d = null; if(isT){ try{ const x = TTB.fromBank('lop' + gradeNum(c.lop), Math.floor(Math.random() * 1e9)); d = {q:plain(x.q), opts:x.opts.map(plain), ans:x.ans, exp:plain(x.exp).slice(0, 600)}; }catch(e){} } else d = l && drawFromBank(l, +box.querySelector('#qaLv').value);
           if(!d){ bankMsg('Bài này chưa có câu trắc nghiệm phù hợp (không hình). Thầy chọn bài hoặc mức khác nhé.'); return; }
           box.querySelector('#qaQ').value = d.q; LET.forEach((_, i) => { box.querySelector('#qaO' + i).value = d.opts[i] || ''; });
           box.querySelector(`input[name=qaAns][value="${d.ans}"]`).checked = true; box.querySelector('#qaE').value = d.exp;

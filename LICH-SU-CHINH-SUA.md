@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-15 – Ngân hàng Thử thách + “Thử thách hôm nay” (Toán 10, Toán 11)
+
+- **Yêu cầu:** Thêm ngân hàng Toán 10–11 để học sinh làm lấy sao, sao và điểm ghi vào tài khoản học sinh; câu hay và dễ sai, không lấy từ bộ cũ; sinh đề ngẫu nhiên mỗi ngày, mỗi đề tối thiểu 10 câu.
+- **Kết quả:** Ngân hàng mới `TTB` (mỗi lớp 12 mẫu trắc nghiệm, 3 đúng–sai, 5 trả lời ngắn; mỗi mẫu tự kiểm đáp án bằng vét cạn). Đề “Thử thách hôm nay” 14 câu (8 TN × 0,5 + 2 Đ/S × 1 + 4 TLN × 1 = 10 điểm, 25 phút), cả khối cùng một đề trong ngày, ngày mới đề mới. Nộp bài ghi điểm /10 và tối đa 3 ⭐ mỗi ngày qua đường `Account.on('done')` sẵn có (không đổi Apps Script, ngưỡng Thú cưng không đổi). Lối vào: ô ở chủ đề 94, thẻ trong Góc chung, mục “Ngân hàng Thử thách” ở 🎲 Bốc câu của “Câu hỏi của thầy”.
+- **Tệp thay đổi:** `data/thu-thach-core.js`, `data/thu-thach-bank-10.js`, `data/thu-thach-bank-11.js`, `data/thu-thach-kiem-tra.js`, `assets/js/student-test.js` (`daily:true`), `assets/js/hub-plus.js`, `data/lop10.js`, `data/lop11.js` (chủ đề 94), `index.html`, `giao-vien/index.html`, `tools/kiem-tra.js`, `tools/test.py`, `tools/test_thu_thach.py`, `AGENTS.md`, `CLAUDE.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_thu_thach.py` → ĐẠT; `tools/test_hub_plus.py` (51/51), `test_chieu_hocsinh.py`, `test_kiemtra.py` (110/110), `test_giuaki_truc_tuyen.py` (32 mã), `test_phieu_tren_lop.py` (42/42) → ĐẠT
+- **Việc thủ công:** Thầy đối chiếu nội dung các mẫu câu hỏi và phạm vi chương; điểm thực tế lấy từ bảng KetQua/TienDo trên Google Sheets (không đổi Apps Script).
+
 ### 2026-10-15 – Ôn thi vào 10, chủ đề 9: Hình học 7b. Hệ thức, thẳng hàng, đồng quy
 
 - **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề kế tiếp trong kế hoạch ôn thi vào 10 (chủ đề 9), trọn bộ 3 phần: bài học sinh, bài giảng, phiếu luyện tập in 2 trang A4 kèm PDF.
