@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-15 – Câu hỏi của thầy: “Bốc bộ hôm nay” (mỗi chương một câu, tự bốc mỗi ngày)
+
+- **Yêu cầu:** Trong “Câu hỏi của thầy”, bốc ngẫu nhiên mỗi chương 1 câu đủ mức độ, mỗi ngày bốc tự động (cách 1: không sửa Apps Script).
+- **Kết quả:** Thẻ “🌅 Bộ câu hỏi hôm nay” cho giáo viên: nút “🎲 Bốc bộ hôm nay” bốc mỗi chương một câu (mức xoay vòng 1–2–3, thưởng 1–3 ⭐), đăng cho cả khối, hạn hết hôm nay. Khoá theo ngày trên máy chặn đăng lặp. Tuỳ chọn “Tự bốc mỗi ngày khi thầy mở trang này”: lần đầu mở trong ngày thì tự đăng. Chưa có bản hẹn giờ chạy khi không mở trang (cần sửa Apps Script).
+- **Tệp thay đổi:** `assets/js/hub-plus.js`, `tools/test_hub_plus.py`, `dist/hoc-tap.html`
+- **Kiểm thử:** `python3 tools/test_hub_plus.py` (54/54), `node tools/kiem-tra.js` → ĐẠT
+- **Việc thủ công:** Không có.
+
 ### 2026-10-15 – Ngân hàng Thử thách + “Thử thách hôm nay” (Toán 10, Toán 11)
 
 - **Yêu cầu:** Thêm ngân hàng Toán 10–11 để học sinh làm lấy sao, sao và điểm ghi vào tài khoản học sinh; câu hay và dễ sai, không lấy từ bộ cũ; sinh đề ngẫu nhiên mỗi ngày, mỗi đề tối thiểu 10 câu.
