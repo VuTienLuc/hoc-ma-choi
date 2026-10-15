@@ -162,7 +162,7 @@
           const cnt = readCounts(grd), off = Math.floor(Math.random() * 3), made = []; let seq = 0;
           chapters(grd).forEach(({t, ls}) => { const want = cnt[t.id] ?? 1, texts = new Set(), pool = [...ls].sort(() => Math.random() - .5);
             for(let j = 0; j < want; j++, seq++){ const lv = (seq + off) % 3 + 1;
-              for(let k = 0; k < 12; k++){ const l = pool[(j + k) % pool.length], d = drawFromBank(l, lv); if(d && !texts.has(d.q)){ texts.add(d.q); made.push({t, l, lv, d}); break; } } } });
+              for(let k = 0; k < 40; k++){ const l = k < pool.length ? pool[(j + k) % pool.length] : pool[Math.floor(Math.random() * pool.length)], lv2 = k < 20 ? lv : (lv + k) % 3 + 1, d = drawFromBank(l, lv2); if(d && !texts.has(d.q)){ texts.add(d.q); made.push({t, l, lv:lv2, d}); break; } } } });
           if(!made.length){ dmsg('Chưa bốc được câu nào phù hợp. Thầy thử lại nhé.', false); return; }
           let ok = 0; for(const m of made){ try{ const res = await Account.call('qPost', {q:m.d.q, opts:m.d.opts, ans:m.d.ans, exp:m.d.exp, stars:m.lv, days:1, target:String(g)}); if(res.ok) ok++; }catch(e){} }
           if(ok) store.set(dayKey, today);

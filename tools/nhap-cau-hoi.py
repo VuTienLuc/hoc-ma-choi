@@ -31,7 +31,7 @@ F = {'q': ['cau_hoi', 'cauhoi', 'question', 'q', 'de_bai', 'debai', 'noi_dung', 
      'opts': ['phuong_an', 'phuongan', 'options', 'choices', 'opts', 'lua_chon', 'dap_an_lua_chon'],
      'ans': ['dap_an', 'dapan', 'answer', 'correct', 'ans', 'dap_an_dung', 'correct_answer', 'key'],
      'sol': ['loi_giai', 'loigiai', 'giai_thich', 'giaithich', 'explanation', 'solution', 'sol', 'huong_dan', 'giai'],
-     'level': ['muc_do', 'mucdo', 'level', 'do_kho', 'dokho', 'difficulty'],
+     'level': ['cap_do', 'capdo', 'muc_do', 'mucdo', 'level', 'do_kho', 'dokho', 'difficulty'],
      'lop': ['lop', 'khoi', 'grade', 'class'],
      'items': ['cac_y', 'cacy', 'y', 'statements', 'items', 'menh_de', 'noi_dung_y', 'phan_tu'],
      'ok': ['dung', 'dap_an', 'ok', 'answer', 'is_true', 'correct', 'dung_sai', 'truth']}
@@ -41,8 +41,12 @@ def fold(s):
     s = unicodedata.normalize('NFD', str(s)); s = ''.join(c for c in s if unicodedata.category(c) != 'Mn').replace('đ', 'd').replace('Đ', 'D')
     return re.sub(r'\s+', ' ', s.strip().lower())
 
+def nk(k):
+    r = re.sub(r'[^a-z0-9]+', '_', fold(k)).strip('_')
+    return 'dap_an' if r.startswith('dap_an_cau_hoi') else r            # "Đáp án (Câu hỏi nhiều đáp án: …)" của bộ xuất Gemini/Azota
+
 def get(d, key, default=None):
-    low = {fold(k).replace(' ', '_'): v for k, v in d.items()}
+    low = {nk(k): v for k, v in d.items()}
     for a in F[key]:
         if a in low and low[a] not in (None, ''): return low[a]
     return default
@@ -70,7 +74,7 @@ def tex(s):
     for m in re.finditer(r'\$\$(.+?)\$\$|\$([^$\n]+?)\$|\\\((.+?)\\\)|\\\[(.+?)\\\]', s, re.S):
         out.append(html.escape(s[pos:m.start()], quote=False))
         inner = next(g for g in m.groups() if g is not None).strip()
-        inner = re.sub(r'(?<![\\a-zA-Z])<(?!=)', r'\\lt ', inner); inner = re.sub(r'(?<![\\a-zA-Z-])>(?!=)', r'\\gt ', inner)
+        inner = inner.replace('<=', '\\le ').replace('>=', '\\ge ').replace('<', '\\lt ').replace('>', '\\gt ')
         out.append('\\(' + inner + '\\)'); pos = m.end()
     out.append(html.escape(s[pos:], quote=False))
     r = ''.join(out)
@@ -90,7 +94,8 @@ def letter_of(v, opts):
 def parse_opts(o, d):
     if isinstance(o, dict): o = [o[k] for k in sorted(o, key=lambda k: str(k).upper())]
     if not o:
-        o = [d.get(k) or d.get(k.lower()) for k in 'ABCD']
+        low = {nk(k): v for k, v in d.items()}
+        o = [next((low[n] for n in (k.lower(), 'dap_an_' + k.lower(), 'phuong_an_' + k.lower(), 'option_' + k.lower()) if low.get(n) not in (None, '')), None) for k in 'ABCD']
         if any(x is None for x in o): return None
     return [re.sub(r'^\s*[A-Da-d]\s*[.):]\s+', '', str(x)) for x in o]
 
@@ -101,17 +106,28 @@ def truthy(v):
     if f in ('sai', 's', 'false', 'f', '0', 'no', 'sai.'): return False
     return None
 
+LV = {'1': 'Nhận biết', '2': 'Thông hiểu', '3': 'Vận dụng', '4': 'Vận dụng cao'}
+NEEDS_FIG = re.compile(r'gạch chéo|hình vẽ|hình bên|hình dưới|như hình|trong hình|ở hình|hình sau|biểu đồ|bảng sau|bảng bên', re.I)
+BAD_SOL = re.compile(r'Lỗi do|đổi lại thành|sửa lại|Sắp xếp đáp án|xin lỗi|nhầm lẫn', re.I)
+
+def steps(sol):
+    """Lời giải kiểu "bước 1 // bước 2 // Chọn B." → các đoạn <p>."""
+    parts = [x.strip() for x in re.split(r'\s*//\s*', str(sol)) if x.strip()]
+    return ''.join('<p>' + tex(x) + '</p>' for x in parts)
+
 def convert(d, dflt_lop):
     """→ (lop, kind, item) hoặc ném ValueError với lý do."""
     q = get(d, 'q')
     if not q: raise ValueError('thiếu nội dung câu hỏi')
     tp = get(d, 'type'); kind = KIND.get(fold(tp)) if tp else None
     opts_raw, items_raw = get(d, 'opts'), get(d, 'items')
-    if not kind: kind = 'mc' if (opts_raw or all(k in d for k in 'ABCD')) else 'tf' if items_raw else 'sh'
+    if not kind: kind = 'mc' if (opts_raw or parse_opts(None, d)) else 'tf' if items_raw else 'sh'
     lop = get(d, 'lop'); lop = ('lop' + re.search(r'\d+', str(lop)).group()) if lop and re.search(r'\d+', str(lop)) else dflt_lop
     if lop not in ('lop10', 'lop11'): raise ValueError('chưa rõ lớp (thêm trường "lop": 10/11 hoặc dùng --lop)')
     sol = get(d, 'sol') or ''
-    sol_h = ('<p>' + tex(sol) + '</p>') if sol else ''
+    if NEEDS_FIG.search(str(q)): raise ValueError('câu cần hình/bảng minh hoạ (web chưa nhập được hình) – thêm tay hoặc bỏ')
+    if BAD_SOL.search(str(sol)): raise ValueError('lời giải có dấu hiệu lỗi/chưa chỉnh (có chữ "Lỗi do…/đổi lại…") – nhờ Gemini viết lại lời giải')
+    sol_h = steps(sol) if sol else ''
     if kind == 'mc':
         opts = parse_opts(opts_raw, d)
         if not opts or len(opts) != 4: raise ValueError('cần đúng 4 phương án A–D')
@@ -119,7 +135,9 @@ def convert(d, dflt_lop):
         k = letter_of(get(d, 'ans'), opts)
         if k is None: raise ValueError('đáp án không khớp phương án nào (ghi A/B/C/D)')
         if not sol: raise ValueError('thiếu lời giải')
-        h = [tex(o) for o in opts]; lv = str(get(d, 'level') or 'Vận dụng')
+        m = re.search(r'Chọn\s+([A-D])\b[^A-D]*$', str(sol))
+        if m and 'ABCD'.index(m.group(1)) != k: raise ValueError(f'đáp án ghi {"ABCD"[k]} nhưng lời giải kết luận "Chọn {m.group(1)}" – mâu thuẫn')
+        h = [tex(o) for o in opts]; lv = str(get(d, 'level') or 'Vận dụng'); lv = LV.get(lv.strip(), lv)
         return lop, kind, {'level': lv, 'q': tex(q), 'opts': [h[k]] + [x for i, x in enumerate(h) if i != k], 'sol': sol_h}
     if kind == 'tf':
         if not isinstance(items_raw, list) or len(items_raw) != 4: raise ValueError('đúng–sai cần đúng 4 ý')
@@ -128,7 +146,7 @@ def convert(d, dflt_lop):
             if isinstance(it, str): raise ValueError(f'ý {j+1}: cần dạng {{"noi_dung":…,"dung":true/false}}')
             t = get(it, 'q') or it.get('text') or it.get('noi_dung'); ok = None
             for a in F['ok']:
-                if a in {fold(k).replace(' ', '_') for k in it}: ok = truthy({fold(k).replace(' ', '_'): v for k, v in it.items()}[a]); 
+                if a in {nk(k) for k in it}: ok = truthy({nk(k): v for k, v in it.items()}[a]); 
                 if ok is not None: break
             s = get(it, 'sol') or sol
             if not t or ok is None: raise ValueError(f'ý {j+1}: thiếu nội dung hoặc đúng/sai')
@@ -143,6 +161,11 @@ def convert(d, dflt_lop):
     if len(a) > 4: raise ValueError(f'đáp số "{a}" dài hơn 4 ký tự (chuẩn THPT 2025)')
     if not sol: raise ValueError('thiếu lời giải')
     return lop, kind, {'q': tex(q), 'ans': a, 'sol': sol_h}
+
+def meta_from_name(f):
+    """Tên tệp kiểu "Lớp 10 - Chương I. Mệnh đề và tập hợp - Trắc nghiệm - 12 câu.json" (kể cả khi tên bị đổi dấu thành L_p_10_-_Ch__ng_I...)."""
+    n = os.path.basename(f); lop = re.search(r'L\S{0,3}p[ _]+(\d{1,2})', n); ch = re.search(r'Ch\S{0,4}ng[ _]+([IVXivx]+|\d+)', n)
+    return (f'lop{lop.group(1)}' if lop else None), (ch.group(1).upper() if ch else None)
 
 HEAD = """/* Câu hỏi NGOÀI do thầy nhập (JSON) cho Ngân hàng Thử thách – %s. TỆP SINH TỰ ĐỘNG bởi tools/nhap-cau-hoi.py: đừng sửa tay, chạy lại lệnh để thêm câu.
    Mỗi câu là một mẫu cố định; cùng với các mẫu sinh số ngẫu nhiên trong data/thu-thach-bank-*.js, chúng tham gia đề “Thử thách hôm nay”, “Bốc bộ hôm nay” và “Bốc câu”. */
@@ -185,10 +208,15 @@ def main(argv):
             except Exception as e2: print(f'✗ {f}: không đọc được JSON ({e2})'); bad += 1; continue
         lst = find_list(data)
         if not lst: print(f'✗ {f}: không thấy danh sách câu hỏi'); bad += 1; continue
+        flop, fch = meta_from_name(f)
         for n, d in enumerate(lst, 1):
+            if str(d.get('STT', '')).strip().lower() == 'idx' or str(d.get('Câu hỏi', '')).strip() == 'title': continue      # hàng tiêu đề của bộ xuất Gemini/Azota
             total += 1
-            try: lop, kind, it = convert(d, dflt); new[lop].append({'kind': kind, **it})
-            except Exception as e: bad += 1; print(f'✗ {os.path.basename(f)} câu {n}: {e}')
+            try:
+                lop, kind, it = convert(d, flop or dflt)
+                if fch: it['chuong'] = fch
+                new[lop].append({'kind': kind, **it})
+            except Exception as e: bad += 1; print(f'✗ {os.path.basename(f)[:48]}… câu {d.get("STT") or n}: {e}')
     added = 0
     for lop, items in new.items():
         if not items: continue

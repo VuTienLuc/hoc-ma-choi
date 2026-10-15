@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-15 – /upup: nhập 36 câu trắc nghiệm Toán 10 từ 3 file JSON của thầy
+
+- **Yêu cầu:** Nhận 3 file JSON (Toán 10 Chương I 12 câu, Chương II 10 câu, Chương III 15 câu) và tạo skill `/upup` để lần sau gửi file JSON là tự cập nhật vào app.
+- **Kết quả:** `tools/nhap-cau-hoi.py` đọc được định dạng xuất Gemini/Azota (hàng tiêu đề `idx/title`, đáp án số 1–4, cấp độ 1–3, lời giải tách bởi ` // `, `$$…$$`, lớp/chương lấy từ tên tệp) và chuyển `<`/`>` trong công thức thành `\lt`/`\gt`. Nhập 36/37 câu vào `data/thu-thach-ngoai-lop10.js` (Chương I: 12, Chương II: 9, Chương III: 15); toàn bộ đáp án được tự giải lại, đều đúng. Loại: Chương II câu 8 (cần hình vẽ miền không gạch chéo). Câu 2 Chương II có lời giải còn dòng “Lỗi do…”: đáp án B đúng, đã viết lại lời giải sạch. Bốc bộ hôm nay thử lại nhiều lần hơn và đổi mức khi chương không bốc đủ câu. Skill `/upup` được đề xuất để lưu.
+- **Tệp thay đổi:** `tools/nhap-cau-hoi.py`, `data/thu-thach-ngoai-lop10.js`, `index.html`, `giao-vien/index.html`, `assets/js/hub-plus.js`, `AGENTS.md`, `CLAUDE.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js`, `python3 tools/test_thu_thach.py`, `python3 tools/test.py`, `python3 tools/test_hub_plus.py` → ĐẠT (xem báo cáo cuối)
+- **Việc thủ công:** Lưu skill `/upup` ở thẻ đề xuất; nhờ Gemini sinh lại câu Chương II STT 8 nếu muốn dùng (cần hình).
+
 ### 2026-10-15 – Lệnh nhập câu hỏi ngoài (JSON) vào Ngân hàng Thử thách
 
 - **Yêu cầu:** Làm sẵn lệnh `tools/nhap-cau-hoi.py file.json` để thầy tự nhập câu hỏi từ nguồn ngoài (JSON như tiện ích Gemini JSON hàng loạt).
