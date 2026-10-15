@@ -416,10 +416,14 @@ const ortho7 = (o = {}) => {
   if(o.circ === 'AH'){ const N = [(A7[0]+H7[0])/2, (A7[1]+H7[1])/2]; C.push({x:N[0], y:N[1], r:Math.hypot(A7[0]-H7[0], A7[1]-H7[1])/2, lab:'N'}); }
   const S = [[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...D7],[...C7,...E7]];
   if(o.af) S.push([...A7,...F7,true]);
+  if(o.def) S.push([...E7,...F7,true],[...D7,...F7,true]);
+  if(o.mn) S.push([...E7,3,0,true],[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2,3,0,true],[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2,...E7,true]);
   const P = [[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...D7,'D',20],[...E7,'E',160],[...H7,'H',-100]];
-  if(o.af) P.push([...F7,'F',-90]);
+  if(o.af || o.def) P.push([...F7,'F',-90]);
+  if(o.mn) P.push([3,0,'M',-60]);
   const right = [rightH(D7,B7,A7), rightH(E7,C7,A7)];
-  if(o.af) right.push(rightH(F7,A7,C7));
+  if(o.af || o.def) right.push(rightH(F7,A7,C7));
+  if(o.mn) right.push(rightH(E7,[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2],[3,0]));
   return circleSVG({C, P, S, right});
 };
 const tan7 = () => {
@@ -438,6 +442,17 @@ const quad7 = () => {
   return circleSVG({C:[{x:0, y:0, r:3, lab:'O', lp:14}], P:[[...A,'A',140],[...B,'B',220],[...C,'C',320],[...D,'D',40]],
     S:[[...A,...B],[...B,...C],[...C,...D],[...D,...A],[...A,...C,true],[...B,...D,true]]});
 };
+/* Hình cho Hình học 7b: đường tròn ngoại tiếp (O), đường kính AK, trung điểm M của BC */
+const O7 = (() => {
+  const a2 = A7[0]**2 + A7[1]**2, b2 = B7[0]**2 + B7[1]**2, c2 = C7[0]**2 + C7[1]**2;
+  const dd = 2*(A7[0]*(B7[1]-C7[1]) + B7[0]*(C7[1]-A7[1]) + C7[0]*(A7[1]-B7[1]));
+  return [(a2*(B7[1]-C7[1]) + b2*(C7[1]-A7[1]) + c2*(A7[1]-B7[1]))/dd, (a2*(C7[0]-B7[0]) + b2*(A7[0]-C7[0]) + c2*(B7[0]-A7[0]))/dd];
+})();
+const K7 = [2*O7[0]-A7[0], 2*O7[1]-A7[1]], M7 = [3, 0];
+const kfig7 = () => circleSVG({C:[{x:O7[0], y:O7[1], r:Math.hypot(A7[0]-O7[0], A7[1]-O7[1]), lab:'O', lp:14}],
+  P:[[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...K7,'K',-90],[...H7,'H',140],[...M7,'M',30]],
+  S:[[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...K7],[...C7,...K7],[...A7,...K7,true],[...B7,...H7],[...C7,...H7],[...H7,...K7,true]],
+  right:[rightH(B7,A7,K7), rightH(C7,A7,K7)]});
 const head7 = `Cho tam giác nhọn ${m('ABC')} có hai đường cao ${m('BD')}, ${m('CE')} cắt nhau tại ${m('H')}.`;
 
 Lecture.add({grade:'lop9',gradeName:'Toán 9',chapter:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học',lessons:[
@@ -696,6 +711,29 @@ Lecture.add({grade:'lop9',gradeName:'Toán 9',chapter:'Ôn thi tuyển sinh vào
  {kind:'method',tag:'Dạng 5',title:'Hệ thức bằng tam giác đồng dạng',steps:[`Chép bốn đoạn của hệ thức, tìm hai tam giác mỗi tam giác chứa hai đoạn.`,`Chỉ ra hai góc bằng nhau (góc vuông, góc chung, đối đỉnh) rồi kết luận g.g, viết đúng thứ tự đỉnh.`,`Lập tỉ số, nhân chéo để được hệ thức, thay số.`]},
  {kind:'vd',tag:'Ví dụ 5 · Dạng 5',label:'Ví dụ 5',de:`${head7} Chứng minh ${m('AD\\cdot AC=AE\\cdot AB')}. Biết ${m('AB=10')} cm, ${m('AC=8')} cm, ${m('AD=5')} cm; tính ${m('AE')}.`,fig:ortho7(),sol:[`Xét ${m('\\triangle ADB')} và ${m('\\triangle AEC')}: ${m('\\widehat{ADB}=\\widehat{AEC}=90^\\circ')}, ${m('\\widehat{A}')} chung, nên ${m('\\triangle ADB\\sim\\triangle AEC')} (g.g).`,`Suy ra ${m('\\dfrac{AD}{AE}=\\dfrac{AB}{AC}')}, tức ${m('AD\\cdot AC=AE\\cdot AB')}.`,`${m('AE=\\dfrac{AD\\cdot AC}{AB}=\\dfrac{5\\cdot 8}{10}=4')} cm.`],ans:`${tb('AE=4')} cm.`},
  {kind:'sum',tag:'Tổng kết',title:'Checklist trước khi nộp bài',body:`<ul><li>Bốn điểm cùng đường tròn: nêu <b>hai tam giác vuông chung cạnh huyền</b> và trung điểm cạnh huyền.</li><li>Mỗi góc nội tiếp ghi rõ <b>chắn cung nào</b>; song song nêu đúng <b>vị trí cặp góc</b>.</li><li>Hệ thức: tam giác đồng dạng <b>đúng thứ tự đỉnh</b>, rồi nhân chéo.</li></ul>`}
+]},
+{id:'on-thi-hinh-hoc-chung-minh-2',name:'Hình học 7b. Hệ thức, thẳng hàng, đồng quy',desc:'Ôn thi vào 10 – Bài 7 (câu c, d): hệ thức bằng tam giác đồng dạng, ba điểm thẳng hàng, ba đường đồng quy, tiếp tuyến và tính độ dài.',slides:[
+ {kind:'title',tag:'Ôn thi tuyển sinh · Hình học 7b',title:'Hệ thức, thẳng hàng, đồng quy',sub:'Câu c, d của bài hình trong đề TP.HCM 2026–2027',points:['Chứng minh hệ thức bằng tam giác đồng dạng, cộng vế để được BC².','Chứng minh ba điểm thẳng hàng bằng hình bình hành BHCK.','Đồng quy – tia phân giác, tiếp tuyến ME và tính độ dài.']},
+ {kind:'kt',tag:'Kiến thức nền 1',title:'Hệ thức với ba đường cao',fig:ortho7({af:true}),body:box(`${m('\\triangle BEC\\sim\\triangle BFA')} (g.g): ${m('BE\\cdot BA=BF\\cdot BC')}.`)+box(`${m('\\triangle CDB\\sim\\triangle CFA')} (g.g): ${m('CD\\cdot CA=CF\\cdot CB')}.`)+box(`Cộng vế: ${m('BE\\cdot BA+CD\\cdot CA=BC^2')}.`)},
+ {kind:'kt',tag:'Kiến thức nền 2',title:'Đường kính AK và hình bình hành BHCK',fig:kfig7(),body:box(`${m('AK')} là đường kính nên ${m('KB\\perp AB')}, ${m('KC\\perp AC')}.`)+box(`${m('KB\\parallel CH')}, ${m('KC\\parallel BH')}: ${m('BHCK')} là hình bình hành.`)+box(`${m('M')} là trung điểm ${m('HK')}; ${m('AH=2OM')}.`)},
+ {kind:'kt',tag:'Kiến thức nền 3',title:'Đồng quy và tiếp tuyến',fig:ortho7({af:true,def:true}),body:box(`${m('\\widehat{EFH}=\\widehat{EBH}=\\widehat{DFH}=\\widehat{DCH}=90^\\circ-\\widehat{A}')}.`)+box(`${m('FA, DB, EC')} là ba phân giác của tam giác ${m('DEF')}.`)+note(`Bốn điểm cùng đường tròn phải chứng minh lại bằng trung điểm cạnh huyền (${m('BH')}, ${m('CH')}).`)},
+
+ {kind:'method',tag:'Dạng 1',title:'Hệ thức BE·BA + CD·CA = BC²',steps:[`Chứng minh hai cặp tam giác vuông đồng dạng (chung góc B, chung góc C).`,`Viết hai hệ thức ${m('BE\\cdot BA=BF\\cdot BC')} và ${m('CD\\cdot CA=CF\\cdot CB')}.`,`Cộng vế, đặt ${m('BC')} làm thừa số chung.`]},
+ {kind:'vd',tag:'Ví dụ 1 · Dạng 1',label:'Ví dụ 1',de:`${head7} ${m('F')} là chân đường cao kẻ từ ${m('A')}. Biết ${m('BC=10')} cm, ${m('BF=4')} cm, ${m('BA=8')} cm. Tính ${m('BE')} và ${m('CD\\cdot CA')}.`,fig:ortho7({af:true}),sol:[`Xét ${m('\\triangle BEC')} và ${m('\\triangle BFA')}: ${m('\\widehat{BEC}=\\widehat{BFA}=90^\\circ')}, ${m('\\widehat{B}')} chung nên đồng dạng (g.g). Suy ra ${m('BE\\cdot BA=BF\\cdot BC')}.`,`${m('BE=\\dfrac{BF\\cdot BC}{BA}=\\dfrac{4\\cdot 10}{8}=5')} cm.`,`Tương tự ${m('CD\\cdot CA=CF\\cdot CB')} với ${m('CF=10-4=6')}: ${m('CD\\cdot CA=6\\cdot 10=60')}. Kiểm tra: ${m('40+60=10^2')}.`],ans:`${tb('BE=5')} cm; ${tb('CD\\cdot CA=60')}.`},
+
+ {kind:'method',tag:'Dạng 2',title:'Ba điểm H, M, K thẳng hàng',steps:[`Kẻ đường kính ${m('AK')}: ${m('KB\\perp AB')}, ${m('KC\\perp AC')}.`,`Cùng vuông góc với ${m('AB')}, ${m('AC')} nên ${m('KB\\parallel CH')}, ${m('KC\\parallel BH')}: ${m('BHCK')} là hình bình hành.`,`Hai đường chéo cắt nhau tại trung điểm ${m('M')} của ${m('BC')}; ${m('OM')} là đường trung bình của tam giác ${m('AHK')}.`]},
+ {kind:'vd',tag:'Ví dụ 2 · Dạng 2',label:'Ví dụ 2',de:`Tam giác nhọn ${m('ABC')} nội tiếp ${m('(O)')}, đường cao ${m('BD, CE')} cắt nhau tại ${m('H')}; ${m('AK')} là đường kính, ${m('M')} là trung điểm ${m('BC')}. Chứng minh ${m('H, M, K')} thẳng hàng; biết ${m('OM=5')} cm, ${m('HM=6')} cm, tính ${m('AH')} và ${m('HK')}.`,fig:kfig7(),sol:[`${m('AK')} là đường kính nên ${m('KB\\perp AB')}; mà ${m('CH\\perp AB')} nên ${m('KB\\parallel CH')}. Tương tự ${m('KC\\parallel BH')}.`,`${m('BHCK')} là hình bình hành nên ${m('BC')} và ${m('HK')} cắt nhau tại trung điểm ${m('M')}: ${m('H, M, K')} thẳng hàng.`,`${m('OM')} là đường trung bình của tam giác ${m('AHK')}: ${m('AH=2OM=10')} cm; ${m('HK=2HM=12')} cm.`],ans:`${tb('AH=10')} cm; ${tb('HK=12')} cm.`},
+
+ {kind:'method',tag:'Dạng 3',title:'Đồng quy: FA là phân giác của góc DFE',steps:[`Hai tam giác vuông chung cạnh huyền ${m('BH')}: ${m('B,F,H,E')} cùng thuộc đường tròn đường kính ${m('BH')}; làm tương tự với ${m('CH')}.`,`${m('\\widehat{EFH}=\\widehat{EBH}')} và ${m('\\widehat{DFH}=\\widehat{DCH}')}, cùng bằng ${m('90^\\circ-\\widehat{BAC}')}.`,`Hai góc bằng nhau nên ${m('FA')} là phân giác; ${m('\\widehat{DFE}=180^\\circ-2\\widehat{BAC}')}.`]},
+ {kind:'vd',tag:'Ví dụ 3 · Dạng 3',label:'Ví dụ 3',de:`${head7} ${m('F')} là chân đường cao kẻ từ ${m('A')}. Biết ${m('\\widehat{ABC}=60^\\circ')}, ${m('\\widehat{ACB}=70^\\circ')}. Chứng minh ${m('FA')} là phân giác của ${m('\\widehat{DFE}')} và tính ${m('\\widehat{DFE}')}.`,fig:ortho7({af:true,def:true}),sol:[`${m('\\widehat{BAC}=180^\\circ-60^\\circ-70^\\circ=50^\\circ')}; ${m('\\widehat{ABD}=90^\\circ-50^\\circ=40^\\circ')}.`,`${m('B,F,H,E')} thuộc đường tròn đường kính ${m('BH')} (hai tam giác vuông chung cạnh huyền): ${m('\\widehat{EFH}=\\widehat{EBH}=40^\\circ')}. Tương tự ${m('\\widehat{DFH}=\\widehat{DCH}=\\widehat{ACE}=40^\\circ')}.`,`${m('\\widehat{EFH}=\\widehat{DFH}')} nên ${m('FA')} là phân giác của ${m('\\widehat{DFE}')}; ${m('\\widehat{DFE}=2\\cdot 40^\\circ=80^\\circ')}.`],ans:`${tb('\\widehat{DFE}=80^\\circ')}.`},
+
+ {kind:'method',tag:'Dạng 4',title:'ME là tiếp tuyến của đường tròn đường kính AH',steps:[`${m('N')} là trung điểm ${m('AH')}: ${m('NE=NA')}; ${m('M')} là trung điểm ${m('BC')}: ${m('ME=MB')}.`,`${m('\\widehat{AEN}=\\widehat{BAF}=90^\\circ-\\widehat{B}')}, ${m('\\widehat{BEM}=\\widehat{B}')}.`,`${m('\\widehat{NEM}=180^\\circ-\\widehat{AEN}-\\widehat{BEM}=90^\\circ')}; dùng Pythagore tính ${m('MN')}.`]},
+ {kind:'vd',tag:'Ví dụ 4 · Dạng 4',label:'Ví dụ 4',de:`${head7} ${m('N')}, ${m('M')} lần lượt là trung điểm ${m('AH')}, ${m('BC')}. Biết ${m('\\widehat{ABC}=50^\\circ')}, ${m('AH=6')} cm, ${m('BC=8')} cm. Chứng minh ${m('ME')} là tiếp tuyến của đường tròn đường kính ${m('AH')} và tính ${m('MN')}.`,fig:ortho7({circ:'AH',mn:true}),sol:[`Tam giác ${m('NAE')} cân tại ${m('N')}: ${m('\\widehat{AEN}=\\widehat{BAF}=90^\\circ-50^\\circ=40^\\circ')}. Tam giác ${m('MBE')} cân tại ${m('M')}: ${m('\\widehat{BEM}=\\widehat{ABC}=50^\\circ')}.`,`${m('\\widehat{NEM}=180^\\circ-40^\\circ-50^\\circ=90^\\circ')}: ${m('ME\\perp NE')} tại ${m('E')} thuộc đường tròn đường kính ${m('AH')}, nên ${m('ME')} là tiếp tuyến.`,`${m('NE=3')} cm, ${m('ME=4')} cm: ${m('MN=\\sqrt{3^2+4^2}=5')} cm.`],ans:`${tb('MN=5')} cm.`},
+
+ {kind:'method',tag:'Dạng 5',title:'Hệ thức HA·HF = HB·HD',steps:[`Hai tam giác vuông ${m('HAD')} và ${m('HBF')} có góc ${m('\\widehat{AHD}=\\widehat{BHF}')} (đối đỉnh).`,`Kết luận ${m('\\triangle HAD\\sim\\triangle HBF')} (g.g), lập tỉ số ${m('\\dfrac{HA}{HB}=\\dfrac{HD}{HF}')}.`,`Nhân chéo, thay số; ${m('H')} nằm giữa ${m('A')} và ${m('F')} nên ${m('AF=HA+HF')}.`]},
+ {kind:'vd',tag:'Ví dụ 5 · Dạng 5',label:'Ví dụ 5',de:`${head7} Tia ${m('AH')} cắt ${m('BC')} tại ${m('F')}. Chứng minh ${m('HA\\cdot HF=HB\\cdot HD')}. Biết ${m('HB=6')} cm, ${m('HD=4')} cm, ${m('HF=3')} cm; tính ${m('AF')}.`,fig:ortho7({af:true}),sol:[`Xét ${m('\\triangle HAD')} và ${m('\\triangle HBF')}: ${m('\\widehat{ADH}=\\widehat{BFH}=90^\\circ')}, ${m('\\widehat{AHD}=\\widehat{BHF}')} (đối đỉnh) nên ${m('\\triangle HAD\\sim\\triangle HBF')} (g.g).`,`Suy ra ${m('\\dfrac{HA}{HB}=\\dfrac{HD}{HF}')}, tức ${m('HA\\cdot HF=HB\\cdot HD')}; ${m('HA=\\dfrac{6\\cdot 4}{3}=8')} cm.`,`${m('AF=HA+HF=8+3=11')} cm.`],ans:`${tb('AF=11')} cm.`},
+ {kind:'sum',tag:'Tổng kết',title:'Checklist trước khi nộp bài',body:`<ul><li>Hệ thức: tam giác đồng dạng <b>đúng thứ tự đỉnh</b>; cộng vế phải nói ${m('F')} nằm giữa ${m('B, C')}.</li><li>Thẳng hàng: nêu <b>hai cặp cạnh đối song song</b> của ${m('BHCK')}, rồi trung điểm hai đường chéo.</li><li>Đồng quy, tiếp tuyến: tự chứng minh các điểm cùng đường tròn; tiếp tuyến cần <b>vuông góc bán kính tại điểm thuộc đường tròn</b>.</li></ul>`}
 ]}
+
 ]});
 })();

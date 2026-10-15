@@ -702,4 +702,42 @@ Lecture.addPractice('lop9','on-thi-hinh-hoc-chung-minh-1',[
 ]);
 }
 
+/* ---------- Hình học 7b. Hệ thức, thẳng hàng, đồng quy – 5 dạng × 2 câu tương tự ---------- */
+{
+const H0 = `Tam giác nhọn ${m('ABC')} có ba đường cao ${m('AF, BD, CE')} cắt nhau tại ${m('H')}.`;
+const HK = `Tam giác nhọn ${m('ABC')} nội tiếp ${m('(O)')}, hai đường cao ${m('BD, CE')} cắt nhau tại ${m('H')}; ${m('AK')} là đường kính của ${m('(O)')}, ${m('M')} là trung điểm ${m('BC')}.`;
+Lecture.addPractice('lop9','on-thi-hinh-hoc-chung-minh-2',[
+ {dang:'Hệ thức BE·BA + CD·CA = BC²',items:[
+  {de:`${H0} Chứng minh ${m('BE\\cdot BA=BF\\cdot BC')}. Biết ${m('BC=12')} cm, ${m('BF=3')} cm, ${m('BA=9')} cm; tính ${m('BE')} và ${m('CD\\cdot CA')}.`,
+   sol:[`${m('\\triangle BEC\\sim\\triangle BFA')} (g.g: ${m('\\widehat{BEC}=\\widehat{BFA}=90^\\circ')}, ${m('\\widehat{B}')} chung) nên ${m('BE\\cdot BA=BF\\cdot BC')}; ${m('BE=\\frac{3\\cdot 12}{9}=4')} cm.`,`Tương tự ${m('CD\\cdot CA=CF\\cdot CB')} với ${m('CF=12-3=9')}: ${m('CD\\cdot CA=9\\cdot 12=108')}.`],ans:`${tb('BE=4')} cm; ${tb('CD\\cdot CA=108')}.`,lines:3},
+  {de:`${H0} Biết ${m('BC=15')} cm, ${m('CF=6')} cm, ${m('CA=10')} cm. Tính ${m('CD')} và ${m('BE\\cdot BA')}.`,
+   sol:[`${m('\\triangle CDB\\sim\\triangle CFA')} (g.g: ${m('\\widehat{CDB}=\\widehat{CFA}=90^\\circ')}, ${m('\\widehat{C}')} chung) nên ${m('CD\\cdot CA=CF\\cdot CB')}; ${m('CD=\\frac{6\\cdot 15}{10}=9')} cm.`,`${m('BE\\cdot BA=BF\\cdot BC=(15-6)\\cdot 15=135')}.`],ans:`${tb('CD=9')} cm; ${tb('BE\\cdot BA=135')}.`,lines:3},
+ ]},
+ {dang:'Ba điểm thẳng hàng (đường kính AK)',items:[
+  {de:`${HK} Chứng minh ${m('H, M, K')} thẳng hàng. Biết ${m('OM=7')} cm, ${m('HM=5')} cm; tính ${m('AH')} và ${m('HK')}.`,
+   sol:[`${m('KB\\perp AB')}, ${m('KC\\perp AC')} (${m('AK')} là đường kính); ${m('CH\\perp AB')}, ${m('BH\\perp AC')} nên ${m('KB\\parallel CH')}, ${m('KC\\parallel BH')}: ${m('BHCK')} là hình bình hành.`,`Hai đường chéo cắt nhau tại trung điểm ${m('M')} của ${m('BC')}, nên ${m('M')} là trung điểm ${m('HK')}: ${m('H, M, K')} thẳng hàng.`,`${m('OM')} là đường trung bình của ${m('\\triangle AHK')}: ${m('AH=2OM=14')} cm; ${m('HK=2HM=10')} cm.`],ans:`${tb('AH=14')} cm; ${tb('HK=10')} cm.`,lines:3},
+  {de:`${HK} Biết ${m('AH=18')} cm, ${m('HK=26')} cm. Tính ${m('OM')} và ${m('HM')}.`,
+   sol:[`${m('BHCK')} là hình bình hành (${m('KB\\parallel CH')}, ${m('KC\\parallel BH')}), nên ${m('M')} là trung điểm ${m('HK')}.`,`${m('OM')} là đường trung bình của ${m('\\triangle AHK')}: ${m('OM=\\frac{18}{2}=9')} cm; ${m('HM=\\frac{26}{2}=13')} cm.`],ans:`${tb('OM=9')} cm; ${tb('HM=13')} cm.`,lines:3},
+ ]},
+ {dang:'Đồng quy – tia phân giác của tam giác DEF',items:[
+  {de:`${H0} Biết ${m('\\widehat{BAC}=70^\\circ')}. Tính ${m('\\widehat{EFH}')} và ${m('\\widehat{EFD}')}.`,
+   sol:[`Hai tam giác vuông ${m('BEH, BFH')} chung cạnh huyền ${m('BH')} nên ${m('B,F,H,E')} thuộc đường tròn đường kính ${m('BH')}; ${m('\\widehat{ABD}=90^\\circ-70^\\circ=20^\\circ')}.`,`${m('\\widehat{EFH}=\\widehat{EBH}=\\widehat{ABD}=20^\\circ')} (cùng chắn cung ${m('EH')}); tương tự ${m('\\widehat{DFH}=\\widehat{DCH}=20^\\circ')}, nên ${m('\\widehat{EFD}=40^\\circ')}.`],ans:`${tb('\\widehat{EFH}=20^\\circ')}; ${tb('\\widehat{EFD}=40^\\circ')}.`,lines:3},
+  {hard:true,de:`${H0} Biết ${m('\\widehat{ABC}=65^\\circ')}, ${m('\\widehat{ACB}=55^\\circ')}. Chứng minh ${m('H')} là tâm đường tròn nội tiếp tam giác ${m('DEF')} và tính ba góc của tam giác ${m('DEF')}.`,
+   sol:[`${m('\\widehat{BAC}=60^\\circ')}. Hai tam giác vuông chung cạnh huyền ${m('BH')} (và ${m('CH')}) cho ${m('\\widehat{EFH}=\\widehat{EBH}=90^\\circ-60^\\circ=30^\\circ')} và ${m('\\widehat{DFH}=\\widehat{DCH}=30^\\circ')}: ${m('FA')} là phân giác của ${m('\\widehat{DFE}')}, ${m('\\widehat{DFE}=60^\\circ')}.`,`Tương tự ${m('DB')}, ${m('EC')} là phân giác: ${m('\\widehat{EDF}=2(90^\\circ-65^\\circ)=50^\\circ')}, ${m('\\widehat{DEF}=2(90^\\circ-55^\\circ)=70^\\circ')}. Ba phân giác đồng quy tại ${m('H')}: ${m('H')} là tâm đường tròn nội tiếp.`],ans:`${tb('\\widehat{DFE}=60^\\circ')}; ${tb('\\widehat{EDF}=50^\\circ')}; ${tb('\\widehat{DEF}=70^\\circ')}.`,lines:3},
+ ]},
+ {dang:'Tiếp tuyến của đường tròn đường kính AH',items:[
+  {de:`${H0} ${m('N, M')} là trung điểm ${m('AH, BC')}. Biết ${m('\\widehat{ABC}=40^\\circ')}. Tính ${m('\\widehat{AEN}')}, ${m('\\widehat{BEM}')}, ${m('\\widehat{NEM}')}.`,
+   sol:[`${m('NE=NA')} nên ${m('\\widehat{AEN}=\\widehat{BAF}=90^\\circ-40^\\circ=50^\\circ')}; ${m('ME=MB')} nên ${m('\\widehat{BEM}=\\widehat{ABC}=40^\\circ')}.`,`${m('\\widehat{NEM}=180^\\circ-50^\\circ-40^\\circ=90^\\circ')}.`],ans:`${tb('\\widehat{AEN}=50^\\circ')}; ${tb('\\widehat{BEM}=40^\\circ')}; ${tb('\\widehat{NEM}=90^\\circ')}.`,lines:3},
+  {hard:true,de:`${H0} ${m('N, M')} là trung điểm ${m('AH, BC')}. Chứng minh ${m('ME')} là tiếp tuyến của đường tròn đường kính ${m('AH')}; biết ${m('AH=10')} cm, ${m('BC=24')} cm, tính ${m('MN')}.`,
+   sol:[`${m('NE=NA')}, ${m('ME=MB')} (trung tuyến ứng với cạnh huyền) nên ${m('\\widehat{AEN}=\\widehat{BAF}=90^\\circ-\\widehat{B}')}, ${m('\\widehat{BEM}=\\widehat{B}')}; do đó ${m('\\widehat{NEM}=180^\\circ-(90^\\circ-\\widehat{B})-\\widehat{B}=90^\\circ')}.`,`${m('ME\\perp NE')} tại ${m('E')} thuộc đường tròn đường kính ${m('AH')}: ${m('ME')} là tiếp tuyến. ${m('NE=5')}, ${m('ME=12')}: ${m('MN=\\sqrt{5^2+12^2}=13')} cm.`],ans:`${tb('MN=13')} cm.`,lines:3},
+ ]},
+ {dang:'Hệ thức HA·HF = HB·HD = HC·HE',items:[
+  {de:`${H0} Chứng minh ${m('HA\\cdot HF=HB\\cdot HD')}. Biết ${m('HB=10')} cm, ${m('HD=6')} cm, ${m('HA=15')} cm; tính ${m('HF')}.`,
+   sol:[`${m('\\triangle HAD\\sim\\triangle HBF')} (g.g: ${m('\\widehat{ADH}=\\widehat{BFH}=90^\\circ')}, ${m('\\widehat{AHD}=\\widehat{BHF}')} đối đỉnh) nên ${m('\\frac{HA}{HB}=\\frac{HD}{HF}')}, tức ${m('HA\\cdot HF=HB\\cdot HD')}.`,`${m('HF=\\frac{10\\cdot 6}{15}=4')} cm.`],ans:`${tb('HF=4')} cm.`,lines:3},
+  {hard:true,de:`${H0} Chứng minh ${m('HA\\cdot HF=HC\\cdot HE')}. Biết ${m('HA=12')}, ${m('HF=3')}, ${m('HE=4')}, ${m('HD=3')} (cm); tính ${m('HC')} và ${m('HB')}.`,
+   sol:[`${m('\\triangle HAE\\sim\\triangle HCF')} (g.g: ${m('\\widehat{AEH}=\\widehat{CFH}=90^\\circ')}, đối đỉnh tại ${m('H')}) nên ${m('HA\\cdot HF=HC\\cdot HE')}: ${m('HC=\\frac{12\\cdot 3}{4}=9')} cm.`,`Tương tự ${m('HA\\cdot HF=HB\\cdot HD')}: ${m('HB=\\frac{12\\cdot 3}{3}=12')} cm.`],ans:`${tb('HC=9')} cm; ${tb('HB=12')} cm.`,lines:3},
+ ]},
+]);
+}
+
 })();

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-15 – Ôn thi vào 10, chủ đề 9: Hình học 7b. Hệ thức, thẳng hàng, đồng quy
+
+- **Yêu cầu:** Lịch tự động: soạn và đăng chủ đề kế tiếp trong kế hoạch ôn thi vào 10 (chủ đề 9), trọn bộ 3 phần: bài học sinh, bài giảng, phiếu luyện tập in 2 trang A4 kèm PDF.
+- **Kết quả:** (A) Bài học sinh `on-thi-hinh-hoc-chung-minh-2` (chương 6 `data/lop9.js`), 5 dạng × 3 mức (gHb1–gHb5): hệ thức BE·BA + CD·CA = BC² · ba điểm H, M, K thẳng hàng (đường kính AK, hình bình hành BHCK) · đồng quy, FA là phân giác góc DFE, tính góc tam giác DEF · ME là tiếp tuyến của đường tròn đường kính AH, tính MN · hệ thức HA·HF = HB·HD = HC·HE; có thẻ Kiến thức · Lưu ý · Mẹo (5 mục); mức 3 là câu nhiều bước. Lời giải chứng minh lại các kiến thức không được dùng trực tiếp (bốn điểm cùng đường tròn bằng trung điểm cạnh huyền). (B) Bài giảng cùng id (3 slide kiến thức, 5 dạng × method + ví dụ, tổng kết). (C) Phiếu luyện tập 5 dạng × 2 câu = 10 bài (7 cơ bản + 3 ★), in đúng 2 trang A4 cả bản học sinh và bản lời giải. `ortho7` thêm tuỳ chọn `def` (đoạn EF, DF), `mn` (điểm M, N và đoạn EM, NM, NE); hình mới `kfig7`.
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9` → ĐẠT; `python3 tools/test.py` → ĐẠT (30 210 câu); `python3 tools/test_baigiang.py lop9` → ĐẠT (666 trang chiếu); `python3 tools/test_phieu_tren_lop.py` → ĐẠT (42/42); `python3 tools/test_luyentap.py` → không có dòng ✗ (phiếu 7b: 10 bài, 70% cơ bản); xuất PDF phiếu luyện tập bằng Playwright, `pdfinfo` = 2 trang cả hai bản; `python3 tools/build.py` → chạy.
+- **Việc thủ công:** Thầy xem lại cách trình bày chứng minh “H là tâm đường tròn nội tiếp tam giác DEF” và “ME là tiếp tuyến” cho đúng cách chấm của tổ.
+
 ### 2026-10-14 – Toán 11 · Chương III · Bài 8. Mẫu số liệu ghép nhóm (trọn bộ)
 
 - **Yêu cầu:** “Tạo Chương III – Bài 8. Mẫu số liệu ghép nhóm – lớp 11” theo quy trình /tron-bo.

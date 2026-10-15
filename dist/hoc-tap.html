@@ -11865,10 +11865,14 @@ const ortho7 = (o = {}) => {
   if(o.circ === 'AH'){ const N = [(A7[0]+H7[0])/2, (A7[1]+H7[1])/2]; C.push({x:N[0], y:N[1], r:Math.hypot(A7[0]-H7[0], A7[1]-H7[1])/2, lab:'N'}); }
   const S = [[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...D7],[...C7,...E7]];
   if(o.af) S.push([...A7,...F7,true]);
+  if(o.def) S.push([...E7,...F7,true],[...D7,...F7,true]);
+  if(o.mn) S.push([...E7,3,0,true],[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2,3,0,true],[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2,...E7,true]);
   const P = [[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...D7,'D',20],[...E7,'E',160],[...H7,'H',-100]];
-  if(o.af) P.push([...F7,'F',-90]);
+  if(o.af || o.def) P.push([...F7,'F',-90]);
+  if(o.mn) P.push([3,0,'M',-60]);
   const right = [rightH(D7,B7,A7), rightH(E7,C7,A7)];
-  if(o.af) right.push(rightH(F7,A7,C7));
+  if(o.af || o.def) right.push(rightH(F7,A7,C7));
+  if(o.mn) right.push(rightH(E7,[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2],[3,0]));
   return circleSVG({C, P, S, right});
 };
 
@@ -12069,6 +12073,210 @@ lesson(6,'on-thi-hinh-hoc-chung-minh-1','Hình học 7a. Chứng minh: bốn đi
   {t:`Song song và vuông góc`, b:`<ul><li>Hai đường thẳng song song nếu có cặp góc <b>so le trong</b> bằng nhau, hoặc <b>đồng vị</b> bằng nhau, hoặc <b>trong cùng phía</b> bù nhau.</li><li>Ba đường cao của tam giác đồng quy tại <b>trực tâm</b>: nếu ${tm('BD, CE')} là hai đường cao cắt nhau tại ${tm('H')} thì ${tm('AH \\perp BC')}.</li><li>Tính góc: ${tm('\\widehat{BHC} = 180^\\circ - \\widehat{BAC}')} (tam giác nhọn).</li></ul>`, warn:`Khi kết luận song song, phải nêu đúng tên cặp góc, vị trí (so le trong, đồng vị…) và cát tuyến.`, ex:`Chứng minh vuông góc: thử đường cao, góc nội tiếp chắn nửa đường tròn, hoặc “cùng vuông góc với đường thứ ba thì song song”.`},
   {t:`Hệ thức và tam giác đồng dạng`, b:`<ul><li>Hệ thức ${tm('a\\cdot b = c\\cdot d')} đổi thành tỉ số ${tm('\\dfrac{a}{c} = \\dfrac{d}{b}')}: tìm hai tam giác chứa đủ bốn đoạn ${tm('a, b, c, d')}.</li><li>Hai tam giác vuông có chung một góc nhọn (hoặc một cặp góc đối đỉnh) thì đồng dạng (g.g).</li><li>Với trực tâm: ${tm('\\triangle HBE \\sim \\triangle HCD')} cho ${tm('HB\\cdot HD = HC\\cdot HE')}.</li></ul>`, warn:`Viết các đỉnh đồng dạng <b>đúng thứ tự tương ứng</b>: viết lệch thứ tự thì tỉ số suy ra sẽ sai.`, ex:`Chép bốn đoạn của hệ thức ra nháp, mỗi tam giác lấy hai đoạn; nếu hai tam giác tìm được “cùng góc nhọn” là chắc đúng hướng.`}
 ]});
+/* ---------- Chủ đề 9. Hình học 7b: hệ thức, thẳng hàng, đồng quy (cùng hình tam giác nhọn ABC, đường cao BD, CE, AF, trực tâm H) ---------- */
+const N7 = [(A7[0]+H7[0])/2, (A7[1]+H7[1])/2], M7 = [3, 0];
+const O7 = (() => {
+  const a2 = A7[0]**2 + A7[1]**2, b2 = B7[0]**2 + B7[1]**2, c2 = C7[0]**2 + C7[1]**2;
+  const dd = 2*(A7[0]*(B7[1]-C7[1]) + B7[0]*(C7[1]-A7[1]) + C7[0]*(A7[1]-B7[1]));
+  return [(a2*(B7[1]-C7[1]) + b2*(C7[1]-A7[1]) + c2*(A7[1]-B7[1]))/dd, (a2*(C7[0]-B7[0]) + b2*(A7[0]-C7[0]) + c2*(B7[0]-A7[0]))/dd];
+})();
+const K7 = [2*O7[0]-A7[0], 2*O7[1]-A7[1]];
+
+/* Đường tròn ngoại tiếp (O), đường kính AK, trung điểm M của BC, trực tâm H */
+const kfig7 = () => circleSVG({C:[{x:O7[0], y:O7[1], r:Math.hypot(A7[0]-O7[0], A7[1]-O7[1]), lab:'O', lp:14}],
+  P:[[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...K7,'K',-90],[...H7,'H',140],[...M7,'M',30]],
+  S:[[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...K7],[...C7,...K7],[...A7,...K7,true],[...B7,...H7],[...C7,...H7],[...H7,...K7,true]],
+  right:[rightH(B7,A7,K7), rightH(C7,A7,K7)]});
+
+const headF7 = `${head7} Gọi ${m('F')} là chân đường cao kẻ từ ${m('A')} (${m('F \\in BC')}).`;
+
+/* Dạng 1. Hệ thức BE·BA = BF·BC, CD·CA = CF·CB và BE·BA + CD·CA = BC² */
+const VB7 = [
+  {X:'BE', Y:'BA', f:'BF', g:'FC', side:'B', other:'C', tri:'\\triangle BEC \\sim \\triangle BFA', t1:'\\triangle BEC', t2:'\\triangle BFA', ang:'\\widehat{BEC} = \\widehat{BFA} = 90^\\circ', com:'\\widehat{B}',
+   ratio:'\\dfrac{BE}{BF} = \\dfrac{BC}{BA}', rel:'BE\\cdot BA = BF\\cdot BC', bad:['\\triangle BEC \\sim \\triangle BAF','\\triangle BDC \\sim \\triangle BFA','\\triangle BED \\sim \\triangle BFA']},
+  {X:'CD', Y:'CA', f:'CF', g:'FB', side:'C', other:'B', tri:'\\triangle CDB \\sim \\triangle CFA', t1:'\\triangle CDB', t2:'\\triangle CFA', ang:'\\widehat{CDB} = \\widehat{CFA} = 90^\\circ', com:'\\widehat{C}',
+   ratio:'\\dfrac{CD}{CF} = \\dfrac{CB}{CA}', rel:'CD\\cdot CA = CF\\cdot CB', bad:['\\triangle CDB \\sim \\triangle CAF','\\triangle CEB \\sim \\triangle CFA','\\triangle CDE \\sim \\triangle CFA']}
+];
+const gHb1 = lv => {
+  const fig = ortho7({af:true});
+  if(lv === 1){
+    const t = pick(VB7), good = m(t.tri);
+    return QC({text:`${headF7} Để chứng minh hệ thức ${m(t.rel)}, ta cần chứng minh hai tam giác nào đồng dạng?`, fig,
+      opts:[good, ...t.bad.map(m)], ans:good,
+      hint:'Hai tam giác vuông cần có chung một góc nhọn tại đỉnh B (hoặc C). Viết các đỉnh theo đúng thứ tự tương ứng: góc vuông với góc vuông.',
+      sol:`Hai tam giác ${m(t.tri.split('\\sim')[0])} và ${m(t.tri.split('\\sim')[1])} có ${m(t.ang)} và ${m(t.com)} chung nên ${m(t.tri)} (g.g).<br>Suy ra ${m(t.ratio)}, tức là ${m(t.rel)}.<br>Đáp án: ${tb(t.tri)}.`});
+  }
+  if(lv === 2){
+    const t = pick(VB7);
+    let p, q, N, divs;
+    do{ p = R(2, 7); q = R(2, 7); N = p*(p+q); divs = []; for(let e = 2; e*e < N; e++) if(N % e === 0) divs.push(e); }while(!divs.length);
+    const e = pick(divs), s = N/e, askX = R(0, 1) === 0;
+    const given = askX ? `${m(`${t.f} = ${p}`)} cm, ${m(`${t.g} = ${q}`)} cm, ${m(`${t.Y} = ${s}`)} cm` : `${m(`${t.f} = ${p}`)} cm, ${m(`${t.g} = ${q}`)} cm, ${m(`${t.X} = ${e}`)} cm`;
+    const rest = askX ? `${m(t.X)}` : `${m(t.Y)}`;
+    return QB({text:`${headF7} Biết ${given}. Tính ${rest}.`, fig,
+      tpl:`${m((askX ? t.X : t.Y) + ' =')} [_] cm`, ans:[askX ? e : s],
+      hint:`Chứng minh hai tam giác vuông đồng dạng để có hệ thức ${m(t.rel)}. Đoạn ${m('BC')} bằng tổng hai đoạn cho sẵn.`,
+      sol:`Xét ${m(t.t1)} và ${m(t.t2)}: ${m(t.ang)}, ${m(t.com)} chung nên ${m(t.tri)} (g.g).<br>Suy ra ${m(t.ratio)}, tức là ${m(t.rel)}.<br>${m('BC')} = ${m(`${t.f} + ${t.g} = ${p} + ${q} = ${p+q}`)} cm nên ${m(`${t.f}\\cdot ${t.side}${t.other} = ${p}\\cdot ${p+q} = ${N}`)}.<br>${askX ? `${m(`${t.X} = \\dfrac{${N}}{${s}} =`)} ${tb(e)} cm.` : `${m(`${t.Y} = \\dfrac{${N}}{${e}} =`)} ${tb(s)} cm.`}`});
+  }
+  const p = R(2, 7), q = R(2, 7), a = p + q, x = p*a, y = q*a;
+  const goodS = m('\\triangle BEC \\sim \\triangle BFA'), goodT = m('CD\\cdot CA = CF\\cdot CB'), goodU = m('BC\\cdot (BF + CF) = BC^2');
+  return QS({direct:true, fig,
+    text:`${headF7} Biết ${m(`BC = ${a}`)} cm và ${m(`BE\\cdot BA = ${x}`)}. Chứng minh ${m('BE\\cdot BA + CD\\cdot CA = BC^2')} rồi tính ${m('CD\\cdot CA')}.`,
+    hint:`Lập hai hệ thức ${m('BE\\cdot BA = BF\\cdot BC')} và ${m('CD\\cdot CA = CF\\cdot CB')} bằng tam giác đồng dạng, rồi cộng vế với vế.`,
+    steps:[
+      {tag:'Hệ thức thứ nhất', ask:`Để có ${m('BE\\cdot BA = BF\\cdot BC')}, ta chứng minh hai tam giác đồng dạng nào?`, opts:[goodS, m('\\triangle BEC \\sim \\triangle BAF'), m('\\triangle BDC \\sim \\triangle BFA'), m('\\triangle BED \\sim \\triangle BFA')], ans:goodS,
+        hint:'Hai tam giác vuông có chung góc nhọn B; góc vuông tại E và tại F.'},
+      {tag:'Hệ thức thứ hai', ask:`Tương tự, tam giác ${m('CDB')} và ${m('CFA')} đồng dạng, ta được hệ thức`, opts:[goodT, m('CD\\cdot CB = CF\\cdot CA'), m('CD\\cdot CF = CA\\cdot CB'), m('CD\\cdot CA = CB^2')], ans:goodT,
+        hint:'Tỉ số các cạnh tương ứng: CD/CF = CB/CA.'},
+      {tag:'Cộng vế', ask:`Cộng hai hệ thức: ${m('BE\\cdot BA + CD\\cdot CA = BF\\cdot BC + CF\\cdot CB')}. Vế phải bằng`, opts:[goodU, m('BC\\cdot (BF - CF)'), m('BF\\cdot CF'), m('BC + BF + CF')], ans:goodU,
+        hint:'Đặt thừa số chung BC; F nằm giữa B và C nên BF + CF = BC.'},
+      {tag:'Tính', ask:`Với ${m(`BC = ${a}`)} cm và ${m(`BE\\cdot BA = ${x}`)}, tính ${m('CD\\cdot CA')}.`, tpl:`${m('CD\\cdot CA =')} [_]`, ans:[y], hint:`${m('CD\\cdot CA = BC^2 - BE\\cdot BA')}.`}
+    ],
+    sol:`${m('\\triangle BEC \\sim \\triangle BFA')} (g.g) cho ${m('BE\\cdot BA = BF\\cdot BC')}; ${m('\\triangle CDB \\sim \\triangle CFA')} (g.g) cho ${m('CD\\cdot CA = CF\\cdot CB')}. Cộng vế: ${m('BE\\cdot BA + CD\\cdot CA = BC(BF + CF) = BC^2')} (vì ${m('F')} nằm giữa ${m('B, C')}).<br>${m(`CD\\cdot CA = ${a}^2 - ${x} = ${a*a} - ${x} =`)} ${tb(y)}.`});
+};
+
+/* Dạng 2. Ba điểm thẳng hàng: H, M, K (AK là đường kính của (O)) */
+const headK7 = `Tam giác nhọn ${m('ABC')} nội tiếp đường tròn ${m('(O)')}, hai đường cao ${m('BD')}, ${m('CE')} cắt nhau tại ${m('H')}. Kẻ đường kính ${m('AK')} của ${m('(O)')}; ${m('M')} là trung điểm của ${m('BC')}.`;
+const gHb2 = lv => {
+  const fig = kfig7();
+  if(lv === 1){
+    const good = 'hình bình hành';
+    return QC({text:`${headK7} Tứ giác ${m('BHCK')} là hình gì?`, fig,
+      opts:[good, 'hình thoi', 'hình chữ nhật', 'hình thang cân'], ans:good,
+      hint:`${m('AK')} là đường kính nên ${m('\\widehat{ABK}')} và ${m('\\widehat{ACK}')} là góc nội tiếp chắn nửa đường tròn. Xét các cặp cạnh đối cùng vuông góc với ${m('AB')} hoặc ${m('AC')}.`,
+      sol:`${m('AK')} là đường kính nên ${m(`${hv('ABK')} = ${hv('ACK')} = 90^\\circ`)}, tức ${m('KB \\perp AB')}, ${m('KC \\perp AC')}.<br>Mà ${m('CE \\perp AB')}, ${m('BD \\perp AC')} nên ${m('KB \\parallel CH')} và ${m('KC \\parallel BH')}.<br>Tứ giác ${m('BHCK')} có các cặp cạnh đối song song nên là <b>${good}</b>.`});
+  }
+  const k = R(2, 15);
+  if(lv === 2){
+    const askAH = R(0, 1) === 0;
+    return QB({text:askAH ? `${headK7} Biết ${m(`OM = ${k}`)} cm. Tính ${m('AH')}.` : `${headK7} Biết ${m(`AH = ${2*k}`)} cm. Tính ${m('OM')}.`, fig,
+      tpl:`${m((askAH ? 'AH' : 'OM') + ' =')} [_] cm`, ans:[askAH ? 2*k : k],
+      hint:`Chứng minh ${m('BHCK')} là hình bình hành để có ${m('M')} là trung điểm của ${m('HK')}; khi đó ${m('OM')} là đường trung bình của một tam giác.`,
+      sol:`${m('BHCK')} là hình bình hành (${m('KB \\parallel CH')}, ${m('KC \\parallel BH')}) nên hai đường chéo ${m('BC, HK')} cắt nhau tại trung điểm ${m('M')} của mỗi đường.<br>Tam giác ${m('AHK')} có ${m('O')} là trung điểm ${m('AK')}, ${m('M')} là trung điểm ${m('HK')} nên ${m('OM')} là đường trung bình: ${m('OM = \\dfrac{1}{2}AH')}.<br>${askAH ? `${m(`AH = 2\\cdot OM = 2\\cdot ${k} =`)} ${tb(2*k)} cm.` : `${m(`OM = \\dfrac{AH}{2} = \\dfrac{${2*k}}{2} =`)} ${tb(k)} cm.`}`});
+  }
+  const hm = R(3, 12), goodP = 'cùng vuông góc với một đường thẳng', goodM = m('M') + ' cũng là trung điểm của ' + m('HK') + ', nên ' + m('H, M, K') + ' thẳng hàng';
+  return QS({direct:true, fig,
+    text:`${headK7} Chứng minh ba điểm ${m('H, M, K')} thẳng hàng. Biết ${m(`OM = ${k}`)} cm và ${m(`HM = ${hm}`)} cm. Tính ${m('AH')} và ${m('HK')}.`,
+    hint:`Chứng minh ${m('BHCK')} là hình bình hành, từ đó có ${m('M')} là trung điểm của ${m('HK')}.`,
+    steps:[
+      {tag:'Song song', ask:`Vì ${m('AK')} là đường kính nên ${m('KB \\perp AB')}. Lại có ${m('CH \\perp AB')}. Vậy ${m('KB \\parallel CH')} vì hai đường thẳng`, opts:[goodP, 'cùng đi qua điểm ' + m('A'), 'có độ dài bằng nhau', 'cùng cắt ' + m('BC')], ans:goodP,
+        hint:'Hai đường thẳng cùng vuông góc với một đường thẳng thì song song.'},
+      {tag:'Hình bình hành', ask:`Tương tự ${m('KC \\parallel BH')}. Tứ giác ${m('BHCK')} có hai cặp cạnh đối song song, hai đường chéo ${m('BC')} và ${m('HK')} cắt nhau tại trung điểm của mỗi đường. Kết luận:`, opts:[goodM, m('H') + ' là trung điểm của ' + m('BC'), m('HK \\perp BC') + ' tại ' + m('M'), m('M') + ' là trung điểm của ' + m('AH')], ans:goodM,
+        hint:`${m('M')} là trung điểm của đường chéo ${m('BC')}.`},
+      {tag:'Trung bình', ask:`Tam giác ${m('AHK')} có ${m('OM')} là đường trung bình (${m('O, M')} là trung điểm ${m('AK, HK')}). Với ${m(`OM = ${k}`)} cm, tính ${m('AH')}.`, tpl:`${m('AH =')} [_] cm`, ans:[2*k], hint:`${m('OM')} bằng nửa cạnh ${m('AH')}.`},
+      {tag:'Tính HK', ask:`${m('M')} là trung điểm ${m('HK')} và ${m(`HM = ${hm}`)} cm. Tính ${m('HK')}.`, tpl:`${m('HK =')} [_] cm`, ans:[2*hm], hint:'Trung điểm chia đoạn thẳng thành hai phần bằng nhau.'}
+    ],
+    sol:`${m('KB \\parallel CH')} và ${m('KC \\parallel BH')} (cùng vuông góc với ${m('AB')}, ${m('AC')}) nên ${m('BHCK')} là hình bình hành, hai đường chéo ${m('BC, HK')} cắt nhau tại trung điểm ${m('M')} của ${m('BC')}. Do đó ${m('M')} là trung điểm ${m('HK')} và ${m('H, M, K')} thẳng hàng.<br>${m('OM')} là đường trung bình của tam giác ${m('AHK')}: ${m(`AH = 2OM = 2\\cdot ${k} =`)} ${tb(2*k)} cm; ${m(`HK = 2HM = 2\\cdot ${hm} =`)} ${tb(2*hm)} cm.`});
+};
+
+/* Dạng 3. Ba đường cao đồng quy: H là tâm đường tròn nội tiếp tam giác DEF */
+const gHb3 = lv => {
+  const fig = ortho7({af:true, def:true});
+  const hd = `${head7} Gọi ${m('F')} là chân đường cao kẻ từ ${m('A')}; ${m('AF, BD, CE')} đồng quy tại ${m('H')}.`;
+  if(lv === 1){
+    const good = m(hv('EBH'));
+    return QC({text:`${hd} Hai tam giác vuông ${m('BEH')} và ${m('BFH')} (${m(`${hv('BEH')} = ${hv('BFH')} = 90^\\circ`)}) chung cạnh huyền ${m('BH')}, nên trung điểm của ${m('BH')} cách đều ${m('B, F, H, E')}: bốn điểm này cùng thuộc đường tròn đường kính ${m('BH')}. Góc ${m(hv('EFH'))} bằng góc nào (cùng chắn cung ${m('EH')})?`, fig,
+      opts:[good, m(hv('FBH')), m(hv('BCE')), m(hv('BAC'))], ans:good,
+      hint:'Hai góc nội tiếp cùng chắn một cung thì bằng nhau: tìm góc có đỉnh trên đường tròn và cùng nhìn cung EH.',
+      sol:`${m(hv('EFH'))} và ${m(hv('EBH'))} là hai góc nội tiếp của đường tròn đường kính ${m('BH')}, cùng chắn cung ${m('EH')} nên ${m(`${hv('EFH')} = ${hv('EBH')}`)}. Đáp án: ${tb(hv('EBH'))}.`});
+  }
+  const al = R(8, 16)*5;
+  if(lv === 2)
+    return QB({text:`${hd} Biết ${m(`${hv('BAC')} = ${al}^\\circ`)}. Tính ${m(hv('EFH'))} và ${m(hv('EFD'))}.`, fig,
+      tpl:`${m(hv('EFH') + ' =')} [_]${m('^\\circ')} &nbsp; ${m(hv('EFD') + ' =')} [_]${m('^\\circ')}`, ans:[90-al, 180-2*al],
+      hint:`${m(hv('EFH') + ' = ' + hv('EBH') + ' = ' + hv('ABD'))}. Tương tự ${m(hv('DFH') + ' = ' + hv('DCH'))}; ${m(hv('EFD'))} là tổng hai góc ${m(hv('EFH'))}, ${m(hv('DFH'))}.`,
+      sol:`Tam giác ${m('ABD')} vuông tại ${m('D')}: ${m(`${hv('ABD')} = 90^\\circ - ${al}^\\circ = ${90-al}^\\circ`)}.<br>${m(`${hv('EFH')} = ${hv('EBH')} = ${hv('ABD')} =`)} ${tb(`${90-al}^\\circ`)} (cùng chắn cung ${m('EH')}).<br>Tương tự (đường tròn đường kính ${m('CH')}) ${m(`${hv('DFH')} = ${hv('DCH')} = ${hv('ACE')} = ${90-al}^\\circ`)}. Vậy ${m(`${hv('EFD')} = ${hv('EFH')} + ${hv('DFH')} = 2\\cdot ${90-al}^\\circ =`)} ${tb(`${180-2*al}^\\circ`)}.`});
+  const b = R(10, 15)*5, g = R(10, 15)*5, A = 180 - b - g;
+  const goodH = 'tâm đường tròn nội tiếp', goodE = m(`${hv('EFH')} = ${hv('DFH')}`);
+  return QS({direct:true, fig,
+    text:`${hd} Biết ${m(`${hv('ABC')} = ${b}^\\circ`)} và ${m(`${hv('ACB')} = ${g}^\\circ`)}. Chứng minh ${m('FA')} là tia phân giác của ${m(hv('DFE'))}, rồi tính ${m(hv('DFE'))}.`,
+    hint:`Chứng minh ${m(hv('EFH') + ' = ' + hv('DFH'))} bằng hai đường tròn đường kính ${m('BH')} và ${m('CH')}.`,
+    steps:[
+      {tag:'Tính góc A', ask:`Tính ${m(hv('BAC'))} trong tam giác ${m('ABC')}.`, tpl:`${m(hv('BAC') + ' =')} [_]${m('^\\circ')}`, ans:[A], hint:'Tổng ba góc của tam giác bằng 180°.'},
+      {tag:'Góc EFH', ask:`Trong đường tròn đường kính ${m('BH')}: ${m(`${hv('EFH')} = ${hv('EBH')} = ${hv('ABD')}`)}. Tính ${m(hv('ABD'))} (tam giác ${m('ABD')} vuông tại ${m('D')}).`, tpl:`${m(hv('ABD') + ' =')} [_]${m('^\\circ')}`, ans:[90-A], hint:'Hai góc nhọn của tam giác vuông phụ nhau.'},
+      {tag:'Phân giác', ask:`Tương tự ${m(`${hv('DFH')} = ${hv('DCH')} = ${hv('ACE')} = ${90-A}^\\circ`)}. Vậy`, opts:[goodE + ', nên ' + m('FA') + ' là phân giác của ' + m(hv('DFE')), m(hv('EFH') + ' \\ne ' + hv('DFH')), m('FA \\perp DE'), m('FA') + ' là trung tuyến của tam giác ' + m('DEF')], ans:goodE + ', nên ' + m('FA') + ' là phân giác của ' + m(hv('DFE')),
+        hint:'So sánh hai góc EFH và DFH vừa tính; tia FH trùng tia FA.'},
+      {tag:'Kết luận', ask:`Tương tự ${m('DB')}, ${m('EC')} là phân giác của hai góc còn lại. Vậy ${m('H')} là`, opts:[goodH, 'trọng tâm', 'trực tâm', 'tâm đường tròn ngoại tiếp'], ans:goodH + '', hint:`${m('H')} là giao của ba tia phân giác của tam giác ${m('DEF')}.`},
+      {tag:'Tính DFE', ask:`Tính ${m(hv('DFE'))}.`, tpl:`${m(hv('DFE') + ' =')} [_]${m('^\\circ')}`, ans:[180-2*A], hint:`${m(hv('DFE') + ' = ' + hv('EFH') + ' + ' + hv('DFH'))}.`}
+    ],
+    sol:`${m(`${hv('BAC')} = 180^\\circ - ${b}^\\circ - ${g}^\\circ = ${A}^\\circ`)}. ${m(`${hv('ABD')} = 90^\\circ - ${A}^\\circ = ${90-A}^\\circ`)}. Trong đường tròn đường kính ${m('BH')}: ${m(`${hv('EFH')} = ${hv('EBH')} = ${90-A}^\\circ`)}; trong đường tròn đường kính ${m('CH')}: ${m(`${hv('DFH')} = ${hv('DCH')} = ${90-A}^\\circ`)}. Hai góc bằng nhau nên ${m('FA')} là phân giác của ${m(hv('DFE'))}; tương tự ở ${m('D, E')}, ${m('H')} là tâm đường tròn nội tiếp tam giác ${m('DEF')}.<br>${m(`${hv('DFE')} = 2\\cdot ${90-A}^\\circ =`)} ${tb(`${180-2*A}^\\circ`)}.`});
+};
+
+/* Dạng 4. Tiếp tuyến ME của đường tròn đường kính AH (tâm N) */
+const gHb4 = lv => {
+  const fig = ortho7({circ:'AH', mn:true});
+  const hn = `${head7} Gọi ${m('N')} là trung điểm của ${m('AH')}, ${m('M')} là trung điểm của ${m('BC')}.`;
+  if(lv === 1){
+    const good = m('NE = NA = NH = \\dfrac{AH}{2}');
+    return QC({text:`${hn} Tam giác ${m('AEH')} vuông tại ${m('E')}. Khẳng định nào đúng?`, fig,
+      opts:[good, m('NE = AH'), m('NE = \\dfrac{1}{2}AE'), m('NE = \\dfrac{1}{2}EH')], ans:good,
+      hint:'Trung tuyến ứng với cạnh huyền của tam giác vuông bằng nửa cạnh huyền.',
+      sol:`${m('NE')} là trung tuyến ứng với cạnh huyền ${m('AH')} của tam giác vuông ${m('AEH')} nên ${good}.`});
+  }
+  const b = R(6, 15)*5;
+  if(lv === 2)
+    return QB({text:`${hn} Biết ${m(`${hv('ABC')} = ${b}^\\circ`)}. Tính ${m(hv('AEN'))} và ${m(hv('BEM'))}.`, fig,
+      tpl:`${m(hv('AEN') + ' =')} [_]${m('^\\circ')} &nbsp; ${m(hv('BEM') + ' =')} [_]${m('^\\circ')}`, ans:[90-b, b],
+      hint:`${m('NE = NA')} nên tam giác ${m('NAE')} cân tại ${m('N')}; ${m('ME = MB')} nên tam giác ${m('MBE')} cân tại ${m('M')}. Gọi ${m('F')} là chân đường cao kẻ từ ${m('A')}.`,
+      sol:`Tam giác ${m('NAE')} cân tại ${m('N')} (${m('NA = NE')}) nên ${m(`${hv('AEN')} = ${hv('EAN')} = ${hv('BAF')}`)} (${m('A, H, F')} thẳng hàng). Tam giác ${m('ABF')} vuông tại ${m('F')}: ${m(`${hv('BAF')} = 90^\\circ - ${b}^\\circ =`)} ${tb(`${90-b}^\\circ`)}.<br>Tam giác ${m('BEC')} vuông tại ${m('E')} có ${m('EM')} là trung tuyến ứng với cạnh huyền nên ${m('ME = MB')}; tam giác ${m('MBE')} cân tại ${m('M')}: ${m(`${hv('BEM')} = ${hv('MBE')} = ${hv('ABC')} =`)} ${tb(`${b}^\\circ`)}.`});
+  const pyth = pick([[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[12,16,20],[7,24,25],[15,20,25]]);
+  const [n, mm, d] = pyth, ang = 90 - b;
+  return QS({direct:true, fig,
+    text:`${hn} Chứng minh ${m('ME')} là tiếp tuyến của đường tròn đường kính ${m('AH')}, rồi tính ${m('MN')} biết ${m(`AH = ${2*n}`)} cm, ${m(`BC = ${2*mm}`)} cm và ${m(`${hv('ABC')} = ${b}^\\circ`)}.`,
+    hint:`Chứng minh ${m(hv('NEM') + ' = 90^\\circ')} bằng hai tam giác cân ${m('NAE')} và ${m('MBE')}; sau đó dùng định lí Pythagore trong tam giác ${m('NEM')}.`,
+    steps:[
+      {tag:'Tam giác NAE', ask:`Tam giác ${m('NAE')} cân tại ${m('N')} nên ${m(hv('AEN'))} bằng ${m(hv('BAF'))} (với ${m('F')} là chân đường cao từ ${m('A')}). Tính ${m(hv('AEN'))}.`, tpl:`${m(hv('AEN') + ' =')} [_]${m('^\\circ')}`, ans:[ang], hint:`Tam giác ${m('ABF')} vuông tại ${m('F')} có ${m(hv('ABF') + ' = ' + b + '^\\circ')}.`},
+      {tag:'Tam giác MBE', ask:`Tam giác ${m('MBE')} cân tại ${m('M')} (${m('ME = MB')}). Tính ${m(hv('BEM'))}.`, tpl:`${m(hv('BEM') + ' =')} [_]${m('^\\circ')}`, ans:[b], hint:`Hai góc ở đáy của tam giác cân bằng nhau.`},
+      {tag:'Góc NEM', ask:`${m('A, E, B')} thẳng hàng nên ${m(hv('NEM') + ' = 180^\\circ - ' + hv('AEN') + ' - ' + hv('BEM'))}. Tính ${m(hv('NEM'))}.`, tpl:`${m(hv('NEM') + ' =')} [_]${m('^\\circ')}`, ans:[90], hint:`Trừ hai góc vừa tính khỏi ${m('180^\\circ')}. Kết quả cho biết ${m('ME')} vuông góc với bán kính ${m('NE')} tại ${m('E')}.`},
+      {tag:'Tính MN', ask:`${m('NE = \\dfrac{AH}{2}')}, ${m('ME = \\dfrac{BC}{2}')}. Tam giác ${m('NEM')} vuông tại ${m('E')}; tính ${m('MN')}.`, tpl:`${m('MN =')} [_] cm`, ans:[d], hint:`${m('NE = ' + n)} cm, ${m('ME = ' + mm)} cm; ${m('MN^2 = NE^2 + ME^2')}.`}
+    ],
+    sol:`${m(`${hv('AEN')} = ${hv('BAF')} = 90^\\circ - ${b}^\\circ = ${ang}^\\circ`)} (tam giác ${m('NAE')} cân tại ${m('N')}); ${m(`${hv('BEM')} = ${hv('ABC')} = ${b}^\\circ`)} (tam giác ${m('MBE')} cân tại ${m('M')}). Suy ra ${m(`${hv('NEM')} = 180^\\circ - ${ang}^\\circ - ${b}^\\circ = 90^\\circ`)}, tức ${m('ME \\perp NE')} tại ${m('E')} thuộc đường tròn đường kính ${m('AH')}: ${m('ME')} là tiếp tuyến.<br>${m(`NE = ${n}`)} cm, ${m(`ME = ${mm}`)} cm nên ${m(`MN = \\sqrt{${n}^2 + ${mm}^2} = \\sqrt{${n*n + mm*mm}} =`)} ${tb(d)} cm.`});
+};
+
+/* Dạng 5. Hệ thức HA·HF = HB·HD = HC·HE */
+const gHb5 = lv => {
+  const fig = ortho7({af:true});
+  const hf = `${head7} Tia ${m('AH')} cắt ${m('BC')} tại ${m('F')}.`;
+  if(lv === 1){
+    const good = m('\\triangle HAD \\sim \\triangle HBF');
+    return QC({text:`${hf} Để chứng minh ${m('HA\\cdot HF = HB\\cdot HD')}, ta cần chứng minh hai tam giác nào đồng dạng?`, fig,
+      opts:[good, m('\\triangle HAD \\sim \\triangle HFB'), m('\\triangle HAB \\sim \\triangle HBF'), m('\\triangle HAE \\sim \\triangle HBF')], ans:good,
+      hint:'Ba điểm A, H, F thẳng hàng; B, H, D thẳng hàng. Tìm hai tam giác vuông có một cặp góc đối đỉnh tại H, ghép góc vuông với góc vuông.',
+      sol:`Xét ${m('\\triangle HAD')} và ${m('\\triangle HBF')}: ${m(`${hv('ADH')} = ${hv('BFH')} = 90^\\circ`)}, ${m(`${hv('AHD')} = ${hv('BHF')}`)} (đối đỉnh) nên ${good} (g.g).<br>Suy ra ${m('\\dfrac{HA}{HB} = \\dfrac{HD}{HF}')}, tức ${m('HA\\cdot HF = HB\\cdot HD')}.`});
+  }
+  const u = R(1, 4), v = R(2, 5), w = R(1, 4), z = R(2, 5);
+  const val = {HA:u*v, HF:w*z, HB:u*w, HD:v*z}, ks = ['HA','HF','HB','HD'];
+  if(lv === 2){
+    const ask = pick(ks), given = ks.filter(x => x !== ask).map(x => m(`${x} = ${val[x]}`) + ' cm').join(', ');
+    const pair = {HA:['HB','HD','HF'], HF:['HB','HD','HA'], HB:['HA','HF','HD'], HD:['HA','HF','HB']}[ask];
+    return QB({text:`${hf} Biết ${given}. Tính ${m(ask)}.`, fig,
+      tpl:`${m(ask + ' =')} [_] cm`, ans:[val[ask]],
+      hint:`Chứng minh ${m('\\triangle HAD \\sim \\triangle HBF')} để có hệ thức ${m('HA\\cdot HF = HB\\cdot HD')}, rồi thay số.`,
+      sol:`Xét ${m('\\triangle HAD')} và ${m('\\triangle HBF')}: ${m(`${hv('ADH')} = ${hv('BFH')} = 90^\\circ`)}, ${m(`${hv('AHD')} = ${hv('BHF')}`)} (đối đỉnh) nên ${m('\\triangle HAD \\sim \\triangle HBF')} (g.g).<br>Suy ra ${m('HA\\cdot HF = HB\\cdot HD')}.<br>${m(`${ask} = \\dfrac{${pair[0]}\\cdot ${pair[1]}}{${pair[2]}} = \\dfrac{${val[pair[0]]}\\cdot ${val[pair[1]]}}{${val[pair[2]]}} =`)} ${tb(val[ask])} cm.`});
+  }
+  const goodS = m('\\triangle HAD \\sim \\triangle HBF'), goodR = m('HA\\cdot HF = HB\\cdot HD');
+  return QS({direct:true, fig,
+    text:`${hf} Biết ${m(`HB = ${val.HB}`)} cm, ${m(`HD = ${val.HD}`)} cm, ${m(`HF = ${val.HF}`)} cm. Tính ${m('AF')}.`,
+    hint:`Chứng minh hệ thức ${m('HA\\cdot HF = HB\\cdot HD')} để tính ${m('HA')}; ${m('H')} nằm giữa ${m('A')} và ${m('F')}.`,
+    steps:[
+      {tag:'Đồng dạng', ask:`Hai tam giác vuông có cặp góc đối đỉnh tại ${m('H')} là`, opts:[goodS, m('\\triangle HAD \\sim \\triangle HFB'), m('\\triangle HAB \\sim \\triangle HBF'), m('\\triangle HAE \\sim \\triangle HBF')], ans:goodS,
+        hint:`Góc vuông tại ${m('D')} ứng với góc vuông tại ${m('F')}.`},
+      {tag:'Hệ thức', ask:`Từ đồng dạng suy ra`, opts:[goodR, m('HA\\cdot HB = HD\\cdot HF'), m('HA + HF = HB + HD'), m('HA\\cdot HD = HB\\cdot HF')], ans:goodR,
+        hint:`Tỉ số cạnh tương ứng: ${m('\\dfrac{HA}{HB} = \\dfrac{HD}{HF}')}.`},
+      {tag:'Tính HA', ask:`Với ${m(`HB = ${val.HB}`)}, ${m(`HD = ${val.HD}`)}, ${m(`HF = ${val.HF}`)} (cm), tính ${m('HA')}.`, tpl:`${m('HA =')} [_] cm`, ans:[val.HA], hint:`${m('HA = \\dfrac{HB\\cdot HD}{HF}')}.`},
+      {tag:'Tính AF', ask:`${m('H')} nằm giữa ${m('A')} và ${m('F')}. Tính ${m('AF')}.`, tpl:`${m('AF =')} [_] cm`, ans:[val.HA + val.HF], hint:`${m('AF = HA + HF')}.`}
+    ],
+    sol:`${m('\\triangle HAD \\sim \\triangle HBF')} (g.g) nên ${m('HA\\cdot HF = HB\\cdot HD')}. ${m(`HA = \\dfrac{${val.HB}\\cdot ${val.HD}}{${val.HF}} = ${val.HA}`)} cm. ${m('H')} nằm giữa ${m('A, F')} nên ${m(`AF = HA + HF = ${val.HA} + ${val.HF} =`)} ${tb(val.HA + val.HF)} cm.`});
+};
+
+lesson(6,'on-thi-hinh-hoc-chung-minh-2','Hình học 7b. Hệ thức, thẳng hàng, đồng quy','Ôn tuyển sinh Bài 7 (câu c, d): hệ thức bằng tam giác đồng dạng; ba điểm thẳng hàng; ba đường đồng quy – phân giác của tam giác DEF; tiếp tuyến và tính độ dài; hệ thức HA·HF = HB·HD.',[gHb1,gHb2,gHb3,gHb4,gHb5], {intro:[
+  {t:`Hệ thức từ tam giác đồng dạng`, b:`<ul><li>Với ${tm('AF, BD, CE')} là ba đường cao: ${tm('\\triangle BEC \\sim \\triangle BFA')} cho ${tm('BE\\cdot BA = BF\\cdot BC')}; ${tm('\\triangle CDB \\sim \\triangle CFA')} cho ${tm('CD\\cdot CA = CF\\cdot CB')}.</li><li>Cộng vế: ${tm('BE\\cdot BA + CD\\cdot CA = BC\\cdot (BF + CF) = BC^2')}.</li></ul>`, warn:`Viết đúng thứ tự đỉnh tương ứng (góc vuông với góc vuông); và chỉ cộng vế được khi ${tm('F')} nằm giữa ${tm('B')} và ${tm('C')} (tam giác nhọn).`, ex:`Muốn chứng minh ${tm('a\\cdot b = c\\cdot d')}, đổi thành ${tm('\\dfrac{a}{c} = \\dfrac{d}{b}')} rồi tìm hai tam giác chứa đủ bốn đoạn.`},
+  {t:`Chứng minh ba điểm thẳng hàng`, b:`<ul><li>Kẻ đường kính ${tm('AK')}: ${tm('KB \\perp AB')}, ${tm('KC \\perp AC')} (góc nội tiếp chắn nửa đường tròn).</li><li>Cùng vuông góc với ${tm('AB')} nên ${tm('KB \\parallel CH')}; tương tự ${tm('KC \\parallel BH')}: ${tm('BHCK')} là hình bình hành.</li><li>Đường chéo ${tm('HK')} đi qua trung điểm ${tm('M')} của ${tm('BC')}, nên ${tm('H, M, K')} thẳng hàng và ${tm('AH = 2OM')}.</li></ul>`, warn:`Muốn nói “hình bình hành” phải nêu đủ hai cặp cạnh đối song song; không kết luận chỉ bằng hình vẽ.`, ex:`Ba điểm thẳng hàng thường đến từ “đường chéo của hình bình hành đi qua trung điểm” hoặc “hai góc kề bù”.`},
+  {t:`Đồng quy và tia phân giác`, b:`<ul><li>${tm('B, F, H, E')} thuộc đường tròn đường kính ${tm('BH')}: ${tm('\\widehat{EFH} = \\widehat{EBH} = 90^\\circ - \\widehat{BAC}')}.</li><li>Tương tự ${tm('\\widehat{DFH} = \\widehat{DCH} = 90^\\circ - \\widehat{BAC}')}, nên ${tm('FA')} là phân giác của ${tm('\\widehat{DFE}')} và ${tm('\\widehat{DFE} = 180^\\circ - 2\\widehat{BAC}')}.</li><li>Ba phân giác đồng quy tại ${tm('H')}: ${tm('H')} là tâm đường tròn nội tiếp tam giác ${tm('DEF')}.</li></ul>`, warn:`Đề năm nay không cho viện dẫn dấu hiệu tứ giác nội tiếp: phải chứng minh bốn điểm cùng thuộc đường tròn bằng trung điểm cạnh huyền (hai tam giác vuông chung cạnh huyền ${tm('BH')}).`, ex:`Nghĩ đến tam giác vuông tại hai đỉnh khác nhau cùng “nhìn” một đoạn: đó là cặp đường tròn cần dựng.`},
+  {t:`Tiếp tuyến và độ dài`, b:`<ul><li>${tm('N')} là trung điểm ${tm('AH')}: ${tm('NE = NA = NH')} (trung tuyến ứng với cạnh huyền).</li><li>${tm('\\widehat{AEN} = \\widehat{BAF} = 90^\\circ - \\widehat{ABC}')}, ${tm('\\widehat{BEM} = \\widehat{ABC}')} nên ${tm('\\widehat{NEM} = 90^\\circ')}: ${tm('ME')} là tiếp tuyến của đường tròn đường kính ${tm('AH')}.</li><li>Tính ${tm('MN')} bằng Pythagore trong tam giác vuông ${tm('NEM')}.</li></ul>`, warn:`Tiếp tuyến cần cả hai ý: ${tm('E')} thuộc đường tròn và ${tm('ME')} vuông góc với bán kính ${tm('NE')} tại ${tm('E')}.`, ex:`Thấy “trung điểm” của cạnh huyền thì nghĩ ngay đến tam giác cân và các cặp góc ở đáy bằng nhau.`},
+  {t:`Hệ thức HA·HF = HB·HD`, b:`<ul><li>${tm('\\triangle HAD \\sim \\triangle HBF')} (góc vuông và góc đối đỉnh tại ${tm('H')}) cho ${tm('HA\\cdot HF = HB\\cdot HD')}; tương tự ${tm('= HC\\cdot HE')}.</li><li>${tm('H')} nằm giữa ${tm('A')} và ${tm('F')} (tam giác nhọn): ${tm('AF = HA + HF')}.</li></ul>`, warn:`Đừng ghép nhầm đỉnh: góc vuông ở ${tm('D')} ứng với góc vuông ở ${tm('F')}, không phải ở ${tm('B')}.`, ex:`Tích “đoạn × đoạn” cùng đi qua một điểm (ở đây ${tm('H')}) thường đến từ cặp tam giác đối đỉnh.`}
+]});
+
 }
 
 })();
