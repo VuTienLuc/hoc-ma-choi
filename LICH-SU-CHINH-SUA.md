@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-16 – Đề kiểm tra Chương II Toán 11: nâng toán thực tế lên 40%
+
+- **Yêu cầu:** đề chương 2 Toán 11 (Dãy số – CSC – CSN) trong phần bài giảng giáo viên: 10 TN (5đ), 3 Đ/S (3đ), 2 TLN (2đ); TB ≈ 8 điểm, giỏi 9–10; 40% toán thực tế.
+- **Kết quả:** đề c2 đã có sẵn đúng cấu trúc; trước đây thực tế chỉ 2/10 điểm. Đổi TN5 (tiền để dành), TN6 (số trang đọc), TN8 (lượt truy cập), TN10 (tiền thưởng) sang dạng thực tế → thực tế = 2đ (TN) + 1đ (Đ/S 3) + 1đ (TLN1) = 4/10.
+- **Tệp thay đổi:** `data/lop11-chuong2-bank.js`, `giao-vien/bai-giang/lop11-kiem-tra-c2.js` (ghi chú), `AGENTS.md`, `CLAUDE.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` ĐẠT; `python3 tools/test_kiemtra.py lop11 c2` ĐẠT 11/11; test.py ĐẠT; test_phieu_tren_lop.py và build.py đã chạy.
+- **Cần làm thủ công:** thầy xem lại đề in `#/lop11/kiem-tra/c2/de`.
+
 ### 2026-10-16 – Ôn thi vào 10, chủ đề 10: Hình học 7c (tính độ dài, chu vi, diện tích, số đo góc)
 
 - **Yêu cầu:** Soạn và đăng chủ đề kế tiếp trong kế hoạch ôn thi vào 10 (chủ đề 10), trọn bộ: bài học sinh có thẻ Kiến thức · Lưu ý · Mẹo, bài giảng, phiếu luyện tập in 2 trang A4 kèm PDF.

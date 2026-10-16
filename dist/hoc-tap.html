@@ -5651,16 +5651,16 @@ const tn4 = (ci, n = 0) => { const j = ci + 4 * n, a = AR[j % AR.length], o = [N
   const d = a[1](2) - a[1](1);
   return {bai:2, level:'Nhận biết', q:`Dãy số ${m('(u_n)')} nào sau đây là cấp số cộng?`, opts:[a, ...o].map(x => m(x[0])),
     sol:p(`Dãy ${m(a[0])} có ${m(`u_{n+1} - u_n = ${fr(Math.round(d * 2), 2)}`)} không đổi nên là cấp số cộng.`) + p('Các dãy còn lại có hiệu hai số hạng liên tiếp thay đổi theo ' + m('n') + '.')}; };
-// TN5 (Bài 6, thông hiểu): công sai khi biết hai số hạng
-const tn5 = (ci, n = 0) => { const [u1, d, pp, q] = pick([[3, 4, 2, 7], [-5, 3, 3, 8], [7, -2, 2, 6], [2, 5, 4, 9], [10, -3, 3, 7], [-4, 6, 1, 5], [1, -4, 2, 9], [6, 2, 3, 12]], ci, n), u = k => u1 + (k - 1) * d, A = u(pp), B = u(q);
+// TN5 (Bài 6, thông hiểu, thực tế): tiền để dành mỗi tháng lập thành cấp số cộng
+const tn5 = (ci, n = 0) => { const [u1, d, pp, q] = pick([[20, 5, 2, 7], [30, 10, 3, 8], [15, 4, 2, 6], [50, 15, 3, 7], [10, 6, 4, 9], [40, 5, 2, 8], [25, 10, 3, 6], [12, 8, 2, 7]], ci, n), u = k => u1 + (k - 1) * d, A = u(pp), B = u(q);
   must((B - A) / (q - pp) === d, 'TN5');
-  return {bai:2, level:'Thông hiểu', q:`Cho cấp số cộng ${m('(u_n)')} có ${m(`${nth(pp)} = ${A}`)} và ${m(`${nth(q)} = ${B}`)}. Công sai ${m('d')} của cấp số cộng bằng`, opts:uniq([d, -d, B - A, d + 1].map(x => m(x)), 'TN5'),
-    sol:p(`${m(`${nth(q)} - ${nth(pp)} = ${q - pp}d`)}, suy ra ${m(`d = \\dfrac{${B} - ${sg(A)}}{${q - pp}} = ${d}`)}.`)}; };
-// TN6 (Bài 6, thông hiểu): tổng của một dãy cách đều
-const tn6 = (ci, n = 0) => { const [a, d, N] = pick([[2, 3, 20], [5, 4, 15], [1, 2, 30], [10, -3, 12], [4, 5, 18], [7, 3, 25], [-3, 4, 16], [8, -2, 14]], ci, n), last = a + (N - 1) * d, S = S_ar(a, d, N);
+  return {bai:2, level:'Thông hiểu', tt:true, q:`Bạn Nam để dành tiền mỗi tháng, số tiền để dành các tháng lập thành một cấp số cộng. Tháng thứ ${pp} Nam để dành ${A} nghìn đồng, tháng thứ ${q} Nam để dành ${B} nghìn đồng. Mỗi tháng sau, Nam để dành nhiều hơn tháng liền trước bao nhiêu nghìn đồng?`, opts:uniq([d, B - A, d + 1, d - 1].map(x => m(x)), 'TN5'),
+    sol:p(`Số tiền các tháng lập thành cấp số cộng công sai ${m('d')}: ${m(`${nth(q)} - ${nth(pp)} = ${q - pp}d`)}.`) + p(`${m(`d = \\dfrac{${B} - ${A}}{${q - pp}} = ${d}`)} (nghìn đồng).`)}; };
+// TN6 (Bài 6, thông hiểu, thực tế): tổng số trang đọc trong N ngày
+const tn6 = (ci, n = 0) => { const [a, d, N] = pick([[10, 2, 15], [8, 3, 20], [12, 4, 10], [5, 5, 12], [15, 3, 14], [6, 2, 25], [20, 5, 10], [9, 4, 16]], ci, n), last = a + (N - 1) * d, S = S_ar(a, d, N);
   must(seq(i => a + (i - 1) * d, N).reduce((s, x) => s + x, 0) === S, 'TN6');
-  return {bai:2, level:'Thông hiểu', q:`Tổng ${m(`S = ${a} + ${sg(a + d)} + ${sg(a + 2 * d)} + \\cdots + ${sg(last)}`)} bằng`, opts:uniq([S, S_ar(a, d, N - 1), S_ar(a, d, N + 1), N * (a + last)].map(x => m(x)), 'TN6'),
-    sol:p(`Đây là tổng của cấp số cộng có ${m(`u_1 = ${a},\\ d = ${d}`)}, số hạng cuối ${m(last)}.`) + p(`Số số hạng: ${m(`\\dfrac{${sg(last)} - ${sg(a)}}{${sg(d)}} + 1 = ${N}`)}. Tổng ${m(`S = \\dfrac{${N}(${a} + ${sg(last)})}{2} = ${S}`)}.`)}; };
+  return {bai:2, level:'Thông hiểu', tt:true, q:`Bạn Minh đọc một cuốn sách trong ${N} ngày: ngày thứ nhất đọc ${a} trang, mỗi ngày sau đọc nhiều hơn ngày liền trước ${d} trang. Hỏi trong ${N} ngày Minh đọc được tất cả bao nhiêu trang?`, opts:uniq([S, S_ar(a, d, N - 1), S_ar(a, d, N + 1), N * (a + last)].map(x => m(x)), 'TN6'),
+    sol:p(`Số trang mỗi ngày lập thành cấp số cộng ${m(`u_1 = ${a},\\ d = ${d}`)}; ngày cuối đọc ${m(`u_{${N}} = ${a} + ${N - 1}\\cdot ${d} = ${last}`)} trang.`) + p(`Tổng ${m(`S_{${N}} = \\dfrac{${N}(${a} + ${last})}{2} = ${S}`)} (trang).`)}; };
 // TN7 (Bài 7, nhận biết): nhận dạng cấp số nhân
 const GE = [['u_n = 3\\cdot 2^n', i => 3 * 2 ** i], ['u_n = (-2)^n', i => (-2) ** i], ['u_n = 5^n', i => 5 ** i], ['u_n = 4\\cdot 3^{n-1}', i => 4 * 3 ** (i - 1)], ['u_n = \\left(\\dfrac{1}{3}\\right)^n', i => (1 / 3) ** i], ['u_n = -7\\cdot 2^n', i => -7 * 2 ** i], ['u_n = 2\\cdot(-3)^n', i => 2 * (-3) ** i], ['u_n = \\dfrac{3^n}{2}', i => 3 ** i / 2]];
 const NGE = [['u_n = n^2', i => i * i], ['u_n = 3n + 2', i => 3 * i + 2], ['u_n = 2^n + 1', i => 2 ** i + 1], ['u_n = \\dfrac{1}{n}', i => 1 / i], ['u_n = n^3', i => i ** 3], ['u_n = 4n - 3', i => 4 * i - 3], ['u_n = 3^n - 2', i => 3 ** i - 2], ['u_n = n + 5', i => i + 5]];
@@ -5668,22 +5668,22 @@ const tn7 = (ci, n = 0) => { const j = ci + 4 * n, g = GE[j % GE.length], o = [N
   must(isGeo(g[1]) && o.every(x => !isGeo(x[1])), 'TN7');
   return {bai:3, level:'Nhận biết', q:`Dãy số ${m('(u_n)')} nào sau đây là cấp số nhân?`, opts:[g, ...o].map(x => m(x[0])),
     sol:p(`Dãy ${m(g[0])} có ${m('\\dfrac{u_{n+1}}{u_n}')} không đổi (bằng công bội) nên là cấp số nhân.`) + p('Các dãy còn lại có thương hai số hạng liên tiếp thay đổi theo ' + m('n') + '.')}; };
-// TN8 (Bài 7, thông hiểu): công bội khi biết hai số hạng
-const tn8 = (ci, n = 0) => { const [u1, q, pp, r] = pick([[2, 2, 2, 5], [3, -2, 2, 5], [1, 3, 2, 5], [-2, 2, 3, 6], [5, -2, 1, 4], [2, 3, 3, 6], [1, -3, 2, 5], [6, 2, 1, 4]], ci, n), u = k => u1 * q ** (k - 1), A = u(pp), B = u(r);
+// TN8 (Bài 7, thông hiểu, thực tế): lượt truy cập theo tuần lập thành cấp số nhân
+const tn8 = (ci, n = 0) => { const [u1, q, pp, r] = pick([[100, 2, 2, 5], [50, 3, 1, 4], [20, 2, 3, 6], [10, 3, 2, 5], [80, 2, 1, 4], [5, 3, 3, 6], [40, 2, 2, 5], [2, 4, 2, 5]], ci, n), u = k => u1 * q ** (k - 1), A = u(pp), B = u(r);
   must(B / A === q ** (r - pp), 'TN8');
-  return {bai:3, level:'Thông hiểu', q:`Cho cấp số nhân ${m('(u_n)')} có ${m(`${nth(pp)} = ${A}`)} và ${m(`${nth(r)} = ${B}`)}. Công bội ${m('q')} của cấp số nhân bằng`, opts:uniq([q, -q, q ** 3, q + 1].map(x => m(x)), 'TN8'),
-    sol:p(`${m(`\\dfrac{${nth(r)}}{${nth(pp)}} = q^{${r - pp}}`)} nên ${m(`q^{3} = \\dfrac{${B}}{${sg(A)}} = ${q ** 3}`)}, suy ra ${m(`q = ${q}`)}.`)}; };
+  return {bai:3, level:'Thông hiểu', tt:true, q:`Số lượt truy cập một trang web mỗi tuần lập thành một cấp số nhân. Tuần thứ ${pp} có ${A} lượt truy cập, tuần thứ ${r} có ${B} lượt truy cập. Mỗi tuần số lượt truy cập gấp mấy lần tuần liền trước?`, opts:uniq([q, q + 1, q - 1, q ** 3].map(x => m(x)), 'TN8'),
+    sol:p(`Gọi công bội ${m('q')}: ${m(`\\dfrac{${nth(r)}}{${nth(pp)}} = q^{${r - pp}}`)} nên ${m(`q^{${r - pp}} = \\dfrac{${B}}{${A}} = ${q ** (r - pp)}`)}.`) + p(`Suy ra ${m(`q = ${q}`)}: mỗi tuần gấp ${q} lần tuần trước.`)}; };
 // TN9 (Bài 6, vận dụng thấp): ba số lập cấp số cộng
 const tn9 = (ci, n = 0) => { const [p1, p2, p3, a, b, x0] = pick([[1, 2, 2, 3, -1, 4], [2, 1, 3, -2, 5, 3], [3, 2, 2, 1, 0, 5], [1, 3, 2, 4, -2, 2], [2, 2, 1, 3, 1, 6], [1, 1, 2, -1, 3, 4], [3, 1, 1, 2, 4, 3], [2, 3, 1, 0, -1, 2]], ci, n);
   must(p1 + p3 !== 2 * p2, 'TN9 thoái hoá'); const c = 2 * (p2 * x0 + b) - (p1 * x0 + a) - p3 * x0, A = p1 * x0 + a, B = p2 * x0 + b, C = p3 * x0 + c;
   must(A + C === 2 * B, 'TN9');
   return {bai:2, level:'Vận dụng thấp', q:`Tìm ${m('x')} để ba số ${m(lin(p1, a, 'x'))}, ${m(lin(p2, b, 'x'))}, ${m(lin(p3, c, 'x'))} theo thứ tự đó lập thành một cấp số cộng.`, opts:uniq([x0, x0 + 1, x0 - 1, -x0].map(x => m(`x = ${x}`)), 'TN9'),
     sol:p(`Ba số lập thành cấp số cộng khi ${m(`(${lin(p1, a, 'x')}) + (${lin(p3, c, 'x')}) = 2(${lin(p2, b, 'x')})`)}.`) + p(`${m(`${lin(p1 + p3, a + c, 'x')} = ${lin(2 * p2, 2 * b, 'x')}`)} nên ${m(`x = ${x0}`)}.`)}; };
-// TN10 (Bài 7, vận dụng thấp): tổng n số hạng đầu của cấp số nhân
-const tn10 = (ci, n = 0) => { const [u1, q, k] = pick([[2, 3, 5], [1, 2, 8], [3, 2, 7], [5, 2, 6], [1, -2, 6], [4, 3, 4], [2, -3, 5], [3, 4, 4]], ci, n), S = S_ge(u1, q, k);
+// TN10 (Bài 7, vận dụng thấp, thực tế): tổng tiền thưởng theo cấp số nhân
+const tn10 = (ci, n = 0) => { const [u1, q, k] = pick([[1, 2, 8], [3, 2, 7], [5, 2, 6], [2, 3, 5], [4, 3, 4], [1, 3, 6], [3, 4, 4], [2, 2, 9]], ci, n), S = S_ge(u1, q, k);
   must(seq(i => u1 * q ** (i - 1), k).reduce((s, x) => s + x, 0) === S, 'TN10');
-  return {bai:3, level:'Vận dụng thấp', q:`Cho cấp số nhân ${m('(u_n)')} có ${m(`u_1 = ${u1}`)} và công bội ${m(`q = ${q}`)}. Tổng ${k} số hạng đầu tiên của cấp số nhân bằng`, opts:uniq([S, S_ge(u1, q, k + 1), S_ge(u1, q, k - 1), u1 * q ** k].map(x => m(x)), 'TN10'),
-    sol:p(`${m(`S_{${k}} = u_1\\cdot\\dfrac{q^{${k}} - 1}{q - 1} = ${u1}\\cdot\\dfrac{${sg(q)}^{${k}} - 1}{${sg(q)} - 1} = ${S}`)}.`)}; };
+  return {bai:3, level:'Vận dụng thấp', tt:true, q:`Một công ty thưởng cho nhân viên trong ${k} ngày liên tiếp: ngày thứ nhất thưởng ${u1} triệu đồng, mỗi ngày sau thưởng gấp ${q} lần ngày liền trước. Hỏi tổng số tiền thưởng trong ${k} ngày là bao nhiêu triệu đồng?`, opts:uniq([S, S_ge(u1, q, k + 1), S_ge(u1, q, k - 1), u1 * q ** k].map(x => m(x)), 'TN10'),
+    sol:p(`Tiền thưởng mỗi ngày lập thành cấp số nhân ${m(`u_1 = ${u1},\\ q = ${q}`)}.`) + p(`${m(`S_{${k}} = u_1\\cdot\\dfrac{q^{${k}} - 1}{q - 1} = ${u1}\\cdot\\dfrac{${q}^{${k}} - 1}{${q} - 1} = ${S}`)} (triệu đồng).`)}; };
 
 /* ======================= PHẦN II: 3 câu đúng – sai ======================= */
 // Đ/S 1 (Bài 5): u_n = (an + b)/(n + c) – tăng giảm, bị chặn, đếm số hạng

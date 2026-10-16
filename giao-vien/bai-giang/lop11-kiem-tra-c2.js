@@ -2,10 +2,10 @@
    ĐỀ KIỂM TRA CHƯƠNG II – TOÁN 11 (Kết nối tri thức) · 45 phút · 4 mã đề (121–124)
    Chương II. Dãy số. Cấp số cộng và cấp số nhân (Bài 5, 6, 7).
    Cấu trúc 10 điểm:
-     Phần I   – 10 câu trắc nghiệm 1 đáp án × 0,5 = 5 điểm   (nhận biết – thông hiểu; 2 câu vận dụng thấp)
+     Phần I   – 10 câu trắc nghiệm 1 đáp án × 0,5 = 5 điểm   (nhận biết – thông hiểu; 2 câu vận dụng thấp; 4 câu TN 5·6·8·10 là toán thực tế)
      Phần II  –  3 câu đúng/sai (mỗi câu 4 ý) × 1 = 3 điểm   (nhận biết → vận dụng)
      Phần III –  2 câu trả lời ngắn × 1 = 2 điểm              (vận dụng thực tế; vận dụng cao)
-   Học sinh trung bình – khá làm được Phần I và các ý a–c của Phần II (≈ 7–8 điểm); học sinh giỏi làm thêm ý d và Phần III (9–10 điểm).
+   Học sinh trung bình – khá làm được Phần I và các ý a–c của Phần II (≈ 7–8 điểm); toán thực tế chiếm 4/10 điểm (TN5,6,8,10 = 2đ; Đ/S 3 = 1đ; TLN1 = 1đ); học sinh giỏi làm thêm ý d và Phần III (9–10 điểm).
    Câu hỏi lấy từ ngân hàng data/lop11-chuong2-bank.js (C2B11, bộ n = 0): mỗi mã đề (ci = 0..3) một bộ số riêng, đáp án suy ra bằng phép tính.
    Link: #/lop11/kiem-tra/c2/de · …/de-122 · …/da
    ===================================================================== */
