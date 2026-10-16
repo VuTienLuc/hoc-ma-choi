@@ -552,3 +552,157 @@ Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Ôn tập giữa h�
 ]},
 ]});
 })();
+
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 7. Các khái niệm mở đầu · Bài 8. Tổng và hiệu của hai vectơ
+   Mỗi bài: kiến thức trọng tâm có hình, 4 dạng (method + ví dụ), luyện tập, tổng kết. Hình vẽ bằng vecSVG (figures.js).
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const v = (a, b) => `\\overrightarrow{${a}${b}}`, len = (a, b) => `\\left|${v(a, b)}\\right|`, ZERO = '\\vec{0}';
+const s3 = Math.sqrt(3);
+const PAR = {A:[0, 0], B:[4, 0], C:[5, 3], D:[1, 3], O:[2.5, 1.5]};
+const HEX = {A:[2, 0], B:[1, s3], C:[-1, s3], D:[-2, 0], E:[-1, -s3], F:[1, -s3], O:[0, 0]};
+const pts = P => Object.entries(P).map(([k, [x, y]]) => [x, y, k]);
+const F_par = (vecs = []) => vecSVG({pts:pts(PAR), poly:['A', 'B', 'C', 'D'], dash:[['A', 'C'], ['B', 'D']], vecs, h:220});
+const F_hex = (vecs = []) => vecSVG({pts:pts(HEX), poly:['A', 'B', 'C', 'D', 'E', 'F'], dash:[['A', 'D'], ['B', 'E'], ['C', 'F']], vecs, h:230});
+const F_ab = () => vecSVG({pts:[[0, 0, 'A'], [4, 1.5, 'B']], vecs:[['A', 'B', 'a', 'alt']], h:150});
+const F_ba = () => vecSVG({pts:[[0, 0, 'A'], [2, 2, 'B'], [5, 1, 'C']], vecs:[['A', 'B', 'a'], ['B', 'C', 'b'], ['A', 'C', 'a+b', 'alt']], h:170});
+const F_hbh = () => vecSVG({pts:[[0, 0, 'A'], [3, 0, 'B'], [4, 2, 'C'], [1, 2, 'D']], poly:['A', 'B', 'C', 'D'], vecs:[['A', 'B', 'a'], ['A', 'D', 'b'], ['A', 'C', 'a+b', 'alt']], h:190});
+const F_hieu = () => vecSVG({pts:[[0, 0, 'O'], [4, 0.6, 'A'], [2, 3, 'B']], vecs:[['O', 'A', 'a'], ['O', 'B', 'b'], ['A', 'B', 'b−a', 'alt']], h:190});
+const F_td = () => vecSVG({pts:[[0, 0, 'A'], [4, 0, 'B'], [2, 0, 'I'], [2, 2.6, 'M']], dash:[['A', 'B']], vecs:[['M', 'A', ''], ['M', 'B', ''], ['M', 'I', '2MI', 'alt']], h:170});
+const F_tg = () => vecSVG({pts:[[0, 0, 'B'], [4, 0, 'C'], [1, 3, 'A'], [2, 0, 'M'], [2, 1, 'G']], poly:['A', 'B', 'C'], dash:[['A', 'M']], h:200});
+const F_rect = (w, h) => vecSVG({pts:[[0, 0, 'A'], [w, 0, 'B'], [w, h, 'C'], [0, h, 'D']], poly:['A', 'B', 'C', 'D'], vecs:[['A', 'B', ''], ['A', 'D', ''], ['A', 'C', '', 'alt']], h:170});
+const F_lc = (a, b) => vecSVG({pts:[[0, 0, 'O'], [a, 0, 'A'], [0, b, 'B'], [a, b, 'C']], dash:[['A', 'C'], ['B', 'C']], vecs:[['O', 'A', 'F₁'], ['O', 'B', 'F₂'], ['O', 'C', 'F', 'alt']], h:170});
+
+Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương IV. Vectơ', lessons:[
+
+/* ---------------- BÀI 7 ---------------- */
+{ id:'bai-7', name:'Bài 7. Các khái niệm mở đầu', desc:'Vectơ, độ dài; cùng phương, cùng hướng; hai vectơ bằng nhau, đối nhau; vectơ-không; 4 dạng, 7 ví dụ, biểu diễn lực và vận tốc.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương IV', title:'Bài 7. Các khái niệm mở đầu', sub:'Mục tiêu bài học', points:[
+    'Nhận biết vectơ, điểm đầu, điểm cuối, giá và độ dài của vectơ.',
+    'Nhận biết hai vectơ cùng phương, cùng hướng, bằng nhau, đối nhau; vectơ-không.',
+    'Biểu diễn lực, vận tốc bằng vectơ và giải bài toán thực tế đơn giản.']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Vectơ và độ dài của vectơ', fig:F_ab(),
+   body:`<p><b>Vectơ</b> là đoạn thẳng có hướng: đã chỉ rõ <b>điểm đầu</b> và <b>điểm cuối</b>.</p>` +
+     box(`Vectơ có điểm đầu ${m('A')}, điểm cuối ${m('B')} kí hiệu ${m(v('A', 'B'))}; còn kí hiệu ${m('\\vec{a}, \\vec{b}, \\ldots')}<br>
+       <b>Giá</b> của vectơ: đường thẳng đi qua điểm đầu và điểm cuối.<br>
+       <b>Độ dài</b> của vectơ ${m(v('A', 'B'))} là độ dài đoạn ${m('AB')}: ${m(`${len('A', 'B')} = AB`)}.`) +
+     `<p><b>Vectơ-không</b> ${m(ZERO)}: điểm đầu trùng điểm cuối, ${m(`|${ZERO}| = 0`)}.</p>` + note(`${m(v('A', 'B'))} và ${m(v('B', 'A'))} là <b>hai vectơ khác nhau</b> (ngược hướng), dù có cùng độ dài.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Hai vectơ cùng phương, cùng hướng', fig:vecSVG({pts:[[0, 0, 'A'], [3, 0, 'B'], [0, 1.2, 'C'], [2, 1.2, 'D'], [0, 2.4, 'E'], [3, 2.4, 'F']], vecs:[['A', 'B', ''], ['C', 'D', ''], ['F', 'E', '']], h:170}),
+   body:box(`Hai vectơ <b>cùng phương</b> nếu giá của chúng song song hoặc trùng nhau.<br>Hai vectơ cùng phương thì hoặc <b>cùng hướng</b> hoặc <b>ngược hướng</b>.`) +
+     `<p>• Ba điểm ${m('A, B, C')} thẳng hàng ⇔ ${m(v('A', 'B'))} và ${m(v('A', 'C'))} cùng phương.</p><p>• Vectơ-không ${m(ZERO)} cùng phương, cùng hướng với mọi vectơ.</p>`},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Hai vectơ bằng nhau, hai vectơ đối nhau', fig:F_par([['A', 'B', ''], ['D', 'C', '', 'alt']]),
+   body:box(`${m('\\vec{a} = \\vec{b}')} khi và chỉ khi <b>cùng hướng</b> và <b>cùng độ dài</b>.<br>
+       ${m('\\vec{b}')} là <b>vectơ đối</b> của ${m('\\vec{a}')} (viết ${m('\\vec{b} = -\\vec{a}')}) khi <b>ngược hướng</b> và <b>cùng độ dài</b>.`) +
+     `<p>Hình bình hành ${m('ABCD')}: ${m(`${v('A', 'B')} = ${v('D', 'C')}`)}, ${m(`${v('A', 'D')} = ${v('B', 'C')}`)}; tâm ${m('O')}: ${m(`${v('A', 'O')} = ${v('O', 'C')}`)}, ${m(`${v('B', 'O')} = ${v('O', 'D')}`)}.</p>` + note(`Khi cho vectơ ${m('\\vec{a}')} và điểm ${m('O')}, luôn dựng được <b>duy nhất</b> điểm ${m('A')} sao cho ${m(`${v('O', 'A')} = \\vec{a}`)}.`)},
+
+  {kind:'method', tag:'Dạng 1', title:'Đếm vectơ có điểm đầu, điểm cuối cho trước',
+   steps:[`Mỗi vectơ ứng với một cặp (điểm đầu, điểm cuối) <b>có thứ tự</b>, hai điểm khác nhau.`, `Với ${m('n')} điểm phân biệt: ${m('n(n - 1)')} vectơ khác ${m(ZERO)} (${m('AB')} và ${m('BA')} tính là hai vectơ).`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho bốn điểm phân biệt ${m('A, B, C, D')}. Có bao nhiêu vectơ khác ${m(ZERO)} có điểm đầu và điểm cuối thuộc bốn điểm đó? Kể tên các vectơ có điểm đầu là ${m('A')}.`,
+   sol:[`Điểm đầu có 4 cách chọn; điểm cuối khác điểm đầu có 3 cách chọn.`, `Số vectơ: ${m('4\\cdot 3 = 12')}.`, `Các vectơ có điểm đầu ${m('A')}: ${m(`${v('A', 'B')},\\ ${v('A', 'C')},\\ ${v('A', 'D')}`)}.`], ans:`${tb('12')} vectơ.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Nhận biết các vectơ bằng nhau, cùng phương, cùng hướng, đối nhau',
+   steps:[`Vẽ hình, tìm các cặp cạnh/đường chéo song song và bằng nhau (hình bình hành, hình thoi, lục giác đều…).`, `Kiểm tra <b>hướng</b> (theo thứ tự điểm đầu → điểm cuối) rồi mới kiểm tra <b>độ dài</b>.`, `Cùng hướng + cùng độ dài ⇒ bằng nhau; ngược hướng + cùng độ dài ⇒ đối nhau.`]},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Cho hình bình hành ${m('ABCD')} có tâm ${m('O')}. Tìm các vectơ bằng ${m(v('A', 'B'))} và vectơ đối của ${m(v('O', 'B'))}.`, fig:F_par([['A', 'B', '', 'alt']]),
+   sol:[`${m('ABCD')} là hình bình hành nên ${m('AB \\parallel DC')}, ${m('AB = DC')}, và ${m('AB, DC')} cùng hướng: ${m(`${v('A', 'B')} = ${v('D', 'C')}`)}.`, `Vectơ đối của ${m(v('O', 'B'))} là ${m(v('B', 'O'))}. Vì ${m('O')} là trung điểm ${m('BD')} nên ${m(`${v('B', 'O')} = ${v('O', 'D')}`)}.`], ans:`${m(`${v('A', 'B')} = ${v('D', 'C')}`)}; vectơ đối của ${m(v('O', 'B'))} là ${tb(`${v('B', 'O')}\\ (= ${v('O', 'D')})`)}.`},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Cho lục giác đều ${m('ABCDEF')} tâm ${m('O')}. Tìm tất cả các vectơ khác ${m(ZERO)}, có điểm đầu và điểm cuối thuộc ${m('\\{A, B, C, D, E, F, O\\}')}, bằng vectơ ${m(v('A', 'B'))}.`, fig:F_hex([['A', 'B', '', 'alt']]),
+   sol:[`Cạnh ${m('ED')}, bán kính ${m('OC')} và ${m('FO')} đều song song với ${m('AB')}, cùng độ dài ${m('AB')} (các tam giác ${m('OAB, OBC, OEF…')} đều).`, `Xét hướng: ${m(v('E', 'D'))}, ${m(v('O', 'C'))}, ${m(v('F', 'O'))} cùng hướng với ${m(v('A', 'B'))}.`], ans:`${tb(`${v('E', 'D')},\\ ${v('O', 'C')},\\ ${v('F', 'O')}`)}.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Tính độ dài vectơ',
+   steps:[`${m(`${len('A', 'B')} = AB`)}: tính độ dài đoạn thẳng.`, `Dùng định lí Pythagore, tính chất đường chéo hình chữ nhật, hình thoi, trung tuyến ứng với cạnh huyền.`]},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 3', label:'Ví dụ 4', de:`Cho hình chữ nhật ${m('ABCD')} có ${m('AB = 5')}, ${m('AD = 12')}, tâm ${m('O')}. Tính ${m(len('A', 'C'))}, ${m(len('B', 'D'))} và ${m(len('O', 'A'))}.`, fig:F_rect(5, 12),
+   sol:[`${m(`${len('A', 'C')} = AC = \\sqrt{5^2 + 12^2} = 13`)}.`, `Hai đường chéo hình chữ nhật bằng nhau: ${m(`${len('B', 'D')} = BD = 13`)}.`, `${m('O')} là trung điểm ${m('AC')}: ${m(`${len('O', 'A')} = \\dfrac{13}{2} = 6{,}5`)}.`], ans:`${tb('13;\\ 13;\\ 6{,}5')}.`},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Tam giác ${m('ABC')} vuông tại ${m('A')} có ${m('AB = 6')}, ${m('AC = 8')}; ${m('M')} là trung điểm ${m('BC')}. Tính ${m(len('M', 'A'))}.`,
+   sol:[`${m('BC = \\sqrt{6^2 + 8^2} = 10')}.`, `Trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền: ${m('AM = \\dfrac{BC}{2} = 5')}.`, `${m(`${len('M', 'A')} = MA`)} (độ dài vectơ là độ dài đoạn thẳng).`], ans:`${tb('5')}.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Biểu diễn lực, vận tốc bằng vectơ',
+   steps:[`Một vectơ biểu diễn đại lượng có hướng: <b>hướng</b> của vectơ là hướng của đại lượng, <b>độ dài</b> tỉ lệ với độ lớn.`, `Chọn tỉ lệ xích (vd. 1 cm ứng với 20 N), đổi độ lớn thành độ dài; hai đại lượng cùng hướng, cùng độ lớn thì ứng với hai vectơ bằng nhau.`]},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 4', label:'Ví dụ 6', de:`Một vật chịu lực kéo 60 N theo phương nằm ngang, hướng sang phải. Với tỉ lệ xích 1 cm ứng với 20 N, hãy mô tả vectơ biểu diễn lực.`,
+   sol:[`Độ dài vectơ: ${m('60 : 20 = 3')} cm.`, `Hướng: nằm ngang, từ trái sang phải; điểm đầu đặt tại vật.`], ans:`Vectơ nằm ngang, hướng sang phải, dài ${tb('3')} cm.`},
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Xe A chạy hướng Bắc với vận tốc 50 km/h, xe B chạy hướng Nam với vận tốc 50 km/h. Hai vectơ vận tốc của hai xe có quan hệ gì?`,
+   sol:[`Hướng Bắc và hướng Nam <b>ngược hướng</b>.`, `Độ lớn hai vận tốc bằng nhau (50 km/h) nên hai vectơ có cùng độ dài.`], ans:`Hai vectơ vận tốc là ${tb('hai vectơ đối nhau')}.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho 6 điểm phân biệt. Có bao nhiêu vectơ khác ${m(ZERO)} có điểm đầu và điểm cuối thuộc 6 điểm đó?`, sol:[`${m('6\\cdot 5 = 30')}.`], ans:`${tb('30')} vectơ.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho hình bình hành ${m('ABCD')} tâm ${m('O')}. Vectơ nào bằng ${m(v('A', 'O'))}? Vectơ nào là vectơ đối của ${m(v('A', 'D'))}?`, fig:F_par(), figAt:1,
+   sol:[`${m('O')} là trung điểm ${m('AC')}: ${m(`${v('A', 'O')} = ${v('O', 'C')}`)}.`, `${m(`${v('A', 'D')} = ${v('B', 'C')}`)} nên vectơ đối của ${m(v('A', 'D'))} là ${m(v('D', 'A'))} (cũng là ${m(v('C', 'B'))}).`], ans:`${tb(v('O', 'C'))}; ${tb(`${v('D', 'A')}\\ (= ${v('C', 'B')})`)}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Hình thoi ${m('ABCD')} có hai đường chéo ${m('AC = 6')}, ${m('BD = 8')}. Tính ${m(len('A', 'B'))}.`, sol:[`${m('OA = 3,\\ OB = 4')}, tam giác ${m('OAB')} vuông tại ${m('O')}: ${m('AB = 5')}.`], ans:`${tb('5')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Hai tàu cùng xuất phát từ cảng, tàu 1 đi hướng Đông 30 km/h, tàu 2 đi hướng Đông 40 km/h. Khẳng định nào đúng: hai vectơ vận tốc bằng nhau, đối nhau, hay cùng hướng nhưng độ dài khác nhau?`, sol:[`Cùng hướng Đông; độ lớn ${m('30 \\ne 40')}.`], ans:`${tb('Cùng hướng, độ dài khác nhau')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 5 ★', de:`Trên đường thẳng ${m('d')} lấy 4 điểm, trên đường thẳng ${m('d\'')} lấy 5 điểm (9 điểm khác nhau). Có bao nhiêu vectơ khác ${m(ZERO)} có điểm đầu và điểm cuối cùng nằm trên ${m('d')} hoặc cùng nằm trên ${m('d\'')}?`, sol:[`Trên ${m('d')}: ${m('4\\cdot 3 = 12')}; trên ${m('d\'')}: ${m('5\\cdot 4 = 20')}.`], ans:`${tb('32')} vectơ.`},
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ', body:`<ul><li>Vectơ = đoạn thẳng có hướng; ${m(v('A', 'B'))} và ${m(v('B', 'A'))} khác nhau; ${m(`${len('A', 'B')} = AB`)}.</li>
+     <li>Bằng nhau = cùng hướng + cùng độ dài. Đối nhau = ngược hướng + cùng độ dài.</li><li>${m(ZERO)} cùng phương, cùng hướng với mọi vectơ.</li><li>${m('n')} điểm phân biệt cho ${m('n(n - 1)')} vectơ khác ${m(ZERO)}.</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 7 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 7.')},
+]},
+
+/* ---------------- BÀI 8 ---------------- */
+{ id:'bai-8', name:'Bài 8. Tổng và hiệu của hai vectơ', desc:'Quy tắc ba điểm, quy tắc hình bình hành; vectơ đối và hiệu; trung điểm, trọng tâm; 4 dạng, 8 ví dụ, hợp lực và vận tốc.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương IV', title:'Bài 8. Tổng và hiệu của hai vectơ', sub:'Mục tiêu bài học', points:[
+    'Xác định tổng của hai vectơ bằng quy tắc ba điểm và quy tắc hình bình hành.',
+    'Xác định vectơ đối, hiệu của hai vectơ; rút gọn biểu thức vectơ.',
+    'Tính độ dài của tổng, hiệu hai vectơ; vận dụng vào bài toán lực, vận tốc.']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Tổng của hai vectơ – quy tắc ba điểm', fig:F_ba(),
+   body:`<p>Với hai vectơ ${m('\\vec{a}, \\vec{b}')} bất kì, lấy điểm ${m('A')}, dựng ${m(`${v('A', 'B')} = \\vec{a}`)}, ${m(`${v('B', 'C')} = \\vec{b}`)}. Vectơ ${m(v('A', 'C'))} là <b>tổng</b> ${m('\\vec{a} + \\vec{b}')}.</p>` +
+     box(`<b>Quy tắc ba điểm:</b> ${m(`${v('A', 'B')} + ${v('B', 'C')} = ${v('A', 'C')}`)} với ba điểm ${m('A, B, C')} bất kì.`) +
+     `<p>Tính chất: giao hoán ${m('\\vec{a} + \\vec{b} = \\vec{b} + \\vec{a}')}; kết hợp ${m('(\\vec{a} + \\vec{b}) + \\vec{c} = \\vec{a} + (\\vec{b} + \\vec{c})')}; ${m(`\\vec{a} + ${ZERO} = \\vec{a}`)}.</p>`},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Quy tắc hình bình hành', fig:F_hbh(),
+   body:box(`Nếu ${m('ABCD')} là hình bình hành thì ${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)}.`) +
+     `<p>Hai vectơ chung điểm đầu: tổng của chúng là vectơ <b>đường chéo</b> xuất phát từ điểm đầu đó của hình bình hành dựng trên hai vectơ.</p>` + note(`Quy tắc ba điểm dùng khi vectơ nọ <b>nối đuôi</b> vectơ kia; quy tắc hình bình hành dùng khi hai vectơ <b>chung điểm đầu</b>.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Vectơ đối và hiệu của hai vectơ', fig:F_hieu(),
+   body:box(`Vectơ đối của ${m('\\vec{a}')} kí hiệu ${m('-\\vec{a}')}; ${m(`\\vec{a} + (-\\vec{a}) = ${ZERO}`)}; vectơ đối của ${m(v('A', 'B'))} là ${m(v('B', 'A'))}.<br>
+       <b>Hiệu</b> ${m('\\vec{a} - \\vec{b} = \\vec{a} + (-\\vec{b})')}.`) +
+     `<p><b>Quy tắc hiệu:</b> với ba điểm ${m('O, A, B')} bất kì: ${m(`${v('O', 'B')} - ${v('O', 'A')} = ${v('A', 'B')}`)} (hai vectơ chung điểm đầu, hiệu là vectơ nối hai điểm cuối, “cuối trừ đầu”).</p>`},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Trung điểm đoạn thẳng, trọng tâm tam giác', fig:F_td(),
+   body:box(`${m('I')} là trung điểm ${m('AB')} ⇔ ${m(`${v('I', 'A')} + ${v('I', 'B')} = ${ZERO}`)} ⇔ với mọi điểm ${m('M')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} = 2${v('M', 'I')}`)}.<br>
+       ${m('G')} là trọng tâm tam giác ${m('ABC')} ⇔ ${m(`${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')} = ${ZERO}`)}.`) +
+     `<p>Hình bình hành ${m('ABCD')}: ${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)}; ${m(`${v('O', 'A')} + ${v('O', 'C')} = ${ZERO}`)}.</p>`},
+
+  {kind:'method', tag:'Dạng 1', title:'Rút gọn biểu thức vectơ',
+   steps:[`Đổi dấu trừ: ${m('\\vec{a} - \\vec{b} = \\vec{a} + (-\\vec{b})')}, hoặc dùng quy tắc hiệu ${m(`${v('O', 'B')} - ${v('O', 'A')} = ${v('A', 'B')}`)}.`, `Sắp xếp các vectơ “nối đuôi” (điểm cuối vectơ này là điểm đầu vectơ kế tiếp) rồi dùng quy tắc ba điểm.`, `Nếu điểm đầu trùng điểm cuối thì tổng bằng ${m(ZERO)}.`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Rút gọn ${m(`u = ${v('M', 'N')} + ${v('P', 'Q')} + ${v('N', 'P')} + ${v('Q', 'M')}`)}.`,
+   sol:[`Sắp xếp nối đuôi: ${m(`u = ${v('M', 'N')} + ${v('N', 'P')} + ${v('P', 'Q')} + ${v('Q', 'M')}`)}.`, `Quy tắc ba điểm liên tiếp: ${m(`${v('M', 'N')} + ${v('N', 'P')} = ${v('M', 'P')}`)}, rồi ${m(`${v('M', 'P')} + ${v('P', 'Q')} = ${v('M', 'Q')}`)}, ${m(`${v('M', 'Q')} + ${v('Q', 'M')} = ${ZERO}`)} (điểm đầu trùng điểm cuối).`], ans:`${m('u =')} ${tb(ZERO)}.`},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Cho năm điểm ${m('A, B, C, D, E')}. Rút gọn ${m(`u = ${v('A', 'B')} - ${v('C', 'B')} + ${v('C', 'D')} - ${v('E', 'D')}`)}.`,
+   sol:[`Đổi dấu trừ: ${m(`-${v('C', 'B')} = ${v('B', 'C')}`)}, ${m(`-${v('E', 'D')} = ${v('D', 'E')}`)}.`, `${m(`u = ${v('A', 'B')} + ${v('B', 'C')} + ${v('C', 'D')} + ${v('D', 'E')}`)}.`, `Quy tắc ba điểm liên tiếp: ${m(`u = ${v('A', 'E')}`)}.`], ans:`${m('u =')} ${tb(v('A', 'E'))}.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Tính độ dài của tổng, hiệu hai vectơ',
+   steps:[`Đưa tổng/hiệu về <b>một vectơ</b> bằng quy tắc hình bình hành, quy tắc hiệu hoặc trung điểm.`, `Độ dài vectơ = độ dài đoạn thẳng, rồi tính bằng Pythagore hoặc tính chất hình (hình chữ nhật, hình thoi, tam giác vuông).`]},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Hình thoi ${m('ABCD')} có hai đường chéo ${m('AC = 12')}, ${m('BD = 16')}. Tính ${m(`\\left|${v('A', 'B')} + ${v('A', 'D')}\\right|`)} và ${m(`\\left|${v('A', 'B')} - ${v('A', 'D')}\\right|`)}.`,
+   fig:vecSVG({pts:[[-6, 0, 'A'], [0, -8, 'B'], [6, 0, 'C'], [0, 8, 'D']], poly:['A', 'B', 'C', 'D'], dash:[['A', 'C'], ['B', 'D']], vecs:[['A', 'B', ''], ['A', 'D', ''], ['A', 'C', '', 'alt']], h:200}), figAt:2,
+   sol:[`${m('ABCD')} là hình bình hành: ${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)} nên độ dài bằng ${m('AC = 12')}.`, `Quy tắc hiệu: ${m(`${v('A', 'B')} - ${v('A', 'D')} = ${v('D', 'B')}`)} nên độ dài bằng ${m('DB = 16')}.`], ans:`${tb('12')} và ${tb('16')}.`},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Tam giác ${m('ABC')} vuông tại ${m('A')}, ${m('AB = 3')}, ${m('AC = 4')}. Tính ${m(`\\left|${v('A', 'B')} + ${v('A', 'C')}\\right|`)}.`,
+   sol:[`${m('M')} là trung điểm ${m('BC')}: ${m(`${v('A', 'B')} + ${v('A', 'C')} = 2${v('A', 'M')}`)}.`, `${m('BC = 5')}, trung tuyến ${m('AM = \\dfrac{BC}{2} = 2{,}5')}.`, `${m(`\\left|${v('A', 'B')} + ${v('A', 'C')}\\right| = 2AM =`)} ${tb('5')}.`], ans:`${tb('5')}.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Chứng minh đẳng thức vectơ, trung điểm, trọng tâm',
+   steps:[`Xen điểm trung gian: ${m(`${v('M', 'A')} = ${v('M', 'I')} + ${v('I', 'A')}`)} rồi nhóm các hạng tử.`, `Dùng tính chất trung điểm ${m(`${v('I', 'A')} + ${v('I', 'B')} = ${ZERO}`)} hoặc quy tắc hình bình hành đã có.`]},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Cho ${m('I')} là trung điểm ${m('AB')}. Chứng minh với mọi điểm ${m('M')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} = 2${v('M', 'I')}`)}.`, fig:F_td(), figAt:1,
+   sol:[`Xen điểm ${m('I')}: ${m(`${v('M', 'A')} = ${v('M', 'I')} + ${v('I', 'A')}`)}, ${m(`${v('M', 'B')} = ${v('M', 'I')} + ${v('I', 'B')}`)}.`, `Cộng lại: ${m(`${v('M', 'A')} + ${v('M', 'B')} = 2${v('M', 'I')} + (${v('I', 'A')} + ${v('I', 'B')})`)}.`, `${m('I')} là trung điểm ${m('AB')} nên ${m(`${v('I', 'A')} + ${v('I', 'B')} = ${ZERO}`)}.`], ans:`${tb(`${v('M', 'A')} + ${v('M', 'B')} = 2${v('M', 'I')}`)} (đpcm).`},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Cho hình bình hành ${m('ABCD')}. Chứng minh ${m(`${v('A', 'B')} + ${v('A', 'C')} + ${v('A', 'D')} = 2${v('A', 'C')}`)}.`, fig:F_par([['A', 'C', '', 'alt']]),
+   sol:[`Quy tắc hình bình hành: ${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)}.`, `Do đó ${m(`${v('A', 'B')} + ${v('A', 'C')} + ${v('A', 'D')} = ${v('A', 'C')} + ${v('A', 'C')}`)} ${m(`= 2${v('A', 'C')}`)}.`], ans:`Đẳng thức được chứng minh.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Bài toán thực tế: hợp lực, vận tốc',
+   steps:[`Mỗi lực (hoặc vận tốc) là một vectơ; hợp lực (vận tốc thực) là <b>tổng</b> các vectơ.`, `Vẽ hình bình hành (hình chữ nhật nếu hai lực vuông góc) rồi tính độ dài đường chéo.`]},
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Hai lực ${m('\\vec{F_1}, \\vec{F_2}')} độ lớn 30 N và 40 N, cùng tác dụng vào một vật tại ${m('O')}, phương vuông góc với nhau. Tính độ lớn hợp lực.`, fig:F_lc(3, 4), figAt:1,
+   sol:[`Hợp lực ${m('\\vec{F} = \\vec{F_1} + \\vec{F_2}')} là đường chéo hình chữ nhật có hai cạnh 30 và 40.`, `${m('F = \\sqrt{30^2 + 40^2} = 50')}.`], ans:`${tb('50')} N.`},
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 4', label:'Ví dụ 8', de:`Thuyền chạy ngang một khúc sông với vận tốc 12 km/h so với nước; nước chảy vuông góc hướng chạy với vận tốc 5 km/h. Tìm vận tốc thực của thuyền so với bờ.`,
+   sol:[`Vận tốc thực là tổng hai vectơ vuông góc (12 và 5).`, `${m('v = \\sqrt{12^2 + 5^2} = \\sqrt{169} = 13')}.`], ans:`${tb('13')} km/h.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Rút gọn ${m(`${v('A', 'B')} + ${v('B', 'C')} + ${v('C', 'D')} + ${v('D', 'A')}`)}.`, sol:[`Nối đuôi liên tiếp, điểm cuối trùng điểm đầu.`], ans:`${tb(ZERO)}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho ba điểm ${m('A, B, C')}. Rút gọn ${m(`${v('A', 'B')} - ${v('A', 'C')}`)} và ${m(`${v('B', 'A')} - ${v('C', 'A')}`)}.`, sol:[`Quy tắc hiệu: ${m(`${v('A', 'B')} - ${v('A', 'C')} = ${v('C', 'B')}`)}.`, `${m(`${v('B', 'A')} - ${v('C', 'A')} = ${v('B', 'A')} + ${v('A', 'C')} = ${v('B', 'C')}`)}.`], ans:`${tb(v('C', 'B'))}; ${tb(v('B', 'C'))}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Hình chữ nhật ${m('ABCD')} có ${m('AB = 6')}, ${m('AD = 8')}. Tính ${m(`\\left|${v('A', 'B')} + ${v('A', 'D')}\\right|`)} và ${m(`\\left|${v('A', 'B')} - ${v('A', 'D')}\\right|`)}.`, sol:[`Tổng là ${m(v('A', 'C'))}, hiệu là ${m(v('D', 'B'))}; hai đường chéo cùng bằng ${m('\\sqrt{6^2 + 8^2} = 10')}.`], ans:`${tb('10')} và ${tb('10')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Hai người cùng kéo một vật bằng hai lực có cùng độ lớn 100 N, hai lực tạo với nhau góc ${m('120^\\circ')}. Tính độ lớn hợp lực.`, sol:[`Hình thoi có góc ${m('120^\\circ')}: đường chéo xuất phát từ góc đó chia hình thoi thành hai tam giác đều, nên bằng cạnh.`], ans:`${tb('100')} N.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 5 ★', de:`Cho tam giác ${m('ABC')}, ${m('G')} là trọng tâm. Chứng minh với mọi điểm ${m('M')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')}`)}.`, fig:F_tg(),
+   sol:[`Xen ${m('G')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')} + (${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')})`)}.`, `${m('G')} là trọng tâm nên tổng trong ngoặc bằng ${m(ZERO)}.`], ans:`Đẳng thức được chứng minh.`},
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ', body:`<ul><li>Quy tắc ba điểm: ${m(`${v('A', 'B')} + ${v('B', 'C')} = ${v('A', 'C')}`)}. Quy tắc hình bình hành: ${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)}.</li>
+     <li>Quy tắc hiệu: ${m(`${v('O', 'B')} - ${v('O', 'A')} = ${v('A', 'B')}`)} (“cuối trừ đầu”).</li><li>Trung điểm: ${m(`${v('I', 'A')} + ${v('I', 'B')} = ${ZERO}`)}; trọng tâm: ${m(`${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')} = ${ZERO}`)}.</li>
+     <li>Hợp lực, vận tốc thực: vectơ tổng; hai lực vuông góc thì ${m('F = \\sqrt{F_1^2 + F_2^2}')}.</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 8 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 8.')},
+]},
+]});
+})();

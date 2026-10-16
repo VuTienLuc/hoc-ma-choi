@@ -1016,3 +1016,465 @@ Gian hàng của lớp pha hai loại sinh tố. Mỗi ly sinh tố xoài cần 
 | Exit 3 | $15$ |
 | Về nhà | $x, y \ge 0$, $2x + y \le 30$, $x + 2y \le 30$; lãi lớn nhất $220$ nghìn đồng |
 `);
+
+Lecture.addSheet('lop10', 'bai-7', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Bài 7. Các khái niệm mở đầu
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Hình bình hành $ABCD$: hai cạnh $AB$ và $DC$ có song song và bằng nhau không? Đáp số: ………………………
+
+**Câu 2.** Hình chữ nhật có hai cạnh $6$ và $8$. Tính độ dài đường chéo. Đáp số: ………………………
+
+**Câu 3.** $M$ là trung điểm của $AB$ và $AB = 10$. Tính $AM$. Đáp số: ………………………
+
+**Câu 4.** Xe chạy hướng Bắc $40$ km/h và xe chạy hướng Nam $40$ km/h giống nhau và khác nhau ở điểm nào? Đáp số: ………………………
+
+## 2. Tình huống mở đầu
+
+Bốn xe chạy trên cùng một quốc lộ thẳng:
+
+| Xe | A | B | C | D |
+|---|---|---|---|---|
+| Hướng | Bắc | Nam | Bắc | Bắc |
+| Tốc độ (km/h) | $40$ | $40$ | $40$ | $30$ |
+
+**Em nhận thấy:** ………………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Chỉ nói "tốc độ $40$ km/h" đã đủ mô tả chuyển động chưa? Cần thêm yếu tố nào, và hai xe nào thì được coi là "giống hệt nhau"?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Cho hình bình hành $ABCD$. Vectơ bằng $\overrightarrow{AB}$ là
+
+A. $\overrightarrow{DC}$
+
+B. $\overrightarrow{CD}$
+
+C. $\overrightarrow{BA}$
+
+D. $\overrightarrow{AD}$
+
+**Câu B.** Có $5$ điểm phân biệt. Số vectơ khác $\vec{0}$ có điểm đầu và điểm cuối thuộc $5$ điểm đó là
+
+A. $10$
+
+B. $15$
+
+C. $20$
+
+D. $25$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Có $6$ điểm phân biệt. Có bao nhiêu vectơ khác $\vec{0}$ nối hai trong $6$ điểm đó? Đáp số: ………………………
+
+**Câu 2 ★.** Hình bình hành $ABCD$ tâm $O$. Vectơ nào bằng $\overrightarrow{AO}$? Đáp số: ………………………
+
+**Câu 3 ★★.** Hình chữ nhật $ABCD$ có $AB = 5$, $AD = 12$. Tính $\left|\overrightarrow{BD}\right|$. Đáp số: ………………………
+
+**Câu 4 ★★.** Hình thoi $ABCD$ cạnh $10$, đường chéo $AC = 12$. Tính $\left|\overrightarrow{BD}\right|$. Đáp số: ………………………
+
+**Câu 5 ★★.** Tam giác đều $ABC$ cạnh $6$, $M$ là trung điểm $BC$. Tính $\left|\overrightarrow{AM}\right|$. Đáp số: ………………………
+
+**Câu 6 ★★★.** Lục giác đều $ABCDEF$ tâm $O$. Có bao nhiêu vectơ khác $\overrightarrow{OA}$, bằng $\overrightarrow{OA}$, có điểm đầu và điểm cuối thuộc $\{A, B, C, D, E, F, O\}$? Đáp số: ………………………
+
+**Câu 7 ★★★.** Tam giác $ABC$; $M, N, P$ lần lượt là trung điểm $BC, CA, AB$. Có bao nhiêu vectơ khác $\overrightarrow{AP}$, bằng $\overrightarrow{AP}$, có điểm đầu và điểm cuối thuộc $\{A, B, C, M, N, P\}$? Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Cho hình bình hành $ABCD$. Hỏi $\overrightarrow{AB}$ có bằng $\overrightarrow{CD}$ không? $\overrightarrow{AB}$ có bằng $\overrightarrow{BA}$ không?
+>
+> **Lời giải của bạn X:** $AB = CD$ (cạnh đối của hình bình hành), nên $\overrightarrow{AB} = \overrightarrow{CD}$. Còn $AB = BA$ nên $\overrightarrow{AB} = \overrightarrow{BA}$.
+
+Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Bốn điểm $A, B, C, D$ không thẳng hàng và $\overrightarrow{AB} = \overrightarrow{DC}$. Khẳng định đúng là
+
+A. $ABCD$ là hình bình hành
+
+B. $ABDC$ là hình bình hành
+
+C. $\overrightarrow{AB} = \overrightarrow{CD}$
+
+D. $\left|\overrightarrow{AB}\right| \ne \left|\overrightarrow{DC}\right|$
+
+**Câu 2.** Hình chữ nhật $ABCD$ có $AB = 3$, $AD = 4$. Mỗi ý em ghi Đ hoặc S:
+
+a) $\left|\overrightarrow{AC}\right| = 5$. ……
+
+b) $\overrightarrow{AC} = \overrightarrow{BD}$. ……
+
+c) $\overrightarrow{AB} = \overrightarrow{DC}$. ……
+
+d) $\overrightarrow{AB}$ và $\overrightarrow{CD}$ cùng hướng. ……
+
+**Câu 3.** Có $7$ điểm phân biệt. Số vectơ khác $\vec{0}$ nối hai trong $7$ điểm đó là: …………
+
+## 7. Một phút suy ngẫm
+
+*Để hai vectơ bằng nhau, em phải kiểm tra những yếu tố nào? Vì sao chỉ "cùng độ dài" thì chưa đủ?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Em quan sát một chuyển động ngoài đời (xe qua cổng trường, thuyền trên sông, gió thổi cờ). Vẽ mũi tên biểu diễn vận tốc tại hai thời điểm, ghi tỉ lệ xích. Chỉ ra **một cặp** vectơ bằng nhau và **một cặp** vectơ đối nhau (hoặc giải thích vì sao không có). **Sản phẩm:** ảnh chụp tình huống và hình vẽ, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Bài 7. Các khái niệm mở đầu
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương IV. Vectơ · Bài 7. Các khái niệm mở đầu** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con; tiết học bài mới.
+- Tình huống bốn xe ở mục mở đầu và bài quan sát chuyển động về nhà là **[Minh họa]** do người soạn tự đặt, không trích từ SGK. Thầy đối chiếu với phần Mở đầu của Bài 7 trong SGK nếu muốn dùng tình huống sách.
+- Phiếu bám các ví dụ của bài giảng: khái niệm vectơ, vectơ bằng nhau, vectơ đối, độ dài → Do Now, mở đầu, câu bản lề A, Luyện tập 2–5, Tìm lỗi sai, Exit ticket 1–2; đếm vectơ → câu bản lề B, Luyện tập 1, Exit ticket 3; lục giác đều và tam giác trung điểm → Luyện tập 6–7.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **Hình thành kiến thức** thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* huy động hình bình hành, đường chéo hình chữ nhật, trung điểm; nhận ra một đại lượng như vận tốc cần cả độ lớn lẫn hướng.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng bốn xe.
+- *Sản phẩm:* Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* phân biệt vectơ bằng nhau, đối nhau; đếm vectơ; tính độ dài vectơ bằng hình học; nhận ra lỗi điển hình (chỉ so độ dài mà bỏ qua hướng).
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài quan sát về nhà.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; ảnh và hình vẽ.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hình thành kiến thức** | *Giáo viên tự dạy theo bài giảng* |
+| ~15 | Câu hỏi bản lề A (Mục 3) | Dừng sau khái niệm vectơ bằng nhau; giơ thẻ A/B/C/D |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) | |
+
+*Câu hỏi bản lề B dùng sau phần đếm vectơ, hoặc thay câu A khi lớp đã vững.*
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Tự chấm không lấy điểm nên giảm áp lực.
+- **Tổ chức:** chiếu 4 câu, học sinh làm 3 phút, chiếu đáp án, tự chấm bằng bút khác màu.
+- **Đáp án:**
+  1. Có (cạnh đối của hình bình hành song song và bằng nhau).
+  2. $\sqrt{6^2 + 8^2} = 10$.
+  3. $AM = 5$.
+  4. Giống: tốc độ ($40$ km/h). Khác: hướng chuyển động.
+- **Lỗi dự kiến:** câu 2 cộng $6 + 8$ mà không dùng Pythagore; câu 4 chỉ nói "giống nhau" vì cùng $40$.
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.** Không có câu trả lời "đúng" nên học sinh yếu cũng tham gia được.
+- **Gợi ý nhận thấy:** xe A và xe C giống hệt nhau; xe A và xe B cùng tốc độ nhưng đi ngược chiều; xe D cùng hướng nhưng chậm hơn.
+- Chốt: cần thêm **hướng**; đó là lí do cần khái niệm vectơ.
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Mạnh.** Mỗi đáp án sai ứng một ngộ nhận.
+- **Câu A:** đáp án **A**. B là hai vectơ đối nhau (đúng độ dài, ngược hướng); C là vectơ đối của $\overrightarrow{AB}$; D là vectơ khác phương.
+- **Câu B:** đáp án **C** ($5 \cdot 4 = 20$). A là số đoạn thẳng (không phân biệt chiều); D là $5^2$ (quên loại điểm đầu trùng điểm cuối).
+- Nếu quá nửa lớp sai: dừng 2 phút vẽ lại hình bình hành và chỉ hướng bằng mũi tên.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Trung bình–Mạnh.** Xen đếm, độ dài, hình bình hành trong cùng một lượt.
+- **Đáp án:** 1) $30$. 2) $\overrightarrow{OC}$. 3) $13$. 4) $16$ ($OA = 6$, $OB = \sqrt{10^2 - 6^2} = 8$). 5) $3\sqrt{3}$. 6) $3$ ($\overrightarrow{CB}$, $\overrightarrow{DO}$, $\overrightarrow{EF}$). 7) $2$ ($\overrightarrow{PB}$, $\overrightarrow{NM}$).
+- **Lỗi dự kiến:** câu 1 ghi $15$ (quên chiều); câu 4 lấy $BD = AC$; câu 6–7 bỏ sót vectơ cùng hướng nhưng nối điểm khác.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Trung bình.**
+- **Hai lỗi:** (1) $\overrightarrow{AB} \ne \overrightarrow{CD}$: hai vectơ cùng độ dài nhưng **ngược hướng** (đối nhau); đúng là $\overrightarrow{AB} = \overrightarrow{DC}$; (2) $\overrightarrow{AB}$ và $\overrightarrow{BA}$ là hai vectơ **đối nhau**, không bằng nhau.
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.** Ba câu cho ba chồng phản hồi.
+- **Đáp án:** Câu 1: **A**. Câu 2: a) Đ · b) S · c) Đ · d) S. Câu 3: $42$.
+- Câu 2b sai vì $\overrightarrow{AC}$ và $\overrightarrow{BD}$ có cùng độ dài nhưng khác hướng.
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- Mong đợi: "cùng hướng và cùng độ dài"; chỉ cùng độ dài có thể là vectơ đối hoặc vectơ khác phương.
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** gắn vectơ với vận tốc ngoài đời; luyện nhận biết bằng nhau – đối nhau.
+- **Tiêu chí nộp:** có hình mũi tên và tỉ lệ xích; chỉ đúng một cặp bằng nhau, một cặp đối nhau.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm câu lục giác đều tìm nhiều vectơ bằng nhau |
+| 2. Sai hết | 0–1 câu đúng | Ôn nhóm nhỏ: vẽ hình bình hành, tô màu hướng của từng cặp cạnh |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng câu bị sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Bài 8):** (1) một câu về vectơ bằng nhau bị sai nhiều; (2) tính độ dài đường chéo hình chữ nhật; (3) vectơ đối của $\overrightarrow{AB}$.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát sẵn hình hình bình hành và lục giác đều để tô màu; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *trong lục giác đều có bao nhiêu cặp vectơ đối nhau nối từ bảy điểm?*
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng GeoGebra vẽ hình bình hành, kéo thả đỉnh và quan sát hai vectơ đối nhau.
+- **Địa chỉ 2:** bài về nhà dùng ảnh chụp có chú thích mũi tên bằng ứng dụng vẽ trên điện thoại.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | Có |
+| Do Now 2 | $10$ |
+| Do Now 3 | $5$ |
+| Do Now 4 | Giống: tốc độ; khác: hướng |
+| Mở đầu | Cần thêm hướng → vectơ |
+| Bản lề A | A |
+| Bản lề B | C |
+| Luyện tập 1 | $30$ |
+| Luyện tập 2 | $\overrightarrow{OC}$ |
+| Luyện tập 3 | $13$ |
+| Luyện tập 4 | $16$ |
+| Luyện tập 5 | $3\sqrt{3}$ |
+| Luyện tập 6 | $3$ |
+| Luyện tập 7 | $2$ |
+| Tìm lỗi sai | $\overrightarrow{AB}$ và $\overrightarrow{CD}$ ngược hướng; $\overrightarrow{AB}$, $\overrightarrow{BA}$ đối nhau |
+| Exit 1 | A |
+| Exit 2 | a) Đ · b) S · c) Đ · d) S |
+| Exit 3 | $42$ |
+| Về nhà | Hình vẽ có tỉ lệ xích, một cặp bằng nhau, một cặp đối nhau |
+`);
+
+Lecture.addSheet('lop10', 'bai-8', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Bài 8. Tổng và hiệu của hai vectơ
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Rút gọn $\overrightarrow{MN} + \overrightarrow{NP}$. Đáp số: ………………………
+
+**Câu 2.** Hình bình hành $ABCD$: $\overrightarrow{AB} + \overrightarrow{AD} = $ ? Đáp số: ………………………
+
+**Câu 3.** Tính $\sqrt{20^2 + 21^2}$. Đáp số: ………………………
+
+**Câu 4.** Vectơ đối của $\overrightarrow{AB}$ là vectơ nào? Đáp số: ………………………
+
+## 2. Tình huống mở đầu
+
+Hai lực $30$ N và $40$ N cùng tác dụng lên một vật. Độ lớn hợp lực phụ thuộc vào góc giữa hai lực:
+
+| Hai lực | Cùng hướng | Vuông góc | Ngược hướng |
+|---|---|---|---|
+| Hợp lực (N) | $70$ | $50$ | $10$ |
+
+**Em nhận thấy:** ………………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Vì sao $30 + 40$ chỉ đúng khi hai lực cùng hướng? Phép toán nào cho ta "tổng" của hai vectơ khi chúng không cùng phương?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Với ba điểm $A, B, C$ bất kì, $\overrightarrow{AB} - \overrightarrow{AC}$ bằng
+
+A. $\overrightarrow{BC}$
+
+B. $\overrightarrow{CB}$
+
+C. $\vec{0}$
+
+D. $\overrightarrow{BA}$
+
+**Câu B.** Hình thoi $ABCD$ cạnh $a$, $\widehat{A} = 60^\circ$. Độ dài $\left|\overrightarrow{AB} + \overrightarrow{AD}\right|$ bằng
+
+A. $a$
+
+B. $2a$
+
+C. $a\sqrt{3}$
+
+D. $\dfrac{a}{2}$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Rút gọn $\overrightarrow{AC} - \overrightarrow{AB} + \overrightarrow{CD}$. Đáp số: ………………………
+
+**Câu 2 ★.** Hình chữ nhật $ABCD$ có $AB = 5$, $AD = 12$. Tính $\left|\overrightarrow{AB} + \overrightarrow{AD}\right|$. Đáp số: ………………………
+
+**Câu 3 ★★.** Hình thoi $ABCD$ cạnh $5$, $AC = 8$. Tính $\left|\overrightarrow{AB} - \overrightarrow{AD}\right|$. Đáp số: ………………………
+
+**Câu 4 ★★.** Tam giác đều $ABC$ cạnh $6$. Tính $\left|\overrightarrow{AB} + \overrightarrow{AC}\right|$ và $\left|\overrightarrow{AB} - \overrightarrow{AC}\right|$. Đáp số: ………………………
+
+**Câu 5 ★★.** $M$ là trung điểm $AB$, $O$ bất kì. Biết $\overrightarrow{OA} + \overrightarrow{OB} = k\,\overrightarrow{OM}$. Tìm $k$. Đáp số: ………………………
+
+**Câu 6 ★★★.** Tam giác $ABC$ vuông tại $A$, $AB = 9$, $AC = 12$. Tính $\left|\overrightarrow{AB} + \overrightarrow{AC}\right|$. Đáp số: ………………………
+
+**Câu 7 ★★★.** Thuyền chạy $12$ km/h so với nước, hướng vuông góc với dòng chảy $5$ km/h. Tính vận tốc của thuyền so với bờ. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Hình chữ nhật $ABCD$ có $AB = 6$, $AD = 8$. Rút gọn $\overrightarrow{AB} - \overrightarrow{AD}$ và tính $\left|\overrightarrow{AB} + \overrightarrow{AD}\right|$.
+>
+> **Lời giải của bạn X:** $\overrightarrow{AB} - \overrightarrow{AD} = \overrightarrow{BD}$. $\left|\overrightarrow{AB} + \overrightarrow{AD}\right| = AB + AD = 6 + 8 = 14$.
+
+Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Hình bình hành $ABCD$ tâm $O$. Tổng $\overrightarrow{OA} + \overrightarrow{OB} + \overrightarrow{OC} + \overrightarrow{OD}$ bằng
+
+A. $\overrightarrow{AC}$
+
+B. $\overrightarrow{BD}$
+
+C. $\vec{0}$
+
+D. $2\overrightarrow{AO}$
+
+**Câu 2.** Tam giác $ABC$ vuông tại $A$, $AB = 6$, $AC = 8$. Mỗi ý em ghi Đ hoặc S:
+
+a) $\left|\overrightarrow{AB} + \overrightarrow{AC}\right| = 10$. ……
+
+b) $\left|\overrightarrow{AB} - \overrightarrow{AC}\right| = 10$. ……
+
+c) $\left|\overrightarrow{AB} + \overrightarrow{AC}\right| = 14$. ……
+
+d) $\overrightarrow{AB} + \overrightarrow{AC} = \overrightarrow{BC}$. ……
+
+**Câu 3.** Hai lực $7$ N và $24$ N tác dụng vuông góc vào một vật. Độ lớn hợp lực (N) là: …………
+
+## 7. Một phút suy ngẫm
+
+*Khi nào có thể viết $\left|\vec{a} + \vec{b}\right| = \left|\vec{a}\right| + \left|\vec{b}\right|$? Em chọn quy tắc ba điểm hay quy tắc hình bình hành dựa vào điều gì?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Em chọn một tình huống: bơi qua sông có dòng chảy, máy bay bay ngang gặp gió, hoặc kéo một vật bằng hai sợi dây. Vẽ sơ đồ vectơ (tỉ lệ xích), tính độ lớn vận tốc hoặc hợp lực bằng Pythagore, và nêu **một** thay đổi (đổi hướng hoặc đổi độ lớn) làm kết quả tăng. **Sản phẩm:** hình vẽ và phép tính, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Bài 8. Tổng và hiệu của hai vectơ
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương IV. Vectơ · Bài 8. Tổng và hiệu của hai vectơ** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con; tiết học bài mới.
+- Bảng hợp lực ở mục mở đầu và bài về nhà là **[Minh họa]** do người soạn tự đặt, không trích từ SGK. Thầy đối chiếu với phần Mở đầu của Bài 8 trong SGK nếu muốn dùng tình huống sách.
+- Phiếu bám các ví dụ của bài giảng: quy tắc ba điểm, quy tắc hình bình hành, vectơ đối và hiệu → Do Now, câu bản lề A, Luyện tập 1–2, Tìm lỗi sai; độ dài tổng – hiệu → câu bản lề B, Luyện tập 3–4, 6, Exit ticket 2; trung điểm, hợp lực, vận tốc → Luyện tập 5, 7, Exit ticket 1, 3, bài về nhà.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **Hình thành kiến thức** thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* ôn quy tắc Pythagore, hình bình hành, vectơ đối ở Bài 7; thấy rằng độ lớn của tổng phụ thuộc hướng.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng hợp lực.
+- *Sản phẩm:* Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* rút gọn biểu thức vectơ; tính độ dài tổng và hiệu; vận dụng vào hợp lực và vận tốc; nhận ra lỗi điển hình (cộng độ dài, nhầm chiều của hiệu).
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài sơ đồ vectơ về nhà.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; sơ đồ và phép tính.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hình thành kiến thức** | *Giáo viên tự dạy theo bài giảng* |
+| ~16 | Câu hỏi bản lề A (Mục 3) | Dừng sau phần hiệu hai vectơ; giơ thẻ A/B/C/D |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) | |
+
+*Câu hỏi bản lề B dùng sau quy tắc hình bình hành, hoặc thay câu A khi lớp đã vững.*
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Tự chấm không lấy điểm nên giảm áp lực.
+- **Đáp án:**
+  1. $\overrightarrow{MP}$.
+  2. $\overrightarrow{AC}$.
+  3. $\sqrt{400 + 441} = \sqrt{841} = 29$.
+  4. $\overrightarrow{BA}$.
+- **Lỗi dự kiến:** câu 1 ghi $\overrightarrow{NP}$ hoặc $\overrightarrow{PM}$; câu 3 ghi $41$ (cộng hai số).
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.**
+- **Gợi ý nhận thấy:** hợp lực lớn nhất khi cùng hướng ($70$), nhỏ nhất khi ngược hướng ($10$); khi vuông góc là $50$ vì $30^2 + 40^2 = 50^2$.
+- Chốt: tổng hai vectơ phụ thuộc cả độ dài lẫn hướng nên cần quy tắc riêng.
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Câu A:** đáp án **B** ($\overrightarrow{AB} - \overrightarrow{AC} = \overrightarrow{CB}$, từ điểm bị trừ đến điểm trừ). A là lỗi đổi chiều; C là lỗi nhầm hiệu thành $\vec{0}$; D là chọn một vectơ có sẵn trong đề.
+- **Câu B:** đáp án **C** ($\overrightarrow{AB} + \overrightarrow{AD} = \overrightarrow{AC}$, đường chéo dài của hình thoi góc $60^\circ$ là $a\sqrt{3}$). A là $BD$ (đường chéo ngắn); B là $2a$ (cộng độ dài).
+- Nếu quá nửa lớp sai: dừng 2 phút vẽ hình, kiểm tra bằng toạ độ.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Đáp án:** 1) $\overrightarrow{BD}$. 2) $13$. 3) $6$ ($OA = 4$, $OB = 3$, $BD = 6$). 4) $6\sqrt{3}$ và $6$. 5) $k = 2$. 6) $15$ ($= BC$). 7) $13$ km/h.
+- **Lỗi dự kiến:** câu 2 ghi $17$; câu 3 ghi $8$ ($AC$) vì nhầm tổng với hiệu; câu 4 cộng hai độ dài ra $12$.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Hai lỗi:** (1) $\overrightarrow{AB} - \overrightarrow{AD} = \overrightarrow{DB}$ (từ điểm bị trừ $D$ đến điểm trừ $B$), không phải $\overrightarrow{BD}$; (2) $\left|\overrightarrow{AB} + \overrightarrow{AD}\right| = AC = 10$, độ dài của tổng không bằng tổng hai độ dài.
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Đáp án:** Câu 1: **C** ($O$ là trung điểm cả hai đường chéo). Câu 2: a) Đ · b) Đ · c) S · d) S. Câu 3: $25$.
+- Câu 2b: $\overrightarrow{AB} - \overrightarrow{AC} = \overrightarrow{CB}$, độ dài $BC = 10$. Câu 2d: $\overrightarrow{AB} + \overrightarrow{AC} = 2\overrightarrow{AM}$, không phải $\overrightarrow{BC}$.
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- Mong đợi: đẳng thức xảy ra khi hai vectơ cùng hướng; dùng quy tắc ba điểm khi hai vectơ nối đuôi, quy tắc hình bình hành khi chung điểm đầu.
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** vận dụng tổng hai vectơ vuông góc vào bài toán thực tế.
+- **Tiêu chí nộp:** có sơ đồ vectơ, phép tính Pythagore đúng, nêu được thay đổi làm kết quả tăng.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài chứng minh $\overrightarrow{AD} + \overrightarrow{BE} + \overrightarrow{CF} = \vec{0}$ |
+| 2. Sai hết | 0–1 câu đúng | Ôn nhóm nhỏ: vẽ lại hai vectơ nối đuôi, nối đầu rồi chọn quy tắc |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng câu bị sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Bài 9):** (1) một câu về hiệu hai vectơ bị sai nhiều; (2) tính độ dài đường chéo hình chữ nhật; (3) $\overrightarrow{AB} + \overrightarrow{BC}$.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát sẵn sơ đồ hình bình hành có tên điểm để tô vectơ; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *thuyền muốn đi thẳng sang bờ đối diện phải hướng mũi thuyền như thế nào?*
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng GeoGebra vẽ hai vectơ và tổng của chúng, kéo thả để thấy độ dài tổng thay đổi.
+- **Địa chỉ 2:** bài về nhà lập bảng tính độ lớn hợp lực theo góc giữa hai lực.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $\overrightarrow{MP}$ |
+| Do Now 2 | $\overrightarrow{AC}$ |
+| Do Now 3 | $29$ |
+| Do Now 4 | $\overrightarrow{BA}$ |
+| Mở đầu | Phụ thuộc hướng; cần quy tắc cộng vectơ |
+| Bản lề A | B |
+| Bản lề B | C |
+| Luyện tập 1 | $\overrightarrow{BD}$ |
+| Luyện tập 2 | $13$ |
+| Luyện tập 3 | $6$ |
+| Luyện tập 4 | $6\sqrt{3}$ và $6$ |
+| Luyện tập 5 | $2$ |
+| Luyện tập 6 | $15$ |
+| Luyện tập 7 | $13$ km/h |
+| Tìm lỗi sai | $\overrightarrow{DB}$; độ dài $= 10$ |
+| Exit 1 | C |
+| Exit 2 | a) Đ · b) Đ · c) S · d) S |
+| Exit 3 | $25$ |
+| Về nhà | Sơ đồ vectơ, tính bằng Pythagore, nêu thay đổi làm tăng kết quả |
+`);

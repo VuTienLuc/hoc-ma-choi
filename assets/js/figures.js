@@ -487,3 +487,30 @@ function histSVG(edges,freqs,step,o={}){
   s+=`<text class="sv-muted" x="${x0-40}" y="${top-12}" font-size="13">${o.yl||'Tần số'}</text><text class="sv-muted" x="${x1}" y="${y0+42}" font-size="13" text-anchor="end">${o.unit||''}</text>`;
   return s+'</svg>';
 }
+/* Hình vectơ (Toán 10, Chương IV): điểm có tên, đa giác, đoạn nét đứt và vectơ có mũi tên.
+   o.pts=[[x,y,'A']] toạ độ toán học (y hướng lên) · o.poly=['A','B','C','D'] nối khép kín bằng nét mảnh · o.dash=[['A','C']] đoạn nét đứt
+   o.vecs=[['A','B','nhãn','alt']] vectơ từ điểm đầu đến điểm cuối (nhãn đặt giữa, 'alt' = màu nhấn) · o.dots=false: không vẽ chấm tròn
+   o.cap='Hình minh hoạ' chú thích dưới hình. */
+function vecSVG(o={}){
+  const pts=o.pts||[], W=320, H=o.h||210, pad=34, by={};
+  const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]), x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys);
+  const sc=Math.min((W-2*pad)/Math.max(x1-x0,1e-6),(H-2*pad)/Math.max(y1-y0,1e-6),o.maxScale||60);
+  const ox=(W-(x1-x0)*sc)/2-x0*sc, oy=(H+(y1-y0)*sc)/2+y0*sc;
+  pts.forEach(p=>{by[p[2]]=[ox+p[0]*sc,oy-p[1]*sc]});
+  const cx=pts.reduce((s,p)=>s+by[p[2]][0],0)/pts.length, cy=pts.reduce((s,p)=>s+by[p[2]][1],0)/pts.length;
+  let s=`<svg viewBox="0 0 ${W} ${H+(o.cap?20:0)}" role="img" aria-label="${o.aria||'Hình vectơ'}">`;
+  if(o.poly&&o.poly.length>1)s+=`<polygon class="sv-ink" stroke-width="1.6" stroke-opacity=".55" stroke-linejoin="round" points="${o.poly.map(k=>by[k].map(v=>v.toFixed(1)).join(',')).join(' ')}"/>`;
+  (o.dash||[]).forEach(([a,b])=>{s+=`<line class="sv-ink" stroke-width="1.6" stroke-dasharray="6 5" stroke-opacity=".7" x1="${by[a][0].toFixed(1)}" y1="${by[a][1].toFixed(1)}" x2="${by[b][0].toFixed(1)}" y2="${by[b][1].toFixed(1)}"/>`});
+  (o.vecs||[]).forEach(([a,b,lab,st])=>{
+    const A=by[a],B=by[b],dx=B[0]-A[0],dy=B[1]-A[1],L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,col=st==='alt'?'var(--primary)':'var(--ink)';
+    const ex=B[0]-ux*4,ey=B[1]-uy*4,hx=ex-ux*11,hy=ey-uy*11;
+    s+=`<line x1="${A[0].toFixed(1)}" y1="${A[1].toFixed(1)}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}" stroke="${col}" stroke-width="3.2" stroke-linecap="round"/>`+
+       `<polygon points="${ex.toFixed(1)},${ey.toFixed(1)} ${(hx-uy*5.5).toFixed(1)},${(hy+ux*5.5).toFixed(1)} ${(hx+uy*5.5).toFixed(1)},${(hy-ux*5.5).toFixed(1)}" fill="${col}"/>`;
+    if(lab){const mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2;let nx=-uy,ny=ux;if(nx*(mx-cx)+ny*(my-cy)<0){nx=-nx;ny=-ny}
+      s+=`<text class="sv-txt" x="${(mx+nx*15).toFixed(1)}" y="${(my+ny*15).toFixed(1)}" font-size="15" text-anchor="middle" dominant-baseline="middle" style="fill:${col}">${lab}</text>`}});
+  pts.forEach(p=>{const q=by[p[2]];let vx=q[0]-cx,vy=q[1]-cy;const L=Math.hypot(vx,vy)||1;vx/=L;vy/=L;
+    if(o.dots!==false)s+=`<circle class="sv-pt" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="3.4"/>`;
+    s+=`<text class="sv-txt" x="${(q[0]+vx*17).toFixed(1)}" y="${(q[1]+vy*17).toFixed(1)}" font-size="18" text-anchor="middle" dominant-baseline="middle">${p[2]}</text>`});
+  if(o.cap)s+=`<text class="sv-muted" x="${W/2}" y="${H+10}" font-size="12" text-anchor="middle">${o.cap}</text>`;
+  return s+'</svg>';
+}

@@ -315,3 +315,78 @@ Lecture.addPractice('lop10', 'on-tap-giua-ki-1', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 7 và Bài 8 (10 bài mỗi phiếu = 7 cơ bản + 3 vận dụng ★)
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const v = (a, b) => `\\overrightarrow{${a}${b}}`, len = (a, b) => `\\left|${v(a, b)}\\right|`, ZERO = '\\vec{0}';
+const s3 = Math.sqrt(3);
+const PAR = {A:[0, 0], B:[4, 0], C:[5, 3], D:[1, 3], O:[2.5, 1.5]};
+const HEX = {A:[2, 0], B:[1, s3], C:[-1, s3], D:[-2, 0], E:[-1, -s3], F:[1, -s3], O:[0, 0]};
+const pts = P => Object.entries(P).map(([k, [x, y]]) => [x, y, k]);
+const F_par = () => vecSVG({pts:pts(PAR), poly:['A', 'B', 'C', 'D'], dash:[['A', 'C'], ['B', 'D']], h:200});
+const F_hex = () => vecSVG({pts:pts(HEX), poly:['A', 'B', 'C', 'D', 'E', 'F'], dash:[['A', 'D'], ['B', 'E'], ['C', 'F']], h:210});
+const F_med = () => vecSVG({pts:[[0, 0, 'A'], [4, 0, 'B'], [1, 3, 'C'], [2.5, 1.5, 'M'], [0.5, 1.5, 'N'], [2, 0, 'P']], poly:['A', 'B', 'C'], dash:[['M', 'N'], ['N', 'P'], ['P', 'M']], h:200});
+const F_rect = (w, h) => vecSVG({pts:[[0, 0, 'A'], [w, 0, 'B'], [w, h, 'C'], [0, h, 'D']], poly:['A', 'B', 'C', 'D'], dash:[['A', 'C'], ['B', 'D']], h:170});
+const F_lc = (a, b) => vecSVG({pts:[[0, 0, 'O'], [a, 0, 'A'], [0, b, 'B'], [a, b, 'C']], dash:[['A', 'C'], ['B', 'C']], vecs:[['O', 'A', 'F₁'], ['O', 'B', 'F₂'], ['O', 'C', 'F', 'alt']], h:170});
+
+Lecture.addPractice('lop10', 'bai-7', [
+ {dang:'Dạng 1. Đếm vectơ', items:[
+  {de:`Cho 7 điểm phân biệt. Có bao nhiêu vectơ khác ${m(ZERO)} có điểm đầu và điểm cuối thuộc 7 điểm đó?`, sol:[`Điểm đầu: 7 cách; điểm cuối khác điểm đầu: 6 cách.`, `${m('7\\cdot 6 = 42')}.`], ans:`${tb('42')} vectơ.`, lines:2},
+  {hard:true, de:`Trên đường thẳng ${m('d')} lấy 5 điểm, trên đường thẳng ${m('d\'')} lấy 6 điểm (11 điểm khác nhau). Có bao nhiêu vectơ khác ${m(ZERO)} có điểm đầu và điểm cuối cùng nằm trên ${m('d')} hoặc cùng nằm trên ${m('d\'')}?`,
+   sol:[`Trên ${m('d')}: ${m('5\\cdot 4 = 20')} vectơ.`, `Trên ${m('d\'')}: ${m('6\\cdot 5 = 30')} vectơ.`, `Tổng: ${m('20 + 30 = 50')}.`], ans:`${tb('50')} vectơ.`, lines:3},
+ ]},
+ {dang:'Dạng 2. Nhận biết vectơ bằng nhau, đối nhau, cùng phương, cùng hướng', items:[
+  {de:`Cho hình bình hành ${m('ABCD')} có tâm ${m('O')}. Tìm vectơ bằng ${m(v('A', 'O'))} và hai vectơ đối của ${m(v('A', 'B'))}.`, fig:F_par(),
+   sol:[`${m('O')} là trung điểm ${m('AC')}: ${m(`${v('A', 'O')} = ${v('O', 'C')}`)}.`, `Vectơ đối của ${m(v('A', 'B'))} là ${m(v('B', 'A'))}; vì ${m(`${v('A', 'B')} = ${v('D', 'C')}`)} nên ${m(v('C', 'D'))} cũng là vectơ đối của ${m(v('A', 'B'))}.`], ans:`${tb(v('O', 'C'))}; ${tb(`${v('B', 'A')},\\ ${v('C', 'D')}`)}.`, lines:3},
+  {de:`Cho lục giác đều ${m('ABCDEF')} tâm ${m('O')}. Tìm tất cả các vectơ khác ${m(ZERO)} bằng ${m(v('O', 'A'))} có điểm đầu, điểm cuối thuộc ${m('\\{A, B, C, D, E, F, O\\}')} (không kể ${m(v('O', 'A'))}).`, fig:F_hex(),
+   sol:[`Các tam giác ${m('OAB, OBC, \\ldots')} đều nên các cạnh đối của hình thoi ${m('OABC')} … song song và bằng nhau.`, `Kiểm tra hướng: ${m(v('C', 'B'))}, ${m(v('D', 'O'))}, ${m(v('E', 'F'))} cùng hướng với ${m(v('O', 'A'))} và cùng độ dài.`], ans:`${tb(`${v('C', 'B')},\\ ${v('D', 'O')},\\ ${v('E', 'F')}`)}.`, lines:3},
+  {hard:true, de:`Cho tam giác ${m('ABC')}; ${m('M, N, P')} lần lượt là trung điểm ${m('BC, CA, AB')}. Tìm các vectơ khác ${m(ZERO)} bằng ${m(v('A', 'P'))}, có điểm đầu và điểm cuối thuộc ${m('\\{A, B, C, M, N, P\\}')} (không kể ${m(v('A', 'P'))}).`, fig:F_med(),
+   sol:[`${m('NM')} là đường trung bình của tam giác ${m('ABC')}: ${m('NM \\parallel AB')}, ${m('NM = \\dfrac{AB}{2} = AP')}.`, `Hướng: ${m(v('N', 'M'))} cùng hướng ${m(v('A', 'B'))} nên cùng hướng ${m(v('A', 'P'))}. Cũng có ${m(`${v('P', 'B')} = ${v('A', 'P')}`)} vì ${m('P')} là trung điểm ${m('AB')}.`], ans:`${tb(`${v('P', 'B')},\\ ${v('N', 'M')}`)}.`, lines:3},
+ ]},
+ {dang:'Dạng 3. Độ dài vectơ', items:[
+  {de:`Hình chữ nhật ${m('ABCD')} có ${m('AB = 9')}, ${m('AD = 12')}. Tính ${m(len('A', 'C'))} và ${m(len('B', 'D'))}.`, fig:F_rect(9, 6.4),
+   sol:[`${m(`${len('A', 'C')} = AC = \\sqrt{9^2 + 12^2} = 15`)}.`, `Hai đường chéo hình chữ nhật bằng nhau: ${m(`${len('B', 'D')} = 15`)}.`], ans:`${tb('15')} và ${tb('15')}.`, lines:2},
+  {de:`Hình thoi ${m('ABCD')} có hai đường chéo ${m('AC = 10')}, ${m('BD = 24')}. Tính ${m(len('A', 'B'))}.`,
+   sol:[`Hai đường chéo vuông góc tại trung điểm mỗi đường: ${m('OA = 5,\\ OB = 12')}.`, `Tam giác ${m('OAB')} vuông tại ${m('O')}: ${m('AB = \\sqrt{5^2 + 12^2} = 13')}.`], ans:`${tb('13')}.`, lines:2},
+  {de:`Tam giác ${m('ABC')} vuông tại ${m('A')} có ${m('AB = 5')}, ${m('AC = 12')}; ${m('M')} là trung điểm ${m('BC')}. Tính ${m(len('A', 'M'))}.`,
+   sol:[`${m('BC = \\sqrt{5^2 + 12^2} = 13')}.`, `Trung tuyến ứng với cạnh huyền: ${m('AM = \\dfrac{BC}{2} = 6{,}5')}.`], ans:`${tb('6{,}5')}.`, lines:2},
+ ]},
+ {dang:'Dạng 4. Biểu diễn lực, vận tốc bằng vectơ', items:[
+  {de:`Một lực 150 N được biểu diễn bởi vectơ, tỉ lệ xích 1 cm ứng với 30 N. Vectơ có độ dài bao nhiêu xentimét? Nếu có một lực khác 90 N cùng hướng thì vectơ biểu diễn dài bao nhiêu?`, sol:[`${m('150 : 30 = 5')} cm.`, `${m('90 : 30 = 3')} cm; hai vectơ cùng hướng, độ dài khác nhau.`], ans:`${tb('5')} cm và ${tb('3')} cm.`, lines:2},
+  {hard:true, de:`Bốn xe cùng ghi vận tốc: xe A hướng Bắc 40 km/h, xe B hướng Nam 40 km/h, xe C hướng Bắc 40 km/h, xe D hướng Bắc 30 km/h. Với mỗi cặp (A,C), (A,B), (A,D): hai vectơ vận tốc bằng nhau, đối nhau hay cùng hướng nhưng độ dài khác nhau?`,
+   sol:[`(A,C): cùng hướng Bắc, cùng độ lớn 40 ⇒ <b>bằng nhau</b>.`, `(A,B): Bắc – Nam ngược hướng, cùng độ lớn ⇒ <b>đối nhau</b>.`, `(A,D): cùng hướng Bắc, độ lớn 40 ≠ 30 ⇒ <b>cùng hướng, độ dài khác nhau</b>.`], ans:`(A,C): ${tb('bằng nhau')}; (A,B): ${tb('đối nhau')}; (A,D): ${tb('cùng hướng, khác độ dài')}.`, lines:3},
+ ]},
+]);
+
+Lecture.addPractice('lop10', 'bai-8', [
+ {dang:'Dạng 1. Rút gọn biểu thức vectơ', items:[
+  {de:`Rút gọn ${m(`u = ${v('M', 'N')} + ${v('N', 'P')} + ${v('P', 'Q')} - ${v('M', 'Q')}`)}.`, sol:[`${m(`${v('M', 'N')} + ${v('N', 'P')} + ${v('P', 'Q')} = ${v('M', 'Q')}`)} (quy tắc ba điểm liên tiếp).`, `${m(`u = ${v('M', 'Q')} - ${v('M', 'Q')} = ${ZERO}`)}.`], ans:`${m('u =')} ${tb(ZERO)}.`, lines:2},
+  {de:`Cho bốn điểm ${m('A, B, C, D')}. Rút gọn ${m(`u = ${v('A', 'B')} + ${v('B', 'C')} - ${v('D', 'C')}`)}.`, sol:[`${m(`${v('A', 'B')} + ${v('B', 'C')} = ${v('A', 'C')}`)}.`, `${m(`-${v('D', 'C')} = ${v('C', 'D')}`)} nên ${m(`u = ${v('A', 'C')} + ${v('C', 'D')} = ${v('A', 'D')}`)}.`], ans:`${m('u =')} ${tb(v('A', 'D'))}.`, lines:2},
+  {hard:true, de:`Cho bốn điểm ${m('A, B, C, D')}. Chứng minh ${m(`${v('A', 'C')} + ${v('B', 'D')} = ${v('A', 'D')} + ${v('B', 'C')}`)}.`,
+   sol:[`Biến đổi vế trái: ${m(`${v('A', 'C')} = ${v('A', 'D')} + ${v('D', 'C')}`)}.`, `${m(`${v('A', 'C')} + ${v('B', 'D')} = ${v('A', 'D')} + ${v('D', 'C')} + ${v('B', 'D')}`)}; sắp xếp: ${m(`${v('B', 'D')} + ${v('D', 'C')} = ${v('B', 'C')}`)}.`, `Suy ra vế trái ${m(`= ${v('A', 'D')} + ${v('B', 'C')}`)}.`], ans:`Đẳng thức được chứng minh.`, lines:3},
+ ]},
+ {dang:'Dạng 2. Độ dài của tổng và hiệu hai vectơ', items:[
+  {de:`Hình chữ nhật ${m('ABCD')} có ${m('AB = 9')}, ${m('AD = 12')}. Tính ${m(`\\left|${v('A', 'B')} + ${v('A', 'D')}\\right|`)}.`, fig:F_rect(9, 6.4),
+   sol:[`${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)} (quy tắc hình bình hành).`, `${m('AC = \\sqrt{9^2 + 12^2} = 15')}.`], ans:`${tb('15')}.`, lines:2},
+  {de:`Hình thoi ${m('ABCD')} cạnh 13, đường chéo ${m('AC = 24')}. Tính ${m(`\\left|${v('A', 'B')} + ${v('A', 'D')}\\right|`)} và ${m(`\\left|${v('A', 'B')} - ${v('A', 'D')}\\right|`)}.`,
+   sol:[`${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)} nên độ dài là ${m('AC = 24')}.`, `${m(`${v('A', 'B')} - ${v('A', 'D')} = ${v('D', 'B')}`)} nên độ dài là ${m('BD')}: nửa đường chéo ${m('OA = 12')}, ${m('OB = \\sqrt{13^2 - 12^2} = 5')}, ${m('BD = 10')}.`], ans:`${tb('24')} và ${tb('10')}.`, lines:3},
+  {de:`Tam giác ${m('ABC')} vuông tại ${m('A')} có ${m('AB = 5')}, ${m('AC = 12')}. Tính ${m(`\\left|${v('A', 'B')} + ${v('A', 'C')}\\right|`)} và ${m(`\\left|${v('A', 'B')} - ${v('A', 'C')}\\right|`)}.`,
+   sol:[`${m(`${v('A', 'B')} + ${v('A', 'C')} = 2${v('A', 'M')}`)} (${m('M')} là trung điểm ${m('BC')}); ${m('BC = 13')}, ${m('AM = 6{,}5')} nên độ dài bằng ${m('13')}.`, `${m(`${v('A', 'B')} - ${v('A', 'C')} = ${v('C', 'B')}`)} nên độ dài bằng ${m('CB = 13')}.`], ans:`${tb('13')} và ${tb('13')}.`, lines:3},
+ ]},
+ {dang:'Dạng 3. Chứng minh đẳng thức vectơ, trung điểm, trọng tâm', items:[
+  {de:`Cho hình bình hành ${m('ABCD')} tâm ${m('O')}. Chứng minh ${m(`${v('O', 'A')} + ${v('O', 'B')} + ${v('O', 'C')} + ${v('O', 'D')} = ${ZERO}`)}.`, fig:F_par(),
+   sol:[`${m('O')} là trung điểm của ${m('AC')} và ${m('BD')} nên ${m(`${v('O', 'A')} + ${v('O', 'C')} = ${ZERO}`)} và ${m(`${v('O', 'B')} + ${v('O', 'D')} = ${ZERO}`)}.`, `Cộng hai đẳng thức, ta được điều phải chứng minh.`], ans:`Đẳng thức được chứng minh.`, lines:3},
+  {hard:true, de:`Cho tam giác ${m('ABC')}; ${m('D, E, F')} là trung điểm ${m('BC, CA, AB')}. Chứng minh ${m(`${v('A', 'D')} + ${v('B', 'E')} + ${v('C', 'F')} = ${ZERO}`)}.`, fig:vecSVG({pts:[[0, 0, 'A'], [4, 0, 'B'], [1, 3, 'C'], [2.5, 1.5, 'D'], [0.5, 1.5, 'E'], [2, 0, 'F']], poly:['A', 'B', 'C'], dash:[['F', 'D'], ['D', 'E'], ['E', 'F']], h:200}),
+   sol:[`${m('AFDE')} là hình bình hành (${m('FD \\parallel AC,\\ DE \\parallel AB')}): ${m(`${v('A', 'D')} = ${v('A', 'F')} + ${v('A', 'E')}`)}.`, `Tương tự ${m(`${v('B', 'E')} = ${v('B', 'D')} + ${v('B', 'F')}`)} và ${m(`${v('C', 'F')} = ${v('C', 'D')} + ${v('C', 'E')}`)}.`, `Cộng lại: ${m(`(${v('A', 'F')} + ${v('B', 'F')}) + (${v('A', 'E')} + ${v('C', 'E')}) + (${v('B', 'D')} + ${v('C', 'D')})`)}; mỗi ngoặc bằng ${m(ZERO)} vì ${m('F, E, D')} là trung điểm.`], ans:`Đẳng thức được chứng minh.`, lines:4},
+ ]},
+ {dang:'Dạng 4. Hợp lực, vận tốc', items:[
+  {de:`Hai lực ${m('\\vec{F_1}, \\vec{F_2}')} có độ lớn 20 N và 21 N, cùng tác dụng vào một vật tại ${m('O')}, phương vuông góc với nhau. Tính độ lớn hợp lực.`, fig:F_lc(2, 2.1),
+   sol:[`Hợp lực là đường chéo của hình chữ nhật hai cạnh 20 và 21.`, `${m('F = \\sqrt{20^2 + 21^2} = \\sqrt{841} = 29')}.`], ans:`${tb('29')} N.`, lines:2},
+  {hard:true, de:`Một con sông rộng 200 m, nước chảy với vận tốc 3 km/h. Thuyền chạy với vận tốc 4 km/h so với nước, hướng luôn vuông góc với bờ. Tính vận tốc thực của thuyền so với bờ và thời gian qua sông; khi sang đến bờ bên kia, thuyền bị nước đẩy xuôi dòng bao nhiêu mét?`,
+   sol:[`Vận tốc thực: ${m('v = \\sqrt{3^2 + 4^2} = 5')} km/h.`, `Thời gian qua sông: ${m('\\dfrac{0{,}2}{4} = 0{,}05')} giờ (3 phút) vì thành phần vận tốc vuông góc với bờ là 4 km/h.`, `Quãng bị đẩy xuôi dòng: ${m('3\\cdot 0{,}05 = 0{,}15')} km = 150 m.`], ans:`${tb('5')} km/h; ${tb('3')} phút; trôi ${tb('150')} m.`, lines:4},
+ ]},
+]);
+})();

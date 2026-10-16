@@ -422,3 +422,62 @@ Lecture.addSgk('lop10', 'on-tap-c3', [
      box('Bài 3.11 (Hình 3.19, đường hầm) thuộc Bài 6 – chưa đưa vào bộ này vì cần đối chiếu hình trong sách.')},
 ]);
 })();
+
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 7, Bài 8. Đề là dạng bài vận dụng như trong SGK (tóm tắt, tự soạn lại số liệu);
+   số bài và số trang SGK chưa đối chiếu nên không ghi – thầy đối chiếu rồi bổ sung.
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const box = h => `<div class="lk-box">${h}</div>`;
+const v = (a, b) => `\\overrightarrow{${a}${b}}`, ZERO = '\\vec{0}';
+const TAG = 'Dạng như SGK – thầy đối chiếu số bài';
+const s3 = Math.sqrt(3);
+const hexPts = [[2, 0, 'A'], [1, s3, 'B'], [-1, s3, 'C'], [-2, 0, 'D'], [-1, -s3, 'E'], [1, -s3, 'F'], [0, 0, 'O']];
+const parPts = [[0, 0, 'A'], [4, 0, 'B'], [5, 3, 'C'], [1, 3, 'D'], [2.5, 1.5, 'O']];
+
+Lecture.addSgk('lop10', 'bai-7', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 7. Các khái niệm mở đầu', sub:'Các câu vận dụng, câu khó – SGK tập 1, Chương IV',
+   points:['Câu 1: đếm số vectơ có điểm đầu, điểm cuối thuộc một tập điểm.', 'Câu 2: vectơ bằng nhau, đối nhau trong hình bình hành.', 'Câu 3: lục giác đều – tìm vectơ bằng một vectơ cho trước.', 'Câu 4: độ dài vectơ trong hình chữ nhật, hình thoi.', 'Câu 5: biểu diễn lực, vận tốc bằng vectơ.']},
+  {kind:'kt', tag:'Nhắc nhanh', title:'Phải kiểm tra gì để hai vectơ bằng nhau?',
+   body: box(`${m(`${v('A', 'B')} = ${v('C', 'D')}`)} khi và chỉ khi <b>cùng hướng</b> và <b>cùng độ dài</b>. ${m(`${v('A', 'B')} = ${v('C', 'D')}`)} với ${m('A, B, C, D')} không thẳng hàng ⇔ ${m('ABDC')} là hình bình hành.`) +
+     `<ol class="lk-steps"><li>Vectơ đối: cùng độ dài, <b>ngược hướng</b>.</li><li>Số vectơ khác ${m(ZERO)} từ ${m('n')} điểm: ${m('n(n-1)')}.</li><li>Độ dài ${m('\\left|\\overrightarrow{AB}\\right| = AB')}.</li></ol>`},
+  {kind:'vd', tag:TAG, label:'Câu 1', de:`Cho 8 điểm phân biệt, trong đó không có điểm nào trùng nhau. Có bao nhiêu vectơ khác ${m(ZERO)} có điểm đầu, điểm cuối thuộc 8 điểm đó?`,
+   sol:[`Chọn điểm đầu: 8 cách.`, `Chọn điểm cuối khác điểm đầu: 7 cách.`, `Số vectơ: ${m('8\\cdot 7 = 56')}.`], ans:`${tb('56')} vectơ.`},
+  {kind:'vd', tag:TAG, label:'Câu 2', de:`Cho hình bình hành ${m('ABCD')} tâm ${m('O')}. Tìm các vectơ bằng ${m(v('A', 'B'))}, các vectơ đối của ${m(v('A', 'O'))}.`,
+   fig:vecSVG({pts:parPts, poly:['A', 'B', 'C', 'D'], dash:[['A', 'C'], ['B', 'D']], h:200}),
+   sol:[`${m('ABCD')} là hình bình hành: ${m(`${v('A', 'B')} = ${v('D', 'C')}`)} (cùng hướng, cùng độ dài).`, `${m('O')} là trung điểm ${m('AC')}: ${m(`${v('A', 'O')} = ${v('O', 'C')}`)}.`, `Vectơ đối của ${m(v('A', 'O'))} có cùng độ dài, ngược hướng: ${m(v('O', 'A'))} và ${m(v('C', 'O'))}.`],
+   ans:`${m(`${v('A', 'B')} = ${v('D', 'C')}`)}; đối của ${m(v('A', 'O'))}: ${tb(`${v('O', 'A')},\\ ${v('C', 'O')}`)}.`},
+  {kind:'vd', tag:TAG, label:'Câu 3', de:`Cho lục giác đều ${m('ABCDEF')} tâm ${m('O')}. Tìm các vectơ khác ${m(ZERO)} bằng ${m(v('O', 'B'))} có điểm đầu, điểm cuối là một trong bảy điểm ${m('A, B, C, D, E, F, O')}.`,
+   fig:vecSVG({pts:hexPts, poly:['A', 'B', 'C', 'D', 'E', 'F'], dash:[['A', 'D'], ['B', 'E'], ['C', 'F']], h:210}),
+   sol:[`Lục giác đều tâm ${m('O')}: các tam giác ${m('OAB, OBC, OCD, \\ldots')} đều cạnh bằng bán kính, nên ${m('OB')} có độ dài bằng cạnh lục giác.`, `Cần vectơ cùng hướng và cùng độ dài với ${m(v('O', 'B'))}: xét hai cạnh đối song song của các hình thoi ${m('OBCD')} và ${m('OEFA')}.`, `Kiểm tra bằng toạ độ khi ${m('O')} là gốc: ${m(v('O', 'B'))} có toạ độ ${m('(1;\\sqrt{3})')}, ${m(v('F', 'A'))}, ${m(v('E', 'O'))}, ${m(v('D', 'C'))} đều có toạ độ ${m('(1;\\sqrt{3})')}.`],
+   ans:`${tb(`${v('F', 'A')},\\ ${v('E', 'O')},\\ ${v('D', 'C')}`)}.`},
+  {kind:'vd', tag:TAG, label:'Câu 4', de:`Hình chữ nhật ${m('ABCD')} có ${m('AB = 6')}, ${m('AD = 8')}. Tính ${m(`\\left|${v('A', 'C')}\\right|`)}; hình thoi ${m('MNPQ')} cạnh 5, ${m('MP = 8')}: tính ${m(`\\left|${v('N', 'Q')}\\right|`)}.`,
+   sol:[`${m('AC = \\sqrt{6^2 + 8^2} = 10')}.`, `Hình thoi: ${m('O')} là tâm, ${m('OM = 4')}, ${m('ON = \\sqrt{5^2 - 4^2} = 3')}.`, `${m('NQ = 2\\cdot ON = 6')}.`], ans:`${tb('10')} và ${tb('6')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 5', de:`Hai lực cùng độ lớn 100 N, ngược hướng, cùng tác dụng vào một vật. Hai vectơ lực biểu diễn có quan hệ gì? Vật có chuyển động không?`,
+   sol:[`Cùng độ lớn ⇒ cùng độ dài; ngược hướng ⇒ hai vectơ <b>đối nhau</b>.`, `Hai lực cân bằng nên tổng bằng ${m(ZERO)}: vật đứng yên (hoặc chuyển động thẳng đều).`], ans:`Hai vectơ ${tb('đối nhau')}; vật ${tb('không đổi trạng thái chuyển động')}.`},
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Hai vectơ cùng độ dài nhưng <b>khác hướng</b> thì không bằng nhau.</li><li>${m(`${v('A', 'B')} = ${v('C', 'D')}`)} chưa chắc ${m('ABCD')} là hình bình hành (đúng là ${m('ABDC')}).</li><li>Số vectơ là ${m('n(n-1)')}, không phải ${m('n^2')}.</li></ul>` +
+     box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
+]);
+
+Lecture.addSgk('lop10', 'bai-8', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 8. Tổng và hiệu của hai vectơ', sub:'Các câu vận dụng, câu khó – SGK tập 1, Chương IV',
+   points:['Câu 1: rút gọn biểu thức vectơ bằng quy tắc ba điểm.', 'Câu 2: tổng, hiệu hai vectơ trong hình bình hành, hình thoi.', 'Câu 3: chứng minh đẳng thức vectơ.', 'Câu 4: hợp lực của hai lực.', 'Câu 5: thuyền qua sông – hợp vận tốc.']},
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba quy tắc',
+   body: box(`<b>Ba điểm:</b> ${m(`${v('A', 'B')} + ${v('B', 'C')} = ${v('A', 'C')}`)}. <b>Hình bình hành ${m('ABCD')}:</b> ${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)}. <b>Hiệu:</b> ${m(`${v('O', 'A')} - ${v('O', 'B')} = ${v('B', 'A')}`)}.`) +
+     `<ol class="lk-steps"><li>Trung điểm ${m('I')} của ${m('AB')}: ${m(`${v('I', 'A')} + ${v('I', 'B')} = ${ZERO}`)}.</li><li>Trọng tâm ${m('G')}: ${m(`${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')} = ${ZERO}`)}.</li></ol>`},
+  {kind:'vd', tag:TAG, label:'Câu 1', de:`Cho bốn điểm ${m('A, B, C, D')}. Rút gọn ${m(`u = ${v('A', 'B')} + ${v('C', 'D')} + ${v('B', 'C')} + ${v('D', 'A')}`)}.`,
+   sol:[`Sắp xếp lại: ${m(`u = ${v('A', 'B')} + ${v('B', 'C')} + ${v('C', 'D')} + ${v('D', 'A')}`)}.`, `Quy tắc ba điểm liên tiếp: ${m(`${v('A', 'B')} + ${v('B', 'C')} = ${v('A', 'C')}`)}; ${m(`${v('A', 'C')} + ${v('C', 'D')} = ${v('A', 'D')}`)}; ${m(`${v('A', 'D')} + ${v('D', 'A')} = ${ZERO}`)}.`], ans:`${m('u =')} ${tb(ZERO)}.`},
+  {kind:'vd', tag:TAG, label:'Câu 2', de:`Hình thoi ${m('ABCD')} có cạnh 10 và đường chéo ${m('BD = 12')}. Tính ${m(`\\left|${v('A', 'B')} + ${v('A', 'D')}\\right|`)} và ${m(`\\left|${v('A', 'B')} - ${v('A', 'D')}\\right|`)}.`,
+   sol:[`${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)} (quy tắc hình bình hành); ${m(`${v('A', 'B')} - ${v('A', 'D')} = ${v('D', 'B')}`)}.`, `${m('OB = 6')}, ${m('OA = \\sqrt{10^2 - 6^2} = 8')}, ${m('AC = 16')}.`], ans:`${tb('16')} và ${tb('12')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 3', de:`Cho hình bình hành ${m('ABCD')}. Chứng minh: a) ${m(`${v('A', 'C')} - ${v('B', 'C')} = ${v('A', 'B')}`)}; b) ${m(`${v('A', 'C')} - ${v('A', 'B')} = ${v('A', 'D')}`)}.`,
+   sol:[`a) ${m(`${v('A', 'C')} - ${v('B', 'C')} = ${v('A', 'C')} + ${v('C', 'B')}`)} (vectơ đối), rồi quy tắc ba điểm: ${m(`${v('A', 'C')} + ${v('C', 'B')} = ${v('A', 'B')}`)}.`, `b) ${m(`${v('A', 'C')} - ${v('A', 'B')} = ${v('B', 'C')}`)} (quy tắc hiệu).`, `${m('ABCD')} là hình bình hành nên ${m(`${v('B', 'C')} = ${v('A', 'D')}`)}.`], ans:`Hai đẳng thức được chứng minh.`},
+  {kind:'vd', tag:TAG, label:'Câu 4', de:`Hai lực 30 N và 40 N tác dụng vuông góc vào một vật. Tính độ lớn hợp lực.`,
+   sol:[`Hợp lực là đường chéo hình chữ nhật hai cạnh 30 và 40.`, `${m('F = \\sqrt{30^2 + 40^2} = 50')}.`], ans:`${tb('50')} N.`},
+  {kind:'vd', tag:TAG, label:'Câu 5', de:`Thuyền chạy 6 km/h so với nước, hướng vuông góc với bờ; nước chảy 8 km/h. Tính vận tốc của thuyền so với bờ.`,
+   sol:[`Vận tốc thực là tổng hai vectơ vuông góc.`, `${m('v = \\sqrt{6^2 + 8^2} = 10')}.`], ans:`${tb('10')} km/h.`},
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Quy tắc ba điểm cần các vectơ <b>nối đuôi</b> (điểm cuối vectơ trước là điểm đầu vectơ sau).</li><li>${m(`${v('O', 'A')} - ${v('O', 'B')} = ${v('B', 'A')}`)} (từ điểm trừ đến điểm bị trừ).</li><li>Tổng độ dài ≠ độ dài của tổng.</li></ul>` + box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
+]);
+})();

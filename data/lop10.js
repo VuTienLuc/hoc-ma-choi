@@ -1539,4 +1539,208 @@ lesson(90, 'on-tap-giua-ki-1', 'Ôn tập giữa học kì I', 'Tổng hợp Ch�
   K('Chương II', 'Điểm thử xác định phía miền nghiệm; nét đứt ứng với dấu ngặt; tối ưu: tính giá trị tại các đỉnh miền nghiệm.', `Đọc kĩ “tối đa/ít nhất” để chọn ${tm('\\le')} hay ${tm('\\ge')}.`, 'Gạch bỏ phần không thoả mãn để thấy miền nghiệm.'),
   K('Chương III', `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}, ${tm('\\dfrac{a}{\\sin A} = 2R')}, ${tm('S = \\dfrac{1}{2}bc\\sin A')}, công thức Heron.`, 'Góc tù: côsin, tang âm.', 'Bài đo đạc: vẽ tam giác, dùng góc ngoài để tìm góc ở ngọn.')]});
 }
+/* ======================= CHƯƠNG IV. VECTƠ – Bài 7 và Bài 8 (Toán 10, Kết nối tri thức) ======================= */
+{
+const m = tm;
+const s3 = Math.sqrt(3);
+const V = (a, b) => `\\overrightarrow{${a}${b}}`;
+const VL = (a, b) => `\\left|${V(a, b)}\\right|`;
+const ZERO = '\\vec{0}';
+// ---------- hình mẫu: toạ độ toán học, mọi quan hệ vectơ được tính trực tiếp từ toạ độ ----------
+const SH = {
+  par:{n:`hình bình hành ${m('ABCD')} có tâm ${m('O')}`, P:{A:[0,0], B:[4,0], C:[5,3], D:[1,3], O:[2.5,1.5]}, poly:['A','B','C','D'], diag:[['A','C'], ['B','D']]},
+  hex:{n:`lục giác đều ${m('ABCDEF')} có tâm ${m('O')}`, P:{A:[2,0], B:[1,s3], C:[-1,s3], D:[-2,0], E:[-1,-s3], F:[1,-s3], O:[0,0]}, poly:['A','B','C','D','E','F'], diag:[['A','D'], ['B','E'], ['C','F']]},
+};
+const names = sh => { const k = Object.keys(sh.P), r = []; k.forEach(a => k.forEach(b => { if(a !== b) r.push(a + b); })); return r; };
+const vv = (sh, n) => [sh.P[n[1]][0] - sh.P[n[0]][0], sh.P[n[1]][1] - sh.P[n[0]][1]];
+const eqv = (u, w) => Math.hypot(u[0] - w[0], u[1] - w[1]) < 1e-6;
+const parv = (u, w) => Math.abs(u[0] * w[1] - u[1] * w[0]) < 1e-6;
+const dotv = (u, w) => u[0] * w[0] + u[1] * w[1];
+const lenv = u => Math.hypot(u[0], u[1]);
+const neg = u => [-u[0], -u[1]];
+const rev = n => n[1] + n[0];
+const figSh = (sh, vecs = [], cap) => vecSVG({pts:Object.entries(sh.P).map(([k, [x, y]]) => [x, y, k]), poly:sh.poly, dash:sh.diag, vecs, h:220, cap});
+const vtxt = n => m(V(n[0], n[1]));
+const uniqS = (arr, what) => { if(new Set(arr).size !== arr.length) throw new Error('Phương án trùng nhau: ' + what + ' ' + arr.join('|')); return arr; };
+
+/* ---------------- BÀI 7. Các khái niệm mở đầu ---------------- */
+const g7a = lv => {   // đếm vectơ
+  if(lv < 3){ const n = lv === 1 ? pick([3, 4, 5]) : pick([6, 7, 8]), L = 'ABCDEFGH'.slice(0, n).split('').join(', '), kq = n * (n - 1);
+    return QB({text:`Cho ${n} điểm phân biệt ${m(L)}. Có bao nhiêu vectơ khác ${m(ZERO)} có điểm đầu và điểm cuối thuộc các điểm đã cho?`, tpl:'[_] vectơ', ans:[kq],
+      hint:'Chọn điểm đầu trước, rồi chọn điểm cuối khác điểm đầu. Hai vectơ AB và BA là hai vectơ khác nhau.',
+      sol:`Có ${n} cách chọn điểm đầu; với mỗi cách có ${n - 1} cách chọn điểm cuối (khác điểm đầu). Số vectơ: ${tb(`${n} × ${n - 1} = ${kq}`)}.`}); }
+  const a = pick([3, 4, 5]), b = pick([4, 5, 6].filter(x => x !== a)), kq = a * (a - 1) + b * (b - 1);
+  return QB({text:`Trên đường thẳng ${m('d')} lấy ${a} điểm phân biệt, trên đường thẳng ${m('d\'')} lấy ${b} điểm phân biệt khác (tất cả ${a + b} điểm đều khác nhau). Có bao nhiêu vectơ khác ${m(ZERO)} có điểm đầu và điểm cuối <b>cùng nằm trên ${m('d')} hoặc cùng nằm trên ${m('d\'')}</b>?`,
+    tpl:'[_] vectơ', ans:[kq], hint:'Đếm riêng cho từng đường thẳng (điểm đầu rồi điểm cuối khác điểm đầu), rồi cộng lại.',
+    sol:`Trên ${m('d')}: ${m(`${a}(${a} - 1) = ${a * (a - 1)}`)} vectơ. Trên ${m('d\'')}: ${m(`${b}(${b} - 1) = ${b * (b - 1)}`)} vectơ. Tổng: ${tb(kq)} vectơ.`});
+};
+const g7b = lv => {   // bằng nhau, ngược hướng, khẳng định sai
+  if(lv === 1){ const sh = SH.par, N = names(sh); let t, eqs;
+    do{ t = pick(['AB', 'AD', 'BC', 'DC', 'AO', 'OC', 'BO', 'OD']); eqs = N.filter(x => x !== t && eqv(vv(sh, x), vv(sh, t))); }while(!eqs.length);
+    const good = pick(eqs), bad = shuffle(N.filter(x => !eqv(vv(sh, x), vv(sh, t)) && x !== rev(t))).slice(0, 2), opts = uniqS([good, rev(t), ...bad], 'g7b1');
+    return QC({text:`Cho ${SH.par.n}. Vectơ nào sau đây <b>bằng</b> vectơ ${vtxt(t)}?`, fig:figSh(sh, [[t[0], t[1], '', 'alt']]), opts:opts.map(vtxt), ans:vtxt(good),
+      hint:'Hai vectơ bằng nhau khi cùng hướng và cùng độ dài. Trong hình bình hành, các cạnh đối song song và bằng nhau.',
+      sol:`${m(`${V(good[0], good[1])} = ${V(t[0], t[1])}`)} vì hai vectơ cùng hướng và cùng độ dài. Vectơ ${vtxt(rev(t))} có cùng độ dài nhưng ngược hướng nên là vectơ đối. Đáp án: ${tb(V(good[0], good[1]))}.`}); }
+  if(lv === 2){ const sh = SH.par, N = names(sh); let t, op;
+    do{ t = pick(['AB', 'AD', 'BC', 'CD', 'AO', 'OC', 'BO', 'OD', 'AC', 'BD']); op = N.filter(x => parv(vv(sh, x), vv(sh, t)) && dotv(vv(sh, x), vv(sh, t)) < 0); }while(!op.length);
+    const good = pick(op), same = N.filter(x => x !== t && parv(vv(sh, x), vv(sh, t)) && dotv(vv(sh, x), vv(sh, t)) > 0), nonp = N.filter(x => !parv(vv(sh, x), vv(sh, t)));
+    const opts = uniqS([good, ...shuffle(same).slice(0, 1), ...shuffle(nonp).slice(0, 4 - 1 - Math.min(1, same.length))], 'g7b2');
+    return QC({text:`Cho ${SH.par.n}. Vectơ nào sau đây <b>cùng phương nhưng ngược hướng</b> với vectơ ${vtxt(t)}?`, fig:figSh(sh, [[t[0], t[1], '', 'alt']]), opts:opts.map(vtxt), ans:vtxt(good),
+      hint:'Cùng phương: giá song song hoặc trùng nhau. Ngược hướng: mũi tên chỉ về hai phía trái ngược.',
+      sol:`Giá của ${vtxt(good)} song song (hoặc trùng) với giá của ${vtxt(t)}, và hai vectơ chỉ về hai phía ngược nhau. Đáp án: ${tb(V(good[0], good[1]))}.`}); }
+  const sh = SH.hex, N = names(sh), f = n => m(V(n[0], n[1])), lenS = n => m(VL(n[0], n[1]));
+  const mk = () => { const a = pick(N); let b; do{ b = pick(N); }while(b === a); const u = vv(sh, a), w = vv(sh, b);
+    const T = [
+      [`${f(a)} = ${f(b)}`.replace(/^/, ''), eqv(u, w), m(`${V(a[0], a[1])} = ${V(b[0], b[1])}`)],
+      [`${f(a)} và ${f(b)} là hai vectơ đối nhau`, eqv(u, neg(w)), `Hai vectơ ${f(a)} và ${f(b)} là hai vectơ đối nhau`],
+      [`${f(a)} và ${f(b)} cùng hướng`, parv(u, w) && dotv(u, w) > 0, `Hai vectơ ${f(a)} và ${f(b)} cùng hướng`],
+      [`${f(a)} và ${f(b)} ngược hướng`, parv(u, w) && dotv(u, w) < 0, `Hai vectơ ${f(a)} và ${f(b)} ngược hướng`],
+      [`len`, Math.abs(lenv(u) - lenv(w)) < 1e-6, `${lenS(a)} = ${lenS(b)}`],
+      [`${f(a)} và ${f(b)} cùng phương`, parv(u, w), `Hai vectơ ${f(a)} và ${f(b)} cùng phương`]];
+    const x = pick(T); return {t:x[2], ok:x[1]}; };
+  const tr = [], fl = []; let g = 0;
+  while((tr.length < 3 || fl.length < 1) && g++ < 2000){ const s = mk(); if(s.ok && tr.length < 3 && !tr.some(y => y.t === s.t)) tr.push(s); else if(!s.ok && fl.length < 1) fl.push(s); }
+  if(tr.length < 3 || !fl.length) throw new Error('g7b3 không đủ khẳng định');
+  return QC({text:`Cho ${SH.hex.n}. Khẳng định nào sau đây <b>sai</b>?`, fig:figSh(sh), opts:[fl[0].t, ...tr.map(x => x.t)], ans:fl[0].t,
+    hint:'Kiểm tra từng khẳng định trên hình: lục giác đều có các cạnh đối song song, đường chéo qua tâm O.',
+    sol:`Ba khẳng định còn lại đều đúng (kiểm tra bằng hình: cùng hướng/ngược hướng, độ dài bằng nhau). Khẳng định ${tb('sai')} là: ${fl[0].t}.`});
+};
+const g7c = lv => {   // độ dài vectơ
+  if(lv === 1){ const [p, q, r] = pick([[3, 4, 5], [5, 12, 13], [8, 15, 17], [6, 8, 10]]), k = pick([1, 2, 3]), sh = {P:{A:[0, 0], B:[p, 0], C:[p, q], D:[0, q]}, poly:['A', 'B', 'C', 'D'], diag:[['A', 'C']]};
+    return QB({text:`Cho hình chữ nhật ${m('ABCD')} có ${m(`AB = ${p * k}`)} và ${m(`AD = ${q * k}`)}. Tính độ dài vectơ ${m(V('A', 'C'))}.`, fig:figSh(sh, [['A', 'C', '', 'alt']]), tpl:`${m(`${VL('A', 'C')} =`)} [_]`, ans:[r * k],
+      hint:`Độ dài ${m(V('A', 'C'))} chính là độ dài đoạn thẳng ${m('AC')}. Dùng định lí Pythagore trong tam giác vuông.`,
+      sol:`${m(`${VL('A', 'C')} = AC = \\sqrt{AB^2 + AD^2} = \\sqrt{${(p * k) ** 2} + ${(q * k) ** 2}} =`)} ${tb(r * k)}.`}); }
+  if(lv === 2){ const [p, q, r] = pick([[3, 4, 5], [5, 12, 13], [6, 8, 10]]), k = pick([2, 4]), ac = 2 * p * k, bd = 2 * q * k, side = r * k;
+    const sh = {P:{A:[-p, 0], B:[0, -q], C:[p, 0], D:[0, q], O:[0, 0]}, poly:['A', 'B', 'C', 'D'], diag:[['A', 'C'], ['B', 'D']]}, askB = pick([true, false]);
+    return QB({text:`Cho hình thoi ${m('ABCD')} có tâm ${m('O')}, ${m(`AC = ${ac}`)} và ${m(`BD = ${bd}`)}. Tính ${m(askB ? VL('A', 'B') : VL('O', 'A'))}.`, fig:figSh(sh, [askB ? ['A', 'B', '', 'alt'] : ['O', 'A', '', 'alt']]),
+      tpl:`${m(`${askB ? VL('A', 'B') : VL('O', 'A')} =`)} [_]`, ans:[askB ? side : p * k],
+      hint:askB ? `${m(VL('A', 'B'))} là độ dài cạnh ${m('AB')}. Hai đường chéo hình thoi vuông góc tại trung điểm mỗi đường.` : `${m(VL('O', 'A'))} là độ dài đoạn ${m('OA')}, mà ${m('O')} là trung điểm của ${m('AC')}.`,
+      sol:askB ? `${m(`OA = ${p * k},\\ OB = ${q * k}`)}, tam giác ${m('OAB')} vuông tại ${m('O')}: ${m(`AB = \\sqrt{${(p * k) ** 2} + ${(q * k) ** 2}} =`)} ${tb(side)}, nên ${m(`${VL('A', 'B')} = AB`)}.` : `${m('O')} là trung điểm ${m('AC')} nên ${m(`${VL('O', 'A')} = OA = \\dfrac{AC}{2} = \\dfrac{${ac}}{2} =`)} ${tb(p * k)}.`}); }
+  const [p, q, r] = pick([[3, 4, 5], [5, 12, 13], [6, 8, 10]]), k = pick([2, 4]), kk = [p * k, q * k, r * k];
+  const sh = {P:{A:[0, 0], B:[kk[0], 0], C:[0, kk[1]], M:[kk[0] / 2, kk[1] / 2]}, poly:['A', 'B', 'C'], diag:[['A', 'M']]};
+  return QB({text:`Cho tam giác ${m('ABC')} vuông tại ${m('A')} có ${m(`AB = ${kk[0]}`)}, ${m(`AC = ${kk[1]}`)}; ${m('M')} là trung điểm của ${m('BC')}. Tính ${m(VL('M', 'A'))}.`, fig:figSh(sh, [['M', 'A', '', 'alt']]), tpl:`${m(`${VL('M', 'A')} =`)} [_]`, ans:[kk[2] / 2],
+    hint:`${m(VL('M', 'A'))} = ${m('MA')}. Trong tam giác vuông, trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền.`,
+    sol:`${m(`BC = \\sqrt{${kk[0] ** 2} + ${kk[1] ** 2}} = ${kk[2]}`)}. Trung tuyến ${m('AM')} ứng với cạnh huyền nên ${m(`${VL('M', 'A')} = MA = \\dfrac{BC}{2} =`)} ${tb(kk[2] / 2)}.`});
+};
+const DIRS = {B:'Bắc', N:'Nam', D:'Đông', T:'Tây'}, OPP = {B:'N', N:'B', D:'T', T:'D'};
+const g7d = lv => {   // thực tế: biểu diễn lực, vận tốc bằng vectơ
+  if(lv === 1){ const [what, unit, s] = pick([['vận tốc của ô tô', 'km/h', 20], ['lực kéo', 'N', 10], ['vận tốc của gió', 'km/h', 5], ['trọng lực tác dụng lên vật', 'N', 20]]), k = R(3, 9);
+    return QB({text:`Biểu diễn ${what} <b>${k * s} ${unit}</b> bằng một vectơ, chọn tỉ lệ xích: 1 cm ứng với ${s} ${unit}. Vectơ đó có độ dài bao nhiêu xentimét?`, tpl:'[_] cm', ans:[k],
+      hint:'Độ dài vectơ (cm) = giá trị đại lượng chia cho số đơn vị ứng với 1 cm.', sol:`${m(`${k * s} : ${s} =`)} ${tb(k)} cm.`}); }
+  const keys = Object.keys(DIRS);
+  let d1, d2, v1, v2, kind;
+  d1 = pick(keys); v1 = pick([30, 40, 50, 60]); d2 = lv === 2 ? d1 : pick([d1, OPP[d1], OPP[d1]]); v2 = pick([30, 40, 50, 60]); kind = (d1 === d2 ? 'same' : 'opp') + (v1 === v2 ? '=' : '≠');
+  const MAP = {'same=':'Hai vectơ vận tốc bằng nhau.', 'opp=':'Hai vectơ vận tốc là hai vectơ đối nhau.', 'same≠':'Hai vectơ vận tốc cùng hướng nhưng có độ dài khác nhau.', 'opp≠':'Hai vectơ vận tốc ngược hướng nhưng có độ dài khác nhau.'};
+  const nm = lv === 2 ? ['Ô tô', 'xe máy'] : ['Tàu thứ nhất', 'tàu thứ hai'];
+  return QC({text:`${nm[0]} chạy theo hướng <b>${DIRS[d1]}</b> với vận tốc ${v1} km/h, ${nm[1]} chạy theo hướng <b>${DIRS[d2]}</b> với vận tốc ${v2} km/h. Khẳng định nào sau đây đúng?`,
+    opts:Object.values(MAP), ans:MAP[kind], keepOrder:true,
+    hint:'Hai vectơ bằng nhau: cùng hướng và cùng độ dài. Hai vectơ đối nhau: ngược hướng và cùng độ dài.',
+    sol:`Hướng: ${DIRS[d1]} và ${DIRS[d2]} là ${d1 === d2 ? 'cùng hướng' : 'ngược hướng'}. Độ lớn vận tốc: ${v1} và ${v2} km/h ${v1 === v2 ? 'bằng nhau' : 'khác nhau'}. Vậy ${tb(MAP[kind])}`});
+};
+lesson(5, 'vecto-khai-niem', 'Bài 7. Các khái niệm mở đầu', 'Vectơ, điểm đầu – điểm cuối, độ dài; cùng phương, cùng hướng; hai vectơ bằng nhau, đối nhau; vectơ-không; biểu diễn lực và vận tốc.', [g7a, g7b, g7c, g7d]);
+
+/* ---------------- BÀI 8. Tổng và hiệu của hai vectơ ---------------- */
+const LET = 'ABCDEFGHKMNPQ'.split('');
+const g8a = lv => {   // quy tắc ba điểm, quy tắc hiệu, rút gọn tổng nhiều vectơ
+  const pts = shuffle(LET);
+  if(lv === 1){ const [x, y, z] = pts, good = x + z, opts = uniqS([good, rev(good), x + y, y + z], 'g8a1');
+    return QC({text:`Với ba điểm bất kì ${m(`${x}, ${y}, ${z}`)}, ${m(`${V(x, y)} + ${V(y, z)}`)} bằng vectơ nào sau đây?`, opts:opts.map(vtxt), ans:vtxt(good),
+      hint:'Quy tắc ba điểm: điểm cuối của vectơ thứ nhất trùng điểm đầu của vectơ thứ hai.', sol:`Theo quy tắc ba điểm: ${m(`${V(x, y)} + ${V(y, z)} = ${V(x, z)}`)}. Đáp án: ${tb(V(good[0], good[1]))}.`}); }
+  if(lv === 2){ const [x, y, z] = pts, sameStart = pick([true, false]);
+    if(sameStart){ const good = z + y, opts = uniqS([good, rev(good), x + y, x + z], 'g8a2a');
+      return QC({text:`Với ba điểm bất kì ${m(`${x}, ${y}, ${z}`)}, ${m(`${V(x, y)} - ${V(x, z)}`)} bằng vectơ nào sau đây?`, opts:opts.map(vtxt), ans:vtxt(good),
+        hint:'Hai vectơ có chung điểm đầu: dùng quy tắc hiệu, hiệu bằng vectơ nối hai điểm cuối (theo thứ tự trừ).', sol:`${m(`${V(x, y)} - ${V(x, z)} = ${V(z, y)}`)} (quy tắc hiệu: ${m(`\\overrightarrow{OB} - \\overrightarrow{OA} = \\overrightarrow{AB}`)}). Đáp án: ${tb(V(good[0], good[1]))}.`}); }
+    const good = y + z, opts = uniqS([good, rev(good), x + y, x + z], 'g8a2b');
+    return QC({text:`Với ba điểm bất kì ${m(`${x}, ${y}, ${z}`)}, ${m(`${V(y, x)} - ${V(z, x)}`)} bằng vectơ nào sau đây?`, opts:opts.map(vtxt), ans:vtxt(good),
+      hint:`Viết ${m(V(z, x))} = ${m(`-${V(x, z)}`)} rồi dùng quy tắc ba điểm, hoặc dùng quy tắc hiệu.`, sol:`${m(`${V(y, x)} - ${V(z, x)} = ${V(y, x)} + ${V(x, z)} = ${V(y, z)}`)} (cộng với vectơ đối rồi dùng quy tắc ba điểm). Đáp án: ${tb(V(good[0], good[1]))}.`}); }
+  const closed = pick([true, false]), p = pts.slice(0, closed ? 4 : 5), n = closed ? 4 : 4, vecs = [];
+  for(let i = 0; i < n; i++) vecs.push(p[i] + (closed && i === n - 1 ? p[0] : p[i + 1]));
+  const order = shuffle(vecs), expr = order.map((s, i) => (i ? ' + ' : '') + V(s[0], s[1])).join('');
+  const good = closed ? ZERO : p[0] + p[4], opts = closed ? uniqS([ZERO, p[0] + p[1], p[0] + p[2], p[1] + p[3]].map(x => x === ZERO ? x : V(x[0], x[1])), 'g8a3c') : uniqS([good, rev(good), p[0] + p[3], p[1] + p[4]].map(x => V(x[0], x[1])), 'g8a3o');
+  return QC({text:`Rút gọn: ${td(expr)}`, opts:opts.map(m), ans:m(closed ? ZERO : V(good[0], good[1])),
+    hint:'Sắp xếp lại các vectơ (tính chất giao hoán) sao cho điểm cuối của vectơ này là điểm đầu của vectơ kế tiếp, rồi dùng quy tắc ba điểm liên tiếp.',
+    sol:`Sắp xếp: ${m(vecs.map((s, i) => (i ? ' + ' : '') + V(s[0], s[1])).join(''))}. Dùng quy tắc ba điểm liên tiếp: ${closed ? `điểm đầu và điểm cuối trùng nhau nên tổng bằng ${tb(ZERO)}` : `tổng bằng ${tb(V(good[0], good[1]))}`}.`});
+};
+const g8b = lv => {   // độ dài của tổng, hiệu
+  if(lv === 1){ const [p, q, r] = pick([[3, 4, 5], [5, 12, 13], [8, 15, 17], [6, 8, 10]]), k = pick([1, 2, 3]), isSum = pick([true, false]);
+    const sh = {P:{A:[0, 0], B:[p, 0], C:[p, q], D:[0, q]}, poly:['A', 'B', 'C', 'D'], diag:[]};
+    return QB({text:`Cho hình chữ nhật ${m('ABCD')} có ${m(`AB = ${p * k}`)} và ${m(`AD = ${q * k}`)}. Tính ${m(`\\left|${V('A', 'B')} ${isSum ? '+' : '-'} ${V('A', 'D')}\\right|`)}.`,
+      fig:figSh(sh, [['A', 'B', '', ''], ['A', 'D', '', ''], isSum ? ['A', 'C', '', 'alt'] : ['D', 'B', '', 'alt']]), tpl:`${m(`\\left|${V('A', 'B')} ${isSum ? '+' : '-'} ${V('A', 'D')}\\right| =`)} [_]`, ans:[r * k],
+      hint:isSum ? 'Quy tắc hình bình hành: tổng hai vectơ chung điểm đầu là vectơ đường chéo.' : 'Quy tắc hiệu: hiệu hai vectơ chung điểm đầu là vectơ nối hai điểm cuối.',
+      sol:isSum ? `${m(`${V('A', 'B')} + ${V('A', 'D')} = ${V('A', 'C')}`)} (quy tắc hình bình hành), nên ${m(`\\left|${V('A', 'B')} + ${V('A', 'D')}\\right| = AC = \\sqrt{${(p * k) ** 2} + ${(q * k) ** 2}} =`)} ${tb(r * k)}.`
+        : `${m(`${V('A', 'B')} - ${V('A', 'D')} = ${V('D', 'B')}`)} (quy tắc hiệu), nên ${m(`\\left|${V('A', 'B')} - ${V('A', 'D')}\\right| = DB = \\sqrt{${(p * k) ** 2} + ${(q * k) ** 2}} =`)} ${tb(r * k)}.`}); }
+  if(lv === 2){ const [p, q] = pick([[3, 4], [5, 12], [6, 8]]), k = pick([2, 4]), ac = 2 * p * k, bd = 2 * q * k, isSum = pick([true, false]);
+    const sh = {P:{A:[-p, 0], B:[0, -q], C:[p, 0], D:[0, q], O:[0, 0]}, poly:['A', 'B', 'C', 'D'], diag:[['A', 'C'], ['B', 'D']]};
+    return QB({text:`Cho hình thoi ${m('ABCD')} có hai đường chéo ${m(`AC = ${ac}`)} và ${m(`BD = ${bd}`)}. Tính ${m(`\\left|${V('A', 'B')} ${isSum ? '+' : '-'} ${V('A', 'D')}\\right|`)}.`,
+      fig:figSh(sh, [['A', 'B', '', ''], ['A', 'D', '', ''], isSum ? ['A', 'C', '', 'alt'] : ['D', 'B', '', 'alt']]), tpl:`${m(`\\left|${V('A', 'B')} ${isSum ? '+' : '-'} ${V('A', 'D')}\\right| =`)} [_]`, ans:[isSum ? ac : bd],
+      hint:isSum ? `${m('ABCD')} là hình bình hành nên ${m(`${V('A', 'B')} + ${V('A', 'D')}`)} bằng một vectơ đường chéo.` : 'Hiệu hai vectơ chung điểm đầu là vectơ nối hai điểm cuối.',
+      sol:isSum ? `${m(`${V('A', 'B')} + ${V('A', 'D')} = ${V('A', 'C')}`)} nên độ dài bằng ${m('AC =')} ${tb(ac)}.` : `${m(`${V('A', 'B')} - ${V('A', 'D')} = ${V('D', 'B')}`)} nên độ dài bằng ${m('DB =')} ${tb(bd)}.`}); }
+  const [p, q, r] = pick([[3, 4, 5], [5, 12, 13], [6, 8, 10]]), k = pick([2, 4]), kk = [p * k, q * k, r * k], isSum = pick([true, false]);
+  const sh = {P:{A:[0, 0], B:[kk[0], 0], C:[0, kk[1]], M:[kk[0] / 2, kk[1] / 2]}, poly:['A', 'B', 'C'], diag:[['A', 'M']]};
+  return QB({text:`Cho tam giác ${m('ABC')} vuông tại ${m('A')} có ${m(`AB = ${kk[0]}`)} và ${m(`AC = ${kk[1]}`)}. Tính ${m(`\\left|${V('A', 'B')} ${isSum ? '+' : '-'} ${V('A', 'C')}\\right|`)}.`,
+    fig:figSh(sh, [isSum ? ['A', 'M', '', 'alt'] : ['C', 'B', '', 'alt']]), tpl:`${m(`\\left|${V('A', 'B')} ${isSum ? '+' : '-'} ${V('A', 'C')}\\right| =`)} [_]`, ans:[kk[2]],
+    hint:isSum ? `Gọi ${m('M')} là trung điểm ${m('BC')}: ${m(`${V('A', 'B')} + ${V('A', 'C')} = 2${V('A', 'M')}`)}. Trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền.` : 'Quy tắc hiệu cho vectơ nối hai điểm cuối.',
+    sol:isSum ? `${m(`BC = ${kk[2]}`)}, ${m(`AM = \\dfrac{BC}{2} = ${kk[2] / 2}`)}. ${m(`\\left|${V('A', 'B')} + ${V('A', 'C')}\\right| = 2AM =`)} ${tb(kk[2])}.` : `${m(`${V('A', 'B')} - ${V('A', 'C')} = ${V('C', 'B')}`)} nên độ dài bằng ${m('CB =')} ${tb(kk[2])}.`});
+};
+// vế trái và vế phải của đẳng thức vectơ, tính trên toạ độ
+const evalT = (sh, terms) => terms.reduce((s, [sg, n]) => { const u = vv(sh, n); return [s[0] + sg * u[0], s[1] + sg * u[1]]; }, [0, 0]);
+const termTxt = terms => terms.map(([sg, n], i) => (i ? (sg > 0 ? ' + ' : ' - ') : (sg < 0 ? '-' : '')) + V(n[0], n[1])).join('');
+const parseT = str => [...str.matchAll(/([+-])([A-Z]{2})/g)].map(x => [x[1] === '+' ? 1 : -1, x[2]]);
+const RULE = {
+  hbh:'Quy tắc hình bình hành: tổng hai vectơ chung điểm đầu là vectơ đường chéo xuất phát từ điểm đầu đó.',
+  ba:'Quy tắc ba điểm: điểm cuối của vectơ trước là điểm đầu của vectơ sau.',
+  hieu:'Quy tắc hiệu: hai vectơ chung điểm đầu, hiệu là vectơ nối hai điểm cuối (theo thứ tự trừ); hoặc đổi dấu rồi dùng quy tắc ba điểm.',
+  o:'O là trung điểm của đường chéo nên hai vectơ có điểm đầu O và điểm cuối là hai đầu đường chéo là hai vectơ đối nhau, tổng bằng vectơ-không.',
+  dd:'Hai cạnh đối của hình bình hành (hoặc lục giác đều) là hai vectơ đối nhau, nên tổng bằng vectơ-không.',
+  rh:'Tứ giác tạo bởi O và ba đỉnh liên tiếp là hình thoi: dùng quy tắc hình bình hành.',
+  z3:'Ba vectơ OA, OC, OE có cùng độ dài, đôi một tạo góc 120° nên tổng bằng vectơ-không (tam giác ACE đều có tâm O).',
+  z6:'Ghép từng cặp vectơ đối nhau (OA và OD, OB và OE, OC và OF): mỗi cặp có tổng bằng vectơ-không.'};
+const PAT = {
+  1:[['+AB+AD','hbh'], ['+BA+BC','hbh'], ['+DA+DC','hbh'], ['+CB+CD','hbh'], ['+AB+BC','ba'], ['+AD+DC','ba'], ['+AB-AD','hieu'], ['+AC-AB','hieu'], ['+AC-AD','hieu'], ['+CB-CD','hieu'], ['+BC-BA','hieu']],
+  2:[['+OA+OC','o'], ['+OB+OD','o'], ['+AB+CD','dd'], ['+AD+CB','dd'], ['+OA-OB','hieu'], ['+OB-OC','hieu'], ['+AO+OB','ba'], ['+BO+OC','ba'], ['+OA+OB+OC+OD','o']],
+  3:[['+OA+OC','rh'], ['+OB+OD','rh'], ['+OC+OE','rh'], ['+AB+AF','hbh'], ['+BA+BC','hbh'], ['+AB+BC+CD','ba'], ['+AB-AF','hieu'], ['+OB-OA','hieu'], ['+AB+DE','dd'], ['+OA+OC+OE','z3'], ['+OB+OD+OF','z3'], ['+OA+OB+OC+OD+OE+OF','z6']]};
+const shiftHex = (str, k) => str.replace(/[A-F]/g, c => 'ABCDEF'[('ABCDEF'.indexOf(c) + k) % 6]);
+const swapPar = str => str.replace(/[ABCD]/g, c => ({A:'C', B:'D', C:'A', D:'B'})[c]);
+const g8c = lv => {   // đẳng thức vectơ trong hình bình hành, lục giác đều
+  const sh = lv === 3 ? SH.hex : SH.par, rhsNames = names(sh).sort((a, b) => a.includes('O') - b.includes('O'));
+  const mkItem = ([str, tag]) => { const st = lv === 3 ? shiftHex(str, R(0, 5)) : (Math.random() < .5 ? swapPar(str) : str), terms = parseT(st), u = evalT(sh, terms);
+    const zero = Math.hypot(u[0], u[1]) < 1e-6, hasO = terms.some(t => t[1].includes('O')), hit = zero ? null : rhsNames.slice().sort((p, q) => (p.includes('O') - q.includes('O')) * (hasO ? -1 : 1)).find(n => eqv(vv(sh, n), u));
+    if(!zero && !hit) throw new Error('g8c: biểu thức không có vectơ bằng nó: ' + st);
+    return {terms, tag, zero, good:zero ? ZERO : V(hit[0], hit[1]), u}; };
+  const wrongR = x => { const c = rhsNames.filter(n => x.zero || !eqv(vv(sh, n), x.u)).map(n => V(n[0], n[1])).concat(x.zero ? [] : [ZERO]); return pick(c.filter(r => r !== x.good)); };
+  const pool = shuffle(PAT[lv]), items = []; 
+  for(const p of pool){ const it = mkItem(p), k = termTxt(it.terms); if(!items.some(y => termTxt(y.terms) === k) && (items.length === 0 || items.length < 4)) items.push(it); if(items.length === 4) break; }
+  const line = (x, r) => m(`${termTxt(x.terms)} = ${r}`), g0 = items[0];
+  const opts = uniqS([line(g0, g0.good), ...items.slice(1).map(x => line(x, wrongR(x)))], 'g8c');
+  return QC({text:`Cho ${sh.n}. Đẳng thức nào sau đây <b>đúng</b>?`, fig:figSh(sh), opts, ans:line(g0, g0.good),
+    hint:'Với mỗi đẳng thức, thử rút gọn vế trái bằng quy tắc ba điểm, quy tắc hình bình hành hoặc quy tắc hiệu rồi so với vế phải.',
+    sol:`${RULE[g0.tag]} Vì vậy ${m(`${termTxt(g0.terms)} = ${g0.good}`)}; ba đẳng thức còn lại có vế phải sai. Đáp án: ${tb(`${termTxt(g0.terms)} = ${g0.good}`)}.`});
+};
+const g8d = lv => {   // thực tế: hợp lực, vận tốc
+  if(lv === 1){ const [p, q, r] = pick([[3, 4, 5], [5, 12, 13], [8, 15, 17], [6, 8, 10]]);
+    const f1 = p * 10, f2 = q * 10, f = r * 10;
+    return QB({text:`Hai lực ${m('\\vec{F_1}')} và ${m('\\vec{F_2}')} có độ lớn lần lượt ${f1} N và ${f2} N, cùng tác dụng vào một vật tại điểm ${m('O')} và có phương vuông góc với nhau. Tính độ lớn của hợp lực ${m('\\vec{F_1} + \\vec{F_2}')}.`,
+      fig:vecSVG({pts:[[0, 0, 'O'], [p, 0, 'A'], [0, q, 'B'], [p, q, 'C']], poly:[], dash:[['A', 'C'], ['B', 'C']], vecs:[['O', 'A', 'F₁'], ['O', 'B', 'F₂'], ['O', 'C', 'F', 'alt']], h:200}), tpl:'[_] N', ans:[f],
+      hint:'Vẽ hình chữ nhật có hai cạnh là hai lực; hợp lực là vectơ đường chéo xuất phát từ O.',
+      sol:`Hợp lực là vectơ đường chéo của hình chữ nhật (quy tắc hình bình hành): ${m(`F = \\sqrt{${f1}^2 + ${f2}^2} =`)} ${tb(f)} N.`}); }
+  if(lv === 2){ const [p, q, r] = pick([[5, 12, 13], [3, 4, 5], [8, 15, 17]]), k = pick([1, 2]), a = p * k, b = q * k, c = r * k;
+    return QB({text:`Một chiếc thuyền chạy ngang một khúc sông với vận tốc ${b} km/h so với dòng nước, hướng chạy vuông góc với dòng chảy. Nước chảy với vận tốc ${a} km/h. Tính độ lớn vận tốc thực của thuyền so với bờ.`,
+      fig:vecSVG({pts:[[0, 0, 'O'], [a, 0, 'A'], [0, b, 'B'], [a, b, 'C']], poly:[], dash:[['A', 'C'], ['B', 'C']], vecs:[['O', 'A', 'nước'], ['O', 'B', 'thuyền'], ['O', 'C', 'thực', 'alt']], h:200}), tpl:'[_] km/h', ans:[c],
+      hint:'Vận tốc thực là tổng của vận tốc thuyền (so với nước) và vận tốc dòng nước; hai vận tốc vuông góc.',
+      sol:`Vận tốc thực là vectơ tổng, bằng đường chéo hình chữ nhật hai cạnh ${a} và ${b}: ${m(`v = \\sqrt{${a}^2 + ${b}^2} =`)} ${tb(c)} km/h.`}); }
+  const kind = pick(['f120', 'wind']);
+  if(kind === 'f120'){ const F = pick([40, 50, 60, 80, 100]);
+    return QB({text:`Hai người cùng kéo một chiếc xe bằng hai sợi dây; hai lực kéo có cùng độ lớn <b>${F} N</b> và hai sợi dây tạo với nhau góc ${m('120^\\circ')}. Tính độ lớn của hợp lực tác dụng lên xe.`,
+      fig:vecSVG({pts:[[0, 0, 'O'], [1, 0, 'A'], [-0.5, s3 / 2, 'B'], [0.5, s3 / 2, 'C']], poly:[], dash:[['A', 'C'], ['B', 'C']], vecs:[['O', 'A', 'F₁'], ['O', 'B', 'F₂'], ['O', 'C', 'F', 'alt']], h:190}), tpl:'[_] N', ans:[F],
+      hint:'Hợp lực là đường chéo của hình thoi. Với góc 120° giữa hai lực, đường chéo kẻ từ O chia hình thoi thành hai tam giác đều.',
+      sol:`Hình thoi ${m('OACB')} có ${m('\\widehat{AOB} = 120^\\circ')} nên ${m('\\widehat{OAC} = 60^\\circ')}; tam giác ${m('OAC')} là tam giác đều (${m('OA = AC')}), do đó ${m(`OC = OA =`)} ${tb(F)} N.`}); }
+  const [p, q, r] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13]]), k = pick([100, 50]), a = p * k, b = q * k, c = r * k;
+  return QB({text:`Máy bay bay theo hướng Đông với vận tốc ${a} km/h so với không khí, trong khi gió thổi theo hướng Bắc với vận tốc ${b} km/h. Tính độ lớn vận tốc của máy bay so với mặt đất.`,
+    fig:vecSVG({pts:[[0, 0, 'O'], [a / k, 0, 'A'], [0, b / k, 'B'], [a / k, b / k, 'C']], poly:[], dash:[['A', 'C'], ['B', 'C']], vecs:[['O', 'A', 'máy bay'], ['O', 'B', 'gió'], ['O', 'C', 'thực', 'alt']], h:200}), tpl:'[_] km/h', ans:[c],
+    hint:'Hai vận tốc có phương vuông góc (Đông và Bắc); vận tốc so với mặt đất là vectơ tổng.', sol:`${m(`v = \\sqrt{${a}^2 + ${b}^2} =`)} ${tb(c)} km/h.`});
+};
+lesson(5, 'vecto-tong-hieu', 'Bài 8. Tổng và hiệu của hai vectơ', 'Quy tắc ba điểm, quy tắc hình bình hành; vectơ đối, hiệu hai vectơ; độ dài của tổng, hiệu; hợp lực và vận tốc.', [g8a, g8b, g8c, g8d]);
+G.topics.splice(G.topics.findIndex(t => t.id === 3) + 1, 0, {id:5, hk:1, name:'Vectơ', label:'Chương IV'});
+}
+
 })();

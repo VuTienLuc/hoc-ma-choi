@@ -97,9 +97,9 @@ Thầy nhắn Claude: **“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”** (ho�
 
 | Ngày | Lớp | Chương | Bài (tên theo SGK KNTT – cần đối chiếu) | Mã bài trong `data/` | Mã bài giảng | Trạng thái | Ghi chú của ChatGPT / Claude |
 |---:|:--:|:--:|---|---|---|:--:|---|
-| 1 | 10 | IV | Bài 7. Các khái niệm mở đầu | `vecto-khai-niem` | `bai-7` | ⬜ | |
+| 1 | 10 | IV | Bài 7. Các khái niệm mở đầu | `vecto-khai-niem` | `bai-7` | ✅ | 16/10 · Claude |
 | 2 | 11 | III | Bài 8. Mẫu số liệu ghép nhóm | `mau-so-lieu-ghep-nhom` | `bai-8` | ✅ | Claude làm trực tiếp 14/10/2026 (chủ đề 4 “Chương III”); giải SGK ghi đề theo dạng, chưa tra số trang |
-| 3 | 10 | IV | Bài 8. Tổng và hiệu của hai vectơ | `vecto-tong-hieu` | `bai-8` | ⬜ | |
+| 3 | 10 | IV | Bài 8. Tổng và hiệu của hai vectơ | `vecto-tong-hieu` | `bai-8` | ✅ | 16/10 · Claude |
 | 4 | 11 | III | Bài 9. Các số đặc trưng đo xu thế trung tâm | `ghep-nhom-xu-the` | `bai-9` | ⬜ | |
 | 5 | 10 | IV | Bài 9. Tích của một số với một vectơ | `vecto-tich-so` | `bai-9` | ⬜ | |
 | 6 | 11 | III | Bài 10. Các số đặc trưng đo mức độ phân tán | `ghep-nhom-phan-tan` | `bai-10` | ⬜ | |

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-16 – Trọn bộ Toán 10 Chương IV: Bài 7 và Bài 8 (Vectơ)
+
+- **Yêu cầu:** "Tiếp tục làm các bài cho học sinh Chương IV. Vectơ gồm Bài 7. Các khái niệm mở đầu, Bài 8. Tổng và hiệu hai vectơ đầy đủ cho học sinh học bài" (lệnh trọn bộ, 6 phần).
+- **Kết quả:** học sinh luyện tập: chủ đề mới `Chương IV · Vectơ` (id 5) với `vecto-khai-niem` và `vecto-tong-hieu`, mỗi bài 4 dạng × 3 mức, đáp án kiểm độc lập bằng toạ độ; bài giảng trình chiếu `bai-7`, `bai-8` (hình vectơ mới `vecSVG` trong `figures.js`); phiếu luyện tập 7 cơ bản + 3 ★ mỗi bài; giải SGK dạng vận dụng (số bài/trang SGK chưa tra, ghi rõ để thầy đối chiếu); phiếu trên lớp (Phần A 2 trang A4 + Phần B). Phiếu in A4 tự sinh từ bài giảng.
+- **Tệp thay đổi:** `data/lop10.js`, `assets/js/figures.js`, `giao-vien/bai-giang/lop10.js`, `lop10-luyen-tap.js`, `lop10-giai-sgk.js`, `lop10-khoi-dong.js`, `KE-HOACH-TRON-BO.md`, `AGENTS.md`, `CLAUDE.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` ĐẠT (908 trang bài giảng); `python3 tools/test.py` ĐẠT (30750 câu); `python3 tools/test_phieu_tren_lop.py` ĐẠT 52/52 (Bài 7, Bài 8: Phần A đúng 2 trang A4); `python3 tools/test_baigiang.py lop10` ĐẠT (chiếu 284 trang không tràn); `python3 tools/build.py` đã chạy; đáp án vectơ kiểm độc lập bằng toạ độ (3500 mẫu, 0 sai).
+- **Cần làm thủ công:** đối chiếu tên bài, số bài và số trang SGK ở phần giải SGK; xem lại các tình huống [Minh họa] (xe chạy, hợp lực, thuyền qua sông) ở phiếu trên lớp.
+
 ### 2026-10-16 – Đề kiểm tra Chương III Toán 10 (Hệ thức lượng trong tam giác)
 
 - **Yêu cầu:** đề chương 3 Toán 10 (giá trị lượng giác góc 0°–180° và hệ thức lượng) cùng cấu trúc: 10 TN (5đ), 3 Đ/S (3đ), 2 TLN (2đ); TB ≈ 8 điểm, giỏi 9–10; 40% toán thực tế.
