@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-16 – Toán 8 Chương II: bù giải SGK và phiếu trên lớp cho Bài 6
+
+- **Yêu cầu:** việc định kỳ "trọn bộ một bài Toán 8": bài đầu tiên chưa đủ 6 phần là Bài 6 (đã có học sinh, bài giảng, luyện tập; thiếu giải SGK và phiếu trên lớp).
+- **Kết quả:** giải SGK `bai-6` (8 câu: Vận dụng 1–2, Luyện tập 2, Bài 2.2–2.6; đề lấy từ văn bản SGK tra trên mạng, có phần mở rộng); phiếu trên lớp Bài 6 (Phần A đúng 2 trang A4 + Phần B), bám Ví dụ 1–6 của bài giảng. Đáp số kiểm bằng sympy.
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop8-giai-sgk.js`, `lop8-khoi-dong.js`, `giao-vien/index.html`, `AGENTS.md`, `CLAUDE.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` ĐẠT; `python3 tools/test.py` ĐẠT (30930 câu); `python3 tools/test_phieu_tren_lop.py` ĐẠT 62/62; `python3 tools/build.py` đã chạy; `python3 tools/test_baigiang.py lop8` CHƯA ĐẠT ở 1 trang của Bài 14 (bài giảng cũ, không sửa trong lần này; chưa xác định nguyên nhân).
+- **Việc thủ công:** đối chiếu số trang SGK (nguồn ghi tr. 30–33; đề Vận dụng 2 ghi "1 0022", đã hiểu là 1002²); chưa có Bài 8, 9, Ôn tập chương II trong luyện tập/giải SGK/phiếu trên lớp (làm các lần sau).
+
 ### 2026-10-16 – Trọn bộ Toán 11 Chương III: Bài 9. Các số đặc trưng đo xu thế trung tâm
 
 - **Yêu cầu:** "Tiếp tục các bài trọn bộ cho lớp 11: Chương III. Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm" (hàng ⬜ đầu tiên của Toán 11: Bài 9).
