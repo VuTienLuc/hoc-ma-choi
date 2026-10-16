@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-16 – Đề kiểm tra Chương III Toán 10 (Hệ thức lượng trong tam giác)
+
+- **Yêu cầu:** đề chương 3 Toán 10 (giá trị lượng giác góc 0°–180° và hệ thức lượng) cùng cấu trúc: 10 TN (5đ), 3 Đ/S (3đ), 2 TLN (2đ); TB ≈ 8 điểm, giỏi 9–10; 40% toán thực tế.
+- **Kết quả:** ngân hàng mới `C3B10` (8 phiên bản mỗi câu, đáp số đối chiếu bằng số); đề in 4 mã 131–134 trong phần bài giảng giáo viên và 2 đề trực tuyến cho học sinh. Toán thực tế 4/10 điểm: TN5 (thang), TN7 (vùng phủ sóng), TN8 (mảnh đất), TN10 (hai tàu), Đ/S 3 (đo qua ao), TLN1 (diện tích mảnh vườn).
+- **Tệp thay đổi:** `data/lop10-chuong3-bank.js`, `giao-vien/bai-giang/lop10-kiem-tra-c3.js`, `data/lop10-chuong3-kiem-tra.js`, `index.html`, `giao-vien/index.html`, `AGENTS.md`, `CLAUDE.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` ĐẠT; `python3 tools/test_kiemtra.py lop10 c3` ĐẠT 11/11 (mỗi mã in đúng 2 trang A4); test.py ĐẠT (lần đầu có 1 lỗi chập chờn ở trò chơi phiêu lưu, chạy lại ĐẠT); test_phieu_tren_lop.py ĐẠT 42/42; build.py đã chạy.
+- **Cần làm thủ công:** thầy xem lại đề in `#/lop10/kiem-tra/c3/de`, nhất là mức khó TN9–10 và TLN2.
+
 ### 2026-10-16 – Đề kiểm tra Chương II Toán 11: nâng toán thực tế lên 40%
 
 - **Yêu cầu:** đề chương 2 Toán 11 (Dãy số – CSC – CSN) trong phần bài giảng giáo viên: 10 TN (5đ), 3 Đ/S (3đ), 2 TLN (2đ); TB ≈ 8 điểm, giỏi 9–10; 40% toán thực tế.
