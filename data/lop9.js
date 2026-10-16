@@ -2697,6 +2697,7 @@ const ortho7 = (o = {}) => {
   const S = [[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...D7],[...C7,...E7]];
   if(o.af) S.push([...A7,...F7,true]);
   if(o.def) S.push([...E7,...F7,true],[...D7,...F7,true]);
+  if(o.md) S.push([3,0,...E7,true],[3,0,...D7,true]);
   if(o.mn) S.push([...E7,3,0,true],[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2,3,0,true],[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2,...E7,true]);
   const P = [[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...D7,'D',20],[...E7,'E',160],[...H7,'H',-100]];
   if(o.af || o.def) P.push([...F7,'F',-90]);
@@ -3106,6 +3107,260 @@ lesson(6,'on-thi-hinh-hoc-chung-minh-2','Hình học 7b. Hệ thức, thẳng h�
   {t:`Đồng quy và tia phân giác`, b:`<ul><li>${tm('B, F, H, E')} thuộc đường tròn đường kính ${tm('BH')}: ${tm('\\widehat{EFH} = \\widehat{EBH} = 90^\\circ - \\widehat{BAC}')}.</li><li>Tương tự ${tm('\\widehat{DFH} = \\widehat{DCH} = 90^\\circ - \\widehat{BAC}')}, nên ${tm('FA')} là phân giác của ${tm('\\widehat{DFE}')} và ${tm('\\widehat{DFE} = 180^\\circ - 2\\widehat{BAC}')}.</li><li>Ba phân giác đồng quy tại ${tm('H')}: ${tm('H')} là tâm đường tròn nội tiếp tam giác ${tm('DEF')}.</li></ul>`, warn:`Đề năm nay không cho viện dẫn dấu hiệu tứ giác nội tiếp: phải chứng minh bốn điểm cùng thuộc đường tròn bằng trung điểm cạnh huyền (hai tam giác vuông chung cạnh huyền ${tm('BH')}).`, ex:`Nghĩ đến tam giác vuông tại hai đỉnh khác nhau cùng “nhìn” một đoạn: đó là cặp đường tròn cần dựng.`},
   {t:`Tiếp tuyến và độ dài`, b:`<ul><li>${tm('N')} là trung điểm ${tm('AH')}: ${tm('NE = NA = NH')} (trung tuyến ứng với cạnh huyền).</li><li>${tm('\\widehat{AEN} = \\widehat{BAF} = 90^\\circ - \\widehat{ABC}')}, ${tm('\\widehat{BEM} = \\widehat{ABC}')} nên ${tm('\\widehat{NEM} = 90^\\circ')}: ${tm('ME')} là tiếp tuyến của đường tròn đường kính ${tm('AH')}.</li><li>Tính ${tm('MN')} bằng Pythagore trong tam giác vuông ${tm('NEM')}.</li></ul>`, warn:`Tiếp tuyến cần cả hai ý: ${tm('E')} thuộc đường tròn và ${tm('ME')} vuông góc với bán kính ${tm('NE')} tại ${tm('E')}.`, ex:`Thấy “trung điểm” của cạnh huyền thì nghĩ ngay đến tam giác cân và các cặp góc ở đáy bằng nhau.`},
   {t:`Hệ thức HA·HF = HB·HD`, b:`<ul><li>${tm('\\triangle HAD \\sim \\triangle HBF')} (góc vuông và góc đối đỉnh tại ${tm('H')}) cho ${tm('HA\\cdot HF = HB\\cdot HD')}; tương tự ${tm('= HC\\cdot HE')}.</li><li>${tm('H')} nằm giữa ${tm('A')} và ${tm('F')} (tam giác nhọn): ${tm('AF = HA + HF')}.</li></ul>`, warn:`Đừng ghép nhầm đỉnh: góc vuông ở ${tm('D')} ứng với góc vuông ở ${tm('F')}, không phải ở ${tm('B')}.`, ex:`Tích “đoạn × đoạn” cùng đi qua một điểm (ở đây ${tm('H')}) thường đến từ cặp tam giác đối đỉnh.`}
+]});
+
+
+/* ---------- Chủ đề 10. Hình học 7c: tính độ dài, chu vi, diện tích, số đo góc – vận dụng cao ---------- */
+const sq3c = '\\sqrt{3}';
+
+/* Hình đường tròn (O) ngoại tiếp tam giác nhọn ABC vẽ ĐÚNG theo số đo ba góc; BC nằm ngang.
+   mode 'R' (dạng 2): OB, OC, OM nét đứt, AF là đường cao; mode 'ang' (dạng 3): AO nét đứt, AF là đường cao */
+const figO7 = (Ad, Bd, Cd, mode) => {
+  const rd = t => t*Math.PI/180, pol = t => [3*Math.cos(rd(t)), 3*Math.sin(rd(t))];
+  const Bp = pol(270 - Ad), Cp = pol(270 + Ad), Ap = pol(270 + Ad + 2*Bd);
+  const Hp = [Ap[0] + Bp[0] + Cp[0], Ap[1] + Bp[1] + Cp[1]], yb = Bp[1], Fp = [Ap[0], yb], Mp = [0, yb];
+  const S = [[...Ap,...Bp],[...Ap,...Cp],[...Bp,...Cp],[...Ap,...Fp]];
+  if(mode === 'R') S.push([0,0,...Bp,true],[0,0,...Cp,true],[0,0,...Mp,true]);
+  else S.push([...Ap,0,0,true]);
+  const fl = Fp[0] < Mp[0];
+  const P = [[...Ap,'A',Math.atan2(Ap[1],Ap[0])*180/Math.PI],[...Bp,'B',225],[...Cp,'C',315],[...Fp,'F',fl ? 250 : 290],[...Hp,'H',Ap[0] < 0 ? 180 : 0]];
+  if(mode === 'R') P.push([...Mp,'M',fl ? 290 : 250]);
+  return circleSVG({C:[{x:0, y:0, r:3, lab:'O', lp:14}], P, S, right:[[Fp[0], Fp[1], fl ? 0 : 90]]});
+};
+
+/* ===== Dạng 1. Độ dài với ba đường cao: FH·FA = FB·FC ===== */
+const c7head1 = `Tam giác nhọn ${m('ABC')} có đường cao ${m('AF')} (${m('F \\in BC')}); hai đường cao ${m('BD')} và ${m('CE')} cắt nhau tại ${m('H')}.`;
+const c7why1 = `${m('\\widehat{HBF} = 90^\\circ - \\widehat{C}')} (tam giác ${m('BDC')} vuông tại ${m('D')}) và ${m('\\widehat{FAC} = 90^\\circ - \\widehat{C}')} (tam giác ${m('AFC')} vuông tại ${m('F')}), cùng ${m('\\widehat{BFH} = \\widehat{AFC} = 90^\\circ')} nên ${m('\\triangle FBH \\sim \\triangle FAC')} (g.g). Suy ra ${m('\\dfrac{FH}{FC} = \\dfrac{FB}{FA}')}, tức ${m('FH\\cdot FA = FB\\cdot FC')}.`;
+const c7d1 = () => {
+  for(;;){
+    const a = R(5, 12), h = R(2, a - 1), n = a*h, fs = [];
+    for(let b = 2; b <= n; b++) if(n % b === 0 && n/b >= 2 && b + n/b <= 22) fs.push(b);
+    if(!fs.length) continue;
+    const b = pick(fs);
+    return {a, b, c:n/b, h};
+  }
+};
+const T3c = [];
+for(let b = 3; b <= 24; b++) for(let a = 3; a <= 24; a++){
+  const ab = Math.hypot(a, b);
+  if(ab % 1) continue;
+  for(let c = 3; c <= 24; c++){
+    if((b*c) % a) continue;
+    const h = b*c/a;
+    if(h >= a || h < 2 || ((b + c)*h) % 2 || b + c > 26) continue;
+    T3c.push({a, b, c, h, ab});
+  }
+}
+const gHc1 = lv => {
+  const fig = ortho7({af:true});
+  if(lv === 1){
+    const {a, b, c, h} = c7d1();
+    return QB({text:`${c7head1} Biết ${m(`BF = ${b}`)} cm, ${m(`CF = ${c}`)} cm, ${m(`AF = ${a}`)} cm. Tính ${m('HF')}.`, fig,
+      tpl:`${m('HF =')} [_] cm`, ans:[h],
+      hint:`Hai góc ${m('\\widehat{HBF}')} và ${m('\\widehat{FAC}')} cùng phụ với góc ${m('C')}: tìm hai tam giác vuông đồng dạng có chứa ${m('HF')}.`,
+      sol:`${c7why1}<br>${m(`HF = \\dfrac{FB\\cdot FC}{FA} = \\dfrac{${b}\\cdot ${c}}{${a}} =`)} ${tb(h)} cm.`});
+  }
+  if(lv === 2){
+    let d;
+    do{ d = c7d1(); }while((d.b + d.c)*d.a % 2);
+    const {a, b, c, h} = d, S = (b + c)*a/2;
+    return QB({text:`${c7head1} Biết ${m(`BF = ${b}`)} cm, ${m(`CF = ${c}`)} cm, ${m(`HF = ${h}`)} cm. Tính ${m('AH')} và diện tích tam giác ${m('ABC')}.`, fig,
+      tpl:`<span class="eq">${m('AH =')} [_] cm</span><br><span class="eq">${m('S_{ABC} =')} [_] cm²</span>`, ans:[a - h, S],
+      hint:`Từ ${m('FH\\cdot FA = FB\\cdot FC')} tính ${m('FA')}. Điểm ${m('H')} nằm giữa ${m('A')} và ${m('F')}; ${m('AF')} là đường cao ứng với đáy ${m('BC')}.`,
+      sol:`${c7why1}<br>${m(`FA = \\dfrac{FB\\cdot FC}{FH} = \\dfrac{${b}\\cdot ${c}}{${h}} = ${a}`)} cm.<br>${m('H')} nằm giữa ${m('A')} và ${m('F')} nên ${m(`AH = AF - HF = ${a} - ${h} =`)} ${tb(a - h)} cm.<br>${m(`BC = ${b} + ${c} = ${b + c}`)} cm, ${m(`S_{ABC} = \\dfrac{1}{2}\\cdot ${b + c}\\cdot ${a} =`)} ${tb(S)} ${m('\\text{cm}^2')}.`});
+  }
+  const t = pick(T3c), {a, b, c, h, ab} = t, good = m('FH\\cdot FA = FB\\cdot FC'), SB = (b + c)*h/2;
+  return QS({direct:true, fig,
+    text:`${c7head1} Biết ${m(`AB = ${ab}`)} cm, ${m(`BF = ${b}`)} cm, ${m(`CF = ${c}`)} cm. Tính diện tích tam giác ${m('BHC')}.`,
+    hint:`Tính ${m('AF')} bằng định lí Pythagore, rồi dùng cặp tam giác vuông đồng dạng để tính ${m('HF')}; ${m('HF')} là đường cao của tam giác ${m('BHC')}.`,
+    steps:[
+      {tag:'Tính AF', ask:`Tam giác ${m('ABF')} vuông tại ${m('F')}. Tính ${m('AF')}.`, tpl:`${m('AF =')} [_] cm`, ans:[a], hint:`${m('AF^2 = AB^2 - BF^2')}.`},
+      {tag:'Hệ thức', ask:`Từ ${m('\\triangle FBH \\sim \\triangle FAC')} (cùng phụ với góc ${m('C')}) ta có`, opts:[good, m('FH\\cdot FB = FA\\cdot FC'), m('FH\\cdot FC = FA\\cdot FB'), m('FH + FA = FB + FC')], ans:good,
+        hint:`Tỉ số cạnh tương ứng: ${m('\\dfrac{FH}{FC} = \\dfrac{FB}{FA}')}.`},
+      {tag:'Tính HF', ask:`Tính ${m('HF')}.`, tpl:`${m('HF =')} [_] cm`, ans:[h], hint:`${m('HF = \\dfrac{FB\\cdot FC}{FA}')}.`},
+      {tag:'Diện tích', ask:`Tính diện tích tam giác ${m('BHC')} (đáy ${m('BC')}, đường cao ${m('HF')}).`, tpl:`${m('S_{BHC} =')} [_] cm²`, ans:[SB], hint:`${m('BC = BF + FC')}; ${m('S = \\dfrac{1}{2}\\cdot BC\\cdot HF')}.`}
+    ],
+    sol:`${m(`AF = \\sqrt{${ab}^2 - ${b}^2} = ${a}`)} cm. ${c7why1}<br>${m(`HF = \\dfrac{${b}\\cdot ${c}}{${a}} = ${h}`)} cm; ${m(`BC = ${b} + ${c} = ${b + c}`)} cm.<br>${m(`S_{BHC} = \\dfrac{1}{2}\\cdot ${b + c}\\cdot ${h} =`)} ${tb(SB)} ${m('\\text{cm}^2')}.`});
+};
+
+/* ===== Dạng 2. Tam giác nội tiếp có góc A = 60°: OM = R/2, AH = R ===== */
+const c7head2 = `Tam giác nhọn ${m('ABC')} có ${m('\\widehat{BAC} = 60^\\circ')}, nội tiếp đường tròn ${m('(O; R)')}; ${m('AF')} là đường cao, ${m('H')} là trực tâm, ${m('M')} là trung điểm của ${m('BC')}.`;
+const c7why2 = `${m('\\widehat{BOC} = 2\\widehat{BAC} = 120^\\circ')} (góc ở tâm gấp đôi góc nội tiếp cùng chắn cung ${m('BC')}). Tam giác ${m('OBC')} cân tại ${m('O')} có ${m('OM')} là trung tuyến nên cũng là đường cao và phân giác: ${m('\\widehat{BOM} = 60^\\circ')}, ${m('OM \\perp BC')}, nên ${m('OM = OB\\cdot \\cos 60^\\circ = \\dfrac{R}{2}')}.`;
+const c7why2b = `Kẻ đường kính ${m('AK')}: ${m('KB \\parallel CH')}, ${m('KC \\parallel BH')} nên ${m('BHCK')} là hình bình hành, ${m('M')} là trung điểm ${m('HK')}; ${m('OM')} là đường trung bình của tam giác ${m('AHK')} nên ${m('AH = 2OM = R')}.`;
+const c7ang2 = () => { const B = pick([45, 50, 55, 65, 70, 75]); return [B, 120 - B]; };
+const gHc2 = lv => {
+  const [Bd, Cd] = c7ang2(), fig = figO7(60, Bd, Cd, 'R');
+  if(lv === 1){
+    const k = R(2, 9);
+    return QB({text:`${c7head2} Biết ${m(`R = ${2*k}`)} cm. Tính ${m('\\widehat{BOC}')} và ${m('OM')}.`, fig,
+      tpl:`<span class="eq">${m('\\widehat{BOC} =')} [_]°</span><br><span class="eq">${m('OM =')} [_] cm</span>`, ans:[120, k],
+      hint:`Góc ở tâm gấp đôi góc nội tiếp cùng chắn một cung. Tam giác ${m('OBC')} cân tại ${m('O')}: ${m('OM')} cũng là phân giác của góc ${m('BOC')}; dùng ${m('\\cos')} trong tam giác vuông ${m('OMB')}.`,
+      sol:`${c7why2}<br>${m(`OM = \\dfrac{${2*k}}{2} =`)} ${tb(k)} cm; ${m('\\widehat{BOC} =')} ${tb('120')}°.`});
+  }
+  if(lv === 2){
+    if(R(0, 1) === 0){
+      const h = R(3, 12);
+      return QB({text:`${c7head2} Biết ${m(`AH = ${h}`)} cm. Tính bán kính ${m('R')} và diện tích hình tròn ${m('(O)')} (kết quả có dạng ${m('a\\pi')}).`, fig,
+        tpl:`<span class="eq">${m('R =')} [_] cm</span><br><span class="eq">${m('S_{(O)} =')} [_]${m('\\pi')} cm²</span>`, ans:[h, h*h],
+        hint:`Nối đường kính ${m('AK')} để chứng minh ${m('BHCK')} là hình bình hành, từ đó ${m('AH = 2OM')}; rồi tính ${m('OM')} theo ${m('R')}.`,
+        sol:`${c7why2}<br>${c7why2b}<br>Vậy ${m(`R = AH =`)} ${tb(h)} cm và ${m(`S_{(O)} = \\pi R^2 = ${h}^2\\pi =`)} ${tb(h*h)}${m('\\pi')} ${m('\\text{cm}^2')}.`});
+    }
+    const k = R(2, 9);
+    return QB({text:`${c7head2} Biết ${m(`OM = ${k}`)} cm. Tính ${m('AH')} và chu vi đường tròn ${m('(O)')} (kết quả có dạng ${m('a\\pi')}).`, fig,
+      tpl:`<span class="eq">${m('AH =')} [_] cm</span><br><span class="eq">${m('C_{(O)} =')} [_]${m('\\pi')} cm</span>`, ans:[2*k, 4*k],
+      hint:`${m('AH = 2OM')} (đường kính ${m('AK')}, hình bình hành ${m('BHCK')}); ${m('OM')} bằng nửa bán kính khi ${m('\\widehat{BAC} = 60^\\circ')}.`,
+      sol:`${c7why2}<br>${m(`R = 2\\cdot OM = ${2*k}`)} cm.<br>${c7why2b}<br>${m(`AH = 2OM =`)} ${tb(2*k)} cm; ${m(`C_{(O)} = 2\\pi R = 2\\pi\\cdot ${2*k} =`)} ${tb(4*k)}${m('\\pi')} cm.`});
+  }
+  const k = pick([4, 6, 8, 10, 12]), half = k/2, good = m('60^\\circ');
+  return QS({direct:true, fig,
+    text:`${c7head2} Biết ${m(`BC = ${k}${sq3c}`)} cm. Tính ${m('R')}, ${m('OM')}, ${m('AH')} và diện tích hình tròn ${m('(O)')}.`,
+    hint:`Tính ${m('\\widehat{BOM}')} từ góc ở tâm; trong tam giác vuông ${m('OMB')} dùng ${m('\\sin')} để tính ${m('R')}; rồi ${m('OM = \\dfrac{R}{2}')}, ${m('AH = 2OM')}.`,
+    steps:[
+      {tag:'Góc BOM', ask:`Tính ${m('\\widehat{BOM}')} (nhờ ${m('\\widehat{BOC} = 2\\widehat{BAC}')} và ${m('OM')} là phân giác).`, opts:[good, m('30^\\circ'), m('120^\\circ'), m('90^\\circ')], ans:good,
+        hint:`${m('\\widehat{BOC} = 120^\\circ')}, ${m('OM')} chia đôi góc đó.`},
+      {tag:'Tính R', ask:`Trong tam giác vuông ${m('OMB')}: ${m('BM = R\\sin 60^\\circ = \\dfrac{R\\sqrt{3}}{2}')}. Tính ${m('R')}.`, tpl:`${m('R =')} [_] cm`, ans:[k], hint:`${m(`BM = \\dfrac{BC}{2} = \\dfrac{${k}${sq3c}}{2}`)}.`},
+      {tag:'Tính OM', ask:`Tính ${m('OM')}.`, tpl:`${m('OM =')} [_] cm`, ans:[half], hint:`${m('OM = R\\cos 60^\\circ')}.`},
+      {tag:'Tính AH', ask:`Tính ${m('AH')}.`, tpl:`${m('AH =')} [_] cm`, ans:[k], hint:`${m('AH = 2OM')}.`},
+      {tag:'Diện tích', ask:`Diện tích hình tròn ${m('(O)')} (kết quả có dạng ${m('a\\pi')}).`, tpl:`${m('S =')} [_]${m('\\pi')} cm²`, ans:[k*k], hint:`${m('S = \\pi R^2')}.`}
+    ],
+    sol:`${c7why2}<br>${m(`BM = \\dfrac{${k}${sq3c}}{2}`)} và ${m('BM = R\\sin 60^\\circ = \\dfrac{R\\sqrt{3}}{2}')} nên ${m(`R =`)} ${tb(k)} cm.<br>${m(`OM = \\dfrac{R}{2} =`)} ${tb(half)} cm.<br>${c7why2b} ${m(`AH =`)} ${tb(k)} cm; ${m(`S_{(O)} = ${k}^2\\pi =`)} ${tb(k*k)}${m('\\pi')} ${m('\\text{cm}^2')}.`});
+};
+
+/* ===== Dạng 3. Số đo góc: ∠BOC = 2A, ∠OAH = |B − C| ===== */
+const c7head3b = (B, C) => `Tam giác nhọn ${m('ABC')} nội tiếp đường tròn ${m('(O)')} có ${m(`\\widehat{ABC} = ${B}^\\circ`)}, ${m(`\\widehat{ACB} = ${C}^\\circ`)}; ${m('AF')} là đường cao, ${m('H')} là trực tâm.`;
+const c7ang3 = () => {
+  for(;;){
+    const B = R(45, 80), C = R(45, 80), A = 180 - B - C;
+    if(B !== C && A >= 40 && A <= 80) return [A, B, C];
+  }
+};
+const gHc3 = lv => {
+  const [Ad, Bd, Cd] = c7ang3(), fig = figO7(Ad, Bd, Cd, 'ang'), head = c7head3b(Bd, Cd);
+  if(lv === 1){
+    return QB({text:`${head} Tính ${m('\\widehat{BAC}')} và ${m('\\widehat{BOC}')}.`, fig,
+      tpl:`<span class="eq">${m('\\widehat{BAC} =')} [_]°</span><br><span class="eq">${m('\\widehat{BOC} =')} [_]°</span>`, ans:[Ad, 2*Ad],
+      hint:`Tổng ba góc của tam giác ${m('ABC')}; góc ở tâm ${m('BOC')} và góc nội tiếp ${m('BAC')} cùng chắn cung ${m('BC')}.`,
+      sol:`${m(`\\widehat{BAC} = 180^\\circ - ${Bd}^\\circ - ${Cd}^\\circ =`)} ${tb(`${Ad}^\\circ`)}.<br>${m(`\\widehat{BOC} = 2\\widehat{BAC} = 2\\cdot ${Ad}^\\circ =`)} ${tb(`${2*Ad}^\\circ`)}.`});
+  }
+  const bAF = 90 - Bd, oAB = 90 - Cd;
+  if(lv === 2){
+    return QB({text:`${head} Tính ${m('\\widehat{BAF}')} và ${m('\\widehat{OAB}')}.`, fig,
+      tpl:`<span class="eq">${m('\\widehat{BAF} =')} [_]°</span><br><span class="eq">${m('\\widehat{OAB} =')} [_]°</span>`, ans:[bAF, oAB],
+      hint:`${m('\\widehat{BAF}')} nằm trong tam giác vuông ${m('ABF')}. Góc ở tâm ${m('\\widehat{AOB} = 2\\widehat{ACB}')}, tam giác ${m('OAB')} cân tại ${m('O')}.`,
+      sol:`Tam giác ${m('ABF')} vuông tại ${m('F')}: ${m(`\\widehat{BAF} = 90^\\circ - ${Bd}^\\circ =`)} ${tb(`${bAF}^\\circ`)}.<br>${m(`\\widehat{AOB} = 2\\widehat{ACB} = ${2*Cd}^\\circ`)}; tam giác ${m('OAB')} cân tại ${m('O')} nên ${m(`\\widehat{OAB} = \\dfrac{180^\\circ - ${2*Cd}^\\circ}{2} =`)} ${tb(`${oAB}^\\circ`)}.`});
+  }
+  const dif = Math.abs(Bd - Cd), good = m('|\\widehat{B} - \\widehat{C}|');
+  return QS({direct:true, fig,
+    text:`${head} Tính góc giữa hai đường thẳng ${m('AO')} và ${m('AH')}, tức là ${m('\\widehat{OAH}')}.`,
+    hint:`Tính ${m('\\widehat{BAF}')} và ${m('\\widehat{OAB}')}, hai tia ${m('AH')} (= ${m('AF')}) và ${m('AO')} cùng nằm trong góc ${m('BAC')}; ${m('\\widehat{OAH}')} là hiệu của hai góc đó.`,
+    steps:[
+      {tag:'Góc BAF', ask:`Tính ${m('\\widehat{BAF}')} (tam giác ${m('ABF')} vuông tại ${m('F')}).`, tpl:`${m('\\widehat{BAF} =')} [_]°`, ans:[bAF], hint:`${m('\\widehat{BAF} = 90^\\circ - \\widehat{B}')}.`},
+      {tag:'Góc OAB', ask:`Tính ${m('\\widehat{OAB}')} (dùng ${m('\\widehat{AOB} = 2\\widehat{C}')}, tam giác ${m('OAB')} cân).`, tpl:`${m('\\widehat{OAB} =')} [_]°`, ans:[oAB], hint:`${m('\\widehat{OAB} = 90^\\circ - \\widehat{C}')}.`},
+      {tag:'Kết luận chung', ask:`Với mọi tam giác nhọn ${m('ABC')}, ${m('\\widehat{OAH}')} bằng`, opts:[good, m('\\widehat{B} + \\widehat{C}'), m('90^\\circ - \\widehat{A}'), m('2\\widehat{A}')], ans:good,
+        hint:`Hiệu của ${m('90^\\circ - \\widehat{C}')} và ${m('90^\\circ - \\widehat{B}')}.`},
+      {tag:'Tính OAH', ask:`Tính ${m('\\widehat{OAH}')}.`, tpl:`${m('\\widehat{OAH} =')} [_]°`, ans:[dif], hint:`Lấy góc lớn trừ góc bé.`}
+    ],
+    sol:`${m(`\\widehat{BAF} = 90^\\circ - ${Bd}^\\circ = ${bAF}^\\circ`)}; ${m(`\\widehat{AOB} = 2\\widehat{C} = ${2*Cd}^\\circ`)} nên ${m(`\\widehat{OAB} = 90^\\circ - ${Cd}^\\circ = ${oAB}^\\circ`)}.<br>${m('AH')} (trùng ${m('AF')}) và ${m('AO')} cùng nằm trong góc ${m('BAC')}, nên ${m('\\widehat{OAH} = |\\widehat{OAB} - \\widehat{BAF}| = |\\widehat{B} - \\widehat{C}|')}.<br>${m(`\\widehat{OAH} = |${Bd}^\\circ - ${Cd}^\\circ| =`)} ${tb(`${dif}^\\circ`)}.`});
+};
+
+/* ===== Dạng 4. Tam giác ADE đồng dạng ABC: tỉ số, chu vi, diện tích ===== */
+const c7head4 = `Tam giác nhọn ${m('ABC')} có hai đường cao ${m('BD')} và ${m('CE')} (${m('D \\in AC')}, ${m('E \\in AB')}). Biết ${m('AD\\cdot AC = AE\\cdot AB')}, nên ${m('\\triangle ADE \\sim \\triangle ABC')} (c.g.c).`;
+const c7why4 = `Từ ${m('AD\\cdot AC = AE\\cdot AB')} suy ra ${m('\\dfrac{AD}{AB} = \\dfrac{AE}{AC}')}; hai tam giác có chung góc ${m('A')} nên ${m('\\triangle ADE \\sim \\triangle ABC')} (c.g.c), tỉ số đồng dạng ${m('k = \\dfrac{AD}{AB}')}. Tỉ số chu vi bằng ${m('k')}, tỉ số diện tích bằng ${m('k^2')}.`;
+const K4 = [[1,2],[1,3],[2,3],[3,4],[2,5],[3,5],[4,5]];
+const T4c = [];
+for(let ab = 6; ab <= 30; ab++) for(let ac = 6; ac <= 30; ac++) for(let bc = 6; bc <= 30; bc++){
+  const a2 = ab*ab, b2 = ac*ac, c2 = bc*bc;
+  if(a2 + b2 <= c2 || a2 + c2 <= b2 || b2 + c2 <= a2 || (ab === ac && ac === bc)) continue;
+  const n = a2 + b2 - c2;
+  if(n % (2*ac) || n % (2*ab)) continue;
+  const ad = n/(2*ac), ae = n/(2*ab);
+  if((ad*bc) % ab) continue;
+  T4c.push({ab, ac, bc, ad, ae, de:ad*bc/ab});
+}
+const gHc4 = lv => {
+  const fig = ortho7();
+  if(lv === 1){
+    const [p, q] = pick(K4), s = R(2, 5), u = R(2, 6), AD = p*s, AB = q*s, DE = p*u, BC = q*u;
+    return QB({text:`${c7head4} Biết ${m(`AD = ${AD}`)} cm, ${m(`AB = ${AB}`)} cm, ${m(`DE = ${DE}`)} cm. Tính ${m('BC')}.`, fig,
+      tpl:`${m('BC =')} [_] cm`, ans:[BC],
+      hint:`Tam giác đồng dạng thì các cạnh tương ứng tỉ lệ: ${m('DE')} ứng với ${m('BC')}, ${m('AD')} ứng với ${m('AB')}.`,
+      sol:`${c7why4}<br>${m(`\\dfrac{DE}{BC} = \\dfrac{AD}{AB} = \\dfrac{${AD}}{${AB}}`)} nên ${m(`BC = \\dfrac{${DE}\\cdot ${AB}}{${AD}} =`)} ${tb(BC)} cm.`});
+  }
+  if(lv === 2){
+    const [p, q] = pick(K4), s = R(2, 5);
+    if(R(0, 1) === 0){
+      const t = R(1, 4), S = q*q*t;
+      return QB({text:`${c7head4} Biết ${m(`AD = ${p*s}`)} cm, ${m(`AB = ${q*s}`)} cm và diện tích tam giác ${m('ABC')} bằng ${m(`${S}`)} ${m('\\text{cm}^2')}. Tính diện tích tam giác ${m('ADE')} và diện tích tứ giác ${m('BCDE')}.`, fig,
+        tpl:`<span class="eq">${m('S_{ADE} =')} [_] cm²</span><br><span class="eq">${m('S_{BCDE} =')} [_] cm²</span>`, ans:[p*p*t, (q*q - p*p)*t],
+        hint:`Tỉ số diện tích bằng bình phương tỉ số đồng dạng. Tứ giác ${m('BCDE')} là phần còn lại của tam giác ${m('ABC')} sau khi bỏ tam giác ${m('ADE')}.`,
+        sol:`${c7why4}<br>${m(`k = \\dfrac{${p*s}}{${q*s}} = \\dfrac{${p}}{${q}}`)} nên ${m(`S_{ADE} = k^2\\cdot S_{ABC} = \\dfrac{${p*p}}{${q*q}}\\cdot ${S} =`)} ${tb(p*p*t)} ${m('\\text{cm}^2')}.<br>${m(`S_{BCDE} = S_{ABC} - S_{ADE} = ${S} - ${p*p*t} =`)} ${tb((q*q - p*p)*t)} ${m('\\text{cm}^2')}.`});
+    }
+    const t1 = R(2, 5), t2 = R(1, 3), P = q*t1, S = q*q*t2;
+    return QB({text:`${c7head4} Biết ${m(`AD = ${p*s}`)} cm, ${m(`AB = ${q*s}`)} cm; tam giác ${m('ABC')} có chu vi ${m(`${P}`)} cm và diện tích ${m(`${S}`)} ${m('\\text{cm}^2')}. Tính chu vi và diện tích tam giác ${m('ADE')}.`, fig,
+      tpl:`<span class="eq">${m('P_{ADE} =')} [_] cm</span><br><span class="eq">${m('S_{ADE} =')} [_] cm²</span>`, ans:[p*t1, p*p*t2],
+      hint:`Chu vi nhân với ${m('k')}, diện tích nhân với ${m('k^2')} (${m('k = \\dfrac{AD}{AB}')}).`,
+      sol:`${c7why4}<br>${m(`k = \\dfrac{${p*s}}{${q*s}} = \\dfrac{${p}}{${q}}`)}. ${m(`P_{ADE} = k\\cdot P_{ABC} = \\dfrac{${p}}{${q}}\\cdot ${P} =`)} ${tb(p*t1)} cm; ${m(`S_{ADE} = k^2\\cdot S_{ABC} = \\dfrac{${p*p}}{${q*q}}\\cdot ${S} =`)} ${tb(p*p*t2)} ${m('\\text{cm}^2')}.`});
+  }
+  const t = pick(T4c), {ab, ac, bc, ad, ae, de} = t, good = m('\\triangle ADE \\sim \\triangle ABC');
+  const per = bc + (ac - ad) + de + (ab - ae);
+  return QS({direct:true, fig,
+    text:`${c7head4} Biết ${m(`AB = ${ab}`)} cm, ${m(`AC = ${ac}`)} cm, ${m(`BC = ${bc}`)} cm, ${m(`AD = ${ad}`)} cm. Tính chu vi tứ giác ${m('BCDE')}.`,
+    hint:`Chu vi ${m('BCDE = BC + CD + DE + EB')} với ${m('CD = AC - AD')}, ${m('EB = AB - AE')}. Tính ${m('AE')} và ${m('DE')} bằng tam giác đồng dạng.`,
+    steps:[
+      {tag:'Đồng dạng', ask:`Từ ${m('AD\\cdot AC = AE\\cdot AB')} và góc ${m('A')} chung, ta có`, opts:[good, m('\\triangle ADE \\sim \\triangle ACB'), m('\\triangle AED \\sim \\triangle ABC'), m('\\triangle ADE \\sim \\triangle ABD')], ans:good,
+        hint:`${m('\\dfrac{AD}{AB} = \\dfrac{AE}{AC}')}: ${m('D')} ứng với ${m('B')}, ${m('E')} ứng với ${m('C')}.`},
+      {tag:'Tính AE', ask:`Tính ${m('AE')} từ ${m('AD\\cdot AC = AE\\cdot AB')}.`, tpl:`${m('AE =')} [_] cm`, ans:[ae], hint:`${m('AE = \\dfrac{AD\\cdot AC}{AB}')}.`},
+      {tag:'Tính DE', ask:`Tính ${m('DE')} từ ${m('\\dfrac{DE}{BC} = \\dfrac{AD}{AB}')}.`, tpl:`${m('DE =')} [_] cm`, ans:[de], hint:`${m('DE = \\dfrac{AD\\cdot BC}{AB}')}.`},
+      {tag:'Chu vi', ask:`Tính chu vi tứ giác ${m('BCDE')}.`, tpl:`${m('P_{BCDE} =')} [_] cm`, ans:[per], hint:`${m('P = BC + (AC - AD) + DE + (AB - AE)')}.`}
+    ],
+    sol:`${c7why4}<br>${m(`AE = \\dfrac{${ad}\\cdot ${ac}}{${ab}} = ${ae}`)} cm; ${m(`DE = \\dfrac{${ad}\\cdot ${bc}}{${ab}} = ${de}`)} cm.<br>${m(`CD = ${ac} - ${ad} = ${ac - ad}`)}, ${m(`EB = ${ab} - ${ae} = ${ab - ae}`)}.<br>${m(`P_{BCDE} = ${bc} + ${ac - ad} + ${de} + ${ab - ae} =`)} ${tb(per)} cm.`});
+};
+
+/* ===== Dạng 5. Đường tròn đường kính BC: cung, hình quạt, viên phân ===== */
+const c7head5 = Ad => `Tam giác nhọn ${m('ABC')} có ${m(`\\widehat{BAC} = ${Ad}^\\circ`)}, hai đường cao ${m('BD')}, ${m('CE')}; ${m('M')} là trung điểm của ${m('BC')}. Bốn điểm ${m('B, C, D, E')} thuộc đường tròn ${m('(M)')} đường kính ${m('BC')}.`;
+const c7why5 = Ad => `${m(`\\widehat{EBD} = \\widehat{ABD} = 90^\\circ - ${Ad}^\\circ = ${90 - Ad}^\\circ`)} (tam giác ${m('ABD')} vuông tại ${m('D')}). Góc ${m('EMD')} là góc ở tâm, ${m('EBD')} là góc nội tiếp cùng chắn cung nhỏ ${m('ED')}, nên ${m(`\\widehat{EMD} = 2\\widehat{EBD} = ${180 - 2*Ad}^\\circ`)}.`;
+const gHc5 = lv => {
+  const fig = ortho7({circ:'BC', md:true});
+  if(lv === 1){
+    const Ad = pick([30, 36, 40, 45, 50, 54, 60, 65, 70]);
+    return QB({text:`${c7head5(Ad)} Tính ${m('\\widehat{EBD}')} và ${m('\\widehat{EMD}')}.`, fig,
+      tpl:`<span class="eq">${m('\\widehat{EBD} =')} [_]°</span><br><span class="eq">${m('\\widehat{EMD} =')} [_]°</span>`, ans:[90 - Ad, 180 - 2*Ad],
+      hint:`${m('\\widehat{EBD} = \\widehat{ABD}')} nằm trong tam giác vuông ${m('ABD')}. Góc ở tâm gấp đôi góc nội tiếp cùng chắn một cung.`,
+      sol:`${c7why5(Ad)}<br>Đáp số: ${m('\\widehat{EBD} =')} ${tb(`${90 - Ad}^\\circ`)}, ${m('\\widehat{EMD} =')} ${tb(`${180 - 2*Ad}^\\circ`)}.`});
+  }
+  if(lv === 2){
+    const cfg = pick([{A:30, n:120, Rs:[3, 6, 9, 12]}, {A:45, n:90, Rs:[4, 6, 8, 10, 12]}, {A:60, n:60, Rs:[6, 12, 18]}]), r = pick(cfg.Rs), n = cfg.n;
+    const l = r*n/180, S = r*r*n/360;
+    return QB({text:`${c7head5(cfg.A)} Biết ${m(`BC = ${2*r}`)} cm. Tính độ dài cung nhỏ ${m('ED')} và diện tích hình quạt tròn ${m('MED')} (kết quả có dạng ${m('a\\pi')}).`, fig,
+      tpl:`<span class="eq">${m('l_{ED} =')} [_]${m('\\pi')} cm</span><br><span class="eq">${m('S_{quat} =')} [_]${m('\\pi')} cm²</span>`, ans:[l, S],
+      hint:`Tìm số đo cung ${m('ED')} (bằng góc ${m('EMD')}), bán kính ${m('R = \\dfrac{BC}{2}')}; rồi dùng ${m('l = \\dfrac{\\pi Rn}{180}')} và ${m('S = \\dfrac{\\pi R^2 n}{360}')}.`,
+      sol:`${c7why5(cfg.A)}<br>${m(`R = \\dfrac{${2*r}}{2} = ${r}`)} cm, cung ${m('ED')} có số đo ${m(`${n}^\\circ`)}.<br>${m(`l_{ED} = \\dfrac{\\pi\\cdot ${r}\\cdot ${n}}{180} =`)} ${tb(l)}${m('\\pi')} cm.<br>${m(`S_{quat} = \\dfrac{\\pi\\cdot ${r}^2\\cdot ${n}}{360} =`)} ${tb(S)}${m('\\pi')} ${m('\\text{cm}^2')}.`});
+  }
+  const rt = pick([{A:45, n:90, Rs:[4, 6, 8, 10]}, {A:60, n:60, Rs:[6, 12]}]), r = pick(rt.Rs), isSq = rt.A === 45;
+  const sec = r*r*rt.n/360, tri = isSq ? r*r/2 : r*r/4;
+  const goodN = m(`${rt.n}^\\circ`), optsN = [...new Set([rt.n, 180 - rt.n, 2*rt.n, rt.A, 45, 30, 150])].slice(0, 4).map(v => m(`${v}^\\circ`));
+  return QS({direct:true, fig,
+    text:`${c7head5(rt.A)} Biết ${m(`BC = ${2*r}`)} cm. Tính diện tích hình viên phân giới hạn bởi dây ${m('ED')} và cung nhỏ ${m('ED')} của ${m('(M)')} (kết quả có dạng ${isSq ? m('a\\pi - b') : m('a\\pi - b\\sqrt{3}')}).`,
+    hint:`Diện tích viên phân = diện tích hình quạt ${m('MED')} − diện tích tam giác ${m('MED')}. Tam giác ${m('MED')} cân tại ${m('M')} có góc ở đỉnh ${m('\\widehat{EMD}')}.`,
+    steps:[
+      {tag:'Góc EMD', ask:`Tính ${m('\\widehat{EMD}')} (góc ở tâm gấp đôi góc nội tiếp ${m('\\widehat{EBD} = 90^\\circ - \\widehat{A}')}).`, opts:optsN, ans:goodN, hint:`${m('\\widehat{EMD} = 2(90^\\circ - \\widehat{A})')}.`},
+      {tag:'Hình quạt', ask:`Với ${m(`R = ${r}`)} cm, tính diện tích hình quạt ${m('MED')}.`, tpl:`${m('S_{quat} =')} [_]${m('\\pi')} cm²`, ans:[sec], hint:`${m(`S = \\dfrac{\\pi R^2 n}{360}`)} với ${m(`n = ${rt.n}`)}.`},
+      {tag:'Tam giác MED', ask: isSq ? `Tam giác ${m('MED')} vuông cân tại ${m('M')} với ${m('ME = MD = R')}. Tính diện tích.` : `Tam giác ${m('MED')} cân có góc ở đỉnh ${m('60^\\circ')} nên là tam giác đều cạnh ${m('R')}. Tính diện tích (kết quả có dạng ${m('b\\sqrt{3}')}).`,
+        tpl: isSq ? `${m('S_{MED} =')} [_] cm²` : `${m('S_{MED} =')} [_]${m('\\sqrt{3}')} cm²`, ans:[tri],
+        hint: isSq ? `${m('S = \\dfrac{1}{2}\\cdot ME\\cdot MD')}.` : `Diện tích tam giác đều cạnh ${m('a')}: ${m('\\dfrac{a^2\\sqrt{3}}{4}')}.`},
+      {tag:'Viên phân', ask:`Diện tích viên phân bằng hiệu hai diện tích trên.`, tpl: isSq ? `${m('S =')} [_]${m('\\pi -')} [_] cm²` : `${m('S =')} [_]${m('\\pi -')} [_]${m('\\sqrt{3}')} cm²`, ans:[sec, tri], hint:`${m('S = S_{quat} - S_{MED}')}.`}
+    ],
+    sol:`${c7why5(rt.A)}<br>${m(`S_{quat} = \\dfrac{\\pi\\cdot ${r}^2\\cdot ${rt.n}}{360} = ${sec}\\pi`)}. ` + (isSq
+      ? `Tam giác ${m('MED')} vuông cân: ${m(`S_{MED} = \\dfrac{1}{2}\\cdot ${r}\\cdot ${r} = ${tri}`)}.<br>${m('S_{vienphan} =')} ${tb(`${sec}\\pi - ${tri}`)} ${m('\\text{cm}^2')}.`
+      : `Tam giác ${m('MED')} đều cạnh ${m(`${r}`)}: ${m(`S_{MED} = \\dfrac{${r}^2\\sqrt{3}}{4} = ${tri}\\sqrt{3}`)}.<br>${m('S_{vienphan} =')} ${tb(`${sec}\\pi - ${tri}\\sqrt{3}`)} ${m('\\text{cm}^2')}.`)});
+};
+
+lesson(6,'on-thi-hinh-hoc-tinh-toan','Hình học 7c. Tính độ dài, chu vi, diện tích, số đo góc (vận dụng cao)','Ôn tuyển sinh Bài 7 (câu cuối, vận dụng cao): độ dài từ tam giác đồng dạng và Pythagore; tam giác nội tiếp có góc 60°; số đo góc ∠OAH; tỉ số chu vi, diện tích; cung, hình quạt, viên phân.',[gHc1,gHc2,gHc3,gHc4,gHc5], {intro:[
+  {t:`Độ dài với ba đường cao`, b:`<ul><li>${tm('\\widehat{HBF}')} và ${tm('\\widehat{FAC}')} cùng phụ với ${tm('\\widehat{C}')} nên ${tm('\\triangle FBH \\sim \\triangle FAC')} (g.g), cho ${tm('FH\\cdot FA = FB\\cdot FC')}.</li><li>${tm('H')} nằm giữa ${tm('A')} và ${tm('F')} (tam giác nhọn): ${tm('AH = AF - HF')}.</li><li>Diện tích: ${tm('S_{ABC} = \\dfrac{1}{2}\\cdot BC\\cdot AF')}; ${tm('S_{BHC} = \\dfrac{1}{2}\\cdot BC\\cdot HF')}.</li></ul>`, warn:`Chọn đúng cặp tam giác đồng dạng và viết đúng thứ tự đỉnh (góc vuông với góc vuông); đừng lấy ${tm('AF')} thay cho ${tm('AH')}.`, ex:`Cần một đoạn chưa biết nằm trong hình có nhiều góc vuông: tìm hai tam giác vuông có góc nhọn cùng phụ với một góc, rồi lập tỉ số.`},
+  {t:`Tam giác nội tiếp có góc ${tm('60^\\circ')}`, b:`<ul><li>${tm('\\widehat{BOC} = 2\\widehat{BAC} = 120^\\circ')}; tam giác ${tm('OBC')} cân, ${tm('OM')} là phân giác: ${tm('\\widehat{BOM} = 60^\\circ')}.</li><li>${tm('OM = R\\cos 60^\\circ = \\dfrac{R}{2}')}, ${tm('BM = R\\sin 60^\\circ = \\dfrac{R\\sqrt{3}}{2}')}, ${tm('BC = R\\sqrt{3}')}.</li><li>Đường kính ${tm('AK')} cho hình bình hành ${tm('BHCK')} và ${tm('AH = 2OM = R')}.</li></ul>`, warn:`Muốn dùng ${tm('AH = 2OM')} phải chứng minh lại bằng hình bình hành ${tm('BHCK')}; góc ở tâm ${tm('BOC')} là ${tm('120^\\circ')}, đừng nhầm với ${tm('60^\\circ')}.`, ex:`Gặp góc ${tm('60^\\circ')} (hoặc ${tm('30^\\circ')}, ${tm('45^\\circ')}) trong đường tròn, hãy vẽ bán kính ${tm('OB, OC')} để có tam giác cân với góc ở tâm biết sẵn.`},
+  {t:`Số đo góc với tâm ${tm('O')} và trực tâm ${tm('H')}`, b:`<ul><li>${tm('\\widehat{BAF} = 90^\\circ - \\widehat{B}')} (tam giác ${tm('ABF')} vuông).</li><li>${tm('\\widehat{AOB} = 2\\widehat{C}')} nên ${tm('\\widehat{OAB} = 90^\\circ - \\widehat{C}')} (tam giác ${tm('OAB')} cân).</li><li>Hai tia ${tm('AH')} và ${tm('AO')} cùng nằm trong góc ${tm('BAC')}: ${tm('\\widehat{OAH} = |\\widehat{B} - \\widehat{C}|')}.</li></ul>`, warn:`Phải tính ${tm('\\widehat{BAF}')} và ${tm('\\widehat{OAB}')} rồi lấy hiệu; nếu ${tm('\\widehat{B} = \\widehat{C}')} thì ${tm('AO')} trùng ${tm('AH')}.`, ex:`Mọi góc ở đỉnh ${tm('A')} đều quy về ${tm('90^\\circ - \\widehat{B}')} hoặc ${tm('90^\\circ - \\widehat{C}')}: ghi hai giá trị này ra trước.`},
+  {t:`Tam giác đồng dạng: tỉ số, chu vi, diện tích`, b:`<ul><li>${tm('AD\\cdot AC = AE\\cdot AB')} cho ${tm('\\triangle ADE \\sim \\triangle ABC')} (c.g.c), ${tm('k = \\dfrac{AD}{AB}')}.</li><li>Cạnh tương ứng tỉ lệ: ${tm('DE = k\\cdot BC')}, ${tm('AE = k\\cdot AC')}.</li><li>Chu vi nhân ${tm('k')}, diện tích nhân ${tm('k^2')}; ${tm('S_{BCDE} = S_{ABC} - S_{ADE}')}.</li></ul>`, warn:`Tỉ số diện tích là ${tm('k^2')}, không phải ${tm('k')}; chu vi tứ giác ${tm('BCDE')} phải cộng cả ${tm('CD = AC - AD')} và ${tm('EB = AB - AE')}.`, ex:`Muốn chu vi hay diện tích một hình “cắt ra” từ tam giác lớn: tính phần bị cắt bằng tỉ số đồng dạng rồi lấy hiệu.`},
+  {t:`Cung, hình quạt, viên phân`, b:`<ul><li>${tm('\\widehat{EMD} = 2\\widehat{EBD} = 2(90^\\circ - \\widehat{A}) = 180^\\circ - 2\\widehat{A}')}.</li><li>${tm('l = \\dfrac{\\pi Rn}{180}')}; ${tm('S_{quat} = \\dfrac{\\pi R^2 n}{360}')}.</li><li>Viên phân = quạt − tam giác ${tm('MED')} (vuông cân: ${tm('\\dfrac{R^2}{2}')}; đều: ${tm('\\dfrac{R^2\\sqrt{3}}{4}')}).</li></ul>`, warn:`Đường kính là ${tm('BC = 2R')}: đừng thay ${tm('BC')} vào công thức như bán kính; viên phân là hiệu, không phải tổng.`, ex:`Kết quả chứa ${tm('\\pi')} nên giữ nguyên ${tm('a\\pi - b')}; chỉ đổi ra số thập phân khi đề yêu cầu làm tròn.`}
 ]});
 
 }

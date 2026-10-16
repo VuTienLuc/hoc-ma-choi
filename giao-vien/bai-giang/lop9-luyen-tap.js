@@ -740,4 +740,45 @@ Lecture.addPractice('lop9','on-thi-hinh-hoc-chung-minh-2',[
 ]);
 }
 
+
+/* ---------- Hình học 7c. Tính độ dài, chu vi, diện tích, số đo góc – 5 dạng × 2 câu tương tự ---------- */
+{
+const A0 = `Tam giác nhọn ${m('ABC')} có đường cao ${m('AF')}; hai đường cao ${m('BD, CE')} cắt nhau tại ${m('H')}.`;
+const AO = `Tam giác nhọn ${m('ABC')} nội tiếp ${m('(O;R)')}, đường cao ${m('AF')}, trực tâm ${m('H')}, ${m('M')} là trung điểm ${m('BC')}.`;
+const AD0 = `Tam giác nhọn ${m('ABC')} có hai đường cao ${m('BD, CE')}; biết ${m('AD\\cdot AC=AE\\cdot AB')} nên ${m('\\triangle ADE\\sim\\triangle ABC')} (c.g.c).`;
+const AM = `Tam giác nhọn ${m('ABC')} có hai đường cao ${m('BD, CE')}; ${m('M')} là trung điểm ${m('BC')}, bốn điểm ${m('B, C, D, E')} thuộc ${m('(M)')} đường kính ${m('BC')}.`;
+Lecture.addPractice('lop9','on-thi-hinh-hoc-tinh-toan',[
+ {dang:'Độ dài HF, AH và diện tích (ba đường cao)',items:[
+  {de:`${A0} Biết ${m('BF=4')} cm, ${m('CF=6')} cm, ${m('AF=8')} cm. Tính ${m('HF')} và ${m('AH')}.`,
+   sol:[`${m('\\widehat{HBF}=90^\\circ-\\widehat{C}=\\widehat{FAC}')} (cùng phụ với ${m('\\widehat{C}')}) nên ${m('\\triangle FBH\\sim\\triangle FAC')} (g.g), suy ra ${m('FH\\cdot FA=FB\\cdot FC')}.`,`${m('HF=\\dfrac{4\\cdot 6}{8}=3')} cm; ${m('H')} nằm giữa ${m('A, F')} nên ${m('AH=8-3=5')} cm.`],ans:`${tb('HF=3')} cm; ${tb('AH=5')} cm.`,lines:3},
+  {de:`${A0} Biết ${m('BF=6')} cm, ${m('CF=9')} cm, ${m('HF=3')} cm. Tính ${m('AH')} và diện tích tam giác ${m('ABC')}.`,
+   sol:[`${m('\\triangle FBH\\sim\\triangle FAC')} (g.g) cho ${m('FH\\cdot FA=FB\\cdot FC')}: ${m('FA=\\dfrac{6\\cdot 9}{3}=18')} cm.`,`${m('AH=18-3=15')} cm; ${m('BC=6+9=15')} cm, ${m('S_{ABC}=\\dfrac{1}{2}\\cdot 15\\cdot 18=135')} ${m('\\text{cm}^2')}.`],ans:`${tb('AH=15')} cm; ${tb('S_{ABC}=135')} ${m('\\text{cm}^2')}.`,lines:3},
+ ]},
+ {dang:'Tam giác nội tiếp có góc 60°',items:[
+  {de:`${AO} Biết ${m('\\widehat{BAC}=60^\\circ')}, ${m('R=14')} cm. Tính ${m('\\widehat{BOC}')} và ${m('OM')}.`,
+   sol:[`${m('\\widehat{BOC}=2\\widehat{BAC}=120^\\circ')} (góc ở tâm gấp đôi góc nội tiếp cùng chắn cung ${m('BC')}).`,`Tam giác ${m('OBC')} cân tại ${m('O')}, ${m('OM')} là phân giác nên ${m('\\widehat{BOM}=60^\\circ')}; ${m('OM=R\\cos60^\\circ=\\dfrac{14}{2}=7')} cm.`],ans:`${tb('\\widehat{BOC}=120^\\circ')}; ${tb('OM=7')} cm.`,lines:3},
+  {de:`${AO} Biết ${m('\\widehat{BAC}=60^\\circ')}, ${m('OM=5')} cm. Tính ${m('AH')} và chu vi đường tròn ${m('(O)')}.`,
+   sol:[`${m('OM=\\dfrac{R}{2}')} (vì ${m('\\widehat{BOM}=60^\\circ')}) nên ${m('R=10')} cm.`,`Đường kính ${m('AK')}: ${m('BHCK')} là hình bình hành nên ${m('AH=2OM=10')} cm; ${m('C_{(O)}=2\\pi R=20\\pi')} cm.`],ans:`${tb('AH=10')} cm; ${tb('C=20\\pi')} cm.`,lines:3},
+ ]},
+ {dang:'Số đo góc OAB, OAH',items:[
+  {de:`${AO} Biết ${m('\\widehat{ABC}=70^\\circ')}, ${m('\\widehat{ACB}=60^\\circ')}. Tính ${m('\\widehat{BAF}')} và ${m('\\widehat{OAB}')}.`,
+   sol:[`Tam giác ${m('ABF')} vuông tại ${m('F')}: ${m('\\widehat{BAF}=90^\\circ-70^\\circ=20^\\circ')}.`,`${m('\\widehat{AOB}=2\\widehat{ACB}=120^\\circ')}; tam giác ${m('OAB')} cân tại ${m('O')} nên ${m('\\widehat{OAB}=\\dfrac{180^\\circ-120^\\circ}{2}=30^\\circ')}.`],ans:`${tb('\\widehat{BAF}=20^\\circ')}; ${tb('\\widehat{OAB}=30^\\circ')}.`,lines:3},
+  {hard:true,de:`${AO} Biết ${m('\\widehat{ABC}=75^\\circ')}, ${m('\\widehat{ACB}=45^\\circ')}. Chứng minh ${m('\\widehat{OAH}=|\\widehat{B}-\\widehat{C}|')} rồi tính ${m('\\widehat{OAH}')}.`,
+   sol:[`${m('\\widehat{BAF}=90^\\circ-\\widehat{B}')}; ${m('\\widehat{AOB}=2\\widehat{C}')} nên ${m('\\widehat{OAB}=90^\\circ-\\widehat{C}')}.`,`${m('AH')} (trùng ${m('AF')}) và ${m('AO')} cùng nằm trong góc ${m('BAC')}, nên ${m('\\widehat{OAH}=|\\widehat{OAB}-\\widehat{BAF}|=|\\widehat{B}-\\widehat{C}|')}.`,`${m('\\widehat{OAH}=75^\\circ-45^\\circ=30^\\circ')}.`],ans:`${tb('\\widehat{OAH}=30^\\circ')}.`,lines:4},
+ ]},
+ {dang:'Đồng dạng: chu vi, diện tích',items:[
+  {de:`${AD0} Biết ${m('AD=6')} cm, ${m('AB=10')} cm, diện tích tam giác ${m('ABC')} bằng ${m('100')} ${m('\\text{cm}^2')}. Tính ${m('S_{ADE}')} và ${m('S_{BCDE}')}.`,
+   sol:[`Tỉ số đồng dạng ${m('k=\\dfrac{AD}{AB}=\\dfrac{3}{5}')}, tỉ số diện tích ${m('k^2=\\dfrac{9}{25}')}.`,`${m('S_{ADE}=\\dfrac{9}{25}\\cdot 100=36')} ${m('\\text{cm}^2')}; ${m('S_{BCDE}=100-36=64')} ${m('\\text{cm}^2')}.`],ans:`${tb('S_{ADE}=36')}; ${tb('S_{BCDE}=64')} ${m('\\text{cm}^2')}.`,lines:3},
+  {hard:true,de:`${AD0} Biết ${m('AB=20')}, ${m('AC=24')}, ${m('BC=16')}, ${m('AD=15')} (cm). Tính chu vi tứ giác ${m('BCDE')}.`,
+   sol:[`${m('\\triangle ADE\\sim\\triangle ABC')} với ${m('k=\\dfrac{AD}{AB}=\\dfrac{3}{4}')}: ${m('AE=k\\cdot AC=18')} cm, ${m('DE=k\\cdot BC=12')} cm.`,`${m('CD=24-15=9')} cm, ${m('EB=20-18=2')} cm.`,`${m('P_{BCDE}=16+9+12+2=39')} cm.`],ans:`${tb('P_{BCDE}=39')} cm.`,lines:4},
+ ]},
+ {dang:'Cung, hình quạt, viên phân',items:[
+  {de:`${AM} Biết ${m('\\widehat{BAC}=60^\\circ')}, ${m('BC=12')} cm. Tính độ dài cung nhỏ ${m('ED')} và diện tích hình quạt ${m('MED')} (dạng ${m('a\\pi')}).`,
+   sol:[`${m('\\widehat{EBD}=90^\\circ-60^\\circ=30^\\circ')} nên ${m('\\widehat{EMD}=2\\widehat{EBD}=60^\\circ')}; ${m('R=6')} cm.`,`${m('l=\\dfrac{\\pi\\cdot 6\\cdot 60}{180}=2\\pi')} cm; ${m('S=\\dfrac{\\pi\\cdot 6^2\\cdot 60}{360}=6\\pi')} ${m('\\text{cm}^2')}.`],ans:`${tb('l=2\\pi')} cm; ${tb('S=6\\pi')} ${m('\\text{cm}^2')}.`,lines:3},
+  {hard:true,de:`${AM} Biết ${m('\\widehat{BAC}=45^\\circ')}, ${m('BC=12')} cm. Tính diện tích hình viên phân giới hạn bởi dây ${m('ED')} và cung nhỏ ${m('ED')}.`,
+   sol:[`${m('\\widehat{EBD}=45^\\circ')} nên ${m('\\widehat{EMD}=90^\\circ')}; ${m('R=6')} cm. ${m('S_{quat}=\\dfrac{\\pi\\cdot 6^2\\cdot 90}{360}=9\\pi')}.`,`Tam giác ${m('MED')} vuông cân tại ${m('M')}: ${m('S_{MED}=\\dfrac{1}{2}\\cdot 6\\cdot 6=18')}.`,`${m('S_{vienphan}=9\\pi-18')} ${m('\\text{cm}^2')}.`],ans:`${tb('S=9\\pi-18')} ${m('\\text{cm}^2')}.`,lines:4},
+ ]},
+]);
+}
+
 })();

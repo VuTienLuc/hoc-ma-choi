@@ -417,6 +417,7 @@ const ortho7 = (o = {}) => {
   const S = [[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...D7],[...C7,...E7]];
   if(o.af) S.push([...A7,...F7,true]);
   if(o.def) S.push([...E7,...F7,true],[...D7,...F7,true]);
+  if(o.md) S.push([3,0,...E7,true],[3,0,...D7,true]);
   if(o.mn) S.push([...E7,3,0,true],[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2,3,0,true],[(A7[0]+H7[0])/2,(A7[1]+H7[1])/2,...E7,true]);
   const P = [[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...D7,'D',20],[...E7,'E',160],[...H7,'H',-100]];
   if(o.af || o.def) P.push([...F7,'F',-90]);
@@ -453,6 +454,23 @@ const kfig7 = () => circleSVG({C:[{x:O7[0], y:O7[1], r:Math.hypot(A7[0]-O7[0], A
   P:[[...A7,'A',90],[...B7,'B',-135],[...C7,'C',-45],[...K7,'K',-90],[...H7,'H',140],[...M7,'M',30]],
   S:[[...A7,...B7],[...A7,...C7],[...B7,...C7],[...B7,...K7],[...C7,...K7],[...A7,...K7,true],[...B7,...H7],[...C7,...H7],[...H7,...K7,true]],
   right:[rightH(B7,A7,K7), rightH(C7,A7,K7)]});
+
+/* Hình đường tròn (O) ngoại tiếp tam giác nhọn ABC vẽ ĐÚNG theo số đo ba góc; BC nằm ngang.
+   mode 'R' (dạng 2): OB, OC, OM nét đứt, AF là đường cao; mode 'ang' (dạng 3): AO nét đứt, AF là đường cao */
+const figO7 = (Ad, Bd, Cd, mode) => {
+  const rd = t => t*Math.PI/180, pol = t => [3*Math.cos(rd(t)), 3*Math.sin(rd(t))];
+  const Bp = pol(270 - Ad), Cp = pol(270 + Ad), Ap = pol(270 + Ad + 2*Bd);
+  const Hp = [Ap[0] + Bp[0] + Cp[0], Ap[1] + Bp[1] + Cp[1]], yb = Bp[1], Fp = [Ap[0], yb], Mp = [0, yb];
+  const S = [[...Ap,...Bp],[...Ap,...Cp],[...Bp,...Cp],[...Ap,...Fp]];
+  if(mode === 'R') S.push([0,0,...Bp,true],[0,0,...Cp,true],[0,0,...Mp,true]);
+  else S.push([...Ap,0,0,true]);
+  const fl = Fp[0] < Mp[0];
+  const P = [[...Ap,'A',Math.atan2(Ap[1],Ap[0])*180/Math.PI],[...Bp,'B',225],[...Cp,'C',315],[...Fp,'F',fl ? 250 : 290],[...Hp,'H',Ap[0] < 0 ? 180 : 0]];
+  if(mode === 'R') P.push([...Mp,'M',fl ? 290 : 250]);
+  return circleSVG({C:[{x:0, y:0, r:3, lab:'O', lp:14}], P, S, right:[[Fp[0], Fp[1], fl ? 0 : 90]]});
+};
+
+
 const head7 = `Cho tam giác nhọn ${m('ABC')} có hai đường cao ${m('BD')}, ${m('CE')} cắt nhau tại ${m('H')}.`;
 
 Lecture.add({grade:'lop9',gradeName:'Toán 9',chapter:'Ôn thi tuyển sinh vào lớp 10 · Đại số và Hình học',lessons:[
@@ -733,6 +751,28 @@ Lecture.add({grade:'lop9',gradeName:'Toán 9',chapter:'Ôn thi tuyển sinh vào
  {kind:'method',tag:'Dạng 5',title:'Hệ thức HA·HF = HB·HD',steps:[`Hai tam giác vuông ${m('HAD')} và ${m('HBF')} có góc ${m('\\widehat{AHD}=\\widehat{BHF}')} (đối đỉnh).`,`Kết luận ${m('\\triangle HAD\\sim\\triangle HBF')} (g.g), lập tỉ số ${m('\\dfrac{HA}{HB}=\\dfrac{HD}{HF}')}.`,`Nhân chéo, thay số; ${m('H')} nằm giữa ${m('A')} và ${m('F')} nên ${m('AF=HA+HF')}.`]},
  {kind:'vd',tag:'Ví dụ 5 · Dạng 5',label:'Ví dụ 5',de:`${head7} Tia ${m('AH')} cắt ${m('BC')} tại ${m('F')}. Chứng minh ${m('HA\\cdot HF=HB\\cdot HD')}. Biết ${m('HB=6')} cm, ${m('HD=4')} cm, ${m('HF=3')} cm; tính ${m('AF')}.`,fig:ortho7({af:true}),sol:[`Xét ${m('\\triangle HAD')} và ${m('\\triangle HBF')}: ${m('\\widehat{ADH}=\\widehat{BFH}=90^\\circ')}, ${m('\\widehat{AHD}=\\widehat{BHF}')} (đối đỉnh) nên ${m('\\triangle HAD\\sim\\triangle HBF')} (g.g).`,`Suy ra ${m('\\dfrac{HA}{HB}=\\dfrac{HD}{HF}')}, tức ${m('HA\\cdot HF=HB\\cdot HD')}; ${m('HA=\\dfrac{6\\cdot 4}{3}=8')} cm.`,`${m('AF=HA+HF=8+3=11')} cm.`],ans:`${tb('AF=11')} cm.`},
  {kind:'sum',tag:'Tổng kết',title:'Checklist trước khi nộp bài',body:`<ul><li>Hệ thức: tam giác đồng dạng <b>đúng thứ tự đỉnh</b>; cộng vế phải nói ${m('F')} nằm giữa ${m('B, C')}.</li><li>Thẳng hàng: nêu <b>hai cặp cạnh đối song song</b> của ${m('BHCK')}, rồi trung điểm hai đường chéo.</li><li>Đồng quy, tiếp tuyến: tự chứng minh các điểm cùng đường tròn; tiếp tuyến cần <b>vuông góc bán kính tại điểm thuộc đường tròn</b>.</li></ul>`}
+]},
+{id:'on-thi-hinh-hoc-tinh-toan',name:'Hình học 7c. Tính độ dài, chu vi, diện tích, số đo góc',desc:'Ôn thi vào 10 – Bài 7 (câu vận dụng cao): độ dài từ tam giác đồng dạng, tam giác nội tiếp có góc 60°, số đo góc OAH, tỉ số chu vi – diện tích, cung – quạt – viên phân.',slides:[
+ {kind:'title',tag:'Ôn thi tuyển sinh · Hình học 7c',title:'Tính độ dài, chu vi, diện tích, số đo góc',sub:'Câu cuối (vận dụng cao) của bài hình trong đề TP.HCM 2026–2027',points:['Tính độ dài bằng tam giác đồng dạng và Pythagore.','Góc ở tâm, góc nội tiếp: R, OM, AH, góc OAH.','Tỉ số chu vi – diện tích; cung, quạt, viên phân.']},
+ {kind:'kt',tag:'Kiến thức nền 1',title:'Độ dài với ba đường cao',fig:ortho7({af:true}),body:box(`${m('\\triangle FBH\\sim\\triangle FAC')} (cùng phụ với ${m('\\widehat{C}')}).`)+box(`${m('FH\\cdot FA=FB\\cdot FC')}.`)+box(`${m('AH=AF-HF')}; ${m('S_{BHC}=\\dfrac{1}{2}BC\\cdot HF')}.`)},
+ {kind:'kt',tag:'Kiến thức nền 2',title:'Tam giác nội tiếp có góc 60°',fig:figO7(60,70,50,'R'),body:box(`${m('\\widehat{BOC}=120^\\circ')}, ${m('\\widehat{BOM}=60^\\circ')}.`)+box(`${m('OM=\\dfrac{R}{2}')}, ${m('BC=R\\sqrt{3}')}.`)+box(`${m('AH=2OM=R')} (hình bình hành ${m('BHCK')}).`)},
+ {kind:'kt',tag:'Kiến thức nền 3',title:'Cung, hình quạt, viên phân',fig:ortho7({circ:'BC',md:true}),body:box(`${m('\\widehat{EMD}=2\\widehat{EBD}=180^\\circ-2\\widehat{A}')}.`)+box(`${m('l=\\dfrac{\\pi Rn}{180}')}; ${m('S=\\dfrac{\\pi R^2n}{360}')}.`)+note(`Viên phân = quạt ${m('MED')} − tam giác ${m('MED')}.`)},
+
+ {kind:'method',tag:'Dạng 1',title:'Độ dài HF, AH và diện tích',steps:[`Tìm hai tam giác vuông có góc nhọn cùng phụ với một góc (${m('\\triangle FBH\\sim\\triangle FAC')}).`,`Lập hệ thức ${m('FH\\cdot FA=FB\\cdot FC')}, thay số.`,`${m('H')} nằm giữa ${m('A')}, ${m('F')}: ${m('AH=AF-HF')}; diện tích = nửa đáy × đường cao.`]},
+ {kind:'vd',tag:'Ví dụ 1 · Dạng 1',label:'Ví dụ 1',de:`Tam giác nhọn ${m('ABC')}, đường cao ${m('AF')}, trực tâm ${m('H')}. Biết ${m('BF=3')} cm, ${m('CF=8')} cm, ${m('AF=6')} cm. Tính ${m('HF')}, ${m('AH')} và ${m('S_{ABC}')}.`,fig:ortho7({af:true}),sol:[`${m('\\widehat{HBF}=90^\\circ-\\widehat{C}=\\widehat{FAC}')} nên ${m('\\triangle FBH\\sim\\triangle FAC')} (g.g).`,`${m('FH\\cdot FA=FB\\cdot FC')}: ${m('HF=\\dfrac{3\\cdot 8}{6}=4')} cm.`,`${m('AH=6-4=2')} cm; ${m('S_{ABC}=\\dfrac{1}{2}\\cdot 11\\cdot 6=33')} ${m('\\text{cm}^2')}.`],ans:`${tb('HF=4')} cm; ${tb('AH=2')} cm; ${tb('S=33')} ${m('\\text{cm}^2')}.`},
+
+ {kind:'method',tag:'Dạng 2',title:'Góc 60° nội tiếp: R, OM, AH',steps:[`${m('\\widehat{BOC}=2\\widehat{BAC}=120^\\circ')}; ${m('OM')} là phân giác của tam giác cân ${m('OBC')}.`,`Trong tam giác vuông ${m('OMB')}: ${m('OM=R\\cos60^\\circ')}, ${m('BM=R\\sin60^\\circ')}.`,`Đường kính ${m('AK')}: ${m('BHCK')} là hình bình hành nên ${m('AH=2OM')}.`]},
+ {kind:'vd',tag:'Ví dụ 2 · Dạng 2',label:'Ví dụ 2',de:`Tam giác nhọn ${m('ABC')} nội tiếp ${m('(O;R)')}, ${m('\\widehat{BAC}=60^\\circ')}, ${m('BC=6\\sqrt{3}')} cm. Tính ${m('R')}, ${m('OM')} và ${m('AH')}.`,fig:figO7(60,70,50,'R'),sol:[`${m('\\widehat{BOM}=60^\\circ')} và ${m('BM=3\\sqrt{3}')} cm.`,`${m('BM=R\\sin60^\\circ=\\dfrac{R\\sqrt{3}}{2}')} nên ${m('R=6')} cm; ${m('OM=\\dfrac{R}{2}=3')} cm.`,`${m('AH=2OM=6')} cm.`],ans:`${tb('R=6')} cm; ${tb('OM=3')} cm; ${tb('AH=6')} cm.`},
+
+ {kind:'method',tag:'Dạng 3',title:'Số đo góc OAH',steps:[`${m('\\widehat{BAF}=90^\\circ-\\widehat{B}')} (tam giác ${m('ABF')} vuông).`,`${m('\\widehat{AOB}=2\\widehat{C}')}, tam giác ${m('OAB')} cân: ${m('\\widehat{OAB}=90^\\circ-\\widehat{C}')}.`,`${m('\\widehat{OAH}=|\\widehat{OAB}-\\widehat{BAF}|=|\\widehat{B}-\\widehat{C}|')}.`]},
+ {kind:'vd',tag:'Ví dụ 3 · Dạng 3',label:'Ví dụ 3',de:`Tam giác nhọn ${m('ABC')} nội tiếp ${m('(O)')}, đường cao ${m('AF')}, ${m('\\widehat{ABC}=70^\\circ')}, ${m('\\widehat{ACB}=50^\\circ')}. Tính ${m('\\widehat{BOC}')} và ${m('\\widehat{OAH}')}.`,fig:figO7(60,70,50,'ang'),sol:[`${m('\\widehat{BAC}=60^\\circ')} nên ${m('\\widehat{BOC}=120^\\circ')}.`,`${m('\\widehat{BAF}=90^\\circ-70^\\circ=20^\\circ')}; ${m('\\widehat{OAB}=90^\\circ-50^\\circ=40^\\circ')}.`,`${m('\\widehat{OAH}=40^\\circ-20^\\circ=20^\\circ')}.`],ans:`${tb('\\widehat{BOC}=120^\\circ')}; ${tb('\\widehat{OAH}=20^\\circ')}.`},
+
+ {kind:'method',tag:'Dạng 4',title:'Tỉ số đồng dạng, chu vi, diện tích',steps:[`${m('AD\\cdot AC=AE\\cdot AB')} và góc ${m('A')} chung: ${m('\\triangle ADE\\sim\\triangle ABC')} (c.g.c), ${m('k=\\dfrac{AD}{AB}')}.`,`Cạnh tương ứng: ${m('DE=k\\cdot BC')}, ${m('AE=k\\cdot AC')}.`,`Chu vi nhân ${m('k')}, diện tích nhân ${m('k^2')}; chu vi ${m('BCDE=BC+CD+DE+EB')}.`]},
+ {kind:'vd',tag:'Ví dụ 4 · Dạng 4',label:'Ví dụ 4',de:`Tam giác nhọn ${m('ABC')}, đường cao ${m('BD, CE')}. Biết ${m('AB=10')}, ${m('AC=16')}, ${m('BC=14')}, ${m('AD=5')} (cm). Tính chu vi tứ giác ${m('BCDE')}.`,fig:ortho7(),sol:[`${m('AD\\cdot AC=AE\\cdot AB')} nên ${m('\\triangle ADE\\sim\\triangle ABC')}; ${m('AE=\\dfrac{5\\cdot 16}{10}=8')} cm.`,`${m('DE=\\dfrac{AD}{AB}\\cdot BC=\\dfrac{5}{10}\\cdot 14=7')} cm.`,`${m('CD=16-5=11')}, ${m('EB=10-8=2')}: chu vi ${m('=14+11+7+2=34')} cm.`],ans:`${tb('P_{BCDE}=34')} cm.`},
+
+ {kind:'method',tag:'Dạng 5',title:'Cung, hình quạt, viên phân',steps:[`${m('\\widehat{EBD}=90^\\circ-\\widehat{A}')}; ${m('\\widehat{EMD}=2\\widehat{EBD}=180^\\circ-2\\widehat{A}')}.`,`${m('R=\\dfrac{BC}{2}')}; ${m('l=\\dfrac{\\pi Rn}{180}')}, ${m('S_{quat}=\\dfrac{\\pi R^2n}{360}')}.`,`Viên phân = ${m('S_{quat}-S_{MED}')} (tam giác ${m('MED')} vuông cân hoặc đều tuỳ ${m('n')}).`]},
+ {kind:'vd',tag:'Ví dụ 5 · Dạng 5',label:'Ví dụ 5',de:`Tam giác nhọn ${m('ABC')} có ${m('\\widehat{BAC}=45^\\circ')}, đường cao ${m('BD, CE')}; ${m('M')} là trung điểm ${m('BC')}, ${m('BC=8')} cm. Tính diện tích hình viên phân giới hạn bởi dây ${m('ED')} và cung nhỏ ${m('ED')} của ${m('(M)')}.`,fig:ortho7({circ:'BC',md:true}),sol:[`${m('\\widehat{EBD}=45^\\circ')} nên ${m('\\widehat{EMD}=90^\\circ')}; ${m('R=4')} cm.`,`${m('S_{quat}=\\dfrac{\\pi\\cdot 4^2\\cdot 90}{360}=4\\pi')}.`,`Tam giác ${m('MED')} vuông cân: ${m('S=\\dfrac{1}{2}\\cdot 4\\cdot 4=8')}. Viên phân: ${m('4\\pi-8')}.`],ans:`${tb('S=4\\pi-8')} ${m('\\text{cm}^2')}.`},
+ {kind:'sum',tag:'Tổng kết',title:'Checklist trước khi nộp bài',body:`<ul><li>Đồng dạng: <b>đúng thứ tự đỉnh</b>; diện tích nhân <b>${m('k^2')}</b>.</li><li>Góc ở tâm = <b>2 × góc nội tiếp</b>; ${m('AH=2OM')} phải <b>chứng minh lại</b> bằng ${m('BHCK')}.</li><li>Viên phân là <b>hiệu</b> quạt − tam giác; giữ nguyên ${m('\\pi')} nếu đề không bắt làm tròn.</li></ul>`}
 ]}
 
 ]});

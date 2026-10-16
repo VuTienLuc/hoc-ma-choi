@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-16 – Ôn thi vào 10, chủ đề 10: Hình học 7c (tính độ dài, chu vi, diện tích, số đo góc)
+
+- **Yêu cầu:** Soạn và đăng chủ đề kế tiếp trong kế hoạch ôn thi vào 10 (chủ đề 10), trọn bộ: bài học sinh có thẻ Kiến thức · Lưu ý · Mẹo, bài giảng, phiếu luyện tập in 2 trang A4 kèm PDF.
+- **Kết quả:** Bài `on-thi-hinh-hoc-tinh-toan` (chương 6 của Toán 9), 5 dạng × 3 mức: độ dài HF, AH, diện tích bằng FH·FA = FB·FC · tam giác nội tiếp góc 60° (R, OM, AH) · số đo góc OAB, OAH · đồng dạng ADE ~ ABC (tỉ số, chu vi, diện tích) · cung, hình quạt, viên phân của đường tròn đường kính BC. Mức 3 là câu nhiều bước QS. Lời giải chứng minh lại các kiến thức không được viện dẫn (AH = 2OM, góc ở tâm). Bài giảng 1 lesson (3 trang kiến thức, 5 dạng × 1 ví dụ), phiếu luyện tập 10 bài (7 cơ bản + 3 ★), hai PDF in đúng 2 trang A4. Công thức, đáp số đã đối chiếu lại bằng tính toạ độ độc lập.
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`, `dist/hoc-tap.html`
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9`, `python3 tools/test.py`, `python3 tools/test_baigiang.py lop9`, `python3 tools/test_phieu_tren_lop.py`, `python3 tools/test_luyentap.py` → xem kết quả ở báo cáo cuối (chỉ đăng khi ĐẠT)
+- **Việc thủ công:** Không có. Ngày mai: chủ đề 11 Kiến thức thống nhất.
+
 ### 2026-10-15 – /upup: nhập 36 câu trắc nghiệm Toán 10 từ 3 file JSON của thầy
 
 - **Yêu cầu:** Nhận 3 file JSON (Toán 10 Chương I 12 câu, Chương II 10 câu, Chương III 15 câu) và tạo skill `/upup` để lần sau gửi file JSON là tự cập nhật vào app.
