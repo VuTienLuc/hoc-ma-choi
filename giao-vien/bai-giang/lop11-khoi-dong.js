@@ -1082,3 +1082,239 @@ a) Lập bảng tần số ghép nhóm. b) Tính tần số tương đối của
 | Exit 3 | $32$ |
 | Về nhà | Bài mở: tổng tần số bằng số người khảo sát; tổng tần số tương đối $100\%$ |
 `);
+
+/* =====================================================================
+   PHIẾU HỌC TẬP TRÊN LỚP – Toán 11 · Bài 9. Các số đặc trưng đo xu thế trung tâm (thầy yêu cầu 16/10/2026)
+   Bám Ví dụ 1–6 của bài giảng bai-9 (lop11.js). Tình huống tự soạn ghi **[Minh họa]**.
+   ===================================================================== */
+Lecture.addSheet('lop11', 'bai-9', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 9. Các số đặc trưng đo xu thế trung tâm
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tìm trung điểm của nhóm $[20;30)$. Đáp số: ………………………
+
+**Câu 2.** Số $20$ có thuộc nhóm $[10;20)$ không? Đáp số: ………………………
+
+**Câu 3.** Bảng tần số có các tần số $4,\ 7,\ 5,\ 4$. Tính cỡ mẫu $n$ và $\dfrac{n}{2}$. Đáp số: ………………………
+
+**Câu 4.** Tính $2 + \dfrac{10 - 4}{8}\cdot 10$. Đáp số: ………………………
+
+## 2. Tình huống mở đầu **[Minh họa]**
+
+Thời gian tự học mỗi tối (phút) của $40$ học sinh lớp 11A:
+
+| Nhóm | $[20;40)$ | $[40;60)$ | $[60;80)$ | $[80;100)$ | $[100;120)$ |
+|---|---|---|---|---|---|
+| Tần số | $6$ | $8$ | $10$ | $10$ | $6$ |
+
+**Em nhận thấy:** ………………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Làm sao dùng **một con số** để nói "lớp này thường tự học bao lâu" khi ta chỉ có bảng ghép nhóm, không còn số liệu gốc? Có thể có những con số nào, và mỗi con số trả lời câu hỏi gì?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Bảng tần số: $[0;4)$: $2$; $[4;8)$: $5$; $[8;12)$: $3$. Số trung bình cộng là
+
+A. $6$
+
+B. $6{,}4$
+
+C. $64$
+
+D. $4$
+
+**Câu B.** Bảng tần số: $[0;10)$: $4$; $[10;20)$: $8$; $[20;30)$: $6$; $[30;40)$: $2$. Nhóm chứa trung vị là
+
+A. $[0;10)$
+
+B. $[10;20)$
+
+C. $[20;30)$
+
+D. $[30;40)$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Bảng: $[10;20)$: $3$; $[20;30)$: $4$; $[30;40)$: $3$. Tính số trung bình cộng. Đáp số: ………………………
+
+**Câu 2 ★.** Bảng: $[40;50)$: $2$; $[50;60)$: $8$; $[60;70)$: $6$; $[70;80)$: $4$. Tính trung vị. Đáp số: ………………………
+
+**Câu 3 ★★.** Bảng: $[10;20)$: $4$; $[20;30)$: $10$; $[30;40)$: $6$; $[40;50)$: $2$. Tính mốt. Đáp số: ………………………
+
+**Câu 4 ★★.** Bảng: $[0;10)$: $4$; $[10;20)$: $10$; $[20;30)$: $16$; $[30;40)$: $10$. Tính $Q_1$ và $Q_3$. Đáp số: ………………………
+
+**Câu 5 ★★.** Cửa hàng quần áo muốn biết cỡ áo bán được nhiều nhất để nhập hàng. Nên dùng số trung bình, trung vị hay mốt? Đáp số: ………………………
+
+**Câu 6 ★★★.** Bảng: $[0;5)$: $2$; $[5;10)$: $8$; $[10;15)$: $4$; $[15;20)$: $x$. Biết trung vị bằng $8{,}75$. Tìm $x$. Đáp số: ………………………
+
+**Câu 7 ★★★.** Doanh thu mỗi ngày (triệu đồng) trong $20$ ngày: $[5;10)$: $2$; $[10;15)$: $6$; $[15;20)$: $8$; $[20;25)$: $4$. Tính số trung bình cộng và trung vị. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Bảng tần số: $[0;10)$: $4$; $[10;20)$: $8$; $[20;30)$: $6$; $[30;40)$: $2$. Tính trung vị.
+>
+> **Lời giải của bạn X:** $n = 4 + 8 + 6 + 2 = 18$ nên $\dfrac{n}{2} = 9$. Nhóm chứa trung vị là $[10;20)$ với $C = 12$ (tần số tích luỹ). $M_e = 10 + \dfrac{9 - 12}{8}\cdot 10 = 6{,}25$.
+
+Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Bảng tần số: $[10;20)$: $6$; $[20;30)$: $12$; $[30;40)$: $10$. Mốt bằng
+
+A. $25$
+
+B. $27{,}5$
+
+C. $22{,}5$
+
+D. $30$
+
+**Câu 2.** Bảng: $[0;10)$: $4$; $[10;20)$: $6$; $[20;30)$: $8$; $[30;40)$: $2$. Mỗi ý em ghi Đ hoặc S:
+
+a) Số trung bình cộng là $19$. ……
+
+b) Trung vị bằng $20$. ……
+
+c) Nhóm chứa $Q_3$ là $[30;40)$. ……
+
+d) Mốt bằng $25$. ……
+
+**Câu 3.** Bảng: $[0;5)$: $2$; $[5;10)$: $4$; $[10;15)$: $8$; $[15;20)$: $6$. Trung vị bằng: …………
+
+## 7. Một phút suy ngẫm
+
+*Với cùng một bảng ghép nhóm, em chọn số trung bình, trung vị hay mốt khi nào? Vì sao các giá trị đó chỉ là gần đúng?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Em khảo sát thời gian tự học mỗi tối của **ít nhất 20 bạn** (hoặc tiền tiêu vặt mỗi tuần), ghép thành $4$–$5$ nhóm cùng độ dài. Lập bảng tính (Excel hoặc Google Sheets) tính số trung bình cộng, trung vị, $Q_1$, $Q_3$ và mốt theo công thức trong bài; nhận xét số nào mô tả tốt nhất nhóm bạn đã khảo sát. **Sản phẩm:** bảng số liệu, file bảng tính và $3$ dòng nhận xét, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Bài 9. Các số đặc trưng đo xu thế trung tâm
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương III. Mẫu số liệu ghép nhóm · Bài 9. Các số đặc trưng đo xu thế trung tâm** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu, giấy/bảng con và máy tính cầm tay; tiết học bài mới.
+- Bảng tự học ở mục mở đầu và bài khảo sát về nhà là **[Minh họa]** do người soạn tự đặt, không trích từ SGK. Thầy đối chiếu với phần Mở đầu của Bài 9 trong SGK nếu muốn dùng tình huống sách.
+- Phiếu bám các ví dụ của bài giảng: **Ví dụ 1** (số trung bình) → Do Now 1, câu bản lề A, Luyện tập 1, 7; **Ví dụ 2** (trung vị) → Do Now 2–4, câu bản lề B, Luyện tập 2, Tìm lỗi sai, Exit ticket 3; **Ví dụ 3** (tứ phân vị) → Luyện tập 4, Exit ticket 2c; **Ví dụ 4** (mốt) → Luyện tập 3, Exit ticket 1, 2d; **Ví dụ 5–6** (tần số khuyết, chọn số đặc trưng) → Luyện tập 5–6, bài về nhà.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **Hình thành kiến thức** (bốn công thức) thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* huy động trung điểm, quy ước nhóm $[a;b)$, cỡ mẫu và tần số tích luỹ từ Bài 8; tạo nhu cầu có số đặc trưng thay cho cả bảng.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng thời gian tự học.
+- *Sản phẩm:* Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* tính số trung bình, trung vị, tứ phân vị, mốt từ bảng ghép nhóm; chọn số đặc trưng theo tình huống; nhận ra lỗi điển hình (nhầm $C$, sai cỡ mẫu, dùng đầu mút thay trung điểm).
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài khảo sát về nhà.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; bảng tính và nhận xét.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hình thành kiến thức** | *Giáo viên tự dạy theo bài giảng: Kiến thức trọng tâm 1–5, Dạng 1–5, Ví dụ 1–6* |
+| ~14 | Câu hỏi bản lề A (Mục 3), nằm trong phần trên | Dừng sau số trung bình (Ví dụ 1); giơ thẻ A/B/C/D (2 phút) |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Câu 1–7, cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) | |
+
+*Câu hỏi bản lề B dùng sau khi dạy trung vị (Ví dụ 2), hoặc thay câu A khi lớp đã vững.*
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Truy xuất kiến thức Bài 8 trước khi học mới; tự chấm không lấy điểm.
+- **Tổ chức theo 5512:** chiếu 4 câu, học sinh làm một mình 3 phút, chiếu đáp án, tự chấm bằng bút khác màu; nhận xét: hôm nay ta biến cả bảng thành các con số đại diện.
+- **Đáp án:**
+  1. $25$.
+  2. Không (nhóm không chứa đầu mút phải).
+  3. $n = 20$, $\dfrac{n}{2} = 10$.
+  4. $2 + 0{,}75\cdot 10 = 9{,}5$.
+- **Lỗi dự kiến:** câu 1 ghi $20$ hoặc $30$ (đầu mút); câu 2 ghi "có"; câu 4 tính $\dfrac{10 - 4}{8}$ rồi quên nhân với $10$.
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.** Không có câu trả lời "đúng" nên học sinh yếu cũng tham gia được.
+- **Gợi ý nhận thấy:** tần số tăng rồi giảm; nhóm $[60;80)$ và $[80;100)$ cùng nhiều nhất; tổng $40$ em. **Gợi ý thắc mắc:** "trung bình" có phải tính từ giữa nhóm không? Một nửa lớp học bao lâu?
+- Chốt: cần các con số đại diện — trung bình, trung vị, tứ phân vị, mốt.
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Mạnh.** Mỗi đáp án sai ứng một ngộ nhận.
+- **Câu A:** đáp án **B** ($\dfrac{2\cdot 2 + 5\cdot 6 + 3\cdot 10}{10} = 6{,}4$). A là trung bình cộng của ba giá trị đại diện (quên tần số); C là tổng chưa chia $n$; D là đầu mút.
+- **Câu B:** đáp án **B** ($n = 20$, $\dfrac{n}{2} = 10$, tần số tích luỹ $4;\ 12$). A là nhóm đầu; C là nhóm có tần số lớn nhất sau B; D là nhóm cuối.
+- Nếu quá nửa lớp sai: dừng 2 phút, viết lại bảng kèm cột tần số tích luỹ.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Trung bình–Mạnh.** Xen trung bình, trung vị, mốt, tứ phân vị trong cùng lượt.
+- **Đáp án:** 1) $25$. 2) $60$ ($\dfrac{n}{2} = 10$ đạt ngay ở nhóm $[50;60)$ với $C = 2$: $50 + \dfrac{10 - 2}{8}\cdot 10$). 3) $26$ ($20 + \dfrac{10 - 4}{10 - 4 + 10 - 6}\cdot 10$). 4) $Q_1 = 16$, $Q_3 = 30$. 5) Mốt. 6) $x = 2$ ($n = 16$). 7) $\bar{x} = 16$, $M_e = 16{,}25$.
+- **Lỗi dự kiến:** câu 3 hoán đổi nhóm trước – nhóm sau; câu 4 dùng cùng một nhóm cho cả $Q_1$ và $Q_3$; câu 6 quên giải ngược để tìm $n$.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Trung bình.**
+- **Hai lỗi:** (1) cỡ mẫu $n = 4 + 8 + 6 + 2 = 20$, không phải $18$, nên $\dfrac{n}{2} = 10$; (2) $C$ là tần số tích luỹ của nhóm **đứng trước** nhóm chứa trung vị, tức $C = 4$, không phải $12$. Đúng: $M_e = 10 + \dfrac{10 - 4}{8}\cdot 10 = 17{,}5$. Gợi ý nhận ra lỗi: $6{,}25$ không nằm trong nhóm $[10;20)$.
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.** Ba câu cho ba chồng phản hồi.
+- **Đáp án:** Câu 1: **B** ($20 + \dfrac{12 - 6}{12 - 6 + 12 - 10}\cdot 10 = 27{,}5$; đáp án C là hoán đổi trước–sau). Câu 2: a) Đ ($\bar{x} = 19$) · b) Đ ($M_e = 10 + \dfrac{10 - 4}{6}\cdot 10 = 20$) · c) S (nhóm chứa $Q_3$ là $[20;30)$ vì $\dfrac{3n}{4} = 15$ và tần số tích luỹ $4;\ 10;\ 18$) · d) S ($M_o = 22{,}5$). Câu 3: $12{,}5$.
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- Mong đợi: trung bình dễ bị kéo bởi số liệu bất thường, trung vị chia đôi, mốt cho biết cái phổ biến; chỉ gần đúng vì dùng giá trị đại diện thay cho số liệu thật.
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** tự khảo sát, dùng bảng tính để tính các số đặc trưng và nhận xét.
+- **Tiêu chí nộp:** bảng có ít nhất $20$ số liệu và $4$–$5$ nhóm; đủ $5$ số đặc trưng; nhận xét nêu số nào phù hợp và vì sao.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài tìm tần số khuyết khi biết trung vị hoặc mốt |
+| 2. Sai hết | 0–1 câu đúng | Ôn nhóm nhỏ: làm lại Ví dụ 2–3 theo thứ tự "tần số tích luỹ – nhóm – công thức" |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh 5 phút đầu tiết sau bằng câu bị sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Bài 10):** (1) một câu về $C$ hoặc nhóm chứa trung vị bị sai nhiều; (2) tính $Q_3 - Q_1$ từ hai số cho sẵn; (3) tìm giá trị lớn nhất và nhỏ nhất của mẫu số liệu.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát sẵn bảng có cột "giá trị đại diện" và "tần số tích luỹ" để điền; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *đổi một số liệu ở nhóm cuối thành nhóm cao hơn nhiều; số trung bình, trung vị thay đổi thế nào? Số nào ít thay đổi?*
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 11 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng Excel/Google Sheets với công thức $=\mathrm{SUMPRODUCT}$ tính $\bar{x}$ và các ô công thức tính $M_e$, $Q_1$, $Q_3$ (sản phẩm: file bảng tính).
+- **Địa chỉ 2:** bài về nhà thu thập số liệu bằng biểu mẫu trực tuyến, xuất bảng số liệu.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $25$ |
+| Do Now 2 | Không |
+| Do Now 3 | $n = 20$, $\dfrac{n}{2} = 10$ |
+| Do Now 4 | $9{,}5$ |
+| Mở đầu | Cần số đại diện: trung bình, trung vị, tứ phân vị, mốt |
+| Bản lề A | B |
+| Bản lề B | B |
+| Luyện tập 1 | $25$ |
+| Luyện tập 2 | $60$ |
+| Luyện tập 3 | $26$ |
+| Luyện tập 4 | $Q_1 = 16$; $Q_3 = 30$ |
+| Luyện tập 5 | Mốt |
+| Luyện tập 6 | $x = 2$ |
+| Luyện tập 7 | $\bar{x} = 16$; $M_e = 16{,}25$ |
+| Tìm lỗi sai | $n = 20$; $C = 4$; $M_e = 17{,}5$ |
+| Exit 1 | B |
+| Exit 2 | a) Đ · b) Đ · c) S · d) S |
+| Exit 3 | $12{,}5$ |
+| Về nhà | Bảng tính đủ 5 số đặc trưng và nhận xét |
+`);

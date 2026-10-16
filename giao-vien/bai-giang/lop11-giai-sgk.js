@@ -248,3 +248,39 @@ Lecture.addSgk('lop11', 'bai-8', [
      box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 8. Mẫu số liệu ghép nhóm.')},
 ]);
 })();
+
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – Toán 11 · Chương III · Bài 9. Các số đặc trưng đo xu thế trung tâm (câu vận dụng, câu khó) – thầy yêu cầu 16/10/2026
+   LƯU Ý: đề ghi tóm tắt theo DẠNG của các bài vận dụng/bài tập cuối Bài 9; số trang và số bài chưa được tra trong sách in – thầy đối chiếu.
+   ===================================================================== */
+(() => {
+const m = tm, gr = (a, b) => m(`[${a};\\,${b})`), box = h => `<div class="lk-box">${h}</div>`;
+const T = (heads, vals) => `<table class="lk-table"><tr><th>Nhóm</th>${heads.map(h => `<th>${h}</th>`).join('')}</tr><tr><td>Tần số</td>${vals.map(v => `<td>${v}</td>`).join('')}</tr></table>`;
+const TB = T([gr(0, 2), gr(2, 4), gr(4, 6), gr(6, 8)], [5, 10, 3, 2]);
+Lecture.addSgk('lop11', 'bai-9', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 9. Các số đặc trưng đo xu thế trung tâm', sub:'Các câu vận dụng, câu khó – SGK tập 1 (thầy đối chiếu số trang, số bài)',
+   points:['Số trung bình cộng của mẫu số liệu ghép nhóm.', 'Trung vị và tứ phân vị.', 'Mốt.', 'Tìm tần số khuyết khi biết số trung bình.', 'Lưu ý: đề ghi tóm tắt theo dạng bài của SGK; số trang và số bài chưa tra, mời thầy đối chiếu.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Công thức cần dùng',
+   body:`<ol class="lk-steps"><li>${m('\\bar{x} = \\dfrac{\\sum m_ix_i}{n}')}, ${m('x_i')} là trung điểm nhóm.</li><li>${m('M_e,\\ Q_1,\\ Q_3')}: nhóm đầu tiên có tần số tích luỹ ${m('\\ge \\dfrac{n}{2},\\ \\dfrac{n}{4},\\ \\dfrac{3n}{4}')}; kết quả ${m('= u_m + \\dfrac{q - C}{n_m}\\cdot h')}.</li><li>${m('M_o = u_j + \\dfrac{m_j - m_{j-1}}{(m_j - m_{j-1}) + (m_j - m_{j+1})}\\cdot h')}.</li></ol>`},
+
+  {kind:'vd', tag:'Vận dụng · Số trung bình', label:'Câu 1', de:`Quãng đường (km) từ nhà đến trường của 20 học sinh: ${TB}Tính số trung bình cộng.`,
+   sol:[`Giá trị đại diện ${m('1;\\ 3;\\ 5;\\ 7')}; ${m('n = 20')}.`, `${m('\\bar{x} = \\dfrac{5\\cdot 1 + 10\\cdot 3 + 3\\cdot 5 + 2\\cdot 7}{20} = \\dfrac{64}{20}')}.`], ans:`${tb('\\bar{x} = 3{,}2')} km.`},
+
+  {kind:'vd', tag:'Vận dụng · Trung vị', label:'Câu 2', de:`Với bảng ở Câu 1, tính trung vị.`,
+   sol:[`${m('\\dfrac{n}{2} = 10')}. Tần số tích luỹ ${m('5;\\ 15;\\ 18;\\ 20')}.`, `Nhóm ${gr(2, 4)}: ${m('C = 5,\\ n_m = 10,\\ h = 2')}.`, `${m('M_e = 2 + \\dfrac{10 - 5}{10}\\cdot 2 = 3')}.`], ans:`${tb('M_e = 3')} km.`},
+
+  {kind:'vd', tag:'Vận dụng · Tứ phân vị', label:'Câu 3', de:`Với bảng ở Câu 1, tính ${m('Q_1')} và ${m('Q_3')}.`,
+   sol:[`${m('\\dfrac{n}{4} = 5')}: tần số tích luỹ của nhóm đầu là ${m('5 \\ge 5')} nên nhóm ${gr(0, 2)}: ${m('Q_1 = 0 + \\dfrac{5 - 0}{5}\\cdot 2 = 2')}.`, `${m('\\dfrac{3n}{4} = 15')}: tần số tích luỹ ${m('5;\\ 15')} nên nhóm ${gr(2, 4)}: ${m('Q_3 = 2 + \\dfrac{15 - 5}{10}\\cdot 2 = 4')}.`], ans:`${tb('Q_1 = 2')}; ${tb('Q_3 = 4')}.`},
+
+  {kind:'vd', tag:'Vận dụng · Mốt', label:'Câu 4', de:`Với bảng ở Câu 1, tính mốt.`,
+   sol:[`Nhóm có tần số lớn nhất: ${gr(2, 4)} (10); nhóm trước 5, nhóm sau 3, ${m('h = 2')}.`, `${m('M_o = 2 + \\dfrac{10 - 5}{(10 - 5) + (10 - 3)}\\cdot 2 = 2 + \\dfrac{5}{12}\\cdot 2 = \\dfrac{17}{6}')}.`], ans:`${tb('M_o = \\dfrac{17}{6} \\approx 2{,}83')} km.`},
+
+  {kind:'vd', tag:'Vận dụng cao · Tần số khuyết', label:'Câu 5', de:`Bảng tần số về quãng đường (km): ${gr(0, 2)}: 5; ${gr(2, 4)}: ${m('x')}; ${gr(4, 6)}: 3; ${gr(6, 8)}: 2. Biết số trung bình cộng là ${m('3{,}2')}. Tìm ${m('x')}.`,
+   sol:[`${m('n = 10 + x')}; tổng ${m('5\\cdot 1 + 3x + 3\\cdot 5 + 2\\cdot 7 = 34 + 3x')}.`, `${m('\\dfrac{34 + 3x}{10 + x} = 3{,}2 \\Rightarrow 34 + 3x = 32 + 3{,}2x')}.`, `${m('0{,}2x = 2 \\Rightarrow x = 10')}.`], ans:`${tb('x = 10')} (khớp Câu 1).`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Dùng đầu mút thay cho trung điểm khi tính số trung bình.</li><li>Lấy ${m('C')} là tần số tích luỹ của <b>chính</b> nhóm chứa trung vị thay vì nhóm đứng trước.</li><li>Quên coi tần số nhóm thiếu bằng ${m('0')} khi mốt ở nhóm đầu hoặc nhóm cuối.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 9. Các số đặc trưng đo xu thế trung tâm.')},
+]);
+})();

@@ -17117,6 +17117,174 @@ const K8KT = [
 ];
 lesson(4, 'mau-so-lieu-ghep-nhom', 'Bài 8. Mẫu số liệu ghép nhóm', 'Xác định nhóm số liệu; chia nhóm; lập bảng tần số ghép nhóm; đọc biểu đồ cột; tần số tương đối và tần số tích luỹ.', [g8a, g8b, g8c, g8d, g8e], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K8KT});
 
+/* =====================================================================
+   CHƯƠNG III. Bài 9. Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm (thầy yêu cầu 16/10/2026, /tron-bo)
+   Chủ đề 4 (cùng Bài 8). 5 dạng × 3 mức: 1 Số trung bình · 2 Trung vị · 3 Tứ phân vị · 4 Mốt · 5 Thực tế, so sánh, tìm tần số khuyết.
+   Công thức KNTT: x̄ = Σ m_i x_i / n (x_i = giá trị đại diện = trung điểm); nhóm chứa M_e (Q_1, Q_3) là nhóm đầu tiên có tần số tích luỹ ≥ n/2 (n/4, 3n/4);
+   M_e = u + (n/2 − C)/m · h; M_o = u_j + (m_j − m_{j−1})/((m_j − m_{j−1}) + (m_j − m_{j+1})) · h, m_0 = m_{k+1} = 0.
+   Đáp án chọn trước rồi dựng đề; mọi đáp số được tính lại bằng công thức độc lập (b9chk).
+   ===================================================================== */
+{
+const b9chk = (ok, msg) => { if(!ok) throw new Error('b9: ' + msg); };
+const ok1 = v => Math.abs(v * 10 - Math.round(v * 10)) < 1e-9;
+const d9 = v => String(Math.round(v * 100) / 100).replace('.', '{,}');       // số thập phân trong LaTeX
+const sum9 = a => a.reduce((p, q) => p + q, 0);
+const mid9 = (e, i) => (e[i] + e[i + 1]) / 2;
+const mean9 = (e, f) => f.reduce((s, x, i) => s + x * mid9(e, i), 0) / sum9(f);
+const cum9 = f => f.map((_, i) => sum9(f.slice(0, i + 1)));
+const grp9 = (f, q) => { const c = cum9(f); return c.findIndex(x => x >= q - 1e-9); };
+const quant9 = (e, f, q) => { const i = grp9(f, q), C = i ? sum9(f.slice(0, i)) : 0, h = e[1] - e[0]; return e[i] + (q - C) / f[i] * h; };
+const mode9 = (e, f) => { const j = f.indexOf(Math.max(...f)), l = j ? f[j - 1] : 0, r = j < f.length - 1 ? f[j + 1] : 0, h = e[1] - e[0]; return e[j] + (f[j] - l) / ((f[j] - l) + (f[j] - r)) * h; };
+const uniqMax9 = f => f.filter(x => x === Math.max(...f)).length === 1;
+const labs9 = e => Array.from({length:e.length - 1}, (_, i) => gr8(e[i], e[i + 1]));
+const gen9 = (k, n, lo, hi) => { const c = pick(CT8), s = c.s + c.len * R(0, 2), e = edges8(s, c.len, k); return {c, e, f:fSplit8(n, k, lo, hi)}; };
+const search9 = (mk, test) => { for(let t = 0; t < 4000; t++){ const o = mk(); if(test(o)) return o; } throw new Error('b9: search'); };
+const tabN9 = (e, f) => tabF8(e, f);
+
+/* Dạng 1. Số trung bình */
+const g9a = lv => {
+  if(lv === 1){
+    const o = search9(() => gen9(3, pick([10, 20]), 2, 12), o => ok1(mean9(o.e, o.f))), {c, e, f} = o, n = sum9(f), x = mean9(e, f);
+    const terms = f.map((m, i) => `${m}\\cdot ${d9(mid9(e, i))}`).join(' + ');
+    return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Tính số trung bình cộng ${tm('\\bar{x}')} của mẫu số liệu ghép nhóm này.`, tpl:`${tm('\\bar{x} =')} [_]`, ans:[x],
+      hint:'Lấy giá trị đại diện của mỗi nhóm (trung điểm hai đầu mút), nhân với tần số rồi cộng lại và chia cho cỡ mẫu.',
+      sol:`Giá trị đại diện: ${tm(f.map((_, i) => d9(mid9(e, i))).join(';\\ '))}. Cỡ mẫu ${tm(`n = ${f.join(' + ')} = ${n}`)}. ${tm(`\\bar{x} = \\dfrac{${terms}}{${n}} = ${d9(x)}`)}. Vậy ${tb(`\\bar{x} = ${d9(x)}`)}.`});
+  }
+  if(lv === 2){
+    const o = search9(() => gen9(pick([4, 5]), pick([20, 25, 40, 50]), 2, 14), o => ok1(mean9(o.e, o.f))), {c, e, f} = o, n = sum9(f), x = mean9(e, f);
+    const terms = f.map((m, i) => `${m}\\cdot ${d9(mid9(e, i))}`).join(' + ');
+    return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Tính số trung bình cộng ${tm('\\bar{x}')} của mẫu số liệu ghép nhóm này.`, tpl:`${tm('\\bar{x} =')} [_]`, ans:[x],
+      hint:'Giá trị đại diện của nhóm là trung điểm của nhóm. Lập tổng các tích (tần số × giá trị đại diện) rồi chia cho cỡ mẫu.',
+      sol:`Giá trị đại diện: ${tm(f.map((_, i) => d9(mid9(e, i))).join(';\\ '))}. ${tm(`n = ${n}`)}. ${tm(`\\bar{x} = \\dfrac{${terms}}{${n}} = ${d9(x)}`)}. Vậy ${tb(`\\bar{x} = ${d9(x)}`)}.`});
+  }
+  // mức 3: biết số trung bình, tìm tần số khuyết
+  const o = search9(() => { const g = gen9(4, pick([20, 25, 30, 40]), 3, 12); g.xi = R(0, 3); return g; },
+    o => { const x = mean9(o.e, o.f), c = mid9(o.e, o.xi); return ok1(x) && Math.abs(c - x) > 0.4; }), {c, e, f, xi} = o;
+  const n = sum9(f), x = mean9(e, f), mc = mid9(e, xi), n0 = n - f[xi], S0 = f.reduce((s, m, i) => i === xi ? s : s + m * mid9(e, i), 0);
+  b9chk(Math.abs((S0 + f[xi] * mc) / (n0 + f[xi]) - x) < 1e-9, 'g9a3');
+  const cells = f.map((m, i) => i === xi ? '<b>x</b>' : m);
+  return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who} có một ô bị mờ:<br>${tab8(['Nhóm', ...labs9(e)], [['Tần số', ...cells]])}Biết số trung bình cộng của mẫu số liệu ghép nhóm là <b>${d9(x).replace('{,}', ',')}</b>. Tìm giá trị của x.`, tpl:`${tm('x =')} [_]`, ans:[f[xi]],
+    hint:'Viết số trung bình cộng theo x (cỡ mẫu và tổng các tích đều chứa x), rồi giải phương trình bậc nhất ẩn x.',
+    sol:`Cỡ mẫu ${tm(`n = ${n0} + x`)}. ${tm(`\\bar{x} = \\dfrac{${d9(S0)} + ${d9(mc)}x}{${n0} + x} = ${d9(x)}`)}. Suy ra ${tm(`${d9(S0)} + ${d9(mc)}x = ${d9(x * n0)} + ${d9(x)}x`)}, tức ${tm(`${d9(Math.abs(mc - x))}x = ${d9(Math.abs(x * n0 - S0))}`)}. Vậy ${tb(`x = ${f[xi]}`)}.`});
+};
+
+/* Dạng 2. Trung vị */
+const g9b = lv => {
+  if(lv === 1){
+    const o = gen9(5, pick([20, 24, 30, 40]), 2, 14), {c, e, f} = o, n = sum9(f), i = grp9(f, n / 2), labels = labs9(e), cum = cum9(f);
+    b9chk(cum[i] >= n / 2 && (i === 0 || cum[i - 1] < n / 2), 'g9b1');
+    return QC({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Nhóm nào chứa trung vị của mẫu số liệu?`, opts:labels, ans:labels[i], keepOrder:true,
+      hint:'Tính n/2, rồi cộng dồn tần số từ nhóm đầu; nhóm chứa trung vị là nhóm đầu tiên có tần số tích luỹ đạt tới n/2.',
+      sol:`${tm(`n = ${n}`)}, ${tm(`\\dfrac{n}{2} = ${n / 2}`)}. Tần số tích luỹ: ${tm(cum.join(',\\ '))}. Nhóm đầu tiên có tần số tích luỹ ${tm('\\ge')} ${n / 2} là nhóm thứ ${i + 1}: ${tb(`[${e[i]};\\,${e[i + 1]})`)}.`});
+  }
+  if(lv === 2){
+    const o = search9(() => gen9(4, pick([20, 24, 30, 40]), 2, 14), o => { const q = quant9(o.e, o.f, sum9(o.f) / 2); return ok1(q); }), {c, e, f} = o;
+    const n = sum9(f), i = grp9(f, n / 2), C = i ? sum9(f.slice(0, i)) : 0, h = e[1] - e[0], x = quant9(e, f, n / 2);
+    return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Tính trung vị ${tm('M_e')} của mẫu số liệu ghép nhóm.`, tpl:`${tm('M_e =')} [_]`, ans:[x],
+      hint:'Tìm nhóm chứa trung vị, rồi dùng công thức: đầu mút trái + (n/2 − tần số tích luỹ nhóm trước) ÷ tần số nhóm × độ dài nhóm.',
+      sol:`${tm(`n = ${n}`)}, ${tm(`\\dfrac{n}{2} = ${n / 2}`)}. Nhóm chứa trung vị là ${gr8(e[i], e[i + 1])} (tần số tích luỹ nhóm trước ${C}, tần số nhóm ${f[i]}, độ dài ${h}). ${tm(`M_e = ${e[i]} + \\dfrac{${n / 2} - ${C}}{${f[i]}}\\cdot ${h} = ${d9(x)}`)}. Vậy ${tb(`M_e = ${d9(x)}`)}.`});
+  }
+  // mức 3: bảng tần số tương đối (%)
+  const o = search9(() => { const g = gen9(5, 20, 2, 8); return g; }, o => ok1(quant9(o.e, o.f, 10))), {c, e, f} = o;
+  const pc = f.map(x => x * 5), i = grp9(f, 10), C = i ? sum9(pc.slice(0, i)) : 0, h = e[1] - e[0], x = quant9(e, f, 10);
+  b9chk(sum9(pc) === 100 && Math.abs(e[i] + (50 - C) / pc[i] * h - x) < 1e-9, 'g9b3');
+  return QB({text:`Tần số tương đối (%) của các nhóm về ${c.w} của ${c.who}:<br>${tab8(['Nhóm', ...labs9(e)], [['Tần số tương đối (%)', ...pc]])}Tính trung vị ${tm('M_e')} của mẫu số liệu ghép nhóm.`, tpl:`${tm('M_e =')} [_]`, ans:[x],
+    hint:'Cỡ mẫu tương ứng với 100%, nên trung vị ứng với mốc 50%. Cộng dồn các tần số tương đối để tìm nhóm chứa mốc 50%, rồi dùng công thức trung vị với 50 thay cho n/2.',
+    sol:`Cộng dồn: ${tm(cum9(pc).map(z => z + '\\%').join(',\\ '))}. Nhóm đầu tiên đạt ${tm('50\\%')} trở lên là ${gr8(e[i], e[i + 1])}, phần trăm các nhóm trước là ${C}. ${tm(`M_e = ${e[i]} + \\dfrac{50 - ${C}}{${pc[i]}}\\cdot ${h} = ${d9(x)}`)}. Vậy ${tb(`M_e = ${d9(x)}`)}.`});
+};
+
+/* Dạng 3. Tứ phân vị */
+const g9c = lv => {
+  if(lv === 1){
+    const o = gen9(5, pick([20, 24, 40]), 2, 14), {c, e, f} = o, n = sum9(f), q3 = pick([0, 1]), p = q3 ? 3 : 1, i = grp9(f, p * n / 4), labels = labs9(e), cum = cum9(f);
+    b9chk(cum[i] >= p * n / 4 && (i === 0 || cum[i - 1] < p * n / 4), 'g9c1');
+    return QC({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Nhóm nào chứa tứ phân vị thứ ${q3 ? 'ba' : 'nhất'} ${tm(q3 ? 'Q_3' : 'Q_1')}?`, opts:labels, ans:labels[i], keepOrder:true,
+      hint:`Tính ${q3 ? '3n/4' : 'n/4'}, rồi cộng dồn tần số từ nhóm đầu; nhóm cần tìm là nhóm đầu tiên có tần số tích luỹ đạt tới giá trị đó.`,
+      sol:`${tm(`n = ${n}`)}, ${tm(q3 ? `\\dfrac{3n}{4} = ${3 * n / 4}` : `\\dfrac{n}{4} = ${n / 4}`)}. Tần số tích luỹ: ${tm(cum.join(',\\ '))}. Nhóm đầu tiên có tần số tích luỹ ${tm('\\ge')} ${p * n / 4} là ${tb(`[${e[i]};\\,${e[i + 1]})`)}.`});
+  }
+  if(lv === 2){
+    const o = search9(() => gen9(4, pick([20, 24, 40]), 2, 14), o => ok1(quant9(o.e, o.f, sum9(o.f) / 4))), {c, e, f} = o;
+    const n = sum9(f), i = grp9(f, n / 4), C = i ? sum9(f.slice(0, i)) : 0, h = e[1] - e[0], x = quant9(e, f, n / 4);
+    return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Tính tứ phân vị thứ nhất ${tm('Q_1')} của mẫu số liệu ghép nhóm.`, tpl:`${tm('Q_1 =')} [_]`, ans:[x],
+      hint:'Làm giống công thức trung vị nhưng thay n/2 bằng n/4: tìm nhóm chứa Q₁ rồi áp dụng công thức.',
+      sol:`${tm(`n = ${n}`)}, ${tm(`\\dfrac{n}{4} = ${n / 4}`)}. Nhóm chứa ${tm('Q_1')} là ${gr8(e[i], e[i + 1])} (tần số tích luỹ nhóm trước ${C}, tần số nhóm ${f[i]}, độ dài ${h}). ${tm(`Q_1 = ${e[i]} + \\dfrac{${n / 4} - ${C}}{${f[i]}}\\cdot ${h} = ${d9(x)}`)}. Vậy ${tb(`Q_1 = ${d9(x)}`)}.`});
+  }
+  const o = search9(() => gen9(pick([5, 6]), pick([40, 48, 60]), 3, 16), o => ok1(quant9(o.e, o.f, sum9(o.f) / 4)) && ok1(quant9(o.e, o.f, 3 * sum9(o.f) / 4))), {c, e, f} = o;
+  const n = sum9(f), h = e[1] - e[0], q1 = quant9(e, f, n / 4), q3 = quant9(e, f, 3 * n / 4), i1 = grp9(f, n / 4), i3 = grp9(f, 3 * n / 4);
+  const C1 = i1 ? sum9(f.slice(0, i1)) : 0, C3 = i3 ? sum9(f.slice(0, i3)) : 0;
+  return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Tính ${tm('Q_1')} và ${tm('Q_3')} của mẫu số liệu ghép nhóm.`, tpl:`${tm('Q_1 =')} [_] ; ${tm('Q_3 =')} [_]`, ans:[q1, q3],
+    hint:'Cỡ mẫu n lấy từ tổng các tần số. Q₁ ứng với n/4, Q₃ ứng với 3n/4: tìm từng nhóm chứa chúng bằng tần số tích luỹ rồi áp dụng công thức.',
+    sol:`${tm(`n = ${n}`)}. ${tm('Q_1')}: ${tm(`\\dfrac{n}{4} = ${n / 4}`)}, nhóm ${gr8(e[i1], e[i1 + 1])}: ${tm(`Q_1 = ${e[i1]} + \\dfrac{${n / 4} - ${C1}}{${f[i1]}}\\cdot ${h} = ${d9(q1)}`)}. ${tm('Q_3')}: ${tm(`\\dfrac{3n}{4} = ${3 * n / 4}`)}, nhóm ${gr8(e[i3], e[i3 + 1])}: ${tm(`Q_3 = ${e[i3]} + \\dfrac{${3 * n / 4} - ${C3}}{${f[i3]}}\\cdot ${h} = ${d9(q3)}`)}. Vậy ${tb(`Q_1 = ${d9(q1)}`)}, ${tb(`Q_3 = ${d9(q3)}`)}.`});
+};
+
+/* Dạng 4. Mốt */
+const g9d = lv => {
+  if(lv === 1){
+    const o = search9(() => gen9(5, pick([24, 30, 40]), 2, 14), o => uniqMax9(o.f)), {c, e, f} = o, j = f.indexOf(Math.max(...f)), labels = labs9(e);
+    return QC({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Nhóm nào chứa mốt của mẫu số liệu ghép nhóm?`, opts:labels, ans:labels[j], keepOrder:true,
+      hint:'Nhóm chứa mốt là nhóm có tần số lớn nhất.',
+      sol:`Tần số lớn nhất là ${f[j]}, ứng với nhóm ${tb(`[${e[j]};\\,${e[j + 1]})`)}.`});
+  }
+  if(lv === 2){
+    const o = search9(() => gen9(5, pick([24, 30, 40, 50]), 2, 14), o => { const j = o.f.indexOf(Math.max(...o.f)); return uniqMax9(o.f) && j > 0 && j < 4 && ok1(mode9(o.e, o.f)); }), {c, e, f} = o;
+    const j = f.indexOf(Math.max(...f)), h = e[1] - e[0], x = mode9(e, f), l = f[j - 1], r = f[j + 1];
+    return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who}:<br>${tabN9(e, f)}Tính mốt ${tm('M_o')} của mẫu số liệu ghép nhóm.`, tpl:`${tm('M_o =')} [_]`, ans:[x],
+      hint:'Nhóm chứa mốt là nhóm có tần số lớn nhất. Công thức: đầu mút trái + (hiệu tần số với nhóm trước) ÷ (hiệu với nhóm trước + hiệu với nhóm sau) × độ dài nhóm.',
+      sol:`Nhóm chứa mốt: ${gr8(e[j], e[j + 1])} (tần số ${f[j]}), nhóm trước có tần số ${l}, nhóm sau có tần số ${r}, độ dài ${h}. ${tm(`M_o = ${e[j]} + \\dfrac{${f[j]} - ${l}}{(${f[j]} - ${l}) + (${f[j]} - ${r})}\\cdot ${h} = ${d9(x)}`)}. Vậy ${tb(`M_o = ${d9(x)}`)}.`});
+  }
+  // mức 3: đọc biểu đồ cột, nhóm chứa mốt có thể ở đầu hoặc cuối
+  const c = pick(CTH8), k = 5, e = edges8(c.s, c.len, k);
+  const o = search9(() => ({f:fSplit8(pick([20, 30, 40]), k, 2, 14, true)}), o => { const j = o.f.indexOf(Math.max(...o.f)); return uniqMax9(o.f) && (j === 0 || j === k - 1) && ok1(mode9(e, o.f)); }), f = o.f;
+  const j = f.indexOf(Math.max(...f)), h = e[1] - e[0], x = mode9(e, f), l = j ? f[j - 1] : 0, r = j < k - 1 ? f[j + 1] : 0;
+  return QB({text:`Biểu đồ cột sau cho biết ${c.w} của các học sinh lớp 11A được khảo sát. Tính mốt ${tm('M_o')} của mẫu số liệu ghép nhóm.`, fig:histSVG(e, f, 2, {unit:c.u}), tpl:`${tm('M_o =')} [_]`, ans:[x],
+    hint:'Đọc tần số từng cột. Nếu nhóm chứa mốt là nhóm đầu hoặc nhóm cuối thì phía không có nhóm kề được coi là có tần số 0.',
+    sol:`Tần số các nhóm: ${tm(f.join(',\\ '))}. Nhóm chứa mốt: ${gr8(e[j], e[j + 1])} (tần số ${f[j]}), tần số nhóm trước ${l}, nhóm sau ${r}, độ dài ${h}. ${tm(`M_o = ${e[j]} + \\dfrac{${f[j]} - ${l}}{(${f[j]} - ${l}) + (${f[j]} - ${r})}\\cdot ${h} = ${d9(x)}`)}. Vậy ${tb(`M_o = ${d9(x)}`)}.`});
+};
+
+/* Dạng 5. Chọn số đặc trưng, so sánh, tìm tần số khuyết */
+const SC9 = [
+  {t:'Một cửa hàng giày muốn biết cỡ giày nào được mua nhiều nhất để quyết định nhập hàng.', a:'Mốt', why:'Cần giá trị xuất hiện nhiều nhất nên dùng mốt.'},
+  {t:'Nhà trường muốn biết thời gian tự học trung bình mỗi tối của một học sinh.', a:'Số trung bình', why:'“Trung bình” là số trung bình cộng.'},
+  {t:'Giáo viên muốn chia lớp thành hai nửa bằng nhau: nửa chạy nhanh hơn và nửa chạy chậm hơn một mốc thời gian.', a:'Trung vị', why:'Trung vị chia mẫu thành hai nửa có số lượng bằng nhau.'},
+  {t:'Nhà trường mở lớp phụ đạo cho 25% số học sinh có điểm thấp nhất; cần xác định mốc điểm ranh giới.', a:'Tứ phân vị thứ nhất', why:'Mốc ngăn 25% số liệu nhỏ nhất là tứ phân vị thứ nhất Q₁.'},
+  {t:'Câu lạc bộ khen thưởng 25% số học sinh chạy nhanh nhất; cần mốc thời gian ranh giới (thời gian càng nhỏ càng nhanh).', a:'Tứ phân vị thứ nhất', why:'25% nhanh nhất là 25% thời gian nhỏ nhất, ranh giới là Q₁.'},
+  {t:'Một câu lạc bộ khen thưởng 25% số bạn có số trang đọc nhiều nhất; cần mốc số trang ranh giới.', a:'Tứ phân vị thứ ba', why:'25% lớn nhất nằm bên phải Q₃.'}
+];
+const g9e = lv => {
+  if(lv === 1){
+    const s = pick(SC9), opts = ['Số trung bình', 'Trung vị', 'Mốt', 'Tứ phân vị thứ nhất', 'Tứ phân vị thứ ba'];
+    return QC({text:`${s.t} Nên dùng số đặc trưng nào của mẫu số liệu?`, opts, ans:s.a, keepOrder:true,
+      hint:'Xác định em cần giá trị xuất hiện nhiều nhất, giá trị trung bình, hay một mốc chia số liệu theo tỉ lệ nhất định (một nửa, một phần tư).',
+      sol:`${s.why} Chọn ${tb(s.a)}.`});
+  }
+  if(lv === 2){
+    const k = 4, n = pick([20, 40]), c = pick(CT8), s = c.s + c.len * R(0, 2), e = edges8(s, c.len, k);
+    const o = search9(() => ({fa:fSplit8(n, k, 3, 14), fb:fSplit8(n, k, 3, 14)}), o => ok1(mean9(e, o.fa)) && ok1(mean9(e, o.fb)) && Math.abs(mean9(e, o.fa) - mean9(e, o.fb)) >= 0.5);
+    const xa = mean9(e, o.fa), xb = mean9(e, o.fb), ans = xa > xb ? 'Lớp 11A' : 'Lớp 11B';
+    return QC({text:`Bảng tần số ghép nhóm về ${c.w} của hai lớp (mỗi lớp ${n} học sinh):<br>${tab8(['Nhóm', ...labs9(e)], [['Lớp 11A', ...o.fa], ['Lớp 11B', ...o.fb]])}Lớp nào có số trung bình cộng lớn hơn?`, opts:['Lớp 11A', 'Lớp 11B', 'Hai lớp bằng nhau'], ans, keepOrder:true,
+      hint:'Tính số trung bình cộng của từng lớp bằng giá trị đại diện của nhóm, rồi so sánh.',
+      sol:`Giá trị đại diện: ${tm(e.slice(0, k).map((_, i) => d9(mid9(e, i))).join(';\\ '))}. Lớp 11A: ${tm(`\\bar{x}_A = ${d9(xa)}`)}. Lớp 11B: ${tm(`\\bar{x}_B = ${d9(xb)}`)}. Vậy ${tb(ans)} có số trung bình lớn hơn.`});
+  }
+  // mức 3: biết trung vị, tìm tần số khuyết nằm sau nhóm chứa trung vị
+  const o = search9(() => { const g = gen9(5, pick([30, 40, 50, 60]), 3, 16); g.xi = R(2, 4); return g; },
+    o => { const n = sum9(o.f), i = grp9(o.f, n / 2), x = quant9(o.e, o.f, n / 2); return i < o.xi && ok1(x) && x > o.e[i] && x < o.e[i + 1]; }), {c, e, f, xi} = o;
+  const n = sum9(f), i = grp9(f, n / 2), C = i ? sum9(f.slice(0, i)) : 0, h = e[1] - e[0], me = quant9(e, f, n / 2), n0 = n - f[xi];
+  b9chk(Math.abs(2 * (C + (me - e[i]) * f[i] / h) - n) < 1e-9, 'g9e3');
+  const cells = f.map((m, j) => j === xi ? '<b>x</b>' : m);
+  return QB({text:`Bảng tần số ghép nhóm về ${c.w} của ${c.who} có một ô bị mờ:<br>${tab8(['Nhóm', ...labs9(e)], [['Tần số', ...cells]])}Biết trung vị của mẫu số liệu ghép nhóm là <b>${d9(me).replace('{,}', ',')}</b>. Tìm giá trị của x.`, tpl:`${tm('x =')} [_]`, ans:[f[xi]],
+    hint:'Trung vị cho biết nó nằm trong nhóm nào. Thay vào công thức trung vị với cỡ mẫu n chưa biết, giải ra n, rồi suy ra x từ tổng các tần số.',
+    sol:`Trung vị ${d9(me)} thuộc nhóm ${gr8(e[i], e[i + 1])}, tần số tích luỹ nhóm trước ${C}, tần số nhóm ${f[i]}. ${tm(`${d9(me)} = ${e[i]} + \\dfrac{\\dfrac{n}{2} - ${C}}{${f[i]}}\\cdot ${h}`)} suy ra ${tm(`\\dfrac{n}{2} = ${d9(C + (me - e[i]) * f[i] / h)}`)}, ${tm(`n = ${n}`)}. Cỡ mẫu ${tm(`n = ${n0} + x`)} nên ${tb(`x = ${n} - ${n0} = ${f[xi]}`)}.`});
+};
+
+const K9KT = [
+  {t:'Số trung bình', b:`Mỗi nhóm lấy <b>giá trị đại diện</b> ${tm('x_i')} = trung điểm của nhóm. ${tm('\\bar{x} = \\dfrac{m_1x_1 + m_2x_2 + \\cdots + m_kx_k}{n}')}, với ${tm('m_i')} là tần số, ${tm('n = m_1 + \\cdots + m_k')}.`, warn:'Giá trị đại diện là trung điểm của nhóm [a; b), tức (a + b) : 2, không phải đầu mút.', ex:'Lập bảng 3 cột: nhóm – giá trị đại diện – tần số × giá trị đại diện, rồi cộng cột cuối.'},
+  {t:'Trung vị', b:`Nhóm chứa trung vị là nhóm đầu tiên có tần số tích luỹ ${tm('\\ge \\dfrac{n}{2}')}. ${tm('M_e = u_m + \\dfrac{\\frac{n}{2} - C}{n_m}\\cdot (u_{m+1} - u_m)')}, với ${tm('u_m')} là đầu mút trái, ${tm('C')} là tần số tích luỹ của các nhóm đứng trước, ${tm('n_m')} là tần số nhóm.`, warn:'C là tần số tích luỹ của nhóm <b>đứng trước</b> nhóm chứa trung vị, không tính nhóm đó.', ex:'Tìm nhóm bằng cách cộng dồn tần số cho tới khi lần đầu đạt n/2.'},
+  {t:'Tứ phân vị', b:`${tm('Q_2 = M_e')}. Với ${tm('Q_1')}: thay ${tm('\\dfrac{n}{2}')} bằng ${tm('\\dfrac{n}{4}')}; với ${tm('Q_3')}: thay bằng ${tm('\\dfrac{3n}{4}')}. Mỗi tứ phân vị có nhóm chứa riêng, có thể khác nhau.`, warn:'Khi cộng dồn đúng bằng n/4 (hoặc 3n/4) tại nhóm nào thì vẫn dùng nhóm đó, kết quả là đầu mút phải của nhóm.', ex:'Tính ba mốc n/4, n/2, 3n/4 trước, rồi đối chiếu một lần với dãy tần số tích luỹ.'},
+  {t:'Mốt', b:`Nhóm chứa mốt là nhóm có tần số lớn nhất. ${tm('M_o = u_j + \\dfrac{m_j - m_{j-1}}{(m_j - m_{j-1}) + (m_j - m_{j+1})}\\cdot h')}, với ${tm('h')} là độ dài nhóm.`, warn:'Nhóm đầu không có nhóm trước và nhóm cuối không có nhóm sau: lúc đó coi tần số nhóm thiếu bằng 0.', ex:'Mốt luôn nằm trong nhóm có tần số lớn nhất, nên kết quả phải nằm giữa hai đầu mút nhóm đó.'}
+];
+lesson(4, 'ghep-nhom-xu-the', 'Bài 9. Các số đặc trưng đo xu thế trung tâm', 'Số trung bình, trung vị, tứ phân vị và mốt của mẫu số liệu ghép nhóm; chọn số đặc trưng phù hợp; bài toán thực tế.', [g9a, g9b, g9c, g9d, g9e], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K9KT});
+}
+
 })();
 
 </script>

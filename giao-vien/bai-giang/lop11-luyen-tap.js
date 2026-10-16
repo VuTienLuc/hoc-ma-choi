@@ -262,3 +262,53 @@ Lecture.addPractice('lop11', 'bai-8', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   BÀI 9. CÁC SỐ ĐẶC TRƯNG ĐO XU THẾ TRUNG TÂM (thầy yêu cầu 16/10/2026) – 7 cơ bản + 3 vận dụng (★), xếp theo 5 dạng của bài giảng bai-9.
+   ===================================================================== */
+(() => {
+const m = tm, gr = (a, b) => m(`[${a};\\,${b})`);
+const T = (heads, vals) => `<table class="lk-table"><tr><th>Nhóm</th>${heads.map(h => `<th>${h}</th>`).join('')}</tr><tr><td>Tần số</td>${vals.map(v => `<td>${v}</td>`).join('')}</tr></table>`;
+Lecture.addPractice('lop11', 'bai-9', [
+ {dang:'Số trung bình cộng', items:[
+  {de:`Số bài tập làm được trong tuần của 20 học sinh:<br>${T([gr(0, 10), gr(10, 20), gr(20, 30)], [4, 6, 10])}Tính số trung bình cộng.`,
+   sol:[`Giá trị đại diện của các nhóm: ${m('5;\\ 15;\\ 25')}.`, `${m('\\bar{x} = \\dfrac{4\\cdot 5 + 6\\cdot 15 + 10\\cdot 25}{20} = \\dfrac{360}{20} = 18')}.`],
+   ans:`${tb('\\bar{x} = 18')}.`},
+  {hard:true, de:`Bảng tần số ghép nhóm: ${gr(0, 10)} có ${m('x')} số liệu; ${gr(10, 20)}: 6; ${gr(20, 30)}: 4. Biết số trung bình cộng bằng ${m('12')}. Tìm ${m('x')}.`,
+   sol:[`Giá trị đại diện ${m('5;\\ 15;\\ 25')}; cỡ mẫu ${m('n = x + 10')}.`, `${m('\\bar{x} = \\dfrac{5x + 15\\cdot 6 + 25\\cdot 4}{x + 10} = \\dfrac{5x + 190}{x + 10} = 12')}.`, `${m('5x + 190 = 12x + 120 \\Rightarrow 7x = 70')}.`],
+   ans:`${tb('x = 10')}.`},
+ ]},
+ {dang:'Trung vị', items:[
+  {de:`Điểm kiểm tra của 20 học sinh:<br>${T([gr(50, 60), gr(60, 70), gr(70, 80), gr(80, 90)], [4, 8, 6, 2])}Tính trung vị.`,
+   sol:[`${m('\\dfrac{n}{2} = 10')}. Tần số tích luỹ: ${m('4;\\ 12;\\ 18;\\ 20')}.`, `Nhóm đầu tiên có tần số tích luỹ ${m('\\ge 10')} là ${gr(60, 70)}: ${m('u_m = 60,\\ n_m = 8,\\ C = 4,\\ h = 10')}.`, `${m('M_e = 60 + \\dfrac{10 - 4}{8}\\cdot 10 = 67{,}5')}.`],
+   ans:`${tb('M_e = 67{,}5')}.`},
+  {de:`Tần số tương đối của các nhóm số tiền tiêu vặt (nghìn đồng):<br>${T([gr(0, 10), gr(10, 20), gr(20, 30), gr(30, 40)], ['10%', '30%', '40%', '20%'])}Tính trung vị.`,
+   sol:[`Tần số tương đối tích luỹ: ${m('10\\%;\\ 40\\%;\\ 80\\%;\\ 100\\%')}.`, `Mốc ${m('50\\%')} nằm ở nhóm ${gr(20, 30)}: phần trăm các nhóm trước là ${m('40')}, của nhóm là ${m('40')}.`, `${m('M_e = 20 + \\dfrac{50 - 40}{40}\\cdot 10 = 22{,}5')}.`],
+   ans:`${tb('M_e = 22{,}5')}.`},
+ ]},
+ {dang:'Tứ phân vị', items:[
+  {de:`Với bảng điểm 20 học sinh ở dạng 2 (${gr(50, 60)}: 4; ${gr(60, 70)}: 8; ${gr(70, 80)}: 6; ${gr(80, 90)}: 2), tính ${m('Q_1')} và ${m('Q_3')}.`,
+   sol:[`${m('Q_1')}: ${m('\\dfrac{n}{4} = 5')}, nhóm ${gr(60, 70)} (tần số tích luỹ nhóm trước 4): ${m('Q_1 = 60 + \\dfrac{5 - 4}{8}\\cdot 10 = 61{,}25')}.`, `${m('Q_3')}: ${m('\\dfrac{3n}{4} = 15')}, tần số tích luỹ ${m('4;\\ 12;\\ 18')} nên nhóm ${gr(70, 80)} (nhóm trước có 12): ${m('Q_3 = 70 + \\dfrac{15 - 12}{6}\\cdot 10 = 75')}.`],
+   ans:`${tb('Q_1 = 61{,}25')}; ${tb('Q_3 = 75')}.`},
+ ]},
+ {dang:'Mốt', items:[
+  {de:`Thời gian làm bài (phút) của 30 học sinh:<br>${T([gr(20, 30), gr(30, 40), gr(40, 50), gr(50, 60)], [6, 12, 8, 4])}Tính mốt.`,
+   sol:[`Nhóm có tần số lớn nhất: ${gr(30, 40)} (12); nhóm trước 6, nhóm sau 8, ${m('h = 10')}.`, `${m('M_o = 30 + \\dfrac{12 - 6}{(12 - 6) + (12 - 8)}\\cdot 10 = 36')}.`],
+   ans:`${tb('M_o = 36')}.`},
+  {hard:true, de:`Bảng tần số: ${gr(0, 10)}: 12; ${gr(10, 20)}: 8; ${gr(20, 30)}: 6; ${gr(30, 40)}: 4. Tính mốt. Vì sao không có “nhóm trước”?`,
+   sol:[`Tần số lớn nhất ${m('12')} ở nhóm đầu ${gr(0, 10)}, nên coi tần số nhóm trước bằng ${m('0')}.`, `${m('M_o = 0 + \\dfrac{12 - 0}{(12 - 0) + (12 - 8)}\\cdot 10 = \\dfrac{12}{16}\\cdot 10 = 7{,}5')}.`],
+   ans:`${tb('M_o = 7{,}5')}.`},
+ ]},
+ {dang:'Chọn số đặc trưng và bài toán thực tế', items:[
+  {de:`Cửa hàng đồ thể thao muốn nhập nhiều nhất loại áo có cỡ được mua nhiều nhất; nhà trường muốn tìm mốc điểm ngăn 25% học sinh có điểm cao nhất. Mỗi trường hợp nên dùng số đặc trưng nào?`,
+   sol:[`Cỡ được mua nhiều nhất = giá trị xuất hiện nhiều nhất: <b>mốt</b>.`, `Mốc ngăn 25% số liệu lớn nhất: <b>tứ phân vị thứ ba ${m('Q_3')}</b> (75% số liệu nhỏ hơn hoặc bằng nó).`],
+   ans:`${tb('Mốt')}; ${tb('Q_3')}.`},
+  {de:`Chiều cao (cm) của 20 học sinh:<br>${T([gr(150, 160), gr(160, 170), gr(170, 180), gr(180, 190)], [4, 10, 4, 2])}Tính số trung bình cộng và trung vị, rồi cho biết số nào lớn hơn.`,
+   sol:[`Giá trị đại diện ${m('155;\\ 165;\\ 175;\\ 185')}: ${m('\\bar{x} = \\dfrac{4\\cdot 155 + 10\\cdot 165 + 4\\cdot 175 + 2\\cdot 185}{20} = \\dfrac{3340}{20} = 167')}.`, `${m('\\dfrac{n}{2} = 10')}; tần số tích luỹ ${m('4;\\ 14')} nên nhóm ${gr(160, 170)}: ${m('M_e = 160 + \\dfrac{10 - 4}{10}\\cdot 10 = 166')}.`, `Số liệu lệch về phía cao nên số trung bình lớn hơn trung vị.`],
+   ans:`${tb('\\bar{x} = 167')}; ${tb('M_e = 166')}; số trung bình lớn hơn.`},
+  {hard:true, de:`Bảng tần số ghép nhóm: ${gr(0, 10)}: 4; ${gr(10, 20)}: 8; ${gr(20, 30)}: 6; ${gr(30, 40)}: ${m('x')}. Biết trung vị bằng ${m('17{,}5')}. Tìm ${m('x')}.`,
+   sol:[`${m('17{,}5 \\in [10;\\,20)')}: ${m('C = 4,\\ n_m = 8,\\ h = 10')}.`, `${m('17{,}5 = 10 + \\dfrac{n/2 - 4}{8}\\cdot 10 \\Rightarrow \\dfrac{n}{2} - 4 = 6 \\Rightarrow n = 20')}.`, `${m('n = 4 + 8 + 6 + x = 18 + x')} nên ${m('x = 2')}.`],
+   ans:`${tb('x = 2')}.`},
+ ]},
+]);
+})();

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-16 – Trọn bộ Toán 11 Chương III: Bài 9. Các số đặc trưng đo xu thế trung tâm
+
+- **Yêu cầu:** "Tiếp tục các bài trọn bộ cho lớp 11: Chương III. Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm" (hàng ⬜ đầu tiên của Toán 11: Bài 9).
+- **Kết quả:** học sinh luyện tập `ghep-nhom-xu-the` (chủ đề 4, cùng Bài 8): 5 dạng × 3 mức (số trung bình · trung vị · tứ phân vị · mốt · chọn số đặc trưng, so sánh, tìm tần số khuyết), có thẻ Kiến thức · Chỗ dễ sai · Mẹo, đáp số chọn trước và tính lại bằng công thức độc lập; bài giảng `bai-9` (5 kiến thức trọng tâm, 5 dạng, 6 ví dụ, 3 bài luyện tập); phiếu luyện tập 7 cơ bản + 3 ★; giải SGK dạng vận dụng (số bài/trang chưa tra); phiếu trên lớp (Phần A 2 trang A4 + Phần B).
+- **Tệp thay đổi:** `data/lop11.js`, `giao-vien/bai-giang/lop11.js`, `lop11-luyen-tap.js`, `lop11-giai-sgk.js`, `lop11-khoi-dong.js`, `KE-HOACH-TRON-BO.md`, `AGENTS.md`, `CLAUDE.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js` ĐẠT (937 trang bài giảng, 30000 câu); `python3 tools/test.py` ĐẠT (30930 câu; lần đầu có 1 lỗi chập chờn ở trò chơi phiêu lưu, chạy lại ĐẠT); `python3 tools/test_phieu_tren_lop.py` ĐẠT 57/57 (Bài 9: Phần A đúng 2 trang A4); `python3 tools/test_baigiang.py lop11` ĐẠT (chiếu 286 trang không tràn); `python3 tools/build.py` đã chạy; các số trong bài giảng, phiếu luyện tập và phiếu trên lớp tính lại độc lập bằng Python.
+- **Cần làm thủ công:** đối chiếu số bài và số trang SGK ở phần giải SGK; xem lại tình huống [Minh họa] (thời gian tự học) ở phiếu trên lớp.
+
 ### 2026-10-16 – Trọn bộ Toán 10 Chương IV: Bài 7 và Bài 8 (Vectơ)
 
 - **Yêu cầu:** "Tiếp tục làm các bài cho học sinh Chương IV. Vectơ gồm Bài 7. Các khái niệm mở đầu, Bài 8. Tổng và hiệu hai vectơ đầy đủ cho học sinh học bài" (lệnh trọn bộ, 6 phần).

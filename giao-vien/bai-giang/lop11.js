@@ -480,5 +480,75 @@ Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương III. Mẫu 
   {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
    body:`<ul><li>Nhóm ${m('[a;\\,b)')} chứa ${m('a')}, không chứa ${m('b')}; độ dài ${m('b - a')}.</li><li>Cỡ mẫu ${m('n = m_1 + \\cdots + m_k')}; tần số tương đối ${m('\\dfrac{m_i}{n}\\cdot 100\\%')}; tần số tích luỹ là tổng cộng dồn.</li><li>Biểu đồ cột: cột liền nhau, chiều cao bằng tần số.</li></ul>` + HOME('Bài 8')},
 ]},
+/* ---------------- BÀI 9 ---------------- */
+{ id:'bai-9', name:'Bài 9. Các số đặc trưng đo xu thế trung tâm', desc:'Số trung bình, trung vị, tứ phân vị, mốt của mẫu số liệu ghép nhóm; chọn số đặc trưng phù hợp; tìm tần số khuyết.', slides:[
+  TITLE('Bài 9. Các số đặc trưng đo xu thế trung tâm', ['Tính số trung bình cộng của mẫu số liệu ghép nhóm bằng giá trị đại diện.', 'Tính trung vị, tứ phân vị và mốt từ bảng tần số ghép nhóm.', 'Chọn số đặc trưng phù hợp với tình huống thực tế.']),
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Số trung bình cộng',
+   body: S(`Với mẫu số liệu ghép nhóm, lấy <b>giá trị đại diện</b> ${m('x_i')} của mỗi nhóm là <b>trung điểm</b> của nhóm: ${m('x_i = \\dfrac{a + b}{2}')} với nhóm ${m('[a;\\,b)')}.`) +
+     box(`${m('\\bar{x} = \\dfrac{m_1x_1 + m_2x_2 + \\cdots + m_kx_k}{n}')}, với ${m('m_i')} là tần số, ${m('n = m_1 + \\cdots + m_k')}.`) +
+     note(`Giá trị đại diện là trung điểm của nhóm, không phải đầu mút. Kết quả chỉ là giá trị <b>gần đúng</b> của số trung bình thật.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Trung vị',
+   body: S(`Nhóm chứa trung vị là nhóm <b>đầu tiên</b> có tần số tích luỹ ${m('\\ge \\dfrac{n}{2}')}. Giả sử đó là nhóm ${m('[u_m;\\,u_{m+1})')}.`) +
+     box(`${m('M_e = u_m + \\dfrac{\\dfrac{n}{2} - C}{n_m}\\cdot (u_{m+1} - u_m)')}`) +
+     S(`${m('n_m')}: tần số của nhóm chứa trung vị; ${m('C')}: tổng tần số các nhóm <b>đứng trước</b> nhóm đó.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Tứ phân vị',
+   body: S(`${m('Q_2 = M_e')} (chia mẫu thành hai nửa); ${m('Q_1')} là trung vị của nửa dưới, ${m('Q_3')} là trung vị của nửa trên.`) +
+     box(`${m('Q_1')}: dùng công thức trung vị với ${m('\\dfrac{n}{4}')} thay cho ${m('\\dfrac{n}{2}')}. &nbsp; ${m('Q_3')}: dùng ${m('\\dfrac{3n}{4}')}.`) +
+     note(`Mỗi tứ phân vị có nhóm chứa riêng; phải tìm nhóm bằng tần số tích luỹ cho từng mốc ${m('\\dfrac{n}{4}')}, ${m('\\dfrac{n}{2}')}, ${m('\\dfrac{3n}{4}')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Mốt',
+   body: S(`Nhóm chứa mốt là nhóm có <b>tần số lớn nhất</b>, giả sử là ${m('[u_j;\\,u_{j+1})')}, độ dài ${m('h')}.`) +
+     box(`${m('M_o = u_j + \\dfrac{m_j - m_{j-1}}{(m_j - m_{j-1}) + (m_j - m_{j+1})}\\cdot h')}`) +
+     note(`Nhóm đầu không có nhóm trước, nhóm cuối không có nhóm sau: coi tần số nhóm thiếu bằng ${m('0')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 5', title:'Ý nghĩa và cách chọn',
+   body: `<ul><li><b>Số trung bình</b>: đại diện cho cả mẫu, dễ bị kéo lệch bởi số liệu quá lớn hoặc quá nhỏ.</li><li><b>Trung vị</b>: mốc chia mẫu thành hai nửa bằng nhau, ít chịu ảnh hưởng của số liệu bất thường.</li><li><b>Tứ phân vị</b>: các mốc 25%, 50%, 75% của mẫu.</li><li><b>Mốt</b>: giá trị (nhóm) xuất hiện nhiều nhất, dùng khi cần biết điều phổ biến nhất.</li></ul>`},
+
+  {kind:'method', tag:'Dạng 1', title:'Tính số trung bình cộng',
+   steps:[`Với mỗi nhóm, tính giá trị đại diện ${m('x_i')} (trung điểm).`, `Tính ${m('n')} và tổng ${m('m_1x_1 + \\cdots + m_kx_k')}.`, `Chia tổng cho ${m('n')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Thời gian tự học (phút) mỗi tối của 40 học sinh: ${gr(20, 40)}: 6 em; ${gr(40, 60)}: 8 em; ${gr(60, 80)}: 10 em; ${gr(80, 100)}: 10 em; ${gr(100, 120)}: 6 em. Tính số trung bình cộng.`,
+   sol:[`Giá trị đại diện: ${m('30;\\ 50;\\ 70;\\ 90;\\ 110')}; ${m('n = 6 + 8 + 10 + 10 + 6 = 40')}.`, `${m('\\bar{x} = \\dfrac{6\\cdot 30 + 8\\cdot 50 + 10\\cdot 70 + 10\\cdot 90 + 6\\cdot 110}{40} = \\dfrac{2840}{40}')}.`], ans:`${tb('\\bar{x} = 71')} phút.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Tính trung vị',
+   steps:[`Tính ${m('\\dfrac{n}{2}')} và tần số tích luỹ từng nhóm.`, `Chọn nhóm đầu tiên có tần số tích luỹ ${m('\\ge \\dfrac{n}{2}')}; ghi ${m('u_m,\\ n_m,\\ C,\\ h')}.`, `Thay vào ${m('M_e = u_m + \\dfrac{n/2 - C}{n_m}\\cdot h')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Với bảng ở Ví dụ 1, tính trung vị.`,
+   sol:[`${m('\\dfrac{n}{2} = 20')}. Tần số tích luỹ: ${m('6;\\ 14;\\ 24;\\ 34;\\ 40')}.`, `Nhóm đầu tiên có tần số tích luỹ ${m('\\ge 20')} là ${gr(60, 80)}: ${m('u_m = 60,\\ n_m = 10,\\ C = 14,\\ h = 20')}.`, `${m('M_e = 60 + \\dfrac{20 - 14}{10}\\cdot 20 = 72')}.`], ans:`${tb('M_e = 72')} phút.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Tính tứ phân vị',
+   steps:[`Tính ba mốc ${m('\\dfrac{n}{4},\\ \\dfrac{n}{2},\\ \\dfrac{3n}{4}')}.`, `Với mỗi mốc, tìm nhóm chứa nó bằng tần số tích luỹ.`, `Áp dụng công thức trung vị với mốc tương ứng.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 3', label:'Ví dụ 3', de:`Với bảng ở Ví dụ 1, tính ${m('Q_1')} và ${m('Q_3')}.`,
+   sol:[`${m('Q_1')}: ${m('\\dfrac{n}{4} = 10')}; tần số tích luỹ ${m('6;\\ 14;\\ \\ldots')} nên nhóm ${gr(40, 60)}, ${m('C = 6,\\ n_m = 8')}: ${m('Q_1 = 40 + \\dfrac{10 - 6}{8}\\cdot 20 = 50')}.`, `${m('Q_3')}: ${m('\\dfrac{3n}{4} = 30')}; tần số tích luỹ ${m('24;\\ 34')} nên nhóm ${gr(80, 100)}, ${m('C = 24,\\ n_m = 10')}: ${m('Q_3 = 80 + \\dfrac{30 - 24}{10}\\cdot 20 = 92')}.`], ans:`${tb('Q_1 = 50')}; ${tb('Q_3 = 92')}.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Tính mốt',
+   steps:[`Tìm nhóm có tần số lớn nhất; xác định ${m('m_{j-1},\\ m_j,\\ m_{j+1}')} (nhóm thiếu coi là 0).`, `Thay vào công thức ${m('M_o')} và kiểm tra kết quả nằm trong nhóm đó.`]},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 4', label:'Ví dụ 4', de:`Thời gian tự học của 40 học sinh khác: ${gr(20, 40)}: 4; ${gr(40, 60)}: 6; ${gr(60, 80)}: 12; ${gr(80, 100)}: 10; ${gr(100, 120)}: 8. Tính mốt.`,
+   sol:[`Tần số lớn nhất là ${m('12')}, nhóm ${gr(60, 80)}: ${m('u_j = 60,\\ m_{j-1} = 6,\\ m_{j+1} = 10,\\ h = 20')}.`, `${m('M_o = 60 + \\dfrac{12 - 6}{(12 - 6) + (12 - 10)}\\cdot 20 = 60 + 15')}.`], ans:`${tb('M_o = 75')} phút.`},
+
+  {kind:'method', tag:'Dạng 5', title:'Tìm tần số khuyết, chọn số đặc trưng',
+   steps:[`Đọc dữ kiện (số trung bình hoặc trung vị) để biết nhóm và cỡ mẫu.`, `Lập phương trình ẩn ${m('x')} từ công thức, giải rồi kiểm tra lại.`, `Chọn số đặc trưng: “phổ biến nhất” → mốt; “một nửa” → trung vị; “trung bình” → số trung bình; “25%, 75%” → tứ phân vị.`]},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 5', label:'Ví dụ 5', de:`Bảng tần số ghép nhóm: ${gr(0, 10)}: 5; ${gr(10, 20)}: 6; ${gr(20, 30)}: 3; ${gr(30, 40)}: ${m('x')}. Biết trung vị bằng ${m('15')}. Tìm ${m('x')}.`,
+   sol:[`${m('M_e = 15')} thuộc nhóm ${gr(10, 20)}: ${m('C = 5,\\ n_m = 6,\\ h = 10')}.`, `${m('15 = 10 + \\dfrac{n/2 - 5}{6}\\cdot 10 \\Rightarrow \\dfrac{n}{2} - 5 = 3 \\Rightarrow n = 16')}.`, `${m('n = 5 + 6 + 3 + x = 14 + x')} nên ${m('x = 2')}.`], ans:`${tb('x = 2')}.`},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 5', label:'Ví dụ 6', de:`Một cửa hàng giày muốn nhập hàng theo cỡ giày bán chạy nhất. Nên dùng số đặc trưng nào? Nhà trường muốn tìm mốc điểm để 25% học sinh điểm thấp nhất được phụ đạo: dùng số đặc trưng nào?`,
+   sol:[`Bán chạy nhất = xuất hiện nhiều nhất ⇒ <b>mốt</b>.`, `Mốc ngăn 25% số liệu nhỏ nhất ⇒ <b>tứ phân vị thứ nhất ${m('Q_1')}</b>.`], ans:`${tb('Mốt')}; ${tb('Q_1')}.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Số bàn thắng trong các trận (n = 10): ${gr(0, 4)}: 2 trận; ${gr(4, 8)}: 5 trận; ${gr(8, 12)}: 3 trận. Tính số trung bình cộng.`,
+   sol:[`Giá trị đại diện: ${m('2;\\ 6;\\ 10')}.`, `${m('\\bar{x} = \\dfrac{2\\cdot 2 + 5\\cdot 6 + 3\\cdot 10}{10} = \\dfrac{64}{10}')}.`], ans:`${tb('6{,}4')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Bảng tần số: ${gr(10, 20)}: 3; ${gr(20, 30)}: 7; ${gr(30, 40)}: 6; ${gr(40, 50)}: 4. Tính trung vị.`,
+   sol:[`${m('n = 20')}, ${m('\\dfrac{n}{2} = 10')}; tần số tích luỹ ${m('3;\\ 10;\\ 16;\\ 20')}.`, `Nhóm đầu tiên đạt ${m('\\ge 10')} là ${gr(20, 30)}: ${m('M_e = 20 + \\dfrac{10 - 3}{7}\\cdot 10 = 30')}.`], ans:`${tb('M_e = 30')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Bảng tần số: ${gr(0, 5)}: 3; ${gr(5, 10)}: 9; ${gr(10, 15)}: 5; ${gr(15, 20)}: 3. Tính mốt.`,
+   sol:[`Nhóm có tần số lớn nhất: ${gr(5, 10)} (9).`, `${m('M_o = 5 + \\dfrac{9 - 3}{(9 - 3) + (9 - 5)}\\cdot 5 = 5 + 3 = 8')}.`], ans:`${tb('M_o = 8')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>${m('\\bar{x} = \\dfrac{\\sum m_ix_i}{n}')} với ${m('x_i')} là trung điểm nhóm.</li><li>${m('M_e')}, ${m('Q_1')}, ${m('Q_3')}: tìm nhóm bằng tần số tích luỹ rồi dùng ${m('u + \\dfrac{q - C}{n_m}\\cdot h')} với ${m('q = \\dfrac{n}{2},\\ \\dfrac{n}{4},\\ \\dfrac{3n}{4}')}.</li><li>${m('M_o')}: nhóm có tần số lớn nhất, nhóm thiếu coi tần số 0.</li></ul>` + HOME('Bài 9')},
+]},
 ]});
 })();
