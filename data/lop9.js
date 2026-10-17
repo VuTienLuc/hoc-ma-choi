@@ -3389,4 +3389,245 @@ lesson(6,'on-thi-hinh-hoc-tinh-toan','Hình học 7c. Tính độ dài, chu vi, 
 
 }
 
+/* =====================================================================
+   ÔN THI TUYỂN SINH VÀO LỚP 10 – KIẾN THỨC THỐNG NHẤT: ĐƯỢC DÙNG NGAY HAY PHẢI CHỨNG MINH LẠI
+   ===================================================================== */
+{
+const m = tm;
+const bt = s => `<b class="ans">${s}</b>`;
+const USE = 'Được dùng trực tiếp', PROVE = 'Phải chứng minh lại';
+
+/* Kho phát biểu: KD = được dùng trực tiếp; KC = phải chứng minh lại (kèm cách chứng minh) */
+const KD = [
+  {s:`Trong tam giác cân, hai góc ở đáy bằng nhau.`, why:`đây là tính chất của tam giác cân.`},
+  {s:`Tam giác vuông cân có hai góc nhọn đều bằng ${m('45^\\circ')}.`, why:`tam giác vuông cân là trường hợp riêng của tam giác cân.`},
+  {s:`Tam giác đều có ba góc đều bằng ${m('60^\\circ')}.`, why:`đây là tính chất của tam giác đều.`},
+  {s:`Hai góc cùng phụ với một góc thứ ba thì bằng nhau.`, why:`kiến thức về hai góc cùng phụ.`},
+  {s:`Hai góc cùng bù với một góc thứ ba thì bằng nhau.`, why:`kiến thức về hai góc cùng bù.`},
+  {s:`Tam giác đều cạnh ${m('a')} có diện tích ${m('\\dfrac{a^2\\sqrt{3}}{4}')}.`, why:`công thức diện tích tam giác đều.`},
+  {s:`Tam giác vuông cân có cạnh góc vuông ${m('a')} thì cạnh huyền bằng ${m('a\\sqrt{2}')} và diện tích bằng ${m('\\dfrac{a^2}{2}')}.`, why:`công thức độ dài và diện tích tam giác vuông cân.`},
+  {s:`Tam giác đều cạnh ${m('a')} có bán kính đường tròn ngoại tiếp bằng ${m('\\dfrac{a\\sqrt{3}}{3}')}.`, why:`công thức bán kính đường tròn ngoại tiếp tam giác đều.`},
+  {s:`Tam giác đều cạnh ${m('a')} có bán kính đường tròn nội tiếp bằng ${m('\\dfrac{a\\sqrt{3}}{6}')}.`, why:`công thức bán kính đường tròn nội tiếp tam giác đều.`},
+  {s:`Tam giác có đường trung tuyến ứng với một cạnh bằng nửa cạnh ấy thì tam giác đó vuông.`, why:`được phép dùng trực tiếp (vuông tại đỉnh đối diện với cạnh đó).`},
+  {s:`Góc nội tiếp chắn nửa đường tròn là góc vuông.`, why:`nhận xét về góc nội tiếp trong SGK.`},
+  {s:`Các góc nội tiếp cùng chắn một cung thì bằng nhau.`, why:`nhận xét về góc nội tiếp trong SGK.`},
+  {s:`Số đo góc nội tiếp bằng nửa số đo góc ở tâm cùng chắn một cung.`, why:`chú ý về góc nội tiếp trong SGK.`}
+];
+const KC = [
+  {s:`Đường phân giác ngoài tại ${m('A')} của tam giác ${m('ABC')} cắt ${m('BC')} tại ${m('D')} thì ${m('\\dfrac{DB}{DC} = \\dfrac{AB}{AC}')}.`, how:`qua ${m('B')} kẻ đường thẳng song song với ${m('AD')}, cắt đường thẳng ${m('AC')} tại ${m('E')}; chứng minh ${m('AE = AB')} (tam giác cân) rồi dùng định lí Thalès.`},
+  {s:`Tam giác ${m('ABC')} vuông tại ${m('A')}, đường cao ${m('AH')}: ${m('AB^2 = BH\\cdot BC')}.`, how:`chứng minh ${m('\\triangle HBA \\sim \\triangle ABC')} (g.g) rồi lập tỉ số các cạnh tương ứng.`},
+  {s:`Tam giác ${m('ABC')} vuông tại ${m('A')}, đường cao ${m('AH')}: ${m('AH^2 = BH\\cdot CH')}.`, how:`chứng minh ${m('\\triangle HBA \\sim \\triangle HAC')} (g.g) rồi lập tỉ số các cạnh tương ứng.`},
+  {s:`Tam giác ${m('ABC')} vuông tại ${m('A')}, đường cao ${m('AH')}: ${m('AH\\cdot BC = AB\\cdot AC')}.`, how:`tính diện tích tam giác ${m('ABC')} theo hai cách (đáy ${m('BC')} và đáy ${m('AB')}).`},
+  {s:`Tam giác ${m('ABC')} vuông tại ${m('A')}, đường cao ${m('AH')}: ${m('\\dfrac{1}{AH^2} = \\dfrac{1}{AB^2} + \\dfrac{1}{AC^2}')}.`, how:`từ ${m('AH\\cdot BC = AB\\cdot AC')} và định lí Pythagore ${m('BC^2 = AB^2 + AC^2')}.`},
+  {s:`Với góc nhọn ${m('\\alpha')}: ${m('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')}.`, how:`đặt ${m('\\alpha')} là một góc nhọn của tam giác vuông, viết ${m('\\sin\\alpha')}, ${m('\\cos\\alpha')}, ${m('\\tan\\alpha')} bằng các tỉ số cạnh rồi chia.`},
+  {s:`Với góc nhọn ${m('\\alpha')}: ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')}.`, how:`đặt ${m('\\alpha')} là một góc nhọn của tam giác vuông, viết hai tỉ số bằng cạnh rồi dùng định lí Pythagore.`},
+  {s:`Đường kính vuông góc với một dây (không đi qua tâm) thì đi qua trung điểm của dây ấy.`, how:`tam giác cân ${m('OAB')} (hai cạnh là bán kính) có ${m('OH')} là đường cao nên cũng là trung tuyến.`},
+  {s:`Đường kính đi qua trung điểm của một dây (không đi qua tâm) thì vuông góc với dây ấy.`, how:`tam giác cân ${m('OAB')} có ${m('OH')} là trung tuyến nên cũng là đường cao.`},
+  {s:`Tứ giác có tổng hai góc đối bằng ${m('180^\\circ')} thì nội tiếp được đường tròn.`, how:`chỉ ra bốn đỉnh cùng cách đều một điểm (ví dụ hai tam giác vuông chung cạnh huyền có tâm là trung điểm cạnh huyền).`},
+  {s:`Tứ giác có hai đỉnh kề nhau cùng nhìn cạnh nối hai đỉnh còn lại dưới hai góc bằng nhau thì nội tiếp được đường tròn.`, how:`chỉ ra bốn đỉnh cùng cách đều một điểm hoặc cùng thuộc đường tròn đường kính một đoạn đã biết.`}
+];
+const solUse = it => `${it.s}<br>Đây là kiến thức ${bt(USE)}: ${it.why}`;
+const solProve = it => `${it.s}<br>Đây là kiến thức ${bt(PROVE)} trước khi dùng; cách làm: ${it.how}`;
+
+/* ===== Dạng 1. Nhận biết: được dùng trực tiếp hay phải chứng minh lại ===== */
+const gKt1 = lv => {
+  if(lv === 1){
+    const useIt = R(0, 1) === 0, it = useIt ? pick(KD) : pick(KC);
+    return QC({text:`Theo quy ước đề thi vào lớp 10 năm nay, trong bài hình, khẳng định sau được dùng trực tiếp hay phải chứng minh lại?<br><b>${it.s}</b>`,
+      opts:[USE, PROVE], ans:useIt ? USE : PROVE, keepOrder:true,
+      hint:`Đối chiếu với hai danh sách trong thẻ “Kiến thức cần nhớ” ở đầu trang.`,
+      sol: useIt ? solUse(it) : solProve(it)});
+  }
+  if(lv === 2){
+    const askUse = R(0, 1) === 0;
+    const good = askUse ? pick(KD) : pick(KC), bad = askUse ? shuffle(KC).slice(0, 3) : shuffle(KD).slice(0, 3);
+    const all = shuffle([good, ...bad]), letters = ['A', 'B', 'C', 'D'];
+    const opts = all.map((it, i) => `${letters[i]}. ${it.s}`);
+    return QC({text:`Trong bốn khẳng định sau, khẳng định nào ${askUse ? '<b>được dùng trực tiếp</b>' : '<b>phải chứng minh lại</b>'} khi trình bày bài hình thi vào lớp 10?`,
+      opts, ans:opts[all.indexOf(good)], keepOrder:true, wide:true,
+      hint:`Loại dần từng phương án bằng cách xếp mỗi khẳng định vào đúng danh sách.`,
+      sol:`Phương án đúng: ${bt(letters[all.indexOf(good)])}.<br>` + (askUse ? solUse(good) : solProve(good)) + `<br>Ba phương án còn lại thuộc nhóm ngược lại.`});
+  }
+  const k = R(2, 4), ds = shuffle(KD).slice(0, k), cs = shuffle(KC).slice(0, 6 - k), all = shuffle([...ds.map(x => ({x, u:true})), ...cs.map(x => ({x, u:false}))]);
+  const list = all.map((e, i) => `${m(`(${i + 1})`)} ${e.x.s}`).join('<br>');
+  const uses = all.map((e, i) => e.u ? i + 1 : 0).filter(Boolean);
+  return QB({text:`Cho sáu khẳng định:<br>${list}<br>Có bao nhiêu khẳng định được dùng trực tiếp, bao nhiêu khẳng định phải chứng minh lại?`,
+    tpl:`<span class="eq">Được dùng trực tiếp: [_]</span><br><span class="eq">Phải chứng minh lại: [_]</span>`, ans:[k, 6 - k],
+    hint:`Xét lần lượt từng khẳng định, đánh dấu vào nhóm của nó; hai số phải cộng lại bằng 6.`,
+    sol:`Được dùng trực tiếp: ${uses.map(i => m(`(${i})`)).join(', ')} — ${bt(k)} khẳng định.<br>` +
+      all.map((e, i) => e.u ? '' : `${m(`(${i + 1})`)} phải chứng minh lại (${e.x.how.replace(/\.$/, '')}).`).filter(Boolean).join('<br>') + `<br>Phải chứng minh lại: ${bt(6 - k)} khẳng định.`});
+};
+
+/* ===== Dạng 2. Công thức được dùng ngay: tam giác đều, tam giác vuông cân ===== */
+const gKt2 = lv => {
+  if(lv === 1){
+    const k = R(2, 9), a = 2*k;
+    return QB({text:`Tam giác đều ${m('ABC')} có cạnh ${m(`${a}`)} cm. Dùng công thức đã được phép, tính chiều cao ${m('AH')} và diện tích tam giác ${m('ABC')}.`,
+      tpl:`<span class="eq">${m('AH =')} [_]${m('\\sqrt{3}')} cm</span><br><span class="eq">${m('S =')} [_]${m('\\sqrt{3}')} ${m('\\text{cm}^2')}</span>`, ans:[k, k*k],
+      hint:`Chiều cao tam giác đều cạnh ${m('a')} là ${m('\\dfrac{a\\sqrt{3}}{2}')}; diện tích là ${m('\\dfrac{a^2\\sqrt{3}}{4}')}.`,
+      sol:`${m(`AH = \\dfrac{a\\sqrt{3}}{2} = \\dfrac{${a}\\sqrt{3}}{2} =`)} ${tb(`${k}\\sqrt{3}`)} cm.<br>${m(`S = \\dfrac{a^2\\sqrt{3}}{4} = \\dfrac{${a*a}\\sqrt{3}}{4} =`)} ${tb(`${k*k}\\sqrt{3}`)} ${m('\\text{cm}^2')}.`});
+  }
+  if(lv === 2){
+    if(R(0, 1) === 0){
+      const r = R(3, 12);
+      return QB({text:`Tam giác vuông cân ${m('ABC')} (vuông tại ${m('A')}) nội tiếp đường tròn bán kính ${m(`${r}`)} cm. Tính cạnh huyền, cạnh góc vuông và diện tích tam giác.`,
+        tpl:`<span class="eq">${m('BC =')} [_] cm</span><br><span class="eq">${m('AB =')} [_]${m('\\sqrt{2}')} cm</span><br><span class="eq">${m('S =')} [_] ${m('\\text{cm}^2')}</span>`, ans:[2*r, r, r*r],
+        hint:`Tam giác vuông có trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền, nên tâm đường tròn ngoại tiếp là trung điểm cạnh huyền. Cạnh huyền của tam giác vuông cân là ${m('a\\sqrt{2}')}.`,
+        sol:`Tâm đường tròn ngoại tiếp là trung điểm của ${m('BC')} nên ${m(`BC = 2R = 2\\cdot ${r} =`)} ${tb(2*r)} cm.<br>Cạnh huyền ${m('BC = AB\\sqrt{2}')} nên ${m(`AB = \\dfrac{${2*r}}{\\sqrt{2}} =`)} ${tb(`${r}\\sqrt{2}`)} cm.<br>${m(`S = \\dfrac{AB^2}{2} = \\dfrac{${2*r*r}}{2} =`)} ${tb(r*r)} ${m('\\text{cm}^2')}.`});
+    }
+    const r = R(2, 9), a = 2*r;
+    return QB({text:`Tam giác đều ${m('ABC')} ngoại tiếp đường tròn bán kính ${m(`${r}`)} cm. Tính bán kính đường tròn ngoại tiếp, chiều cao và diện tích tam giác.`,
+      tpl:`<span class="eq">${m('R =')} [_] cm</span><br><span class="eq">${m('h =')} [_] cm</span><br><span class="eq">${m('S =')} [_]${m('\\sqrt{3}')} ${m('\\text{cm}^2')}</span>`, ans:[2*r, 3*r, 3*r*r],
+      hint:`Tam giác đều cạnh ${m('a')}: ${m('r = \\dfrac{a\\sqrt{3}}{6}')}, ${m('R = \\dfrac{a\\sqrt{3}}{3}')}. Tính ${m('a')} từ ${m('r')} trước.`,
+      sol:`${m(`r = \\dfrac{a\\sqrt{3}}{6} = ${r}`)} nên ${m(`a = ${a}\\sqrt{3}`)} cm.<br>${m(`R = \\dfrac{a\\sqrt{3}}{3} = \\dfrac{${a}\\sqrt{3}\\cdot\\sqrt{3}}{3} =`)} ${tb(2*r)} cm; ${m(`h = \\dfrac{a\\sqrt{3}}{2} =`)} ${tb(3*r)} cm.<br>${m(`S = \\dfrac{a^2\\sqrt{3}}{4} = \\dfrac{${3*a*a}\\sqrt{3}}{4} =`)} ${tb(`${3*r*r}\\sqrt{3}`)} ${m('\\text{cm}^2')}.`});
+  }
+  const k = R(2, 6), Rr = 2*k, Sc = Rr*Rr, St = 3*k*k, good = m(`a = R\\sqrt{3}`);
+  const fig = circleSVG({C:[{x:0, y:0, r:1, lab:'O', lp:12}], P:[[Math.cos(Math.PI/2), Math.sin(Math.PI/2), 'A', 90], [Math.cos(Math.PI*7/6), Math.sin(Math.PI*7/6), 'B', 210], [Math.cos(Math.PI*11/6), Math.sin(Math.PI*11/6), 'C', -30]],
+    S:[[0, 1, Math.cos(Math.PI*7/6), Math.sin(Math.PI*7/6)], [Math.cos(Math.PI*7/6), Math.sin(Math.PI*7/6), Math.cos(Math.PI*11/6), Math.sin(Math.PI*11/6)], [Math.cos(Math.PI*11/6), Math.sin(Math.PI*11/6), 0, 1]]});
+  return QS({direct:true, fig,
+    text:`Tam giác đều ${m('ABC')} nội tiếp đường tròn ${m('(O)')} bán kính ${m(`${Rr}`)} cm. Tính diện tích phần hình tròn nằm ngoài tam giác (kết quả có dạng ${m('a\\pi - b\\sqrt{3}')}).`,
+    hint:`Phần cần tìm = diện tích hình tròn − diện tích tam giác đều. Tính cạnh tam giác đều từ ${m('R')} bằng công thức đã được phép dùng.`,
+    steps:[
+      {tag:'Cạnh tam giác', ask:`Từ ${m('R = \\dfrac{a\\sqrt{3}}{3}')}, cạnh ${m('a')} của tam giác đều là`, opts:[good, m('a = R\\sqrt{2}'), m('a = 2R'), m('a = \\dfrac{R\\sqrt{3}}{3}')], ans:good, hint:`Nhân hai vế với ${m('\\dfrac{3}{\\sqrt{3}} = \\sqrt{3}')}.`},
+      {tag:'Tam giác', ask:`Tính diện tích tam giác đều ${m('ABC')} với ${m(`a = ${Rr}\\sqrt{3}`)} cm.`, tpl:`${m('S_{ABC} =')} [_]${m('\\sqrt{3}')} cm²`, ans:[St], hint:`${m('S = \\dfrac{a^2\\sqrt{3}}{4}')}.`},
+      {tag:'Hình tròn', ask:`Tính diện tích hình tròn ${m('(O)')}.`, tpl:`${m('S_{(O)} =')} [_]${m('\\pi')} cm²`, ans:[Sc], hint:`${m('S = \\pi R^2')}.`},
+      {tag:'Đáp số', ask:`Diện tích phần hình tròn nằm ngoài tam giác.`, tpl:`${m('S =')} [_]${m('\\pi -')} [_]${m('\\sqrt{3}')} cm²`, ans:[Sc, St], hint:`Lấy diện tích hình tròn trừ diện tích tam giác.`}
+    ],
+    sol:`${m(`R = \\dfrac{a\\sqrt{3}}{3}`)} nên ${m(`a = R\\sqrt{3} = ${Rr}\\sqrt{3}`)} cm.<br>${m(`S_{ABC} = \\dfrac{a^2\\sqrt{3}}{4} = \\dfrac{${3*Rr*Rr}\\sqrt{3}}{4} = ${St}\\sqrt{3}`)}; ${m(`S_{(O)} = \\pi\\cdot ${Rr}^2 = ${Sc}\\pi`)}.<br>${m('S =')} ${tb(`${Sc}\\pi - ${St}\\sqrt{3}`)} ${m('\\text{cm}^2')}.`});
+};
+
+/* ===== Dạng 3. Trung tuyến bằng nửa cạnh ⇒ tam giác vuông (được dùng ngay) ===== */
+const KT3 = [];
+for(let p = 6; p <= 60; p++) for(let q = p + 1; q <= 60; q++){
+  const r = Math.round(Math.hypot(p, q));
+  if(r*r === p*p + q*q && r % 2 === 0 && (p*q) % 4 === 0) KT3.push([p, q, r]);
+}
+const gKt3 = lv => {
+  let [p, q, r] = pick(KT3);
+  if(R(0, 1)) [p, q] = [q, p];
+  const half = r/2, head = `Cho tam giác ${m('ABC')}, ${m('M')} là trung điểm của ${m('BC')}`;
+  if(lv === 1){
+    return QB({text:`${head}, ${m(`AM = ${half}`)} cm, ${m(`AB = ${p}`)} cm, ${m(`BC = ${r}`)} cm. Tính ${m('AC')}.`,
+      tpl:`${m('AC =')} [_] cm`, ans:[q],
+      hint:`So sánh ${m('AM')} với nửa cạnh ${m('BC')} để biết tam giác ${m('ABC')} có góc vuông ở đâu, rồi dùng Pythagore.`,
+      sol:`${m(`AM = ${half} = \\dfrac{${r}}{2} = \\dfrac{BC}{2}`)}: trung tuyến bằng nửa cạnh ${m('BC')} nên tam giác ${m('ABC')} vuông tại ${m('A')} (được dùng trực tiếp).<br>${m(`AC^2 = BC^2 - AB^2 = ${r*r} - ${p*p} = ${q*q}`)} nên ${m('AC =')} ${tb(q)} cm.`});
+  }
+  if(lv === 2){
+    return QB({text:`${head}, ${m(`AB = ${p}`)} cm, ${m(`AC = ${q}`)} cm và ${m('AM = \\dfrac{BC}{2}')}. Tính ${m('BC')}, ${m('AM')} và diện tích tam giác ${m('ABC')}.`,
+      tpl:`<span class="eq">${m('BC =')} [_] cm</span><br><span class="eq">${m('AM =')} [_] cm</span><br><span class="eq">${m('S =')} [_] ${m('\\text{cm}^2')}</span>`, ans:[r, half, p*q/2],
+      hint:`${m('AM = \\dfrac{BC}{2}')} cho biết tam giác ${m('ABC')} vuông ở đỉnh nào; hai cạnh góc vuông là hai cạnh đã cho.`,
+      sol:`Trung tuyến ${m('AM = \\dfrac{BC}{2}')} nên tam giác ${m('ABC')} vuông tại ${m('A')} (được dùng trực tiếp).<br>${m(`BC^2 = ${p}^2 + ${q}^2 = ${r*r}`)} nên ${m('BC =')} ${tb(r)} cm, ${m(`AM = \\dfrac{BC}{2} =`)} ${tb(half)} cm.<br>${m(`S = \\dfrac{1}{2}\\cdot AB\\cdot AC = \\dfrac{1}{2}\\cdot ${p}\\cdot ${q} =`)} ${tb(p*q/2)} ${m('\\text{cm}^2')}.`});
+  }
+  const good = m('90^\\circ'), s = p*q/2;
+  return QS({direct:true,
+    text:`${head}, ${m(`AM = ${half}`)} cm, ${m(`AB = ${p}`)} cm, ${m(`BC = ${r}`)} cm. Tính diện tích tam giác ${m('ABM')}.`,
+    hint:`Chứng minh góc ${m('A')} vuông, tìm ${m('AC')}, tính diện tích tam giác ${m('ABC')}; trung tuyến ${m('AM')} chia tam giác thành hai phần có cùng diện tích (chung đường cao từ ${m('A')}, hai đáy ${m('BM = MC')}).`,
+    steps:[
+      {tag:'Góc A', ask:`Vì ${m(`AM = ${half} = \\dfrac{BC}{2}`)}, số đo góc ${m('\\widehat{BAC}')} là`, opts:[good, m('60^\\circ'), m('45^\\circ'), m('120^\\circ')], ans:good, hint:`Trung tuyến bằng nửa cạnh đối diện.`},
+      {tag:'Cạnh AC', ask:`Tính ${m('AC')}.`, tpl:`${m('AC =')} [_] cm`, ans:[q], hint:`${m('AC^2 = BC^2 - AB^2')}.`},
+      {tag:'Tam giác ABC', ask:`Tính diện tích tam giác ${m('ABC')}.`, tpl:`${m('S_{ABC} =')} [_] cm²`, ans:[s], hint:`Nửa tích hai cạnh góc vuông.`},
+      {tag:'Tam giác ABM', ask:`Tính diện tích tam giác ${m('ABM')}.`, tpl:`${m('S_{ABM} =')} [_] cm²`, ans:[s/2], hint:`${m('BM = \\dfrac{BC}{2}')} và chung đường cao hạ từ ${m('A')}.`}
+    ],
+    sol:`${m(`AM = \\dfrac{BC}{2}`)} nên ${m('\\widehat{BAC} = 90^\\circ')}. ${m(`AC = \\sqrt{${r}^2 - ${p}^2} = ${q}`)} cm.<br>${m(`S_{ABC} = \\dfrac{1}{2}\\cdot ${p}\\cdot ${q} = ${s}`)}.<br>Hai tam giác ${m('ABM')}, ${m('ACM')} chung đường cao hạ từ ${m('A')} và có đáy ${m('BM = MC')} nên ${m('S_{ABM} = \\dfrac{1}{2}S_{ABC} =')} ${tb(s/2)} ${m('\\text{cm}^2')}.`});
+};
+
+/* ===== Dạng 4. Phải chứng minh lại: tan = sin/cos, sin² + cos² = 1 (qua tam giác vuông) ===== */
+const KT4 = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29]];
+const frA = (a, b) => ({frac:[a, b], mode:'simplest'});
+const gKt4 = lv => {
+  if(lv === 1){
+    const [p, q, h] = pick(KT4), s = R(1, 3), AB = p*s, AC = q*s;
+    const fig = rtTriSVG({n:['A', 'B', 'C'], w:AC, h:AB, ab:`${AB}`, ac:`${AC}`, bc:'?', aC:true});
+    return QB({text:`Tam giác ${m('ABC')} vuông tại ${m('A')} có ${m(`AB = ${AB}`)} cm, ${m(`AC = ${AC}`)} cm. Tính ${m('BC')}, ${m('\\sin C')} và ${m('\\cos C')} (viết phân số tối giản).`, fig,
+      tpl:`<span class="eq">${m('BC =')} [_] cm</span><br><span class="eq">${m('\\sin C =')} [F]</span><br><span class="eq">${m('\\cos C =')} [F]</span>`, ans:[h*s, frA(p, h), frA(q, h)],
+      hint:`Tính ${m('BC')} bằng Pythagore; ${m('\\sin C')} là tỉ số cạnh đối trên cạnh huyền, ${m('\\cos C')} là cạnh kề trên cạnh huyền.`,
+      sol:`${m(`BC^2 = ${AB}^2 + ${AC}^2 = ${h*s*h*s}`)} nên ${m('BC =')} ${tb(h*s)} cm.<br>${m(`\\sin C = \\dfrac{AB}{BC} = \\dfrac{${AB}}{${h*s}} =`)} ${tb(tfrac(p, h))}; ${m(`\\cos C = \\dfrac{AC}{BC} = \\dfrac{${AC}}{${h*s}} =`)} ${tb(tfrac(q, h))}.`});
+  }
+  if(lv === 2){
+    const [p, q, h] = pick(KT4), sw = R(0, 1) === 1, o = sw ? q : p, k = sw ? p : q;
+    return QB({text:`Cho góc nhọn ${m('\\alpha')} có ${m(`\\sin\\alpha = \\dfrac{${o}}{${h}}`)}. Không dùng công thức ${m('\\sin^2\\alpha + \\cos^2\\alpha = 1')} (chưa được dùng ngay), hãy dựng tam giác vuông có góc ${m('\\alpha')} để tính ${m('\\cos\\alpha')} và ${m('\\tan\\alpha')} (phân số tối giản).`,
+      tpl:`<span class="eq">${m('\\cos\\alpha =')} [F]</span><br><span class="eq">${m('\\tan\\alpha =')} [F]</span>`, ans:[frA(k, h), frA(o, k)],
+      hint:`Dựng tam giác vuông có cạnh đối của ${m('\\alpha')} bằng ${o} và cạnh huyền bằng ${h}; tìm cạnh kề bằng Pythagore.`,
+      sol:`Dựng tam giác vuông có góc nhọn ${m('\\alpha')}, cạnh đối ${m(`${o}`)} và cạnh huyền ${m(`${h}`)} (vì ${m('\\sin\\alpha = \\dfrac{\\text{đối}}{\\text{huyền}}')}).<br>Cạnh kề: ${m(`\\sqrt{${h}^2 - ${o}^2} = \\sqrt{${k*k}} = ${k}`)}.<br>${m(`\\cos\\alpha = \\dfrac{\\text{kề}}{\\text{huyền}} =`)} ${tb(tfrac(k, h))}; ${m(`\\tan\\alpha = \\dfrac{\\text{đối}}{\\text{kề}} =`)} ${tb(tfrac(o, k))}.`});
+  }
+  let ex;
+  for(let tries = 0; tries < 4000; tries++){
+    const [p, q, h] = pick(KT4), sw = R(0, 1) === 1, o = sw ? q : p, k = sw ? p : q;
+    const a = R(1, 5), b = R(1, 5), c = R(1, 5), d = R(-4, 4);
+    if(d === 0) continue;
+    const num = a*o + b*k, den = c*o + d*k;
+    if(den <= 0 || num % den !== 0 || num/den < 1 || num/den > 9) continue;
+    ex = {o, k, h, a, b, c, d, v:num/den, num, den}; break;
+  }
+  const {o, k, h, a, b, c, d, v, num, den} = ex;
+  const expr = `\\dfrac{${tpoly([a, '\\sin\\alpha'], [b, '\\cos\\alpha'])}}{${tpoly([c, '\\sin\\alpha'], [d, '\\cos\\alpha'])}}`;
+  const optsH = [...new Set([h, k, o, o + k])], fo = (u, w) => [...new Set([tfrac(u, w), tfrac(w - 1, w), tfrac(o, k), tfrac(k, o), tfrac(u + 1, w)])].slice(0, 4).map(m);
+  if(!fo(o, h).includes(m(tfrac(o, h))) || !fo(k, h).includes(m(tfrac(k, h)))) throw new Error('kt4 opts');
+  return QS({direct:true,
+    text:`Cho góc nhọn ${m('\\alpha')} có ${m(`\\tan\\alpha = \\dfrac{${o}}{${k}}`)}. Tính ${m(`P = ${expr}`)}. (Chưa được dùng ngay ${m('\\tan = \\dfrac{\\sin}{\\cos}')}: hãy dựng tam giác vuông.)`,
+    hint:`Dựng tam giác vuông có cạnh đối ${o}, cạnh kề ${k} (vì ${m('\\tan\\alpha = \\dfrac{\\text{đối}}{\\text{kề}}')}), tính cạnh huyền rồi suy ra ${m('\\sin\\alpha')}, ${m('\\cos\\alpha')}.`,
+    steps:[
+      {tag:'Cạnh huyền', ask:`Tam giác vuông có cạnh đối ${m(`${o}`)}, cạnh kề ${m(`${k}`)}. Cạnh huyền bằng`, opts:optsH.map(x => m(`${x}`)), ans:m(`${h}`), hint:`Pythagore: ${m('\\text{huyền}^2 = \\text{đối}^2 + \\text{kề}^2')}.`},
+      {tag:'sin', ask:`Tính ${m('\\sin\\alpha')} (cạnh đối chia cạnh huyền).`, opts:fo(o, h), ans:m(tfrac(o, h)), hint:`Cạnh đối chia cạnh huyền.`},
+      {tag:'cos', ask:`Tính ${m('\\cos\\alpha')} (cạnh kề chia cạnh huyền).`, opts:fo(k, h), ans:m(tfrac(k, h)), hint:`Cạnh kề chia cạnh huyền.`},
+      {tag:'Giá trị P', ask:`Thay vào ${m('P')} và tính.`, tpl:`${m('P =')} [_]`, ans:[v], hint:`Quy đồng tử và mẫu; ${m(`\\dfrac{${o}}{${h}}`)} và ${m(`\\dfrac{${k}}{${h}}`)} có cùng mẫu.`}
+    ],
+    sol:`Dựng tam giác vuông có cạnh đối ${m(`${o}`)}, cạnh kề ${m(`${k}`)}: cạnh huyền ${m(`\\sqrt{${o}^2 + ${k}^2} = ${h}`)}.<br>${m(`\\sin\\alpha = \\dfrac{${o}}{${h}}`)}, ${m(`\\cos\\alpha = \\dfrac{${k}}{${h}}`)}.<br>${m(`P = \\dfrac{${a}\\cdot\\frac{${o}}{${h}} + ${b}\\cdot\\frac{${k}}{${h}}}{${c}\\cdot\\frac{${o}}{${h}} ${d < 0 ? '-' : '+'} ${Math.abs(d)}\\cdot\\frac{${k}}{${h}}} = \\dfrac{${num}}{${den}} =`)} ${tb(v)}.`});
+};
+
+/* ===== Dạng 5. Đường kính – dây: chứng minh lại rồi tính ===== */
+const KT5 = [];
+for(let Rr = 5; Rr <= 40; Rr++){
+  const pairs = [];
+  for(let a = 1; a < Rr; a++){ const d = Math.round(Math.sqrt(Rr*Rr - a*a)); if(d > 0 && d*d + a*a === Rr*Rr) pairs.push([a, d]); }
+  if(pairs.length >= 2) KT5.push({R:Rr, pairs});
+}
+const figChord = (a, d) => circleSVG({C:[{x:0, y:0, r:Math.sqrt(a*a + d*d), lab:'O', lp:12}], P:[[-a, -d, 'A', 200], [a, -d, 'B', -20], [0, -d, 'H', -90]],
+  S:[[-a, -d, a, -d], [0, 0, 0, -d], [0, 0, -a, -d, true]], right:[[0, -d, 0]]});
+const why5 = `Tam giác ${m('OAB')} cân tại ${m('O')} (${m('OA = OB = R')}), ${m('OH')} là đường cao nên cũng là trung tuyến: ${m('HA = HB')}.`;
+const gKt5 = lv => {
+  const cfg = pick(KT5), Rr = cfg.R, [a, d] = pick(cfg.pairs);
+  if(lv === 1){
+    return QB({text:`Đường tròn ${m(`(O;${Rr})`)} cm có dây ${m('AB')}; ${m('H')} là chân đường vuông góc hạ từ ${m('O')} xuống ${m('AB')}, ${m(`OH = ${d}`)} cm. Tính độ dài dây ${m('AB')}.`, fig:figChord(a, d),
+      tpl:`${m('AB =')} [_] cm`, ans:[2*a],
+      hint:`Chứng minh ${m('H')} là trung điểm ${m('AB')} (tam giác ${m('OAB')} cân), rồi dùng Pythagore trong tam giác ${m('OHA')}.`,
+      sol:`${why5}<br>${m(`HA^2 = OA^2 - OH^2 = ${Rr}^2 - ${d}^2 = ${a*a}`)} nên ${m(`HA = ${a}`)} cm.<br>${m(`AB = 2HA =`)} ${tb(2*a)} cm.`});
+  }
+  if(lv === 2){
+    if(R(0, 1) === 0){
+      return QB({text:`Đường tròn ${m(`(O;${Rr})`)} cm có dây ${m(`AB = ${2*a}`)} cm. Tính khoảng cách ${m('OH')} từ tâm ${m('O')} đến dây ${m('AB')} (${m('OH \\perp AB')} tại ${m('H')}).`, fig:figChord(a, d),
+        tpl:`${m('OH =')} [_] cm`, ans:[d],
+        hint:`Chứng minh ${m('H')} là trung điểm ${m('AB')}, tính ${m('HA')}, rồi Pythagore trong tam giác ${m('OHA')}.`,
+        sol:`${why5}<br>${m(`HA = \\dfrac{AB}{2} = ${a}`)} cm.<br>${m(`OH^2 = OA^2 - HA^2 = ${Rr}^2 - ${a}^2 = ${d*d}`)} nên ${m('OH =')} ${tb(d)} cm.`});
+    }
+    return QB({text:`Dây ${m(`AB = ${2*a}`)} cm của đường tròn ${m('(O)')} cách tâm ${m('O')} một khoảng ${m(`OH = ${d}`)} cm (${m('OH \\perp AB')} tại ${m('H')}). Tính bán kính ${m('R')} và chu vi đường tròn (dạng ${m('a\\pi')}).`, fig:figChord(a, d),
+      tpl:`<span class="eq">${m('R =')} [_] cm</span><br><span class="eq">${m('C =')} [_]${m('\\pi')} cm</span>`, ans:[Rr, 2*Rr],
+      hint:`Chứng minh ${m('H')} là trung điểm ${m('AB')}, rồi Pythagore trong tam giác ${m('OHA')} để tìm ${m('OA')}.`,
+      sol:`${why5}<br>${m(`HA = ${a}`)} cm; ${m(`OA^2 = OH^2 + HA^2 = ${d}^2 + ${a}^2 = ${Rr*Rr}`)} nên ${m('R =')} ${tb(Rr)} cm.<br>${m(`C = 2\\pi R =`)} ${tb(`${2*Rr}\\pi`)} cm.`});
+  }
+  const [a2, d2] = pick(cfg.pairs.filter(x => x[0] !== a)), same = R(0, 1) === 0, dist = same ? Math.abs(d - d2) : d + d2;
+  if(same && d === d2) return gKt5(3);
+  const y2 = same ? -d2 : d2;
+  const fig = circleSVG({C:[{x:0, y:0, r:Rr, lab:'O', lp:12}], P:[[-a, -d, 'A', 200], [a, -d, 'B', -20], [-a2, y2, 'C', 160], [a2, y2, 'D', 20], [0, -d, 'H', -80], [0, y2, 'K', same ? -80 : 80]],
+    S:[[-a, -d, a, -d], [-a2, y2, a2, y2], [0, -d, 0, y2]]});
+  return QS({direct:true, fig,
+    text:`Đường tròn ${m(`(O;${Rr})`)} cm có hai dây song song ${m(`AB = ${2*a}`)} cm và ${m(`CD = ${2*a2}`)} cm, hai dây nằm ${same ? '<b>cùng phía</b>' : '<b>khác phía</b>'} đối với tâm ${m('O')}. Đường thẳng qua ${m('O')} vuông góc với hai dây cắt ${m('AB, CD')} tại ${m('H, K')}. Tính khoảng cách ${m('HK')} giữa hai dây.`,
+    hint:`Chứng minh ${m('H, K')} là trung điểm các dây (tam giác cân), tính ${m('OH')}, ${m('OK')} bằng Pythagore; ${same ? 'cùng phía thì trừ' : 'khác phía thì cộng'}.`,
+    steps:[
+      {tag:'HA', ask:`${m('H')} là trung điểm ${m('AB')} (tam giác ${m('OAB')} cân, ${m('OH')} là đường cao nên là trung tuyến). Tính ${m('HA')}.`, tpl:`${m('HA =')} [_] cm`, ans:[a], hint:`${m('HA = \\dfrac{AB}{2}')}.`},
+      {tag:'OH', ask:`Tính ${m('OH')}.`, tpl:`${m('OH =')} [_] cm`, ans:[d], hint:`${m('OH^2 = OA^2 - HA^2')}.`},
+      {tag:'OK', ask:`Tương tự, tính ${m('OK')} (${m(`KC = ${a2}`)} cm).`, tpl:`${m('OK =')} [_] cm`, ans:[d2], hint:`${m('OK^2 = OC^2 - KC^2')}.`},
+      {tag:'HK', ask:`${same ? `Hai dây cùng phía đối với ${m('O')}` : `Hai dây khác phía đối với ${m('O')}`}, tính ${m('HK')}.`, tpl:`${m('HK =')} [_] cm`, ans:[dist], hint: same ? `${m('H, K')} cùng phía của ${m('O')} nên ${m('HK = |OH - OK|')}.` : `${m('O')} nằm giữa ${m('H, K')} nên ${m('HK = OH + OK')}.`}
+    ],
+    sol:`${why5} Tương tự ${m('K')} là trung điểm ${m('CD')}.<br>${m(`HA = ${a}`)}, ${m(`OH = \\sqrt{${Rr}^2 - ${a}^2} = ${d}`)} cm; ${m(`KC = ${a2}`)}, ${m(`OK = \\sqrt{${Rr}^2 - ${a2}^2} = ${d2}`)} cm.<br>` + (same ? `Hai dây cùng phía: ${m(`HK = |${d} - ${d2}| =`)} ` : `Hai dây khác phía: ${m(`HK = ${d} + ${d2} =`)} `) + `${tb(dist)} cm.`});
+};
+
+lesson(6,'on-thi-kien-thuc-thong-nhat','Kiến thức thống nhất. Được dùng ngay hay phải chứng minh lại','Ôn tuyển sinh: phân loại kiến thức được dùng trực tiếp và phải chứng minh lại; công thức tam giác đều, vuông cân; trung tuyến bằng nửa cạnh; sin – cos – tan; đường kính và dây.',[gKt1,gKt2,gKt3,gKt4,gKt5], {intro:[
+  {t:`Được dùng trực tiếp`, b:`<ul><li>Tính chất tam giác cân, vuông cân, đều; hai góc cùng phụ (cùng bù) với một góc thì bằng nhau.</li><li>Công thức độ dài, bán kính đường tròn ngoại tiếp – nội tiếp, diện tích của tam giác vuông cân và tam giác đều: ${tm('S = \\dfrac{a^2\\sqrt{3}}{4}')}, ${tm('R = \\dfrac{a\\sqrt{3}}{3}')}, ${tm('r = \\dfrac{a\\sqrt{3}}{6}')}.</li><li>Tam giác có trung tuyến bằng nửa cạnh tương ứng thì vuông.</li><li>Các chú ý và nhận xét về góc nội tiếp trong SGK (chắn nửa đường tròn, cùng chắn một cung, bằng nửa góc ở tâm).</li></ul>`, warn:`Chỉ được dùng đúng những gì thuộc danh sách này; “nghe quen” chưa đủ để viện dẫn.`, ex:`Gặp tam giác đều hay vuông cân trong hình, ghi ngay công thức rồi thay số, không cần chứng minh.`},
+  {t:`Phải chứng minh lại`, b:`<ul><li>Tính chất đường phân giác ngoài của tam giác.</li><li>Hệ thức cạnh – đường cao trong tam giác vuông: ${tm('AB^2 = BH\\cdot BC')}, ${tm('AH^2 = BH\\cdot CH')}, ${tm('AH\\cdot BC = AB\\cdot AC')}, ${tm('\\dfrac{1}{AH^2} = \\dfrac{1}{AB^2} + \\dfrac{1}{AC^2}')}.</li><li>${tm('\\tan\\alpha = \\dfrac{\\sin\\alpha}{\\cos\\alpha}')} và ${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')}.</li><li>Đường kính vuông góc dây thì chia đôi dây (và ngược lại); các dấu hiệu nhận biết tứ giác nội tiếp.</li></ul>`, warn:`Viết thẳng “theo hệ thức lượng” hoặc “vì tứ giác có tổng hai góc đối bằng ${tm('180^\\circ')}” mà không chứng minh sẽ mất điểm.`, ex:`Chứng minh lại thường chỉ cần 1–2 dòng: tam giác đồng dạng (g.g), diện tích hai cách, Pythagore, hoặc tam giác cân có đường cao là trung tuyến.`},
+  {t:`Cách chứng minh lại nhanh`, b:`<ul><li>${tm('AB^2 = BH\\cdot BC')}: từ ${tm('\\triangle HBA \\sim \\triangle ABC')} (g.g).</li><li>${tm('AH\\cdot BC = AB\\cdot AC')}: diện tích tam giác ${tm('ABC')} tính theo hai cách.</li><li>${tm('\\tan\\alpha')}, ${tm('\\sin^2 + \\cos^2')}: viết bằng tỉ số cạnh của tam giác vuông, dùng Pythagore.</li><li>Đường kính – dây: tam giác ${tm('OAB')} cân tại ${tm('O')}, ${tm('OH')} vừa là đường cao vừa là trung tuyến.</li></ul>`, warn:`Khi bài cho ${tm('\\sin\\alpha')} (hoặc ${tm('\\tan\\alpha')}) rồi hỏi các tỉ số còn lại, đừng dùng ${tm('\\sin^2\\alpha + \\cos^2\\alpha = 1')}; hãy dựng tam giác vuông.`, ex:`Cho ${tm('\\tan\\alpha = \\dfrac{p}{q}')}: lấy cạnh đối ${tm('p')}, cạnh kề ${tm('q')}, tính cạnh huyền; mọi tỉ số hiện ra ngay.`}
+]});
+
+}
+
 })();

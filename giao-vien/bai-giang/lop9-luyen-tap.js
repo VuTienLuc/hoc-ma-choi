@@ -783,4 +783,39 @@ Lecture.addPractice('lop9','on-thi-hinh-hoc-tinh-toan',[
 ]);
 }
 
+{
+Lecture.addPractice('lop9','on-thi-kien-thuc-thong-nhat',[
+ {dang:'Phân loại: dùng ngay hay chứng minh lại',items:[
+  {de:`Xếp vào nhóm “dùng ngay” hoặc “phải chứng minh lại”: (a) hai góc cùng phụ với một góc thì bằng nhau; (b) ${m('\\tan\\alpha=\\dfrac{\\sin\\alpha}{\\cos\\alpha}')}; (c) góc nội tiếp chắn nửa đường tròn là góc vuông; (d) tứ giác có tổng hai góc đối bằng ${m('180^\\circ')} thì nội tiếp.`,
+   sol:[`(a) và (c) thuộc danh sách kiến thức được dùng ngay (hai góc cùng phụ; nhận xét về góc nội tiếp trong SGK); (b) và (d) không thuộc danh sách nên phải chứng minh lại.`],ans:`Dùng ngay: ${tb('(a), (c)')}; phải chứng minh lại: ${tb('(b), (d)')}.`,lines:3},
+  {de:`Trong ba khẳng định: (1) ${m('AH\\cdot BC=AB\\cdot AC')} (tam giác ${m('ABC')} vuông tại ${m('A')}, đường cao ${m('AH')}); (2) trung tuyến bằng nửa cạnh tương ứng thì tam giác vuông; (3) đường kính vuông góc với dây thì chia đôi dây, có bao nhiêu khẳng định phải chứng minh lại?`,
+   sol:[`(2) được dùng trực tiếp; (1) (chứng minh bằng diện tích hai cách) và (3) (tam giác cân có đường cao là trung tuyến) phải chứng minh lại.`],ans:`Có ${tb('2')} khẳng định: (1) và (3).`,lines:3}
+ ]},
+ {dang:'Công thức tam giác đều, vuông cân',items:[
+  {de:`Tam giác đều ${m('ABC')} có cạnh ${m('10')} cm. Tính chiều cao ${m('AH')} và diện tích tam giác ${m('ABC')}.`,
+   sol:[`Chiều cao tam giác đều cạnh ${m('a')} là ${m('\\dfrac{a\\sqrt{3}}{2}')}: ${m('AH=\\dfrac{10\\sqrt{3}}{2}=5\\sqrt{3}')} cm.`,`${m('S=\\dfrac{a^2\\sqrt{3}}{4}=\\dfrac{100\\sqrt{3}}{4}=25\\sqrt{3}')} ${m('\\text{cm}^2')}.`],ans:`${tb('AH=5\\sqrt{3}')} cm; ${tb('S=25\\sqrt{3}')} ${m('\\text{cm}^2')}.`,lines:3},
+  {de:`Tam giác vuông cân ${m('ABC')} (vuông tại ${m('A')}) nội tiếp đường tròn bán kính ${m('7')} cm. Tính cạnh huyền, cạnh góc vuông và diện tích.`,
+   sol:[`Tâm đường tròn ngoại tiếp là trung điểm ${m('BC')} (trung tuyến bằng nửa cạnh huyền): ${m('BC=2R=14')} cm; ${m('AB=\\dfrac{14}{\\sqrt{2}}=7\\sqrt{2}')} cm.`,`${m('S=\\dfrac{AB^2}{2}=\\dfrac{98}{2}=49')} ${m('\\text{cm}^2')}.`],ans:`${tb('BC=14')} cm; ${tb('AB=7\\sqrt{2}')} cm; ${tb('S=49')} ${m('\\text{cm}^2')}.`,lines:3}
+ ]},
+ {dang:'Trung tuyến bằng nửa cạnh ⇒ tam giác vuông',items:[
+  {de:`Tam giác ${m('ABC')} có ${m('M')} là trung điểm ${m('BC')}, ${m('AM=13')} cm, ${m('AB=24')} cm, ${m('BC=26')} cm. Tính ${m('AC')}.`,
+   sol:[`${m('AM=13=\\dfrac{BC}{2}')}: trung tuyến bằng nửa cạnh ${m('BC')} nên ${m('\\widehat{BAC}=90^\\circ')} (được dùng trực tiếp).`,`${m('AC^2=BC^2-AB^2=676-576=100')} nên ${m('AC=10')} cm.`],ans:`${tb('AC=10')} cm.`,lines:3},
+  {hard:true,de:`Tam giác ${m('ABC')} có ${m('M')} là trung điểm ${m('BC')}, ${m('AM=25')} cm, ${m('AB=30')} cm, ${m('BC=50')} cm. Tính ${m('AC')} và đường cao ${m('AH')} (chứng minh ${m('AH\\cdot BC=AB\\cdot AC')} bằng diện tích).`,
+   sol:[`${m('AM=\\dfrac{BC}{2}')} nên ${m('\\widehat{BAC}=90^\\circ')}; ${m('AC=\\sqrt{50^2-30^2}=40')} cm.`,`${m('S=\\dfrac{1}{2}AB\\cdot AC=\\dfrac{1}{2}AH\\cdot BC')} nên ${m('AH=\\dfrac{30\\cdot 40}{50}=24')} cm.`],ans:`${tb('AC=40')} cm; ${tb('AH=24')} cm.`,lines:4}
+ ]},
+ {dang:'Sin – cos – tan: dựng tam giác vuông',items:[
+  {de:`Tam giác ${m('ABC')} vuông tại ${m('A')} có ${m('AB=9')} cm, ${m('AC=12')} cm. Tính ${m('BC')}, ${m('\\sin C')}, ${m('\\cos C')}, ${m('\\tan C')}.`,
+   sol:[`${m('BC^2=81+144=225')} nên ${m('BC=15')} cm.`,`${m('\\sin C=\\dfrac{AB}{BC}=\\dfrac{3}{5}')}, ${m('\\cos C=\\dfrac{AC}{BC}=\\dfrac{4}{5}')}, ${m('\\tan C=\\dfrac{AB}{AC}=\\dfrac{3}{4}')}.`],ans:`${tb('BC=15')} cm; ${tb('\\sin C=\\dfrac{3}{5}')}, ${tb('\\cos C=\\dfrac{4}{5}')}, ${tb('\\tan C=\\dfrac{3}{4}')}.`,lines:4},
+  {hard:true,de:`Cho góc nhọn ${m('\\alpha')} có ${m('\\tan\\alpha=\\dfrac{5}{12}')}. Tính ${m('P=\\dfrac{4\\sin\\alpha+\\cos\\alpha}{4\\sin\\alpha-\\cos\\alpha}')} (chưa được dùng ${m('\\tan=\\dfrac{\\sin}{\\cos}')}, hãy dựng tam giác vuông).`,
+   sol:[`Dựng tam giác vuông có cạnh đối ${m('5')}, cạnh kề ${m('12')}, cạnh huyền ${m('13')}: ${m('\\sin\\alpha=\\dfrac{5}{13}')}, ${m('\\cos\\alpha=\\dfrac{12}{13}')}.`,`${m('P=\\dfrac{\\frac{20}{13}+\\frac{12}{13}}{\\frac{20}{13}-\\frac{12}{13}}=\\dfrac{32}{8}=4')}.`],ans:`${tb('P=4')}.`,lines:4}
+ ]},
+ {dang:'Đường kính – dây',items:[
+  {de:`Đường tròn ${m('(O;17)')} cm có dây ${m('AB=30')} cm. Tính khoảng cách ${m('OH')} từ tâm ${m('O')} đến dây ${m('AB')} (${m('OH\\perp AB')} tại ${m('H')}).`,
+   sol:[`Tam giác ${m('OAB')} cân tại ${m('O')}, ${m('OH')} là đường cao nên cũng là trung tuyến: ${m('HA=\\dfrac{30}{2}=15')} cm.`,`${m('OH^2=OA^2-HA^2=289-225=64')} nên ${m('OH=8')} cm.`],ans:`${tb('OH=8')} cm.`,lines:3},
+  {hard:true,de:`Đường tròn ${m('(O;25)')} cm có hai dây song song ${m('AB=14')} cm và ${m('CD=40')} cm, hai dây nằm cùng phía đối với tâm ${m('O')}. Tính khoảng cách giữa hai dây.`,
+   sol:[`${m('H, K')} là chân đường vuông góc hạ từ ${m('O')} (tam giác cân ${m('OAB')}, ${m('OCD')}) nên là trung điểm: ${m('HA=7')}, ${m('KC=20')} cm.`,`${m('OH=\\sqrt{25^2-7^2}=24')}; ${m('OK=\\sqrt{25^2-20^2}=15')}; cùng phía: ${m('HK=24-15=9')} cm.`],ans:`${tb('9')} cm.`,lines:4}
+ ]}
+]);
+}
+
 })();

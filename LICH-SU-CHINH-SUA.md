@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-17 – Ôn thi vào 10, chủ đề 11: Kiến thức thống nhất (được dùng ngay hay phải chứng minh lại)
+
+- **Yêu cầu:** việc định kỳ đăng chủ đề ôn thi vào 10 kế tiếp (chủ đề 11, chủ đề cuối), trọn bộ: bài học sinh có thẻ Kiến thức · Lưu ý · Mẹo, bài giảng, phiếu luyện tập in 2 trang A4 + PDF.
+- **Kết quả:** `on-thi-kien-thuc-thong-nhat` (chương 6, 5 dạng × 3 mức, mức 3 nhiều bước): phân loại được dùng / phải chứng minh lại · tam giác đều, vuông cân · trung tuyến bằng nửa cạnh · sin–cos–tan bằng dựng tam giác vuông · đường kính – dây. Bài giảng 3 trang kiến thức + 5 dạng (mỗi dạng 1 method + 1 ví dụ) + tổng kết; phiếu luyện tập 10 bài (7 cơ bản + 3 ★), cả bản học sinh lẫn bản lời giải đo bằng PDF thật đều đúng 2 trang A4. Đã đăng đủ 11/11 chủ đề của kế hoạch.
+- **Tệp thay đổi:** `data/lop9.js`, `giao-vien/bai-giang/lop9.js`, `giao-vien/bai-giang/lop9-luyen-tap.js`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 150 lop9` ĐẠT; `python3 tools/test.py` ĐẠT (31110 câu); `python3 tools/build.py` đã chạy; `python3 tools/test_baigiang.py lop9` ĐẠT (chiếu 732 trang không tràn); `python3 tools/test_luyentap.py` ĐẠT (10 bài, 7 cơ bản – 3 vận dụng); `python3 tools/test_phieu_tren_lop.py` ĐẠT 72/72.
+- **Việc thủ công:** đối chiếu danh sách “được dùng ngay / phải chứng minh lại” với văn bản hướng dẫn của Sở (đặc biệt “góc tạo bởi tiếp tuyến và dây cung” – em chưa xếp vào nhóm nào).
+
 ### 2026-10-17 – Toán 11 Chương II: bù phiếu luyện tập và phiếu trên lớp cho Ôn tập chương II
 
 - **Yêu cầu:** việc định kỳ "trọn bộ một bài Toán 11": Bài 5–7 đã đủ 6 phần; mục còn thiếu đầu tiên là Ôn tập chương II (có học sinh + bài giảng, thiếu luyện tập, giải SGK, phiếu trên lớp).
