@@ -10,8 +10,6 @@ Lecture.addPractice('lop9', 'bai-4', [
  {dang:'Giải phương trình tích', items:[
   {de:`Giải phương trình ${m('(x - 4)(2x - 3) = 0')}.`,
    sol:[`Tích bằng không khi ${m('x - 4 = 0')} hoặc ${m('2x - 3 = 0')}.`], ans:`${tb('x = 4')} hoặc ${tb('x = \\dfrac{3}{2}')}.`, lines:3},
-  {de:`Giải phương trình ${m('x(3x - 12) = 0')}.`,
-   sol:[`${m('x = 0')} hoặc ${m('3x - 12 = 0')}.`], ans:`${tb('x = 0')} hoặc ${tb('x = 4')}.`, lines:3},
   {de:`Giải phương trình ${m('(x - 5)(x + 2) = 3(x - 5)')}.`,
    sol:[`Chuyển vế và đặt nhân tử chung: ${m('(x - 5)(x + 2 - 3) = 0')}.`, `${m('(x - 5)(x - 1) = 0')}.`], ans:`${tb('x = 5')} hoặc ${tb('x = 1')}.`},
   {hard:true, de:`Giải phương trình ${m('(2x - 3)^2 = (2x - 3)(x + 4)')}.`,
@@ -20,8 +18,6 @@ Lecture.addPractice('lop9', 'bai-4', [
  {dang:'Tìm điều kiện xác định', items:[
   {de:`Tìm điều kiện xác định của phương trình ${m('\\dfrac{1}{x - 3} + \\dfrac{2}{x + 4} = 1')}.`,
    sol:[`Các mẫu khác không: ${m('x - 3 \\ne 0')} và ${m('x + 4 \\ne 0')}.`], ans:`${tb('x \\ne 3')} và ${tb('x \\ne -4')}.`, lines:3},
-  {de:`Tìm điều kiện xác định của phương trình ${m('\\dfrac{x + 1}{x(x - 2)} = \\dfrac{3}{x - 2}')}.`,
-   sol:[`${m('x(x - 2) \\ne 0')} và ${m('x - 2 \\ne 0')}.`], ans:`${tb('x \\ne 0')} và ${tb('x \\ne 2')}.`, lines:3},
  ]},
  {dang:'Giải phương trình chứa ẩn ở mẫu', items:[
   {de:`Giải phương trình ${m('\\dfrac{3}{x - 2} = \\dfrac{5}{x + 2}')}.`,
@@ -32,6 +28,12 @@ Lecture.addPractice('lop9', 'bai-4', [
    sol:[`ĐKXĐ: ${m('x \\ne 2')} và ${m('x \\ne -2')}; mẫu chung ${m('(x - 2)(x + 2)')}.`, `Khử mẫu: ${m('x(x + 2) - 3(x - 2) = 6')}.`, `${m('x^2 - x = 0 \\Leftrightarrow x(x - 1) = 0')}. Cả hai giá trị đều thỏa ĐKXĐ.`], ans:`${tb('x = 0')} hoặc ${tb('x = 1')}.`},
   {hard:true, de:`Giải phương trình ${m('\\dfrac{x + 1}{x - 2} = \\dfrac{3}{x - 2}')}.`,
    sol:[`ĐKXĐ: ${m('x \\ne 2')}.`, `Khử mẫu được ${m('x + 1 = 3 \\Leftrightarrow x = 2')}.`, `Giá trị ${m('x = 2')} không thỏa ĐKXĐ nên loại.`], ans:'Phương trình <b>vô nghiệm</b>.'},
+ ]},
+ {dang:'Bài toán công việc', items:[
+  {de:`Hai người cùng làm chung một công việc thì xong trong ${m('12')} giờ. Nếu người thứ nhất làm một mình thì xong trong ${m('20')} giờ. Hỏi người thứ hai làm một mình xong trong bao lâu?`,
+   sol:[`Gọi ${m('y')} (giờ) là thời gian người thứ hai làm một mình; mỗi giờ làm được ${m('\\dfrac{1}{y}')} công việc.`, `${m('\\dfrac{1}{20} + \\dfrac{1}{y} = \\dfrac{1}{12} \\Rightarrow \\dfrac{1}{y} = \\dfrac{5 - 3}{60} = \\dfrac{1}{30}')}.`], ans:`${tb('30')} giờ.`},
+  {de:`Hai người cùng làm chung một công việc thì xong trong ${m('6')} giờ. Nếu làm một mình thì người thứ hai cần thời gian gấp ${m('2')} lần người thứ nhất. Hỏi mỗi người làm một mình xong trong bao lâu?`,
+   sol:[`Gọi ${m('x')} (giờ, ${m('x \\gt 0')}) là thời gian người thứ nhất làm một mình; người thứ hai làm trong ${m('2x')} giờ.`, `${m('\\dfrac{1}{x} + \\dfrac{1}{2x} = \\dfrac{1}{6} \\Leftrightarrow \\dfrac{3}{2x} = \\dfrac{1}{6} \\Leftrightarrow 2x = 18 \\Leftrightarrow x = 9')} (thỏa mãn).`], ans:`Người thứ nhất ${tb('9')} giờ; người thứ hai ${tb('18')} giờ.`},
  ]},
 ]);
 

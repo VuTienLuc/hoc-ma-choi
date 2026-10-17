@@ -511,7 +511,31 @@ const g6e = lv => {   // bài toán thực tế
     sol:`${tm(`(${a} + ${b} + 2x) : 4 \\ge ${tdec(T)}${EQ}2x \\ge ${tdec(4*T-a-b)}${EQ}x \\ge ${tdec((4*T-a-b)/2)}`)}. Bài 3 cần ít nhất ${tb(need)} điểm.`});
 };
 
-lesson(2,'pt-quy-ve-bac-nhat','Bài 4. Phương trình quy về phương trình bậc nhất một ẩn','Phương trình tích; điều kiện xác định và cách giải phương trình chứa ẩn ở mẫu.',[g4a,g4b,g4c]);
+const g4d = lv => {   // bài toán công việc: lập phương trình chứa ẩn ở mẫu
+  const nm = pick(NAMES), nm2 = pick(NAMES.filter(n => n !== nm));
+  const pairs = []; for (let x = 4; x <= 40; x++) for (let y = x; y <= 60; y++) if ((x * y) % (x + y) === 0 && y > x) pairs.push([x, y, x * y / (x + y)]);
+  if (lv === 1) {
+    const [x, y, T] = pick(pairs.filter(p => p[0] <= 20 && p[1] <= 40));
+    return QB({text:`${nm} và ${nm2} cùng làm chung một công việc thì xong trong <b>${T} giờ</b>. Nếu ${nm} làm một mình thì xong trong <b>${x} giờ</b>. Hỏi ${nm2} làm một mình thì xong công việc đó trong bao lâu?`,
+      tpl:`${nm2} làm một mình: [_] giờ`, ans:[y],
+      hint:`Gọi ${tm('y')} là số giờ ${nm2} làm một mình. Mỗi giờ: ${nm} làm được ${tm('\\dfrac{1}{'+x+'}')} công việc, ${nm2} làm được ${tm('\\dfrac{1}{y}')}; cả hai làm được ${tm('\\dfrac{1}{'+T+'}')}. Lập phương trình rồi giải.`,
+      sol:`Mỗi giờ hai người làm được ${tm(`\\dfrac{1}{${T}}`)} công việc, ${nm} làm được ${tm(`\\dfrac{1}{${x}}`)}. ${tm(`\\dfrac{1}{${x}} + \\dfrac{1}{y} = \\dfrac{1}{${T}}`)} (ĐKXĐ ${tm('y \\ne 0')}). ${tm(`\\dfrac{1}{y} = \\dfrac{1}{${T}} - \\dfrac{1}{${x}} = \\dfrac{${x - T}}{${x * T}}`)}${tm(`\\Rightarrow y = ${y}`)} (thoả mãn). ${nm2} làm một mình xong trong ${tb(y)} giờ.`});
+  }
+  if (lv === 2) {
+    const c = []; for (const [x, y, T] of pairs) for (let t = 1; t < T; t++) { const s = y * (T - t) / T; if (Number.isInteger(s) && s > 0) c.push([x, y, T, t, s]); }
+    const [x, y, T, t, s] = pick(c.filter(q => q[1] <= 40));
+    return QB({text:`${nm} và ${nm2} cùng làm chung một công việc thì xong trong <b>${T} giờ</b>. Hai người cùng làm được <b>${t} giờ</b> thì ${nm} đi làm việc khác; ${nm2} làm tiếp <b>${s} giờ</b> nữa thì xong. Hỏi nếu làm một mình thì ${nm} xong công việc trong bao lâu?`,
+      tpl:`${nm} làm một mình: [_] giờ`, ans:[x],
+      hint:`Gọi ${tm('x')} là số giờ ${nm} làm một mình. Hai người làm ${t} giờ được ${tm('\\dfrac{'+t+'}{'+T+'}')} công việc; phần còn lại do ${nm2} làm trong ${s} giờ. Tính trước năng suất của ${nm2}, rồi suy ra của ${nm}.`,
+      sol:`Phần việc còn lại: ${tm(`1 - \\dfrac{${t}}{${T}} = \\dfrac{${T - t}}{${T}}`)}, ${nm2} làm trong ${s} giờ nên mỗi giờ làm được ${tm(`\\dfrac{${T - t}}{${T}} : ${s} = \\dfrac{1}{${y}}`)}. Mỗi giờ ${nm} làm được ${tm(`\\dfrac{1}{x} = \\dfrac{1}{${T}} - \\dfrac{1}{${y}} = \\dfrac{${y - T}}{${T * y}}`)}${tm(`\\Rightarrow x = ${x}`)} (thoả mãn ĐKXĐ ${tm('x \\ne 0')}). ${nm} làm một mình xong trong ${tb(x)} giờ.`});
+  }
+  const k = pick([2, 3, 4]), mm = R(2, 6), x = (k + 1) * mm, y = k * x, T = x * k / (k + 1);
+  return QB({text:`${nm} và ${nm2} cùng làm chung một công việc thì xong trong <b>${T} giờ</b>. Nếu làm một mình thì ${nm2} cần thời gian <b>gấp ${k} lần</b> ${nm}. Hỏi mỗi người làm một mình xong công việc trong bao lâu?`,
+    tpl:`${nm}: [_] giờ<br>${nm2}: [_] giờ`, ans:[x, y],
+    hint:`Gọi ${tm('x')} là số giờ ${nm} làm một mình (${tm('x \\gt 0')}); khi đó ${nm2} làm một mình trong ${tm(k+'x')} giờ. Mỗi giờ hai người làm được ${tm('\\dfrac{1}{'+T+'}')} công việc. Lập phương trình chứa ẩn ở mẫu, khử mẫu và giải.`,
+    sol:`${nm2} làm một mình trong ${tm(`${k}x`)} giờ. Mỗi giờ: ${tm(`\\dfrac{1}{x} + \\dfrac{1}{${k}x} = \\dfrac{1}{${T}}`)} (ĐKXĐ ${tm('x \\ne 0')}). Quy đồng: ${tm(`\\dfrac{${k + 1}}{${k}x} = \\dfrac{1}{${T}}`)}. Khử mẫu: ${tm(`${T * (k + 1)} = ${k}x${EQ}x = ${x}`)} (thoả mãn ĐKXĐ). Vậy ${nm}: ${tb(x)} giờ; ${nm2}: ${tm(`${k}\\cdot ${x} =`)} ${tb(y)} giờ.`});
+};
+lesson(2,'pt-quy-ve-bac-nhat','Bài 4. Phương trình quy về phương trình bậc nhất một ẩn','Phương trình tích; điều kiện xác định, giải phương trình chứa ẩn ở mẫu và bài toán công việc.',[g4a,g4b,g4c,g4d]);
 lesson(2,'bat-dang-thuc','Bài 5. Bất đẳng thức và tính chất','Diễn đạt bằng lời; tính chất liên hệ với phép cộng, phép nhân; tính chất bắc cầu.',[g5a,g5b,g5c,g5d]);
 lesson(2,'bat-phuong-trinh','Bài 6. Bất phương trình bậc nhất một ẩn','Nhận biết, kiểm tra nghiệm, giải BPT; nghiệm nguyên; bài toán thực tế.',[g6a,g6b,g6c,g6d,g6e]);
 lesson(2,'on-tap-c2','Ôn tập chương II','Tổng hợp: phương trình tích, chứa ẩn ở mẫu, bất đẳng thức, bất phương trình.',[g4a,g4c,g5b,g6c,g6d,g6e]);

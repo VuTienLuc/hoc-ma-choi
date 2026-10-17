@@ -56,6 +56,15 @@ Lecture.add({ grade:'lop9', gradeName:'Toán 9', chapter:'Chương II. Phương 
   {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Giải phương trình ${m('\\dfrac{x}{x - 1} - \\dfrac{2}{x + 1} = \\dfrac{2}{x^2 - 1}')}.`,
    sol:[`ĐKXĐ: ${m('x \\ne \\pm 1')}. Mẫu thức chung ${m('x^2 - 1 = (x - 1)(x + 1)')}.`, `Khử mẫu: ${m('x(x + 1) - 2(x - 1) = 2 \\Leftrightarrow x^2 - x = 0')}.`, `${m('x(x - 1) = 0 \\Leftrightarrow x = 0 \\text{ hoặc } x = 1')}.`, `${m('x = 1')} không thỏa ĐKXĐ nên <b>loại</b>; ${m('x = 0')} thỏa mãn.`], ans:`${tb('x = 0')}.`},
 
+  {kind:'method', tag:'Dạng 4', title:'Bài toán công việc (lập phương trình chứa ẩn ở mẫu)',
+   steps:[`Gọi ẩn là thời gian một người làm một mình xong việc (đặt điều kiện ${m('x \\gt 0')}); một giờ người đó làm được ${m('\\dfrac{1}{x}')} công việc.`, `Biểu thị năng suất của người còn lại; làm chung thì năng suất cộng lại: ${m('\\dfrac{1}{x} + \\dfrac{1}{y} = \\dfrac{1}{T}')}.`, `Lập phương trình chứa ẩn ở mẫu, giải theo 4 bước (ĐKXĐ → khử mẫu → giải → đối chiếu).`, `Đối chiếu điều kiện của bài toán rồi kết luận, nhớ ghi đơn vị.`]},
+
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`An và Bình cùng làm chung một công việc thì xong trong ${m('6')} giờ. Nếu An làm một mình thì xong trong ${m('10')} giờ. Hỏi Bình làm một mình xong công việc đó trong bao lâu?`,
+   sol:[`Gọi ${m('y')} (giờ) là thời gian Bình làm một mình, ${m('y \\gt 0')}. Mỗi giờ Bình làm được ${m('\\dfrac{1}{y}')} công việc.`, `Mỗi giờ hai người làm được ${m('\\dfrac{1}{6}')}, An làm được ${m('\\dfrac{1}{10}')}: ${m('\\dfrac{1}{10} + \\dfrac{1}{y} = \\dfrac{1}{6}')}.`, `${m('\\dfrac{1}{y} = \\dfrac{1}{6} - \\dfrac{1}{10} = \\dfrac{5 - 3}{30} = \\dfrac{1}{15} \\Rightarrow y = 15')} (thỏa mãn).`], ans:`Bình làm một mình xong trong ${tb('15')} giờ.`},
+
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 4', label:'Ví dụ 8', de:`Hai người cùng làm chung một công việc thì xong trong ${m('10')} giờ. Hai người cùng làm được ${m('4')} giờ thì người thứ nhất nghỉ; người thứ hai làm tiếp ${m('9')} giờ nữa thì xong. Hỏi mỗi người làm một mình xong công việc trong bao lâu?`,
+   sol:[`Hai người làm ${m('4')} giờ được ${m('\\dfrac{4}{10} = \\dfrac{2}{5}')} công việc; còn lại ${m('1 - \\dfrac{2}{5} = \\dfrac{3}{5}')} công việc do người thứ hai làm trong ${m('9')} giờ.`, `Mỗi giờ người thứ hai làm được ${m('\\dfrac{3}{5} : 9 = \\dfrac{1}{15}')} công việc nên làm một mình xong trong ${m('15')} giờ.`, `Gọi ${m('x')} là thời gian người thứ nhất làm một mình: ${m('\\dfrac{1}{x} + \\dfrac{1}{15} = \\dfrac{1}{10} \\Rightarrow \\dfrac{1}{x} = \\dfrac{1}{30} \\Rightarrow x = 30')} (thỏa mãn).`], ans:`Người thứ nhất: ${tb('30')} giờ; người thứ hai: ${tb('15')} giờ.`},
+
   {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Giải phương trình ${m('(3x + 2)(x - 5) = 0')}.`, sol:[`${m('3x + 2 = 0 \\Leftrightarrow x = -\\dfrac{2}{3}')}; &nbsp; ${m('x - 5 = 0 \\Leftrightarrow x = 5')}.`]},
   {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Giải phương trình ${m('\\dfrac{3}{x + 2} = \\dfrac{1}{x - 2}')}.`,
    sol:[`ĐKXĐ: ${m('x \\ne \\pm 2')}.`, `${m('3(x - 2) = x + 2 \\Leftrightarrow 2x = 8 \\Leftrightarrow x = 4')} (thỏa mãn).`]},

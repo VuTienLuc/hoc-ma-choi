@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-17 – Toán 9 Chương II: trọn bộ Bài 4 (bù dạng 4, giải SGK, phiếu trên lớp)
+
+- **Yêu cầu:** việc định kỳ "trọn bộ một bài Toán 9": bài đầu tiên chưa đủ 6 phần là Bài 4. Phương trình quy về phương trình bậc nhất một ẩn.
+- **Kết quả:** học sinh thêm dạng 4 `g4d` (bài toán công việc, 3 mức, chỉ dùng phương trình bậc nhất ở mẫu); bài giảng thêm Dạng 4 + Ví dụ 7–8; phiếu luyện tập 10 bài (7 cơ bản + 3 ★, 4 dạng); giải SGK mới `lop9-giai-sgk.js` (Bài 2.2, 2.3, 2.5 tr. 30, đề có văn bản thật tìm được); phiếu trên lớp mới `lop9-khoi-dong.js`; thêm 2 thẻ `<script>` vào `giao-vien/index.html`.
+- **Tệp sửa:** data/lop9.js, giao-vien/bai-giang/lop9.js, lop9-luyen-tap.js, lop9-giai-sgk.js (mới), lop9-khoi-dong.js (mới), giao-vien/index.html, CLAUDE.md, AGENTS.md.
+- **Kiểm thử ĐẠT:** `node tools/kiem-tra.js`, `python3 tools/test.py`, `test_phieu_tren_lop.py` (Phần A đúng 2 trang), `test_luyentap.py` (Bài 4: 7/3), `test_baigiang.py lop9`; đáp số kiểm lại bằng sympy.
+- **Việc thủ công:** đối chiếu số trang SGK in cho Bài 2.2, 2.3, 2.5; các câu Vận dụng/Luyện tập khác của Bài 4 chưa tìm được văn bản nên chưa đưa vào giải SGK.
+
 ### 2026-10-16 – Toán 8 Chương II: bù giải SGK và phiếu trên lớp cho Bài 6
 
 - **Yêu cầu:** việc định kỳ "trọn bộ một bài Toán 8": bài đầu tiên chưa đủ 6 phần là Bài 6 (đã có học sinh, bài giảng, luyện tập; thiếu giải SGK và phiếu trên lớp).
