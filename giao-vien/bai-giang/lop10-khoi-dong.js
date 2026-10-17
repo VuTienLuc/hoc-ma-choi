@@ -1478,3 +1478,260 @@ Em chọn một tình huống: bơi qua sông có dòng chảy, máy bay bay nga
 | Exit 3 | $25$ |
 | Về nhà | Sơ đồ vectơ, tính bằng Pythagore, nêu thay đổi làm tăng kết quả |
 `);
+
+/* =====================================================================
+   PHIẾU HỌC TẬP TRÊN LỚP – Toán 10 · Bài 3. Bất phương trình bậc nhất hai ẩn
+   Bám Ví dụ 1–6 và Luyện tập 1–2 của bài giảng lop10.js (bai-3). Ví dụ tự soạn ghi [Minh họa].
+   ===================================================================== */
+Lecture.addSheet('lop10', 'bai-3', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Bài 3. Bất phương trình bậc nhất hai ẩn
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Giải bất phương trình $2x - 6 \gt 4$. Đáp số: ………………………
+
+**Câu 2.** Điểm $(1;1)$ có thuộc đường thẳng $y = 2x - 1$ không? Đáp số: ………………………
+
+**Câu 3.** Tính $3x - 2y$ khi $x = 2$, $y = -1$. Đáp số: ………………………
+
+**Câu 4.** Tìm giao điểm của đường thẳng $2x + y = 4$ với hai trục toạ độ. Đáp số: ………………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Cô Lan có $300$ nghìn đồng để mua cam ($30$ nghìn đồng/kg) và táo ($50$ nghìn đồng/kg). Gọi $x$, $y$ là số kg cam, táo.
+
+| Phương án $(x;y)$ | Số tiền phải trả (nghìn đồng) | Mua được không? |
+|---|---|---|
+| $(2;3)$ | $30\cdot 2 + 50\cdot 3 = 210$ | Được |
+| $(5;3)$ | $30\cdot 5 + 50\cdot 3 = 300$ | Vừa đủ |
+| $(6;3)$ | $30\cdot 6 + 50\cdot 3 = 330$ | Không đủ |
+
+**Em nhận thấy:** …………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Có bao nhiêu phương án $(x;y)$ cô Lan mua được, và làm sao mô tả tất cả chúng cùng lúc?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Bất phương trình nào là bất phương trình bậc nhất hai ẩn?
+
+A. $x^2 + y \le 4$
+
+B. $3y - 5 \ge 0$
+
+C. $xy - x \lt 2$
+
+D. $\dfrac{1}{x} + y \gt 1$
+
+**Câu B.** Cặp số nào là nghiệm của bất phương trình $3x - 2y \le 6$?
+
+A. $(4;1)$
+
+B. $(2;-1)$
+
+C. $(3;2)$
+
+D. $(0;-4)$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Cặp số $(2;-1)$ có là nghiệm của bất phương trình $2x - y \ge 5$ không? Đáp số: ………………………
+
+**Câu 2 ★.** Bất phương trình nào là bất phương trình bậc nhất hai ẩn: (a) $4x - y \le 7$; (b) $x^2 + y^2 \lt 9$; (c) $5x + 2 \ge 0$; (d) $x + y^2 \gt 1$? Đáp số: ………………………
+
+**Câu 3 ★.** Miền nghiệm của bất phương trình $x - 2y \ge 4$ có chứa gốc $O$ không? Đường biên vẽ nét liền hay nét đứt? Đáp số: ………………………
+
+**Câu 4 ★★.** Miền nghiệm của bất phương trình $y \ge 2x$ có chứa điểm $(0;1)$ không? (Đường biên đi qua $O$ nên không thử điểm $O$.) Đáp số: ………………………
+
+**Câu 5 ★★.** Một xe tải chở tối đa $3$ tấn hàng gồm $x$ thùng loại I (mỗi thùng $40$ kg) và $y$ thùng loại II (mỗi thùng $60$ kg). Viết bất phương trình mô tả điều kiện của $x$, $y$ (tính theo kg). Đáp số: ………………………
+
+**Câu 6 ★★★.** Mỗi ngày cần ít nhất $60$ g đạm từ $x$ suất cơm gà (mỗi suất $15$ g đạm) và $y$ suất cá (mỗi suất $20$ g đạm). Viết bất phương trình, rồi cho biết ăn $2$ suất cơm gà và $1$ suất cá có đủ đạm không. …………………………………………………
+
+……………………………………………………………………………………………………………………………………
+
+**Câu 7 ★★★.** Tìm $m$ để cặp số $(1;m)$ là nghiệm của bất phương trình $2x - 3y \lt 5$. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Biểu diễn miền nghiệm của bất phương trình $y \ge 2x$.
+>
+> **Lời giải của bạn X:** Vẽ đường thẳng $d: y = 2x$ đi qua $O(0;0)$ và $(1;2)$, nét liền. Thay $O(0;0)$: $0 \ge 2\cdot 0$ đúng. Vậy miền nghiệm là nửa mặt phẳng bờ $d$ chứa $O$.
+
+Lời giải có **một** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Cặp số nào là nghiệm của bất phương trình $2x + y \lt 4$?
+
+A. $(2;0)$
+
+B. $(1;2)$
+
+C. $(0;3)$
+
+D. $(3;-1)$
+
+**Câu 2.** Cho bất phương trình $x - y \ge 1$. Mỗi ý em ghi Đ hoặc S:
+
+a) Cặp số $(3;1)$ là nghiệm. ……
+
+b) Cặp số $(0;0)$ là nghiệm. ……
+
+c) Đường biên $x - y = 1$ vẽ nét đứt. ……
+
+d) Miền nghiệm không chứa gốc $O$. ……
+
+**Câu 3.** Cặp số nguyên $(a;2)$ là nghiệm của bất phương trình $3x - y \gt 7$. Giá trị nguyên nhỏ nhất của $a$ là: …………
+
+## 7. Một phút suy ngẫm
+
+*Trong bài này, bước nào em hay sai nhất: nhận dạng bất phương trình, thay số kiểm tra nghiệm, chọn điểm thử hay chọn nét liền – nét đứt? Em sẽ làm gì để chắc hơn?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà
+
+**[Minh họa]** Quỹ lớp có $500$ nghìn đồng để mua $x$ bộ cờ ($60$ nghìn đồng/bộ) và $y$ bộ bóng ($40$ nghìn đồng/bộ). Hãy: (a) lập bất phương trình mô tả điều kiện của $x$, $y$; (b) vẽ miền nghiệm bằng GeoGebra hoặc Desmos; (c) kiểm tra hai phương án $(5;5)$ và $(4;7)$ có mua được không. **Sản phẩm:** ảnh chụp màn hình miền nghiệm kèm lời giải, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Bài 3. Bất phương trình bậc nhất hai ẩn
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương II. Bất phương trình và hệ bất phương trình bậc nhất hai ẩn · Bài 3** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con, học sinh không dùng điện thoại trên lớp.
+- Hai tình huống **[Minh họa]** (cô Lan mua cam, táo ở mục mở đầu; quỹ lớp mua cờ, bóng ở bài về nhà) do người soạn tự đặt, không trích từ SGK. Lời giải các bài tập SGK của Bài 3 có trong mục **📘 Giải SGK**.
+- Phiếu bám bài giảng: **Ví dụ 1–2** (nhận dạng, kiểm tra nghiệm) → Do Now, câu bản lề, Luyện tập 1–2, 7; **Ví dụ 3–5** (miền nghiệm, đường biên qua gốc $O$) → Luyện tập 3–4, tìm lỗi sai, Exit ticket; **Ví dụ 6** (cô Lan) → mở đầu, Luyện tập 5–6, bài về nhà.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **hình thành kiến thức** (định nghĩa, quy trình vẽ miền nghiệm) thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* huy động cách giải bất phương trình bậc nhất một ẩn, thay số vào biểu thức, tìm giao điểm với trục; nảy sinh nhu cầu mô tả tập nghiệm có vô số cặp $(x;y)$.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng ba phương án mua hàng.
+- *Sản phẩm:* bài Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* nhận dạng bất phương trình bậc nhất hai ẩn; kiểm tra nghiệm (kể cả nghiệm nằm trên đường biên); xác định miền nghiệm có chứa điểm cho trước hay không, nét liền hay nét đứt; lập bất phương trình từ tình huống "tối đa", "ít nhất"; tìm tham số để cặp số là nghiệm.
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài về nhà dùng phần mềm vẽ miền nghiệm.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; ảnh màn hình miền nghiệm.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình, giáo viên đi quanh |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–22 | **Hình thành kiến thức** | *Giáo viên tự dạy theo bài giảng: định nghĩa, nghiệm, miền nghiệm, quy trình 3 bước* |
+| ~16 | Câu hỏi bản lề A, B (Mục 3), nằm trong phần trên | Dừng sau khi dạy nhận dạng và kiểm tra nghiệm; giơ thẻ (2 phút) |
+| 22–32 | Luyện tập xen kẽ (Mục 4) | Câu 1–7, làm cá nhân rồi đối chiếu cặp đôi |
+| 32–35 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 35–40 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 40–42 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 42–45 | Dặn dò bài về nhà (Mục 8) và bài tập SGK | |
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Truy xuất kiến thức cũ trước khi học bài mới; tự chấm không lấy điểm.
+- **Tổ chức theo 5512:** (1) chiếu 4 câu, nói rõ "không lấy điểm"; (2) làm một mình 3 phút; (3) chiếu đáp án, học sinh tự chấm bằng bút khác màu; (4) nhận xét: câu 3 là việc "thay số" sẽ dùng để kiểm tra nghiệm, câu 4 là hai điểm để vẽ đường thẳng.
+- **Đáp án:**
+  1. $x \gt 5$ (chuyển vế $2x \gt 10$ rồi chia hai vế cho $2$).
+  2. Có, vì $2\cdot 1 - 1 = 1$.
+  3. $3\cdot 2 - 2\cdot(-1) = 8$.
+  4. Với $y = 0$: $x = 2$; với $x = 0$: $y = 4$. Giao điểm là $(2;0)$ và $(0;4)$.
+- **Lỗi dự kiến:** câu 1 quên giữ dấu khi chia; câu 3 tính $-2\cdot(-1) = -2$; câu 4 chỉ tìm một giao điểm.
+- **Ít công nghệ:** giấy nháp. **Công cụ số:** Plickers hoặc Azota.
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.** Không có câu trả lời "đúng" nên học sinh yếu cũng tham gia được.
+- **Tổ chức theo 5512:** (1) chiếu bảng; (2) ghi cá nhân 1 phút, chia sẻ với bạn cùng bàn; (3) gọi 3–4 em, ghi lên bảng; (4) chốt: tổng tiền $30x + 50y$ phải **không quá** $300$; có vô số phương án nên cần "bức tranh" chung là miền nghiệm.
+- **Đáp án gợi ý:** số tiền càng nhiều thì càng gần giới hạn; $(5;3)$ vừa đúng $300$ nghìn; phương án $(6;3)$ vượt; có thể mua $2{,}5$ kg cam nên có vô số phương án.
+- **Lỗi dự kiến:** học sinh chỉ nêu "có số, có chữ" → hỏi "điều kiện nào quyết định mua được hay không?".
+- **Ít công nghệ:** bảng. **Công cụ số:** GeoGebra tô miền $30x + 50y \le 300$ (không bắt buộc).
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Vừa.** Mỗi phương án nhiễu ứng với một lỗi có thật.
+- **Tổ chức theo 5512:** (1) chiếu, dặn "chưa trả lời vội"; (2) 45 giây, ghi lên bảng con; (3) giơ cùng lúc; (4) nếu từ $20\%$ trở lên sai thì giảng lại.
+- **Đáp án:** Câu A chọn **B**; Câu B chọn **C**.
+- **Giải thích nhiễu – Câu A:** B viết lại được $0x + 3y \ge 5$ với $a = 0$, $b = 3$ không đồng thời bằng $0$. A có $x^2$; C có tích $xy$; D có ẩn ở mẫu.
+- **Giải thích nhiễu – Câu B:** $(3;2)$: $3\cdot 3 - 2\cdot 2 = 5 \le 6$ đúng. A: $12 - 2 = 10$; B: $6 + 2 = 8$; D: $0 + 8 = 8$ đều lớn hơn $6$ (B, D sai vì nhầm dấu khi nhân với $y$ âm).
+- **Ít công nghệ:** bảng con. **Công cụ số:** Plickers.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Mạnh** (Rohrer 2020: $60{,}7\%$ so với $37{,}6\%$, $d = 0{,}83$). Trộn dạng để học sinh phải nhận ra dạng trước khi giải. Báo trước là sẽ thấy khó hơn.
+- **Tổ chức theo 5512:** (1) phát phiếu, giải thích ký hiệu ★; (2) cá nhân 6 phút; (3) đối chiếu cặp đôi 2 phút; (4) chữa các câu nhiều em sai (thường là câu 4, 6, 7).
+- **Đáp án và lời giải ngắn:**
+  1. Có: $2\cdot 2 - (-1) = 5 \ge 5$ (nghiệm nằm đúng trên đường biên, dấu $\ge$ có dấu bằng).
+  2. (a) và (c). (a) có $a = 4$, $b = -1$; (c) viết được $5x + 0y \ge -2$ với $a = 5$, $b = 0$. (b) có $x^2, y^2$; (d) có $y^2$.
+  3. Không chứa $O$ vì $0 - 2\cdot 0 = 0 \ge 4$ sai; nét liền vì dấu $\ge$ có dấu bằng.
+  4. Có: $1 \ge 2\cdot 0$ đúng. (Có thể kiểm tra thêm $M(1;0)$: $0 \ge 2$ sai nên miền nằm phía trên đường thẳng.)
+  5. $40x + 60y \le 3000$ (tương đương $2x + 3y \le 150$), $x, y \ge 0$.
+  6. $15x + 20y \ge 60$ (tương đương $3x + 4y \ge 12$). Với $(2;1)$: $15\cdot 2 + 20\cdot 1 = 50 \lt 60$ nên **không đủ** đạm.
+  7. $2\cdot 1 - 3m \lt 5 \Leftrightarrow -3m \lt 3 \Leftrightarrow m \gt -1$ (chia cho số âm phải đổi chiều).
+- **Lỗi dự kiến:** câu 1 kết luận "không" vì thấy dấu $=$; câu 2 loại (c) do thiếu $y$; câu 3 vẽ nét đứt; câu 4 thử $O$ rồi kết luận miền chứa $O$; câu 5 viết $3$ thay vì $3000$ kg (không đổi đơn vị); câu 6 dùng $\le$ thay vì $\ge$; câu 7 quên đổi chiều bất đẳng thức.
+- **Ít công nghệ:** giấy và bảng. **Công cụ số:** GeoGebra hoặc Desmos kiểm tra bằng vẽ miền nghiệm.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Vừa – Mạnh** (EEF 2022).
+- **Tổ chức theo 5512:** (1) chiếu lời giải ẩn tên; (2) tìm lỗi 1 phút; (3) 2–3 em nêu, khen phần đúng trước (đã vẽ đúng đường biên, nét liền); (4) chốt lỗi.
+- **Đáp án:** đường biên $d: y = 2x$ đi qua $O$ nên **không được thử điểm $O$** (luôn cho $0 \ge 0$ đúng). Phải chọn điểm không thuộc $d$, chẳng hạn $M(1;0)$: $0 \ge 2\cdot 1$ sai, vậy miền nghiệm là nửa mặt phẳng bờ $d$ **không chứa** $M$ (chứa điểm $(0;1)$), kể cả bờ $d$.
+- **Lỗi dự kiến:** học sinh nói "vẽ sai đường thẳng" → yêu cầu kiểm tra $(1;2)$ có thuộc $y = 2x$ không (đúng); hỏi "điểm $O$ nằm ở đâu so với $d$?".
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.** Viết đúng dạng câu đề tốt nghiệp (trắc nghiệm, đúng/sai, trả lời ngắn); chữa lại ở đầu tiết sau.
+- **Tổ chức theo 5512:** (1) phát phiếu; (2) 3 phút làm một mình; (3) thu phiếu; (4) phân loại theo Mục 5.
+- **Đáp án:** Câu 1: **C** ($2\cdot 0 + 3 = 3 \lt 4$; A và B cho đúng $4$, nằm trên đường biên nên không thoả dấu $\lt$; D cho $5$). Câu 2: a) Đ ($3 - 1 = 2 \ge 1$); b) S ($0 \ge 1$ sai); c) S (dấu $\ge$ nên vẽ nét liền); d) Đ. Câu 3: **4** (với $y = 2$: $3a - 2 \gt 7 \Leftrightarrow a \gt 3$; số nguyên nhỏ nhất là $4$, vì $a = 3$ cho $7 \gt 7$ sai).
+- **Lỗi dự kiến:** Câu 1 chọn A hoặc B vì nhầm $\lt$ với $\le$; Câu 2 c) chọn Đ; Câu 3 trả lời $3$ (nhầm $\gt$ với $\ge$).
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- **Bằng chứng: Mạnh** (EEF: khoảng $+8$ tháng tiến bộ). Học sinh viết một câu, không chấm điểm; giáo viên đọc nhanh vài phiếu để biết em nào cần kèm. Gợi ý trả lời tốt: nêu cụ thể bước hay sai (đổi chiều khi nhân chia số âm, nét liền – nét đứt, thử điểm khi $d$ qua $O$) và cách ôn (làm lại Ví dụ 3–5, nhờ bạn giảng).
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** lập bất phương trình từ tình huống và dùng phần mềm kiểm tra miền nghiệm.
+- **Đáp án:** (a) $60x + 40y \le 500$, tức $3x + 2y \le 25$, với $x, y \ge 0$; (b) miền nghiệm là nửa mặt phẳng bờ $3x + 2y = 25$ chứa $O$ (nét liền), lấy phần $x \ge 0$, $y \ge 0$; (c) $(5;5)$: $60\cdot 5 + 40\cdot 5 = 500 \le 500$ nên mua được; $(4;7)$: $60\cdot 4 + 40\cdot 7 = 520 \gt 500$ nên không đủ tiền.
+- **Tiêu chí nộp:** ảnh miền nghiệm rõ, ghi hai điểm $(5;5)$, $(4;7)$ trên hình, kết luận từng phương án.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài: tìm $m$ để $(m;2m)$ là nghiệm của bất phương trình cho trước |
+| 2. Sai hết | 0–1 câu đúng | Ôn lại nhóm nhỏ: làm lại Ví dụ 2 và Ví dụ 3 theo thứ tự "thay số – so sánh – kết luận" |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh 5 phút đầu tiết sau bằng đúng câu bị sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Bài 4):** (1) kiểm tra một cặp số có là nghiệm của bất phương trình $x + 2y \le 8$ không; (2) lập bất phương trình từ một tình huống "không quá"; (3) giải hệ hai phương trình bậc nhất hai ẩn để chuẩn bị tìm đỉnh của miền nghiệm.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát sẵn bảng "thay số – so sánh – kết luận" để điền; chỉ yêu cầu Câu 1–5; Câu 5 phát mẫu "$40x + 60y \le \ \ldots$" (đổi $3$ tấn ra kg).
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *tìm tất cả cặp số nguyên dương $(x;y)$ là nghiệm của $3x + 5y \le 30$ (bất phương trình của cô Lan) và cho biết phương án nào tốn đúng $300$ nghìn đồng.* (Gợi ý: $y = 1$ có $x \le 8$; $y = 2$ có $x \le 6$; $y = 3$ có $x \le 5$; $y = 4$ có $x \le 3$; $y = 5$ có $x \le 1$; chỉ có $(5;3)$ tốn đúng $300$ nghìn, vì $3x + 5y = 30$ với $x, y$ nguyên dương chỉ cho nghiệm này.)
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng GeoGebra hoặc Desmos nhập bất phương trình $3x + 2y \le 25$, kéo điểm $(x;y)$ để quan sát điểm nào nằm trong miền nghiệm (sản phẩm số: ảnh chụp màn hình có đánh dấu $(5;5)$ và $(4;7)$).
+- **Địa chỉ 2:** lập bảng tính (Excel hoặc Google Sheets) tính $60x + 40y$ cho nhiều cặp $(x;y)$ và tô màu ô không vượt quá $500$.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $x \gt 5$ |
+| Do Now 2 | Có |
+| Do Now 3 | $8$ |
+| Do Now 4 | $(2;0)$ và $(0;4)$ |
+| Mở đầu | Điều kiện $30x + 50y \le 300$; vô số phương án nên cần miền nghiệm |
+| Bản lề A | B |
+| Bản lề B | C |
+| Luyện tập 1 | Có |
+| Luyện tập 2 | (a) và (c) |
+| Luyện tập 3 | Không chứa $O$; nét liền |
+| Luyện tập 4 | Có |
+| Luyện tập 5 | $40x + 60y \le 3000$ |
+| Luyện tập 6 | $15x + 20y \ge 60$; không đủ đạm |
+| Luyện tập 7 | $m \gt -1$ |
+| Tìm lỗi sai | Đường biên qua $O$ nên không thử $O$; thử $M(1;0)$, miền không chứa $M$ |
+| Exit 1 | C |
+| Exit 2 | a) Đ · b) S · c) S · d) Đ |
+| Exit 3 | $4$ |
+| Về nhà | $3x + 2y \le 25$; $(5;5)$ được, $(4;7)$ không |
+`);

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-17 – Toán 10 Chương II: bù phiếu trên lớp cho Bài 3. Bất phương trình bậc nhất hai ẩn
+
+- **Yêu cầu:** việc định kỳ "trọn bộ một bài Toán 10": bắt đầu từ Chương II; Bài 3 đã có học sinh, bài giảng, luyện tập, giải SGK nhưng thiếu phiếu trên lớp (Bài 4 cũng còn thiếu, làm lần sau).
+- **Kết quả:** phiếu trên lớp `bai-3` (Phần A đúng 2 trang A4 + Phần B), bám Ví dụ 1–6 và Luyện tập 1–2 của bài giảng; đáp số kiểm lại bằng sympy.
+- **Tệp sửa:** giao-vien/bai-giang/lop10-khoi-dong.js, CLAUDE.md, AGENTS.md, LICH-SU-CHINH-SUA.md.
+- **Kiểm thử ĐẠT:** `node tools/kiem-tra.js`, `python3 tools/test_phieu_tren_lop.py` (72/72), `python3 tools/test.py` (30930 câu), `python3 tools/build.py`.
+- **Việc thủ công:** xem lại hai tình huống [Minh họa] (cô Lan mua cam táo, quỹ lớp mua cờ bóng).
+
 ### 2026-10-17 – Toán 9 Chương II: trọn bộ Bài 4 (bù dạng 4, giải SGK, phiếu trên lớp)
 
 - **Yêu cầu:** việc định kỳ "trọn bộ một bài Toán 9": bài đầu tiên chưa đủ 6 phần là Bài 4. Phương trình quy về phương trình bậc nhất một ẩn.
