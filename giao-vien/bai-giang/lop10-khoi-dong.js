@@ -1735,3 +1735,235 @@ d) Miền nghiệm không chứa gốc $O$. ……
 | Exit 3 | $4$ |
 | Về nhà | $3x + 2y \le 25$; $(5;5)$ được, $(4;7)$ không |
 `);
+
+Lecture.addSheet('lop10', 'bai-9', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Bài 9. Tích của một số với một vectơ
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Rút gọn $\overrightarrow{AB} + \overrightarrow{BC}$. Đáp số: ………………………
+
+**Câu 2.** Hình bình hành $ABCD$: $\overrightarrow{AB} + \overrightarrow{AD} = $ ? Đáp số: ………………………
+
+**Câu 3.** Hình chữ nhật có hai cạnh $3$ và $4$. Tính độ dài đường chéo. Đáp số: ………………………
+
+**Câu 4.** $I$ là trung điểm $AB$. $\overrightarrow{IA} + \overrightarrow{IB} = $ ? Đáp số: ………………………
+
+## 2. Tình huống mở đầu
+
+Ba xe chạy trên cùng một đường thẳng. Gọi $\vec{a}$ là vận tốc xe A:
+
+| Xe | A | B | C |
+|---|---|---|---|
+| Hướng | Bắc | Bắc | Nam |
+| Tốc độ (km/h) | $40$ | $80$ | $20$ |
+
+**Em nhận thấy:** ………………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Vận tốc xe B và xe C so với xe A có thể viết như thế nào bằng một số nhân với $\vec{a}$? Con số đó cho biết điều gì về độ dài và hướng?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Cho $\vec{b} = -3\vec{a}$ ($\vec{a} \ne \vec{0}$). Khẳng định đúng là
+
+A. $\vec{b}$ cùng hướng $\vec{a}$ và dài gấp $3$ lần
+
+B. $\vec{b}$ ngược hướng $\vec{a}$ và dài gấp $3$ lần
+
+C. $\vec{b}$ ngược hướng $\vec{a}$ và dài bằng một phần ba
+
+D. $\vec{b}$ cùng hướng $\vec{a}$ và dài bằng một phần ba
+
+**Câu B.** $G$ là trọng tâm tam giác $ABC$, $M$ là điểm bất kì. $\overrightarrow{MA} + \overrightarrow{MB} + \overrightarrow{MC}$ bằng
+
+A. $\overrightarrow{MG}$
+
+B. $2\overrightarrow{MG}$
+
+C. $3\overrightarrow{MG}$
+
+D. $\vec{0}$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Cho $\left|\vec{a}\right| = 5$. Tính $\left|-4\vec{a}\right|$. Đáp số: ………………………
+
+**Câu 2 ★.** Hình bình hành $ABCD$ tâm $O$, $M$ bất kì: $\overrightarrow{MA} + \overrightarrow{MB} + \overrightarrow{MC} + \overrightarrow{MD} = k\overrightarrow{MO}$. Tìm $k$. Đáp số: ………………………
+
+**Câu 3 ★★.** $\vec{u} = 2\vec{a} - 3\vec{b}$, $\vec{v} = -4\vec{a} + 6\vec{b}$, $\vec{v} = k\vec{u}$. Tìm $k$. Đáp số: ………………………
+
+**Câu 4 ★★.** $G$ là trọng tâm tam giác $ABC$ và $\overrightarrow{GB} + \overrightarrow{GC} = k\overrightarrow{GA}$. Tìm $k$. Đáp số: ………………………
+
+**Câu 5 ★★.** $D$ thuộc $BC$ sao cho $\overrightarrow{BD} = 2\overrightarrow{DC}$. Viết $\overrightarrow{AD} = x\overrightarrow{AB} + y\overrightarrow{AC}$; tìm $x, y$. Đáp số: ………………………
+
+**Câu 6 ★★★.** Tìm $m$ để $\vec{u} = \vec{a} + m\vec{b}$ cùng phương với $\vec{v} = 3\vec{a} - 12\vec{b}$ ($\vec{a}, \vec{b}$ không cùng phương). Đáp số: ………………………
+
+**Câu 7 ★★★.** $\overrightarrow{AB} = 2\vec{a} - \vec{b}$, $\overrightarrow{BC} = -6\vec{a} + 3\vec{b}$. Tính $\overrightarrow{AC}$ theo $\overrightarrow{AB}$ và nhận xét ba điểm $A, B, C$. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tam giác $ABC$ có trọng tâm $G$ và $M$ là trung điểm $BC$. Tìm $k$ để (a) $\overrightarrow{AG} = k\overrightarrow{AM}$; (b) $\overrightarrow{AB} + \overrightarrow{AC} = k\overrightarrow{AM}$.
+>
+> **Lời giải của bạn X:** (a) $G$ chia trung tuyến theo tỉ lệ $1:2$ nên $\overrightarrow{AG} = \dfrac{1}{3}\overrightarrow{AM}$, $k = \dfrac{1}{3}$. (b) $M$ là trung điểm nên $\overrightarrow{AB} + \overrightarrow{AC} = \overrightarrow{AM}$, $k = 1$.
+
+Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Tam giác $ABC$, $M$ là trung điểm $BC$. Đẳng thức đúng là
+
+A. $\overrightarrow{AB} + \overrightarrow{AC} = \overrightarrow{AM}$
+
+B. $\overrightarrow{AB} + \overrightarrow{AC} = 2\overrightarrow{AM}$
+
+C. $\overrightarrow{AB} - \overrightarrow{AC} = 2\overrightarrow{AM}$
+
+D. $\overrightarrow{AB} + \overrightarrow{AC} = \dfrac{1}{2}\overrightarrow{AM}$
+
+**Câu 2.** Cho $\vec{u} = \vec{a} - 2\vec{b}$, $\vec{v} = -3\vec{a} + 6\vec{b}$ ($\vec{a}, \vec{b}$ không cùng phương). Mỗi ý em ghi Đ hoặc S:
+
+a) $\vec{v} = -3\vec{u}$. ……
+
+b) $\vec{u}$ và $\vec{v}$ cùng hướng. ……
+
+c) $\left|\vec{v}\right| = 3\left|\vec{u}\right|$. ……
+
+d) $\vec{u}$ và $\vec{v}$ không cùng phương. ……
+
+**Câu 3.** $G$ là trọng tâm tam giác $ABC$, $M$ bất kì: $\overrightarrow{MA} + \overrightarrow{MB} + \overrightarrow{MC} = k\overrightarrow{MG}$. Giá trị $k$ là: …………
+
+## 7. Một phút suy ngẫm
+
+*Dấu của số $k$ cho biết điều gì về hướng của $k\vec{a}$? Khi phân tích một vectơ theo hai vectơ không cùng phương, vì sao có thể so sánh hệ số từng vectơ?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Em chọn một tình huống có lực hoặc vận tốc cùng phương (kéo co, đẩy xe, hai xe chạy cùng đường). Vẽ các vectơ biểu diễn (ghi tỉ lệ xích), viết vectơ này bằng $k$ lần vectơ kia và giải thích dấu của $k$. **Sản phẩm:** ảnh chụp tình huống và hình vẽ, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Bài 9. Tích của một số với một vectơ
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương IV. Vectơ · Bài 9. Tích của một số với một vectơ** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con; tiết học bài mới.
+- Bảng ba xe ở mục mở đầu và bài về nhà là **[Minh họa]** do người soạn tự đặt, không trích từ SGK. Thầy đối chiếu với phần Mở đầu của Bài 9 trong SGK nếu muốn dùng tình huống sách.
+- Phiếu bám các ví dụ của bài giảng: độ dài và hướng của $k\vec{a}$ (Ví dụ 1) → Do Now, mở đầu, câu bản lề A, Luyện tập 1; trung điểm, trọng tâm (Ví dụ 2) → câu bản lề B, Luyện tập 2, 4, Tìm lỗi sai, Exit ticket 1, 3; cùng phương (Ví dụ 3–4) → Luyện tập 3, 6, Exit ticket 2; phân tích vectơ, thẳng hàng (Ví dụ 5–7) → Luyện tập 5, 7, bài về nhà.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **Hình thành kiến thức** thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* ôn quy tắc ba điểm, hình bình hành, trung điểm ở Bài 8; thấy rằng nhiều vectơ cùng phương có thể viết là "số lần" một vectơ.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng ba xe.
+- *Sản phẩm:* Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* xác định độ dài và hướng của $k\vec{a}$; dùng hệ thức trung điểm, trọng tâm; tìm hệ số cùng phương; phân tích vectơ; nhận ra lỗi điển hình (nhầm tỉ lệ trọng tâm, quên hệ số 2 của trung điểm, quên đổi dấu).
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài thực tế về nhà.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; hình vẽ.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hình thành kiến thức** | *Giáo viên tự dạy theo bài giảng* |
+| ~13 | Câu hỏi bản lề A (Mục 3) | Dừng sau phần định nghĩa $k\vec{a}$; giơ thẻ A/B/C/D |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) | |
+
+*Câu hỏi bản lề B dùng sau phần trung điểm, trọng tâm, hoặc thay câu A khi lớp đã vững.*
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Tự chấm không lấy điểm nên giảm áp lực.
+- **Đáp án:**
+  1. $\overrightarrow{AC}$.
+  2. $\overrightarrow{AC}$.
+  3. $5$.
+  4. $\vec{0}$.
+- **Lỗi dự kiến:** câu 1 ghi $\overrightarrow{BA}$; câu 3 ghi $7$; câu 4 ghi $2\overrightarrow{IA}$.
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.**
+- **Gợi ý nhận thấy:** xe B cùng hướng xe A nhưng nhanh gấp đôi; xe C ngược hướng và chậm hơn.
+- Chốt: $\vec{b} = 2\vec{a}$ và $\vec{c} = -\dfrac{1}{2}\vec{a}$; số $k$ mang cả độ dài (giá trị $|k|$) lẫn hướng (dấu của $k$).
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Mạnh.**
+- **Câu A:** đáp án **B**. A quên dấu âm; C và D nhầm $3$ với $\dfrac{1}{3}$.
+- **Câu B:** đáp án **C**. A quên hệ số; B nhầm với trung điểm (hệ số $2$); D nhầm với $\overrightarrow{GA} + \overrightarrow{GB} + \overrightarrow{GC}$.
+- Nếu quá nửa lớp sai: dừng 2 phút, chèn $G$ vào từng vectơ trên bảng.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Trung bình–Mạnh.**
+- **Đáp án:** 1) $20$. 2) $k = 4$. 3) $k = -2$. 4) $k = -1$. 5) $x = \dfrac{1}{3}$, $y = \dfrac{2}{3}$. 6) $m = -4$. 7) $\overrightarrow{AC} = -2\overrightarrow{AB}$, ba điểm thẳng hàng.
+- **Lỗi dự kiến:** câu 4 ghi $2$; câu 5 hoán đổi $x, y$; câu 6 ghi $m = 4$.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Trung bình.**
+- **Hai lỗi:** (a) $G$ chia trung tuyến theo tỉ lệ $2:1$ tính từ đỉnh, nên $\overrightarrow{AG} = \dfrac{2}{3}\overrightarrow{AM}$, $k = \dfrac{2}{3}$; (b) $\overrightarrow{AB} + \overrightarrow{AC} = 2\overrightarrow{AM}$, $k = 2$.
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.**
+- **Đáp án:** Câu 1: **B**. Câu 2: a) Đ · b) S · c) Đ · d) S. Câu 3: $3$.
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- Mong đợi: $k \gt 0$ cùng hướng, $k \lt 0$ ngược hướng; hai vectơ không cùng phương nên biểu diễn duy nhất, so sánh hệ số được.
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** gắn $k\vec{a}$ với lực, vận tốc ngoài đời.
+- **Tiêu chí nộp:** có hình mũi tên, tỉ lệ xích, $k$ đúng dấu và độ lớn.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài chứng minh ba điểm thẳng hàng |
+| 2. Sai hết | 0–1 câu đúng | Ôn nhóm nhỏ: vẽ trung tuyến, đánh dấu tỉ lệ $2:1$ |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng câu sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Bài 10):** (1) một câu về trọng tâm bị sai nhiều; (2) tính độ dài đoạn $AB$ khi biết toạ độ $A, B$ trên trục; (3) trung điểm của đoạn $[2;8]$.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát sẵn hình tam giác có $M, G$; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *tìm điểm $I$ thoả $\overrightarrow{IA} + 2\overrightarrow{IB} + 3\overrightarrow{IC} = \vec{0}$ và phân tích $\overrightarrow{AI}$.*
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng GeoGebra dựng $\vec{a}$ và $k\vec{a}$ với thanh trượt $k$, quan sát đổi hướng khi $k$ đổi dấu.
+- **Địa chỉ 2:** bài về nhà chụp ảnh và vẽ mũi tên bằng ứng dụng chú thích.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $\overrightarrow{AC}$ |
+| Do Now 2 | $\overrightarrow{AC}$ |
+| Do Now 3 | $5$ |
+| Do Now 4 | $\vec{0}$ |
+| Mở đầu | $\vec{b} = 2\vec{a}$, $\vec{c} = -\dfrac{1}{2}\vec{a}$ |
+| Bản lề A | B |
+| Bản lề B | C |
+| Luyện tập 1 | $20$ |
+| Luyện tập 2 | $4$ |
+| Luyện tập 3 | $-2$ |
+| Luyện tập 4 | $-1$ |
+| Luyện tập 5 | $x = \dfrac{1}{3}$, $y = \dfrac{2}{3}$ |
+| Luyện tập 6 | $-4$ |
+| Luyện tập 7 | $\overrightarrow{AC} = -2\overrightarrow{AB}$; thẳng hàng |
+| Tìm lỗi sai | (a) $k = \dfrac{2}{3}$; (b) $k = 2$ |
+| Exit 1 | B |
+| Exit 2 | a) Đ · b) S · c) Đ · d) S |
+| Exit 3 | $3$ |
+| Về nhà | Hình vẽ có tỉ lệ xích, $k$ đúng dấu |
+`);

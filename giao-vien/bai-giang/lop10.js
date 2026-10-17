@@ -561,6 +561,7 @@ Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Ôn tập giữa h�
 const m = tm, d = td;
 const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
 const v = (a, b) => `\\overrightarrow{${a}${b}}`, len = (a, b) => `\\left|${v(a, b)}\\right|`, ZERO = '\\vec{0}';
+const S = t => `<p>${t}</p>`;
 const s3 = Math.sqrt(3);
 const PAR = {A:[0, 0], B:[4, 0], C:[5, 3], D:[1, 3], O:[2.5, 1.5]};
 const HEX = {A:[2, 0], B:[1, s3], C:[-1, s3], D:[-2, 0], E:[-1, -s3], F:[1, -s3], O:[0, 0]};
@@ -703,6 +704,82 @@ Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương IV. Vectơ'
      <li>Quy tắc hiệu: ${m(`${v('O', 'B')} - ${v('O', 'A')} = ${v('A', 'B')}`)} (“cuối trừ đầu”).</li><li>Trung điểm: ${m(`${v('I', 'A')} + ${v('I', 'B')} = ${ZERO}`)}; trọng tâm: ${m(`${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')} = ${ZERO}`)}.</li>
      <li>Hợp lực, vận tốc thực: vectơ tổng; hai lực vuông góc thì ${m('F = \\sqrt{F_1^2 + F_2^2}')}.</li></ul>` +
      box('Về nhà: làm các bài tập cuối Bài 8 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 8.')},
+]},
+/* ---------------- BÀI 9 ---------------- */
+{ id:'bai-9', name:'Bài 9. Tích của một số với một vectơ', desc:'Tích k·a (độ dài, hướng), tính chất; trung điểm, trọng tâm; hai vectơ cùng phương, ba điểm thẳng hàng; phân tích vectơ; 4 dạng, 7 ví dụ.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương IV', title:'Bài 9. Tích của một số với một vectơ', sub:'Mục tiêu bài học', points:[
+    'Xác định độ dài và hướng của vectơ k·a; nắm tính chất của phép nhân vectơ với một số.',
+    'Dùng hệ thức trung điểm, trọng tâm; điều kiện hai vectơ cùng phương, ba điểm thẳng hàng.',
+    'Phân tích một vectơ theo hai vectơ không cùng phương.']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Tích của một số với một vectơ',
+   fig:vecSVG({pts:[[-1.5, -1, 'D'], [0, 0, 'A'], [1.5, 1, 'B'], [3, 2, 'C']], vecs:[['A', 'B', 'a'], ['A', 'C', '2a', 'alt'], ['A', 'D', '−a']], h:170}),
+   body: S(`Cho số thực ${m('k \\ne 0')} và vectơ ${m('\\vec{a} \\ne \\vec{0}')}. <b>Tích</b> ${m('k\\vec{a}')} là một vectơ:`) +
+     box(`• cùng hướng với ${m('\\vec{a}')} nếu ${m('k \\gt 0')}, ngược hướng nếu ${m('k \\lt 0')};<br>• có độ dài ${m('\\left|k\\vec{a}\\right| = |k|\\cdot\\left|\\vec{a}\\right|')}.`) +
+     S(`Quy ước: ${m('0\\vec{a} = \\vec{0}')} và ${m('k\\vec{0} = \\vec{0}')}. Đặc biệt ${m('(-1)\\vec{a} = -\\vec{a}')} là vectơ đối.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Tính chất của phép nhân vectơ với một số',
+   body: box(`${m('k(\\vec{a} + \\vec{b}) = k\\vec{a} + k\\vec{b}')}; ${m('(h + k)\\vec{a} = h\\vec{a} + k\\vec{a}')}; ${m('h(k\\vec{a}) = (hk)\\vec{a}')}; ${m('1\\cdot\\vec{a} = \\vec{a}')}; ${m('(-1)\\vec{a} = -\\vec{a}')}.`) +
+     S(`Nhờ các tính chất này, ta cộng, trừ, nhân số cho vectơ như biểu thức đại số theo ${m('\\vec{a}, \\vec{b}')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Trung điểm, trọng tâm',
+   fig:vecSVG({pts:[[0, 0, 'B'], [4, 0, 'C'], [1, 3, 'A'], [2, 0, 'M'], [2, 1, 'G']], poly:['A', 'B', 'C'], dash:[['A', 'M']], h:190}),
+   body: box(`${m('I')} là trung điểm ${m('AB')} ⇔ ${m(`${v('I', 'A')} + ${v('I', 'B')} = ${ZERO}`)} ⇔ ${m(`${v('M', 'A')} + ${v('M', 'B')} = 2${v('M', 'I')}`)} (mọi ${m('M')}).`) +
+     box(`${m('G')} là trọng tâm tam giác ${m('ABC')} ⇔ ${m(`${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')} = ${ZERO}`)} ⇔ ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')}`)} (mọi ${m('M')}).`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Cùng phương, thẳng hàng, phân tích vectơ',
+   body: box(`${m('\\vec{b}')} cùng phương ${m('\\vec{a} \\ne \\vec{0}')} ⇔ có số ${m('k')} để ${m('\\vec{b} = k\\vec{a}')}. Ba điểm ${m('A, B, C')} thẳng hàng ⇔ ${m(`${v('A', 'B')} = k${v('A', 'C')}`)}.`) +
+     S(`Nếu ${m('\\vec{a}, \\vec{b}')} <b>không cùng phương</b> thì mọi vectơ ${m('\\vec{x}')} đều viết được duy nhất dạng ${m('\\vec{x} = m\\vec{a} + n\\vec{b}')} (phân tích theo hai vectơ).`) +
+     note(`So sánh hệ số: ${m('m\\vec{a} + n\\vec{b} = m\'\\vec{a} + n\'\\vec{b}')} khi và chỉ khi ${m('m = m\'')} và ${m('n = n\'')}.`)},
+
+  {kind:'method', tag:'Dạng 1', title:'Độ dài và hướng của k·a',
+   steps:[`Độ dài: ${m('|k|\\cdot\\left|\\vec{a}\\right|')}.`, `Hướng: ${m('k \\gt 0')} cùng hướng với ${m('\\vec{a}')}, ${m('k \\lt 0')} ngược hướng.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho ${m('\\left|\\vec{a}\\right| = 5')}. Tìm độ dài và hướng của ${m('-3\\vec{a}')}, ${m('\\dfrac{1}{2}\\vec{a}')} so với ${m('\\vec{a}')}.`,
+   sol:[`${m('\\left|-3\\vec{a}\\right| = |-3|\\cdot 5 = 15')}; ${m('-3 \\lt 0')} nên ngược hướng với ${m('\\vec{a}')}.`, `${m('\\left|\\dfrac{1}{2}\\vec{a}\\right| = \\dfrac{1}{2}\\cdot 5 = 2{,}5')}; ${m('\\dfrac{1}{2} \\gt 0')} nên cùng hướng với ${m('\\vec{a}')}.`], ans:`${tb('15')}, ngược hướng; ${tb('2{,}5')}, cùng hướng.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Hệ thức trung điểm, trọng tâm',
+   steps:[`Chèn điểm đặc biệt (${m('I')} hoặc ${m('G')}) vào từng vectơ bằng quy tắc ba điểm.`, `Dùng ${m(`${v('I', 'A')} + ${v('I', 'B')} = ${ZERO}`)} hoặc ${m(`${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')} = ${ZERO}`)} để rút gọn.`]},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Tam giác ${m('ABC')} có trọng tâm ${m('G')}. Biết ${m(`${v('A', 'B')} + ${v('A', 'C')} = k${v('A', 'G')}`)}. Tìm ${m('k')}.`,
+   sol:[`${m('M')} là trung điểm ${m('BC')}: ${m(`${v('A', 'B')} + ${v('A', 'C')} = 2${v('A', 'M')}`)}.`, `${m('G')} chia trung tuyến theo tỉ lệ ${m('2:1')}: ${m(`${v('A', 'G')} = \\dfrac{2}{3}${v('A', 'M')}`)} nên ${m(`${v('A', 'M')} = \\dfrac{3}{2}${v('A', 'G')}`)}.`, `Suy ra ${m(`${v('A', 'B')} + ${v('A', 'C')} = 3${v('A', 'G')}`)}.`], ans:`${tb('k = 3')}.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Hai vectơ cùng phương, tìm hệ số',
+   steps:[`Viết ${m('\\vec{v} = k\\vec{u}')}.`, `Khai triển, so sánh hệ số của ${m('\\vec{a}')} và của ${m('\\vec{b}')} (hai vectơ không cùng phương) để được hệ phương trình.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 3', label:'Ví dụ 3', de:`Cho ${m('\\vec{u} = 2\\vec{a} - 3\\vec{b}')} và ${m('\\vec{v} = -6\\vec{a} + 9\\vec{b}')} (${m('\\vec{a}, \\vec{b}')} không cùng phương). Chứng minh ${m('\\vec{u}, \\vec{v}')} cùng phương.`,
+   sol:[`Thử ${m('\\vec{v} = k\\vec{u}')}: ${m('-6\\vec{a} + 9\\vec{b} = 2k\\vec{a} - 3k\\vec{b}')}.`, `So sánh hệ số: ${m('2k = -6')} và ${m('-3k = 9')}, cả hai cho ${m('k = -3')}.`], ans:`${tb('\\vec{v} = -3\\vec{u}')}, hai vectơ cùng phương (ngược hướng).`},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 3', label:'Ví dụ 4', de:`Tìm ${m('m')} để ${m('\\vec{u} = \\vec{a} + m\\vec{b}')} cùng phương với ${m('\\vec{v} = 2\\vec{a} - 6\\vec{b}')} (${m('\\vec{a}, \\vec{b}')} không cùng phương).`,
+   sol:[`${m('\\vec{v} = k\\vec{u}')} nên ${m('2\\vec{a} - 6\\vec{b} = k\\vec{a} + km\\vec{b}')}.`, `Hệ số của ${m('\\vec{a}')}: ${m('k = 2')}; hệ số của ${m('\\vec{b}')}: ${m('km = -6')}.`, `${m('m = \\dfrac{-6}{2} = -3')}.`], ans:`${tb('m = -3')}.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Phân tích vectơ theo hai vectơ',
+   steps:[`Chọn hai vectơ cơ sở có chung điểm đầu (ví dụ ${m(v('A', 'B'))}, ${m(v('A', 'C'))}).`, `Viết vectơ cần tìm bằng quy tắc ba điểm, dùng trung điểm, trọng tâm, tỉ số để thay từng vectơ.`, `Gộp hệ số của từng vectơ cơ sở.`]},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 4', label:'Ví dụ 5', de:`Tam giác ${m('ABC')}, ${m('M')} là trung điểm ${m('BC')}; ${m('N')} thuộc ${m('AC')} sao cho ${m(`${v('A', 'N')} = \\dfrac{2}{3}${v('A', 'C')}`)}. Phân tích ${m(v('M', 'N'))} theo ${m(v('A', 'B'))}, ${m(v('A', 'C'))}.`,
+   fig:vecSVG({pts:[[0, 0, 'A'], [4, 1, 'B'], [1, 3, 'C'], [2.5, 2, 'M'], [0.67, 2, 'N']], poly:['A', 'B', 'C'], vecs:[['M', 'N', '', 'alt']], h:200}),
+   sol:[`${m(`${v('M', 'N')} = ${v('A', 'N')} - ${v('A', 'M')}`)}.`, `${m(`${v('A', 'N')} = \\dfrac{2}{3}${v('A', 'C')}`)}; ${m(`${v('A', 'M')} = \\dfrac{1}{2}(${v('A', 'B')} + ${v('A', 'C')})`)}.`, `${m(`${v('M', 'N')} = \\dfrac{2}{3}${v('A', 'C')} - \\dfrac{1}{2}${v('A', 'B')} - \\dfrac{1}{2}${v('A', 'C')}`)}.`], ans:`${tb(`${v('M', 'N')} = -\\dfrac{1}{2}${v('A', 'B')} + \\dfrac{1}{6}${v('A', 'C')}`)}.`},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 4', label:'Ví dụ 6', de:`Điểm ${m('I')} thoả ${m(`${v('I', 'A')} + 2${v('I', 'B')} = ${ZERO}`)}. Biểu diễn ${m(v('A', 'I'))} theo ${m(v('A', 'B'))}; ${m('I')} nằm ở đâu trên ${m('AB')}?`,
+   sol:[`${m(`${v('I', 'A')} = -${v('A', 'I')}`)}, ${m(`${v('I', 'B')} = ${v('A', 'B')} - ${v('A', 'I')}`)}.`, `${m(`-${v('A', 'I')} + 2(${v('A', 'B')} - ${v('A', 'I')}) = ${ZERO}`)} suy ra ${m(`3${v('A', 'I')} = 2${v('A', 'B')}`)}.`], ans:`${tb(`${v('A', 'I')} = \\dfrac{2}{3}${v('A', 'B')}`)}: ${m('I')} thuộc đoạn ${m('AB')}, cách ${m('A')} bằng ${m('\\dfrac{2}{3}AB')}.`},
+
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Cho ${m('\\vec{a}, \\vec{b}')} không cùng phương; ${m(`${v('A', 'B')} = \\vec{a} + 2\\vec{b}`)}, ${m(`${v('A', 'C')} = 3\\vec{a} + 6\\vec{b}`)}. Chứng minh ba điểm ${m('A, B, C')} thẳng hàng.`,
+   sol:[`${m(`${v('A', 'C')} = 3\\vec{a} + 6\\vec{b} = 3(\\vec{a} + 2\\vec{b}) = 3${v('A', 'B')}`)}.`, `Vậy hai vectơ cùng phương, có chung điểm ${m('A')}, nên ba điểm thẳng hàng.`], ans:`${tb(`${v('A', 'C')} = 3${v('A', 'B')}`)}: ${m('A, B, C')} thẳng hàng.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho ${m('\\left|\\vec{a}\\right| = 4')}. Tính ${m('\\left|-5\\vec{a}\\right|')} và cho biết hướng so với ${m('\\vec{a}')}.`,
+   sol:[`${m('|-5|\\cdot 4 = 20')}; ${m('-5 \\lt 0')} nên ngược hướng.`], ans:`${tb('20')}, ngược hướng.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Điểm ${m('D')} thuộc cạnh ${m('BC')} của tam giác ${m('ABC')} sao cho ${m(`${v('B', 'D')} = 2${v('D', 'C')}`)}. Phân tích ${m(v('A', 'D'))} theo ${m(v('A', 'B'))}, ${m(v('A', 'C'))}.`,
+   sol:[`${m(`${v('B', 'D')} = \\dfrac{2}{3}${v('B', 'C')}`)}.`, `${m(`${v('A', 'D')} = ${v('A', 'B')} + \\dfrac{2}{3}(${v('A', 'C')} - ${v('A', 'B')}) = \\dfrac{1}{3}${v('A', 'B')} + \\dfrac{2}{3}${v('A', 'C')}`)}.`], ans:`${tb(`${v('A', 'D')} = \\dfrac{1}{3}${v('A', 'B')} + \\dfrac{2}{3}${v('A', 'C')}`)}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Tìm ${m('k')} để ${m('\\vec{v} = 4\\vec{a} - 8\\vec{b}')} và ${m('\\vec{u} = 3\\vec{a} + k\\vec{b}')} cùng phương (${m('\\vec{a}, \\vec{b}')} không cùng phương).`,
+   sol:[`${m('\\dfrac{3}{4} = \\dfrac{k}{-8}')} (tỉ lệ hệ số), nên ${m('k = -6')}.`], ans:`${tb('k = -6')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Ba lực ${m(`\\vec{F_1} = ${v('O', 'A')}`)}, ${m(`\\vec{F_2} = ${v('O', 'B')}`)}, ${m(`\\vec{F_3} = ${v('O', 'C')}`)} cùng đặt tại ${m('O')}, với ${m('O')} là tâm tam giác đều ${m('ABC')}; ${m('\\vec{F_1}')} có độ lớn 30 N và vật đứng yên. Tính độ lớn ${m('\\vec{F_2}')} và ${m('\\vec{F_3}')}.`,
+   sol:[`Tam giác đều tâm ${m('O')} nên ${m('OA = OB = OC')}.`, `${m(`${v('O', 'A')} + ${v('O', 'B')} + ${v('O', 'C')} = ${ZERO}`)} (${m('O')} là trọng tâm), các lực cân bằng và bằng nhau về độ lớn.`], ans:`Mỗi lực có độ lớn ${tb('30')} N.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 5 ★', de:`Cho tam giác ${m('ABC')}, ${m('M')} là trung điểm ${m('BC')}, ${m('P')} thoả ${m(`${v('P', 'A')} + 2${v('P', 'M')} = ${ZERO}`)}. Tính ${m(v('A', 'P'))} theo ${m(v('A', 'M'))} và cho biết ${m('P')} là điểm đặc biệt nào của tam giác.`,
+   sol:[`${m(`-${v('A', 'P')} + 2(${v('A', 'M')} - ${v('A', 'P')}) = ${ZERO}`)} suy ra ${m(`3${v('A', 'P')} = 2${v('A', 'M')}`)}.`, `Vậy ${m(`${v('A', 'P')} = \\dfrac{2}{3}${v('A', 'M')}`)}: ${m('P')} chính là trọng tâm ${m('G')} của tam giác.`], ans:`${tb(`${v('A', 'P')} = \\dfrac{2}{3}${v('A', 'M')}`)}, tức ${m('P \\equiv G')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>${m('\\left|k\\vec{a}\\right| = |k|\\left|\\vec{a}\\right|')}; ${m('k \\gt 0')} cùng hướng, ${m('k \\lt 0')} ngược hướng.</li><li>Trung điểm ${m('I')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} = 2${v('M', 'I')}`)}; trọng tâm ${m('G')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')}`)}.</li><li>Cùng phương: ${m('\\vec{b} = k\\vec{a}')}; phân tích vectơ: so sánh hệ số của hai vectơ không cùng phương.</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 9 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 9.')},
 ]},
 ]});
 })();

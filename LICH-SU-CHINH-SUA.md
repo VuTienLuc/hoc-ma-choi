@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-17 – Toán 10 Chương IV: trọn bộ Bài 9. Tích của một số với một vectơ
+
+- **Yêu cầu:** "Tiếp tục là trọn bộ đầy đủ Chương IV. Vectơ – lớp 10 còn lại" (làm từng bài, đẩy sau mỗi bài; đây là Bài 9).
+- **Kết quả:** học sinh `vecto-tich-so` (4 dạng × 3 mức); bài giảng `bai-9` (7 ví dụ); phiếu luyện tập 10 bài (7 cơ bản + 3 ★); giải SGK 5 câu (ghi đề theo dạng, chưa tra số bài/trang); phiếu trên lớp (Phần A đúng 2 trang A4 + Phần B).
+- **Tệp thay đổi:** `data/lop10.js`, `giao-vien/bai-giang/lop10.js`, `lop10-luyen-tap.js`, `lop10-giai-sgk.js`, `lop10-khoi-dong.js`, `KE-HOACH-TRON-BO.md`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 50 lop10` ĐẠT; `python3 tools/test_phieu_tren_lop.py` ĐẠT 82/82; `python3 tools/test.py` ĐẠT (31290 câu); `python3 tools/test_baigiang.py lop10` ĐẠT; `python3 tools/build.py` đã chạy.
+- **Việc thủ công:** đối chiếu số bài/trang SGK; xem các tình huống [Minh họa].
+
 ### 2026-10-17 – Ôn thi vào 10, chủ đề 11: Kiến thức thống nhất (được dùng ngay hay phải chứng minh lại)
 
 - **Yêu cầu:** việc định kỳ đăng chủ đề ôn thi vào 10 kế tiếp (chủ đề 11, chủ đề cuối), trọn bộ: bài học sinh có thẻ Kiến thức · Lưu ý · Mẹo, bài giảng, phiếu luyện tập in 2 trang A4 + PDF.

@@ -390,3 +390,50 @@ Lecture.addPractice('lop10', 'bai-8', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   BÀI 9. TÍCH CỦA MỘT SỐ VỚI MỘT VECTƠ (thầy yêu cầu 17/10/2026) – 7 cơ bản + 3 vận dụng (★), xếp theo 4 dạng của bài giảng bai-9.
+   ===================================================================== */
+(() => {
+const m = tm, v = (a, b) => `\\overrightarrow{${a}${b}}`, ZERO = '\\vec{0}';
+Lecture.addPractice('lop10', 'bai-9', [
+ {dang:'Dạng 1. Độ dài và hướng của k·a', items:[
+  {de:`Cho ${m('\\left|\\vec{a}\\right| = 7')}. Tính ${m('\\left|-4\\vec{a}\\right|')} và ${m('\\left|\\dfrac{1}{2}\\vec{a}\\right|')}; nêu hướng của mỗi vectơ so với ${m('\\vec{a}')}.`,
+   sol:[`${m('\\left|-4\\vec{a}\\right| = |-4|\\cdot 7 = 28')}; ${m('-4 \\lt 0')} nên ngược hướng với ${m('\\vec{a}')}.`, `${m('\\left|\\dfrac{1}{2}\\vec{a}\\right| = \\dfrac{1}{2}\\cdot 7 = 3{,}5')}; ${m('\\dfrac{1}{2} \\gt 0')} nên cùng hướng.`],
+   ans:`${tb('28')} (ngược hướng); ${tb('3{,}5')} (cùng hướng).`},
+  {de:`Ô tô A chạy hướng Bắc với vận tốc ${m('\\vec{a}')} có độ lớn 60 km/h. Ô tô B chạy hướng Nam với tốc độ 40 km/h. Viết vận tốc ${m('\\vec{b}')} của ô tô B dưới dạng ${m('k\\vec{a}')}.`,
+   sol:[`Hai xe đi ngược hướng nên ${m('k \\lt 0')}.`, `${m('|k| = \\dfrac{40}{60} = \\dfrac{2}{3}')}.`],
+   ans:`${tb('\\vec{b} = -\\dfrac{2}{3}\\vec{a}')}.`},
+ ]},
+ {dang:'Dạng 2. Hệ thức trung điểm, trọng tâm', items:[
+  {de:`Cho hình bình hành ${m('ABCD')} tâm ${m('O')}. Với điểm ${m('M')} bất kì, ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} + ${v('M', 'D')} = k${v('M', 'O')}`)}. Tìm ${m('k')}.`,
+   sol:[`${m('O')} là trung điểm ${m('AC')}: ${m(`${v('M', 'A')} + ${v('M', 'C')} = 2${v('M', 'O')}`)}.`, `${m('O')} là trung điểm ${m('BD')}: ${m(`${v('M', 'B')} + ${v('M', 'D')} = 2${v('M', 'O')}`)}. Cộng lại được ${m('4')}.`],
+   ans:`${tb('k = 4')}.`},
+  {de:`Tam giác ${m('ABC')} có trọng tâm ${m('G')}. Biết ${m(`${v('G', 'A')} + ${v('G', 'B')} = k${v('G', 'C')}`)}. Tìm ${m('k')}.`,
+   sol:[`${m('G')} là trọng tâm nên ${m(`${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')} = ${ZERO}`)}.`, `Suy ra ${m(`${v('G', 'A')} + ${v('G', 'B')} = -${v('G', 'C')}`)}.`],
+   ans:`${tb('k = -1')}.`},
+  {hard:true, de:`Tam giác ${m('ABC')} có ${m('M, N, P')} lần lượt là trung điểm ${m('BC, CA, AB')}. Chứng minh ${m(`${v('A', 'M')} + ${v('B', 'N')} + ${v('C', 'P')} = ${ZERO}`)}.`,
+   sol:[`${m(`${v('A', 'M')} = \\dfrac{1}{2}(${v('A', 'B')} + ${v('A', 'C')})`)}, ${m(`${v('B', 'N')} = \\dfrac{1}{2}(${v('B', 'A')} + ${v('B', 'C')})`)}, ${m(`${v('C', 'P')} = \\dfrac{1}{2}(${v('C', 'A')} + ${v('C', 'B')})`)} (hệ thức trung điểm).`, `Cộng ba đẳng thức: ${m(`\\dfrac{1}{2}[(${v('A', 'B')} + ${v('B', 'A')}) + (${v('A', 'C')} + ${v('C', 'A')}) + (${v('B', 'C')} + ${v('C', 'B')})] = ${ZERO}`)}.`],
+   ans:`Đẳng thức được chứng minh.`},
+ ]},
+ {dang:'Dạng 3. Hai vectơ cùng phương, ba điểm thẳng hàng', items:[
+  {de:`Cho ${m('\\vec{u} = 2\\vec{a} - 4\\vec{b}')} và ${m('\\vec{v} = -6\\vec{a} + 12\\vec{b}')}. Tìm ${m('k')} để ${m('\\vec{v} = k\\vec{u}')}.`,
+   sol:[`${m('-6 = 2k')} nên ${m('k = -3')}.`, `Kiểm tra hệ số của ${m('\\vec{b}')}: ${m('(-3)\\cdot(-4) = 12')} đúng.`],
+   ans:`${tb('k = -3')}.`},
+  {hard:true, de:`Cho hai vectơ ${m('\\vec{a}, \\vec{b}')} không cùng phương; ${m(`${v('A', 'B')} = 2\\vec{a} - \\vec{b}`)}, ${m(`${v('B', 'C')} = -6\\vec{a} + 3\\vec{b}`)}. Tính ${m(v('A', 'C'))} theo ${m(v('A', 'B'))} và chứng minh ${m('A, B, C')} thẳng hàng.`,
+   sol:[`${m(`${v('A', 'C')} = ${v('A', 'B')} + ${v('B', 'C')} = -4\\vec{a} + 2\\vec{b}`)}.`, `${m(`-4\\vec{a} + 2\\vec{b} = -2(2\\vec{a} - \\vec{b}) = -2${v('A', 'B')}`)}, hai vectơ cùng phương và chung điểm ${m('A')}.`],
+   ans:`${tb(`${v('A', 'C')} = -2${v('A', 'B')}`)}; ${m('A, B, C')} thẳng hàng.`},
+ ]},
+ {dang:'Dạng 4. Phân tích vectơ theo hai vectơ không cùng phương', items:[
+  {de:`Tam giác ${m('ABC')} có trọng tâm ${m('G')}. Phân tích ${m(v('A', 'G'))} theo ${m(v('A', 'B'))} và ${m(v('A', 'C'))}.`,
+   sol:[`Gọi ${m('M')} là trung điểm ${m('BC')}: ${m(`${v('A', 'G')} = \\dfrac{2}{3}${v('A', 'M')}`)}.`, `${m(`${v('A', 'M')} = \\dfrac{1}{2}(${v('A', 'B')} + ${v('A', 'C')})`)} nên ${m(`${v('A', 'G')} = \\dfrac{1}{3}(${v('A', 'B')} + ${v('A', 'C')})`)}.`],
+   ans:`${tb(`${v('A', 'G')} = \\dfrac{1}{3}${v('A', 'B')} + \\dfrac{1}{3}${v('A', 'C')}`)}.`},
+  {de:`Tam giác ${m('ABC')}, điểm ${m('N')} thuộc ${m('AC')} sao cho ${m(`${v('A', 'N')} = \\dfrac{1}{4}${v('A', 'C')}`)}. Phân tích ${m(v('B', 'N'))} theo ${m(v('A', 'B'))} và ${m(v('A', 'C'))}.`,
+   sol:[`${m(`${v('B', 'N')} = ${v('B', 'A')} + ${v('A', 'N')}`)}.`, `${m(`${v('B', 'A')} = -${v('A', 'B')}`)} nên ${m(`${v('B', 'N')} = -${v('A', 'B')} + \\dfrac{1}{4}${v('A', 'C')}`)}.`],
+   ans:`${tb(`${v('B', 'N')} = -${v('A', 'B')} + \\dfrac{1}{4}${v('A', 'C')}`)}.`},
+  {hard:true, de:`Tam giác ${m('ABC')}, điểm ${m('I')} thoả ${m(`${v('I', 'A')} + 2${v('I', 'B')} + 3${v('I', 'C')} = ${ZERO}`)}. Phân tích ${m(v('A', 'I'))} theo ${m(v('A', 'B'))} và ${m(v('A', 'C'))}.`,
+   sol:[`Chèn ${m('A')}: ${m(`${v('I', 'A')} = -${v('A', 'I')}`)}, ${m(`${v('I', 'B')} = ${v('A', 'B')} - ${v('A', 'I')}`)}, ${m(`${v('I', 'C')} = ${v('A', 'C')} - ${v('A', 'I')}`)}.`, `${m(`-${v('A', 'I')} + 2${v('A', 'B')} - 2${v('A', 'I')} + 3${v('A', 'C')} - 3${v('A', 'I')} = ${ZERO}`)} suy ra ${m(`6${v('A', 'I')} = 2${v('A', 'B')} + 3${v('A', 'C')}`)}.`],
+   ans:`${tb(`${v('A', 'I')} = \\dfrac{1}{3}${v('A', 'B')} + \\dfrac{1}{2}${v('A', 'C')}`)}.`},
+ ]},
+]);
+})();

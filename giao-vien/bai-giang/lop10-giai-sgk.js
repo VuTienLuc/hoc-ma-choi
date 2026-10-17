@@ -481,3 +481,32 @@ Lecture.addSgk('lop10', 'bai-8', [
    body:`<ul><li>Quy tắc ba điểm cần các vectơ <b>nối đuôi</b> (điểm cuối vectơ trước là điểm đầu vectơ sau).</li><li>${m(`${v('O', 'A')} - ${v('O', 'B')} = ${v('B', 'A')}`)} (từ điểm trừ đến điểm bị trừ).</li><li>Tổng độ dài ≠ độ dài của tổng.</li></ul>` + box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
 ]);
 })();
+
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 9. Tích của một số với một vectơ. Đề là dạng bài vận dụng như trong SGK (tóm tắt, tự soạn lại số liệu);
+   số bài và số trang SGK chưa đối chiếu nên không ghi – thầy đối chiếu rồi bổ sung.
+   ===================================================================== */
+(() => {
+const m = tm, box = h => `<div class="lk-box">${h}</div>`;
+const v = (a, b) => `\\overrightarrow{${a}${b}}`, ZERO = '\\vec{0}';
+const TAG = 'Dạng như SGK – thầy đối chiếu số bài';
+Lecture.addSgk('lop10', 'bai-9', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 9. Tích của một số với một vectơ', sub:'Các câu vận dụng, câu khó – SGK tập 1, Chương IV',
+   points:['Câu 1: tìm hệ số k khi biết độ dài và hướng của hai vectơ.', 'Câu 2: hệ thức trọng tâm với điểm bất kì.', 'Câu 3: hệ thức với hình bình hành.', 'Câu 4: phân tích vectơ theo hai vectơ.', 'Câu 5: chứng minh ba điểm thẳng hàng.']},
+  {kind:'kt', tag:'Nhắc nhanh', title:'Công thức cần dùng',
+   body:box(`${m('\\left|k\\vec{a}\\right| = |k|\\left|\\vec{a}\\right|')}; trung điểm: ${m(`${v('M', 'A')} + ${v('M', 'B')} = 2${v('M', 'I')}`)}; trọng tâm: ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')}`)}.`) +
+     `<ol class="lk-steps"><li>Cùng phương: ${m('\\vec{b} = k\\vec{a}')}.</li><li>Ba điểm thẳng hàng: ${m(`${v('A', 'B')} = k${v('A', 'C')}`)}.</li><li>Phân tích: gộp hệ số của hai vectơ cơ sở.</li></ol>`},
+  {kind:'vd', tag:TAG, label:'Câu 1', de:`Hai vectơ ${m('\\vec{a}, \\vec{b}')} cùng phương, ${m('\\left|\\vec{a}\\right| = 6')}, ${m('\\left|\\vec{b}\\right| = 15')} và ngược hướng. Tìm ${m('k')} để ${m('\\vec{b} = k\\vec{a}')}.`,
+   sol:[`${m('|k| = \\dfrac{15}{6} = \\dfrac{5}{2}')}.`, `Ngược hướng nên ${m('k \\lt 0')}.`], ans:`${tb('k = -\\dfrac{5}{2}')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 2', de:`Tam giác ${m('ABC')} có trọng tâm ${m('G')}. Chứng minh với mọi điểm ${m('M')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')}`)}.`,
+   sol:[`Chèn ${m('G')}: ${m(`${v('M', 'A')} = ${v('M', 'G')} + ${v('G', 'A')}`)} và hai đẳng thức tương tự.`, `Cộng: ${m(`3${v('M', 'G')} + (${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')})`)} mà tổng trong ngoặc bằng ${m(ZERO)}.`], ans:`Đẳng thức được chứng minh.`},
+  {kind:'vd', tag:TAG, label:'Câu 3', de:`Hình bình hành ${m('ABCD')} tâm ${m('O')}. Chứng minh với mọi ${m('M')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} + ${v('M', 'D')} = 4${v('M', 'O')}`)}.`,
+   sol:[`${m('O')} là trung điểm ${m('AC')} và ${m('BD')}.`, `${m(`${v('M', 'A')} + ${v('M', 'C')} = 2${v('M', 'O')}`)} và ${m(`${v('M', 'B')} + ${v('M', 'D')} = 2${v('M', 'O')}`)}; cộng lại.`], ans:`Đẳng thức được chứng minh.`},
+  {kind:'vd', tag:TAG, label:'Câu 4', de:`Tam giác ${m('ABC')}; ${m('E')} thuộc ${m('AB')} sao cho ${m(`${v('A', 'E')} = \\dfrac{1}{3}${v('A', 'B')}`)}; ${m('F')} là trung điểm ${m('AC')}. Phân tích ${m(v('E', 'F'))} theo ${m(v('A', 'B'))}, ${m(v('A', 'C'))}.`,
+   sol:[`${m(`${v('E', 'F')} = ${v('A', 'F')} - ${v('A', 'E')}`)}.`, `${m(`${v('A', 'F')} = \\dfrac{1}{2}${v('A', 'C')}`)}, ${m(`${v('A', 'E')} = \\dfrac{1}{3}${v('A', 'B')}`)}.`], ans:`${tb(`${v('E', 'F')} = -\\dfrac{1}{3}${v('A', 'B')} + \\dfrac{1}{2}${v('A', 'C')}`)}.`},
+  {kind:'vd', tag:TAG, label:'Câu 5', de:`Tam giác ${m('ABC')}, ${m('M')} là trung điểm ${m('BC')}, ${m('G')} là trọng tâm. Chứng minh ${m('A, G, M')} thẳng hàng.`,
+   sol:[`${m('G')} là trọng tâm nên ${m(`${v('A', 'G')} = \\dfrac{2}{3}${v('A', 'M')}`)}.`, `Hai vectơ cùng phương và chung điểm ${m('A')}.`], ans:`${tb(`${v('A', 'G')} = \\dfrac{2}{3}${v('A', 'M')}`)}: ${m('A, G, M')} thẳng hàng.`},
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Quên rằng ${m('k \\lt 0')} thì đổi hướng; độ dài luôn nhân với ${m('|k|')}.</li><li>Nhầm tỉ lệ trọng tâm: ${m(`${v('A', 'G')} = \\dfrac{2}{3}${v('A', 'M')}`)} (không phải ${m('\\dfrac{1}{3}')}).</li><li>Khi phân tích vectơ, quên đổi dấu vectơ đối: ${m(`${v('B', 'A')} = -${v('A', 'B')}`)}.</li></ul>` + box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
+]);
+})();

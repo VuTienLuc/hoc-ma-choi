@@ -15780,6 +15780,135 @@ lesson(5, 'vecto-tong-hieu', 'Bài 8. Tổng và hiệu của hai vectơ', 'Quy 
 G.topics.splice(G.topics.findIndex(t => t.id === 3) + 1, 0, {id:5, hk:1, name:'Vectơ', label:'Chương IV'});
 }
 
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 9. Tích của một số với một vectơ (thầy yêu cầu 17/10/2026, /tron-bo)
+   4 dạng × 3 mức: A độ dài và hướng của k·a · B hệ thức trung điểm, trọng tâm · C hai vectơ cùng phương, tìm hệ số · D phân tích vectơ (chọn đẳng thức đúng).
+   Đáp án chọn trước; các đẳng thức phân tích vectơ được kiểm lại bằng toạ độ tam giác (v9chk).
+   ===================================================================== */
+{
+const m = tm;
+const V = (a, b) => `\\overrightarrow{${a}${b}}`;
+const VL = (a, b) => `\\left|${V(a, b)}\\right|`;
+const v9chk = (ok, msg) => { if(!ok) throw new Error('v9: ' + msg); };
+const fr9 = (n, d = 1) => { const g = gcd(Math.abs(n), Math.abs(d)) || 1; if(d < 0){ n = -n; d = -d; } return [n / g, d / g]; };
+const fadd9 = (a, b) => fr9(a[0] * b[1] + b[0] * a[1], a[1] * b[1]);
+const fneg9 = a => [-a[0], a[1]];
+const fnum9 = a => a[0] / a[1];
+const fstr9 = a => a[1] === 1 ? `${a[0]}` : `${a[0] < 0 ? '-' : ''}\\dfrac{${Math.abs(a[0])}}{${a[1]}}`;
+const comb9 = (cs, vs) => { let s = ''; cs.forEach((c, i) => { if(!c[0]) return; const mag = Math.abs(c[0]) === c[1] ? '' : fstr9([Math.abs(c[0]), c[1]]), sg = c[0] < 0 ? '-' : '+'; s += (s ? ` ${sg} ` : (sg === '-' ? '-' : '')) + mag + vs[i]; }); return s || '0'; };
+const TRI9 = {A:[0, 0], B:[4, 1], C:[1, 3]};
+const figTri9 = (vecs = [], extra = []) => vecSVG({pts:[[0, 0, 'A'], [4, 1, 'B'], [1, 3, 'C'], ...extra], poly:['A', 'B', 'C'], vecs, h:200});
+const uniq9 = (arr, what) => { if(new Set(arr).size !== arr.length) throw new Error('v9: phương án trùng ' + what + ' ' + arr.join('|')); return arr; };
+
+/* Dạng A. Độ dài và hướng của k·a */
+const g9a = lv => {
+  if(lv === 1){
+    const L = R(2, 9), k = pick([2, 3, 4, -2, -3, -5]), kq = Math.abs(k) * L;
+    return QB({text:`Cho vectơ ${m('\\vec{a}')} có độ dài ${m(`\\left|\\vec{a}\\right| = ${L}`)}. Tính ${m(`\\left|${k < 0 ? '(' + k + ')' : k}\\vec{a}\\right|`)}.`, tpl:`[_]`, ans:[kq],
+      hint:'Độ dài của vectơ k·a bằng |k| nhân với độ dài của a (không phụ thuộc k dương hay âm).',
+      sol:`${m(`\\left|${k < 0 ? '(' + k + ')' : k}\\vec{a}\\right| = |${k}|\\cdot ${L} = ${Math.abs(k)}\\cdot ${L}`)} = ${tb(kq)}.`});
+  }
+  if(lv === 2){
+    const k = pick([2, 3, 4, -2, -3, -4]), M = Math.abs(k), W = M + 1, same = k > 0;
+    const good = `${M} lần độ dài ${m('\\vec{a}')}, ${same ? 'cùng' : 'ngược'} hướng`, opts = uniq9([good, `${M} lần độ dài ${m('\\vec{a}')}, ${same ? 'ngược' : 'cùng'} hướng`, `${W} lần độ dài ${m('\\vec{a}')}, cùng hướng`, `${W} lần độ dài ${m('\\vec{a}')}, ngược hướng`], 'g9a2');
+    return QC({text:`Cho ${m('\\vec{a} \\ne \\vec{0}')} và ${m(`\\vec{b} = ${k < 0 ? '(' + k + ')' : k}\\vec{a}`)}. Khẳng định nào đúng?`, opts, ans:good, keepOrder:true,
+      hint:'Xét dấu của k để biết hướng (k dương: cùng hướng; k âm: ngược hướng) và lấy |k| để biết độ dài.',
+      sol:`${m(`k = ${k}`)} nên ${k > 0 ? '<b>cùng</b>' : '<b>ngược</b>'} hướng với ${m('\\vec{a}')}; ${m(`|k| = ${M}`)} nên độ dài gấp ${M} lần. Đáp án: <b>${good}</b>.`});
+  }
+  const p = pick([6, 8, 10, 12]), k = pick([-3, -2, 2, 3, -0.5, 0.5]), q = Math.abs(k) * p, rev = k < 0;
+  v9chk(Number.isInteger(q), 'g9a3');
+  return QB({text:`Hai vectơ ${m('\\vec{a}, \\vec{b}')} cùng phương, ${m(`\\left|\\vec{a}\\right| = ${p}`)}, ${m(`\\left|\\vec{b}\\right| = ${q}`)} và ${rev ? '<b>ngược hướng</b>' : '<b>cùng hướng</b>'}. Biết ${m('\\vec{b} = k\\vec{a}')}, tìm ${m('k')}.`, tpl:`${m('k =')} [_]`, ans:[k],
+    hint:'Tính |k| = |b| : |a|, rồi xét dấu của k theo hướng của hai vectơ.',
+    sol:`${m(`|k| = \\dfrac{${q}}{${p}} = ${Math.abs(k)}`)}. Hai vectơ ${rev ? 'ngược' : 'cùng'} hướng nên ${m('k')} ${rev ? 'âm' : 'dương'}. Vậy ${tb(`k = ${String(k).replace('.', '{,}')}`)}.`});
+};
+
+/* Dạng B. Hệ thức trung điểm, trọng tâm */
+const g9b = lv => {
+  if(lv === 1){
+    const kind = pick(['mid', 'midO']);
+    if(kind === 'mid') return QB({text:`Cho đoạn thẳng ${m('AB')} có trung điểm ${m('I')}. Với điểm ${m('M')} bất kì, ${m(`${V('M', 'A')} + ${V('M', 'B')} = k\\,${V('M', 'I')}`)}. Tìm ${m('k')}.`, tpl:`${m('k =')} [_]`, ans:[2],
+      hint:'Chèn điểm I: MA = MI + IA, MB = MI + IB, rồi dùng IA + IB = 0 vì I là trung điểm.',
+      sol:`${m(`${V('M', 'A')} + ${V('M', 'B')} = (${V('M', 'I')} + ${V('I', 'A')}) + (${V('M', 'I')} + ${V('I', 'B')}) = 2${V('M', 'I')} + (${V('I', 'A')} + ${V('I', 'B')})`)} và ${m(`${V('I', 'A')} + ${V('I', 'B')} = \\vec{0}`)}. Vậy ${tb('k = 2')}.`});
+    const O = pick(['O', 'P']);
+    return QB({text:`Tam giác ${m('ABC')} có ${m('M')} là trung điểm của ${m('BC')}. Biết ${m(`${V('A', 'B')} + ${V('A', 'C')} = k\\,${V('A', 'M')}`)}. Tìm ${m('k')}.`, tpl:`${m('k =')} [_]`, ans:[2],
+      hint:'Đây là hệ thức trung điểm với điểm A đóng vai trò điểm bất kì.',
+      sol:`${m('M')} là trung điểm ${m('BC')} nên với mọi điểm ${m('A')}: ${m(`${V('A', 'B')} + ${V('A', 'C')} = 2${V('A', 'M')}`)}. Vậy ${tb('k = 2')}.`});
+  }
+  if(lv === 2){
+    if(pick([0, 1]) === 0) return QB({text:`Tam giác ${m('ABC')} có trọng tâm ${m('G')}. Với điểm ${m('M')} bất kì, ${m(`${V('M', 'A')} + ${V('M', 'B')} + ${V('M', 'C')} = k\\,${V('M', 'G')}`)}. Tìm ${m('k')}.`, tpl:`${m('k =')} [_]`, ans:[3],
+      hint:'Chèn điểm G vào từng vectơ, rồi dùng GA + GB + GC = 0 (G là trọng tâm).',
+      sol:`${m(`${V('M', 'A')} + ${V('M', 'B')} + ${V('M', 'C')} = 3${V('M', 'G')} + (${V('G', 'A')} + ${V('G', 'B')} + ${V('G', 'C')}) = 3${V('M', 'G')}`)}. Vậy ${tb('k = 3')}.`});
+    return QB({text:`Cho đoạn thẳng ${m('AB')}, ${m('I')} là trung điểm. Với điểm ${m('M')} bất kì, ${m(`${V('M', 'A')} + ${V('M', 'B')} + ${V('M', 'I')}`)} bằng ${m('k')} lần ${m(V('M', 'I'))}. Tìm ${m('k')}.`, tpl:`${m('k =')} [_]`, ans:[3],
+      hint:'Dùng hệ thức trung điểm cho hai vectơ đầu, rồi cộng thêm vectơ thứ ba.',
+      sol:`${m(`${V('M', 'A')} + ${V('M', 'B')} = 2${V('M', 'I')}`)}, cộng thêm ${m(V('M', 'I'))} được ${m(`3${V('M', 'I')}`)}. Vậy ${tb('k = 3')}.`});
+  }
+  const t = pick([0, 1]);
+  if(t === 0) return QB({text:`Tam giác ${m('ABC')} có trọng tâm ${m('G')}. Biết ${m(`${V('A', 'B')} + ${V('A', 'C')} = k\\,${V('A', 'G')}`)}. Tìm ${m('k')}.`, tpl:`${m('k =')} [_]`, ans:[3],
+    hint:'Gọi M là trung điểm BC: tổng hai vectơ bằng 2AM; sau đó dùng AG = (2/3)·AM.',
+    sol:`${m(`${V('A', 'B')} + ${V('A', 'C')} = 2${V('A', 'M')}`)} và ${m(`${V('A', 'G')} = \\dfrac{2}{3}${V('A', 'M')}`)} nên ${m(`${V('A', 'M')} = \\dfrac{3}{2}${V('A', 'G')}`)}. Suy ra ${m(`${V('A', 'B')} + ${V('A', 'C')} = 3${V('A', 'G')}`)}. Vậy ${tb('k = 3')}.`});
+  return QB({text:`Tam giác ${m('ABC')} có trọng tâm ${m('G')} và ${m('M')} là trung điểm của ${m('BC')}. Biết ${m(`${V('A', 'G')} = k\\,${V('A', 'M')}`)}. Tìm ${m('k')}.`, tpl:`${m('k =')} [F]`, ans:[{frac:[2, 3], mode:'simplest'}],
+    hint:'Trọng tâm nằm trên trung tuyến AM và chia trung tuyến theo tỉ lệ 2 : 1 tính từ đỉnh A.',
+    sol:`${m('AG = \\dfrac{2}{3}AM')} và hai vectơ cùng hướng nên ${m(`${V('A', 'G')} = \\dfrac{2}{3}${V('A', 'M')}`)}. Vậy ${tb('k = \\dfrac{2}{3}')}.`});
+};
+
+/* Dạng C. Hai vectơ cùng phương, tìm hệ số */
+const g9c = lv => {
+  const a = '\\vec{a}', b = '\\vec{b}';
+  if(lv === 1){
+    const mm = pick([2, 3, 4]), k = pick([2, 3, -2, -3]), n = mm * k;
+    return QB({text:`Cho ${m(`\\vec{u} = ${mm}${a}`)} và ${m(`\\vec{v} = ${n < 0 ? '-' + (-n) : n}${a}`)}. Biết ${m('\\vec{v} = k\\vec{u}')}, tìm ${m('k')}.`, tpl:`${m('k =')} [_]`, ans:[k],
+      hint:'Viết v = k·u rồi so sánh hệ số của vectơ a ở hai vế.',
+      sol:`${m(`${n}${a} = k\\cdot ${mm}${a}`)} nên ${m(`${mm}k = ${n}`)}, suy ra ${tb(`k = ${k}`)}.`});
+  }
+  if(lv === 2){
+    const x = pick([1, 2, 3]), y = pick([-1, -2, -3, 2]), k = pick([2, 3, -2, -3]);
+    const u = comb9([fr9(x), fr9(y)], [a, b]), w = comb9([fr9(k * x), fr9(k * y)], [a, b]);
+    return QB({text:`Cho ${m(`\\vec{u} = ${u}`)} và ${m(`\\vec{v} = ${w}`)} (${m('\\vec{a}, \\vec{b}')} không cùng phương). Biết ${m('\\vec{v} = k\\vec{u}')}, tìm ${m('k')}.`, tpl:`${m('k =')} [_]`, ans:[k],
+      hint:'So sánh hệ số của a và hệ số của b ở hai vế; hai tỉ số phải bằng nhau.',
+      sol:`${m(`${k * x} = k\\cdot ${x}`)} suy ra ${m(`k = ${k}`)}; kiểm tra hệ số của ${m(b)}: ${m(`${k} \\cdot (${y}) = ${k * y}`)} đúng. Vậy ${tb(`k = ${k}`)}.`});
+  }
+  const p = pick([2, 3, 4]), mm = pick([-3, -2, -1, 2, 3]), q = mm * p;
+  const w = comb9([fr9(p), fr9(q)], [a, b]);
+  return QB({text:`Cho hai vectơ ${m('\\vec{a}, \\vec{b}')} không cùng phương. Tìm ${m('m')} để ${m(`\\vec{u} = ${a} + m${b}`)} cùng phương với ${m(`\\vec{v} = ${w}`)}.`, tpl:`${m('m =')} [_]`, ans:[mm],
+    hint:'Hai vectơ cùng phương khi v = k·u. So sánh hệ số của a trước để tìm k, rồi suy ra m từ hệ số của b.',
+    sol:`${m(`\\vec{v} = k\\vec{u}`)} nên ${m(`${p}${a} ${q < 0 ? '-' : '+'} ${Math.abs(q)}${b} = k${a} + km${b}`)}. Suy ra ${m(`k = ${p}`)} và ${m(`km = ${q}`)}, tức ${m(`m = \\dfrac{${q}}{${p}}`)} = ${tb(mm)}.`});
+};
+
+/* Dạng D. Phân tích vectơ theo hai vectơ không cùng phương */
+const g9d = lv => {
+  const AB = V('A', 'B'), AC = V('A', 'C');
+  const ask = (text, good, wrong, solText, hint) => {
+    const opts = uniq9([good, ...wrong].map(c => m(comb9(c, [AB, AC]))), 'g9d');
+    return QC({text, fig:figTri9(), opts, ans:m(comb9(good, [AB, AC])), keepOrder:false, hint, sol:solText + ` Đáp án: ${tb(comb9(good, [AB, AC]))}.`});
+  };
+  if(lv === 1){
+    return ask(`Tam giác ${m('ABC')} có ${m('M')} là trung điểm của ${m('BC')}. Phân tích ${m(V('A', 'M'))} theo ${m(AB)} và ${m(AC)}.`, [fr9(1, 2), fr9(1, 2)], [[fr9(1), fr9(1)], [fr9(1, 2), fr9(-1, 2)], [fr9(2), fr9(2)]],
+      `${m('M')} là trung điểm ${m('BC')} nên ${m(`${V('A', 'B')} + ${V('A', 'C')} = 2${V('A', 'M')}`)}, suy ra ${m(`${V('A', 'M')} = \\dfrac{1}{2}(${V('A', 'B')} + ${V('A', 'C')})`)}.`,
+      'Dùng hệ thức trung điểm: AB + AC = 2·AM.');
+  }
+  if(lv === 2){
+    const base = pick(['A', 'B', 'C']), o = ['A', 'B', 'C'].filter(x => x !== base), P = V(base, o[0]), Q = V(base, o[1]);
+    const opts = uniq9([[fr9(1, 3), fr9(1, 3)], [fr9(2, 3), fr9(2, 3)], [fr9(1, 2), fr9(1, 2)], [fr9(1, 3), fr9(-1, 3)]].map(c => m(comb9(c, [P, Q]))), 'g9d2');
+    const G = [(TRI9.A[0] + TRI9.B[0] + TRI9.C[0]) / 3, (TRI9.A[1] + TRI9.B[1] + TRI9.C[1]) / 3], bp = TRI9[base], p1 = TRI9[o[0]], p2 = TRI9[o[1]];
+    v9chk(Math.abs(G[0] - bp[0] - (p1[0] - bp[0]) / 3 - (p2[0] - bp[0]) / 3) < 1e-9 && Math.abs(G[1] - bp[1] - (p1[1] - bp[1]) / 3 - (p2[1] - bp[1]) / 3) < 1e-9, 'g9d2');
+    return QC({text:`Tam giác ${m('ABC')} có trọng tâm ${m('G')}. Phân tích ${m(V(base, 'G'))} theo ${m(P)} và ${m(Q)}.`, fig:figTri9(), opts, ans:m(comb9([fr9(1, 3), fr9(1, 3)], [P, Q])),
+      hint:'Gọi M là trung điểm của cạnh đối diện; AG = (2/3)·AM và AM là trung điểm nên bằng nửa tổng hai vectơ.',
+      sol:`Gọi ${m('M')} là trung điểm của cạnh đối diện với ${m(base)}. Khi đó ${m(`${V(base, 'G')} = \\dfrac{2}{3}${V(base, 'M')}`)} và ${m(`${V(base, 'M')} = \\dfrac{1}{2}(${P} + ${Q})`)}. Vậy ${tb(`${V(base, 'G')} = \\dfrac{1}{3}${P} + \\dfrac{1}{3}${Q}`)}.`});
+  }
+  const t = pick([[1, 3], [2, 3], [1, 4], [3, 4]]), tt = fr9(t[0], t[1]);
+  const good = [fr9(-1, 2), fadd9(tt, fr9(-1, 2))];
+  const wrongs = [[good[1], good[0]], [fr9(1, 2), fadd9(tt, fr9(-1, 2))], [fr9(-1, 2), fadd9(tt, fr9(1, 2))], [fr9(-1, 2), tt]];
+  const M = [(TRI9.B[0] + TRI9.C[0]) / 2, (TRI9.B[1] + TRI9.C[1]) / 2], N = [t[0] / t[1] * TRI9.C[0], t[0] / t[1] * TRI9.C[1]];
+  v9chk(Math.abs(N[0] - M[0] - (good[0][0] / good[0][1] * TRI9.B[0] + good[1][0] / good[1][1] * TRI9.C[0])) < 1e-9 && Math.abs(N[1] - M[1] - (good[0][0] / good[0][1] * TRI9.B[1] + good[1][0] / good[1][1] * TRI9.C[1])) < 1e-9, 'g9d3');
+  const opts = uniq9([good, ...wrongs].map(c => m(comb9(c, [AB, AC]))), 'g9d3');
+  return QC({text:`Tam giác ${m('ABC')}; ${m('M')} là trung điểm của ${m('BC')}; điểm ${m('N')} thuộc cạnh ${m('AC')} sao cho ${m(`${V('A', 'N')} = ${fstr9(tt)}${AC}`)}. Phân tích ${m(V('M', 'N'))} theo ${m(AB)} và ${m(AC)}.`, fig:figTri9([], [[(TRI9.B[0] + TRI9.C[0]) / 2, (TRI9.B[1] + TRI9.C[1]) / 2, 'M'], [N[0], N[1], 'N']]), opts, ans:m(comb9(good, [AB, AC])),
+    hint:'Xuất phát từ A: MN = AN − AM. Viết AM theo AB, AC (trung điểm) và AN theo AC.',
+    sol:`${m(`${V('M', 'N')} = ${V('A', 'N')} - ${V('A', 'M')} = ${fstr9(tt)}${AC} - \\dfrac{1}{2}(${AB} + ${AC})`)}. Gộp hệ số: ${tb(`${V('M', 'N')} = ${comb9(good, [AB, AC])}`)}.`});
+};
+
+lesson(5, 'vecto-tich-so', 'Bài 9. Tích của một số với một vectơ', 'Độ dài và hướng của k·a; hệ thức trung điểm, trọng tâm; hai vectơ cùng phương; phân tích vectơ theo hai vectơ không cùng phương.', [g9a, g9b, g9c, g9d]);
+}
+
 })();
 
 </script>
