@@ -1318,3 +1318,175 @@ Em khảo sát thời gian tự học mỗi tối của **ít nhất 20 bạn** 
 | Exit 3 | $12{,}5$ |
 | Về nhà | Bảng tính đủ 5 số đặc trưng và nhận xét |
 `);
+
+/* =====================================================================
+   PHIẾU HỌC TẬP TRÊN LỚP – Toán 11 · Ôn tập chương II (thầy yêu cầu 17/10/2026)
+   Bám Ví dụ 1–2 và Luyện tập 1–2 của bài giảng on-tap-c2 (lop11.js). Tình huống tự soạn ghi **[Minh họa]**.
+   ===================================================================== */
+Lecture.addSheet('lop11', 'on-tap-c2', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Ôn tập chương II
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Cấp số cộng $u_1=1,\ d=2$. Tính $S_{10}$. Đáp án: ………………………
+
+**Câu 2.** Cấp số nhân $u_1=2,\ q=3$. Tính $u_4$. Đáp án: ………………………
+
+**Câu 3.** Giải phương trình $q^3=-8$. Đáp án: ………………………
+
+**Câu 4.** Tính $1{,}1^2$. Đáp án: ………………………
+
+## 2. Tình huống mở đầu
+
+| Hàng | Các số (viết tiếp theo quy luật) |
+|---|---|
+| (a) | $3,\ 7,\ 11,\ 15,\ \ldots$ |
+| (b) | $3,\ 6,\ 12,\ 24,\ \ldots$ |
+| (c) | $1,\ 4,\ 9,\ 16,\ \ldots$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Hàng nào là cấp số cộng, hàng nào là cấp số nhân, hàng nào không phải? Dựa vào đâu để kết luận nhanh?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Cấp số cộng có $u_1=2,\ u_4=11$. Công sai $d$ bằng
+
+A. $\dfrac94$
+
+B. $3$
+
+C. $9$
+
+D. $13$
+
+**Câu B.** Cấp số nhân có $u_1=3,\ q=2$. Tổng $S_4$ bằng
+
+A. $48$
+
+B. $45$
+
+C. $24$
+
+D. $93$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Dãy $u_n=2n+1$ có là cấp số cộng không? Tính $S_{10}$. Đáp số: ………………………
+
+**Câu 2 ★.** Cấp số nhân có $u_1=3,\ u_4=24$. Tìm $q$. Đáp số: ………………………
+
+**Câu 3 ★.** Cấp số cộng có $u_5=9,\ S_5=25$. Tìm $u_1,\ d$. Đáp số: ………………………
+
+**Câu 4 ★★.** Cấp số nhân $u_1=3,\ q=2$. Tính $S_6$. Đáp số: ………………………
+
+**Câu 5 ★★.** Tìm $x$ để $2,\ x,\ 18$ lập thành cấp số nhân. Đáp số: ………………………
+
+**Câu 6 ★★.** Cây giống cao $20$ cm, mỗi tuần cao thêm $10\%$ so với tuần trước. Sau $5$ tuần cao khoảng bao nhiêu cm (làm tròn phần mười)? Đáp số: ………………………
+
+**Câu 7 ★★★.** Cấp số cộng $u_1=2,\ d=4$ có $S_n=200$. Tìm $n$. *Gợi ý: rút gọn $S_n$ theo $n$.* ………………………
+
+## 5. Tìm lỗi sai
+
+Bạn Lan tính: *"Cấp số cộng $u_1=3,\ d=2$ nên $u_{10}=3+10\cdot 2=23$."*
+
+**Lỗi ở:** ………………………………………… **Lời giải đúng:** ……………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1 (trắc nghiệm).** Cấp số cộng $u_1=7,\ d=-2$. Tổng $S_6$ bằng
+
+A. $12$
+
+B. $24$
+
+C. $-3$
+
+D. $4$
+
+**Câu 2 (đúng – sai).** Cấp số cộng $(u_n)$ có $u_1=-1,\ d=4$:
+
+a) $u_5=15$.  ☐ Đ ☐ S
+
+b) $u_n=4n-1$.  ☐ Đ ☐ S
+
+c) Số $99$ là một số hạng của dãy.  ☐ Đ ☐ S
+
+d) $S_4=24$.  ☐ Đ ☐ S
+
+**Câu 3 (trả lời ngắn).** Tính $1+3+5+\cdots+19$. Đáp số: …………
+
+## 7. Một phút suy ngẫm
+
+Dữ kiện nào cho biết dùng cấp số cộng, dữ kiện nào cho biết dùng cấp số nhân? ……………………………………………………
+
+## 8. Vận dụng về nhà
+
+**[Minh họa]** Công ty A trả lương năm đầu $120$ triệu đồng, mỗi năm tăng thêm $6$ triệu. Công ty B trả $120$ triệu năm đầu, mỗi năm tăng $5\%$ so với năm trước. Tính tổng lương $10$ năm đầu ở mỗi công ty và cho biết nơi nào nhiều hơn (làm tròn đến hàng phần trăm triệu).
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Ôn tập chương II
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương II. Dãy số. Cấp số cộng và cấp số nhân · Ôn tập chương II** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà; chỉ có máy chiếu và giấy/bảng con.
+- Phiếu bám bài giảng: **Ví dụ 1** ($u_5=9,\ S_5=25$) → Luyện tập 3; **Ví dụ 2** ($u_1=3,\ u_4=24$, $S_6$) → Luyện tập 2, 4; **Luyện tập 1** ($u_n=2n+1$) → Luyện tập 1; **Luyện tập 2** (cây giống) → Luyện tập 6.
+- Các tình huống **[Minh họa]** (ba hàng số, bài toán lương) do người soạn tự đặt, không trích từ SGK.
+
+## 2. Mục tiêu
+
+- Hệ thống công thức cấp số cộng – cấp số nhân; phân biệt hai loại dãy; tìm $u_1,\ d,\ q$ từ hai dữ kiện; tính $S_n$ (đếm đúng số số hạng); giải bài toán thực tế.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Tự làm, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Ghi câu hỏi của bài học |
+| 7–22 | Hệ thống kiến thức | Giáo viên dạy theo bảng so sánh và Ví dụ 1–2 của bài giảng; dừng làm Câu hỏi bản lề A, B |
+| 22–34 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 34–37 | Tìm lỗi sai (Mục 5) | |
+| 37–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm, dặn dò (Mục 7–8) | |
+
+## 4. Đáp án và lỗi dự kiến
+
+- **Do Now:** 1) $S_{10}=100$. 2) $u_4=2\cdot 27=54$. 3) $q=-2$. 4) $1{,}21$.
+- **Notice & Wonder:** (a) cộng $4$ — cấp số cộng, số tiếp theo $19$; (b) nhân $2$ — cấp số nhân, số tiếp theo $48$; (c) các số chính phương, hiệu $3,5,7$ không đều, tỉ số không đều — không phải cả hai.
+- **Bản lề A – đáp án B:** $d=\dfrac{11-2}{3}=3$. Nhiễu: A chia $4$ (đếm nhầm số khoảng cách), C quên chia, D là $u_4+u_1$. **Bản lề B – đáp án B:** $S_4=\dfrac{3(1-2^4)}{1-2}=45$. Nhiễu: A là $u_5$, C là $u_4$, D là $S_5$.
+- **Luyện tập:**
+  1. $u_{n+1}-u_n=2$ nên là cấp số cộng, $u_1=3$, $u_{10}=21$, $S_{10}=\dfrac{10(3+21)}{2}=120$.
+  2. $q^3=\dfrac{24}{3}=8\Rightarrow q=2$.
+  3. $S_5=\dfrac{5(u_1+9)}{2}=25\Rightarrow u_1=1$; $4d=8\Rightarrow d=2$.
+  4. $S_6=\dfrac{3(1-2^6)}{1-2}=189$.
+  5. $x^2=36\Rightarrow x=6$ hoặc $x=-6$.
+  6. $20\cdot 1{,}1^5\approx 32{,}2$ (cm).
+  7. $S_n=\dfrac{n[2\cdot 2+(n-1)\cdot 4]}{2}=2n^2=200\Rightarrow n=10$.
+- **Tìm lỗi sai:** $u_{10}=u_1+9d$ (cách $u_1$ chín khoảng), đúng là $3+18=21$. Lỗi liên quan: dùng $n$ thay $n-1$; cũng gặp ở $u_1q^{n-1}$.
+- **Exit:** Câu 1: **A**, $S_6=\dfrac{6(2\cdot 7+5\cdot(-2))}{2}=12$ (B quên chia $2$, C là $u_6=-3$, D là $u_1+u_6$). Câu 2: a) Đ ($-1+16=15$); b) S (đúng là $u_n=4n-5$); c) Đ ($4n-5=99\Rightarrow n=26$); d) S ($S_4=\dfrac{4(-2+12)}{2}=20$). Câu 3: $100$ (cấp số cộng $u_1=1,\ d=2,\ n=10$).
+- **Về nhà:** A: $u_{10}=120+9\cdot 6=174$, $S_{10}=\dfrac{10(120+174)}{2}=1\,470$ triệu. B: $S_{10}=\dfrac{120(1{,}05^{10}-1)}{0{,}05}\approx 1\,509{,}35$ triệu. B nhiều hơn khoảng $39{,}35$ triệu. Lỗi dự kiến: dùng $q=0{,}05$ hoặc $q=5$; tính $1{,}05^{10}$ thành $1{,}5$.
+
+## 5. Xử lý phiếu ra khỏi lớp và phân hóa
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao Câu 7 và bài về nhà mở rộng |
+| 2. Sai hết | 0–1 câu đúng | Làm lại Ví dụ 1–2 với số khác |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh câu sai nhiều ở đầu tiết sau |
+
+- **Học sinh yếu:** chỉ làm Câu 1–5, được dùng bảng công thức. **Học sinh khá giỏi:** làm Câu 7 và bài về nhà.
+
+## 6. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $100;\ 54;\ -2;\ 1{,}21$ |
+| Bản lề A, B | B, B |
+| Luyện tập 1–7 | $120$ · $q=2$ · $u_1=1,\ d=2$ · $189$ · $x=\pm 6$ · $32{,}2$ cm · $n=10$ |
+| Tìm lỗi sai | $u_{10}=21$ |
+| Exit | A · Đ S Đ S · $100$ |
+| Về nhà | $1\,470$ triệu; $\approx 1\,509{,}35$ triệu; B nhiều hơn |
+`);

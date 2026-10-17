@@ -311,4 +311,49 @@ Lecture.addPractice('lop11', 'bai-9', [
    ans:`${tb('x = 2')}.`},
  ]},
 ]);
+
+/* =====================================================================  ÔN TẬP CHƯƠNG II
+   5 dạng: nhận biết · tìm yếu tố từ dữ kiện · tính tổng · ba số liên tiếp · bài toán thực tế. 7 cơ bản + 3 ★ */
+Lecture.addPractice('lop11', 'on-tap-c2', [
+ {dang:'Nhận biết cấp số cộng, cấp số nhân', items:[
+  {de:`Dãy số ${m('u_n = 5n - 3')} có phải cấp số cộng không? Nếu có, tìm ${m('u_1,\\ d')} và tính ${m('u_{10}')}.`,
+   sol:[`Tính hiệu: ${m('u_{n+1} - u_n = [5(n+1) - 3] - (5n - 3) = 5')}.`, `Hiệu là hằng số nên dãy là cấp số cộng, công sai ${m('d = 5')}; ${m('u_1 = 5\\cdot 1 - 3 = 2')}.`, `${m('u_{10} = u_1 + 9d = 2 + 45 = 47')}.`],
+   ans:`Là cấp số cộng, ${tb('u_1 = 2,\\ d = 5,\\ u_{10} = 47')}.`},
+  {de:`Dãy số ${m('u_n = 3\\cdot 2^n')} có phải cấp số nhân không? Nếu có, tìm ${m('u_1,\\ q')} và tính ${m('u_5')}.`,
+   sol:[`Tính thương: ${m('\\dfrac{u_{n+1}}{u_n} = \\dfrac{3\\cdot 2^{n+1}}{3\\cdot 2^n} = 2')}.`, `Thương là hằng số khác 0 nên là cấp số nhân, ${m('q = 2')}; ${m('u_1 = 3\\cdot 2 = 6')}.`, `${m('u_5 = u_1 q^4 = 6\\cdot 16 = 96')}.`],
+   ans:`Là cấp số nhân, ${tb('u_1 = 6,\\ q = 2,\\ u_5 = 96')}.`},
+ ]},
+ {dang:'Tìm số hạng đầu, công sai, công bội', items:[
+  {de:`Cấp số cộng có ${m('u_3 = 7')} và ${m('u_7 = 19')}. Tìm ${m('u_1')} và ${m('d')}.`,
+   sol:[`${m('u_7 - u_3 = 4d')} (cách nhau 4 số hạng): ${m('4d = 19 - 7 = 12 \\Rightarrow d = 3')}.`, `${m('u_1 = u_3 - 2d = 7 - 6 = 1')}.`],
+   ans:`${tb('u_1 = 1,\\ d = 3')}.`},
+  {de:`Cấp số nhân có ${m('u_2 = -6')} và ${m('u_5 = 162')}. Tìm ${m('u_1')} và ${m('q')}.`,
+   sol:[`${m('u_5 = u_2 q^3')}: ${m('q^3 = \\dfrac{162}{-6} = -27')}.`, `${m('q = -3')} (vì ${m('(-3)^3 = -27')}).`, `${m('u_1 = \\dfrac{u_2}{q} = \\dfrac{-6}{-3} = 2')}.`],
+   ans:`${tb('u_1 = 2,\\ q = -3')}.`},
+  {hard:true, de:`Cấp số cộng có ${m('u_1 + u_5 = 14')} và ${m('u_2\\cdot u_4 = 45')}. Tìm ${m('u_1')} và ${m('d')}.`,
+   sol:[`${m('u_1 + u_5 = 2u_3')} nên ${m('u_3 = 7')}.`, `${m('u_2 = 7 - d,\\ u_4 = 7 + d')}: ${m('(7 - d)(7 + d) = 45 \\Rightarrow 49 - d^2 = 45 \\Rightarrow d^2 = 4')}.`, `${m('d = 2')}: ${m('u_1 = u_3 - 2d = 3')}. ${m('d = -2')}: ${m('u_1 = 7 + 4 = 11')}.`],
+   ans:`${tb('u_1 = 3,\\ d = 2')} hoặc ${tb('u_1 = 11,\\ d = -2')}.`},
+ ]},
+ {dang:'Tính tổng n số hạng đầu', items:[
+  {de:`Cấp số cộng có ${m('u_1 = 4,\\ d = 3')}. Tính ${m('S_{20}')}.`,
+   sol:[`${m('u_{20} = u_1 + 19d = 4 + 57 = 61')}.`, `${m('S_{20} = \\dfrac{20(u_1 + u_{20})}{2} = 10\\cdot 65')}.`],
+   ans:`${tb('S_{20} = 650')}.`},
+  {de:`Tính tổng ${m('T = 2 + 6 + 18 + \\cdots + 4374')}.`,
+   sol:[`Cấp số nhân ${m('u_1 = 2,\\ q = 3')}; ${m('4374 = 2\\cdot 3^7')} nên ${m('4374 = u_8')}, có ${m('n = 8')} số hạng.`, `${m('T = \\dfrac{u_1(1 - q^8)}{1 - q} = \\dfrac{2(1 - 6561)}{-2}')}.`],
+   ans:`${tb('T = 6560')}.`},
+ ]},
+ {dang:'Ba số lập thành cấp số cộng, cấp số nhân', items:[
+  {hard:true, de:`Ba số lập thành cấp số cộng có tổng bằng ${m('21')} và tích bằng ${m('280')}. Tìm ba số đó.`,
+   sol:[`Gọi ba số ${m('a - d,\\ a,\\ a + d')}; tổng ${m('3a = 21 \\Rightarrow a = 7')}.`, `Tích: ${m('7(49 - d^2) = 280 \\Rightarrow d^2 = 9 \\Rightarrow d = \\pm 3')}.`, `${m('d = 3')} cho ${m('4,\\ 7,\\ 10')}; ${m('d = -3')} cho ${m('10,\\ 7,\\ 4')} (cùng một bộ ba số).`],
+   ans:`Ba số là ${tb('4,\\ 7,\\ 10')} (hoặc ${m('10,\\ 7,\\ 4')}).`},
+ ]},
+ {dang:'Bài toán thực tế', items:[
+  {de:`Một rạp có 20 hàng ghế: hàng thứ nhất có 15 ghế, mỗi hàng sau nhiều hơn hàng liền trước 2 ghế. Rạp có tất cả bao nhiêu ghế?`,
+   sol:[`Số ghế mỗi hàng lập cấp số cộng ${m('u_1 = 15,\\ d = 2')}.`, `${m('u_{20} = 15 + 19\\cdot 2 = 53')}.`, `${m('S_{20} = \\dfrac{20(15 + 53)}{2} = 680')}.`],
+   ans:`Rạp có ${tb('680')} ghế.`},
+  {hard:true, de:`Gửi tiết kiệm ${m('50')} triệu đồng, lãi suất ${m('0{,}5\\%')}/tháng, lãi nhập gốc mỗi tháng. Sau ít nhất bao nhiêu tháng thì số tiền đạt từ ${m('60')} triệu đồng trở lên?`,
+   sol:[`Số tiền sau ${m('n')} tháng: ${m('A_n = 50\\cdot 1{,}005^n')} (triệu đồng).`, `Cần ${m('50\\cdot 1{,}005^n \\ge 60 \\Leftrightarrow 1{,}005^n \\ge 1{,}2 \\Leftrightarrow n \\ge \\dfrac{\\ln 1{,}2}{\\ln 1{,}005} \\approx 36{,}56')}.`, `${m('n')} nguyên dương nên lấy số nguyên nhỏ nhất thoả điều kiện.`],
+   ans:`Sau ít nhất ${tb('37')} tháng.`},
+ ]},
+]);
 })();

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-17 – Toán 11 Chương II: bù phiếu luyện tập và phiếu trên lớp cho Ôn tập chương II
+
+- **Yêu cầu:** việc định kỳ "trọn bộ một bài Toán 11": Bài 5–7 đã đủ 6 phần; mục còn thiếu đầu tiên là Ôn tập chương II (có học sinh + bài giảng, thiếu luyện tập, giải SGK, phiếu trên lớp).
+- **Kết quả:** phiếu luyện tập `on-tap-c2` (10 bài = 7 cơ bản + 3 ★, 5 dạng); phiếu trên lớp `on-tap-c2` (Phần A đúng 2 trang A4 + Phần B). **Chưa làm giải SGK**: không tra được văn bản đề Bài tập cuối chương II (loigiaihay không trả nội dung đề), nên không bịa đề.
+- **Tệp sửa:** giao-vien/bai-giang/lop11-luyen-tap.js, lop11-khoi-dong.js, CLAUDE.md, AGENTS.md, LICH-SU-CHINH-SUA.md.
+- **Kiểm thử ĐẠT:** `node tools/kiem-tra.js`, `python3 tools/test_phieu_tren_lop.py` (77/77), `python3 tools/test_luyentap.py` (không lỗi ở các phiếu đã chạy, hết thời gian chờ ở cuối), `python3 tools/test.py` (30930 câu), `python3 tools/build.py`.
+- **Việc thủ công:** thêm giải SGK Bài tập cuối chương II khi có đề; xem lại tình huống [Minh họa] (ba hàng số, lương hai công ty).
+
 ### 2026-10-17 – Toán 10 Chương II: bù phiếu trên lớp cho Bài 3. Bất phương trình bậc nhất hai ẩn
 
 - **Yêu cầu:** việc định kỳ "trọn bộ một bài Toán 10": bắt đầu từ Chương II; Bài 3 đã có học sinh, bài giảng, luyện tập, giải SGK nhưng thiếu phiếu trên lớp (Bài 4 cũng còn thiếu, làm lần sau).
