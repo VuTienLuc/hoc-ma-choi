@@ -103,7 +103,7 @@ Thầy nhắn Claude: **“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”** (ho�
 | 4 | 11 | III | Bài 9. Các số đặc trưng đo xu thế trung tâm | `ghep-nhom-xu-the` | `bai-9` | ✅ | 16/10 · Claude làm trực tiếp (chủ đề 4 “Chương III”); giải SGK ghi đề theo dạng, chưa tra số trang |
 | 5 | 10 | IV | Bài 9. Tích của một số với một vectơ | `vecto-tich-so` | `bai-9` | ✅ | 17/10 · Claude làm trực tiếp; giải SGK ghi đề theo dạng, chưa tra số trang |
 | 6 | 11 | III | Bài 10. Các số đặc trưng đo mức độ phân tán | `ghep-nhom-phan-tan` | `bai-10` | ⬜ | |
-| 7 | 10 | IV | Bài 10. Vectơ trong mặt phẳng toạ độ | `vecto-toa-do` | `bai-10` | ⬜ | |
+| 7 | 10 | IV | Bài 10. Vectơ trong mặt phẳng toạ độ | `vecto-toa-do` | `bai-10` | ✅ | 21/10 · Claude làm trực tiếp; giải SGK ghi đề theo dạng, chưa tra số trang |
 | 8 | 11 | III | Ôn tập chương III | `on-tap-c3` | `on-tap-c3` | ⬜ | |
 | 9 | 10 | IV | Bài 11. Tích vô hướng của hai vectơ | `tich-vo-huong` | `bai-11` | ⬜ | |
 | 10 | 11 | IV | Bài 11. Đường thẳng và mặt phẳng trong không gian | `dt-mp-khong-gian` | `bai-11` | ⬜ | |

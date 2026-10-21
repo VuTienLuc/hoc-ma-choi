@@ -437,3 +437,50 @@ Lecture.addPractice('lop10', 'bai-9', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   BÀI 10. VECTƠ TRONG MẶT PHẲNG TOẠ ĐỘ (thầy yêu cầu 21/10/2026) – 7 cơ bản + 3 vận dụng (★), xếp theo 4 dạng của bài giảng bai-10.
+   ===================================================================== */
+(() => {
+const m = tm, v = (a, b) => `\\overrightarrow{${a}${b}}`, ZERO = '\\vec{0}';
+Lecture.addPractice('lop10', 'bai-10', [
+ {dang:'Dạng 1. Toạ độ vectơ và phép toán', items:[
+  {de:`Cho ${m('A(3;\\ {-2})')} và ${m('B({-1};\\ 1)')}. Tìm toạ độ ${m(v('A', 'B'))} và tính độ dài ${m('AB')}.`,
+   sol:[`${m(`${v('A', 'B')} = (-1 - 3;\\ 1 - (-2)) = ({-4};\\ 3)`)}.`, `${m('AB = \\sqrt{(-4)^2 + 3^2} = \\sqrt{25} = 5')}.`],
+   ans:`${tb(`${v('A', 'B')} = ({-4};\\ 3)`)}, ${tb('AB = 5')}.`},
+  {de:`Cho ${m('\\vec{a} = (2;\\ 3)')}, ${m('\\vec{b} = ({-1};\\ 4)')}, ${m('\\vec{c} = (5;\\ {-2})')}. Tìm toạ độ ${m('\\vec{u} = 2\\vec{a} - \\vec{b} + \\vec{c}')}.`,
+   sol:[`${m('2\\vec{a} = (4;\\ 6)')}.`, `Hoành độ: ${m('4 - (-1) + 5 = 10')}. Tung độ: ${m('6 - 4 + (-2) = 0')}.`],
+   ans:`${tb('\\vec{u} = (10;\\ 0)')}.`},
+ ]},
+ {dang:'Dạng 2. Trung điểm, trọng tâm, hình bình hành', items:[
+  {de:`Cho ${m('A({-3};\\ 5)')}, ${m('B(7;\\ {-1})')}. Tìm trung điểm ${m('M')} của ${m('AB')}. Với ${m('C(1;\\ 2)')}, tìm trọng tâm ${m('G')} của tam giác ${m('ABC')}.`,
+   sol:[`${m('M\\left(\\dfrac{-3 + 7}{2};\\ \\dfrac{5 + (-1)}{2}\\right) = M(2;\\ 2)')}.`, `${m('G\\left(\\dfrac{-3 + 7 + 1}{3};\\ \\dfrac{5 + (-1) + 2}{3}\\right) = G\\left(\\dfrac{5}{3};\\ 2\\right)')}.`],
+   ans:`${tb('M(2;\\ 2)')}, ${tb('G\\left(\\dfrac{5}{3};\\ 2\\right)')}.`},
+  {de:`Cho ${m('A({-2};\\ 1)')}, ${m('B(1;\\ 4)')}, ${m('C(4;\\ 2)')}. Tìm ${m('D')} để ${m('ABCD')} là hình bình hành.`,
+   sol:[`${m(`${v('A', 'D')} = ${v('B', 'C')} = (3;\\ {-2})`)}.`, `${m('x_D + 2 = 3')} và ${m('y_D - 1 = -2')}, suy ra ${m('x_D = 1')}, ${m('y_D = -1')}.`],
+   ans:`${tb('D(1;\\ {-1})')}.`},
+  {hard:true, de:`Hình bình hành ${m('ABCD')} có ${m('A(1;\\ 2)')}, ${m('B(3;\\ 5)')} và tâm ${m('I(4;\\ 1)')}. Tìm toạ độ ${m('C')} và ${m('D')}.`,
+   sol:[`${m('I')} là trung điểm của ${m('AC')} và ${m('BD')}.`, `${m('C(2\\cdot 4 - 1;\\ 2\\cdot 1 - 2) = C(7;\\ 0)')}.`, `${m('D(2\\cdot 4 - 3;\\ 2\\cdot 1 - 5) = D(5;\\ {-3})')}. Kiểm tra: ${m(`${v('A', 'B')} = ${v('D', 'C')} = (2;\\ 3)`)}.`],
+   ans:`${tb('C(7;\\ 0)')}, ${tb('D(5;\\ {-3})')}.`},
+ ]},
+ {dang:'Dạng 3. Cùng phương, thẳng hàng', items:[
+  {de:`Cho ${m('\\vec{a} = (2;\\ {-5})')} và ${m('\\vec{b} = ({-6};\\ m)')}. Tìm ${m('m')} để hai vectơ cùng phương.`,
+   sol:[`${m('\\vec{b} = k\\vec{a}')} nên ${m('-6 = 2k')}, suy ra ${m('k = -3')}.`, `${m('m = -3\\cdot (-5) = 15')}.`],
+   ans:`${tb('m = 15')}.`},
+  {de:`Cho ${m('A(1;\\ 1)')}, ${m('B(2;\\ 3)')}, ${m('C(m;\\ {-3})')}. Tìm ${m('m')} để ${m('A, B, C')} thẳng hàng.`,
+   sol:[`${m(`${v('A', 'B')} = (1;\\ 2)`)}, ${m(`${v('A', 'C')} = (m - 1;\\ {-4})`)}.`, `${m(`${v('A', 'C')} = k${v('A', 'B')}`)} cho ${m('-4 = 2k')} nên ${m('k = -2')}; suy ra ${m('m - 1 = -2')}.`],
+   ans:`${tb('m = -1')}.`},
+  {hard:true, de:`Cho ${m('A({-1};\\ 2)')} và ${m('B(3;\\ 0)')}. Tìm điểm ${m('M')} thuộc trục tung sao cho ${m('A, B, M')} thẳng hàng.`,
+   sol:[`${m('M')} thuộc trục tung nên ${m('M(0;\\ y)')}.`, `${m(`${v('A', 'M')} = (1;\\ y - 2)`)}, ${m(`${v('A', 'B')} = (4;\\ {-2})`)}; ${m(`${v('A', 'M')} = k${v('A', 'B')}`)} cho ${m('1 = 4k')} nên ${m('k = \\dfrac{1}{4}')}.`, `${m('y - 2 = \\dfrac{1}{4}\\cdot (-2) = -\\dfrac{1}{2}')}, suy ra ${m('y = \\dfrac{3}{2}')}.`],
+   ans:`${tb('M\\left(0;\\ \\dfrac{3}{2}\\right)')}.`},
+ ]},
+ {dang:'Dạng 4. Phân tích vectơ, điểm thoả hệ thức', items:[
+  {de:`Cho ${m('\\vec{a} = (1;\\ 2)')}, ${m('\\vec{b} = (2;\\ {-1})')}, ${m('\\vec{c} = (0;\\ 5)')}. Tìm ${m('x, y')} để ${m('\\vec{c} = x\\vec{a} + y\\vec{b}')}.`,
+   sol:[`Theo toạ độ: ${m('x + 2y = 0')} và ${m('2x - y = 5')}.`, `Từ phương trình một: ${m('x = -2y')}. Thế vào phương trình hai: ${m('-4y - y = 5')}, suy ra ${m('y = -1')}, ${m('x = 2')}.`],
+   ans:`${tb('x = 2')}, ${tb('y = -1')}.`},
+  {hard:true, de:`Cho ${m('A(1;\\ 1)')}, ${m('B(7;\\ {-2})')}, ${m('C({-3};\\ 4)')}. Tìm điểm ${m('M')} thoả ${m(`2${v('M', 'A')} + ${v('M', 'B')} + 3${v('M', 'C')} = ${ZERO}`)}.`,
+   sol:[`Gọi ${m('M(x;\\ y)')}. Hoành độ: ${m('2(1 - x) + (7 - x) + 3(-3 - x) = 0')} nên ${m('0 - 6x = 0')}, ${m('x = 0')}.`, `Tung độ: ${m('2(1 - y) + (-2 - y) + 3(4 - y) = 0')} nên ${m('12 - 6y = 0')}, ${m('y = 2')}.`],
+   ans:`${tb('M(0;\\ 2)')}.`},
+ ]},
+]);
+})();

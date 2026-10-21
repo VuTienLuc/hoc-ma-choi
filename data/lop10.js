@@ -1872,4 +1872,162 @@ const g9d = lv => {
 lesson(5, 'vecto-tich-so', 'Bài 9. Tích của một số với một vectơ', 'Độ dài và hướng của k·a; hệ thức trung điểm, trọng tâm; hai vectơ cùng phương; phân tích vectơ theo hai vectơ không cùng phương.', [g9a, g9b, g9c, g9d]);
 }
 
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 10. Vectơ trong mặt phẳng toạ độ (thầy yêu cầu 21/10/2026, /tron-bo)
+   4 dạng × 3 mức: A toạ độ vectơ và phép toán · B trung điểm, trọng tâm, hình bình hành · C độ dài, cùng phương, thẳng hàng · D phân tích vectơ, điểm thoả hệ thức.
+   Đáp án chọn trước (toạ độ nguyên); mỗi đề được kiểm lại bằng phép tính độc lập (t10chk).
+   ===================================================================== */
+{
+const m = tm;
+const t10chk = (ok, msg) => { if(!ok) throw new Error('t10: ' + msg); };
+const nb = x => x < 0 ? `{${x}}` : `${x}`;          // số âm trong cặp số
+const pn = x => x < 0 ? `(${x})` : `${x}`;          // số âm trong phép tính
+const pt = (x, y) => `(${nb(x)};${nb(y)})`;
+const nz = (lo, hi) => { let x = 0; while(x === 0) x = R(lo, hi); return x; };
+const OV = (a, b) => `\\overrightarrow{${a}${b}}`;
+const coef = (c, s) => c === 1 ? s : c === -1 ? '-' + s : `${c}${s}`;
+const addTerm = (c, s) => (c < 0 ? ' - ' : ' + ') + (Math.abs(c) === 1 ? '' : Math.abs(c)) + s;
+const pair = (x, y) => `${m(pt(x, y))}`;
+const TRI10 = [[3, 4], [6, 8], [5, 12], [8, 15], [9, 12], [12, 16]];
+
+/* Dạng A. Toạ độ vectơ và phép toán */
+const g10a = lv => {
+  if(lv === 1){
+    const A = [R(-6, 6), R(-6, 6)], d = [nz(-7, 7), nz(-7, 7)], B = [A[0] + d[0], A[1] + d[1]];
+    return QB({text:`Cho ${m(`A${pt(...A)}`)} và ${m(`B${pt(...B)}`)}. Tìm toạ độ của vectơ ${m(OV('A', 'B'))}.`, tpl:`${m(OV('A', 'B') + ' =')} ( [_] ; [_] )`, ans:[d[0], d[1]],
+      hint:'Toạ độ vectơ AB bằng toạ độ điểm cuối B trừ toạ độ điểm đầu A: hoành độ trừ hoành độ, tung độ trừ tung độ.',
+      sol:`${m(`${OV('A', 'B')} = (${B[0]} - ${pn(A[0])};\\ ${B[1]} - ${pn(A[1])})`)}. Vậy ${tb(`${OV('A', 'B')} = ${pt(d[0], d[1])}`)}.`});
+  }
+  if(lv === 2){
+    const a = [nz(-5, 5), nz(-5, 5)], b = [nz(-5, 5), nz(-5, 5)], p = pick([2, 3, -2, -3]), q = pick([1, 2, -1, -2, 3]);
+    const r = [p * a[0] + q * b[0], p * a[1] + q * b[1]];
+    const ex = `${coef(p, '\\vec{a}')}${addTerm(q, '\\vec{b}')}`;
+    return QB({text:`Cho ${m(`\\vec{a} = ${pt(...a)}`)} và ${m(`\\vec{b} = ${pt(...b)}`)}. Tìm toạ độ của ${m(`\\vec{u} = ${ex}`)}.`, tpl:`${m('\\vec{u} =')} ( [_] ; [_] )`, ans:r,
+      hint:'Nhân số với từng toạ độ của vectơ, rồi cộng (hoặc trừ) các toạ độ cùng vị trí: hoành độ với hoành độ, tung độ với tung độ.',
+      sol:`Hoành độ: ${m(`${p}\\cdot ${pn(a[0])} ${q < 0 ? '-' : '+'} ${Math.abs(q)}\\cdot ${pn(b[0])} = ${r[0]}`)}. Tung độ: ${m(`${p}\\cdot ${pn(a[1])} ${q < 0 ? '-' : '+'} ${Math.abs(q)}\\cdot ${pn(b[1])} = ${r[1]}`)}. Vậy ${tb(`\\vec{u} = ${pt(r[0], r[1])}`)}.`});
+  }
+  const a = [nz(-4, 4), nz(-4, 4)], b = [nz(-4, 4), nz(-4, 4)], c = [nz(-4, 4), nz(-4, 4)], p = pick([2, 3, -2]), q = pick([1, 2, -1]), s = pick([1, 2, 3]);
+  const r = [p * a[0] - q * b[0] + s * c[0], p * a[1] - q * b[1] + s * c[1]];
+  const ex = `${coef(p, '\\vec{a}')}${addTerm(-q, '\\vec{b}')}${addTerm(s, '\\vec{c}')}`;
+  return QB({text:`Cho ${m(`\\vec{a} = ${pt(...a)},\\ \\vec{b} = ${pt(...b)},\\ \\vec{c} = ${pt(...c)}`)}. Tìm toạ độ của ${m(`\\vec{u} = ${ex}`)}.`, tpl:`${m('\\vec{u} =')} ( [_] ; [_] )`, ans:r,
+    hint:'Tính từng tích số·vectơ trước, rồi cộng trừ các toạ độ cùng vị trí. Chú ý dấu khi có dấu trừ trước một vectơ.',
+    sol:`Hoành độ: ${m(`${p}\\cdot ${pn(a[0])} ${q < 0 ? '+' : '-'} ${Math.abs(q)}\\cdot ${pn(b[0])} + ${s}\\cdot ${pn(c[0])} = ${r[0]}`)}. Tung độ: ${m(`${p}\\cdot ${pn(a[1])} ${q < 0 ? '+' : '-'} ${Math.abs(q)}\\cdot ${pn(b[1])} + ${s}\\cdot ${pn(c[1])} = ${r[1]}`)}. Vậy ${tb(`\\vec{u} = ${pt(r[0], r[1])}`)}.`});
+};
+
+/* Dạng B. Trung điểm, trọng tâm, hình bình hành */
+const g10b = lv => {
+  const P = () => [R(-7, 7), R(-7, 7)];
+  if(lv === 1){
+    if(pick([0, 1]) === 0){
+      const I = P(), A = P(), B = [2 * I[0] - A[0], 2 * I[1] - A[1]];
+      t10chk((A[0] + B[0]) / 2 === I[0] && (A[1] + B[1]) / 2 === I[1], 'b1a');
+      return QB({text:`Cho ${m(`A${pt(...A)}`)} và ${m(`B${pt(...B)}`)}. Tìm toạ độ trung điểm ${m('I')} của đoạn ${m('AB')}.`, tpl:`${m('I')} ( [_] ; [_] )`, ans:I,
+        hint:'Toạ độ trung điểm là trung bình cộng các toạ độ tương ứng của hai đầu mút.',
+        sol:`${m(`x_I = \\dfrac{${A[0]} + ${pn(B[0])}}{2} = ${I[0]}`)}, ${m(`y_I = \\dfrac{${A[1]} + ${pn(B[1])}}{2} = ${I[1]}`)}. Vậy ${tb(`I${pt(...I)}`)}.`});
+    }
+    const I = P(), A = P(), B = [2 * I[0] - A[0], 2 * I[1] - A[1]];
+    return QB({text:`Cho ${m(`A${pt(...A)}`)}, điểm ${m('I')}${m(pt(...I))} là trung điểm của ${m('AB')}. Tìm toạ độ điểm ${m('B')}.`, tpl:`${m('B')} ( [_] ; [_] )`, ans:B,
+      hint:'I là trung điểm AB nên x_I = (x_A + x_B)/2; từ đó rút x_B = 2x_I − x_A, tương tự cho tung độ.',
+      sol:`${m(`x_B = 2x_I - x_A = 2\\cdot ${pn(I[0])} - ${pn(A[0])} = ${B[0]}`)}, ${m(`y_B = 2y_I - y_A = 2\\cdot ${pn(I[1])} - ${pn(A[1])} = ${B[1]}`)}. Vậy ${tb(`B${pt(...B)}`)}.`});
+  }
+  if(lv === 2){
+    const G = P(), A = P(), B = P(), C = [3 * G[0] - A[0] - B[0], 3 * G[1] - A[1] - B[1]];
+    t10chk((A[0] + B[0] + C[0]) / 3 === G[0] && (A[1] + B[1] + C[1]) / 3 === G[1], 'b2');
+    if(pick([0, 1]) === 0) return QB({text:`Cho tam giác ${m('ABC')} với ${m(`A${pt(...A)}`)}, ${m(`B${pt(...B)}`)}, ${m(`C${pt(...C)}`)}. Tìm toạ độ trọng tâm ${m('G')}.`, tpl:`${m('G')} ( [_] ; [_] )`, ans:G,
+      hint:'Toạ độ trọng tâm là trung bình cộng toạ độ của ba đỉnh.',
+      sol:`${m(`x_G = \\dfrac{${A[0]} + ${pn(B[0])} + ${pn(C[0])}}{3} = ${G[0]}`)}, ${m(`y_G = \\dfrac{${A[1]} + ${pn(B[1])} + ${pn(C[1])}}{3} = ${G[1]}`)}. Vậy ${tb(`G${pt(...G)}`)}.`});
+    return QB({text:`Tam giác ${m('ABC')} có ${m(`A${pt(...A)}`)}, ${m(`B${pt(...B)}`)} và trọng tâm ${m(`G${pt(...G)}`)}. Tìm toạ độ đỉnh ${m('C')}.`, tpl:`${m('C')} ( [_] ; [_] )`, ans:C,
+      hint:'Từ x_G = (x_A + x_B + x_C)/3 suy ra x_C = 3x_G − x_A − x_B; làm tương tự với tung độ.',
+      sol:`${m(`x_C = 3\\cdot ${pn(G[0])} - ${pn(A[0])} - ${pn(B[0])} = ${C[0]}`)}, ${m(`y_C = 3\\cdot ${pn(G[1])} - ${pn(A[1])} - ${pn(B[1])} = ${C[1]}`)}. Vậy ${tb(`C${pt(...C)}`)}.`});
+  }
+  if(pick([0, 1]) === 0){
+    let A, B, C;
+    do { A = P(); B = P(); C = P(); } while((B[0] - A[0]) * (C[1] - A[1]) - (B[1] - A[1]) * (C[0] - A[0]) === 0);
+    const D = [A[0] + C[0] - B[0], A[1] + C[1] - B[1]];
+    t10chk(D[0] - A[0] === C[0] - B[0] && D[1] - A[1] === C[1] - B[1], 'b3a');
+    return QB({text:`Cho ba điểm ${m(`A${pt(...A)}`)}, ${m(`B${pt(...B)}`)}, ${m(`C${pt(...C)}`)}. Tìm toạ độ điểm ${m('D')} để ${m('ABCD')} là hình bình hành.`, tpl:`${m('D')} ( [_] ; [_] )`, ans:D,
+      hint:'ABCD là hình bình hành khi vectơ AD bằng vectơ BC (hai cạnh đối song song và bằng nhau, cùng hướng).',
+      sol:`${m(`${OV('A', 'D')} = ${OV('B', 'C')}`)} nên ${m(`x_D - ${pn(A[0])} = ${pn(C[0])} - ${pn(B[0])}`)} và ${m(`y_D - ${pn(A[1])} = ${pn(C[1])} - ${pn(B[1])}`)}. Vậy ${tb(`D${pt(...D)}`)}.`});
+  }
+  const G = P(), M = P(), A = [3 * G[0] - 2 * M[0], 3 * G[1] - 2 * M[1]];
+  t10chk((A[0] + 2 * M[0]) / 3 === G[0] && (A[1] + 2 * M[1]) / 3 === G[1], 'b3b');
+  return QB({text:`Tam giác ${m('ABC')} có ${m(`A${pt(...A)}`)}, trọng tâm ${m(`G${pt(...G)}`)}. Gọi ${m('M')} là trung điểm của ${m('BC')}. Tìm toạ độ điểm ${m('M')}.`, tpl:`${m('M')} ( [_] ; [_] )`, ans:M,
+    hint:'G nằm trên trung tuyến AM và AG = (2/3)AM, tức là vectơ AM = (3/2)·vectơ AG. Có thể dùng x_G = (x_A + 2x_M)/3.',
+    sol:`${m(`G`)} chia trung tuyến theo tỉ lệ 2 : 1 nên ${m(`${OV('A', 'M')} = \\dfrac{3}{2}${OV('A', 'G')}`)}. ${m(`x_M = ${pn(A[0])} + \\dfrac{3}{2}(${pn(G[0])} - ${pn(A[0])}) = ${M[0]}`)}, ${m(`y_M = ${pn(A[1])} + \\dfrac{3}{2}(${pn(G[1])} - ${pn(A[1])}) = ${M[1]}`)}. Vậy ${tb(`M${pt(...M)}`)}.`});
+};
+
+/* Dạng C. Độ dài, cùng phương, thẳng hàng */
+const g10c = lv => {
+  if(lv === 1){
+    const [p, q] = pick(TRI10), sw = pick([0, 1]), sx = pick([-1, 1]), sy = pick([-1, 1]);
+    const d = sw ? [sx * q, sy * p] : [sx * p, sy * q], len = Math.hypot(d[0], d[1]);
+    t10chk(Number.isInteger(len), 'c1');
+    const A = [R(-6, 6), R(-6, 6)], B = [A[0] + d[0], A[1] + d[1]];
+    return QB({text:`Cho ${m(`A${pt(...A)}`)} và ${m(`B${pt(...B)}`)}. Tính độ dài đoạn thẳng ${m('AB')}.`, tpl:`${m('AB =')} [_]`, ans:[len],
+      hint:'Tính toạ độ vectơ AB = (x_B − x_A; y_B − y_A), rồi độ dài bằng căn của tổng hai bình phương.',
+      sol:`${m(`${OV('A', 'B')} = ${pt(d[0], d[1])}`)}, nên ${m(`AB = \\sqrt{${pn(d[0])}^2 + ${pn(d[1])}^2} = \\sqrt{${d[0] * d[0] + d[1] * d[1]}}`)} = ${tb(len)}.`});
+  }
+  if(lv === 2){
+    const p = nz(-4, 4), q = nz(-4, 4), t = pick([2, 3, -1, -2, -3]);
+    const mm = t * p, s = t * q;
+    return QB({text:`Cho ${m(`\\vec{a} = ${pt(p, q)}`)} và ${m(`\\vec{b} = (m;\\ ${s})`)}. Tìm ${m('m')} để hai vectơ ${m('\\vec{a}, \\vec{b}')} cùng phương.`, tpl:`${m('m =')} [_]`, ans:[mm],
+      hint:'Hai vectơ cùng phương khi tồn tại số k để b = k·a; tìm k từ tung độ rồi suy ra m (hoặc dùng a₁b₂ − a₂b₁ = 0).',
+      sol:`${m(`\\vec{b} = k\\vec{a}`)} nên ${m(`${s} = k\\cdot ${pn(q)}`)}, suy ra ${m(`k = ${t}`)}. Khi đó ${m(`m = ${t}\\cdot ${pn(p)}`)} = ${tb(mm)}.`});
+  }
+  if(pick([0, 1]) === 0){
+    const A = [R(-5, 5), R(-5, 5)], d = [nz(-3, 3), nz(-3, 3)], t = pick([2, 3, -1, -2]);
+    const B = [A[0] + d[0], A[1] + d[1]], C = [A[0] + t * d[0], A[1] + t * d[1]];
+    t10chk((C[0] - A[0]) * d[1] - (C[1] - A[1]) * d[0] === 0, 'c3a');
+    return QB({text:`Cho ${m(`A${pt(...A)}`)}, ${m(`B${pt(...B)}`)} và ${m(`C(m;\\ ${C[1]})`)}. Tìm ${m('m')} để ba điểm ${m('A, B, C')} thẳng hàng.`, tpl:`${m('m =')} [_]`, ans:[C[0]],
+      hint:'Ba điểm thẳng hàng khi hai vectơ AB và AC cùng phương: AC = k·AB.',
+      sol:`${m(`${OV('A', 'B')} = ${pt(d[0], d[1])}`)}, ${m(`${OV('A', 'C')} = (m - ${pn(A[0])};\\ ${C[1] - A[1]})`)}. ${m(`${OV('A', 'C')} = k${OV('A', 'B')}`)} cho ${m(`${C[1] - A[1]} = k\\cdot ${pn(d[1])}`)} nên ${m(`k = ${t}`)}. Suy ra ${m(`m - ${pn(A[0])} = ${t}\\cdot ${pn(d[0])}`)}, vậy ${tb(`m = ${C[0]}`)}.`});
+  }
+  const t = pick([2, 3, -1, -2]), d = [nz(-4, 4), nz(-3, 3)], xA = R(-5, 5);
+  const A = [xA, -t * d[1]], B = [A[0] + d[0], A[1] + d[1]], M = A[0] + t * d[0];
+  t10chk(A[1] + t * d[1] === 0, 'c3b');
+  return QB({text:`Cho ${m(`A${pt(...A)}`)} và ${m(`B${pt(...B)}`)}. Điểm ${m('M(m;\\ 0)')} nằm trên trục hoành và thẳng hàng với ${m('A, B')}. Tìm ${m('m')}.`, tpl:`${m('m =')} [_]`, ans:[M],
+    hint:'Viết AM = k·AB, dùng tung độ (M có tung độ 0) để tìm k, rồi suy ra hoành độ m.',
+    sol:`${m(`${OV('A', 'B')} = ${pt(d[0], d[1])}`)}, ${m(`${OV('A', 'M')} = (m - ${pn(A[0])};\\ ${-A[1]})`)}. Từ ${m(`${-A[1]} = k\\cdot ${pn(d[1])}`)} được ${m(`k = ${t}`)}. Khi đó ${m(`m - ${pn(A[0])} = ${t}\\cdot ${pn(d[0])}`)}, vậy ${tb(`m = ${M}`)}.`});
+};
+
+/* Dạng D. Phân tích vectơ, điểm thoả hệ thức */
+const g10d = lv => {
+  if(lv === 1){
+    const x = nz(-6, 6), y = nz(-6, 6);
+    const ex = `${coef(x, '\\vec{i}')}${addTerm(y, '\\vec{j}')}`;
+    return QB({text:`Trong mặt phẳng ${m('Oxy')} cho ${m('\\vec{i}, \\vec{j}')} là hai vectơ đơn vị trên hai trục. Biết ${m(`\\vec{u} = ${ex}`)}. Tìm toạ độ của ${m('\\vec{u}')}.`, tpl:`${m('\\vec{u} =')} ( [_] ; [_] )`, ans:[x, y],
+      hint:'Nếu u = x·i + y·j thì u có toạ độ (x; y): hệ số của i là hoành độ, hệ số của j là tung độ.',
+      sol:`Hệ số của ${m('\\vec{i}')} là ${x}, hệ số của ${m('\\vec{j}')} là ${y}. Vậy ${tb(`\\vec{u} = ${pt(x, y)}`)}.`});
+  }
+  if(lv === 2){
+    let a, b;
+    do { a = [nz(-3, 3), nz(-3, 3)]; b = [nz(-3, 3), nz(-3, 3)]; } while(a[0] * b[1] - a[1] * b[0] === 0);
+    const x = nz(-3, 3), y = nz(-3, 3), c = [x * a[0] + y * b[0], x * a[1] + y * b[1]];
+    const det = a[0] * b[1] - a[1] * b[0], X = (c[0] * b[1] - c[1] * b[0]) / det, Y = (a[0] * c[1] - a[1] * c[0]) / det;
+    t10chk(X === x && Y === y, 'd2');
+    return QB({text:`Cho ${m(`\\vec{a} = ${pt(...a)},\\ \\vec{b} = ${pt(...b)},\\ \\vec{c} = ${pt(...c)}`)}. Biết ${m('\\vec{c} = x\\vec{a} + y\\vec{b}')}. Tìm ${m('x, y')}.`, tpl:`${m('x =')} [_] ${m(';\\ y =')} [_]`, ans:[x, y],
+      hint:'Viết c = x·a + y·b theo từng toạ độ để được hệ hai phương trình hai ẩn x, y, rồi giải hệ.',
+      sol:`Hệ: ${m(`${a[0]}x ${b[0] < 0 ? '-' : '+'} ${Math.abs(b[0])}y = ${c[0]}`)} và ${m(`${a[1]}x ${b[1] < 0 ? '-' : '+'} ${Math.abs(b[1])}y = ${c[1]}`)}. Giải hệ được ${tb(`x = ${x}`)}, ${tb(`y = ${y}`)}. Thử lại: ${m(`${x}\\cdot ${pn(a[0])} + ${pn(y)}\\cdot ${pn(b[0])} = ${c[0]}`)}.`});
+  }
+  if(pick([0, 1]) === 0){
+    const kk = pick([[1, 2], [2, 1], [1, 3], [2, 3], [3, 2]]), s = kk[0] + kk[1], A = [R(-6, 6), R(-6, 6)], e = [nz(-3, 3), nz(-3, 3)];
+    const B = [A[0] + s * e[0], A[1] + s * e[1]], M = [A[0] + kk[1] * e[0], A[1] + kk[1] * e[1]];
+    t10chk(kk[0] * (A[0] - M[0]) + kk[1] * (B[0] - M[0]) === 0 && kk[0] * (A[1] - M[1]) + kk[1] * (B[1] - M[1]) === 0, 'd3a');
+    const lhs = `${kk[0] === 1 ? '' : kk[0]}${OV('M', 'A')} + ${kk[1] === 1 ? '' : kk[1]}${OV('M', 'B')} = \\vec{0}`;
+    return QB({text:`Cho ${m(`A${pt(...A)}`)} và ${m(`B${pt(...B)}`)}. Tìm toạ độ điểm ${m('M')} thoả ${m(lhs)}.`, tpl:`${m('M')} ( [_] ; [_] )`, ans:M,
+      hint:'Gọi M(x; y), viết toạ độ MA và MB rồi đặt từng toạ độ của vế trái bằng 0 để được hai phương trình.',
+      sol:`Với ${m('M(x;\\ y)')}: hoành độ ${m(`${kk[0]}(${A[0]} - x) + ${kk[1]}(${pn(B[0])} - x) = 0`)} nên ${m(`x = \\dfrac{${kk[0]}\\cdot ${pn(A[0])} + ${kk[1]}\\cdot ${pn(B[0])}}{${s}} = ${M[0]}`)}; tung độ ${m(`y = \\dfrac{${kk[0]}\\cdot ${pn(A[1])} + ${kk[1]}\\cdot ${pn(B[1])}}{${s}} = ${M[1]}`)}. Vậy ${tb(`M${pt(...M)}`)}.`});
+  }
+  let A, B, C;
+  do { A = [R(-5, 5), R(-5, 5)]; B = [R(-5, 5), R(-5, 5)]; C = [R(-5, 5), R(-5, 5)]; } while((B[0] - A[0]) * (C[1] - A[1]) - (B[1] - A[1]) * (C[0] - A[0]) === 0);
+  const p = pick([2, 3, -1]), q = pick([2, -1, -2]), D = [A[0] + p * (B[0] - A[0]) + q * (C[0] - A[0]), A[1] + p * (B[1] - A[1]) + q * (C[1] - A[1])];
+  const ex = `${coef(p, OV('A', 'B'))}${addTerm(q, OV('A', 'C'))}`;
+  return QB({text:`Cho ${m(`A${pt(...A)}`)}, ${m(`B${pt(...B)}`)}, ${m(`C${pt(...C)}`)}. Tìm toạ độ điểm ${m('D')} thoả ${m(`${OV('A', 'D')} = ${ex}`)}.`, tpl:`${m('D')} ( [_] ; [_] )`, ans:D,
+    hint:'Tính toạ độ AB và AC, tính vectơ vế phải, rồi dùng toạ độ AD = (x_D − x_A; y_D − y_A).',
+    sol:`${m(`${OV('A', 'B')} = ${pt(B[0] - A[0], B[1] - A[1])}`)}, ${m(`${OV('A', 'C')} = ${pt(C[0] - A[0], C[1] - A[1])}`)} nên ${m(`${OV('A', 'D')} = ${pt(D[0] - A[0], D[1] - A[1])}`)}. Do đó ${m(`x_D = ${A[0]} + ${pn(D[0] - A[0])}`)} và ${m(`y_D = ${A[1]} + ${pn(D[1] - A[1])}`)}. Vậy ${tb(`D${pt(...D)}`)}.`});
+};
+
+lesson(5, 'vecto-toa-do', 'Bài 10. Vectơ trong mặt phẳng toạ độ', 'Toạ độ của vectơ và các phép toán; toạ độ trung điểm, trọng tâm, đỉnh hình bình hành; độ dài, hai vectơ cùng phương, ba điểm thẳng hàng; phân tích vectơ.', [g10a, g10b, g10c, g10d]);
+}
+
 })();

@@ -510,3 +510,32 @@ Lecture.addSgk('lop10', 'bai-9', [
    body:`<ul><li>Quên rằng ${m('k \\lt 0')} thì đổi hướng; độ dài luôn nhân với ${m('|k|')}.</li><li>Nhầm tỉ lệ trọng tâm: ${m(`${v('A', 'G')} = \\dfrac{2}{3}${v('A', 'M')}`)} (không phải ${m('\\dfrac{1}{3}')}).</li><li>Khi phân tích vectơ, quên đổi dấu vectơ đối: ${m(`${v('B', 'A')} = -${v('A', 'B')}`)}.</li></ul>` + box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
 ]);
 })();
+
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 10. Vectơ trong mặt phẳng toạ độ. Đề là dạng bài vận dụng như trong SGK (tóm tắt, tự soạn lại số liệu);
+   số bài và số trang SGK chưa đối chiếu nên không ghi – thầy đối chiếu rồi bổ sung.
+   ===================================================================== */
+(() => {
+const m = tm, box = h => `<div class="lk-box">${h}</div>`;
+const v = (a, b) => `\\overrightarrow{${a}${b}}`;
+const TAG = 'Dạng như SGK – thầy đối chiếu số bài';
+Lecture.addSgk('lop10', 'bai-10', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 10. Vectơ trong mặt phẳng toạ độ', sub:'Các câu vận dụng, câu khó – SGK tập 1, Chương IV',
+   points:['Câu 1: toạ độ vectơ và độ dài đoạn thẳng.', 'Câu 2: các phép toán theo toạ độ.', 'Câu 3: trọng tâm tam giác, tìm đỉnh còn lại.', 'Câu 4: hình bình hành.', 'Câu 5: ba điểm thẳng hàng, phân tích vectơ.']},
+  {kind:'kt', tag:'Nhắc nhanh', title:'Công thức cần dùng',
+   body:box(`${m(`${v('A', 'B')} = (x_B - x_A;\\ y_B - y_A)`)}; ${m('AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}')}; trung điểm, trọng tâm là trung bình cộng toạ độ.`) +
+     `<ol class="lk-steps"><li>Hình bình hành ${m('ABCD')}: ${m(`${v('A', 'D')} = ${v('B', 'C')}`)}.</li><li>Cùng phương: ${m('x_1y_2 - x_2y_1 = 0')}.</li><li>Phân tích ${m('\\vec{c} = x\\vec{a} + y\\vec{b}')}: lập hệ theo hai toạ độ.</li></ol>`},
+  {kind:'vd', tag:TAG, label:'Câu 1', de:`Trong mặt phẳng toạ độ, ${m('A(2;\\ {-1})')} và ${m('B({-4};\\ 7)')}. Tìm toạ độ ${m(v('A', 'B'))} và tính độ dài ${m('AB')}.`,
+   sol:[`${m(`${v('A', 'B')} = (-4 - 2;\\ 7 - (-1)) = ({-6};\\ 8)`)}.`, `${m('AB = \\sqrt{36 + 64} = 10')}.`], ans:`${tb(`${v('A', 'B')} = ({-6};\\ 8)`)}, ${tb('AB = 10')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 2', de:`Cho ${m('\\vec{a} = (3;\\ {-2})')}, ${m('\\vec{b} = ({-1};\\ 4)')}. Tìm toạ độ ${m('\\vec{u} = 2\\vec{a} + 3\\vec{b}')} và ${m('\\vec{w} = \\vec{a} - 2\\vec{b}')}.`,
+   sol:[`${m('\\vec{u} = (6 + (-3);\\ -4 + 12) = (3;\\ 8)')}.`, `${m('\\vec{w} = (3 - (-2);\\ -2 - 8) = (5;\\ {-10})')}.`], ans:`${tb('\\vec{u} = (3;\\ 8)')}, ${tb('\\vec{w} = (5;\\ {-10})')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 3', de:`Tam giác ${m('ABC')} có ${m('A(1;\\ 4)')}, ${m('B({-2};\\ 1)')} và trọng tâm ${m('G(2;\\ 1)')}. Tìm toạ độ ${m('C')}.`,
+   sol:[`${m('x_G = \\dfrac{x_A + x_B + x_C}{3}')} nên ${m('x_C = 3x_G - x_A - x_B = 6 - 1 + 2 = 7')}.`, `${m('y_C = 3\\cdot 1 - 4 - 1 = -2')}.`], ans:`${tb('C(7;\\ {-2})')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 4', de:`Cho ${m('A(0;\\ 2)')}, ${m('B(4;\\ 3)')}, ${m('C(6;\\ {-1})')}. Tìm ${m('D')} để ${m('ABCD')} là hình bình hành và tính tâm ${m('I')} của nó.`,
+   sol:[`${m(`${v('A', 'D')} = ${v('B', 'C')} = (2;\\ {-4})`)} nên ${m('D(2;\\ {-2})')}.`, `${m('I')} là trung điểm ${m('AC')}: ${m('I(3;\\ 0{,}5)')}.`], ans:`${tb('D(2;\\ {-2})')}, ${tb('I\\left(3;\\ \\dfrac{1}{2}\\right)')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 5', de:`Cho ${m('A(1;\\ 1)')}, ${m('B(3;\\ 5)')}, ${m('C(m;\\ 9)')}. Tìm ${m('m')} để ${m('A, B, C')} thẳng hàng. Khi đó ${m('B')} có là trung điểm ${m('AC')} không?`,
+   sol:[`${m(`${v('A', 'B')} = (2;\\ 4)`)}, ${m(`${v('A', 'C')} = (m - 1;\\ 8)`)}; ${m(`${v('A', 'C')} = 2${v('A', 'B')}`)} nên ${m('m - 1 = 4')}, ${m('m = 5')}.`, `Khi đó ${m(`${v('A', 'C')} = 2${v('A', 'B')}`)}: ${m('B')} là trung điểm của ${m('AC')}.`], ans:`${tb('m = 5')}; có, ${m('B')} là trung điểm ${m('AC')}.`},
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Lấy <b>đầu trừ cuối</b> thay vì <b>cuối trừ đầu</b> khi tính toạ độ vectơ.</li><li>Trọng tâm chia cho 2 thay vì 3 (trung điểm mới chia cho 2).</li><li>Hình bình hành ${m('ABCD')}: viết nhầm ${m(`${v('A', 'B')} = ${v('C', 'D')}`)}; đúng phải là ${m(`${v('A', 'B')} = ${v('D', 'C')}`)}.</li></ul>` + box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
+]);
+})();

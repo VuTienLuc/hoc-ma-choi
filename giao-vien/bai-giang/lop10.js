@@ -781,5 +781,80 @@ Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương IV. Vectơ'
    body:`<ul><li>${m('\\left|k\\vec{a}\\right| = |k|\\left|\\vec{a}\\right|')}; ${m('k \\gt 0')} cùng hướng, ${m('k \\lt 0')} ngược hướng.</li><li>Trung điểm ${m('I')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} = 2${v('M', 'I')}`)}; trọng tâm ${m('G')}: ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')}`)}.</li><li>Cùng phương: ${m('\\vec{b} = k\\vec{a}')}; phân tích vectơ: so sánh hệ số của hai vectơ không cùng phương.</li></ul>` +
      box('Về nhà: làm các bài tập cuối Bài 9 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 9.')},
 ]},
+{ id:'bai-10', name:'Bài 10. Vectơ trong mặt phẳng toạ độ', desc:'Toạ độ của vectơ, các phép toán; độ dài, trung điểm, trọng tâm, hình bình hành; hai vectơ cùng phương, ba điểm thẳng hàng; phân tích vectơ; 4 dạng, 8 ví dụ.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương IV', title:'Bài 10. Vectơ trong mặt phẳng toạ độ', sub:'Mục tiêu bài học', points:[
+    'Tìm toạ độ của vectơ, thực hiện các phép toán cộng, trừ, nhân với một số theo toạ độ.',
+    'Tính độ dài vectơ, khoảng cách hai điểm; toạ độ trung điểm, trọng tâm; tìm đỉnh hình bình hành.',
+    'Xét hai vectơ cùng phương, ba điểm thẳng hàng; phân tích một vectơ theo hai vectơ cho trước.']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Toạ độ của vectơ',
+   fig:vecSVG({pts:[[0, 0, 'O'], [3, 2, 'M'], [3, 0, 'H'], [0, 2, 'K']], dash:[['M', 'H'], ['M', 'K']], vecs:[['O', 'M', 'u', 'alt']], h:170}),
+   body: S(`Trong mặt phẳng ${m('Oxy')} gọi ${m('\\vec{i}, \\vec{j}')} là hai vectơ đơn vị trên hai trục. Mỗi vectơ ${m('\\vec{u}')} viết được duy nhất dưới dạng ${m('\\vec{u} = x\\vec{i} + y\\vec{j}')}; cặp ${m('(x;\\ y)')} là <b>toạ độ</b> của ${m('\\vec{u}')}, kí hiệu ${m('\\vec{u} = (x;\\ y)')}.`) +
+     box(`Với ${m('A(x_A;\\ y_A)')}, ${m('B(x_B;\\ y_B)')}: ${m(`${v('A', 'B')} = (x_B - x_A;\\ y_B - y_A)`)}.`) +
+     S(`Hai vectơ bằng nhau khi hoành độ bằng nhau và tung độ bằng nhau.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Các phép toán theo toạ độ',
+   body: S(`Cho ${m('\\vec{u} = (x_1;\\ y_1)')}, ${m('\\vec{v} = (x_2;\\ y_2)')} và số ${m('k')}:`) +
+     box(`${m('\\vec{u} + \\vec{v} = (x_1 + x_2;\\ y_1 + y_2)')}; ${m('\\vec{u} - \\vec{v} = (x_1 - x_2;\\ y_1 - y_2)')}; ${m('k\\vec{u} = (kx_1;\\ ky_1)')}.`) +
+     box(`${m('\\vec{u}, \\vec{v}')} cùng phương (${m('\\vec{v} \\ne \\vec{0}')}) ⇔ có số ${m('k')} để ${m('\\vec{u} = k\\vec{v}')} ⇔ ${m('x_1y_2 - x_2y_1 = 0')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Độ dài vectơ, trung điểm, trọng tâm',
+   body: box(`${m('\\left|\\vec{u}\\right| = \\sqrt{x^2 + y^2}')}; ${m('AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}')}.`) +
+     box(`Trung điểm ${m('I')} của ${m('AB')}: ${m('x_I = \\dfrac{x_A + x_B}{2}')}, ${m('y_I = \\dfrac{y_A + y_B}{2}')}.`) +
+     box(`Trọng tâm ${m('G')} của tam giác ${m('ABC')}: ${m('x_G = \\dfrac{x_A + x_B + x_C}{3}')}, ${m('y_G = \\dfrac{y_A + y_B + y_C}{3}')}.`) +
+     note(`${m('ABCD')} là hình bình hành ⇔ ${m(`${v('A', 'D')} = ${v('B', 'C')}`)} (cùng chiều đọc các đỉnh).`)},
+
+  {kind:'method', tag:'Dạng 1', title:'Toạ độ vectơ và phép toán',
+   steps:[`Toạ độ ${m(v('A', 'B'))} = (toạ độ điểm cuối) − (toạ độ điểm đầu).`, `Nhân số với từng toạ độ, rồi cộng trừ hoành độ với hoành độ, tung độ với tung độ.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho ${m('A(1;\\ {-2})')} và ${m('B(4;\\ 2)')}. Tìm toạ độ ${m(v('A', 'B'))} và độ dài ${m('AB')}.`,
+   sol:[`${m(`${v('A', 'B')} = (4 - 1;\\ 2 - (-2)) = (3;\\ 4)`)}.`, `${m('AB = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5')}.`], ans:`${tb(`${v('A', 'B')} = (3;\\ 4)`)}, ${tb('AB = 5')}.`},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Cho ${m('\\vec{a} = (2;\\ {-1})')} và ${m('\\vec{b} = ({-3};\\ 4)')}. Tìm toạ độ ${m('\\vec{u} = 2\\vec{a} - 3\\vec{b}')}.`,
+   sol:[`${m('2\\vec{a} = (4;\\ {-2})')} và ${m('3\\vec{b} = ({-9};\\ 12)')}.`, `${m('\\vec{u} = (4 - (-9);\\ -2 - 12) = (13;\\ {-14})')}.`], ans:`${tb('\\vec{u} = (13;\\ {-14})')}.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Trung điểm, trọng tâm, hình bình hành',
+   steps:[`Trung điểm, trọng tâm: lấy trung bình cộng các toạ độ.`, `Tìm đỉnh còn thiếu: viết đẳng thức vectơ (vd ${m(`${v('A', 'D')} = ${v('B', 'C')}`)}), rồi so sánh từng toạ độ.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Tam giác ${m('ABC')} có ${m('A(1;\\ 2)')}, ${m('B(3;\\ {-4})')}, ${m('C(5;\\ 5)')}. Tìm trọng tâm ${m('G')} và trung điểm ${m('M')} của ${m('BC')}.`,
+   sol:[`${m('x_G = \\dfrac{1 + 3 + 5}{3} = 3')}, ${m('y_G = \\dfrac{2 + (-4) + 5}{3} = 1')}.`, `${m('x_M = \\dfrac{3 + 5}{2} = 4')}, ${m('y_M = \\dfrac{-4 + 5}{2} = \\dfrac{1}{2}')}.`], ans:`${tb('G(3;\\ 1)')}, ${tb('M\\left(4;\\ \\dfrac{1}{2}\\right)')}.`},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Cho ${m('A({-1};\\ 2)')}, ${m('B(2;\\ 3)')}, ${m('C(4;\\ {-1})')}. Tìm ${m('D')} để ${m('ABCD')} là hình bình hành.`,
+   fig:vecSVG({pts:[[-1, 2, 'A'], [2, 3, 'B'], [4, -1, 'C'], [1, -2, 'D']], poly:['A', 'B', 'C', 'D'], h:200}),
+   sol:[`${m('ABCD')} là hình bình hành nên ${m(`${v('A', 'D')} = ${v('B', 'C')}`)}.`, `${m(`${v('B', 'C')} = (2;\\ {-4})`)}; gọi ${m('D(x;\\ y)')} thì ${m(`${v('A', 'D')} = (x + 1;\\ y - 2)`)}.`, `${m('x + 1 = 2')} và ${m('y - 2 = -4')}, suy ra ${m('x = 1')}, ${m('y = -2')}.`], ans:`${tb('D(1;\\ {-2})')}.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Cùng phương, thẳng hàng',
+   steps:[`Hai vectơ cùng phương ⇔ ${m('\\vec{b} = k\\vec{a}')} (hoặc ${m('x_1y_2 = x_2y_1')}).`, `Ba điểm ${m('A, B, C')} thẳng hàng ⇔ ${m(`${v('A', 'C')} = k${v('A', 'B')}`)}; so sánh toạ độ để tìm ẩn.`]},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Cho ${m('\\vec{a} = (2;\\ {-3})')} và ${m('\\vec{b} = (m;\\ 6)')}. Tìm ${m('m')} để ${m('\\vec{a}, \\vec{b}')} cùng phương.`,
+   sol:[`${m('\\vec{b} = k\\vec{a}')} nên ${m('6 = k\\cdot (-3)')}, suy ra ${m('k = -2')}.`, `${m('m = -2\\cdot 2 = -4')}.`], ans:`${tb('m = -4')}. (Hai vectơ ngược hướng.)`},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Cho ${m('A(1;\\ 2)')}, ${m('B(3;\\ {-1})')}, ${m('C({-3};\\ m)')}. Tìm ${m('m')} để ba điểm ${m('A, B, C')} thẳng hàng.`,
+   sol:[`${m(`${v('A', 'B')} = (2;\\ {-3})`)} và ${m(`${v('A', 'C')} = ({-4};\\ m - 2)`)}.`, `${m(`${v('A', 'C')} = k${v('A', 'B')}`)} cho ${m('-4 = 2k')} nên ${m('k = -2')}.`, `${m('m - 2 = -2\\cdot (-3) = 6')}, suy ra ${m('m = 8')}.`], ans:`${tb('m = 8')}.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Phân tích vectơ, điểm thoả hệ thức',
+   steps:[`Phân tích ${m('\\vec{c} = x\\vec{a} + y\\vec{b}')}: viết theo từng toạ độ để được hệ hai phương trình ẩn ${m('x, y')}.`, `Điểm ${m('M')} thoả hệ thức vectơ: gọi ${m('M(x;\\ y)')}, tính toạ độ các vectơ rồi giải.`]},
+
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Cho ${m('\\vec{a} = (1;\\ 2)')}, ${m('\\vec{b} = (3;\\ {-1})')}, ${m('\\vec{c} = ({-1};\\ 5)')}. Tìm ${m('x, y')} để ${m('\\vec{c} = x\\vec{a} + y\\vec{b}')}.`,
+   sol:[`Theo toạ độ: ${m('x + 3y = -1')} và ${m('2x - y = 5')}.`, `Từ phương trình hai: ${m('y = 2x - 5')}. Thế vào phương trình một: ${m('x + 6x - 15 = -1')}, suy ra ${m('x = 2')}.`, `${m('y = 2\\cdot 2 - 5 = -1')}.`], ans:`${tb('x = 2')}, ${tb('y = -1')}.`},
+
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 4', label:'Ví dụ 8', de:`Cho ${m('A(1;\\ 4)')} và ${m('B(4;\\ {-2})')}. Tìm ${m('M')} thoả ${m(`${v('M', 'A')} + 2${v('M', 'B')} = \\vec{0}`)}.`,
+   sol:[`Gọi ${m('M(x;\\ y)')}: ${m(`${v('M', 'A')} = (1 - x;\\ 4 - y)`)}, ${m(`${v('M', 'B')} = (4 - x;\\ -2 - y)`)}.`, `Hoành độ: ${m('(1 - x) + 2(4 - x) = 0')} nên ${m('9 - 3x = 0')}, ${m('x = 3')}.`, `Tung độ: ${m('(4 - y) + 2(-2 - y) = 0')} nên ${m('-3y = 0')}, ${m('y = 0')}.`], ans:`${tb('M(3;\\ 0)')}.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho ${m('A({-2};\\ 3)')} và ${m('B(1;\\ {-1})')}. Tìm toạ độ ${m(v('A', 'B'))} và tính ${m('AB')}.`,
+   sol:[`${m(`${v('A', 'B')} = (1 - (-2);\\ -1 - 3) = (3;\\ {-4})`)}.`, `${m('AB = \\sqrt{9 + 16} = 5')}.`], ans:`${tb('(3;\\ {-4})')}, ${tb('AB = 5')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho ${m('\\vec{a} = (1;\\ {-2})')}, ${m('\\vec{b} = (3;\\ 1)')}. Tìm toạ độ ${m('3\\vec{a} - 2\\vec{b}')}.`,
+   sol:[`${m('3\\vec{a} = (3;\\ {-6})')}, ${m('2\\vec{b} = (6;\\ 2)')}.`, `${m('3\\vec{a} - 2\\vec{b} = (3 - 6;\\ -6 - 2) = ({-3};\\ {-8})')}.`], ans:`${tb('({-3};\\ {-8})')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Tam giác ${m('ABC')} có ${m('A(2;\\ {-1})')}, ${m('B({-3};\\ 4)')}, ${m('C(4;\\ 3)')}. Tìm trọng tâm ${m('G')}.`,
+   sol:[`${m('x_G = \\dfrac{2 + (-3) + 4}{3} = 1')}.`, `${m('y_G = \\dfrac{-1 + 4 + 3}{3} = 2')}.`], ans:`${tb('G(1;\\ 2)')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Cho ${m('A(0;\\ 1)')}, ${m('B(3;\\ 2)')}, ${m('C(5;\\ {-2})')}. Tìm ${m('D')} để ${m('ABCD')} là hình bình hành.`,
+   sol:[`${m(`${v('A', 'D')} = ${v('B', 'C')} = (2;\\ {-4})`)}.`, `${m('x_D - 0 = 2')}, ${m('y_D - 1 = -4')}.`], ans:`${tb('D(2;\\ {-3})')}.`},
+  {kind:'lt', tag:'Luyện tập ★', label:'Bài 5★', de:`Cho ${m('\\vec{a} = (2;\\ {-1})')}, ${m('\\vec{b} = (1;\\ 3)')}, ${m('\\vec{c} = (0;\\ 7)')}. Tìm ${m('x, y')} để ${m('\\vec{c} = x\\vec{a} + y\\vec{b}')}.`,
+   sol:[`${m('2x + y = 0')} và ${m('-x + 3y = 7')}.`, `Từ phương trình một: ${m('y = -2x')}. Thế vào phương trình hai: ${m('-x - 6x = 7')}, suy ra ${m('x = -1')}.`, `${m('y = 2')}.`], ans:`${tb('x = -1')}, ${tb('y = 2')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>${m(`${v('A', 'B')} = (x_B - x_A;\\ y_B - y_A)`)}; cộng, trừ, nhân số theo từng toạ độ.</li><li>${m('\\left|\\vec{u}\\right| = \\sqrt{x^2 + y^2}')}; trung điểm: trung bình cộng 2 toạ độ; trọng tâm: trung bình cộng 3 toạ độ.</li><li>Hình bình hành ${m('ABCD')}: ${m(`${v('A', 'D')} = ${v('B', 'C')}`)}. Cùng phương: ${m('x_1y_2 - x_2y_1 = 0')}.</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 10 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 10.')},
+]},
 ]});
 })();

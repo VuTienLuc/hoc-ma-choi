@@ -1967,3 +1967,234 @@ Em chọn một tình huống có lực hoặc vận tốc cùng phương (kéo 
 | Exit 3 | $3$ |
 | Về nhà | Hình vẽ có tỉ lệ xích, $k$ đúng dấu |
 `);
+
+Lecture.addSheet('lop10', 'bai-10', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Bài 10. Vectơ trong mặt phẳng toạ độ
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Cho $\left|\vec{a}\right| = 5$. Tính $\left|-3\vec{a}\right|$. Đáp số: ………………………
+
+**Câu 2.** $I$ là trung điểm $AB$, $M$ bất kì: $\overrightarrow{MA} + \overrightarrow{MB} = k\overrightarrow{MI}$. Tìm $k$. Đáp số: ………………………
+
+**Câu 3.** $G$ là trọng tâm tam giác $ABC$. $\overrightarrow{GA} + \overrightarrow{GB} + \overrightarrow{GC} = $ ? Đáp số: ………………………
+
+**Câu 4.** Tính $7 - (-2)$ và $-3 - 4$. Đáp số: ………………………
+
+## 2. Tình huống mở đầu
+
+Bản đồ lưới ô vuông (mỗi ô $100$ m), gốc tại cổng chợ. Vị trí các điểm:
+
+| Địa điểm | Nhà An | Trường | Thư viện |
+|---|---|---|---|
+| Toạ độ | $(1;\ 2)$ | $(4;\ 6)$ | $(7;\ 10)$ |
+
+**Em nhận thấy:** …………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Làm sao tính được độ dài đường đi và tìm vị trí trung điểm chỉ từ toạ độ, không cần vẽ hình?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Cho $A(1;\ -2)$ và $B(4;\ 2)$. Toạ độ $\overrightarrow{AB}$ là
+
+A. $(5;\ 0)$
+
+B. $(-3;\ -4)$
+
+C. $(3;\ 4)$
+
+D. $(4;\ -4)$
+
+**Câu B.** Cho $A(0;\ 0)$, $B(3;\ 1)$, $C(4;\ 4)$. Điểm $D$ để $ABCD$ là hình bình hành có toạ độ
+
+A. $(7;\ 5)$
+
+B. $(1;\ 3)$
+
+C. $(-1;\ -3)$
+
+D. $(5;\ 3)$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** $A(2;\ -3)$, $B(-2;\ 0)$. Tìm toạ độ $\overrightarrow{AB}$ và độ dài $AB$. Đáp số: ………………………
+
+**Câu 2 ★.** $\vec{a} = (1;\ -2)$, $\vec{b} = (-3;\ 4)$. Tìm toạ độ $2\vec{a} + \vec{b}$. Đáp số: ………………………
+
+**Câu 3 ★★.** $A(-4;\ 6)$, $B(2;\ -2)$. Tìm toạ độ trung điểm $I$ của $AB$. Đáp số: ………………………
+
+**Câu 4 ★★.** $A(1;\ 2)$, $B(5;\ -1)$, $C(0;\ 5)$. Tìm toạ độ trọng tâm $G$. Đáp số: ………………………
+
+**Câu 5 ★★.** $\vec{a} = (1;\ -3)$ và $\vec{b} = (m;\ 9)$ cùng phương. Tìm $m$. Đáp số: ………………………
+
+**Câu 6 ★★★.** $A(0;\ -1)$, $B(2;\ 3)$, $C(m;\ 7)$ thẳng hàng. Tìm $m$. Đáp số: ………………………
+
+**Câu 7 ★★★.** $\vec{a} = (1;\ 2)$, $\vec{b} = (-1;\ 1)$, $\vec{c} = (5;\ 1)$ và $\vec{c} = x\vec{a} + y\vec{b}$. Tìm $x, y$. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tam giác $ABC$ có $A(1;\ 2)$, $B(3;\ 6)$, $C(5;\ -2)$. (a) Tìm trọng tâm $G$. (b) Tìm $D$ để $ABCD$ là hình bình hành.
+>
+> **Lời giải của bạn X:** (a) $G\left(\dfrac{1 + 3 + 5}{2};\ \dfrac{2 + 6 - 2}{2}\right) = \left(\dfrac{9}{2};\ 3\right)$. (b) $ABCD$ là hình bình hành nên $\overrightarrow{AB} = \overrightarrow{CD}$. Có $\overrightarrow{AB} = (2;\ 4)$, $\overrightarrow{CD} = (x - 5;\ y + 2)$ nên $D(7;\ 2)$.
+
+Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** $B(2;\ -1)$, $C(4;\ 5)$. Trung điểm $M$ của $BC$ là
+
+A. $(6;\ 4)$
+
+B. $(1;\ 3)$
+
+C. $(2;\ 3)$
+
+D. $(3;\ 2)$
+
+**Câu 2.** Cho $\vec{a} = (2;\ -1)$, $\vec{b} = (-4;\ 2)$. Mỗi ý em ghi Đ hoặc S:
+
+a) $\vec{b} = -2\vec{a}$. ……
+
+b) $\vec{a}$ và $\vec{b}$ cùng phương. ……
+
+c) $\left|\vec{b}\right| = 3\left|\vec{a}\right|$. ……
+
+d) $\vec{a} - \vec{b} = (6;\ -3)$. ……
+
+**Câu 3.** Tam giác $ABC$ có $A(1;\ 4)$, $B(-2;\ 1)$, trọng tâm $G(2;\ 1)$. Hoành độ của $C$ là: …………
+
+## 7. Một phút suy ngẫm
+
+*Vì sao khi tính toạ độ vectơ $\overrightarrow{AB}$ phải lấy toạ độ B trừ toạ độ A mà không phải ngược lại? Trọng tâm và trung điểm khác nhau ở chỗ nào khi tính toạ độ?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Em vẽ sơ đồ lưới ô vuông khu vực quanh nhà, chọn một địa điểm làm gốc toạ độ và ghi toạ độ ít nhất $4$ địa điểm (nhà, trường, cửa hàng, công viên). Tính khoảng cách từ nhà đến trường và toạ độ điểm chính giữa. **Sản phẩm:** sơ đồ và phép tính, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Bài 10. Vectơ trong mặt phẳng toạ độ
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương IV. Vectơ · Bài 10. Vectơ trong mặt phẳng toạ độ** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con; tiết học bài mới.
+- Bảng nhà An – trường – thư viện ở mục mở đầu và bài về nhà là **[Minh họa]** do người soạn tự đặt, không trích từ SGK. Thầy đối chiếu với phần Mở đầu của Bài 10 trong SGK nếu muốn dùng tình huống sách.
+- Phiếu bám các ví dụ của bài giảng: toạ độ vectơ và phép toán (Ví dụ 1–2) → Do Now, câu bản lề A, Luyện tập 1–2; trung điểm, trọng tâm, hình bình hành (Ví dụ 3–4) → câu bản lề B, Luyện tập 3–4, Tìm lỗi sai, Exit ticket 1, 3; cùng phương, thẳng hàng (Ví dụ 5–6) → Luyện tập 5–6, Exit ticket 2; phân tích vectơ (Ví dụ 7–8) → Luyện tập 7.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **Hình thành kiến thức** thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* ôn hệ thức trung điểm, trọng tâm ở Bài 9; thấy rằng khi có toạ độ thì độ dài và trung điểm tính được bằng số.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng toạ độ ba địa điểm.
+- *Sản phẩm:* Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* tính toạ độ vectơ, thực hiện phép toán; tính độ dài, trung điểm, trọng tâm, đỉnh hình bình hành; xét cùng phương, thẳng hàng; nhận ra lỗi điển hình (đảo thứ tự trừ, chia nhầm cho 2 ở trọng tâm, đọc sai thứ tự đỉnh hình bình hành).
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài thực tế về nhà.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; sơ đồ toạ độ.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hình thành kiến thức** | *Giáo viên tự dạy theo bài giảng* |
+| ~13 | Câu hỏi bản lề A (Mục 3) | Dừng sau phần toạ độ vectơ; giơ thẻ A/B/C/D |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) | |
+
+*Câu hỏi bản lề B dùng sau phần trung điểm, trọng tâm, hình bình hành, hoặc thay câu A khi lớp đã vững.*
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Tự chấm không lấy điểm nên giảm áp lực.
+- **Đáp án:**
+  1. $15$.
+  2. $2$.
+  3. $\vec{0}$.
+  4. $9$ và $-7$.
+- **Lỗi dự kiến:** câu 1 ghi $-15$; câu 2 ghi $1$; câu 4 trừ nhầm dấu ($5$ hoặc $-1$).
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.**
+- **Gợi ý nhận thấy:** từ nhà An đến trường, rồi từ trường đến thư viện, đều đi sang phải $3$ ô, lên trên $4$ ô; trường nằm giữa nhà An và thư viện.
+- Chốt: vectơ từ nhà An đến trường và vectơ từ trường đến thư viện đều có toạ độ $(3;\ 4)$, nên trường là trung điểm; mỗi đoạn dài $\sqrt{3^2 + 4^2} = 5$ ô, tức $500$ m.
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Mạnh.**
+- **Câu A:** đáp án **C**. A là tổng toạ độ; B là $\overrightarrow{BA}$ (đảo thứ tự); D sai cả hai toạ độ.
+- **Câu B:** đáp án **B**, vì $\overrightarrow{AD} = \overrightarrow{BC} = (1;\ 3)$. A là $A + B + C$; C lấy $\overrightarrow{CB}$; D nhầm $D = B + C - A$.
+- Nếu quá nửa lớp sai: dừng 2 phút, vẽ hình bình hành lên lưới ô vuông.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Trung bình–Mạnh.**
+- **Đáp án:** 1) $\overrightarrow{AB} = (-4;\ 3)$, $AB = 5$. 2) $(-1;\ 0)$. 3) $I(-1;\ 2)$. 4) $G(2;\ 2)$. 5) $m = -3$. 6) $m = 4$. 7) $x = 2$, $y = -3$.
+- **Lỗi dự kiến:** câu 1 ghi $(4;\ -3)$; câu 4 chia cho $2$; câu 5 ghi $m = 3$; câu 7 giải hệ sai dấu.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Trung bình.**
+- **Hai lỗi:** (a) trọng tâm chia cho $3$, đúng là $G(3;\ 2)$; (b) hình bình hành $ABCD$ có $\overrightarrow{AB} = \overrightarrow{DC}$ (không phải $\overrightarrow{CD}$), nên $D(3;\ -6)$.
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.**
+- **Đáp án:** Câu 1: **D**. Câu 2: a) Đ · b) Đ · c) S · d) Đ. Câu 3: $7$.
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- Mong đợi: vectơ đi từ A đến B nên lấy điểm cuối trừ điểm đầu; trung điểm là trung bình của hai toạ độ, trọng tâm là trung bình của ba toạ độ.
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** gắn toạ độ vectơ với vị trí, khoảng cách thực tế.
+- **Tiêu chí nộp:** có hệ trục, ít nhất $4$ toạ độ, khoảng cách tính đúng, trung điểm đúng.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài tìm điểm thoả hệ thức vectơ |
+| 2. Sai hết | 0–1 câu đúng | Ôn nhóm nhỏ: vẽ vectơ trên lưới ô vuông, đếm ô |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng câu sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Bài 11):** (1) một câu về trọng tâm bị sai nhiều; (2) tính độ dài vectơ $(6;\ 8)$; (3) góc giữa hai vectơ $\overrightarrow{AB}$, $\overrightarrow{AC}$ trong tam giác đều là bao nhiêu độ.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát lưới ô vuông để đếm ô; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *tìm điểm $M$ thoả $2\overrightarrow{MA} + \overrightarrow{MB} + 3\overrightarrow{MC} = \vec{0}$ khi biết toạ độ $A, B, C$.*
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng GeoGebra đặt các điểm, quan sát toạ độ vectơ và trung điểm hiện ra.
+- **Địa chỉ 2:** bài về nhà dùng bản đồ số lấy toạ độ lưới và nộp sơ đồ bằng ảnh.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $15$ |
+| Do Now 2 | $2$ |
+| Do Now 3 | $\vec{0}$ |
+| Do Now 4 | $9$ và $-7$ |
+| Mở đầu | Trường là trung điểm; mỗi đoạn dài $5$ ô |
+| Bản lề A | C |
+| Bản lề B | B |
+| Luyện tập 1 | $(-4;\ 3)$; $5$ |
+| Luyện tập 2 | $(-1;\ 0)$ |
+| Luyện tập 3 | $(-1;\ 2)$ |
+| Luyện tập 4 | $(2;\ 2)$ |
+| Luyện tập 5 | $-3$ |
+| Luyện tập 6 | $4$ |
+| Luyện tập 7 | $x = 2$, $y = -3$ |
+| Tìm lỗi sai | (a) $G(3;\ 2)$; (b) $D(3;\ -6)$ |
+| Exit 1 | D |
+| Exit 2 | a) Đ · b) Đ · c) S · d) Đ |
+| Exit 3 | $7$ |
+| Về nhà | Sơ đồ có toạ độ, khoảng cách, trung điểm đúng |
+`);
