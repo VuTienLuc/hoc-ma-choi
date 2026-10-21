@@ -856,5 +856,89 @@ Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương IV. Vectơ'
    body:`<ul><li>${m(`${v('A', 'B')} = (x_B - x_A;\\ y_B - y_A)`)}; cộng, trừ, nhân số theo từng toạ độ.</li><li>${m('\\left|\\vec{u}\\right| = \\sqrt{x^2 + y^2}')}; trung điểm: trung bình cộng 2 toạ độ; trọng tâm: trung bình cộng 3 toạ độ.</li><li>Hình bình hành ${m('ABCD')}: ${m(`${v('A', 'D')} = ${v('B', 'C')}`)}. Cùng phương: ${m('x_1y_2 - x_2y_1 = 0')}.</li></ul>` +
      box('Về nhà: làm các bài tập cuối Bài 10 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 10.')},
 ]},
+{ id:'bai-11', name:'Bài 11. Tích vô hướng của hai vectơ', desc:'Góc giữa hai vectơ; tích vô hướng theo định nghĩa và theo toạ độ; vuông góc; độ dài, góc; ứng dụng tính công; 4 dạng, 10 ví dụ.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương IV', title:'Bài 11. Tích vô hướng của hai vectơ', sub:'Mục tiêu bài học', points:[
+    'Xác định góc giữa hai vectơ; tính tích vô hướng theo định nghĩa và theo toạ độ.',
+    'Dùng tích vô hướng xét hai vectơ vuông góc, tính độ dài và góc.',
+    'Vận dụng vào tính công của một lực.']},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Góc giữa hai vectơ',
+   fig:vecSVG({pts:[[0, 0, 'O'], [3, 0.4, 'A'], [1.4, 2.6, 'B']], vecs:[['O', 'A', 'a'], ['O', 'B', 'b']], h:170}),
+   body: S(`Cho hai vectơ ${m('\\vec{a}, \\vec{b}')} khác ${m('\\vec{0}')}. Từ điểm ${m('O')} dựng ${m(`${v('O', 'A')} = \\vec{a}`)}, ${m(`${v('O', 'B')} = \\vec{b}`)}. Số đo góc ${m('\\widehat{AOB}')} (từ ${m('0^\\circ')} đến ${m('180^\\circ')}) là <b>góc giữa hai vectơ</b>, kí hiệu ${m('\\left(\\vec{a},\\vec{b}\\right)')}.`) +
+     box(`Cùng hướng: ${m('0^\\circ')}; ngược hướng: ${m('180^\\circ')}; vuông góc: ${m('90^\\circ')} (kí hiệu ${m('\\vec{a} \\perp \\vec{b}')}).`) +
+     note(`Muốn tìm góc giữa hai vectơ nối đuôi nhau (như ${m(v('A', 'B'))} và ${m(v('B', 'C'))}), phải tịnh tiến về cùng gốc: góc đó bù với góc của hình, không phải góc ${m('B')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Tích vô hướng',
+   body: box(`${m('\\vec{a}\\cdot\\vec{b} = \\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos\\left(\\vec{a},\\vec{b}\\right)')} (là một <b>số</b>, không phải vectơ).`) +
+     S(`Hệ quả: ${m('\\vec{a}\\cdot\\vec{a} = \\left|\\vec{a}\\right|^2')}; ${m('\\vec{a} \\perp \\vec{b} \\Leftrightarrow \\vec{a}\\cdot\\vec{b} = 0')}.`) +
+     S(`Tính chất: ${m('\\vec{a}\\cdot\\vec{b} = \\vec{b}\\cdot\\vec{a}')}; ${m('\\vec{a}\\cdot(\\vec{b} + \\vec{c}) = \\vec{a}\\cdot\\vec{b} + \\vec{a}\\cdot\\vec{c}')}; ${m('(k\\vec{a})\\cdot\\vec{b} = k(\\vec{a}\\cdot\\vec{b})')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Biểu thức toạ độ',
+   body: S(`Cho ${m('\\vec{a} = (x_1;\\ y_1)')}, ${m('\\vec{b} = (x_2;\\ y_2)')}:`) +
+     box(`${m('\\vec{a}\\cdot\\vec{b} = x_1x_2 + y_1y_2')}; ${m('\\vec{a} \\perp \\vec{b} \\Leftrightarrow x_1x_2 + y_1y_2 = 0')}.`) +
+     box(`${m('\\cos\\left(\\vec{a},\\vec{b}\\right) = \\dfrac{x_1x_2 + y_1y_2}{\\sqrt{x_1^2 + y_1^2}\\cdot\\sqrt{x_2^2 + y_2^2}}')}.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Độ dài |a ± b| và ứng dụng tính công',
+   body: box(`${m('\\left|\\vec{a} \\pm \\vec{b}\\right|^2 = \\left|\\vec{a}\\right|^2 + \\left|\\vec{b}\\right|^2 \\pm 2\\,\\vec{a}\\cdot\\vec{b}')}.`) +
+     S(`Công của lực ${m('\\vec{F}')} làm vật dịch chuyển theo ${m('\\vec{d}')}: ${m('A = \\vec{F}\\cdot\\vec{d} = F\\cdot d\\cdot\\cos\\alpha')} (đơn vị J; ${m('\\alpha')} là góc giữa lực và hướng dịch chuyển).`)},
+
+  {kind:'method', tag:'Dạng 1', title:'Tích vô hướng theo định nghĩa',
+   steps:[`Xác định đúng góc giữa hai vectơ (tịnh tiến về cùng gốc).`, `Thay vào ${m('\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos\\alpha')}; nhớ ${m('\\cos 60^\\circ = \\dfrac{1}{2}')}, ${m('\\cos 120^\\circ = -\\dfrac{1}{2}')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho ${m('\\left|\\vec{a}\\right| = 4')}, ${m('\\left|\\vec{b}\\right| = 6')}, ${m('\\left(\\vec{a},\\vec{b}\\right) = 60^\\circ')}. Tính ${m('\\vec{a}\\cdot\\vec{b}')} và ${m('\\vec{a}\\cdot(-\\vec{b})')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 4\\cdot 6\\cdot \\cos 60^\\circ = 24\\cdot \\dfrac{1}{2} = 12')}.`, `${m('\\vec{a}\\cdot(-\\vec{b}) = -\\vec{a}\\cdot\\vec{b} = -12')}.`], ans:`${tb('12')} và ${tb('-12')}.`},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Tam giác ${m('ABC')} đều cạnh ${m('6')}. Tính ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')}`)} và ${m(`${v('A', 'B')}\\cdot ${v('B', 'C')}`)}.`,
+   fig:vecSVG({pts:[[0, 0, 'A'], [4, 0, 'B'], [2, 3.46, 'C']], poly:['A', 'B', 'C'], h:180}),
+   sol:[`${m(`\\left(${v('A', 'B')},${v('A', 'C')}\\right) = 60^\\circ`)} nên ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')} = 6\\cdot 6\\cdot \\cos 60^\\circ = 18`)}.`, `${m(`${v('A', 'B')}`)} và ${m(`${v('B', 'C')}`)} nối đuôi nhau nên góc giữa chúng là ${m('180^\\circ - 60^\\circ = 120^\\circ')}.`, `${m(`${v('A', 'B')}\\cdot ${v('B', 'C')} = 36\\cdot \\cos 120^\\circ = -18`)}.`], ans:`${tb('18')} và ${tb('-18')}.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Tích vô hướng theo toạ độ, vuông góc',
+   steps:[`Tính toạ độ các vectơ (cuối trừ đầu), dùng ${m('x_1x_2 + y_1y_2')}.`, `Vuông góc: đặt tích vô hướng bằng ${m('0')} rồi giải phương trình chứa tham số.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Cho ${m('\\vec{a} = (2;\\ {-3})')}, ${m('\\vec{b} = (4;\\ 5)')}. Tính ${m('\\vec{a}\\cdot\\vec{b}')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 2\\cdot 4 + (-3)\\cdot 5 = 8 - 15')}.`], ans:`${tb('-7')}.`},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Cho ${m('\\vec{a} = (2;\\ m)')} và ${m('\\vec{b} = (3;\\ {-6})')}. Tìm ${m('m')} để ${m('\\vec{a} \\perp \\vec{b}')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 2\\cdot 3 + m\\cdot (-6) = 6 - 6m')}.`, `Vuông góc nên ${m('6 - 6m = 0')}, suy ra ${m('m = 1')}.`], ans:`${tb('m = 1')}.`},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 2', label:'Ví dụ 5', de:`Cho ${m('A(1;\\ 1)')}, ${m('B(3;\\ 2)')}, ${m('C(m;\\ 5)')}. Tìm ${m('m')} để tam giác ${m('ABC')} vuông tại ${m('A')}.`,
+   sol:[`${m(`${v('A', 'B')} = (2;\\ 1)`)}, ${m(`${v('A', 'C')} = (m - 1;\\ 4)`)}.`, `Vuông tại ${m('A')} nên ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')} = 2(m - 1) + 1\\cdot 4 = 0`)}, tức ${m('2m + 2 = 0')}.`], ans:`${tb('m = -1')}.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Góc giữa hai vectơ, độ dài |a ± b|',
+   steps:[`Góc: tính ${m('\\cos\\left(\\vec{a},\\vec{b}\\right) = \\dfrac{\\vec{a}\\cdot\\vec{b}}{\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|}')}, đối chiếu giá trị đặc biệt.`, `Độ dài: tính ${m('\\left|\\vec{a} \\pm \\vec{b}\\right|^2')} bằng công thức rồi lấy căn bậc hai.`]},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Cho ${m('\\vec{a} = (2;\\ 1)')}, ${m('\\vec{b} = (1;\\ 3)')}. Tìm góc giữa hai vectơ.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 2 + 3 = 5')}; ${m('\\left|\\vec{a}\\right| = \\sqrt{5}')}, ${m('\\left|\\vec{b}\\right| = \\sqrt{10}')}.`, `${m('\\cos\\left(\\vec{a},\\vec{b}\\right) = \\dfrac{5}{\\sqrt{5}\\cdot\\sqrt{10}} = \\dfrac{5}{5\\sqrt{2}} = \\dfrac{\\sqrt{2}}{2}')}.`], ans:`Góc bằng ${tb('45^\\circ')}.`},
+
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 3', label:'Ví dụ 7', de:`Cho ${m('\\left|\\vec{a}\\right| = 5')}, ${m('\\left|\\vec{b}\\right| = 8')}, ${m('\\left(\\vec{a},\\vec{b}\\right) = 60^\\circ')}. Tính ${m('\\left|\\vec{a} - \\vec{b}\\right|')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 5\\cdot 8\\cdot \\dfrac{1}{2} = 20')}.`, `${m('\\left|\\vec{a} - \\vec{b}\\right|^2 = 25 + 64 - 2\\cdot 20 = 49')}.`], ans:`${tb('\\left|\\vec{a} - \\vec{b}\\right| = 7')}.`},
+
+  {kind:'method', tag:'Dạng 4', title:'Ứng dụng: công cơ học, hợp lực',
+   steps:[`Công của lực là tích vô hướng của lực và vectơ dịch chuyển.`, `Biết toạ độ thì dùng ${m('x_1x_2 + y_1y_2')}; biết độ lớn và góc thì dùng ${m('F\\cdot d\\cdot\\cos\\alpha')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 4', label:'Ví dụ 8', de:`Một người kéo xe bằng lực ${m('40')} N, dây hợp với phương ngang góc ${m('60^\\circ')}, xe đi được ${m('12')} m. Tính công của lực kéo.`,
+   sol:[`${m('A = F\\cdot d\\cdot\\cos 60^\\circ = 40\\cdot 12\\cdot \\dfrac{1}{2}')}.`], ans:`${tb('240')} J.`},
+
+  {kind:'vd', tag:'Ví dụ 9 · Dạng 4', label:'Ví dụ 9', de:`Lực ${m('\\vec{F} = (4;\\ {-2})')} (N) làm vật chuyển từ ${m('A(0;\\ 1)')} đến ${m('B(5;\\ {-2})')} (m). Tính công.`,
+   sol:[`${m(`${v('A', 'B')} = (5;\\ {-3})`)}.`, `${m(`A = \\vec{F}\\cdot ${v('A', 'B')} = 4\\cdot 5 + (-2)\\cdot (-3) = 20 + 6`)}.`], ans:`${tb('26')} J.`},
+
+  {kind:'vd', tag:'Ví dụ 10 · Dạng 4', label:'Ví dụ 10', de:`Hai lực ${m('\\vec{F_1} = (2;\\ 3)')} và ${m('\\vec{F_2} = (1;\\ {-5})')} (N) cùng tác dụng, vật dịch chuyển theo ${m('\\vec{d} = (4;\\ 1)')} (m). Tính công của hợp lực.`,
+   sol:[`${m('\\vec{F} = \\vec{F_1} + \\vec{F_2} = (3;\\ {-2})')}.`, `${m('A = \\vec{F}\\cdot\\vec{d} = 3\\cdot 4 + (-2)\\cdot 1 = 10')}.`, `Kiểm tra: ${m('\\vec{F_1}\\cdot\\vec{d} = 11')}, ${m('\\vec{F_2}\\cdot\\vec{d} = -1')}, tổng bằng ${m('10')}.`], ans:`${tb('10')} J.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho ${m('\\left|\\vec{a}\\right| = 4')}, ${m('\\left|\\vec{b}\\right| = 5')}, ${m('\\left(\\vec{a},\\vec{b}\\right) = 120^\\circ')}. Tính ${m('\\vec{a}\\cdot\\vec{b}')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 4\\cdot 5\\cdot \\cos 120^\\circ = 20\\cdot \\left(-\\dfrac{1}{2}\\right)')}.`], ans:`${tb('-10')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho ${m('\\vec{a} = ({-1};\\ 3)')}, ${m('\\vec{b} = (6;\\ 2)')}. Chứng tỏ ${m('\\vec{a} \\perp \\vec{b}')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = (-1)\\cdot 6 + 3\\cdot 2 = -6 + 6 = 0')}.`], ans:`Tích vô hướng bằng ${tb('0')} nên hai vectơ vuông góc.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Cho ${m('\\left|\\vec{a}\\right| = 2')}, ${m('\\left|\\vec{b}\\right| = 3')}, ${m('\\vec{a}\\cdot\\vec{b} = -1')}. Tính ${m('(\\vec{a} + 2\\vec{b})\\cdot(2\\vec{a} - \\vec{b})')}.`,
+   sol:[`Khai triển: ${m('2\\vec{a}^2 - \\vec{a}\\cdot\\vec{b} + 4\\,\\vec{a}\\cdot\\vec{b} - 2\\vec{b}^2 = 2\\vec{a}^2 + 3\\,\\vec{a}\\cdot\\vec{b} - 2\\vec{b}^2')}.`, `${m('= 2\\cdot 4 + 3\\cdot (-1) - 2\\cdot 9 = 8 - 3 - 18')}.`], ans:`${tb('-13')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Cho ${m('A(1;\\ 2)')}, ${m('B(3;\\ {-1})')}, ${m('C(0;\\ m)')}. Tìm ${m('m')} để tam giác ${m('ABC')} vuông tại ${m('B')}.`,
+   sol:[`${m(`${v('B', 'A')} = ({-2};\\ 3)`)}, ${m(`${v('B', 'C')} = ({-3};\\ m + 1)`)}.`, `${m(`${v('B', 'A')}\\cdot ${v('B', 'C')} = 6 + 3(m + 1) = 0`)} nên ${m('m + 1 = -2')}.`], ans:`${tb('m = -3')}.`},
+  {kind:'lt', tag:'Luyện tập ★', label:'Bài 5★', de:`Hai lực ${m('\\vec{F_1} = (5;\\ {-1})')} và ${m('\\vec{F_2} = ({-1};\\ 4)')} (N) cùng tác dụng lên vật, vật dịch chuyển theo ${m('\\vec{d} = (3;\\ 2)')} (m). Tính công của hợp lực và so với tổng công của hai lực.`,
+   sol:[`${m('\\vec{F} = (4;\\ 3)')}, ${m('A = 4\\cdot 3 + 3\\cdot 2 = 18')}.`, `${m('\\vec{F_1}\\cdot\\vec{d} = 15 - 2 = 13')}, ${m('\\vec{F_2}\\cdot\\vec{d} = -3 + 8 = 5')}; tổng ${m('13 + 5 = 18')}, bằng công của hợp lực.`], ans:`${tb('18')} J.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>${m('\\vec{a}\\cdot\\vec{b} = \\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos\\left(\\vec{a},\\vec{b}\\right) = x_1x_2 + y_1y_2')}; kết quả là một số.</li><li>${m('\\vec{a} \\perp \\vec{b} \\Leftrightarrow \\vec{a}\\cdot\\vec{b} = 0')}; ${m('\\vec{a}\\cdot\\vec{a} = \\left|\\vec{a}\\right|^2')}.</li><li>${m('\\left|\\vec{a} \\pm \\vec{b}\\right|^2 = \\left|\\vec{a}\\right|^2 + \\left|\\vec{b}\\right|^2 \\pm 2\\,\\vec{a}\\cdot\\vec{b}')}; công ${m('A = \\vec{F}\\cdot\\vec{d}')}.</li></ul>` +
+     box('Về nhà: làm các bài tập cuối Bài 11 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 11.')},
+]},
 ]});
 })();

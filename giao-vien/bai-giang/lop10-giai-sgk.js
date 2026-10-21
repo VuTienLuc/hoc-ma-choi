@@ -539,3 +539,32 @@ Lecture.addSgk('lop10', 'bai-10', [
    body:`<ul><li>Lấy <b>đầu trừ cuối</b> thay vì <b>cuối trừ đầu</b> khi tính toạ độ vectơ.</li><li>Trọng tâm chia cho 2 thay vì 3 (trung điểm mới chia cho 2).</li><li>Hình bình hành ${m('ABCD')}: viết nhầm ${m(`${v('A', 'B')} = ${v('C', 'D')}`)}; đúng phải là ${m(`${v('A', 'B')} = ${v('D', 'C')}`)}.</li></ul>` + box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
 ]);
 })();
+
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 11. Tích vô hướng của hai vectơ. Đề là dạng bài vận dụng như trong SGK (tóm tắt, tự soạn lại số liệu);
+   số bài và số trang SGK chưa đối chiếu nên không ghi – thầy đối chiếu rồi bổ sung.
+   ===================================================================== */
+(() => {
+const m = tm, box = h => `<div class="lk-box">${h}</div>`;
+const v = (a, b) => `\\overrightarrow{${a}${b}}`;
+const TAG = 'Dạng như SGK – thầy đối chiếu số bài';
+Lecture.addSgk('lop10', 'bai-11', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 11. Tích vô hướng của hai vectơ', sub:'Các câu vận dụng, câu khó – SGK tập 1, Chương IV',
+   points:['Câu 1: tích vô hướng trong tam giác vuông.', 'Câu 2: điều kiện vuông góc theo toạ độ.', 'Câu 3: tính cos của góc trong tam giác.', 'Câu 4: tính độ dài tổng hai vectơ.', 'Câu 5: tính công của một lực.']},
+  {kind:'kt', tag:'Nhắc nhanh', title:'Công thức cần dùng',
+   body:box(`${m('\\vec{a}\\cdot\\vec{b} = \\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos\\left(\\vec{a},\\vec{b}\\right) = x_1x_2 + y_1y_2')}; ${m('\\vec{a} \\perp \\vec{b} \\Leftrightarrow \\vec{a}\\cdot\\vec{b} = 0')}.`) +
+     `<ol class="lk-steps"><li>${m('\\cos\\left(\\vec{a},\\vec{b}\\right) = \\dfrac{\\vec{a}\\cdot\\vec{b}}{\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|}')}.</li><li>${m('\\left|\\vec{a} + \\vec{b}\\right|^2 = \\left|\\vec{a}\\right|^2 + \\left|\\vec{b}\\right|^2 + 2\\,\\vec{a}\\cdot\\vec{b}')}.</li><li>Công: ${m('A = \\vec{F}\\cdot\\vec{d} = F\\,d\\cos\\alpha')}.</li></ol>`},
+  {kind:'vd', tag:TAG, label:'Câu 1', de:`Tam giác ${m('ABC')} vuông tại ${m('A')}, ${m('AB = 3')}, ${m('AC = 4')}. Tính ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')}`)} và ${m(`${v('A', 'B')}\\cdot ${v('B', 'C')}`)}.`,
+   sol:[`${m(`${v('A', 'B')} \\perp ${v('A', 'C')}`)} nên ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')} = 0`)}.`, `${m(`${v('B', 'C')} = ${v('A', 'C')} - ${v('A', 'B')}`)} nên ${m(`${v('A', 'B')}\\cdot ${v('B', 'C')} = 0 - ${v('A', 'B')}\\cdot ${v('A', 'B')} = -9`)}.`], ans:`${tb('0')} và ${tb('-9')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 2', de:`Cho ${m('\\vec{a} = (m + 1;\\ 2)')} và ${m('\\vec{b} = (3;\\ {-3})')}. Tìm ${m('m')} để ${m('\\vec{a} \\perp \\vec{b}')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 3(m + 1) + 2\\cdot (-3) = 3m - 3')}.`, `Vuông góc nên ${m('3m - 3 = 0')}.`], ans:`${tb('m = 1')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 3', de:`Cho ${m('A(0;\\ 0)')}, ${m('B(3;\\ 4)')}, ${m('C(5;\\ 12)')}. Tính ${m('\\cos\\widehat{BAC}')}.`,
+   sol:[`${m(`${v('A', 'B')} = (3;\\ 4)`)}, ${m(`${v('A', 'C')} = (5;\\ 12)`)}; tích vô hướng ${m('15 + 48 = 63')}.`, `${m('AB = 5')}, ${m('AC = 13')} nên ${m('\\cos\\widehat{BAC} = \\dfrac{63}{5\\cdot 13}')}.`], ans:`${tb('\\dfrac{63}{65}')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 4', de:`Cho ${m('\\left|\\vec{a}\\right| = 7')}, ${m('\\left|\\vec{b}\\right| = 8')} và ${m('\\left(\\vec{a},\\vec{b}\\right) = 60^\\circ')}. Tính ${m('\\vec{a}\\cdot\\vec{b}')} và ${m('\\left|\\vec{a} + \\vec{b}\\right|')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 7\\cdot 8\\cdot\\dfrac{1}{2} = 28')}.`, `${m('\\left|\\vec{a} + \\vec{b}\\right|^2 = 49 + 64 + 56 = 169')}.`], ans:`${tb('28')} và ${tb('13')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 5', de:`Người ta kéo một vật bằng lực ${m('60')} N, dây hợp với mặt đường góc ${m('60^\\circ')}, vật dịch chuyển ${m('15')} m. Tính công của lực kéo.`,
+   sol:[`${m('A = F\\,d\\cos 60^\\circ = 60\\cdot 15\\cdot\\dfrac{1}{2}')}.`], ans:`${tb('450')} J.`},
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Lấy sai góc khi hai vectơ nối đuôi nhau: ${m(`\\left(${v('A', 'B')},${v('B', 'C')}\\right) = 180^\\circ - \\widehat{B}`)}, không phải ${m('\\widehat{B}')}.</li><li>Quên bình phương: ${m('\\vec{a}\\cdot\\vec{a} = \\left|\\vec{a}\\right|^2')}.</li><li>Tính ${m('\\left|\\vec{a} + \\vec{b}\\right|')} mà quên số hạng ${m('2\\,\\vec{a}\\cdot\\vec{b}')}.</li></ul>` + box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
+]);
+})();

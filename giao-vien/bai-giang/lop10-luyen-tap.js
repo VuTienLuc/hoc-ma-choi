@@ -484,3 +484,50 @@ Lecture.addPractice('lop10', 'bai-10', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   BÀI 11. TÍCH VÔ HƯỚNG CỦA HAI VECTƠ (thầy yêu cầu 21/10/2026) – 7 cơ bản + 3 vận dụng (★), xếp theo 4 dạng của bài giảng bai-11.
+   ===================================================================== */
+(() => {
+const m = tm, v = (a, b) => `\\overrightarrow{${a}${b}}`;
+Lecture.addPractice('lop10', 'bai-11', [
+ {dang:'Dạng 1. Tích vô hướng theo định nghĩa', items:[
+  {de:`Cho ${m('\\left|\\vec{a}\\right| = 5')}, ${m('\\left|\\vec{b}\\right| = 6')} và ${m('\\left(\\vec{a},\\vec{b}\\right) = 120^\\circ')}. Tính ${m('\\vec{a}\\cdot\\vec{b}')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 5\\cdot 6\\cdot\\cos 120^\\circ')}.`, `${m('\\cos 120^\\circ = -\\dfrac{1}{2}')} nên kết quả ${m('30\\cdot\\left(-\\dfrac{1}{2}\\right) = -15')}.`],
+   ans:`${tb('-15')}.`},
+  {de:`Hình vuông ${m('ABCD')} cạnh ${m('4')}. Tính ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')}`)}.`,
+   sol:[`${m(`${v('A', 'C')} = ${v('A', 'B')} + ${v('A', 'D')}`)} nên ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')} = ${v('A', 'B')}\\cdot ${v('A', 'B')} + ${v('A', 'B')}\\cdot ${v('A', 'D')}`)}.`, `${m(`${v('A', 'B')}\\cdot ${v('A', 'B')} = 4^2 = 16`)}, ${m(`${v('A', 'B')} \\perp ${v('A', 'D')}`)} nên ${m(`${v('A', 'B')}\\cdot ${v('A', 'D')} = 0`)}.`],
+   ans:`${tb('16')}.`},
+ ]},
+ {dang:'Dạng 2. Tích vô hướng theo toạ độ, vuông góc', items:[
+  {de:`Cho ${m('\\vec{a} = (3;\\ {-4})')} và ${m('\\vec{b} = (2;\\ 5)')}. Tính ${m('\\vec{a}\\cdot\\vec{b}')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 3\\cdot 2 + (-4)\\cdot 5 = 6 - 20')}.`],
+   ans:`${tb('-14')}.`},
+  {de:`Cho ${m('\\vec{a} = (m;\\ 3)')} và ${m('\\vec{b} = (9;\\ {-6})')}. Tìm ${m('m')} để ${m('\\vec{a} \\perp \\vec{b}')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 9m + 3\\cdot (-6) = 9m - 18')}.`, `Vuông góc nên ${m('9m - 18 = 0')}.`],
+   ans:`${tb('m = 2')}.`},
+  {hard:true, de:`Cho ${m('A(0;\\ 3)')}, ${m('B(4;\\ 0)')}. Tìm điểm ${m('C')} trên trục hoành sao cho tam giác ${m('ABC')} vuông tại ${m('A')}.`,
+   sol:[`${m('C')} thuộc trục hoành nên ${m('C(c;\\ 0)')}. ${m(`${v('A', 'B')} = (4;\\ {-3})`)}, ${m(`${v('A', 'C')} = (c;\\ {-3})`)}.`, `Vuông tại ${m('A')}: ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')} = 4c + 9 = 0`)}, suy ra ${m('c = -\\dfrac{9}{4}')}.`],
+   ans:`${tb('C\\left(-\\dfrac{9}{4};\\ 0\\right)')}.`},
+ ]},
+ {dang:'Dạng 3. Góc giữa hai vectơ, độ dài |a ± b|', items:[
+  {de:`Cho ${m('\\vec{a} = (3;\\ 1)')} và ${m('\\vec{b} = (1;\\ 2)')}. Tính góc giữa hai vectơ.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 3 + 2 = 5')}, ${m('\\left|\\vec{a}\\right| = \\sqrt{10}')}, ${m('\\left|\\vec{b}\\right| = \\sqrt{5}')}.`, `${m('\\cos = \\dfrac{5}{\\sqrt{10}\\cdot\\sqrt{5}} = \\dfrac{5}{5\\sqrt{2}} = \\dfrac{\\sqrt{2}}{2}')}.`],
+   ans:`Góc bằng ${tb('45^\\circ')}.`},
+  {de:`Cho ${m('\\left|\\vec{a}\\right| = 5')}, ${m('\\left|\\vec{b}\\right| = 8')}, ${m('\\left(\\vec{a},\\vec{b}\\right) = 120^\\circ')}. Tính ${m('\\left|\\vec{a} + \\vec{b}\\right|')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 5\\cdot 8\\cdot\\left(-\\dfrac{1}{2}\\right) = -20')}.`, `${m('\\left|\\vec{a} + \\vec{b}\\right|^2 = 25 + 64 + 2\\cdot (-20) = 49')}.`],
+   ans:`${tb('7')}.`},
+  {hard:true, de:`Cho ${m('\\left|\\vec{a}\\right| = 3')}, ${m('\\left|\\vec{b}\\right| = 5')} và ${m('\\left|\\vec{a} + \\vec{b}\\right| = 7')}. Tính góc giữa ${m('\\vec{a}, \\vec{b}')}.`,
+   sol:[`${m('\\left|\\vec{a} + \\vec{b}\\right|^2 = 9 + 25 + 2\\,\\vec{a}\\cdot\\vec{b} = 49')} nên ${m('\\vec{a}\\cdot\\vec{b} = \\dfrac{15}{2}')}.`, `${m('\\cos = \\dfrac{15/2}{3\\cdot 5} = \\dfrac{1}{2}')}.`],
+   ans:`Góc bằng ${tb('60^\\circ')}.`},
+ ]},
+ {dang:'Dạng 4. Ứng dụng: công cơ học, hợp lực', items:[
+  {de:`Một lực ${m('50')} N kéo vật đi ${m('8')} m, lực hợp với hướng chuyển động góc ${m('60^\\circ')}. Tính công của lực.`,
+   sol:[`${m('A = F\\cdot d\\cdot\\cos 60^\\circ = 50\\cdot 8\\cdot\\dfrac{1}{2}')}.`],
+   ans:`${tb('200')} J.`},
+  {hard:true, de:`Hai lực ${m('\\vec{F_1} = (3;\\ 2)')} và ${m('\\vec{F_2} = ({-1};\\ 4)')} (N) cùng tác dụng lên vật, làm vật chuyển từ ${m('A(1;\\ 1)')} đến ${m('B(4;\\ {-2})')} (m). Tính công của hợp lực và nhận xét dấu.`,
+   sol:[`${m('\\vec{F} = \\vec{F_1} + \\vec{F_2} = (2;\\ 6)')}, ${m(`${v('A', 'B')} = (3;\\ {-3})`)}.`, `${m(`A = \\vec{F}\\cdot ${v('A', 'B')} = 2\\cdot 3 + 6\\cdot (-3) = 6 - 18`)}.`, `Công âm: hợp lực làm cản chuyển động theo hướng ${m('AB')} (góc giữa chúng lớn hơn ${m('90^\\circ')}).`],
+   ans:`${tb('-12')} J.`},
+ ]},
+]);
+})();

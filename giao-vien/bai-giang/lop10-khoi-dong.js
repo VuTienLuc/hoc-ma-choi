@@ -2198,3 +2198,235 @@ Em vẽ sơ đồ lưới ô vuông khu vực quanh nhà, chọn một địa đ
 | Exit 3 | $7$ |
 | Về nhà | Sơ đồ có toạ độ, khoảng cách, trung điểm đúng |
 `);
+
+Lecture.addSheet('lop10', 'bai-11', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Bài 11. Tích vô hướng của hai vectơ
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** $A(1;\ 2)$, $B(4;\ 6)$. Tính độ dài $AB$. Đáp số: ………………………
+
+**Câu 2.** $\vec{a} = (2;\ -1)$, $\vec{b} = (1;\ 3)$. Tìm toạ độ $\vec{a} + \vec{b}$. Đáp số: ………………………
+
+**Câu 3.** $A(0;\ 4)$, $B(6;\ 2)$. Tìm toạ độ trung điểm của $AB$. Đáp số: ………………………
+
+**Câu 4.** Viết giá trị của $\cos 60^\circ$ và $\cos 120^\circ$. Đáp số: ………………………
+
+## 2. Tình huống mở đầu
+
+Ba bạn cùng kéo một chiếc xe đi $10$ m, mỗi bạn kéo bằng lực $20$ N nhưng dây hợp với hướng đi các góc khác nhau:
+
+| Bạn | An | Bình | Chi |
+|---|---|---|---|
+| Góc giữa dây và hướng đi | $0^\circ$ | $60^\circ$ | $90^\circ$ |
+| Công của lực (J) | $200$ | $100$ | $0$ |
+
+**Em nhận thấy:** …………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Công của lực phụ thuộc vào góc giữa lực và hướng chuyển động như thế nào? Có phép tính nào cho hai vectơ ra một con số như vậy?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Tam giác $ABC$ đều cạnh $2$. Giá trị của $\overrightarrow{AB}\cdot\overrightarrow{BC}$ là
+
+A. $2$
+
+B. $-2$
+
+C. $4$
+
+D. $-4$
+
+**Câu B.** Cho $\vec{a} = (1;\ -2)$ và $\vec{b} = (m;\ 3)$. Giá trị $m$ để $\vec{a} \perp \vec{b}$ là
+
+A. $6$
+
+B. $-6$
+
+C. $\dfrac{3}{2}$
+
+D. $-\dfrac{3}{2}$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** $\left|\vec{a}\right| = 3$, $\left|\vec{b}\right| = 4$, $\left(\vec{a},\vec{b}\right) = 60^\circ$. Tính $\vec{a}\cdot\vec{b}$. Đáp số: ………………………
+
+**Câu 2 ★.** $\left|\vec{a}\right| = 2$, $\left|\vec{b}\right| = 7$ và hai vectơ ngược hướng. Tính $\vec{a}\cdot\vec{b}$. Đáp số: ………………………
+
+**Câu 3 ★★.** $\vec{a} = (2;\ -5)$, $\vec{b} = (4;\ 3)$. Tính $\vec{a}\cdot\vec{b}$. Đáp số: ………………………
+
+**Câu 4 ★★.** $\vec{a} = (m;\ 6)$ vuông góc $\vec{b} = (3;\ -2)$. Tìm $m$. Đáp số: ………………………
+
+**Câu 5 ★★.** $\left|\vec{a}\right| = 3$, $\left|\vec{b}\right| = 8$, $\left(\vec{a},\vec{b}\right) = 120^\circ$. Tính $\left|\vec{a} + \vec{b}\right|$. Đáp số: ………………………
+
+**Câu 6 ★★★.** $A(0;\ 2)$, $B(3;\ 4)$, $C(m;\ -1)$. Tìm $m$ để tam giác $ABC$ vuông tại $A$. Đáp số: ………………………
+
+**Câu 7 ★★★.** Hai lực $\vec{F_1} = (2;\ 1)$, $\vec{F_2} = (3;\ -4)$ (N) làm vật dịch chuyển theo $\vec{d} = (2;\ 3)$ (m). Tính công của hợp lực (J). Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tam giác $ABC$ đều cạnh $4$. Tính (a) $\overrightarrow{AB}\cdot\overrightarrow{AC}$; (b) $\overrightarrow{AB}\cdot\overrightarrow{BC}$.
+>
+> **Lời giải của bạn X:** (a) $\overrightarrow{AB}\cdot\overrightarrow{AC} = 4\cdot 4\cdot\cos 60^\circ = 16\cdot\dfrac{\sqrt{3}}{2} = 8\sqrt{3}$. (b) Góc giữa $\overrightarrow{AB}$ và $\overrightarrow{BC}$ là góc $B = 60^\circ$ nên $\overrightarrow{AB}\cdot\overrightarrow{BC} = 4\cdot 4\cdot\dfrac{1}{2} = 8$.
+
+Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Cặp vectơ nào sau đây vuông góc với nhau?
+
+A. $(2;\ 3)$ và $(3;\ 2)$
+
+B. $(2;\ 3)$ và $(-2;\ 3)$
+
+C. $(1;\ 1)$ và $(1;\ -2)$
+
+D. $(2;\ 3)$ và $(3;\ -2)$
+
+**Câu 2.** Cho $\left|\vec{a}\right| = 4$, $\left|\vec{b}\right| = 3$, $\left(\vec{a},\vec{b}\right) = 60^\circ$. Mỗi ý em ghi Đ hoặc S:
+
+a) $\vec{a}\cdot\vec{b} = 6$. ……
+
+b) $(-\vec{a})\cdot\vec{b} = 6$. ……
+
+c) $\left|\vec{a} + \vec{b}\right| = 5$. ……
+
+d) Góc giữa $\vec{a}$ và $-\vec{b}$ bằng $120^\circ$. ……
+
+**Câu 3.** Lực $\vec{F} = (4;\ 3)$ (N) làm vật chuyển từ $A(1;\ 1)$ đến $B(3;\ -1)$ (m). Công của lực (J) là: …………
+
+## 7. Một phút suy ngẫm
+
+*Vì sao tích vô hướng của hai vectơ là một số chứ không phải một vectơ? Khi nào tích vô hướng âm, khi nào bằng $0$?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Em chọn một tình huống kéo hoặc đẩy vật trên sàn (cặp sách, ghế). Ước lượng lực, quãng đường và đo góc giữa lực với hướng chuyển động. Tính công theo $F\cdot d\cdot\cos\alpha$ với hai góc khác nhau và so sánh. **Sản phẩm:** ảnh hoặc hình vẽ, bảng số liệu và phép tính, nộp ở tiết học sau.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Bài 11. Tích vô hướng của hai vectơ
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương IV. Vectơ · Bài 11. Tích vô hướng của hai vectơ** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con; tiết học bài mới.
+- Bảng ba bạn kéo xe ở mục mở đầu và bài về nhà là **[Minh họa]** do người soạn tự đặt, không trích từ SGK. Thầy đối chiếu với phần Mở đầu của Bài 11 trong SGK nếu muốn dùng tình huống sách.
+- Phiếu bám các ví dụ của bài giảng: tích vô hướng theo định nghĩa (Ví dụ 1–2) → Do Now, mở đầu, câu bản lề A, Luyện tập 1–2, Tìm lỗi sai, Exit ticket 2; biểu thức toạ độ, vuông góc (Ví dụ 3–5) → câu bản lề B, Luyện tập 3–4, 6, Exit ticket 1; góc và độ dài $\left|\vec{a} \pm \vec{b}\right|$ (Ví dụ 6–7) → Luyện tập 5, Exit ticket 2; công cơ học (Ví dụ 8–10) → mở đầu, Luyện tập 7, Exit ticket 3, bài về nhà.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **Hình thành kiến thức** thầy tự dạy theo bài giảng.
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* ôn toạ độ vectơ, độ dài, trung điểm ở Bài 10 và giá trị cos của góc đặc biệt; thấy rằng công của lực là một số phụ thuộc góc.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng ba bạn kéo xe.
+- *Sản phẩm:* Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* tính tích vô hướng theo định nghĩa và toạ độ; dùng điều kiện vuông góc; tính độ dài $\left|\vec{a} + \vec{b}\right|$; tính công của hợp lực; nhận ra lỗi điển hình (nhầm giá trị cos, lấy sai góc giữa hai vectơ nối đuôi).
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, bài thực tế về nhà.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; bảng số liệu về công.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hình thành kiến thức** | *Giáo viên tự dạy theo bài giảng* |
+| ~13 | Câu hỏi bản lề A (Mục 3) | Dừng sau phần định nghĩa và góc giữa hai vectơ; giơ thẻ A/B/C/D |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) | |
+
+*Câu hỏi bản lề B dùng sau phần biểu thức toạ độ, hoặc thay câu A khi lớp đã vững.*
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Tự chấm không lấy điểm nên giảm áp lực.
+- **Đáp án:**
+  1. $5$.
+  2. $(3;\ 2)$.
+  3. $(3;\ 3)$.
+  4. $\dfrac{1}{2}$ và $-\dfrac{1}{2}$.
+- **Lỗi dự kiến:** câu 1 ghi $7$ (cộng hai độ chênh thay vì dùng căn); câu 3 ghi $(6;\ 6)$ (quên chia $2$); câu 4 ghi $\dfrac{\sqrt{3}}{2}$.
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.**
+- **Gợi ý nhận thấy:** lực và quãng đường bằng nhau mà công khác nhau; góc càng lớn công càng nhỏ; góc $90^\circ$ công bằng $0$.
+- Chốt: công $A = F\cdot d\cdot\cos\alpha$; đây là tích vô hướng của lực và vectơ dịch chuyển, kết quả là một số, có thể âm hoặc bằng $0$.
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Mạnh.**
+- **Câu A:** đáp án **B**, vì góc giữa $\overrightarrow{AB}$ và $\overrightarrow{BC}$ là $120^\circ$. A dùng nhầm góc $60^\circ$; C, D do nhầm $\cos = \pm 1$.
+- **Câu B:** đáp án **A**, vì $m - 6 = 0$. B sai dấu khi chuyển vế; C, D do chia nhầm cho $2$ hoặc $3$.
+- Nếu quá nửa lớp sai Câu A: dừng 2 phút, vẽ hai vectơ nối đuôi và dời về cùng gốc.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Trung bình–Mạnh.**
+- **Đáp án:** 1) $6$. 2) $-14$. 3) $-7$. 4) $m = 4$. 5) $7$. 6) $m = 2$. 7) $1$ (J).
+- **Lỗi dự kiến:** câu 2 ghi $14$ (quên dấu âm khi ngược hướng); câu 4 ghi $m = -4$; câu 5 quên số hạng $2\,\vec{a}\cdot\vec{b}$ âm; câu 7 quên cộng hai lực trước.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Trung bình.**
+- **Hai lỗi:** (a) $\cos 60^\circ = \dfrac{1}{2}$ (không phải $\dfrac{\sqrt{3}}{2}$), nên $\overrightarrow{AB}\cdot\overrightarrow{AC} = 8$; (b) góc giữa $\overrightarrow{AB}$ và $\overrightarrow{BC}$ là $120^\circ$, nên $\overrightarrow{AB}\cdot\overrightarrow{BC} = -8$.
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.**
+- **Đáp án:** Câu 1: **D**. Câu 2: a) Đ · b) S · c) S · d) Đ. Câu 3: $2$.
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- Mong đợi: tích vô hướng là tích hai độ dài nhân với cos của góc nên là số; âm khi góc tù, bằng $0$ khi vuông góc, dương khi góc nhọn.
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** gắn tích vô hướng với công cơ học trong đời sống.
+- **Tiêu chí nộp:** có số liệu lực, quãng đường, hai góc khác nhau, công tính đúng và nhận xét được góc nào cho công lớn hơn.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài tìm góc khi biết $\left|\vec{a} + \vec{b}\right|$ |
+| 2. Sai hết | 0–1 câu đúng | Ôn nhóm nhỏ: vẽ hai vectơ cùng gốc, tìm góc rồi mới thế vào công thức |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng câu sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Ôn tập chương IV):** (1) một câu về góc giữa hai vectơ bị sai nhiều; (2) tính độ dài $\overrightarrow{AB}$ khi biết toạ độ; (3) điều kiện để hai vectơ cùng phương.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát bảng giá trị $\cos$ của $0^\circ$, $60^\circ$, $90^\circ$, $120^\circ$, $180^\circ$; chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *biết $\left|\vec{a}\right| = 3$, $\left|\vec{b}\right| = 5$, $\left|\vec{a} + \vec{b}\right| = 7$, tính góc giữa hai vectơ.*
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng GeoGebra kéo hai vectơ, theo dõi giá trị góc và tích vô hướng đổi dấu khi góc vượt $90^\circ$.
+- **Địa chỉ 2:** bài về nhà dùng ứng dụng đo góc trên điện thoại và bảng tính để tính công.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $5$ |
+| Do Now 2 | $(3;\ 2)$ |
+| Do Now 3 | $(3;\ 3)$ |
+| Do Now 4 | $\dfrac{1}{2}$ và $-\dfrac{1}{2}$ |
+| Mở đầu | Góc càng lớn công càng nhỏ; $90^\circ$ thì công bằng $0$ |
+| Bản lề A | B |
+| Bản lề B | A |
+| Luyện tập 1 | $6$ |
+| Luyện tập 2 | $-14$ |
+| Luyện tập 3 | $-7$ |
+| Luyện tập 4 | $4$ |
+| Luyện tập 5 | $7$ |
+| Luyện tập 6 | $2$ |
+| Luyện tập 7 | $1$ |
+| Tìm lỗi sai | (a) $8$; (b) $-8$ |
+| Exit 1 | D |
+| Exit 2 | a) Đ · b) S · c) S · d) Đ |
+| Exit 3 | $2$ |
+| Về nhà | Hai góc khác nhau, công tính đúng, so sánh đúng |
+`);

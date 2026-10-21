@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-21 – Toán 10 Chương IV: trọn bộ Bài 11. Tích vô hướng của hai vectơ
+
+- **Yêu cầu:** "Bổ sung bài 10 – Bài 11 Chương IV – Vectơ /tron-bo" (đây là Bài 11, sau Bài 10 đã đẩy).
+- **Kết quả:** học sinh `tich-vo-huong` (4 dạng × 3 mức: định nghĩa · toạ độ, vuông góc · góc và |a ± b| · công cơ học, hợp lực; số liệu chọn để kết quả nguyên, kiểm lại bằng phép tính độc lập); bài giảng `bai-11` (10 ví dụ); phiếu luyện tập 10 bài (7 cơ bản + 3 ★); giải SGK 5 câu (ghi đề theo dạng, chưa tra số bài/trang); phiếu trên lớp (Phần A đúng 2 trang A4 + Phần B).
+- **Tệp thay đổi:** `data/lop10.js`, `giao-vien/bai-giang/lop10.js`, `lop10-luyen-tap.js`, `lop10-giai-sgk.js`, `lop10-khoi-dong.js`, `KE-HOACH-TRON-BO.md`, `CLAUDE.md`, `AGENTS.md`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 50 lop10` ĐẠT; `python3 tools/test.py` ĐẠT; `python3 tools/test_phieu_tren_lop.py` ĐẠT 92/92; `python3 tools/test_baigiang.py lop10` ĐẠT; `python3 tools/build.py` đã chạy.
+- **Việc thủ công:** đối chiếu số bài/trang SGK; xem tình huống [Minh họa] (ba bạn kéo xe).
+
 ### 2026-10-21 – Toán 10 Chương IV: trọn bộ Bài 10. Vectơ trong mặt phẳng toạ độ
 
 - **Yêu cầu:** "Bổ sung bài 10 – Bài 11 Chương IV – Vectơ /tron-bo" (làm từng bài, đẩy sau mỗi bài; đây là Bài 10).

@@ -16007,7 +16007,7 @@ const g10c = lv => {
   if(lv === 2){
     const p = nz(-4, 4), q = nz(-4, 4), t = pick([2, 3, -1, -2, -3]);
     const mm = t * p, s = t * q;
-    return QB({text:`Cho ${m(`\\vec{a} = ${pt(p, q)}`)} và ${m(`\\vec{b} = (m;\\ ${s})`)}. Tìm ${m('m')} để hai vectơ ${m('\\vec{a}, \\vec{b}')} cùng phương.`, tpl:`${m('m =')} [_]`, ans:[mm],
+    return QB({text:`Cho ${m(`\\vec{a} = ${pt(p, q)}`)} và ${m(`\\vec{b} = (m;\\ ${nb(s)})`)}. Tìm ${m('m')} để hai vectơ ${m('\\vec{a}, \\vec{b}')} cùng phương.`, tpl:`${m('m =')} [_]`, ans:[mm],
       hint:'Hai vectơ cùng phương khi tồn tại số k để b = k·a; tìm k từ tung độ rồi suy ra m (hoặc dùng a₁b₂ − a₂b₁ = 0).',
       sol:`${m(`\\vec{b} = k\\vec{a}`)} nên ${m(`${s} = k\\cdot ${pn(q)}`)}, suy ra ${m(`k = ${t}`)}. Khi đó ${m(`m = ${t}\\cdot ${pn(p)}`)} = ${tb(mm)}.`});
   }
@@ -16065,6 +16065,135 @@ const g10d = lv => {
 };
 
 lesson(5, 'vecto-toa-do', 'Bài 10. Vectơ trong mặt phẳng toạ độ', 'Toạ độ của vectơ và các phép toán; toạ độ trung điểm, trọng tâm, đỉnh hình bình hành; độ dài, hai vectơ cùng phương, ba điểm thẳng hàng; phân tích vectơ.', [g10a, g10b, g10c, g10d]);
+}
+
+/* =====================================================================
+   CHƯƠNG IV. VECTƠ – Bài 11. Tích vô hướng của hai vectơ (thầy yêu cầu 21/10/2026, /tron-bo)
+   4 dạng × 3 mức: A tích vô hướng theo định nghĩa · B biểu thức toạ độ, vuông góc · C góc giữa hai vectơ, độ dài |a ± b| · D ứng dụng (công cơ học, hợp lực).
+   Đáp án chọn trước; số liệu chọn để kết quả nguyên (góc 0°, 60°, 90°, 120°, 180°); mỗi đề được kiểm lại bằng phép tính độc lập (t11chk).
+   ===================================================================== */
+{
+const m = tm;
+const t11chk = (ok, msg) => { if(!ok) throw new Error('t11: ' + msg); };
+const nb = x => x < 0 ? `{${x}}` : `${x}`;
+const pn = x => x < 0 ? `(${x})` : `${x}`;
+const pt = (x, y) => `(${nb(x)};${nb(y)})`;
+const nz = (lo, hi) => { let x = 0; while(x === 0) x = R(lo, hi); return x; };
+const OV = (a, b) => `\\overrightarrow{${a}${b}}`;
+const COS = {0:[1, 1], 60:[1, 2], 90:[0, 1], 120:[-1, 2], 180:[-1, 1]};       // cos của các góc đặc biệt = [tử, mẫu]
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
+const ang = (a, b) => `\\left(\\vec{${a}},\\vec{${b}}\\right)`;
+const coef = (c, s) => c === 1 ? s : c === -1 ? '-' + s : `${c}${s}`;
+const addTerm = (c, s) => (c < 0 ? ' - ' : ' + ') + (Math.abs(c) === 1 ? '' : Math.abs(c)) + s;
+const NORM = [[3, 4], [4, 3], [5, 12], [12, 5], [8, 15], [15, 8], [6, 8], [8, 6], [0, 5], [5, 0], [0, 10], [10, 0], [7, 24], [24, 7]];
+const AN = [[[2, 1], [1, 3], 45], [[1, 0], [1, 1], 45], [[3, 1], [1, 2], 45], [[1, 1], [-1, 0], 135], [[2, 1], [-3, 1], 135], [[2, 0], [0, 5], 90], [[1, 2], [2, -1], 90], [[3, 3], [-1, -1], 180], [[2, 2], [1, 1], 0], [[1, 3], [3, 1], null]];
+
+/* Dạng A. Tích vô hướng theo định nghĩa */
+const g11a = lv => {
+  if(lv === 1){
+    const p = R(2, 9), q = R(2, 9), al = pick([0, 90, 180]), kq = p * q * COS[al][0];
+    return QB({text:`Cho ${m(`\\left|\\vec{a}\\right| = ${p}`)}, ${m(`\\left|\\vec{b}\\right| = ${q}`)} và ${m(`${ang('a', 'b')} = ${al}^\\circ`)}. Tính ${m('\\vec{a}\\cdot\\vec{b}')}.`, tpl:`${m('\\vec{a}\\cdot\\vec{b} =')} [_]`, ans:[kq],
+      hint:'Dùng định nghĩa: a·b = |a|·|b|·cos của góc giữa hai vectơ. Nhớ cos 0° = 1, cos 90° = 0, cos 180° = −1.',
+      sol:`${m(`\\vec{a}\\cdot\\vec{b} = ${p}\\cdot ${q}\\cdot \\cos ${al}^\\circ = ${p}\\cdot ${q}\\cdot ${pn(COS[al][0])}`)} = ${tb(kq)}.`});
+  }
+  if(lv === 2){
+    if(pick([0, 1]) === 0){
+      const p = R(2, 8), q = pick([2, 4, 6, 8]), al = pick([60, 120]), kq = p * q * COS[al][0] / 2;
+      t11chk(Number.isInteger(kq), 'a2');
+      return QB({text:`Cho ${m(`\\left|\\vec{a}\\right| = ${p}`)}, ${m(`\\left|\\vec{b}\\right| = ${q}`)} và ${m(`${ang('a', 'b')} = ${al}^\\circ`)}. Tính ${m('\\vec{a}\\cdot\\vec{b}')}.`, tpl:`${m('\\vec{a}\\cdot\\vec{b} =')} [_]`, ans:[kq],
+        hint:'Dùng a·b = |a|·|b|·cos của góc giữa hai vectơ; cos 60° = 1/2 và cos 120° = −1/2.',
+        sol:`${m(`\\vec{a}\\cdot\\vec{b} = ${p}\\cdot ${q}\\cdot \\cos ${al}^\\circ = ${p}\\cdot ${q}\\cdot ${COS[al][0] < 0 ? '\\left(-\\dfrac{1}{2}\\right)' : '\\dfrac{1}{2}'}`)} = ${tb(kq)}.`});
+    }
+    const a = pick([2, 4, 6, 8]);
+    const kinds = [[['A', 'B'], ['A', 'C'], 60, 'đỉnh A, hai cạnh AB và AC'], [['A', 'B'], ['B', 'C'], 120, 'vectơ AB và BC nối đuôi nhau (góc ngoài)'], [['B', 'A'], ['B', 'C'], 60, 'đỉnh B, hai cạnh BA và BC'], [['A', 'B'], ['C', 'A'], 120, 'vectơ AB và CA']];
+    const k = pick(kinds), al = k[2], kq = a * a * COS[al][0] / 2;
+    t11chk(Number.isInteger(kq), 'a2b');
+    return QB({text:`Tam giác ${m('ABC')} đều cạnh ${m(a)}. Tính ${m(`${OV(k[0][0], k[0][1])}\\cdot ${OV(k[1][0], k[1][1])}`)}.`, tpl:`${m('=')} [_]`, ans:[kq],
+      hint:'Xác định góc giữa hai vectơ (tịnh tiến về cùng gốc): tam giác đều có góc 60°; hai vectơ nối đuôi nhau tạo góc bù với góc tam giác, tức 120°.',
+      sol:`Góc giữa hai vectơ là ${m(`${al}^\\circ`)}. ${m(`${OV(k[0][0], k[0][1])}\\cdot ${OV(k[1][0], k[1][1])} = ${a}\\cdot ${a}\\cdot \\cos ${al}^\\circ = ${a * a}\\cdot ${COS[al][0] < 0 ? '\\left(-\\dfrac{1}{2}\\right)' : '\\dfrac{1}{2}'}`)} = ${tb(kq)}.`});
+  }
+  const p = R(2, 4), q = R(2, 4), r = R(-5, 5), x = pick([1, 2, 3]), y = nz(-2, 2), z = pick([1, 2]), w = nz(-2, 2);
+  const kq = x * z * p * p + (x * w + y * z) * r + y * w * q * q;
+  const e1 = `${coef(x, '\\vec{a}')}${addTerm(y, '\\vec{b}')}`, e2 = `${coef(z, '\\vec{a}')}${addTerm(w, '\\vec{b}')}`;
+  return QB({text:`Cho ${m(`\\left|\\vec{a}\\right| = ${p}`)}, ${m(`\\left|\\vec{b}\\right| = ${q}`)} và ${m(`\\vec{a}\\cdot\\vec{b} = ${r}`)}. Tính ${m(`\\left(${e1}\\right)\\cdot\\left(${e2}\\right)`)}.`, tpl:`${m('=')} [_]`, ans:[kq],
+    hint:'Khai triển như nhân hai đa thức (tích vô hướng có tính phân phối), dùng a·a = |a|², b·b = |b|² và a·b = b·a.',
+    sol:`${m(`= ${x * z}\\vec{a}^2 ${(x * w + y * z) < 0 ? '-' : '+'} ${Math.abs(x * w + y * z)}\\,\\vec{a}\\cdot\\vec{b} ${y * w < 0 ? '-' : '+'} ${Math.abs(y * w)}\\vec{b}^2`)}. Thay ${m(`\\vec{a}^2 = ${p * p}`)}, ${m(`\\vec{b}^2 = ${q * q}`)}, ${m(`\\vec{a}\\cdot\\vec{b} = ${r}`)}: ${m(`${x * z}\\cdot ${p * p} + ${pn(x * w + y * z)}\\cdot ${pn(r)} + ${pn(y * w)}\\cdot ${q * q}`)} = ${tb(kq)}.`});
+};
+
+/* Dạng B. Biểu thức toạ độ, vuông góc */
+const g11b = lv => {
+  if(lv === 1){
+    const a = [nz(-6, 6), nz(-6, 6)], b = [nz(-6, 6), nz(-6, 6)], kq = dot(a, b);
+    return QB({text:`Cho ${m(`\\vec{a} = ${pt(...a)}`)} và ${m(`\\vec{b} = ${pt(...b)}`)}. Tính ${m('\\vec{a}\\cdot\\vec{b}')}.`, tpl:`${m('\\vec{a}\\cdot\\vec{b} =')} [_]`, ans:[kq],
+      hint:'Nhân hoành độ với hoành độ, tung độ với tung độ rồi cộng lại: x₁x₂ + y₁y₂.',
+      sol:`${m(`\\vec{a}\\cdot\\vec{b} = ${pn(a[0])}\\cdot ${pn(b[0])} + ${pn(a[1])}\\cdot ${pn(b[1])}`)} = ${tb(kq)}.`});
+  }
+  if(lv === 2){
+    const p = nz(-4, 4), q = nz(-4, 4), t = nz(-3, 3), mm = q * t, s = -p * t;
+    t11chk(p * mm + q * s === 0, 'b2');
+    return QB({text:`Cho ${m(`\\vec{a} = ${pt(p, q)}`)} và ${m(`\\vec{b} = (m;\\ ${nb(s)})`)}. Tìm ${m('m')} để ${m('\\vec{a}')} vuông góc với ${m('\\vec{b}')}.`, tpl:`${m('m =')} [_]`, ans:[mm],
+      hint:'Hai vectơ khác 0 vuông góc khi tích vô hướng bằng 0: x₁x₂ + y₁y₂ = 0.',
+      sol:`${m(`\\vec{a}\\cdot\\vec{b} = ${pn(p)}m + ${pn(q)}\\cdot ${pn(s)} = 0`)} nên ${m(`${pn(p)}m = ${-q * s}`)}, suy ra ${tb(`m = ${mm}`)}.`});
+  }
+  const A = [R(-4, 4), R(-4, 4)], u = nz(-3, 3), v = nz(-3, 3), t = nz(-2, 2), B = [A[0] + u, A[1] + v], mm = A[0] + t * v, yC = A[1] - t * u;
+  t11chk(u * (mm - A[0]) + v * (yC - A[1]) === 0, 'b3');
+  return QB({text:`Cho ${m(`A${pt(...A)}`)}, ${m(`B${pt(...B)}`)} và ${m(`C(m;\\ ${yC < 0 ? '{' + yC + '}' : yC})`)}. Tìm ${m('m')} để tam giác ${m('ABC')} vuông tại ${m('A')}.`, tpl:`${m('m =')} [_]`, ans:[mm],
+    hint:'Tam giác vuông tại A khi AB vuông góc AC, tức tích vô hướng AB·AC = 0. Tính toạ độ hai vectơ rồi giải phương trình theo m.',
+    sol:`${m(`${OV('A', 'B')} = ${pt(u, v)}`)}, ${m(`${OV('A', 'C')} = (m - ${pn(A[0])};\\ ${nb(yC - A[1])})`)}. ${m(`${OV('A', 'B')}\\cdot ${OV('A', 'C')} = ${pn(u)}(m - ${pn(A[0])}) + ${pn(v)}\\cdot ${pn(yC - A[1])} = 0`)}, suy ra ${tb(`m = ${mm}`)}.`});
+};
+
+/* Dạng C. Góc giữa hai vectơ, độ dài |a ± b| */
+const g11c = lv => {
+  if(lv === 1){
+    const row = pick(AN.filter(r => r[2] !== null)), a = row[0], b = row[1], k = pick([1, 2, 3]), l = pick([1, 2]);
+    const A = [a[0] * k, a[1] * k], Bv = [b[0] * l, b[1] * l], al = row[2];
+    t11chk(dot(A, Bv) * dot(A, Bv) * 1 === Math.round(Math.pow(Math.cos(al * Math.PI / 180), 2) * dot(A, A) * dot(Bv, Bv)), 'c1');
+    const opts = [0, 45, 90, 135, 180].filter(x => x !== al).sort(() => Math.random() - .5).slice(0, 3).concat([al]).sort((x, y) => x - y).map(x => m(`${x}^\\circ`));
+    return QC({text:`Cho ${m(`\\vec{a} = ${pt(...A)}`)} và ${m(`\\vec{b} = ${pt(...Bv)}`)}. Góc giữa hai vectơ ${m('\\vec{a}, \\vec{b}')} bằng bao nhiêu?`, opts, ans:m(`${al}^\\circ`), keepOrder:true,
+      hint:'Tính cos của góc: cos = a·b chia cho tích hai độ dài |a|·|b|, rồi đối chiếu với cos của các góc đặc biệt.',
+      sol:`${m(`\\vec{a}\\cdot\\vec{b} = ${dot(A, Bv)}`)}, ${m(`\\left|\\vec{a}\\right|\\left|\\vec{b}\\right| = \\sqrt{${dot(A, A)}}\\cdot\\sqrt{${dot(Bv, Bv)}}`)}. ${m(`\\cos ${ang('a', 'b')} = ${al === 0 ? '1' : al === 90 ? '0' : al === 180 ? '-1' : al === 45 ? '\\dfrac{\\sqrt{2}}{2}' : '-\\dfrac{\\sqrt{2}}{2}'}`)} nên góc bằng ${tb(`${al}^\\circ`)}.`});
+  }
+  if(lv === 2){
+    const T = [[60, 3, 5, 7, 1], [60, 7, 8, 13, 1], [60, 5, 16, 19, 1], [120, 3, 8, 7, 1], [120, 5, 8, 7, 1], [120, 7, 15, 13, 1], [60, 5, 8, 7, -1], [60, 7, 15, 13, -1], [60, 3, 8, 7, -1]], row = pick(T);
+    const [al, p, q, kq, sg] = row, rhs = sg > 0 ? `\\left|\\vec{a}+\\vec{b}\\right|` : `\\left|\\vec{a}-\\vec{b}\\right|`;
+    const d = p * q * COS[al][0] / COS[al][1];
+    t11chk(p * p + q * q + sg * 2 * d === kq * kq, 'c2');
+    return QB({text:`Cho ${m(`\\left|\\vec{a}\\right| = ${p}`)}, ${m(`\\left|\\vec{b}\\right| = ${q}`)} và ${m(`${ang('a', 'b')} = ${al}^\\circ`)}. Tính ${m(rhs)}.`, tpl:`${m(rhs + ' =')} [_]`, ans:[kq],
+      hint:'Bình phương độ dài: |a ± b|² = |a|² + |b|² ± 2·a·b, với a·b = |a||b|cos(góc). Tính xong lấy căn bậc hai.',
+      sol:`${m(`\\vec{a}\\cdot\\vec{b} = ${p}\\cdot ${q}\\cdot \\cos ${al}^\\circ = ${d}`)}. ${m(`${rhs}^2 = ${p * p} + ${q * q} ${sg > 0 ? '+' : '-'} 2\\cdot ${pn(d)} = ${kq * kq}`)}. Vậy ${tb(`${rhs} = ${kq}`)}.`});
+  }
+  let a, b;
+  do { a = pick(NORM); b = pick(NORM); if(dot(a, b) < 0) b = [-b[0], -b[1]]; } while(dot(a, b) <= 0 || a[0] * b[1] - a[1] * b[0] === 0);
+  const na = Math.hypot(...a), nb2 = Math.hypot(...b), d = dot(a, b), g = gcd(d, na * nb2);
+  t11chk(Number.isInteger(na) && Number.isInteger(nb2), 'c3');
+  return QB({text:`Cho ${m(`\\vec{a} = ${pt(...a)}`)} và ${m(`\\vec{b} = ${pt(...b)}`)}. Tính ${m(`\\cos ${ang('a', 'b')}`)} (viết phân số tối giản).`, tpl:`${m(`\\cos ${ang('a', 'b')} =`)} [F]`, ans:[{frac:[d / g, na * nb2 / g], mode:'simplest'}],
+    hint:'cos của góc giữa hai vectơ bằng a·b chia cho tích hai độ dài; tính a·b bằng toạ độ, mỗi độ dài bằng căn của tổng hai bình phương.',
+    sol:`${m(`\\vec{a}\\cdot\\vec{b} = ${d}`)}, ${m(`\\left|\\vec{a}\\right| = ${na}`)}, ${m(`\\left|\\vec{b}\\right| = ${nb2}`)}. ${m(`\\cos ${ang('a', 'b')} = \\dfrac{${d}}{${na}\\cdot ${nb2}} = \\dfrac{${d}}{${na * nb2}}`)}${g > 1 ? `, rút gọn được ${tb(`\\dfrac{${d / g}}{${na * nb2 / g}}`)}` : ` ${tb(`\\dfrac{${d}}{${na * nb2}}`)}`}.`});
+};
+
+/* Dạng D. Ứng dụng: công cơ học, hợp lực */
+const g11d = lv => {
+  if(lv === 1){
+    const F = R(10, 60), d = pick([2, 4, 6, 8, 10]), al = pick([0, 60, 90]), kq = F * d * COS[al][0] / COS[al][1];
+    t11chk(Number.isInteger(kq), 'd1');
+    return QB({text:`Một lực ${m('\\vec{F}')} có độ lớn ${F} N kéo vật dịch chuyển một đoạn ${d} m. Góc giữa lực và hướng dịch chuyển là ${m(`${al}^\\circ`)}. Tính công của lực (đơn vị J).`, tpl:`Công ${m('A =')} [_] J`, ans:[kq],
+      hint:'Công của lực là tích vô hướng của lực và vectơ dịch chuyển: A = F·d·cos của góc giữa lực và dịch chuyển.',
+      sol:`${m(`A = ${F}\\cdot ${d}\\cdot \\cos ${al}^\\circ = ${F}\\cdot ${d}\\cdot ${al === 0 ? '1' : al === 90 ? '0' : '\\dfrac{1}{2}'}`)} = ${tb(kq)} J.`});
+  }
+  if(lv === 2){
+    const A = [R(-3, 3), R(-3, 3)], d = [nz(-6, 6), nz(-6, 6)], B = [A[0] + d[0], A[1] + d[1]], F = [nz(-5, 5), nz(-5, 5)], kq = dot(F, d);
+    return QB({text:`Lực ${m(`\\vec{F} = ${pt(...F)}`)} (đơn vị N) làm vật dịch chuyển từ ${m(`A${pt(...A)}`)} đến ${m(`B${pt(...B)}`)} (đơn vị m). Tính công của lực (J).`, tpl:`Công ${m('A =')} [_] J`, ans:[kq],
+      hint:'Công bằng tích vô hướng của lực F và vectơ dịch chuyển AB. Tính toạ độ AB trước, rồi dùng x₁x₂ + y₁y₂.',
+      sol:`${m(`${OV('A', 'B')} = ${pt(d[0], d[1])}`)}. ${m(`A = \\vec{F}\\cdot ${OV('A', 'B')} = ${pn(F[0])}\\cdot ${pn(d[0])} + ${pn(F[1])}\\cdot ${pn(d[1])}`)} = ${tb(kq)} J.`});
+  }
+  const F1 = [nz(-4, 6), nz(-4, 6)], F2 = [nz(-4, 6), nz(-4, 6)], d = [nz(-4, 6), nz(-4, 6)], S = [F1[0] + F2[0], F1[1] + F2[1]], kq = dot(S, d);
+  t11chk(kq === dot(F1, d) + dot(F2, d), 'd3');
+  return QB({text:`Hai lực ${m(`\\vec{F_1} = ${pt(...F1)}`)} và ${m(`\\vec{F_2} = ${pt(...F2)}`)} (N) cùng tác dụng lên một vật, làm vật dịch chuyển theo vectơ ${m(`\\vec{d} = ${pt(...d)}`)} (m). Tính công của hợp lực (J).`, tpl:`Công ${m('A =')} [_] J`, ans:[kq],
+    hint:'Hợp lực F = F₁ + F₂ (cộng toạ độ), rồi công A = F·d bằng tích vô hướng. Có thể kiểm tra: A bằng tổng công của hai lực.',
+    sol:`${m(`\\vec{F} = \\vec{F_1} + \\vec{F_2} = ${pt(S[0], S[1])}`)}. ${m(`A = \\vec{F}\\cdot\\vec{d} = ${pn(S[0])}\\cdot ${pn(d[0])} + ${pn(S[1])}\\cdot ${pn(d[1])}`)} = ${tb(kq)} J. Kiểm tra: ${m(`${dot(F1, d)} + ${pn(dot(F2, d))} = ${kq}`)}.`});
+};
+
+lesson(5, 'tich-vo-huong', 'Bài 11. Tích vô hướng của hai vectơ', 'Góc giữa hai vectơ; tích vô hướng theo định nghĩa và theo toạ độ; hai vectơ vuông góc; độ dài, góc từ tích vô hướng; ứng dụng tính công.', [g11a, g11b, g11c, g11d]);
 }
 
 })();
