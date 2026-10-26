@@ -3,15 +3,16 @@
 const fs = require('fs'), vm = require('vm'), path = require('path'), R = p => fs.readFileSync(path.join(__dirname, '..', p), 'utf8');
 const ctx = {console, Math, tm: x => `\\(${x}\\)`, globalThis: null}; ctx.globalThis = ctx; vm.createContext(ctx);
 vm.runInContext(R('assets/js/kiemtra.js') + ';this.KiemTra = KiemTra;', ctx);
-['assets/js/figures.js', 'data/lop10-giua-ki-bank.js', 'data/lop11-giua-ki-bank.js', 'giao-vien/bai-giang/lop10-giua-ki-ma-tran.js', 'giao-vien/bai-giang/lop11-giua-ki-ma-tran.js'].forEach(f => vm.runInContext(R(f), ctx, {filename:f}));
+['assets/js/figures.js', 'data/lop10-giua-ki-bank.js', 'data/lop11-giua-ki-bank.js', 'giao-vien/bai-giang/lop10-giua-ki-ma-tran.js', 'giao-vien/bai-giang/lop10-giua-ki-ma-tran-2.js', 'giao-vien/bai-giang/lop11-giua-ki-ma-tran.js'].forEach(f => vm.runInContext(R(f), ctx, {filename:f}));
 const KT = ctx.KiemTra, bad = [], ok = (c, m) => { if(!c) bad.push(m); };
+const T2 = KT.TESTS.find(t => t.grade === 'lop10' && t.id === 'gk-ma-tran-2');
 const T = {10:KT.TESTS.find(t => t.grade === 'lop10' && t.id === 'gk-ma-tran'), 11:KT.TESTS.find(t => t.grade === 'lop11' && t.id === 'gk-ma-tran')};
 const num = s => { const m = String(s).replace(/\\\(|\\\)|\\dfrac|[{}]/g, m => m === '\\dfrac' ? '' : '').match(/-?\d+[,.]?\d*/); return m ? parseFloat(m[0].replace(',', '.')) : NaN; };
 const plain = s => String(s).replace(/\\\(|\\\)/g, '').replace(/\{,\}/g, '.').trim();
 const dsAns = h => +/Đáp số: <b>([^<]*)<\/b>/.exec(h)[1].replace(',', '.');
 let n = 0;
-for(const g of [10, 11]){
-  const t = T[g]; ok(!!t, `lớp ${g}: thiếu đề`); if(!t) continue;
+for(const g of [10, 11, 12]){
+  const t = g === 12 ? T2 : T[g]; ok(!!t, `lớp ${g}: thiếu đề`); if(!t) continue;
   ok(t.mc.length === 10 && t.tf.length === 3 && t.essay.length === 4, `lớp ${g}: cấu trúc 10 TN + 3 ĐS + 4 TLN`);
   ok(Math.abs(t.mc.length * t.mcPt + t.tf.length + t.essay.reduce((s, e) => s + e.pts, 0) - 10) < 1e-9, `lớp ${g}: tổng điểm ≠ 10`);
   for(let ci = 0; ci < 4; ci++){
@@ -62,5 +63,31 @@ for(let ci = 0; ci < 4; ci++){
 }
 // ---- Lớp 10: bản đúng của Đ/S đều khớp lời giải (bank đã kiểm) – ở đây kiểm đáp số trả lời ngắn có mặt và khác nhau giữa các mã ----
 { const t10 = T[10]; const a = [0, 1, 2, 3].map(ci => t10.essay.map(e => dsAns(e.make(ci).rows[0][0])).join(',')); ok(new Set(a).size === 4, 'Lớp 10: các mã có cùng đáp số trả lời ngắn: ' + a.join(' | ')); }
+// ---- Lớp 10, bộ đề thứ hai (721–724): TLN-2 tứ giác nội tiếp, kiểm bằng công thức Brahmagupta + tọa độ (độc lập với lời giải) ----
+{ const E = T2.essay; const seen = [];
+  for(let ci = 0; ci < 4; ci++){
+    const e = E[1].make(ci), sd = [...e.de.matchAll(/\\\((AB|BC|CD|DA) = (\d+)\\\)/g)].map(m => +m[2]); ok(sd.length === 4, `gk2 mã ${ci}: không đọc được 4 cạnh`);
+    const [a, b, c, d] = sd, p = (a + b + c + d) / 2, br = Math.sqrt((p - a) * (p - b) * (p - c) * (p - d));
+    // tọa độ: B=(0,0), A=(a,0), C=b(cosB,sinB); D thuộc đường tròn ABC với CD=c, DA=d
+    const cosB = (a * a + b * b - c * c - d * d) / (2 * (a * b + c * d)), sinB = Math.sqrt(1 - cosB * cosB);
+    const A = [a, 0], B = [0, 0], C = [b * cosB, b * sinB];
+    const ux = (A[0] * A[0] * (C[1] - 0) + C[0] * C[0] * (0 - 0) + 0) , den = 2 * (A[0] * (C[1] - B[1]) + B[0] * (B[1] - A[1]) + C[0] * (A[1] - B[1])) ;
+    const O = [(C[1] * A[0] * A[0] - 0 + C[1] * 0 ) / den, ((A[0] * (C[0] * C[0] + C[1] * C[1]) - C[0] * A[0] * A[0])) / den];
+    const R2 = (A[0] - O[0]) ** 2 + (A[1] - O[1]) ** 2; ok(Math.abs(O[0] ** 2 + O[1] ** 2 - R2) < 1e-9 && Math.abs((C[0] - O[0]) ** 2 + (C[1] - O[1]) ** 2 - R2) < 1e-9, `gk2 mã ${ci}: tâm O sai`);
+    // D = giao đường tròn với |DA| = d, |DC| = c, D khác phía B so với AC
+    let best = null; for(let k = 0; k < 720000; k++){ const th = 2 * Math.PI * k / 720000, D = [O[0] + Math.sqrt(R2) * Math.cos(th), O[1] + Math.sqrt(R2) * Math.sin(th)];
+      const err = Math.abs(Math.hypot(D[0] - A[0], D[1] - A[1]) - d) + Math.abs(Math.hypot(D[0] - C[0], D[1] - C[1]) - c); if(!best || err < best.err) best = {err, D}; if(err < 1e-4 && D[1] * 0 + ((C[0] - A[0]) * (D[1] - A[1]) - (C[1] - A[1]) * (D[0] - A[0])) * ((C[0] - A[0]) * (B[1] - A[1]) - (C[1] - A[1]) * (B[0] - A[0])) < 0){ best = {err, D}; break; } }
+    ok(best.err < 1e-3, `gk2 mã ${ci}: không dựng được D (sai số ${best.err})`);
+    const P = [A, B, C, best.D]; let sh = 0; for(let i = 0; i < 4; i++){ const u = P[i], v = P[(i + 1) % 4]; sh += u[0] * v[1] - v[0] * u[1]; } const area = Math.abs(sh) / 2;
+    ok(Math.abs(area - br) < 1e-3, `gk2 mã ${ci}: shoelace ${area} ≠ Brahmagupta ${br}`);
+    const want = Math.round(br * 10) / 10, got = dsAns(e.rows[0][0]); ok(got === want, `gk2 TLN-2 mã ${ci}: đáp số ${got} ≠ ${want}`);
+    ok(Math.abs(br * 10 - Math.round(br * 10) + 0) < .45 && Math.abs(((br * 10) % 1) - .5) > .02, `gk2 mã ${ci}: sát biên làm tròn (${br})`);
+    ok(Math.abs(Math.abs(cosB) - .5) < 1e-9, `gk2 mã ${ci}: cos B = ${cosB}`);
+    seen.push(got);
+  }
+  ok(new Set(seen).size === 4, 'gk2: TLN-2 trùng đáp số giữa các mã: ' + seen);
+  // TLN-1,3,4 (mã đề 8): khác 4 mã
+  const a = [0, 1, 2, 3].map(ci => E.map(e => dsAns(e.make(ci).rows[0][0])).join(',')); ok(new Set(a).size === 4, 'gk2: các mã trùng đáp số: ' + a.join(' | '));
+}
 console.log(bad.length ? 'KHÔNG ĐẠT ✗\n' + bad.map(x => ' ✗ ' + x).join('\n') : `Đề giữa kì theo ma trận (lớp 10 + 11, ${n} mã đề): ĐẠT ✓`);
 process.exit(bad.length ? 1 : 0);

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-26 – Bộ đề thứ hai giữa kì I Toán 10 (mã 721–724)
+
+- **Yêu cầu:** Bổ sung bộ đề tương tự đề giữa kì I theo ma trận tuần 8 (Toán 10), thay câu số tập con bằng bài trả lời ngắn hệ thức lượng dạng vận dụng (không thực tế), đáp số chính xác.
+- **Kết quả:** Đề `gk-ma-tran-2`, 4 mã. TLN-2: tứ giác nội tiếp biết 4 cạnh, tính diện tích; đáp số 23,8 / 76,2 / 95,3 / 19,5 (B = 120°, 120°, 60°, 120°). Các câu còn lại sinh từ ngân hàng `GK1` với hạt giống mới; bỏ chữ “Đáp số” lặp trong lời giải TLN.
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop10-giua-ki-ma-tran-2.js`, `giao-vien/index.html`, `tools/test_gk_ma_tran.js`, `AGENTS.md`, `CLAUDE.md`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js 5 lop10` → ĐẠT; `node tools/test_gk_ma_tran.js` → ĐẠT; `python3 tools/test_kiemtra.py lop10 gk-ma-tran-2` → ĐẠT (11/11, mỗi mã đúng 2 trang A4); `python3 tools/test.py` → ĐẠT; `python3 tools/build.py` → chạy xong.
+- **Việc thủ công:** Thầy đối chiếu lại đề/đáp số TLN-2 và các câu mới của mã 721–724 trước khi in.
+
 ### 2026-10-21 – Toán 10 Chương IV: trọn bộ Bài 11. Tích vô hướng của hai vectơ
 
 - **Yêu cầu:** "Bổ sung bài 10 – Bài 11 Chương IV – Vectơ /tron-bo" (đây là Bài 11, sau Bài 10 đã đẩy).
