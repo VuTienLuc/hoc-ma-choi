@@ -531,3 +531,48 @@ Lecture.addPractice('lop10', 'bai-11', [
  ]},
 ]);
 })();
+
+/* =====================================================================
+   ÔN TẬP CHƯƠNG IV (thầy yêu cầu 26/10/2026) – 7 cơ bản + 3 vận dụng (★), xếp theo 3 dạng của bài giảng on-tap-c4.
+   ===================================================================== */
+(() => {
+const m = tm, v = (a, b) => `\\overrightarrow{${a}${b}}`;
+Lecture.addPractice('lop10', 'on-tap-c4', [
+ {dang:'Dạng 1. Vectơ trong hình học', items:[
+  {de:`Cho hình bình hành ${m('ABCD')}. Rút gọn ${m(`${v('A', 'B')} + ${v('A', 'D')} + ${v('C', 'B')} + ${v('C', 'D')}`)}.`,
+   sol:[`${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)} (quy tắc hình bình hành), ${m(`${v('C', 'B')} + ${v('C', 'D')} = ${v('C', 'A')}`)}.`, `Tổng: ${m(`${v('A', 'C')} + ${v('C', 'A')}`)}.`],
+   ans:`${tb('\\vec{0}')}.`},
+  {de:`Tam giác ${m('ABC')} có trọng tâm ${m('G')}, ${m('M')} là trung điểm ${m('BC')}. Biết ${m(`${v('A', 'M')} = k${v('A', 'G')}`)}. Tìm ${m('k')}.`,
+   sol:[`${m('G')} chia trung tuyến ${m('AM')} theo tỉ lệ ${m('2 : 1')}: ${m('AG = \\dfrac{2}{3}AM')}.`, `${m('G')} nằm giữa ${m('A')} và ${m('M')} nên ${m(`${v('A', 'M')} = \\dfrac{3}{2}${v('A', 'G')}`)}.`],
+   ans:`${tb('k = \\dfrac{3}{2}')}.`},
+  {de:`Hai lực ${m('\\vec{F_1}, \\vec{F_2}')} cùng tác dụng lên một chất điểm, vuông góc với nhau, độ lớn ${m('9')} N và ${m('12')} N. Tính độ lớn của hợp lực.`,
+   sol:[`Hợp lực là đường chéo hình chữ nhật: ${m('F^2 = 9^2 + 12^2 = 225')}.`],
+   ans:`${tb('15')} N.`},
+  {hard:true, de:`Tam giác ${m('ABC')}, điểm ${m('I')} thoả ${m(`${v('I', 'A')} + 2${v('I', 'B')} = \\vec{0}`)}. Biểu thị ${m(v('C', 'I'))} theo ${m(v('C', 'A'))}, ${m(v('C', 'B'))}.`,
+   sol:[`Chèn ${m('C')}: ${m(`${v('I', 'A')} = ${v('C', 'A')} - ${v('C', 'I')}`)}, ${m(`${v('I', 'B')} = ${v('C', 'B')} - ${v('C', 'I')}`)}.`, `${m(`${v('C', 'A')} + 2${v('C', 'B')} - 3${v('C', 'I')} = \\vec{0}`)} nên ${m(`${v('C', 'I')} = \\dfrac{1}{3}${v('C', 'A')} + \\dfrac{2}{3}${v('C', 'B')}`)}.`],
+   ans:`${tb(`${v('C', 'I')} = \\dfrac{1}{3}${v('C', 'A')} + \\dfrac{2}{3}${v('C', 'B')}`)}.`},
+ ]},
+ {dang:'Dạng 2. Vectơ trong mặt phẳng toạ độ', items:[
+  {de:`Cho ${m('A(1;\\ 2)')}, ${m('B(5;\\ 4)')}, ${m('C(3;\\ {-2})')}. Tìm toạ độ ${m('D')} để ${m('ABCD')} là hình bình hành.`,
+   sol:[`${m(`${v('A', 'B')} = (4;\\ 2)`)}, ${m(`${v('D', 'C')} = (3 - x;\\ {-2} - y)`)}.`, `${m(`${v('A', 'B')} = ${v('D', 'C')}`)} nên ${m('3 - x = 4')} và ${m('-2 - y = 2')}.`],
+   ans:`${tb('D({-1};\\ {-4})')}.`},
+  {de:`Cho ${m('\\vec{a} = (2;\\ {-1})')}, ${m('\\vec{b} = (1;\\ 3)')}. Tìm toạ độ của ${m('2\\vec{a} - 3\\vec{b}')}.`,
+   sol:[`${m('2\\vec{a} = (4;\\ {-2})')}, ${m('3\\vec{b} = (3;\\ 9)')}.`, `Hiệu: ${m('(4 - 3;\\ -2 - 9)')}.`],
+   ans:`${tb('(1;\\ {-11})')}.`},
+  {de:`Cho ${m('A(1;\\ 1)')}, ${m('B(2;\\ 3)')}, ${m('C(m;\\ 7)')}. Tìm ${m('m')} để ba điểm ${m('A, B, C')} thẳng hàng.`,
+   sol:[`${m(`${v('A', 'B')} = (1;\\ 2)`)}, ${m(`${v('A', 'C')} = (m - 1;\\ 6)`)}.`, `Cùng phương: ${m('1\\cdot 6 - 2(m - 1) = 0')}, tức ${m('m - 1 = 3')}.`],
+   ans:`${tb('m = 4')}.`},
+ ]},
+ {dang:'Dạng 3. Tích vô hướng', items:[
+  {de:`Cho ${m('\\left|\\vec{a}\\right| = 3')}, ${m('\\left|\\vec{b}\\right| = 8')}, ${m('\\left(\\vec{a},\\vec{b}\\right) = 120^\\circ')}. Tính ${m('\\left|\\vec{a} + \\vec{b}\\right|')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 3\\cdot 8\\cdot\\left(-\\dfrac{1}{2}\\right) = -12')}.`, `${m('\\left|\\vec{a} + \\vec{b}\\right|^2 = 9 + 64 - 24 = 49')}.`],
+   ans:`${tb('7')}.`},
+  {hard:true, de:`Cho ${m('A(2;\\ 1)')}, ${m('B(3;\\ {-2})')}. Tìm toạ độ các điểm ${m('M')} thuộc trục ${m('Ox')} sao cho ${m('MA \\perp MB')}.`,
+   sol:[`${m('M(x;\\ 0)')}: ${m(`${v('M', 'A')} = (2 - x;\\ 1)`)}, ${m(`${v('M', 'B')} = (3 - x;\\ {-2})`)}.`, `${m(`${v('M', 'A')}\\cdot ${v('M', 'B')} = (2 - x)(3 - x) - 2 = x^2 - 5x + 4 = 0`)}, tức ${m('(x - 1)(x - 4) = 0')}.`],
+   ans:`${tb('M(1;\\ 0)')} hoặc ${tb('M(4;\\ 0)')}.`},
+  {hard:true, de:`Tam giác ${m('ABC')} có ${m('AB = 7')}, ${m('AC = 5')}, ${m('\\widehat{BAC} = 60^\\circ')}. ${m('M')} là trung điểm ${m('BC')}. Tính ${m(`${v('A', 'M')}\\cdot ${v('B', 'C')}`)}.`,
+   sol:[`${m(`${v('A', 'M')} = \\dfrac{1}{2}(${v('A', 'B')} + ${v('A', 'C')})`)}, ${m(`${v('B', 'C')} = ${v('A', 'C')} - ${v('A', 'B')}`)}.`, `${m(`${v('A', 'M')}\\cdot ${v('B', 'C')} = \\dfrac{1}{2}(AC^2 - AB^2) = \\dfrac{1}{2}(25 - 49)`)} (hai tích ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')}`)} triệt tiêu).`],
+   ans:`${tb('-12')}.`},
+ ]},
+]);
+})();

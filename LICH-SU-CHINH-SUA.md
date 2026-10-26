@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-26 – Toán 10: Ôn tập chương IV (Vectơ), trọn bộ
+
+- **Yêu cầu:** Tạo “Ôn tập chương IV” (`on-tap-c4`) cho Toán 10.
+- **Kết quả:** Học sinh: 6 dạng × 3 mức (dùng lại 4 dạng của Bài 7–11 qua biến `C4`, thêm 2 dạng tổng hợp mới `o4a` toạ độ + tích vô hướng + M trên Ox, `o4b` tích vô hướng trong hình đặc biệt; mỗi đề tự kiểm lại bằng toạ độ khi sinh). Bài giảng: sơ đồ kiến thức, 7 ví dụ, 5 bài luyện tập. Phiếu luyện tập 7 cơ bản + 3 ★. Giải SGK 5 câu (đề theo dạng, chưa tra số trang). Phiếu trên lớp 2 trang A4 + gợi ý giáo viên. Số liệu ví dụ/phiếu/luyện tập đã tính lại bằng Python.
+- **Tệp thay đổi:** `data/lop10.js`, `giao-vien/bai-giang/lop10.js`, `lop10-luyen-tap.js`, `lop10-giai-sgk.js`, `lop10-khoi-dong.js`, `KE-HOACH-TRON-BO.md`, `AGENTS.md`, `CLAUDE.md`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_baigiang.py lop10` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (97/97); `python3 tools/build.py` → chạy xong.
+- **Việc thủ công:** Đối chiếu số bài/trang của 5 câu giải SGK với bài tập cuối chương IV; xem lại tình huống **[Minh họa]** trong phiếu.
+
 ### 2026-10-26 – Bộ đề thứ hai giữa kì I Toán 10 (mã 721–724)
 
 - **Yêu cầu:** Bổ sung bộ đề tương tự đề giữa kì I theo ma trận tuần 8 (Toán 10), thay câu số tập con bằng bài trả lời ngắn hệ thức lượng dạng vận dụng (không thực tế), đáp số chính xác.

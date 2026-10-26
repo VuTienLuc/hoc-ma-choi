@@ -940,5 +940,65 @@ Lecture.add({ grade:'lop10', gradeName:'Toán 10', chapter:'Chương IV. Vectơ'
    body:`<ul><li>${m('\\vec{a}\\cdot\\vec{b} = \\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos\\left(\\vec{a},\\vec{b}\\right) = x_1x_2 + y_1y_2')}; kết quả là một số.</li><li>${m('\\vec{a} \\perp \\vec{b} \\Leftrightarrow \\vec{a}\\cdot\\vec{b} = 0')}; ${m('\\vec{a}\\cdot\\vec{a} = \\left|\\vec{a}\\right|^2')}.</li><li>${m('\\left|\\vec{a} \\pm \\vec{b}\\right|^2 = \\left|\\vec{a}\\right|^2 + \\left|\\vec{b}\\right|^2 \\pm 2\\,\\vec{a}\\cdot\\vec{b}')}; công ${m('A = \\vec{F}\\cdot\\vec{d}')}.</li></ul>` +
      box('Về nhà: làm các bài tập cuối Bài 11 trong SGK; luyện thêm trên web <b>Học mà chơi</b> – Toán 10, Bài 11.')},
 ]},
+{ id:'on-tap-c4', name:'Ôn tập chương IV', desc:'Sơ đồ kiến thức Bài 7–11; 7 ví dụ tổng hợp theo 3 dạng (vectơ trong hình, toạ độ, tích vô hướng); luyện tập.', slides:[
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Chương IV', title:'Ôn tập chương IV', sub:'Vectơ', points:[
+    'Hệ thống kiến thức Bài 7 – 11: khái niệm, tổng và hiệu, tích với một số, toạ độ, tích vô hướng.',
+    'Giải bài toán vectơ bằng hai cách: quy tắc hình học và toạ độ.',
+    'Nhận ra khi nào kết quả là vectơ, khi nào là một số.']},
+
+  {kind:'sum', tag:'Hệ thống kiến thức', title:'Sơ đồ ghi nhớ Chương IV',
+   body:`<ol class="lk-steps"><li><b>Khái niệm</b> (Bài 7): hướng và độ dài; hai vectơ bằng nhau khi cùng hướng, cùng độ dài.</li>
+     <li><b>Tổng, hiệu</b> (Bài 8): ${m(`${v('A', 'B')} + ${v('B', 'C')} = ${v('A', 'C')}`)}; hình bình hành ${m('ABCD')}: ${m(`${v('A', 'B')} + ${v('A', 'D')} = ${v('A', 'C')}`)}; ${m(`${v('O', 'B')} - ${v('O', 'A')} = ${v('A', 'B')}`)}.</li>
+     <li><b>Tích với một số</b> (Bài 9): ${m(`${v('A', 'M')} = \\dfrac{1}{2}(${v('A', 'B')} + ${v('A', 'C')})`)} (trung điểm ${m('M')} của ${m('BC')}); ${m(`${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')} = ${ZERO}`)} (trọng tâm); ${m('\\vec{a}, \\vec{b}')} cùng phương khi ${m('\\vec{a} = k\\vec{b}')}.</li>
+     <li><b>Toạ độ</b> (Bài 10): ${m(`${v('A', 'B')} = (x_B - x_A;\\ y_B - y_A)`)}; độ dài ${m('\\sqrt{x^2 + y^2}')}; cùng phương ${m('x_1y_2 - x_2y_1 = 0')}.</li>
+     <li><b>Tích vô hướng</b> (Bài 11): ${m('\\vec{a}\\cdot\\vec{b} = \\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos\\left(\\vec{a},\\vec{b}\\right) = x_1x_2 + y_1y_2')}; vuông góc khi bằng ${m('0')}.</li></ol>` +
+     note('Tổng, hiệu, tích với một số cho ra <b>vectơ</b>; tích vô hướng cho ra <b>một số</b>.')},
+
+  {kind:'method', tag:'Dạng 1', title:'Vectơ trong hình học (không dùng toạ độ)',
+   steps:[`Đưa mọi vectơ về hai vectơ gốc cùng điểm đầu (ví dụ ${m(v('A', 'B'))}, ${m(v('A', 'C'))}) bằng quy tắc ba điểm, trung điểm, trọng tâm.`, `So sánh hệ số để chứng minh đẳng thức hoặc tìm số ${m('k')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', fig:vecSVG({pts:[[0, 0, 'B'], [4, 0, 'C'], [1, 3, 'A'], [2, 0, 'M'], [5 / 3, 1, 'G']], poly:['A', 'B', 'C'], dash:[['A', 'M']], h:190}), de:`Cho tam giác ${m('ABC')} có trọng tâm ${m('G')}, điểm ${m('M')} bất kì. Chứng minh ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')}`)}.`,
+   sol:[`Chèn ${m('G')}: ${m(`${v('M', 'A')} = ${v('M', 'G')} + ${v('G', 'A')}`)}, tương tự cho ${m(v('M', 'B'))}, ${m(v('M', 'C'))}.`, `Cộng lại: ${m(`${v('M', 'A')} + ${v('M', 'B')} + ${v('M', 'C')} = 3${v('M', 'G')} + (${v('G', 'A')} + ${v('G', 'B')} + ${v('G', 'C')})`)}.`, `Vì ${m('G')} là trọng tâm nên tổng trong ngoặc bằng ${m(ZERO)}.`], ans:`Đẳng thức được chứng minh.`},
+
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Cho tam giác ${m('ABC')}, điểm ${m('I')} thoả ${m(`${v('I', 'A')} + 3${v('I', 'B')} = ${ZERO}`)}. Biểu thị ${m(v('C', 'I'))} theo ${m(v('C', 'A'))} và ${m(v('C', 'B'))}.`,
+   sol:[`Chèn ${m('C')}: ${m(`${v('I', 'A')} = ${v('C', 'A')} - ${v('C', 'I')}`)}, ${m(`${v('I', 'B')} = ${v('C', 'B')} - ${v('C', 'I')}`)}.`, `Thay vào: ${m(`${v('C', 'A')} + 3${v('C', 'B')} - 4${v('C', 'I')} = ${ZERO}`)}.`, `Suy ra ${m(`${v('C', 'I')} = \\dfrac{1}{4}${v('C', 'A')} + \\dfrac{3}{4}${v('C', 'B')}`)}.`], ans:`${tb(`${v('C', 'I')} = \\dfrac{1}{4}${v('C', 'A')} + \\dfrac{3}{4}${v('C', 'B')}`)}.`},
+
+  {kind:'method', tag:'Dạng 2', title:'Vectơ trong mặt phẳng toạ độ',
+   steps:[`Tính toạ độ vectơ: toạ độ điểm cuối trừ toạ độ điểm đầu.`, `Hình bình hành ${m('ABCD')}: ${m(`${v('A', 'B')} = ${v('D', 'C')}`)}. Ba điểm thẳng hàng: hai vectơ cùng phương, ${m('x_1y_2 - x_2y_1 = 0')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Cho ${m('A(2;\\ 3)')}, ${m('B({-1};\\ 1)')}, ${m('C(4;\\ {-2})')}. Tìm toạ độ điểm ${m('D')} để ${m('ABCD')} là hình bình hành.`,
+   sol:[`${m('D(x;\\ y)')}: ${m(`${v('A', 'B')} = ({-3};\\ {-2})`)}, ${m(`${v('D', 'C')} = (4 - x;\\ {-2} - y)`)}.`, `${m(`${v('A', 'B')} = ${v('D', 'C')}`)} nên ${m('4 - x = -3')}, ${m('-2 - y = -2')}.`], ans:`${tb('D(7;\\ 0)')}.`},
+
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Cho ${m('A(1;\\ 2)')}, ${m('B(3;\\ {-1})')}, ${m('C(5;\\ m)')}. Tìm ${m('m')} để ba điểm ${m('A, B, C')} thẳng hàng.`,
+   sol:[`${m(`${v('A', 'B')} = (2;\\ {-3})`)}, ${m(`${v('A', 'C')} = (4;\\ m - 2)`)}.`, `Cùng phương: ${m('2(m - 2) - (-3)\\cdot 4 = 0')}, tức ${m('2m + 8 = 0')}.`], ans:`${tb('m = -4')}.`},
+
+  {kind:'method', tag:'Dạng 3', title:'Tích vô hướng: tính, vuông góc, độ dài',
+   steps:[`Biết độ dài và góc: ${m('\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos\\alpha')}. Biết toạ độ: ${m('x_1x_2 + y_1y_2')}.`, `Muốn tích vô hướng của hai vectơ trong hình, hãy phân tích cả hai theo hai vectơ gốc rồi khai triển; vuông góc thì đặt tích bằng ${m('0')}.`]},
+
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Cho ${m('A(2;\\ 1)')}, ${m('B(4;\\ 5)')}, ${m('C(m;\\ 0)')}. Tìm ${m('m')} để tam giác ${m('ABC')} vuông tại ${m('A')}.`,
+   sol:[`${m(`${v('A', 'B')} = (2;\\ 4)`)}, ${m(`${v('A', 'C')} = (m - 2;\\ {-1})`)}.`, `Vuông tại ${m('A')}: ${m(`2(m - 2) + 4\\cdot (-1) = 0`)}, suy ra ${m('2m = 8')}.`], ans:`${tb('m = 4')}.`},
+
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Cho ${m('\\vec{a} = (3;\\ 0)')} và ${m('\\vec{b} = ({-2};\\ 2)')}. Tìm góc giữa hai vectơ.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = -6')}; ${m('\\left|\\vec{a}\\right| = 3')}, ${m('\\left|\\vec{b}\\right| = 2\\sqrt{2}')}.`, `${m('\\cos\\left(\\vec{a},\\vec{b}\\right) = \\dfrac{-6}{3\\cdot 2\\sqrt{2}} = -\\dfrac{\\sqrt{2}}{2}')}.`], ans:`Góc bằng ${tb('135^\\circ')}.`},
+
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 3', label:'Ví dụ 7', fig:vecSVG({pts:[[0, 0, 'A'], [4, 0, 'B'], [-1.2, 2.1, 'C'], [1.4, 1.05, 'M']], poly:['A', 'B', 'C'], dash:[['A', 'M']], h:170}),
+   de:`Tam giác ${m('ABC')} có ${m('AB = 6')}, ${m('AC = 4')}, ${m('\\widehat{BAC} = 120^\\circ')}; ${m('M')} là trung điểm ${m('BC')}. Tính ${m(`${v('A', 'M')}\\cdot ${v('B', 'C')}`)}.`,
+   sol:[`${m(`${v('A', 'M')} = \\dfrac{1}{2}(${v('A', 'B')} + ${v('A', 'C')})`)}, ${m(`${v('B', 'C')} = ${v('A', 'C')} - ${v('A', 'B')}`)}.`, `Tích: ${m(`\\dfrac{1}{2}(${v('A', 'C')}^2 - ${v('A', 'B')}^2) = \\dfrac{1}{2}(16 - 36)`)} (hai tích ${m(`${v('A', 'B')}\\cdot ${v('A', 'C')}`)} triệt tiêu nhau, nên kết quả không phụ thuộc góc ${m('A')}).`], ans:`${tb('-10')}.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho hình bình hành ${m('ABCD')}, điểm ${m('M')} bất kì. Chứng minh ${m(`${v('M', 'A')} + ${v('M', 'C')} = ${v('M', 'B')} + ${v('M', 'D')}`)}.`,
+   sol:[`Gọi ${m('O')} là tâm hình bình hành: ${m('O')} là trung điểm của ${m('AC')} và ${m('BD')}.`, `${m(`${v('M', 'A')} + ${v('M', 'C')} = 2${v('M', 'O')} = ${v('M', 'B')} + ${v('M', 'D')}`)}.`], ans:`Đẳng thức được chứng minh.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho ${m('A(1;\\ 4)')}, ${m('B({-2};\\ 1)')}, ${m('C(3;\\ {-1})')}. Tìm ${m('D')} để ${m('ABCD')} là hình bình hành.`,
+   sol:[`${m(`${v('A', 'B')} = ({-3};\\ {-3})`)}, ${m(`${v('D', 'C')} = (3 - x;\\ {-1} - y)`)}.`, `${m('3 - x = -3')}, ${m('-1 - y = -3')}.`], ans:`${tb('D(6;\\ 2)')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Cho ${m('\\vec{a} = (2;\\ {-3})')}, ${m('\\vec{b} = ({-1};\\ 2)')}, ${m('\\vec{c} = (4;\\ {-5})')}. Tìm ${m('x, y')} để ${m('\\vec{c} = x\\vec{a} + y\\vec{b}')}.`,
+   sol:[`Theo hoành độ: ${m('2x - y = 4')}; theo tung độ: ${m('-3x + 2y = -5')}.`, `Từ phương trình đầu, ${m('y = 2x - 4')}; thay vào: ${m('-3x + 4x - 8 = -5')}, nên ${m('x = 3')}, ${m('y = 2')}.`], ans:`${tb('x = 3,\\ y = 2')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Cho ${m('\\left|\\vec{a}\\right| = 3')}, ${m('\\left|\\vec{b}\\right| = 5')}, ${m('\\left(\\vec{a},\\vec{b}\\right) = 60^\\circ')}. Tính ${m('\\left|\\vec{a} + \\vec{b}\\right|')}.`,
+   sol:[`${m('\\vec{a}\\cdot\\vec{b} = 3\\cdot 5\\cdot\\dfrac{1}{2} = \\dfrac{15}{2}')}.`, `${m('\\left|\\vec{a} + \\vec{b}\\right|^2 = 9 + 25 + 15 = 49')}.`], ans:`${tb('7')}.`},
+  {kind:'lt', tag:'Luyện tập ★', label:'Bài 5★', de:`Cho ${m('A(3;\\ 1)')}, ${m('B(4;\\ {-2})')}. Tìm hoành độ lớn nhất của các điểm ${m('M')} thuộc trục ${m('Ox')} sao cho ${m('MA \\perp MB')}.`,
+   sol:[`${m('M(x;\\ 0)')}: ${m(`${v('M', 'A')} = (3 - x;\\ 1)`)}, ${m(`${v('M', 'B')} = (4 - x;\\ {-2})`)}.`, `${m(`${v('M', 'A')}\\cdot ${v('M', 'B')} = (3 - x)(4 - x) - 2 = x^2 - 7x + 10 = 0`)}, tức ${m('(x - 2)(x - 5) = 0')}.`], ans:`Hai nghiệm ${m('x = 2')} và ${m('x = 5')}; hoành độ lớn nhất là ${tb('5')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Chuẩn bị kiểm tra chương IV',
+   body:`<ul><li>Thuộc các hệ thức: trung điểm, trọng tâm, hình bình hành, ${m('\\left|\\vec{a} \\pm \\vec{b}\\right|^2')}.</li><li>Toạ độ vectơ là <b>cuối trừ đầu</b>; cùng phương: ${m('x_1y_2 - x_2y_1 = 0')}; vuông góc: ${m('x_1x_2 + y_1y_2 = 0')}.</li><li>Góc giữa hai vectơ nối đuôi nhau phải tịnh tiến về cùng gốc.</li></ul>` +
+     box('Luyện thêm: web <b>Học mà chơi</b> – Toán 10, Ôn tập chương IV (3 mức độ).')},
+]},
 ]});
 })();

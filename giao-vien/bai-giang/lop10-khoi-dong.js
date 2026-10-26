@@ -2430,3 +2430,238 @@ Em chọn một tình huống kéo hoặc đẩy vật trên sàn (cặp sách, 
 | Exit 3 | $2$ |
 | Về nhà | Hai góc khác nhau, công tính đúng, so sánh đúng |
 `);
+
+/* =====================================================================
+   PHIẾU HỌC TẬP TRÊN LỚP – Toán 10 · Ôn tập chương IV. Vectơ (thầy yêu cầu 26/10/2026, /tron-bo)
+   Bám các ví dụ của bài giảng on-tap-c4 (lop10.js). Ví dụ tự soạn ghi **[Minh họa]**.
+   ===================================================================== */
+Lecture.addSheet('lop10', 'on-tap-c4', String.raw`# PHIẾU HỌC TẬP – Toán 10 · Ôn tập chương IV. Vectơ
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** $A(2;\ -1)$, $B(5;\ 3)$. Tính độ dài $AB$. Đáp số: ………………………
+
+**Câu 2.** $\vec{a} = (3;\ -2)$, $\vec{b} = (-1;\ 4)$. Tìm toạ độ $2\vec{a} + \vec{b}$. Đáp số: ………………………
+
+**Câu 3.** $A(1;\ 5)$, $B(7;\ 1)$. Tìm toạ độ trung điểm của $AB$. Đáp số: ………………………
+
+**Câu 4.** $\vec{a} = (2;\ 3)$, $\vec{b} = (3;\ -2)$. Tính $\vec{a}\cdot\vec{b}$. Đáp số: ………………………
+
+## 2. Tình huống mở đầu
+
+Cho $\vec{a} = (2;\ 1)$ và $\vec{b} = (1;\ 3)$. Bạn Lan thực hiện ba phép toán và ghi kết quả:
+
+| Phép toán | $\vec{a} + \vec{b}$ | $2\vec{a}$ | $\vec{a}\cdot\vec{b}$ |
+|---|---|---|---|
+| Kết quả | $(3;\ 4)$ | $(4;\ 2)$ | $5$ |
+
+**Em nhận thấy:** …………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Ba phép toán của chương IV khác nhau ở điểm nào? Gặp một bài toán vectơ, khi nào dùng quy tắc hình học, khi nào chuyển sang toạ độ?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Cho hình bình hành $ABCD$. Đẳng thức nào đúng?
+
+A. $\overrightarrow{AB} + \overrightarrow{AD} = \overrightarrow{BD}$
+
+B. $\overrightarrow{AB} + \overrightarrow{AD} = \overrightarrow{AC}$
+
+C. $\overrightarrow{AB} - \overrightarrow{AD} = \overrightarrow{AC}$
+
+D. $\overrightarrow{AB} + \overrightarrow{AC} = \overrightarrow{AD}$
+
+**Câu B.** Tam giác $ABC$ có trọng tâm $G$, $M$ là trung điểm $BC$. Đẳng thức nào đúng?
+
+A. $\overrightarrow{AG} = \dfrac{3}{2}\overrightarrow{AM}$
+
+B. $\overrightarrow{GA} = 2\overrightarrow{GM}$
+
+C. $\overrightarrow{AM} = \dfrac{3}{2}\overrightarrow{AG}$
+
+D. $\overrightarrow{GM} = 2\overrightarrow{AG}$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** $M$ là trung điểm $BC$ của tam giác $ABC$ và $\overrightarrow{AB} + \overrightarrow{AC} = k\overrightarrow{AM}$. Tìm $k$. Đáp số: ………………………
+
+**Câu 2 ★.** Hai lực $9$ N và $12$ N vuông góc nhau cùng tác dụng lên một vật. Tính độ lớn hợp lực (N). Đáp số: ………………………
+
+**Câu 3 ★★.** $A(1;\ 2)$, $B(3;\ -1)$, $C(5;\ 4)$. Tìm toạ độ $D$ để $ABCD$ là hình bình hành. Đáp số: ………………………
+
+**Câu 4 ★★.** $\vec{a} = (2;\ m)$ cùng phương với $\vec{b} = (-4;\ 6)$. Tìm $m$. Đáp số: ………………………
+
+**Câu 5 ★★.** $\left|\vec{a}\right| = 8$, $\left|\vec{b}\right| = 15$, $\left(\vec{a},\vec{b}\right) = 120^\circ$. Tính $\left|\vec{a} + \vec{b}\right|$. Đáp số: ………………………
+
+**Câu 6 ★★★.** $A(1;\ 2)$, $B(2;\ -3)$. Có hai điểm $M$ thuộc trục $Ox$ để $MA \perp MB$. Tìm hoành độ lớn nhất. Đáp số: ………………………
+
+**Câu 7 ★★★.** Tam giác $ABC$ có $AB = 9$, $AC = 5$, $\widehat{BAC} = 120^\circ$; $M$ là trung điểm $BC$. Tính $\overrightarrow{AM}\cdot\overrightarrow{BC}$. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Cho $A(1;\ 2)$, $B(4;\ 6)$, $C(-2;\ 3)$. (a) Tìm $D$ để $ABCD$ là hình bình hành. (b) Tính $\overrightarrow{AB}\cdot\overrightarrow{AC}$.
+>
+> **Lời giải của bạn X:** (a) $ABCD$ là hình bình hành nên $\overrightarrow{AB} = \overrightarrow{CD}$. Gọi $D(x;\ y)$: $(3;\ 4) = (x + 2;\ y - 3)$, suy ra $x = 1$, $y = 7$. Vậy $D(1;\ 7)$. (b) $\overrightarrow{AB} = (3;\ 4)$, $\overrightarrow{AC} = (1 - (-2);\ 2 - 3) = (3;\ -1)$ nên $\overrightarrow{AB}\cdot\overrightarrow{AC} = 9 - 4 = 5$.
+
+Lời giải có **hai** chỗ sai. Em chỉ ra và sửa: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Cho $\vec{a} = (1;\ -2)$ và $\vec{b} = (-3;\ 6)$. Khẳng định nào đúng?
+
+A. $\left|\vec{b}\right| = 2\left|\vec{a}\right|$
+
+B. $\vec{a}$ và $\vec{b}$ cùng hướng
+
+C. $\vec{a} \perp \vec{b}$
+
+D. $\vec{a}$ và $\vec{b}$ ngược hướng
+
+**Câu 2.** Cho $A(0;\ 0)$, $B(6;\ 0)$, $C(0;\ 6)$, $G$ là trọng tâm tam giác $ABC$. Mỗi ý em ghi Đ hoặc S:
+
+a) $\overrightarrow{GA} + \overrightarrow{GB} + \overrightarrow{GC} = \vec{0}$. ……
+
+b) $G(3;\ 3)$. ……
+
+c) $\overrightarrow{AB}\cdot\overrightarrow{AC} = 36$. ……
+
+d) Tam giác $ABC$ vuông cân tại $A$. ……
+
+**Câu 3.** $A(2;\ 3)$, $B(-1;\ 2)$, $C(m;\ 5)$. Tìm $m$ để tam giác $ABC$ vuông tại $B$: …………
+
+## 7. Một phút suy ngẫm
+
+*Ba phép toán vectơ (cộng, nhân với một số, tích vô hướng) cho kết quả là gì? Em dùng toạ độ khi nào, dùng quy tắc hình học khi nào?* ……………………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Em vẽ sơ đồ tư duy Chương IV (khái niệm – tổng hiệu – tích với một số – toạ độ – tích vô hướng). Mỗi nhánh tự đặt **một ví dụ có số liệu** và giải. Nộp lại cùng sơ đồ.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 10 · Ôn tập chương IV. Vectơ
+
+## 1. Thông tin bài
+
+- **Lớp 10 · Chương IV. Vectơ · Ôn tập chương IV** (sách Kết nối tri thức với cuộc sống).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà 40–45 học sinh; chỉ có máy chiếu và giấy/bảng con; tiết ôn tập chương.
+- Bảng ba phép toán ở mục mở đầu và bài về nhà (sơ đồ tư duy) là **[Minh họa]** do người soạn tự đặt, không trích từ SGK.
+- Phiếu bám các ví dụ của bài giảng: vectơ trong hình học (Ví dụ 1–2) → Do Now, câu bản lề A–B, Luyện tập 1–2, Exit ticket 1–2; toạ độ (Ví dụ 3–4) → Luyện tập 3–4, Tìm lỗi sai; tích vô hướng (Ví dụ 5–7) → Luyện tập 5–7, Exit ticket 3.
+- Phiếu chỉ dành cho khởi động và củng cố; phần **Hệ thống kiến thức** thầy tự dạy theo bài giảng (sơ đồ Bài 7–11).
+
+## 2. Mục tiêu (theo Công văn 5512)
+
+**Hoạt động Mở đầu (7 phút)**
+- *Mục tiêu:* ôn toạ độ vectơ, độ dài, trung điểm và tích vô hướng ở Bài 10–11; phân biệt phép toán cho kết quả là vectơ với phép toán cho kết quả là số.
+- *Nội dung:* Do Now 4 câu; Notice & Wonder với bảng ba phép toán.
+- *Sản phẩm:* Do Now tự chấm; danh sách "nhận thấy – thắc mắc"; câu hỏi của bài học.
+
+**Hoạt động Luyện tập – Vận dụng (21 phút + về nhà)**
+- *Mục tiêu:* vận dụng quy tắc hình bình hành, trung điểm, trọng tâm; xử lý bài toán toạ độ (hình bình hành, cùng phương); tính tích vô hướng, độ dài $\left|\vec{a} + \vec{b}\right|$ và điều kiện vuông góc; nhận ra lỗi điển hình (nhầm $\overrightarrow{CD}$ với $\overrightarrow{DC}$, lấy toạ độ đầu trừ cuối).
+- *Nội dung:* câu hỏi bản lề, 7 câu xen kẽ, tìm lỗi sai, phiếu ra khỏi lớp, sơ đồ tư duy về nhà.
+- *Sản phẩm:* phiếu đã làm; Exit ticket; sơ đồ tư duy.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1 phiếu) | Học sinh làm một mình |
+| 4–7 | Notice & Wonder (Mục 2) | Đưa ra câu hỏi của bài học |
+| 7–25 | **Hệ thống kiến thức** | *Giáo viên tự dạy theo bài giảng* (sơ đồ + Ví dụ 1–7) |
+| ~13 | Câu hỏi bản lề A (Mục 3) | Dừng sau phần vectơ trong hình học; giơ thẻ A/B/C/D |
+| 25–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi đối chiếu cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–43 | Một phút suy ngẫm (Mục 7) | Viết cá nhân |
+| 43–45 | Dặn dò bài về nhà (Mục 8) | |
+
+*Câu hỏi bản lề B dùng sau phần trung điểm, trọng tâm, hoặc thay câu A khi lớp đã vững.*
+
+## 4. Hướng dẫn từng hoạt động
+
+### 4.1. Do Now – ôn truy xuất giãn cách (*Retrieval practice with spacing*)
+- **Bằng chứng: Mạnh** (Rosenshine; Craig Barton). Tự chấm không lấy điểm nên giảm áp lực.
+- **Đáp án:**
+  1. $5$.
+  2. $(5;\ 0)$.
+  3. $(4;\ 3)$.
+  4. $0$.
+- **Lỗi dự kiến:** câu 1 ghi $7$ (cộng hai độ chênh); câu 2 ghi $(6;\ -4)$ (quên cộng $\vec{b}$); câu 3 ghi $(8;\ 6)$ (quên chia $2$); câu 4 ghi $12$ (nhân sai dấu).
+
+### 4.2. Tình huống mở đầu – Nhận ra và thắc mắc (*Notice & Wonder*, Annie Fetter – NCTM)
+- **Bằng chứng: Kinh nghiệm thực tiễn.**
+- **Gợi ý nhận thấy:** hai phép đầu cho ra cặp số (vectơ), phép thứ ba cho ra một số; tích vô hướng bằng $2\cdot 1 + 1\cdot 3 = 5$.
+- Chốt: tổng, hiệu, tích với một số cho ra **vectơ**; tích vô hướng cho ra **một số**, dùng để xét vuông góc, tính góc và độ dài.
+
+### 4.3. Câu hỏi bản lề (*Hinge question*, Dylan Wiliam)
+- **Bằng chứng: Mạnh.**
+- **Câu A:** đáp án **B**, quy tắc hình bình hành. A nhầm đường chéo $BD$; C dùng hiệu thay vì tổng ($\overrightarrow{AB} - \overrightarrow{AD} = \overrightarrow{DB}$); D chèn sai điểm.
+- **Câu B:** đáp án **C**, vì $AG = \dfrac{2}{3}AM$ nên $AM = \dfrac{3}{2}AG$. A đảo tỉ số; B sai hướng ($\overrightarrow{GA}$ ngược hướng $\overrightarrow{GM}$); D nhầm tỉ lệ $GM$ với $AG$.
+- Nếu quá nửa lớp sai Câu A: dừng 2 phút, vẽ hình bình hành, tô $\overrightarrow{AB}$, $\overrightarrow{AD}$ rồi nối đường chéo $AC$.
+
+### 4.4. Luyện tập xen kẽ (*Interleaved practice*, Rohrer 2020)
+- **Bằng chứng: Trung bình–Mạnh.**
+- **Đáp án:** 1) $k = 2$. 2) $15$. 3) $D(3;\ 7)$. 4) $m = -3$. 5) $13$. 6) $4$. 7) $-28$.
+- **Lỗi dự kiến:** câu 2 ghi $21$ (cộng hai lực); câu 3 dùng $\overrightarrow{AB} = \overrightarrow{CD}$ nên ra $(7;\ 1)$; câu 4 ghi $m = 3$ (quên dấu); câu 5 quên số hạng $2\,\vec{a}\cdot\vec{b}$ âm; câu 6 chỉ tìm một nghiệm của phương trình bậc hai $x^2 - 3x - 4 = 0$; câu 7 tính $\cos 120^\circ$ rồi thế sai thay vì rút gọn $\dfrac{1}{2}\left(AC^2 - AB^2\right)$.
+
+### 4.5. Tìm lỗi sai – ví dụ giải sai có chủ ý (*My Favorite No*, Leah Alcala; EEF 2022)
+- **Bằng chứng: Trung bình.**
+- **Hai lỗi:** (a) hình bình hành $ABCD$ có $\overrightarrow{AB} = \overrightarrow{DC}$ (không phải $\overrightarrow{CD}$): $(3;\ 4) = (-2 - x;\ 3 - y)$ nên $D(-5;\ -1)$. (b) toạ độ vectơ là **cuối trừ đầu**: $\overrightarrow{AC} = (-2 - 1;\ 3 - 2) = (-3;\ 1)$, nên $\overrightarrow{AB}\cdot\overrightarrow{AC} = -9 + 4 = -5$.
+
+### 4.6. Phiếu ra khỏi lớp (*Exit ticket*, Agarwal; Fletcher-Wood)
+- **Bằng chứng: Mạnh.**
+- **Đáp án:** Câu 1: **D** ($\vec{b} = -3\vec{a}$). Câu 2: a) Đ · b) S ($G(2;\ 2)$) · c) S (tích vô hướng bằng $0$) · d) Đ. Câu 3: $m = -2$.
+
+### 4.7. Một phút suy ngẫm (*Metacognitive reflection*, EEF)
+- Mong đợi: cộng và nhân với một số cho ra vectơ, tích vô hướng cho ra số; dùng toạ độ khi đề cho toạ độ điểm; dùng quy tắc hình học khi chỉ biết độ dài và góc.
+
+### 4.8. Vận dụng về nhà
+- **Mục tiêu:** hệ thống hoá chương bằng sơ đồ và tự đặt ví dụ.
+- **Tiêu chí nộp:** sơ đồ đủ 5 nhánh (Bài 7–11), mỗi nhánh có một ví dụ số liệu, lời giải đúng.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài: tìm điểm $M$ trên trục sao cho $MA \perp MB$ |
+| 2. Sai hết | 0–1 câu đúng | Ôn nhóm nhỏ: vẽ hình, viết toạ độ vectơ "cuối trừ đầu", rồi mới áp dụng công thức |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng câu sai nhiều |
+
+**Gợi ý Do Now cho tiết sau (Kiểm tra / ôn tập tiếp):** (1) một câu về $\overrightarrow{AB} = \overrightarrow{DC}$ trong hình bình hành; (2) tính $\cos$ của góc giữa hai vectơ cho bởi toạ độ; (3) điều kiện để hai vectơ cùng phương.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** phát bảng công thức toạ độ (cuối trừ đầu, trung điểm, tích vô hướng); chỉ yêu cầu Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6–7, rồi câu mở: *tam giác $ABC$ có $AB = c$, $AC = b$; chứng minh $\overrightarrow{AM}\cdot\overrightarrow{BC} = \dfrac{b^2 - c^2}{2}$ với $M$ là trung điểm $BC$.*
+
+## 7. Tích hợp năng lực số (gợi ý của người soạn; Thông tư 02/2025, Công văn 3456; lớp 10 ở mức Nâng cao 1)
+
+- **Địa chỉ 1:** học sinh dùng GeoGebra nhập $A, B, C$, dựng $D$ sao cho $ABCD$ là hình bình hành rồi đối chiếu toạ độ $D$ với kết quả tính tay.
+- **Địa chỉ 2:** vẽ sơ đồ tư duy bằng công cụ số (bảng trắng trực tuyến, ứng dụng ghi chú) và chia sẻ cho cả lớp.
+
+## 8. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now 1 | $5$ |
+| Do Now 2 | $(5;\ 0)$ |
+| Do Now 3 | $(4;\ 3)$ |
+| Do Now 4 | $0$ |
+| Mở đầu | Hai phép đầu cho vectơ, phép thứ ba cho một số |
+| Bản lề A | B |
+| Bản lề B | C |
+| Luyện tập 1 | $2$ |
+| Luyện tập 2 | $15$ |
+| Luyện tập 3 | $(3;\ 7)$ |
+| Luyện tập 4 | $-3$ |
+| Luyện tập 5 | $13$ |
+| Luyện tập 6 | $4$ |
+| Luyện tập 7 | $-28$ |
+| Tìm lỗi sai | (a) $D(-5;\ -1)$; (b) $-5$ |
+| Exit 1 | D |
+| Exit 2 | a) Đ · b) S · c) S · d) Đ |
+| Exit 3 | $-2$ |
+| Về nhà | Sơ đồ đủ 5 nhánh, mỗi nhánh một ví dụ đúng |
+`);

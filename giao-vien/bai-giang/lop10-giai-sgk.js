@@ -568,3 +568,30 @@ Lecture.addSgk('lop10', 'bai-11', [
    body:`<ul><li>Lấy sai góc khi hai vectơ nối đuôi nhau: ${m(`\\left(${v('A', 'B')},${v('B', 'C')}\\right) = 180^\\circ - \\widehat{B}`)}, không phải ${m('\\widehat{B}')}.</li><li>Quên bình phương: ${m('\\vec{a}\\cdot\\vec{a} = \\left|\\vec{a}\\right|^2')}.</li><li>Tính ${m('\\left|\\vec{a} + \\vec{b}\\right|')} mà quên số hạng ${m('2\\,\\vec{a}\\cdot\\vec{b}')}.</li></ul>` + box('Số bài và số trang SGK chưa tra – thầy đối chiếu rồi ghi vào các nhãn.')},
 ]);
 })();
+
+/* =====================================================================
+   ÔN TẬP CHƯƠNG IV (thầy yêu cầu 26/10/2026) – Giải các câu vận dụng, câu khó của phần bài tập cuối chương IV.
+   Đề bám dạng bài cuối chương, thầy đối chiếu số bài/số trang với SGK Toán 10 tập 1 (KNTT).
+   ===================================================================== */
+(() => {
+const m = tm, box = h => `<div class="lk-box">${h}</div>`;
+const v = (a, b) => `\\overrightarrow{${a}${b}}`;
+const TAG = 'Dạng như SGK – thầy đối chiếu số bài';
+Lecture.addSgk('lop10', 'on-tap-c4', [
+  {kind:'title', tag:'Toán 10 · Kết nối tri thức · Giải bài tập SGK', title:'Ôn tập chương IV', sub:'Bài tập cuối chương IV – SGK tập 1', points:['Câu 1: chứng minh đẳng thức vectơ với trung điểm.', 'Câu 2: ba điểm thẳng hàng theo toạ độ.', 'Câu 3: tam giác vuông cân, diện tích.', 'Câu 4: hợp lực của hai lực bằng nhau.', 'Câu 5: công của lực theo toạ độ.']},
+  {kind:'kt', tag:'Nhắc nhanh', title:'Công thức cần dùng',
+   body:box(`${m(`${v('A', 'B')} + ${v('B', 'C')} = ${v('A', 'C')}`)}; trung điểm ${m('M')}: ${m(`${v('A', 'M')} = \\dfrac{1}{2}(${v('A', 'B')} + ${v('A', 'C')})`)}; ${m('\\vec{a}\\cdot\\vec{b} = x_1x_2 + y_1y_2')}; cùng phương: ${m('x_1y_2 - x_2y_1 = 0')}.`)},
+  {kind:'vd', tag:TAG, label:'Câu 1', de:`Cho tam giác ${m('ABC')}, ${m('M, N')} lần lượt là trung điểm ${m('AB, AC')}. Chứng minh ${m(`${v('B', 'C')} = 2${v('M', 'N')}`)}.`,
+   sol:[`${m(`${v('M', 'N')} = ${v('A', 'N')} - ${v('A', 'M')} = \\dfrac{1}{2}${v('A', 'C')} - \\dfrac{1}{2}${v('A', 'B')}`)}.`, `${m(`= \\dfrac{1}{2}(${v('A', 'C')} - ${v('A', 'B')}) = \\dfrac{1}{2}${v('B', 'C')}`)}.`], ans:`Suy ra ${tb(`${v('B', 'C')} = 2${v('M', 'N')}`)}.`},
+  {kind:'vd', tag:TAG, label:'Câu 2', de:`Cho ${m('A({-2};\\ 1)')}, ${m('B(1;\\ {-2})')}, ${m('C(4;\\ {-5})')}. Chứng minh ba điểm thẳng hàng.`,
+   sol:[`${m(`${v('A', 'B')} = (3;\\ {-3})`)}, ${m(`${v('A', 'C')} = (6;\\ {-6})`)}.`, `${m(`${v('A', 'C')} = 2${v('A', 'B')}`)}.`], ans:`Hai vectơ cùng phương nên ${tb('A, B, C')} thẳng hàng (và ${m('B')} là trung điểm ${m('AC')}).`},
+  {kind:'vd', tag:TAG, label:'Câu 3', de:`Cho ${m('A(1;\\ 1)')}, ${m('B(4;\\ 2)')}, ${m('C(0;\\ 4)')}. Chứng minh tam giác ${m('ABC')} vuông tại ${m('A')} và tính diện tích.`,
+   sol:[`${m(`${v('A', 'B')} = (3;\\ 1)`)}, ${m(`${v('A', 'C')} = ({-1};\\ 3)`)}; tích vô hướng ${m('-3 + 3 = 0')}.`, `${m('AB = AC = \\sqrt{10}')}, nên ${m('S = \\dfrac{1}{2}\\cdot\\sqrt{10}\\cdot\\sqrt{10}')}.`], ans:`Vuông tại ${m('A')}, ${tb('S = 5')}.`},
+  {kind:'vd', tag:TAG, label:'Câu 4', de:`Hai lực cùng độ lớn ${m('100')} N tác dụng lên một vật, hợp với nhau góc ${m('120^\\circ')}. Tính độ lớn của hợp lực.`,
+   sol:[`${m('\\vec{F_1}\\cdot\\vec{F_2} = 100\\cdot 100\\cdot\\left(-\\dfrac{1}{2}\\right) = -5000')}.`, `${m('F^2 = 100^2 + 100^2 + 2\\cdot (-5000) = 10\\,000')}.`], ans:`${tb('100')} N.`},
+  {kind:'vd', tag:TAG, label:'Câu 5', de:`Lực ${m('\\vec{F} = (3;\\ {-1})')} (N) làm vật chuyển từ ${m('A(1;\\ 2)')} đến ${m('B(6;\\ 4)')} (m). Tính công của lực.`,
+   sol:[`${m(`${v('A', 'B')} = (5;\\ 2)`)}.`, `${m(`A = \\vec{F}\\cdot ${v('A', 'B')} = 3\\cdot 5 + (-1)\\cdot 2`)}.`], ans:`${tb('13')} J.`},
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Toạ độ vectơ phải là <b>cuối trừ đầu</b>; hình bình hành ${m('ABCD')} thì ${m(`${v('A', 'B')} = ${v('D', 'C')}`)} (không phải ${m(v('C', 'D'))}).</li><li>Quên tịnh tiến về cùng gốc khi tìm góc giữa hai vectơ nối đuôi.</li><li>Nhầm kết quả tích vô hướng là vectơ: nó là <b>một số</b>.</li></ul>`},
+]);
+})();

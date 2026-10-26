@@ -15576,6 +15576,7 @@ lesson(90, 'on-tap-giua-ki-1', 'Ôn tập giữa học kì I', 'Tổng hợp Ch�
   K('Chương II', 'Điểm thử xác định phía miền nghiệm; nét đứt ứng với dấu ngặt; tối ưu: tính giá trị tại các đỉnh miền nghiệm.', `Đọc kĩ “tối đa/ít nhất” để chọn ${tm('\\le')} hay ${tm('\\ge')}.`, 'Gạch bỏ phần không thoả mãn để thấy miền nghiệm.'),
   K('Chương III', `${tm('a^2 = b^2 + c^2 - 2bc\\cos A')}, ${tm('\\dfrac{a}{\\sin A} = 2R')}, ${tm('S = \\dfrac{1}{2}bc\\sin A')}, công thức Heron.`, 'Góc tù: côsin, tang âm.', 'Bài đo đạc: vẽ tam giác, dùng góc ngoài để tìm góc ở ngọn.')]});
 }
+const C4 = {};   // các dạng bài của Chương IV, dùng lại cho mục Ôn tập chương IV
 /* ======================= CHƯƠNG IV. VECTƠ – Bài 7 và Bài 8 (Toán 10, Kết nối tri thức) ======================= */
 {
 const m = tm;
@@ -15776,6 +15777,7 @@ const g8d = lv => {   // thực tế: hợp lực, vận tốc
     fig:vecSVG({pts:[[0, 0, 'O'], [a / k, 0, 'A'], [0, b / k, 'B'], [a / k, b / k, 'C']], poly:[], dash:[['A', 'C'], ['B', 'C']], vecs:[['O', 'A', 'máy bay'], ['O', 'B', 'gió'], ['O', 'C', 'thực', 'alt']], h:200}), tpl:'[_] km/h', ans:[c],
     hint:'Hai vận tốc có phương vuông góc (Đông và Bắc); vận tốc so với mặt đất là vectơ tổng.', sol:`${m(`v = \\sqrt{${a}^2 + ${b}^2} =`)} ${tb(c)} km/h.`});
 };
+Object.assign(C4, {g7a,g7b,g7c,g7d,g8a,g8b,g8c,g8d});
 lesson(5, 'vecto-tong-hieu', 'Bài 8. Tổng và hiệu của hai vectơ', 'Quy tắc ba điểm, quy tắc hình bình hành; vectơ đối, hiệu hai vectơ; độ dài của tổng, hiệu; hợp lực và vận tốc.', [g8a, g8b, g8c, g8d]);
 G.topics.splice(G.topics.findIndex(t => t.id === 3) + 1, 0, {id:5, hk:1, name:'Vectơ', label:'Chương IV'});
 }
@@ -15906,6 +15908,7 @@ const g9d = lv => {
     sol:`${m(`${V('M', 'N')} = ${V('A', 'N')} - ${V('A', 'M')} = ${fstr9(tt)}${AC} - \\dfrac{1}{2}(${AB} + ${AC})`)}. Gộp hệ số: ${tb(`${V('M', 'N')} = ${comb9(good, [AB, AC])}`)}.`});
 };
 
+Object.assign(C4, {g9a,g9b,g9c,g9d});
 lesson(5, 'vecto-tich-so', 'Bài 9. Tích của một số với một vectơ', 'Độ dài và hướng của k·a; hệ thức trung điểm, trọng tâm; hai vectơ cùng phương; phân tích vectơ theo hai vectơ không cùng phương.', [g9a, g9b, g9c, g9d]);
 }
 
@@ -16064,6 +16067,7 @@ const g10d = lv => {
     sol:`${m(`${OV('A', 'B')} = ${pt(B[0] - A[0], B[1] - A[1])}`)}, ${m(`${OV('A', 'C')} = ${pt(C[0] - A[0], C[1] - A[1])}`)} nên ${m(`${OV('A', 'D')} = ${pt(D[0] - A[0], D[1] - A[1])}`)}. Do đó ${m(`x_D = ${A[0]} + ${pn(D[0] - A[0])}`)} và ${m(`y_D = ${A[1]} + ${pn(D[1] - A[1])}`)}. Vậy ${tb(`D${pt(...D)}`)}.`});
 };
 
+Object.assign(C4, {g10a,g10b,g10c,g10d});
 lesson(5, 'vecto-toa-do', 'Bài 10. Vectơ trong mặt phẳng toạ độ', 'Toạ độ của vectơ và các phép toán; toạ độ trung điểm, trọng tâm, đỉnh hình bình hành; độ dài, hai vectơ cùng phương, ba điểm thẳng hàng; phân tích vectơ.', [g10a, g10b, g10c, g10d]);
 }
 
@@ -16193,7 +16197,92 @@ const g11d = lv => {
     sol:`${m(`\\vec{F} = \\vec{F_1} + \\vec{F_2} = ${pt(S[0], S[1])}`)}. ${m(`A = \\vec{F}\\cdot\\vec{d} = ${pn(S[0])}\\cdot ${pn(d[0])} + ${pn(S[1])}\\cdot ${pn(d[1])}`)} = ${tb(kq)} J. Kiểm tra: ${m(`${dot(F1, d)} + ${pn(dot(F2, d))} = ${kq}`)}.`});
 };
 
+Object.assign(C4, {g11a,g11b,g11c,g11d});
 lesson(5, 'tich-vo-huong', 'Bài 11. Tích vô hướng của hai vectơ', 'Góc giữa hai vectơ; tích vô hướng theo định nghĩa và theo toạ độ; hai vectơ vuông góc; độ dài, góc từ tích vô hướng; ứng dụng tính công.', [g11a, g11b, g11c, g11d]);
+}
+
+
+/* =======================================================================
+   CHƯƠNG IV. VECTƠ – Ôn tập chương IV (thầy yêu cầu 26/10/2026, /tron-bo)
+   6 dạng: 4 dạng lấy từ Bài 7–11 (khái niệm · hình bình hành, lục giác · tích với số · toạ độ) + 2 dạng tổng hợp mới:
+   O1 toạ độ + tích vô hướng + thẳng hàng/vuông góc với M trên trục Ox; O2 tích vô hướng trong hình đặc biệt (không cho toạ độ).
+   Đáp án chọn trước; mỗi đề được kiểm lại bằng toạ độ ngay lúc sinh đề.
+   ======================================================================= */
+{
+const m = tm;
+const nb = x => x < 0 ? `{${x}}` : `${x}`;
+const pn = x => x < 0 ? `(${x})` : `${x}`;
+const pt = (x, y) => `(${nb(x)};${nb(y)})`;
+const OV = (a, b) => `\\overrightarrow{${a}${b}}`;
+const chk = (ok, msg) => { if(!ok) throw new Error('on-tap-c4: ' + msg); };
+const dot2 = (a, b) => a[0] * b[0] + a[1] * b[1];
+const ad = c => c < 0 ? `- ${-c}` : `+ ${c}`;                     // cộng/trừ một số
+const xs = c => c === 0 ? 'x' : `x ${ad(c)}`;                  // x + c (bỏ c = 0)
+
+/* Dạng O1. Toạ độ tổng hợp: tích vô hướng; M thuộc Ox thẳng hàng; M thuộc Ox sao cho MA ⟂ MB */
+const o4a = lv => {
+  const P = () => [R(-6, 6), R(-6, 6)];
+  if(lv === 1){
+    let A, B, C; do { A = P(); B = P(); C = P(); } while((B[0] - A[0]) * (C[1] - A[1]) - (B[1] - A[1]) * (C[0] - A[0]) === 0);
+    const u = [B[0] - A[0], B[1] - A[1]], w = [C[0] - A[0], C[1] - A[1]], kq = dot2(u, w);
+    return QB({text:`Cho tam giác ${m('ABC')} có ${m(`A${pt(...A)}`)}, ${m(`B${pt(...B)}`)}, ${m(`C${pt(...C)}`)}. Tính ${m(`${OV('A', 'B')}\\cdot ${OV('A', 'C')}`)}.`, tpl:`${m(`${OV('A', 'B')}\\cdot ${OV('A', 'C')} =`)} [_]`, ans:[kq],
+      hint:'Tính toạ độ hai vectơ (toạ độ điểm cuối trừ toạ độ điểm đầu), rồi dùng x₁x₂ + y₁y₂.',
+      sol:`${m(`${OV('A', 'B')} = ${pt(...u)}`)}, ${m(`${OV('A', 'C')} = ${pt(...w)}`)}. ${m(`${OV('A', 'B')}\\cdot ${OV('A', 'C')} = ${pn(u[0])}\\cdot ${pn(w[0])} + ${pn(u[1])}\\cdot ${pn(w[1])}`)} = ${tb(kq)}.`});
+  }
+  if(lv === 2){
+    let M, dir, s1, s2, A, B;
+    do { M = R(-6, 6); dir = [R(-3, 3), R(1, 3)]; s1 = R(-3, 3); s2 = R(-3, 3); A = [M + s1 * dir[0], s1 * dir[1]]; B = [M + s2 * dir[0], s2 * dir[1]]; } while(s1 === s2 || s1 === 0 || s2 === 0 || Math.abs(A[0]) > 12 || Math.abs(B[0]) > 12);
+    chk((M - A[0]) * (B[1] - A[1]) + A[1] * (B[0] - A[0]) === 0, 'o4a lv2');
+    return QB({text:`Cho ${m(`A${pt(...A)}`)} và ${m(`B${pt(...B)}`)}. Tìm hoành độ của điểm ${m('M')} thuộc trục ${m('Ox')} để ba điểm ${m('A, B, M')} thẳng hàng.`, tpl:`Hoành độ của ${m('M')} là [_]`, ans:[M],
+      hint:'M thuộc Ox nên M(x; 0). Ba điểm thẳng hàng khi hai vectơ AM và AB cùng phương: x₁y₂ − x₂y₁ = 0.',
+      sol:`${m(`M(x;\\ 0)`)}: ${m(`${OV('A', 'M')} = (${xs(-A[0])};\\ ${nb(-A[1])})`)}, ${m(`${OV('A', 'B')} = ${pt(B[0] - A[0], B[1] - A[1])}`)}. Cùng phương: ${m(`(${xs(-A[0])})\\cdot ${pn(B[1] - A[1])} - ${pn(-A[1])}\\cdot ${pn(B[0] - A[0])} = 0`)}, suy ra ${m(`x = ${M}`)}. Vậy hoành độ của ${m('M')} là ${tb(M)}.`});
+  }
+  let m1, m2, a1, b1, a2, b2, tries = 0;
+  for(;;){
+    if(++tries > 5000) throw new Error('o4a lv3 không dựng được');
+    m1 = R(-6, 6); m2 = R(-6, 6); if(m1 === m2) continue;
+    a1 = R(-7, 7); b1 = m1 + m2 - a1; if(Math.abs(b1) > 8) continue;
+    const Pp = m1 * m2 - a1 * b1; if(Pp === 0) continue;
+    a2 = R(-6, 6); if(a2 === 0 || Pp % a2 !== 0) continue; b2 = Pp / a2; if(Math.abs(b2) > 8 || b2 === 0) continue;
+    break;
+  }
+  const f = x => (a1 - x) * (b1 - x) + a2 * b2;
+  chk(f(m1) === 0 && f(m2) === 0, 'o4a lv3');
+  const sS = a1 + b1, pP = a1 * b1 + a2 * b2, kq = Math.max(m1, m2);
+  return QB({text:`Cho ${m(`A${pt(a1, a2)}`)} và ${m(`B${pt(b1, b2)}`)}. Có hai điểm ${m('M')} thuộc trục ${m('Ox')} sao cho ${m('MA \\perp MB')}. Tìm hoành độ lớn nhất của các điểm ${m('M')} đó.`, tpl:`Hoành độ lớn nhất là [_]`, ans:[kq],
+    hint:'M(x; 0). MA ⊥ MB khi tích vô hướng của hai vectơ MA, MB bằng 0 – được một phương trình bậc hai theo x; giải rồi chọn nghiệm lớn hơn.',
+    sol:`${m(`M(x;\\ 0)`)}: ${m(`${OV('M', 'A')} = (${a1} - x;\\ ${nb(a2)})`)}, ${m(`${OV('M', 'B')} = (${b1} - x;\\ ${nb(b2)})`)}. ${m(`${OV('M', 'A')}\\cdot ${OV('M', 'B')} = (${a1} - x)(${b1} - x) + ${pn(a2)}\\cdot ${pn(b2)} = x^2 ${sS === 0 ? '' : Math.abs(sS) === 1 ? (sS > 0 ? '- x ' : '+ x ') : ad(-sS) + 'x '}${pP === 0 ? '' : ad(pP) + ' '}= 0`)}, tức ${m(`(${xs(-m1)})(${xs(-m2)}) = 0`)}. Hai nghiệm ${m(`x = ${m1}`)} và ${m(`x = ${m2}`)}; hoành độ lớn nhất là ${tb(kq)}.`});
+};
+
+/* Dạng O2. Tích vô hướng trong hình đặc biệt, không cho toạ độ */
+const o4b = lv => {
+  if(lv === 1){
+    const a = pick([4, 6, 8, 10, 12]), a3 = a * Math.sqrt(3) / 2, X = {A:[0, 0], B:[a, 0], C:[a / 2, a3]};
+    const [p, q, sg] = pick([['AB', 'AC', 1], ['AB', 'BC', -1], ['CA', 'CB', 1], ['CA', 'BC', -1]]);
+    const vec = n => [X[n[1]][0] - X[n[0]][0], X[n[1]][1] - X[n[0]][1]], kq = sg * a * a / 2;
+    chk(Math.abs(dot2(vec(p), vec(q)) - kq) < 1e-9, 'o4b lv1');
+    return QB({text:`Cho tam giác đều ${m('ABC')} cạnh ${m(a)}. Tính ${m(`${OV(p[0], p[1])}\\cdot ${OV(q[0], q[1])}`)}.`, tpl:`${m(`${OV(p[0], p[1])}\\cdot ${OV(q[0], q[1])} =`)} [_]`, ans:[kq],
+      hint:'Xác định góc giữa hai vectơ: muốn vậy hãy tịnh tiến hai vectơ về cùng một gốc (đừng lấy luôn góc của tam giác). Rồi dùng a·b = |a||b|cos.',
+      sol:`Tịnh tiến về cùng gốc, góc giữa hai vectơ là ${m(sg > 0 ? '60^\\circ' : '120^\\circ')}. ${m(`${OV(p[0], p[1])}\\cdot ${OV(q[0], q[1])} = ${a}\\cdot ${a}\\cdot \\cos ${sg > 0 ? 60 : 120}^\\circ = ${a * a}\\cdot ${sg > 0 ? '\\dfrac{1}{2}' : '\\left(-\\dfrac{1}{2}\\right)'}`)} = ${tb(kq)}.`});
+  }
+  if(lv === 2){
+    let p, q; do { p = R(2, 9); q = R(2, 9); } while(p === q);
+    const X = {A:[0, 0], B:[p, 0], C:[p, q], D:[0, q]}, vec = n => [X[n[1]][0] - X[n[0]][0], X[n[1]][1] - X[n[0]][1]], kq = q * q - p * p;
+    chk(dot2(vec('AC'), vec('BD')) === kq, 'o4b lv2');
+    return QB({text:`Cho hình chữ nhật ${m('ABCD')} có ${m(`AB = ${p}`)}, ${m(`AD = ${q}`)}. Tính ${m(`${OV('A', 'C')}\\cdot ${OV('B', 'D')}`)}.`, tpl:`${m(`${OV('A', 'C')}\\cdot ${OV('B', 'D')} =`)} [_]`, ans:[kq],
+      hint:'Phân tích cả hai vectơ theo AB và AD: AC = AB + AD, còn BD = AD − AB. Nhớ AB ⊥ AD nên AB·AD = 0.',
+      sol:`${m(`${OV('A', 'C')} = ${OV('A', 'B')} + ${OV('A', 'D')}`)}, ${m(`${OV('B', 'D')} = ${OV('A', 'D')} - ${OV('A', 'B')}`)}. ${m(`${OV('A', 'C')}\\cdot ${OV('B', 'D')} = AD^2 - AB^2 = ${q * q} - ${p * p}`)} (vì ${m(`${OV('A', 'B')}\\cdot ${OV('A', 'D')} = 0`)}) = ${tb(kq)}.`});
+  }
+  let b, c; do { b = R(3, 11); c = R(3, 11); } while(b === c || (b - c) % 2 !== 0);
+  const al = pick([60, 120]), cs = al === 60 ? .5 : -.5, sn = Math.sqrt(3) / 2;
+  const B = [c, 0], C = [b * cs, b * sn], Mid = [(B[0] + C[0]) / 2, (B[1] + C[1]) / 2], kq = (b * b - c * c) / 2;
+  chk(Math.abs(dot2(Mid, [C[0] - B[0], C[1] - B[1]]) - kq) < 1e-9, 'o4b lv3');
+  return QB({text:`Cho tam giác ${m('ABC')} có ${m(`AB = ${c}`)}, ${m(`AC = ${b}`)}, ${m(`\\widehat{BAC} = ${al}^\\circ`)}. Gọi ${m('M')} là trung điểm của ${m('BC')}. Tính ${m(`${OV('A', 'M')}\\cdot ${OV('B', 'C')}`)}.`, tpl:`${m(`${OV('A', 'M')}\\cdot ${OV('B', 'C')} =`)} [_]`, ans:[kq],
+    hint:'Biểu thị cả hai vectơ qua AB và AC: AM = (AB + AC)/2, BC = AC − AB. Khai triển thì hai tích AB·AC triệt tiêu nhau.',
+    sol:`${m(`${OV('A', 'M')} = \\dfrac{1}{2}(${OV('A', 'B')} + ${OV('A', 'C')})`)}, ${m(`${OV('B', 'C')} = ${OV('A', 'C')} - ${OV('A', 'B')}`)}. ${m(`${OV('A', 'M')}\\cdot ${OV('B', 'C')} = \\dfrac{1}{2}(AC^2 - AB^2) = \\dfrac{1}{2}(${b * b} - ${c * c})`)} = ${tb(kq)} (không phụ thuộc vào số đo góc ${m('A')}).`});
+};
+
+lesson(5, 'on-tap-c4', 'Ôn tập chương IV', 'Tổng hợp vectơ: khái niệm, tổng – hiệu, tích với một số, toạ độ, tích vô hướng; hai dạng tổng hợp mới (toạ độ + tích vô hướng; tích vô hướng trong hình đặc biệt).', [C4.g7b, C4.g8c, C4.g9c, C4.g10c, o4a, o4b]);
 }
 
 })();

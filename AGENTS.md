@@ -300,7 +300,7 @@ Chủ đề 92 trong `data/lop11.js` (cuối khối Chương II, chèn sau chủ
 Các bài còn lại của Toán 10 (Chương IV–IX) và Toán 11 (Chương III–IX) được làm theo bảng `KE-HOACH-TRON-BO.md`: ChatGPT/Codex mỗi ngày làm **hàng đầu tiên còn ⬜** (đủ 6 phần của lệnh “trọn bộ”, mục 0b), mở Pull Request và đổi trạng thái sang 🟨; **Claude kiểm lại mỗi ngày** (chạy kiểm tra, tính lại đáp số độc lập, soát hình, đối chiếu SGK) rồi đổi sang ✅ hoặc 🟧. Không làm hàng kế tiếp khi hàng trước chưa ✅; không tự đổi thứ tự hoặc tên bài trong bảng. Hướng dẫn cho thầy: mục 5 của `HUONG-DAN-CHATGPT.md`.
 
 ## Menu chủ đề: theo Chương SGK + mục “Ôn tập · Củng cố · Kiểm tra” (thầy yêu cầu 14/10/2026)
-- Chủ đề học theo SGK Kết nối tri thức có `label:'Chương I'`, `'Chương II'`… (đúng số chương SGK; lớp 10 hiện có Chương I, II, III, V vì Chương IV Vectơ chưa làm) và `name` = tên chương theo SGK.
+- Chủ đề học theo SGK Kết nối tri thức có `label:'Chương I'`, `'Chương II'`… (đúng số chương SGK; lớp 10 có Chương I, II, III, IV (Vectơ: Bài 7–11 và Ôn tập chương IV, id `on-tap-c4`, dạng tổng hợp mới `o4a`, `o4b` dùng lại các dạng qua biến `C4`), V) và `name` = tên chương theo SGK.
 - Mọi chủ đề ôn tập, củng cố, ôn giữa kì / cuối kì, kiểm tra chương đều khai báo `grp:'📝 Ôn tập · Củng cố · Kiểm tra'` (và `label` bắt đầu bằng 📝): `engine.js` xếp nhóm này **cuối cùng** trên trang chủ, dưới tiêu đề riêng. Đã áp dụng: lớp 4 (chủ đề 7), lớp 9 (6), lớp 10 (90, 91, 93), lớp 11 (3, 92, 93). Mã 90–93 dành cho nhóm này.
 - Bài kiểm tra trực tuyến (`StudentTest.add`, trường `topic`) gắn vào chủ đề trong nhóm này: lớp 10 `c2`, `tong-hop-*` → 93; `giua-ki-*`, `gk-mt-*` → 90; lớp 11 `tong-hop-*` → 93, `c2-*` → 92, `gk-mt-*` → 3.
 - Bài “Ôn tập chương N” (`on-tap-cN`) vẫn nằm trong chủ đề của chương đó.
