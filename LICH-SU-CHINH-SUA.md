@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-28 – Phiếu học tập củng cố Hình học 2 (Góc ở tâm, góc nội tiếp) – ôn thi vào 10
+
+- **Yêu cầu:** Phiếu thứ 2/8 trong loạt phiếu Hình học ôn thi vào 10 (Do Now, tình huống mở đầu, bản lề, 7 câu luyện tập ★/★★/★★★, tìm lỗi sai, phiếu ra khỏi lớp, Phần B gợi ý + đáp án).
+- **Kết quả:** `Lecture.addSheet('lop9', 'on-thi-goc-duong-tron', …)`; Phần A đúng 2 trang A4; đáp số chọn trước, tính lại tay từng câu; dấu hiệu tứ giác nội tiếp được chứng minh lại (trung điểm cạnh huyền). Phiếu kế tiếp: số 3 `on-thi-hinh-quat-vanh-khuyen`.
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop9-khoi-dong.js`, `LICH-SU-CHINH-SUA.md`.
+- **Kiểm thử:** `node tools/kiem-tra.js 30 lop9` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` (107/107) → ĐẠT; `python3 tools/build.py` → ĐẠT.
+- **Việc thủ công:** Không có.
+
 ### 2026-10-28 – Chân trang “Mã đề – Trang x/n” cho mọi đề kiểm tra in
 
 - **Yêu cầu:** Thêm chân trang PDF ghi mã đề để in không bị nhầm.

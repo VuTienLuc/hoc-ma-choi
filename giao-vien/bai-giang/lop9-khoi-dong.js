@@ -406,3 +406,205 @@ Viết lại lời giải đầy đủ Ví dụ 7 của bài giảng (bốn đi�
 | Tìm lỗi sai | $MA = 12$ |
 | Exit 1 / 2 / 3 | C / a) Đ, b) S, c) Đ, d) S / $25$ |
 `);
+
+Lecture.addSheet('lop9', 'on-thi-goc-duong-tron', String.raw`# PHIẾU HỌC TẬP – Ôn thi vào 10 · Hình học 2. Góc ở tâm, góc nội tiếp
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tam giác $OAB$ cân tại $O$, $\widehat{AOB} = 100^\circ$. Tính $\widehat{OAB}$. Đáp số: ………………
+
+**Câu 2.** Cung nhỏ $AB$ của $(O)$ có số đo $84^\circ$, $C$ thuộc cung lớn $AB$. Tính $\widehat{ACB}$. Đáp số: ………………
+
+**Câu 3.** $AB$ là đường kính của $(O)$, $C \in (O)$. Tính $\widehat{ACB}$. Đáp số: ………………
+
+**Câu 4.** Tứ giác $ABCD$ nội tiếp đường tròn, $\widehat{A} = 110^\circ$. Tính $\widehat{C}$. Đáp số: ………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Trên một đường tròn $(O)$, bạn Nam đo cung nhỏ $AB$, góc ở tâm $\widehat{AOB}$ và góc $\widehat{ACB}$ ($C$ thuộc cung lớn $AB$):
+
+| Số đo cung nhỏ $AB$ | $60^\circ$ | $100^\circ$ | $140^\circ$ |
+|---|---|---|---|
+| $\widehat{AOB}$ | $60^\circ$ | $100^\circ$ | $140^\circ$ |
+| $\widehat{ACB}$ | $30^\circ$ | $50^\circ$ | $70^\circ$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Vì sao góc nội tiếp luôn bằng một nửa số đo cung bị chắn? Nhìn một góc trong hình tròn, ta cần xét những yếu tố nào để tính đúng số đo?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Cung nhỏ $AB$ của $(O)$ có số đo $100^\circ$, $C$ thuộc cung lớn $AB$. Số đo $\widehat{ACB}$ là
+
+A. $100^\circ$
+
+B. $50^\circ$
+
+C. $200^\circ$
+
+D. $130^\circ$
+
+**Câu B.** Tứ giác $ABCD$ nội tiếp đường tròn khi và chỉ khi
+
+A. hai góc kề nhau bù nhau
+
+B. hai góc đối bù nhau
+
+C. hai góc đối bằng nhau
+
+D. tổng bốn góc bằng $360^\circ$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Cung nhỏ $AB$ có số đo $124^\circ$, $C$ thuộc cung lớn $AB$. Tính $\widehat{ACB}$. Đáp số: ………………
+
+**Câu 2 ★.** $AB$ là đường kính của $(O)$, $C \in (O)$, $\widehat{ABC} = 28^\circ$. Tính $\widehat{BAC}$. Đáp số: ………………
+
+**Câu 3 ★.** Tứ giác $ABCD$ nội tiếp có $\widehat{A} = 95^\circ$, $\widehat{B} = 68^\circ$. Tính $\widehat{C}$ và $\widehat{D}$. Đáp số: ………………
+
+**Câu 4 ★★.** Tiếp tuyến $Ax$ của $(O)$ tại $A$ tạo với dây $AB$ góc $\widehat{xAB} = 38^\circ$. Tính số đo cung nhỏ $AB$ và $\widehat{OAB}$. Đáp số: ………………
+
+**Câu 5 ★★.** Hai dây $AB$, $CD$ cắt nhau tại $E$ trong $(O)$; cung nhỏ $AC$ có số đo $70^\circ$, cung nhỏ $BD$ có số đo $50^\circ$. Tính $\widehat{AEC}$. Đáp số: ………………
+
+**Câu 6 ★★★.** Từ $M$ ngoài $(O)$ kẻ hai cát tuyến $MAB$, $MCD$ ($A$ nằm giữa $M$, $B$; $C$ nằm giữa $M$, $D$). Biết $\widehat{M} = 35^\circ$, cung nhỏ $AC$ có số đo $50^\circ$. Tính số đo cung nhỏ $BD$. Đáp số: ………………
+
+**Câu 7 ★★★.** **[Minh họa]** Hai cột mốc $A$, $B$ nằm trên bờ một hồ nước hình tròn bán kính $50$ m. Người đứng ở $C$ trên bờ hồ (thuộc cung lớn $AB$) nhìn hai cột mốc dưới góc $\widehat{ACB} = 30^\circ$. Khoảng cách $AB$ là ……… m.
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Trên $(O)$, cung nhỏ $AB$ có số đo $80^\circ$, $C$ thuộc cung lớn $AB$. Tính $\widehat{ACB}$.
+>
+> **Lời giải của bạn X:** $\widehat{ACB}$ là góc nội tiếp chắn cung nhỏ $AB$. Do đó $\widehat{ACB} = \text{sđ}\overset{\frown}{AB} = 80^\circ$.
+
+Lời giải sai ở bước nào? Em giải lại cho đúng: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Tứ giác $ABCD$ nội tiếp đường tròn, $\widehat{B} = 115^\circ$. Số đo $\widehat{D}$ là
+
+A. $65^\circ$
+
+B. $115^\circ$
+
+C. $75^\circ$
+
+D. $245^\circ$
+
+**Câu 2.** Tứ giác $ABCD$ nội tiếp $(O)$ (các đỉnh theo thứ tự $A, B, C, D$), $AC$ là đường kính và $\widehat{BAC} = 30^\circ$. Mỗi ý em ghi Đ hoặc S:
+
+a) $\widehat{ABC} = 90^\circ$. ……
+
+b) $\widehat{ACB} = 30^\circ$. ……
+
+c) $\widehat{ADB} = 60^\circ$. ……
+
+d) $\widehat{ADC} = 60^\circ$. ……
+
+**Câu 3.** **[Minh họa]** Hai dây $AB$, $CD$ cắt nhau tại $E$ trong $(O)$; cung nhỏ $AD$ có số đo $100^\circ$, cung nhỏ $BC$ có số đo $60^\circ$. Số đo $\widehat{AED}$ bằng: …………
+
+## 7. Một phút suy ngẫm
+
+*Trước khi tính một góc trong hình tròn, em tự hỏi gì trước tiên: đỉnh góc nằm ở đâu (tâm, trên, trong hay ngoài đường tròn) và góc chắn cung nào?* ………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Viết lại lời giải đầy đủ Ví dụ 4 của bài giảng, rồi chứng minh thêm tứ giác $BCEF$ nội tiếp và $\widehat{AFE} = \widehat{ACB}$: mỗi dòng ghi rõ căn cứ. Nhờ một bạn kiểm tra.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Ôn thi vào 10 · Hình học 2. Góc ở tâm, góc nội tiếp
+
+## 1. Thông tin bài
+
+- **Toán 9 · Ôn thi tuyển sinh vào lớp 10 (TP.HCM) · Hình học 2.** Dạng bài hình thường gặp ở câu a, b của Bài 7: tính góc, tứ giác nội tiếp, góc cùng chắn cung, góc tiếp tuyến – dây cung.
+- **Giả định:** 1 tiết 45 phút ôn tập; lớp đại trà; máy chiếu và giấy/bảng con.
+- Các tình huống **[Minh họa]** (bảng đo mở đầu, bài hồ nước, Exit 3) do người soạn tự đặt, không trích từ đề thi.
+- Phiếu bám **Ví dụ 1–7** của bài giảng on-thi-goc-duong-tron: Ví dụ 1 (cung, góc ở tâm) → Do Now 1; Ví dụ 2 (góc nội tiếp, cùng chắn cung) → bản lề A, Luyện tập 1, Tìm lỗi sai, Do Now 2; Ví dụ 3 (đường kính) → Luyện tập 2, 7, Exit 2; Ví dụ 4 (tứ giác nội tiếp) → bản lề B, Luyện tập 3, Exit 1, Vận dụng về nhà; Ví dụ 5 (tiếp tuyến – dây) → Luyện tập 4; Ví dụ 6, 7 (góc đỉnh trong, đỉnh ngoài) → Luyện tập 5, 6, Exit 3.
+- **Quy ước đề năm nay:** góc ở tâm, góc nội tiếp, góc cùng chắn một cung, góc chắn nửa đường tròn, tính chất hai góc đối của tứ giác nội tiếp được dùng trực tiếp. **Dấu hiệu nhận biết tứ giác nội tiếp phải chứng minh lại** (xem 4.6 và 4.7); góc có đỉnh trong, ngoài đường tròn nên chứng minh lại bằng góc ngoài của tam giác khi trình bày bài thi.
+
+## 2. Mục tiêu
+
+- **Mở đầu (7 phút):** ôn tam giác cân, góc chắn nửa đường tròn, tổng hai góc đối; gợi nhu cầu "nửa số đo cung".
+- **Luyện tập (25 phút):** cung và góc ở tâm; góc nội tiếp; đường kính; tứ giác nội tiếp; tiếp tuyến – dây; góc đỉnh trong, ngoài; mô hình thực tế.
+- **Củng cố (8 phút):** tìm lỗi sai, phiếu ra khỏi lớp.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Làm một mình, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Nêu câu hỏi của bài học |
+| 7–15 | Ôn nhanh kiến thức nền theo bài giảng | Giáo viên chiếu bản đồ chuyên đề sáu dạng |
+| ~15 | Câu bản lề A, B | Giơ thẻ A/B/C/D |
+| 15–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm (Mục 7) và dặn dò (Mục 8) | |
+
+## 4. Hướng dẫn và đáp án từng hoạt động
+
+### 4.1. Do Now
+- **Đáp án:** 1) $\widehat{OAB} = \dfrac{180^\circ - 100^\circ}{2} = 40^\circ$. 2) $\widehat{ACB} = 42^\circ$. 3) $\widehat{ACB} = 90^\circ$. 4) $\widehat{C} = 70^\circ$.
+- **Lỗi dự kiến:** câu 1 ghi $80^\circ$ (quên chia đôi) hoặc $100^\circ$; câu 2 ghi $84^\circ$; câu 3 ghi $180^\circ$; câu 4 ghi $110^\circ$ (nhầm hai góc đối bằng nhau).
+
+### 4.2. Notice & Wonder
+- **Gợi ý nhận xét:** số đo cung nhỏ $AB$ luôn bằng $\widehat{AOB}$; $\widehat{ACB}$ luôn bằng một nửa ($60 \to 30$, $100 \to 50$, $140 \to 70$). Chốt: góc ở tâm bằng số đo cung bị chắn, góc nội tiếp bằng nửa số đo cung bị chắn.
+
+### 4.3. Câu hỏi bản lề
+- **Đáp án:** Câu A chọn **B**; Câu B chọn **B**.
+- **Nhiễu – A:** A ($100^\circ$, nhầm góc nội tiếp bằng cung); C ($2 \cdot 100^\circ$); D ($180^\circ - 50^\circ$). **Nhiễu – B:** A (góc kề); C (chỉ đúng với hình chữ nhật); D (mọi tứ giác đều có tổng bốn góc $360^\circ$).
+
+### 4.4. Luyện tập xen kẽ – đáp án và lời giải ngắn
+1. $\widehat{ACB} = \dfrac{124^\circ}{2} = 62^\circ$.
+2. $\widehat{ACB} = 90^\circ$ (chắn đường kính $AB$) nên trong tam giác vuông $ABC$: $\widehat{BAC} = 90^\circ - 28^\circ = 62^\circ$.
+3. Hai góc đối bù nhau: $\widehat{C} = 180^\circ - 95^\circ = 85^\circ$; $\widehat{D} = 180^\circ - 68^\circ = 112^\circ$.
+4. Cung nhỏ $AB$ có số đo $2 \cdot 38^\circ = 76^\circ$. $OA \perp Ax$ nên $\widehat{OAB} = 90^\circ - 38^\circ = 52^\circ$.
+5. Đỉnh $E$ nằm trong đường tròn: $\widehat{AEC} = \dfrac{70^\circ + 50^\circ}{2} = 60^\circ$.
+6. Đỉnh $M$ nằm ngoài: $\widehat{M} = \dfrac{\text{sđ}\overset{\frown}{BD} - \text{sđ}\overset{\frown}{AC}}{2}$, nên $\text{sđ}\overset{\frown}{BD} = 2 \cdot 35^\circ + 50^\circ = 120^\circ$.
+7. $\widehat{AOB} = 2\widehat{ACB} = 60^\circ$ (góc ở tâm gấp đôi góc nội tiếp cùng chắn cung nhỏ $AB$). Tam giác $OAB$ cân tại $O$ có một góc $60^\circ$ nên là tam giác đều, $AB = OA = 50$ m.
+- **Lỗi dự kiến:** câu 1 ghi $124^\circ$; câu 2 ghi $28^\circ$ hoặc $152^\circ$; câu 3 ghi $\widehat{C} = 95^\circ$; câu 4 ghi $\widehat{OAB} = 38^\circ$ hoặc $76^\circ$; câu 5 ghi $\dfrac{70 - 50}{2} = 10^\circ$ (dùng nhầm công thức đỉnh ngoài); câu 6 ghi $\dfrac{50 + \text{sđ}BD}{2}$ hoặc $85^\circ$; câu 7 ghi $AB = 30$ hoặc $100$ m.
+
+### 4.5. Tìm lỗi sai
+- **Đáp án:** $\widehat{ACB}$ là góc nội tiếp nên bằng **một nửa** số đo cung bị chắn, không bằng số đo cung. Lời giải đúng: $\widehat{ACB} = \dfrac{80^\circ}{2} = 40^\circ$ (kết quả $80^\circ$ là số đo góc ở tâm $\widehat{AOB}$).
+
+### 4.6. Phiếu ra khỏi lớp
+- **Đáp án:** Câu 1: **A** ($\widehat{D} = 180^\circ - 115^\circ = 65^\circ$). Câu 2: a) Đ ($\widehat{ABC}$ chắn đường kính $AC$); b) S ($\widehat{ACB} = 90^\circ - 30^\circ = 60^\circ$); c) Đ ($\widehat{ADB} = \widehat{ACB} = 60^\circ$, cùng chắn cung $AB$ vì $C$, $D$ cùng phía với $AB$); d) S ($\widehat{ADC} = 90^\circ$, chắn đường kính $AC$). Câu 3: $\widehat{AED} = \dfrac{100^\circ + 60^\circ}{2} = 80^\circ$.
+- **Lỗi dự kiến:** Câu 1 chọn B (nhầm hai góc đối bằng nhau); Câu 2c ghi S vì nhầm với $30^\circ$ của $\widehat{BAC}$; Câu 3 ghi $\dfrac{100 - 60}{2} = 20^\circ$.
+- **Chứng minh lại dấu hiệu (nếu hỏi):** hai góc vuông cùng nhìn một đoạn: $\widehat{AEH} = \widehat{AFH} = 90^\circ$, gọi $I$ là trung điểm $AH$ thì $IE = IF = IA = IH = \dfrac{AH}{2}$ (đường trung tuyến ứng với cạnh huyền), nên $A, E, H, F$ cùng thuộc đường tròn tâm $I$.
+
+### 4.7. Suy ngẫm và về nhà
+- Đọc nhanh vài phiếu để biết em nào chưa phân biệt đỉnh góc ở tâm, trên, trong, ngoài đường tròn. Bài về nhà: $BCEF$ nội tiếp vì $\widehat{BEC} = \widehat{BFC} = 90^\circ$ (cùng nhìn $BC$; chứng minh lại bằng trung điểm $M$ của $BC$: $ME = MF = MB = MC$). Từ đó $\widehat{AFE} = 180^\circ - \widehat{BFE} = \widehat{ECB}$ (hai góc đối bù nhau), tức $\widehat{AFE} = \widehat{ACB}$.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài chứng minh tổng hợp (Ví dụ 4, Vận dụng về nhà) |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại theo nhóm nhỏ bằng hình có sẵn cung và góc, tô màu cung bị chắn |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng đúng câu sai nhiều |
+
+**Do Now gợi ý cho tiết sau (Hình học 3. Hình quạt tròn và hình vành khuyên):** (1) tính diện tích hình tròn bán kính $6$ cm; (2) câu sai nhiều nhất trong Exit ticket; (3) cung $90^\circ$ chiếm mấy phần của cả đường tròn?
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** tô màu cung bị chắn và ghi sẵn "góc nội tiếp = nửa cung" trước khi tính; chỉ làm Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6, 7; câu mở: tam giác $ABC$ nội tiếp $(O; R)$ có $\widehat{A} = 45^\circ$, tính $BC$ theo $R$ (kết quả $BC = R\sqrt2$, vì $\widehat{BOC} = 90^\circ$).
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $40^\circ$; $42^\circ$; $90^\circ$; $70^\circ$ |
+| Bản lề A / B | B / B |
+| Luyện tập 1 | $62^\circ$ |
+| Luyện tập 2 | $62^\circ$ |
+| Luyện tập 3 | $\widehat{C} = 85^\circ$; $\widehat{D} = 112^\circ$ |
+| Luyện tập 4 | $76^\circ$; $52^\circ$ |
+| Luyện tập 5 | $60^\circ$ |
+| Luyện tập 6 | $120^\circ$ |
+| Luyện tập 7 | $50$ m |
+| Tìm lỗi sai | $\widehat{ACB} = 40^\circ$ |
+| Exit 1 / 2 / 3 | A / a) Đ, b) S, c) Đ, d) S / $80^\circ$ |
+`);
