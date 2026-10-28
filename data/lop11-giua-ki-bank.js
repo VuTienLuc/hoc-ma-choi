@@ -66,7 +66,7 @@ const tn5 = (ci, n = 0) => { const [kind, nn, an, ad] = pick(SN, ci, n), per = n
   return {bai:1, level:'Thông hiểu', q:`Nghiệm của phương trình ${m(`\\${kind} ${nn}x = \\${kind}\\dfrac{${an === 1 ? '' : an}\\pi}{${ad}}`)} là`, opts:uniq([right, ...wr].map(x => m(x) + ' ' + m(K)), 'TN5'),
     sol:p(`${how}.`) + p(`Chia hai vế cho ${nn}: ${m(right)} ${m(K)}.`)}; };
 const tn6 = (ci, n = 0) => { const [a, b, c, k] = pick([[2, -3, 1, 4], [3, -2, 5, 3], [1, 4, -3, 5], [2, 1, -4, 6], [3, -1, 2, 5], [1, -5, 6, 4], [2, 3, -1, 3], [4, -3, 2, 2]], ci, n), u = t => a * t * t + b * t + c;
-  const f = `u_n = ${a === 1 ? '' : a}n^2 ${b < 0 ? '-' : '+'} ${Math.abs(b)}n ${c < 0 ? '-' : '+'} ${Math.abs(c)}`;
+  const f = `u_n = ${a === 1 ? '' : a}n^2 ${b < 0 ? '-' : '+'} ${Math.abs(b) === 1 ? '' : Math.abs(b)}n ${c < 0 ? '-' : '+'} ${Math.abs(c)}`;
   return {bai:2, level:'Nhận biết', q:`Cho dãy số ${m('(u_n)')} với ${m(f)}. Số hạng ${m(`u_{${k}}`)} bằng`, opts:uniq([u(k), a * k * k - b * k + c, a * k * k + b * k - c, u(k + 1)].map(x => m(x)), 'TN6'),
     sol:p(`${m(`u_{${k}} = ${a === 1 ? '' : a}\\cdot ${k}^2 ${b < 0 ? '-' : '+'} ${Math.abs(b)}\\cdot ${k} ${c < 0 ? '-' : '+'} ${Math.abs(c)} = ${u(k)}`)}.`)}; };
 const tn7 = (ci, n = 0) => { const [u1, d, k] = pick([[3, 4, 10], [-5, 3, 8], [7, -2, 12], [2, 5, 15], [4, 3, 9], [-2, 5, 7], [10, -3, 6], [1, 6, 11]], ci, n);

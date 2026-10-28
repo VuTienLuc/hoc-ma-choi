@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-28 – Đề giữa học kì I Toán 11, bộ đề thứ hai (mã 721–724)
+
+- **Yêu cầu:** Bổ sung đề giữa học kì I lớp 11 bộ 2, cấu trúc tương tự: Phần I 5 điểm, Phần II 3 điểm, Phần III 2 điểm; câu 2 Phần II (Đ/S) đổi thành mô hình hoá CSC–CSN; kiểm tra kĩ đáp số; bỏ phiếu điền kết quả, chỉ gồm đề 4 mã và đáp án.
+- **Kết quả:** Đề `gk-ma-tran-2` (lớp 11, 60 phút): 10 TN × 0,5 + 3 Đ/S × 1 + 2 TLN × 1; Đ/S-2 là bài mô hình hoá hai cách tiết kiệm/bán hàng… (CSC và CSN), mỗi mã một tình huống; TLN-1 mực nước, TLN-2 đếm nghiệm. Thêm tuỳ chọn `noGrid` nên không còn bảng trả lời; mỗi mã in đúng 2 trang A4 và có đáp án kèm ma trận. Sửa nhỏ ngân hàng `GK11` (không in hệ số 1 trước n).
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop11-giua-ki-ma-tran-2.js` (mới), `assets/js/kiemtra.js`, `data/lop11-giua-ki-bank.js`, `giao-vien/index.html`, `tools/test_gk_ma_tran.js`, `AGENTS.md`, `CLAUDE.md`.
+- **Kiểm thử:** `node tools/test_gk_ma_tran.js` (kiểm độc lập, đã thử đột biến) → ĐẠT; `node tools/kiem-tra.js 5 lop11` → ĐẠT; `python3 tools/test_kiemtra.py lop11 gk-ma-tran-2` → ĐẠT (11/11, mỗi mã đúng 2 trang A4); `python3 tools/test.py` (31830 câu) → ĐẠT; `python3 tools/build.py` → ĐẠT.
+- **Việc thủ công:** Thầy đối chiếu tình huống và lời văn Đ/S-2, việc chọn TLN-1 (mực nước) và TLN-2 (đếm nghiệm), và điểm 2 TLN × 1.
+
 ### 2026-10-28 – Phiếu học tập củng cố ôn thi vào 10 (hình học): Hình học 1. Tiếp tuyến
 
 - **Yêu cầu:** Mỗi ngày một phiếu học tập củng cố (dạng phiếu trên lớp) bám đề thi 9 lên 10, phần hình học.

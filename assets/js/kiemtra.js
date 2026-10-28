@@ -61,7 +61,7 @@ const KiemTra = (() => {
     const III = v.essay.map((x, i) => t.short ? `<div class="kt-q"><b>Câu ${i + 1} (${pt(x.pts)} điểm).</b> ${x.de} <span class="kt-fill">Đáp số: <i class="kt-dots"></i></span></div>` : `<div class="kt-q"><b>Bài ${i + 1} (${pt(x.pts)} điểm).</b> ${x.de}</div>`).join('');
     const sI = t.mc.length * mcP(t), sII = t.tf.length, sIII = t.essay.reduce((s, e) => s + e.pts, 0);
     return `<article class="ws kt"${t.pages ? ` style="--kt-pages:${t.pages}"` : ''}>${head(t, v.code, false)}
-      <div class="kt-ans"><p class="kt-small"><b>Bảng trả lời Phần I, II</b> (học sinh ghi vào bảng; Phần III làm vào giấy kiểm tra):</p>${grid(t)}</div>
+      ${t.noGrid ? '' : `<div class="kt-ans"><p class="kt-small"><b>Bảng trả lời Phần I, II</b> (học sinh ghi vào bảng; Phần III làm vào giấy kiểm tra):</p>${grid(t)}</div>`}
       <h3>Phần I. Trắc nghiệm nhiều phương án lựa chọn <small>(${pt(sI)} điểm)</small></h3>
       <p class="kt-small">Học sinh trả lời từ câu 1 đến câu ${t.mc.length}. Mỗi câu hỏi chỉ chọn <b>một</b> phương án.</p>${I}
       <h3>Phần II. Trắc nghiệm đúng sai <small>(${pt(sII)} điểm)</small></h3>
