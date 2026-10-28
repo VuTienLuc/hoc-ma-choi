@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-28 – Chân trang “Mã đề – Trang x/n” cho mọi đề kiểm tra in
+
+- **Yêu cầu:** Thêm chân trang PDF ghi mã đề để in không bị nhầm.
+- **Kết quả:** Mỗi trang in của đề kiểm tra (mọi lớp, mọi bộ đề) có chân trang “Mã đề NNN – Trang k/n” kèm đường kẻ, đặt đúng cuối trang A4; chỉ hiện khi in/Lưu PDF, trang đáp án không có. Số trang mỗi mã đề không đổi (vẫn đúng 2 trang, đề giữa kì 4 trang).
+- **Tệp thay đổi:** `assets/js/kiemtra.js` (`paper()` thêm `.kt-foot`), `assets/css/style.css` (`.kt-p`, `.kt-foot` trong phần in).
+- **Kiểm thử:** `python3 tools/test_kiemtra.py` (toàn bộ, 137/137; đã xem ảnh trang in mã 722) → ĐẠT; `node tools/kiem-tra.js 3` → ĐẠT; `python3 tools/test.py` (31830 câu) → ĐẠT; `python3 tools/build.py` → ĐẠT.
+- **Việc thủ công:** Không có.
+
 ### 2026-10-28 – Đề giữa học kì I Toán 11, bộ đề thứ hai (mã 721–724)
 
 - **Yêu cầu:** Bổ sung đề giữa học kì I lớp 11 bộ 2, cấu trúc tương tự: Phần I 5 điểm, Phần II 3 điểm, Phần III 2 điểm; câu 2 Phần II (Đ/S) đổi thành mô hình hoá CSC–CSN; kiểm tra kĩ đáp số; bỏ phiếu điền kết quả, chỉ gồm đề 4 mã và đáp án.

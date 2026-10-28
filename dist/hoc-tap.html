@@ -623,11 +623,14 @@ body.noscroll{overflow:hidden}
 .kt-lft{text-align:left!important} .kt-rub td:last-child{width:9%} .kt-rub td:first-child{width:12%}
 .kt-scale{margin:2pt 0;padding-left:14pt;font-size:10pt}
 .kt-key{break-inside:avoid;margin-top:4pt} .kt-key h3{margin-top:6pt}
+.kt-foot{display:none}
 .kt-tip{max-width:210mm;margin:0 auto 10px;color:var(--muted);font-size:14px}
 .kt-doc .kt+.kt{margin-top:18px}
 .ws-bar select{min-height:44px;border:2px solid var(--line);border-radius:999px;padding:4px 12px;font:600 15px var(--f-body);background:var(--surface);color:var(--ink)}
 @media print{
   @page kt{size:A4;margin:9mm 11mm 9mm}
+  .kt-p{position:relative;height:calc(279mm * var(--kt-pages) - 2mm);overflow:visible}
+  .kt-foot{display:block;position:absolute;left:0;right:0;top:calc(279mm * var(--k) - 7mm);height:5mm;line-height:5mm;text-align:center;font:700 10pt 'Times New Roman',serif;border-top:.7pt solid var(--ink)}
   .kt-tip{display:none}
   .kt{padding:0;font-size:11pt} .kt-doc .kt+.kt{margin-top:0;break-before:page}
   .kt-key{break-inside:avoid} .kt h3{break-after:avoid}
