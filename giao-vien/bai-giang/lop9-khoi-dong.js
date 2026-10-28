@@ -200,3 +200,209 @@ d) Phương trình vô nghiệm. ……
 | Tìm lỗi sai | $x = 2$ hoặc $x = 3$ |
 | Exit 1 / 2 / 3 | A / Đ-Đ-S-Đ / $10$ giờ |
 `);
+
+/* =====================================================================
+   PHIẾU HỌC TẬP CỦNG CỐ – ÔN THI VÀO 10 · Hình học 1. Tiếp tuyến của đường tròn
+   Bám đề tuyển sinh TP.HCM (Bài hình: tiếp tuyến, hai tiếp tuyến cắt nhau, dây tiếp điểm, tiếp tuyến – cát tuyến).
+   Bám Ví dụ 1–7 của bài giảng 'on-thi-tiep-tuyen'. Tình huống tự soạn ghi **[Minh họa]**.
+   ===================================================================== */
+Lecture.addSheet('lop9', 'on-thi-tiep-tuyen', String.raw`# PHIẾU HỌC TẬP – Ôn thi vào 10 · Hình học 1. Tiếp tuyến của đường tròn
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tam giác $ABC$ vuông tại $A$, $AB = 9$, $AC = 12$. Tính $BC$. Đáp số: ………………
+
+**Câu 2.** Tam giác $OAM$ vuông tại $A$, $\widehat{AOM} = 60^\circ$. Tính $\widehat{AMO}$. Đáp số: ………………
+
+**Câu 3.** $AB$ là đường kính của $(O)$, $C \in (O)$. Tính $\widehat{ACB}$. Đáp số: ………………
+
+**Câu 4.** Hai tiếp tuyến $MA$, $MB$ của $(O)$ cắt nhau tại $M$ và $MA = 7$ cm. Tính $MB$. Đáp số: ………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Cho đường tròn $(O; R)$, điểm $M$ nằm ngoài đường tròn, $MA$ là tiếp tuyến tại $A$. Bảng đo được:
+
+| $R$ | $3$ | $5$ | $6$ |
+|---|---|---|---|
+| $OM$ | $5$ | $13$ | $10$ |
+| $MA$ | $4$ | $12$ | $8$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Vì sao biết $R$ và $OM$ là tính được $MA$? Muốn chứng minh một đường thẳng là tiếp tuyến thì cần nêu đủ những ý nào?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Cho $(O; 5)$, $OM = 13$, $MA$ là tiếp tuyến tại $A$. Độ dài $MA$ là
+
+A. $8$
+
+B. $\sqrt{194}$
+
+C. $12$
+
+D. $18$
+
+**Câu B.** Đường thẳng $d$ là tiếp tuyến của $(O)$ tại $A$ khi
+
+A. $d$ đi qua $A$
+
+B. $A \in (O)$ và $d \perp OA$ tại $A$
+
+C. $d \perp OA$
+
+D. $d$ cắt $(O)$ tại $A$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** $MA$ là tiếp tuyến của $(O; 9)$, $OM = 15$. Tính $MA$. Đáp số: ………………
+
+**Câu 2 ★.** Hai tiếp tuyến $MA$, $MB$ của $(O; 3)$ có $OM = 6$. Tính $\widehat{AMB}$. Đáp số: ………………
+
+**Câu 3 ★.** Tam giác $ABC$ có $AB = 8$, $AC = 15$, $BC = 17$. $AB$ có là tiếp tuyến của $(C; CA)$ không? Đáp số: ………………
+
+**Câu 4 ★★.** $MA$ là tiếp tuyến của $(O)$, $OM = 10$, $MA = 8$. Tính bán kính $R$. Đáp số: ………………
+
+**Câu 5 ★★.** Hai tiếp tuyến $MA$, $MB$ của $(O; 9)$ có $OM = 15$. Tính $AB$. Đáp số: ………………
+
+**Câu 6 ★★★.** Tiếp tuyến $MA = 10$ và cát tuyến $MCD$ ($C$ nằm giữa $M$, $D$) có $MC = 5$. Tính $CD$. Đáp số: ………………
+
+**Câu 7 ★★★.** **[Minh họa]** Trái Đất xem như hình cầu bán kính $6\,400$ km. Một vệ tinh ở cách tâm Trái Đất $10\,000$ km. Khoảng cách từ vệ tinh đến điểm xa nhất nhìn thấy trên mặt đất (tiếp điểm) là ……… km.
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** $MA$ là tiếp tuyến tại $A$ của $(O; 5)$, $OM = 13$. Tính $MA$.
+>
+> **Lời giải của bạn X:** Vì $MA$ là tiếp tuyến nên $OA \perp MA$, tam giác $OAM$ vuông tại $A$. Do đó $MA^2 = OM^2 + OA^2 = 169 + 25 = 194$, suy ra $MA = \sqrt{194}$.
+
+Lời giải sai ở bước nào? Em giải lại cho đúng: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Hai tiếp tuyến $MA$, $MB$ của $(O; 4)$ có $OM = 8$. Số đo $\widehat{AOB}$ là
+
+A. $60^\circ$
+
+B. $90^\circ$
+
+C. $120^\circ$
+
+D. $150^\circ$
+
+**Câu 2.** Từ $M$ ngoài $(O)$ kẻ hai tiếp tuyến $MA$, $MB$ ($A$, $B$ là tiếp điểm), $H = OM \cap AB$. Mỗi ý em ghi Đ hoặc S:
+
+a) $MA = MB$. ……
+
+b) $AB$ là đường kính của $(O)$. ……
+
+c) $OM \perp AB$. ……
+
+d) $H$ là trung điểm của $OM$. ……
+
+**Câu 3.** **[Minh họa]** Từ $M$ kẻ tiếp tuyến $MA = 24$ đến $(O; 7)$. Khoảng cách $OM$ bằng: …………
+
+## 7. Một phút suy ngẫm
+
+*Khi chứng minh một đường thẳng là tiếp tuyến, em dễ quên ý nào nhất: tiếp điểm thuộc đường tròn hay vuông góc với bán kính?* ………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Viết lại lời giải đầy đủ Ví dụ 7 của bài giảng (bốn điểm $O, A, M, B$ cùng thuộc một đường tròn; $OM \perp AB$): mỗi dòng ghi rõ căn cứ. Nhờ một bạn kiểm tra.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Ôn thi vào 10 · Hình học 1. Tiếp tuyến của đường tròn
+
+## 1. Thông tin bài
+
+- **Toán 9 · Ôn thi tuyển sinh vào lớp 10 (TP.HCM) · Hình học 1.** Dạng bài hình thường gặp ở câu a, b của Bài 7: chứng minh tiếp tuyến, tính độ dài từ hai tiếp tuyến, dây tiếp điểm.
+- **Giả định:** 1 tiết 45 phút ôn tập; lớp đại trà; máy chiếu và giấy/bảng con.
+- Các tình huống **[Minh họa]** (bảng đo mở đầu, bài vệ tinh, bài $MA = 24$) do người soạn tự đặt, không trích từ đề thi.
+- Phiếu bám **Ví dụ 1–7** của bài giảng on-thi-tiep-tuyen: Ví dụ 1–2 (nhận biết) → bản lề B, Luyện tập 3; Ví dụ 3 (tính độ dài) → bản lề A, Luyện tập 1, 4, 7, Tìm lỗi sai, Exit 3; Ví dụ 4 (hai tiếp tuyến) → Luyện tập 2, Exit 1; Ví dụ 5 (dây tiếp điểm) → Luyện tập 5, Exit 2; Ví dụ 6 (tiếp tuyến – cát tuyến) → Luyện tập 6; Ví dụ 7 (tổng hợp) → Vận dụng về nhà.
+- **Quy ước đề năm nay:** dấu hiệu nhận biết tiếp tuyến, tính chất hai tiếp tuyến cắt nhau được dùng trực tiếp; các hệ thức cạnh – đường cao trong tam giác vuông, tan = sin/cos **phải chứng minh lại** (ở đây tính $AH$ bằng diện tích tam giác $OAM$, tính góc bằng $\cos \widehat{AOM} = \dfrac{OA}{OM}$).
+
+## 2. Mục tiêu
+
+- **Mở đầu (7 phút):** ôn Pythagore, góc nội tiếp chắn nửa đường tròn, hai tiếp tuyến cắt nhau; gợi nhu cầu "bán kính vuông góc tiếp tuyến".
+- **Luyện tập (25 phút):** tính độ dài và góc với tiếp tuyến; nhận biết tiếp tuyến; dây tiếp điểm; tiếp tuyến – cát tuyến; mô hình thực tế.
+- **Củng cố (8 phút):** tìm lỗi sai, phiếu ra khỏi lớp.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Làm một mình, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Nêu câu hỏi của bài học |
+| 7–15 | Ôn nhanh kiến thức nền theo bài giảng | Giáo viên chiếu Kiến thức nền 1–3 |
+| ~15 | Câu bản lề A, B | Giơ thẻ A/B/C/D |
+| 15–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm (Mục 7) và dặn dò (Mục 8) | |
+
+## 4. Hướng dẫn và đáp án từng hoạt động
+
+### 4.1. Do Now
+- **Đáp án:** 1) $BC = 15$. 2) $\widehat{AMO} = 30^\circ$. 3) $\widehat{ACB} = 90^\circ$. 4) $MB = 7$ cm.
+- **Lỗi dự kiến:** câu 1 ghi $\sqrt{9+12}$ hoặc $21$; câu 2 ghi $60^\circ$ hoặc $120^\circ$; câu 3 ghi $180^\circ$.
+
+### 4.2. Notice & Wonder
+- **Gợi ý nhận xét:** $R^2 + MA^2 = OM^2$ ở cả ba cột ($9+16=25$; $25+144=169$; $36+64=100$). Chốt: $OA \perp MA$ nên tam giác $OAM$ vuông tại $A$.
+
+### 4.3. Câu hỏi bản lề
+- **Đáp án:** Câu A chọn **C**; Câu B chọn **B**.
+- **Nhiễu – A:** A ($13 - 5$); B ($\sqrt{13^2+5^2}$, nhầm cạnh huyền); D ($13 + 5$). **Nhiễu – B:** C (thiếu $A \in (O)$); A, D (không đủ điều kiện vuông góc).
+
+### 4.4. Luyện tập xen kẽ – đáp án và lời giải ngắn
+1. $MA^2 = 15^2 - 9^2 = 144$, $MA = 12$.
+2. Tam giác $OAM$ vuông tại $A$: $\sin \widehat{AMO} = \dfrac{OA}{OM} = \dfrac{1}{2}$ nên $\widehat{AMO} = 30^\circ$; $MO$ là phân giác nên $\widehat{AMB} = 60^\circ$.
+3. $AB^2 + AC^2 = 64 + 225 = 289 = BC^2$ nên $AB \perp AC$ tại $A$, $A \in (C; CA)$: **có**.
+4. $R^2 = OM^2 - MA^2 = 100 - 64 = 36$, $R = 6$.
+5. $MA = \sqrt{15^2-9^2} = 12$. $OM$ là trung trực của $AB$ nên $AB \perp OM$ tại $H$, $AB = 2AH$. Diện tích tam giác $OAM$: $AH \cdot OM = OA \cdot MA$, suy ra $AH = \dfrac{9 \cdot 12}{15} = 7{,}2$ và $AB = 14{,}4$.
+6. $MA^2 = MC \cdot MD$ (chứng minh lại bằng $\triangle MAC \backsim \triangle MDA$) nên $MD = \dfrac{100}{5} = 20$, $CD = 20 - 5 = 15$.
+7. $\sqrt{10000^2 - 6400^2} = 8000$ km.
+- **Lỗi dự kiến:** câu 1, 4, 7 cộng bình phương thay vì trừ; câu 5 ghi $AB = 7{,}2$ (quên nhân đôi); câu 6 ghi $CD = MD = 20$.
+
+### 4.5. Tìm lỗi sai
+- **Đáp án:** $OM$ là cạnh huyền (đối diện góc vuông tại $A$) nên $OM^2 = OA^2 + MA^2$, tức $MA^2 = 169 - 25 = 144$, $MA = 12$.
+
+### 4.6. Phiếu ra khỏi lớp
+- **Đáp án:** Câu 1: **C** ($\cos \widehat{AOM} = \dfrac{4}{8}$ nên $\widehat{AOM} = 60^\circ$, $\widehat{AOB} = 120^\circ$). Câu 2: a) Đ; b) S; c) Đ; d) S. Câu 3: $OM = \sqrt{24^2 + 7^2} = 25$.
+- **Lỗi dự kiến:** Câu 1 chọn A ($\widehat{AOM}$, quên nhân đôi); Câu 2d nhầm $H$ với trung điểm $OM$ (thực tế $OH \cdot OM = R^2$); Câu 3 ghi $24 - 7 = 17$.
+
+### 4.7. Suy ngẫm và về nhà
+- Đọc nhanh vài phiếu để biết em nào quên ý "tiếp điểm thuộc đường tròn". Bài về nhà kiểm tra mỗi dòng đã có căn cứ.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài chứng minh tổng hợp (Ví dụ 7) |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại theo nhóm nhỏ bằng hình có sẵn $OA \perp MA$ |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng đúng câu sai nhiều |
+
+**Do Now gợi ý cho tiết sau (Hình học 2. Góc ở tâm, góc nội tiếp):** (1) tính góc nội tiếp chắn cung $80^\circ$; (2) câu sai nhiều nhất trong Exit ticket; (3) góc ở tâm và góc nội tiếp cùng chắn một cung hơn kém nhau mấy lần?
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** vẽ hình và ghi sẵn góc vuông $OA \perp MA$ trước khi tính; chỉ làm Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6, 7; câu mở: cho $OM = 2R$, tính $\widehat{AMB}$ và $AB$ theo $R$ (kết quả $60^\circ$; $AB = R\sqrt3$).
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $15$; $30^\circ$; $90^\circ$; $7$ cm |
+| Bản lề A / B | C / B |
+| Luyện tập 1 | $12$ |
+| Luyện tập 2 | $60^\circ$ |
+| Luyện tập 3 | Có |
+| Luyện tập 4 | $6$ |
+| Luyện tập 5 | $14{,}4$ |
+| Luyện tập 6 | $15$ |
+| Luyện tập 7 | $8000$ km |
+| Tìm lỗi sai | $MA = 12$ |
+| Exit 1 / 2 / 3 | C / a) Đ, b) S, c) Đ, d) S / $25$ |
+`);

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-10-28 – Phiếu học tập củng cố ôn thi vào 10 (hình học): Hình học 1. Tiếp tuyến
+
+- **Yêu cầu:** Mỗi ngày một phiếu học tập củng cố (dạng phiếu trên lớp) bám đề thi 9 lên 10, phần hình học.
+- **Kết quả:** Phiếu 1/8 `on-thi-tiep-tuyen` (Phần A đúng 2 trang A4 + Phần B gợi ý giáo viên). Thứ tự các ngày sau: Hình học 2 `on-thi-goc-duong-tron`, 3 `on-thi-hinh-quat-vanh-khuyen`, 4 `on-thi-hinh-khong-gian`, 7a `on-thi-hinh-hoc-chung-minh-1`, 7b `…-2`, 7c `on-thi-hinh-hoc-tinh-toan`, Kiến thức thống nhất `on-thi-kien-thuc-thong-nhat`.
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop9-khoi-dong.js`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js 30 lop9` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (102/102); `python3 tools/build.py` → chạy xong
+- **Việc thủ công:** Các tình huống **[Minh họa]** do người soạn tự đặt.
+
 ### 2026-10-26 – Toán 10: Ôn tập chương IV (Vectơ), trọn bộ
 
 - **Yêu cầu:** Tạo “Ôn tập chương IV” (`on-tap-c4`) cho Toán 10.
