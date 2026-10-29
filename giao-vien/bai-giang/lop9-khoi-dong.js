@@ -608,3 +608,204 @@ Viết lại lời giải đầy đủ Ví dụ 4 của bài giảng, rồi ch�
 | Tìm lỗi sai | $\widehat{ACB} = 40^\circ$ |
 | Exit 1 / 2 / 3 | A / a) Đ, b) S, c) Đ, d) S / $80^\circ$ |
 `);
+
+Lecture.addSheet('lop9', 'on-thi-hinh-quat-vanh-khuyen', String.raw`# PHIẾU HỌC TẬP – Ôn thi vào 10 · Hình học 3. Hình quạt tròn và hình vành khuyên
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tính diện tích hình tròn bán kính $6$ cm. Đáp số: ………………
+
+**Câu 2.** Tính chu vi đường tròn đường kính $14$ cm. Đáp số: ………………
+
+**Câu 3.** Cung $90^\circ$ chiếm mấy phần của cả đường tròn? Đáp số: ………………
+
+**Câu 4.** Tính độ dài cung $60^\circ$ của đường tròn bán kính $9$ cm. Đáp số: ………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Bạn Mai cắt từ một tấm bìa các hình quạt tròn bán kính $6$ cm với góc ở tâm khác nhau, rồi tính độ dài cung và diện tích:
+
+| Góc ở tâm | $60^\circ$ | $90^\circ$ | $120^\circ$ |
+|---|---|---|---|
+| Độ dài cung (cm) | $2\pi$ | $3\pi$ | $4\pi$ |
+| Diện tích quạt (cm$^2$) | $6\pi$ | $9\pi$ | $12\pi$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Vì sao khi góc ở tâm tăng gấp đôi thì cả độ dài cung lẫn diện tích quạt đều tăng gấp đôi? Hai công thức khác nhau ở chỗ nào để khỏi nhầm?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Hình quạt tròn bán kính $6$ cm, góc ở tâm $60^\circ$ có diện tích là
+
+A. $2\pi$ cm$^2$
+
+B. $12\pi$ cm$^2$
+
+C. $6\pi$ cm$^2$
+
+D. $36\pi$ cm$^2$
+
+**Câu B.** Hình vành khuyên có bán kính ngoài $5$ cm, bán kính trong $3$ cm có diện tích là
+
+A. $4\pi$ cm$^2$
+
+B. $16\pi$ cm$^2$
+
+C. $34\pi$ cm$^2$
+
+D. $8\pi$ cm$^2$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Tính độ dài cung $150^\circ$ của đường tròn bán kính $12$ cm. Đáp số: ………………
+
+**Câu 2 ★.** Tính diện tích hình quạt bán kính $9$ cm, góc ở tâm $40^\circ$. Đáp số: ………………
+
+**Câu 3 ★.** Tính diện tích hình vành khuyên có bán kính ngoài $10$ cm, bán kính trong $6$ cm. Đáp số: ………………
+
+**Câu 4 ★★.** Hình quạt bán kính $9$ cm có cung dài $6\pi$ cm. Tính góc ở tâm và diện tích hình quạt. Đáp số: ………………
+
+**Câu 5 ★★.** Tính diện tích quạt vành khuyên có bán kính ngoài $10$ cm, bán kính trong $4$ cm, góc ở tâm $90^\circ$. Đáp số: ………………
+
+**Câu 6 ★★★.** Hai hình quạt có cùng góc ở tâm. Hình thứ nhất có bán kính $4$ cm và diện tích $6\pi$ cm$^2$; hình thứ hai có bán kính $12$ cm. Tính diện tích hình thứ hai. Đáp số: ………………
+
+**Câu 7 ★★★.** **[Minh họa]** Một bồn hoa hình quạt tròn bán kính $10$ m, góc ở tâm $108^\circ$ được rào kín toàn bộ đường biên. Lấy $\pi \approx 3{,}14$. Chiều dài hàng rào là ……… m.
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tính diện tích hình vành khuyên có bán kính ngoài $7$ cm, bán kính trong $3$ cm.
+>
+> **Lời giải của bạn X:** Bề rộng vành khuyên là $7 - 3 = 4$ cm. Do đó $S = \pi (7 - 3)^2 = 16\pi$ (cm$^2$).
+
+Lời giải sai ở bước nào? Em giải lại cho đúng: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Độ dài cung $120^\circ$ của đường tròn bán kính $6$ cm là
+
+A. $12\pi$ cm
+
+B. $2\pi$ cm
+
+C. $4\pi$ cm
+
+D. $8\pi$ cm
+
+**Câu 2.** Cho hình quạt $AOB$ có bán kính $6$ cm, góc ở tâm $60^\circ$. Mỗi ý em ghi Đ hoặc S:
+
+a) Độ dài cung $AB$ bằng $2\pi$ cm. ……
+
+b) Diện tích hình quạt bằng $6\pi$ cm$^2$. ……
+
+c) Chu vi hình quạt bằng $2\pi$ cm. ……
+
+d) Nếu giữ nguyên góc ở tâm và tăng bán kính gấp đôi thì diện tích hình quạt gấp đôi. ……
+
+**Câu 3.** **[Minh họa]** Từ một tấm bìa hình tròn bán kính $8$ cm, bạn Lan cắt bỏ một hình quạt có góc ở tâm $135^\circ$. Diện tích phần bìa còn lại bằng: ………… cm$^2$
+
+## 7. Một phút suy ngẫm
+
+*Trước khi viết công thức, em tự hỏi gì: đề hỏi độ dài (đơn vị cm), chu vi hay diện tích (đơn vị cm$^2$)? Mẫu số là $180$ hay $360$, và bán kính hay đường kính?* ………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Viết lại lời giải đầy đủ Ví dụ 4 và Ví dụ 5 của bài giảng, rồi tính thêm chu vi của quạt vành khuyên ở Ví dụ 4 (bán kính ngoài $12$ cm, bán kính trong $6$ cm, góc ở tâm $120^\circ$): mỗi dòng ghi rõ công thức dùng. Nhờ một bạn kiểm tra.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Ôn thi vào 10 · Hình học 3. Hình quạt tròn và hình vành khuyên
+
+## 1. Thông tin bài
+
+- **Toán 9 · Ôn thi tuyển sinh vào lớp 10 (TP.HCM) · Hình học 3.** Dạng bài thường gặp ở các câu thực tế và hình ghép: độ dài cung, diện tích quạt, vành khuyên, phần tô màu, chu vi.
+- **Giả định:** 1 tiết 45 phút ôn tập; lớp đại trà; máy chiếu và giấy/bảng con.
+- Các tình huống **[Minh họa]** (bảng cắt bìa, bồn hoa, Exit 3) do người soạn tự đặt, không trích từ đề thi.
+- Phiếu bám **Ví dụ 1–7** của bài giảng on-thi-hinh-quat-vanh-khuyen: Ví dụ 1 (độ dài cung, bài ngược) → Do Now 4, Luyện tập 1, 4, Exit 1; Ví dụ 2 (diện tích quạt) → bản lề A, Luyện tập 2, Exit 2; Ví dụ 3 (vành khuyên) → Do Now 1, bản lề B, Luyện tập 3, Tìm lỗi sai; Ví dụ 4 (quạt vành khuyên) → Luyện tập 5, Vận dụng về nhà; Ví dụ 5 (bỏ một hình quạt) → Exit 3; Ví dụ 6 (chu vi, thực tế) → Luyện tập 7; Ví dụ 7 (tỉ lệ theo bán kính) → Luyện tập 6, Exit 2d.
+- **Quy ước đề năm nay:** công thức độ dài cung $l = \dfrac{\pi R n}{180}$, diện tích quạt $S = \dfrac{\pi R^2 n}{360}$ (hay $S = \dfrac{lR}{2}$), diện tích vành khuyên $S = \pi(R^2 - r^2)$ được dùng trực tiếp. Nếu đề không nói lấy $\pi \approx 3{,}14$ thì để đáp số theo $\pi$; chỉ thay số ở bước cuối. Khi cần, $S = \dfrac{lR}{2}$ suy ra từ hai công thức trên: $\dfrac{lR}{2} = \dfrac{\pi R n}{180} \cdot \dfrac{R}{2} = \dfrac{\pi R^2 n}{360}$.
+
+## 2. Mục tiêu
+
+- **Mở đầu (7 phút):** ôn diện tích hình tròn, chu vi, "n độ chiếm n/360 vòng"; gợi nhu cầu hai công thức.
+- **Luyện tập (25 phút):** độ dài cung; diện tích quạt; vành khuyên; bài ngược; quạt vành khuyên; tỉ lệ; chu vi thực tế.
+- **Củng cố (8 phút):** tìm lỗi sai, phiếu ra khỏi lớp.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Làm một mình, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Nêu câu hỏi của bài học |
+| 7–15 | Ôn nhanh kiến thức nền theo bài giảng | Giáo viên chiếu bản đồ chuyên đề sáu dạng |
+| ~15 | Câu bản lề A, B | Giơ thẻ A/B/C/D |
+| 15–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm (Mục 7) và dặn dò (Mục 8) | |
+
+## 4. Hướng dẫn và đáp án từng hoạt động
+
+### 4.1. Do Now
+- **Đáp án:** 1) $S = \pi \cdot 6^2 = 36\pi$ (cm$^2$). 2) $C = \pi d = 14\pi$ (cm). 3) $\dfrac{90}{360} = \dfrac{1}{4}$ (một phần tư). 4) $l = \dfrac{\pi \cdot 9 \cdot 60}{180} = 3\pi$ (cm).
+- **Lỗi dự kiến:** câu 1 ghi $12\pi$ ($2\pi R$) hoặc $36$ (quên $\pi$); câu 2 ghi $28\pi$ (nhầm $2\pi d$) hoặc $49\pi$; câu 3 ghi $\dfrac{1}{2}$ hoặc $90$; câu 4 ghi $9\pi$ hoặc $6\pi$.
+
+### 4.2. Notice & Wonder
+- **Gợi ý nhận xét:** cả hai hàng đều tăng theo góc ở tâm ($60 \to 90 \to 120$ thì cung $2\pi \to 3\pi \to 4\pi$, diện tích $6\pi \to 9\pi \to 12\pi$); diện tích quạt $= 3 \times$ độ dài cung ($6\pi = 3 \cdot 2\pi$), vì $S = \dfrac{lR}{2}$ với $R = 6$. Chốt: hình quạt $n^\circ$ là $\dfrac{n}{360}$ của cả hình tròn, nên cả độ dài cung lẫn diện tích đều nhân với $\dfrac{n}{360}$; khác nhau ở chỗ cung lấy từ chu vi $2\pi R$, diện tích lấy từ $\pi R^2$.
+
+### 4.3. Câu hỏi bản lề
+- **Đáp án:** Câu A chọn **C**; Câu B chọn **B**.
+- **Nhiễu – A:** A ($2\pi$ là độ dài cung, nhầm hai đại lượng); B ($12\pi$ là $2\pi R$ hay quên chia); D ($36\pi$ là cả hình tròn). **Nhiễu – B:** A ($\pi(R-r)^2 = 4\pi$); C ($\pi(R^2 + r^2)$); D ($\pi(R - r) \cdot R$ hay đoán).
+
+### 4.4. Luyện tập xen kẽ – đáp án và lời giải ngắn
+1. $l = \dfrac{\pi \cdot 12 \cdot 150}{180} = 10\pi$ (cm).
+2. $S = \dfrac{\pi \cdot 9^2 \cdot 40}{360} = \dfrac{81\pi}{9} = 9\pi$ (cm$^2$).
+3. $S = \pi(10^2 - 6^2) = \pi(100 - 36) = 64\pi$ (cm$^2$).
+4. Từ $6\pi = \dfrac{\pi \cdot 9 \cdot n}{180}$ suy ra $n = \dfrac{6 \cdot 180}{9} = 120^\circ$. Diện tích $S = \dfrac{lR}{2} = \dfrac{6\pi \cdot 9}{2} = 27\pi$ (cm$^2$). Kiểm tra: $\dfrac{\pi \cdot 81 \cdot 120}{360} = 27\pi$.
+5. Quạt lớn: $\dfrac{90}{360} \cdot \pi \cdot 10^2 = 25\pi$. Quạt nhỏ: $\dfrac{90}{360} \cdot \pi \cdot 4^2 = 4\pi$. Quạt vành khuyên: $25\pi - 4\pi = 21\pi$ (cm$^2$).
+6. Cùng góc ở tâm nên $S$ tỉ lệ với $R^2$. Bán kính gấp $\dfrac{12}{4} = 3$ lần nên diện tích gấp $3^2 = 9$ lần: $S_2 = 9 \cdot 6\pi = 54\pi$ (cm$^2$).
+7. $l = \dfrac{\pi \cdot 10 \cdot 108}{180} = 6\pi \approx 6 \cdot 3{,}14 = 18{,}84$ (m). Biên còn có hai bán kính dài $2 \cdot 10 = 20$ m. Hàng rào dài $18{,}84 + 20 = 38{,}84$ (m).
+- **Lỗi dự kiến:** câu 1 ghi $20\pi$ (dùng $R^2$ hoặc 360); câu 2 ghi $81\pi$, $9$ (quên $\pi$); câu 3 ghi $16\pi$ ($(R-r)^2$), $4\pi$; câu 4 ghi $n = 60^\circ$ hoặc $S = 54\pi$ (lấy $lR$ quên chia 2); câu 5 ghi $84\pi$ (quên $\dfrac{90}{360}$) hoặc $\dfrac{1}{4}\pi(10-4)^2 = 9\pi$; câu 6 ghi $18\pi$ (nhân 3 thay vì 9); câu 7 ghi $18{,}84$ m (quên hai bán kính) hoặc $6\pi + 10$.
+
+### 4.5. Tìm lỗi sai
+- **Đáp án:** Sai ở dòng thứ hai: diện tích vành khuyên là hiệu hai diện tích hình tròn, $S = \pi(R^2 - r^2)$, **không** phải $\pi(R - r)^2$ ($R^2 - r^2 \ne (R-r)^2$). Lời giải đúng: $S = \pi(7^2 - 3^2) = \pi(49 - 9) = 40\pi$ (cm$^2$), còn $16\pi$ chỉ là diện tích hình tròn bán kính $4$ cm.
+
+### 4.6. Phiếu ra khỏi lớp
+- **Đáp án:** Câu 1: **C** ($l = \dfrac{\pi \cdot 6 \cdot 120}{180} = 4\pi$). Câu 2: a) Đ ($l = \dfrac{\pi \cdot 6 \cdot 60}{180} = 2\pi$); b) Đ ($S = \dfrac{\pi \cdot 36 \cdot 60}{360} = 6\pi$); c) S (chu vi quạt gồm cung và hai bán kính: $2\pi + 12$ cm); d) S (diện tích tỉ lệ với $R^2$ nên gấp $4$ lần). Câu 3: $64\pi - \dfrac{135}{360} \cdot 64\pi = 64\pi - 24\pi = 40\pi$ (cm$^2$).
+- **Lỗi dự kiến:** Câu 1 chọn A ($12\pi$, dùng công thức diện tích) hoặc B ($2\pi$, quên nhân hai); Câu 2c ghi Đ vì quên hai bán kính; Câu 2d ghi Đ vì nghĩ "gấp đôi bán kính thì gấp đôi diện tích"; Câu 3 ghi $24\pi$ (diện tích phần bị cắt) hoặc $64\pi - 135\pi$.
+
+### 4.7. Suy ngẫm và về nhà
+- Đọc nhanh vài phiếu để biết em nào còn nhầm độ dài với diện tích. Bài về nhà: Ví dụ 4: $S = 48\pi - 12\pi = 36\pi$ cm$^2$; Ví dụ 5: $100\pi - 25\pi = 75\pi$ cm$^2$. Chu vi quạt vành khuyên gồm hai cung và hai đoạn nối: cung ngoài $\dfrac{\pi \cdot 12 \cdot 120}{180} = 8\pi$, cung trong $\dfrac{\pi \cdot 6 \cdot 120}{180} = 4\pi$, hai đoạn thẳng mỗi đoạn $12 - 6 = 6$ cm, nên $P = 8\pi + 4\pi + 2 \cdot 6 = 12\pi + 12$ (cm).
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài hình ghép: phần tô màu giữa hình vuông và bốn hình quạt |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại theo nhóm nhỏ: cắt hình tròn giấy thành quạt, viết "phân số $\dfrac{n}{360}$ của chu vi / của diện tích" |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng đúng câu sai nhiều |
+
+**Do Now gợi ý cho tiết sau (Hình học 4. Hình không gian thực tế):** (1) thể tích hình trụ bán kính đáy $3$ cm, cao $5$ cm (đáp số $45\pi$ cm$^3$); (2) câu sai nhiều nhất trong Exit ticket; (3) thể tích hình cầu bán kính $3$ cm (đáp số $36\pi$ cm$^3$, cho công thức $V = \dfrac{4}{3}\pi R^3$).
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** viết sẵn "$\dfrac{n}{360}$ của cả hình tròn" cạnh hình và đổi đường kính thành bán kính trước khi tính; chỉ làm Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6, 7; câu mở: hình quạt có chu vi $P = 2R + l$ bằng $30$ cm và bán kính $R = 9$ cm, tính diện tích (kết quả $l = 12$ cm, $S = \dfrac{lR}{2} = 54$ cm$^2$).
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $36\pi$ cm$^2$; $14\pi$ cm; $\dfrac{1}{4}$; $3\pi$ cm |
+| Bản lề A / B | C / B |
+| Luyện tập 1 | $10\pi$ cm |
+| Luyện tập 2 | $9\pi$ cm$^2$ |
+| Luyện tập 3 | $64\pi$ cm$^2$ |
+| Luyện tập 4 | $120^\circ$; $27\pi$ cm$^2$ |
+| Luyện tập 5 | $21\pi$ cm$^2$ |
+| Luyện tập 6 | $54\pi$ cm$^2$ |
+| Luyện tập 7 | $38{,}84$ m |
+| Tìm lỗi sai | $S = 40\pi$ cm$^2$ |
+| Exit 1 / 2 / 3 | C / a) Đ, b) Đ, c) S, d) S / $40\pi$ cm$^2$ |
+`);
