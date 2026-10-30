@@ -809,3 +809,204 @@ Viết lại lời giải đầy đủ Ví dụ 4 và Ví dụ 5 của bài gi�
 | Tìm lỗi sai | $S = 40\pi$ cm$^2$ |
 | Exit 1 / 2 / 3 | C / a) Đ, b) Đ, c) S, d) S / $40\pi$ cm$^2$ |
 `);
+
+Lecture.addSheet('lop9', 'on-thi-hinh-khong-gian', String.raw`# PHIẾU HỌC TẬP – Ôn thi vào 10 · Hình học 4. Hình không gian thực tế (công thức cho sẵn)
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tính thể tích hình trụ có bán kính đáy $3$ cm, chiều cao $5$ cm. Đáp số: ………………
+
+**Câu 2.** Tính diện tích xung quanh hình nón có bán kính đáy $3$ cm, đường sinh $5$ cm. Đáp số: ………………
+
+**Câu 3.** Cho $V = \dfrac{4}{3}\pi R^3$. Tính thể tích hình cầu bán kính $3$ cm. Đáp số: ………………
+
+**Câu 4.** Đổi $5\,000$ cm$^3$ ra lít. Đáp số: ………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Bạn Nam đặt cạnh nhau ba vật cùng chiều cao $6$ cm và cùng bán kính $3$ cm: một hình nón, một hình cầu (đường kính $6$ cm) và một hình trụ. Bạn tính thể tích:
+
+| Vật | Hình nón | Hình cầu | Hình trụ |
+|---|---|---|---|
+| Thể tích (cm$^3$) | $18\pi$ | $36\pi$ | $54\pi$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Vì sao thể tích hình nón và hình cầu cộng lại đúng bằng thể tích hình trụ? Khi đề cho sẵn công thức, em cần chú ý điều gì để thay số cho đúng?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Hình nón có bán kính đáy $6$ cm, chiều cao $8$ cm. Diện tích xung quanh của hình nón là
+
+A. $96\pi$ cm$^2$
+
+B. $120\pi$ cm$^2$
+
+C. $60\pi$ cm$^2$
+
+D. $48\pi$ cm$^2$
+
+**Câu B.** Một bình hình trụ bán kính đáy $6$ cm đựng nước. Thả chìm hẳn vào bình một viên bi hình cầu bán kính $3$ cm (nước không tràn). Mực nước dâng thêm
+
+A. $3$ cm
+
+B. $1$ cm
+
+C. $4$ cm
+
+D. $8$ cm
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Tính diện tích toàn phần của hình trụ có bán kính đáy $5$ cm, chiều cao $12$ cm. Đáp số: ………………
+
+**Câu 2 ★.** Hình nón có bán kính đáy $5$ cm, chiều cao $12$ cm. Tính thể tích và diện tích xung quanh. Đáp số: ………………
+
+**Câu 3 ★.** Quả cầu có đường kính $18$ cm. Tính diện tích mặt ngoài và thể tích. Đáp số: ………………
+
+**Câu 4 ★★.** Hình trụ có thể tích $200\pi$ cm$^3$ và bán kính đáy $5$ cm. Tính chiều cao và diện tích xung quanh. Đáp số: ………………
+
+**Câu 5 ★★.** Cuộn hình quạt bán kính $15$ cm, có cung dài $18\pi$ cm thành mặt xung quanh một hình nón. Tính bán kính đáy, chiều cao và thể tích hình nón. Đáp số: ………………
+
+**Câu 6 ★★★.** Bình hình trụ bán kính đáy $10$ cm đựng nước. Thả chìm hẳn $3$ viên bi sắt hình cầu, mỗi viên có bán kính $5$ cm (nước không tràn). Mực nước dâng thêm ……… cm.
+
+**Câu 7 ★★★.** **[Minh họa]** Một bồn chứa gồm thân hình trụ bán kính đáy $1$ m, chiều cao $2$ m, hai đầu gắn hai nửa hình cầu bán kính $1$ m. Lấy $\pi \approx 3{,}14$. Bồn chứa được ……… lít (làm tròn đến hàng đơn vị).
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tính thể tích hình nón có bán kính đáy $3$ cm, đường sinh $5$ cm.
+>
+> **Lời giải của bạn X:** $V = \dfrac{1}{3}\pi r^2 h = \dfrac{1}{3}\pi \cdot 3^2 \cdot 5 = 15\pi$ (cm$^3$).
+
+Lời giải sai ở bước nào? Em giải lại cho đúng: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Hộp sữa hình trụ có bán kính đáy $4$ cm, chiều cao $10$ cm. Thể tích hộp là
+
+A. $80\pi$ cm$^3$
+
+B. $40\pi$ cm$^3$
+
+C. $320\pi$ cm$^3$
+
+D. $160\pi$ cm$^3$
+
+**Câu 2.** Cho quả cầu bán kính $6$ cm. Mỗi ý em ghi Đ hoặc S:
+
+a) Diện tích mặt cầu bằng $144\pi$ cm$^2$. ……
+
+b) Thể tích quả cầu bằng $144\pi$ cm$^3$. ……
+
+c) Nếu bán kính tăng gấp đôi thì thể tích tăng gấp $4$ lần. ……
+
+d) Hình trụ bán kính đáy $6$ cm, chiều cao $12$ cm có thể tích $432\pi$ cm$^3$. ……
+
+**Câu 3.** **[Minh họa]** Cốc thứ nhất hình trụ, bán kính đáy $6$ cm, đựng nước cao $4$ cm. Đổ hết nước sang cốc thứ hai hình trụ bán kính đáy $4$ cm (cốc đủ cao). Mực nước trong cốc thứ hai cao ………… cm.
+
+## 7. Một phút suy ngẫm
+
+*Trước khi thay số, em tự hỏi gì: đề cho đường kính hay bán kính? Công thức cần chiều cao $h$ hay đường sinh $l$? Hai hình nào đang có cùng thể tích?* ………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Viết lại lời giải đầy đủ Ví dụ 4 và Ví dụ 5 của bài giảng, rồi tính thêm diện tích toàn phần của chiếc nón lá ở Ví dụ 2 (bán kính đáy $6$ cm, đường sinh $10$ cm): mỗi dòng ghi rõ công thức dùng. Nhờ một bạn kiểm tra.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Ôn thi vào 10 · Hình học 4. Hình không gian thực tế (công thức cho sẵn)
+
+## 1. Thông tin bài
+
+- **Toán 9 · Ôn thi tuyển sinh vào lớp 10 (TP.HCM) · Hình học 4.** Dạng bài thường gặp ở câu thực tế có công thức cho sẵn: hình trụ, hình nón, hình cầu, hình ghép; đổ nước, thả vật, nung chảy.
+- **Giả định:** 1 tiết 45 phút ôn tập; lớp đại trà; máy chiếu và giấy/bảng con.
+- Các tình huống **[Minh họa]** (ba vật của Nam, bồn chứa, cốc nước) do người soạn tự đặt, không trích từ đề thi.
+- Phiếu bám **Ví dụ 1–5** của bài giảng on-thi-hinh-khong-gian: Ví dụ 1 (hình trụ) → Do Now 1, Luyện tập 1, 4, Exit 1; Ví dụ 2 (hình nón) → Do Now 2, bản lề A, Luyện tập 2, Tìm lỗi sai, Vận dụng về nhà; Ví dụ 3 (hình cầu) → Do Now 3, Luyện tập 3, Exit 2; Ví dụ 4 (chóp đều, thể tích không đổi, bài ngược) → Luyện tập 5 (nón từ hình quạt, nhắc lại độ dài cung), bản lề B, Luyện tập 6, Exit 3; Ví dụ 5 (hình ghép) → Luyện tập 7.
+- **Quy ước đề năm nay:** đề thực tế **cho sẵn công thức** (trụ, nón, cầu) nên được dùng trực tiếp, không phải chứng minh lại; vẫn phải nhớ $l^2 = r^2 + h^2$ (định lí Pythagore), $S_{tp} = S_{xq} + 2 S_{\text{đáy}}$ (hình trụ), $S_{tp} = S_{xq} + S_{\text{đáy}}$ (hình nón), $1$ dm$^3 = 1$ lít $= 1\,000$ cm$^3$. Nếu đề không nói lấy $\pi \approx 3{,}14$ thì giữ đáp số theo $\pi$; chỉ thay số ở bước cuối.
+
+## 2. Mục tiêu
+
+- **Mở đầu (7 phút):** ôn công thức trụ, nón, cầu; thấy mối liên hệ $V_{\text{nón}} + V_{\text{cầu}} = V_{\text{trụ}}$ khi cùng bán kính $r$ và $h = 2r$.
+- **Luyện tập (25 phút):** diện tích, thể tích từng hình; bài ngược; hình quạt cuộn thành nón; thả vật vào bình; hình ghép.
+- **Củng cố (8 phút):** tìm lỗi sai ($h$ và $l$), phiếu ra khỏi lớp.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Làm một mình, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Nêu câu hỏi của bài học |
+| 7–15 | Ôn nhanh kiến thức nền theo bài giảng | Giáo viên chiếu bảng công thức, nhấn $r, h, l$ |
+| ~15 | Câu bản lề A, B | Giơ thẻ A/B/C/D |
+| 15–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm (Mục 7) và dặn dò (Mục 8) | |
+
+## 4. Hướng dẫn và đáp án từng hoạt động
+
+### 4.1. Do Now
+- **Đáp án:** 1) $V = \pi r^2 h = \pi \cdot 3^2 \cdot 5 = 45\pi$ (cm$^3$). 2) $S_{xq} = \pi r l = \pi \cdot 3 \cdot 5 = 15\pi$ (cm$^2$). 3) $V = \dfrac{4}{3}\pi \cdot 3^3 = 36\pi$ (cm$^3$). 4) $5\,000$ cm$^3 = 5$ dm$^3 = 5$ lít.
+- **Lỗi dự kiến:** câu 1 ghi $30\pi$ ($2\pi rh$, công thức diện tích) hoặc $15\pi$ (quên bình phương); câu 2 ghi $30\pi$ (nhầm $2\pi r l$) hoặc $45\pi$; câu 3 ghi $108\pi$ (quên $\dfrac{4}{3}$ còn $\pi R^3 \cdot 4$) hoặc $27\pi$; câu 4 ghi $5\,000$ lít hoặc $0{,}5$ lít (nhầm $1$ lít với $1$ cm$^3$ hoặc $10\,000$ cm$^3$).
+
+### 4.2. Notice & Wonder
+- **Gợi ý nhận xét:** $18\pi + 36\pi = 54\pi$; tỉ lệ thể tích nón : cầu : trụ là $1 : 2 : 3$. Với $r = 3$ và $h = 2r = 6$: nón $\dfrac{1}{3}\pi r^2 \cdot 2r = \dfrac{2}{3}\pi r^3$, cầu $\dfrac{4}{3}\pi r^3$, trụ $\pi r^2 \cdot 2r = 2\pi r^3$; cộng nón và cầu được $2\pi r^3$. Chốt: mỗi công thức là một biểu thức theo $r$ và $h$; khi thay số phải xác định đúng $r$ (bán kính, không phải đường kính) và $h$ (đường cao, không phải đường sinh).
+
+### 4.3. Câu hỏi bản lề
+- **Đáp án:** Câu A chọn **C**; Câu B chọn **B**.
+- **Câu A:** $l^2 = 6^2 + 8^2 = 100$, $l = 10$, $S_{xq} = \pi \cdot 6 \cdot 10 = 60\pi$. **Nhiễu:** A ($96\pi = \dfrac{1}{3}\pi r^2 h$, nhầm với thể tích); B ($120\pi = 2\pi r l$); D ($48\pi = \pi r h$, dùng chiều cao thay đường sinh).
+- **Câu B:** $V_{\text{bi}} = \dfrac{4}{3}\pi \cdot 3^3 = 36\pi$; diện tích đáy bình $\pi \cdot 6^2 = 36\pi$; nước dâng $\dfrac{36\pi}{36\pi} = 1$ cm. **Nhiễu:** A ($3$ cm, quên $\dfrac{1}{3}$ nên $V = 4\pi R^3 = 108\pi$); C ($4$ cm, chia cho diện tích hình tròn lớn của bi $9\pi$); D ($8$ cm, lấy đường kính $6$ làm bán kính bi nên $V = 288\pi$).
+
+### 4.4. Luyện tập xen kẽ – đáp án và lời giải ngắn
+1. $S_{xq} = 2\pi \cdot 5 \cdot 12 = 120\pi$; hai đáy $2 \cdot \pi \cdot 5^2 = 50\pi$; $S_{tp} = 120\pi + 50\pi = 170\pi$ (cm$^2$).
+2. Đường sinh $l^2 = 5^2 + 12^2 = 169$, $l = 13$ cm. $V = \dfrac{1}{3}\pi \cdot 5^2 \cdot 12 = 100\pi$ (cm$^3$); $S_{xq} = \pi \cdot 5 \cdot 13 = 65\pi$ (cm$^2$).
+3. $R = 18 : 2 = 9$ cm. $S = 4\pi \cdot 9^2 = 324\pi$ (cm$^2$); $V = \dfrac{4}{3}\pi \cdot 9^3 = \dfrac{4}{3}\pi \cdot 729 = 972\pi$ (cm$^3$).
+4. $\pi \cdot 5^2 \cdot h = 200\pi$ nên $25h = 200$, $h = 8$ cm. $S_{xq} = 2\pi \cdot 5 \cdot 8 = 80\pi$ (cm$^2$).
+5. Cung hình quạt là chu vi đáy nón: $2\pi r = 18\pi$ nên $r = 9$ cm. Bán kính hình quạt là đường sinh $l = 15$ cm. $h^2 = 15^2 - 9^2 = 144$, $h = 12$ cm. $V = \dfrac{1}{3}\pi \cdot 9^2 \cdot 12 = 324\pi$ (cm$^3$).
+6. Thể tích $3$ viên bi: $3 \cdot \dfrac{4}{3}\pi \cdot 5^3 = 500\pi$ (cm$^3$). Diện tích đáy bình $\pi \cdot 10^2 = 100\pi$. Nước dâng $\dfrac{500\pi}{100\pi} = 5$ cm.
+7. Hai nửa cầu ghép thành một hình cầu bán kính $1$: $V_{\text{cầu}} = \dfrac{4}{3}\pi$. Thân trụ $V = \pi \cdot 1^2 \cdot 2 = 2\pi$. Tổng $V = 2\pi + \dfrac{4}{3}\pi = \dfrac{10\pi}{3} \approx \dfrac{10 \cdot 3{,}14}{3} \approx 10{,}4667$ (m$^3$). Đổi: $1$ m$^3 = 1\,000$ lít nên $\approx 10\,466{,}7$, làm tròn là $10\,467$ lít.
+- **Lỗi dự kiến:** câu 1 ghi $120\pi$ (chỉ tính xung quanh) hoặc $145\pi$ (cộng một đáy); câu 2 ghi $300\pi$ (quên $\dfrac{1}{3}$) hoặc dùng $l = 13$ trong thể tích ($\dfrac{1}{3}\pi \cdot 25 \cdot 13$); câu 3 ghi bán kính $18$ (quên chia đôi); câu 4 ghi $h = 200 : 5 = 40$ (quên bình phương); câu 5 ghi $r = 18$ (quên chia $2\pi$) hoặc lấy $h = 15$; câu 6 ghi $15$ (quên bán kính bi là $5$, đáy tính $\pi \cdot 10$) hoặc $\dfrac{5}{3}$ (chỉ một viên); câu 7 ghi $4{,}18$ hay $6{,}28$ (bỏ một phần), hoặc quên đổi m$^3$ ra lít.
+
+### 4.5. Tìm lỗi sai
+- **Đáp án:** Sai ở chỗ lấy $h = 5$: số $5$ cm là **đường sinh** $l$, không phải chiều cao. Chiều cao tính từ $l^2 = r^2 + h^2$: $h^2 = 5^2 - 3^2 = 16$, $h = 4$ cm. Lời giải đúng: $V = \dfrac{1}{3}\pi \cdot 3^2 \cdot 4 = 12\pi$ (cm$^3$). Hình nón có $r, h, l$ tạo thành tam giác vuông ($r, h$ là cạnh góc vuông, $l$ là cạnh huyền).
+
+### 4.6. Phiếu ra khỏi lớp
+- **Đáp án:** Câu 1: **D** ($V = \pi \cdot 4^2 \cdot 10 = 160\pi$). Câu 2: a) Đ ($4\pi \cdot 6^2 = 144\pi$); b) S ($V = \dfrac{4}{3}\pi \cdot 216 = 288\pi$, còn $144\pi$ là diện tích); c) S (thể tích tỉ lệ với $R^3$ nên gấp $2^3 = 8$ lần); d) Đ ($\pi \cdot 6^2 \cdot 12 = 432\pi$). Câu 3: $V = \pi \cdot 6^2 \cdot 4 = 144\pi$; cốc hai có $\pi \cdot 4^2 \cdot h = 144\pi$ nên $16h = 144$, $h = 9$ cm.
+- **Lỗi dự kiến:** Câu 1 chọn A ($80\pi$, công thức $2\pi rh$) hoặc C ($320\pi$, nhân thừa $2$); Câu 2b ghi Đ vì lẫn diện tích với thể tích; Câu 2c ghi Đ vì nghĩ "gấp đôi bán kính thì gấp $4$ lần" (chỉ đúng với diện tích); Câu 3 ghi $4$ (lấy luôn chiều cao cốc thứ nhất) hoặc $6$ (lấy bán kính cốc thứ nhất làm chiều cao).
+
+### 4.7. Suy ngẫm và về nhà
+- Đọc nhanh vài phiếu để biết em nào còn nhầm $h$ với $l$ hoặc đường kính với bán kính. Bài về nhà: Ví dụ 4: $V = \dfrac{1}{3} \cdot 12^2 \cdot 8 = 384$ cm$^3$, trung đoạn $d = 10$ cm, $S_{xq} = p \cdot d = 24 \cdot 10 = 240$ cm$^2$; Ví dụ 5: $27\pi + 18\pi = 45\pi$ cm$^3$. Diện tích toàn phần chiếc nón lá: $S_{tp} = S_{xq} + S_{\text{đáy}} = \pi \cdot 6 \cdot 10 + \pi \cdot 6^2 = 60\pi + 36\pi = 96\pi$ (cm$^2$).
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm bài nung chảy: đúc $8$ viên bi bán kính $1$ cm thành một quả cầu, tìm bán kính (đáp số $2$ cm) |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại theo nhóm nhỏ: bảng "hình – công thức – cần $r$, $h$ hay $l$"; viết trước các số $r, h, l$ cạnh hình rồi mới thay số |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng đúng câu sai nhiều |
+
+**Do Now gợi ý cho tiết sau (Hình học 5. Chứng minh trong hình học – phần 1):** (1) tam giác vuông có cạnh huyền $10$ cm, trung tuyến ứng với cạnh huyền dài bao nhiêu (đáp số $5$ cm); (2) tứ giác $ABCD$ nội tiếp, $\widehat{A} = 100^\circ$, tính $\widehat{C}$ (đáp số $80^\circ$); (3) câu sai nhiều nhất trong Exit ticket.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** ghi sẵn bảng công thức cạnh bài; viết $r =$ …, $h =$ …, $l =$ … trước khi thay số; chỉ làm Câu 1–5.
+- **Học sinh khá giỏi:** làm Câu 6, 7; câu mở: đổ nước từ bình hình trụ bán kính $6$ cm, cao $10$ cm đầy nước vào một chiếc phễu hình nón bán kính $6$ cm, cao $10$ cm (kết quả: thể tích trụ gấp $3$ lần nón, nên phải đổ $3$ lần).
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $45\pi$ cm$^3$; $15\pi$ cm$^2$; $36\pi$ cm$^3$; $5$ lít |
+| Bản lề A / B | C / B |
+| Luyện tập 1 | $170\pi$ cm$^2$ |
+| Luyện tập 2 | $100\pi$ cm$^3$; $65\pi$ cm$^2$ |
+| Luyện tập 3 | $324\pi$ cm$^2$; $972\pi$ cm$^3$ |
+| Luyện tập 4 | $8$ cm; $80\pi$ cm$^2$ |
+| Luyện tập 5 | $r = 9$ cm; $h = 12$ cm; $324\pi$ cm$^3$ |
+| Luyện tập 6 | $5$ cm |
+| Luyện tập 7 | $10\,467$ lít |
+| Tìm lỗi sai | $V = 12\pi$ cm$^3$ |
+| Exit 1 / 2 / 3 | D / a) Đ, b) S, c) S, d) Đ / $9$ cm |
+`);
