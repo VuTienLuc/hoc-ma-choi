@@ -1010,3 +1010,206 @@ Viết lại lời giải đầy đủ Ví dụ 4 và Ví dụ 5 của bài gi�
 | Tìm lỗi sai | $V = 12\pi$ cm$^3$ |
 | Exit 1 / 2 / 3 | D / a) Đ, b) S, c) S, d) Đ / $9$ cm |
 `);
+
+Lecture.addSheet('lop9', 'on-thi-hinh-hoc-chung-minh-1', String.raw`# PHIẾU HỌC TẬP – Ôn thi vào 10 · Hình học 7a. Chứng minh: bốn điểm cùng đường tròn, song song, vuông góc, hệ thức
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tam giác vuông có cạnh huyền dài $10$ cm. Trung tuyến ứng với cạnh huyền dài ……… cm. Đáp số: ………………
+
+**Câu 2.** Tứ giác $ABCD$ nội tiếp, $\widehat{A} = 100^\circ$. Tính $\widehat{C}$. Đáp số: ………………
+
+**Câu 3.** Tam giác $DEF$ có $\widehat{D} = 50^\circ$, $\widehat{E} = 60^\circ$. Tính $\widehat{F}$. Đáp số: ………………
+
+**Câu 4.** Tìm $x$ biết $\dfrac{3}{x} = \dfrac{6}{8}$. Đáp số: ………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Bạn Nam vẽ tam giác nhọn $ABC$ có $BC = 10$ cm, kẻ hai đường cao $BD$, $CE$, gọi $M$ là trung điểm của $BC$ rồi dùng thước đo:
+
+| Đoạn | $MB$ | $MC$ | $MD$ | $ME$ |
+|---|---|---|---|---|
+| Độ dài (cm) | $5$ | $5$ | $5$ | $5$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Không dùng thước, làm sao chứng minh được bốn đoạn $MB$, $MC$, $MD$, $ME$ bằng nhau? Vì sao điều đó cho biết $B$, $C$, $D$, $E$ cùng nằm trên một đường tròn?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Tứ giác $ABCD$ nội tiếp đường tròn $(O)$, $\widehat{BAD} = 100^\circ$, $\widehat{ABD} = 30^\circ$. Số đo $\widehat{ACB}$ là
+
+A. $30^\circ$
+
+B. $50^\circ$
+
+C. $80^\circ$
+
+D. $100^\circ$
+
+**Câu B.** Tam giác nhọn $ABC$ có hai đường cao $BD$, $CE$. Từ $\triangle ADB \sim \triangle AEC$ (g.g), hệ thức đúng là
+
+A. $AD \cdot AB = AE \cdot AC$
+
+B. $AD \cdot AC = AE \cdot AB$
+
+C. $AD \cdot AE = AB \cdot AC$
+
+D. $AD \cdot BD = AE \cdot CE$
+
+## 4. Luyện tập xen kẽ
+
+Cho tam giác nhọn $ABC$ có hai đường cao $BD$, $CE$ cắt nhau tại $H$ (dùng cho Câu 1, 3, 4, 6, 7).
+
+**Câu 1 ★.** Chứng minh $B$, $C$, $D$, $E$ cùng thuộc một đường tròn. Biết $BC = 12$ cm, tính bán kính và chu vi đường tròn đó. Đáp số: ………………
+
+**Câu 2 ★.** Tứ giác $ABCD$ nội tiếp, $\widehat{BAD} = 110^\circ$, $\widehat{ABD} = 25^\circ$, $\widehat{ADB} = 45^\circ$. Tính $\widehat{ACB}$ và $\widehat{BCD}$. Đáp số: ………………
+
+**Câu 3 ★.** Biết $\widehat{BAC} = 65^\circ$. Chứng minh $AH \perp BC$ và tính $\widehat{BHC}$. Đáp số: ………………
+
+**Câu 4 ★★.** Chứng minh $AD \cdot AC = AE \cdot AB$. Biết $AB = 12$ cm, $AC = 10$ cm, $AD = 6$ cm, tính $AE$. Đáp số: ………………
+
+**Câu 5 ★★.** Tam giác nhọn $ABC$ nội tiếp $(O)$, $Ax$ là tiếp tuyến tại $A$ (tia $Ax$ nằm trên nửa mặt phẳng bờ $AB$ không chứa $C$), $BD \perp AC$, $CE \perp AB$, $\widehat{ACB} = 55^\circ$. Chứng minh $Ax \parallel DE$ và tính $\widehat{AED}$, $\widehat{BED}$. Đáp số: ………………
+
+**Câu 6 ★★★.** **[Minh họa]** Khu vườn hình tam giác nhọn $ABC$ có $BC = 20$ m; $D \in AC$, $E \in AB$ sao cho $BD \perp AC$, $CE \perp AB$. Bác Hai căng một sợi dây thép tạo thành đường tròn đi qua $B$, $C$, $D$, $E$. Lấy $\pi \approx 3{,}14$, sợi dây dài ……… m.
+
+**Câu 7 ★★★.** Biết $\widehat{BAC} = 60^\circ$, $AB = 8$ cm, $AC = 10$ cm. Tính $AD$, $AE$ và $\widehat{BHC}$. Đáp số: ………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tam giác nhọn $ABC$ có hai đường cao $BD$, $CE$; $AB = 10$ cm, $AC = 8$ cm, $AD = 5$ cm. Tính $AE$.
+>
+> **Lời giải của bạn X:** $\triangle ADB \sim \triangle AEC$ (g.g) nên $\dfrac{AD}{AE} = \dfrac{AC}{AB}$. Suy ra $AE = \dfrac{AD \cdot AB}{AC} = \dfrac{5 \cdot 10}{8} = 6{,}25$ (cm).
+
+Lời giải sai ở bước nào? Em giải lại cho đúng: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Tam giác nhọn $ABC$ có hai đường cao $BD$, $CE$ cắt nhau tại $H$, $\widehat{BAC} = 70^\circ$. Số đo $\widehat{BHC}$ là
+
+A. $20^\circ$
+
+B. $70^\circ$
+
+C. $140^\circ$
+
+D. $110^\circ$
+
+**Câu 2.** Tam giác nhọn $ABC$ có hai đường cao $BD$, $CE$; $AB = 10$ cm, $AC = 8$ cm, $AD = 5$ cm, $AE = 4$ cm. Mỗi ý em ghi Đ hoặc S:
+
+a) $B$, $C$, $D$, $E$ cùng thuộc đường tròn tâm $M$ là trung điểm của $BC$. ……
+
+b) $\triangle ADB \sim \triangle AEC$ (g.g). ……
+
+c) $AD \cdot AB = AE \cdot AC$. ……
+
+d) Bán kính đường tròn đi qua $B$, $C$, $D$, $E$ bằng $BC$. ……
+
+**Câu 3.** Tam giác nhọn $ABC$ có hai đường cao $BD$, $CE$; $AB = 12$ cm, $AC = 15$ cm, $AD = 8$ cm. Độ dài $AE$ là ………… cm.
+
+## 7. Một phút suy ngẫm
+
+*Khi chứng minh, em tự hỏi: mình đã nói rõ hai tam giác vuông nào chung cạnh huyền chưa? Mỗi góc nội tiếp đã ghi chắn cung nào chưa? Tam giác đồng dạng đã viết đúng thứ tự đỉnh chưa?* ………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Viết lại lời giải đầy đủ Ví dụ 1 và Ví dụ 3 của bài giảng. Ở Ví dụ 5 ($AB = 10$ cm, $AC = 8$ cm, $AD = 5$ cm, $AE = 4$ cm), chứng minh $\triangle ADE \sim \triangle ABC$ và tìm tỉ số đồng dạng: mỗi dòng ghi rõ căn cứ. Nhờ một bạn kiểm tra.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Ôn thi vào 10 · Hình học 7a. Chứng minh: bốn điểm cùng đường tròn, song song, vuông góc, hệ thức
+
+## 1. Thông tin bài
+
+- **Toán 9 · Ôn thi tuyển sinh vào lớp 10 (TP.HCM) · Hình học 7a.** Dạng bài thường gặp ở câu a, b của bài hình: bốn điểm cùng thuộc một đường tròn, tứ giác nội tiếp, song song, vuông góc – trực tâm, hệ thức bằng tam giác đồng dạng.
+- **Giả định:** 1 tiết 45 phút ôn tập; lớp đại trà; máy chiếu và giấy/bảng con.
+- Các tình huống **[Minh họa]** (bảng đo của Nam, khu vườn của bác Hai) do người soạn tự đặt, không trích từ đề thi.
+- Phiếu bám **Ví dụ 1–5** của bài giảng on-thi-hinh-hoc-chung-minh-1: Ví dụ 1 (bốn điểm cùng đường tròn) → Do Now 1, Tình huống mở đầu, Luyện tập 1, 6; Ví dụ 2 (tứ giác nội tiếp, tính góc) → Do Now 2, bản lề A, Luyện tập 2; Ví dụ 3 (song song, tiếp tuyến – dây cung) → Luyện tập 5; Ví dụ 4 (trực tâm, góc $BHC$) → Do Now 3, Luyện tập 3, 7, Exit 1; Ví dụ 5 (hệ thức, tam giác đồng dạng) → Do Now 4, bản lề B, Luyện tập 4, 7, Tìm lỗi sai, Exit 2, 3, Vận dụng về nhà.
+- **Quy ước đề năm nay:** các kiến thức sau **phải chứng minh lại**, không viện dẫn trực tiếp: dấu hiệu tứ giác nội tiếp (bốn điểm cùng đường tròn: chứng minh bằng hai tam giác vuông chung cạnh huyền và trung điểm cạnh huyền), đường kính vuông góc với dây, phân giác ngoài, hệ thức cạnh – đường cao trong tam giác vuông. Được **dùng trực tiếp**: trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền, tổng hai góc đối của tứ giác nội tiếp bằng $180^\circ$, hai góc nội tiếp cùng chắn một cung thì bằng nhau, góc tạo bởi tiếp tuyến và dây cung bằng góc nội tiếp cùng chắn cung ấy, tam giác đồng dạng (g.g).
+
+## 2. Mục tiêu
+
+- **Mở đầu (7 phút):** ôn tính chất cơ bản; nhận ra $M$ cách đều $B$, $C$, $D$, $E$ và đặt vấn đề chứng minh không dùng thước.
+- **Luyện tập (25 phút):** bốn điểm cùng đường tròn; tính góc; song song; trực tâm; hệ thức; bài thực tế.
+- **Củng cố (8 phút):** tìm lỗi sai (thứ tự đỉnh tam giác đồng dạng), phiếu ra khỏi lớp.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Làm một mình, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Nêu câu hỏi của bài học |
+| 7–15 | Ôn nhanh kiến thức nền theo bài giảng | Giáo viên vẽ hình, nhấn mạnh phần phải chứng minh lại |
+| ~15 | Câu bản lề A, B | Giơ thẻ A/B/C/D |
+| 15–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi; mỗi câu vẽ hình trước |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm (Mục 7) và dặn dò (Mục 8) | |
+
+## 4. Hướng dẫn và đáp án từng hoạt động
+
+### 4.1. Do Now
+- **Đáp án:** 1) $\dfrac{10}{2} = 5$ cm. 2) $\widehat{C} = 180^\circ - 100^\circ = 80^\circ$. 3) $\widehat{F} = 180^\circ - 50^\circ - 60^\circ = 70^\circ$. 4) $6x = 3 \cdot 8 = 24$ nên $x = 4$.
+- **Lỗi dự kiến:** câu 1 ghi $10$ hoặc $20$ (nhầm với cạnh huyền hoặc gấp đôi); câu 2 ghi $100^\circ$ (hai góc đối bằng nhau) hoặc $260^\circ$; câu 3 ghi $110^\circ$ (cộng thay vì trừ); câu 4 ghi $x = 1{,}5$ (nhân chéo sai thành $\dfrac{3}{6} \cdot 8$ hoặc đảo tỉ số) hoặc $x = 2$.
+
+### 4.2. Notice & Wonder
+- **Gợi ý nhận xét:** bốn đoạn đều bằng $5$ cm, bằng nửa $BC$. Tam giác $BDC$ vuông tại $D$ có $MD$ là trung tuyến ứng với cạnh huyền $BC$ nên $MD = \dfrac{BC}{2}$; tương tự tam giác $BEC$ vuông tại $E$ có $ME = \dfrac{BC}{2}$. Vậy $MB = MC = MD = ME = \dfrac{BC}{2} = 5$ cm, tức bốn điểm cách đều $M$ nên thuộc đường tròn tâm $M$, bán kính $5$ cm. Chốt: chứng minh bốn điểm cùng đường tròn bằng cách chỉ ra **một điểm cách đều bốn điểm**, không viện dẫn dấu hiệu tứ giác nội tiếp.
+
+### 4.3. Câu hỏi bản lề
+- **Đáp án:** Câu A chọn **B**; Câu B chọn **B**.
+- **Câu A:** $\widehat{ADB} = 180^\circ - 100^\circ - 30^\circ = 50^\circ$; $\widehat{ACB}$ và $\widehat{ADB}$ cùng chắn cung $AB$ nên $\widehat{ACB} = 50^\circ$. **Nhiễu:** A ($30^\circ$, lấy $\widehat{ABD}$); C ($80^\circ$, là $\widehat{BCD} = 180^\circ - 100^\circ$); D ($100^\circ$, lấy $\widehat{BAD}$).
+- **Câu B:** $\triangle ADB \sim \triangle AEC$ ứng $A \to A$, $D \to E$, $B \to C$ nên $\dfrac{AD}{AE} = \dfrac{AB}{AC}$, tức $AD \cdot AC = AE \cdot AB$. **Nhiễu:** A (đảo thành $\dfrac{AD}{AE} = \dfrac{AC}{AB}$); C (ghép nhầm cặp $AD$ với $AE$ cùng vế, $AD \cdot AE = AB \cdot AC$); D (nhân hai cạnh góc vuông, không có căn cứ).
+
+### 4.4. Luyện tập xen kẽ – đáp án và lời giải ngắn
+1. $BD \perp AC$ nên tam giác $BDC$ vuông tại $D$; $CE \perp AB$ nên tam giác $BEC$ vuông tại $E$; hai tam giác chung cạnh huyền $BC$. Gọi $M$ là trung điểm $BC$ thì $MD = ME = \dfrac{BC}{2} = 6$ (trung tuyến ứng với cạnh huyền) và $MB = MC = 6$. Vậy bốn điểm thuộc đường tròn tâm $M$, bán kính $R = 6$ cm; chu vi $2\pi R = 12\pi$ (cm).
+2. Tam giác $ABD$ có $\widehat{BAD} + \widehat{ABD} + \widehat{ADB} = 110^\circ + 25^\circ + 45^\circ = 180^\circ$ (đúng). $\widehat{ACB} = \widehat{ADB} = 45^\circ$ (cùng chắn cung $AB$). $\widehat{BCD} = 180^\circ - \widehat{BAD} = 70^\circ$ (hai góc đối của tứ giác nội tiếp).
+3. $BD$, $CE$ là hai đường cao cắt nhau tại $H$ nên $H$ là trực tâm, ba đường cao đồng quy nên $AH \perp BC$. Tứ giác $AEHD$ có $\widehat{AEH} = \widehat{ADH} = 90^\circ$ nên $\widehat{EHD} = 360^\circ - 90^\circ - 90^\circ - 65^\circ = 115^\circ$. $\widehat{BHC} = \widehat{EHD} = 115^\circ$ (đối đỉnh).
+4. $\triangle ADB$ và $\triangle AEC$ có $\widehat{ADB} = \widehat{AEC} = 90^\circ$, góc $A$ chung nên đồng dạng (g.g). Suy ra $\dfrac{AD}{AE} = \dfrac{AB}{AC}$, tức $AD \cdot AC = AE \cdot AB$. $AE = \dfrac{AD \cdot AC}{AB} = \dfrac{6 \cdot 10}{12} = 5$ (cm).
+5. $B$, $C$, $D$, $E$ thuộc đường tròn đường kính $BC$ (chứng minh như Câu 1) nên $\widehat{BED} + \widehat{BCD} = 180^\circ$. Mà $\widehat{AED} + \widehat{BED} = 180^\circ$ (kề bù) nên $\widehat{AED} = \widehat{BCD} = \widehat{ACB} = 55^\circ$. Tiếp tuyến – dây cung: $\widehat{xAB} = \widehat{ACB} = 55^\circ$. Vậy $\widehat{xAB} = \widehat{AED}$ (so le trong) nên $Ax \parallel DE$. $\widehat{BED} = 180^\circ - 55^\circ = 125^\circ$.
+6. Như Câu 1: $B$, $C$, $D$, $E$ thuộc đường tròn tâm $M$ (trung điểm $BC$), $R = \dfrac{20}{2} = 10$ m. Chiều dài dây $= 2\pi R \approx 2 \cdot 3{,}14 \cdot 10 = 62{,}8$ (m).
+7. Tam giác $ABD$ vuông tại $D$ có $\widehat{A} = 60^\circ$ nên $AD = AB \cdot \cos 60^\circ = 8 \cdot \dfrac{1}{2} = 4$ (cm). Từ $AD \cdot AC = AE \cdot AB$: $AE = \dfrac{4 \cdot 10}{8} = 5$ (cm). $\widehat{BHC} = \widehat{EHD} = 360^\circ - 90^\circ - 90^\circ - 60^\circ = 120^\circ$.
+- **Lỗi dự kiến:** câu 1 ghi $R = 12$ (lấy luôn $BC$) hoặc chu vi $6\pi$ (nhầm $\pi R$); câu 2 ghi $\widehat{ACB} = 25^\circ$ (lấy nhầm $\widehat{ABD}$) hoặc $\widehat{BCD} = 110^\circ$ (cho hai góc đối bằng nhau); câu 3 ghi $65^\circ$ (cho $\widehat{BHC} = \widehat{A}$) hoặc $25^\circ$ ($90^\circ - 65^\circ$); câu 4 ghi $AE = \dfrac{6 \cdot 12}{10} = 7{,}2$ (đảo tỉ số); câu 5 chỉ ghi $\widehat{AED} = \widehat{ACB}$ mà không chứng minh tứ giác $BCDE$ có bốn điểm cùng đường tròn, hoặc nêu sai vị trí cặp góc so le trong; câu 6 ghi $20\pi$ hay $125{,}6$ (lấy $R = 20$) hoặc tính diện tích $314$; câu 7 ghi $AD = 8 \cdot \sin 60^\circ$ hoặc $\widehat{BHC} = 60^\circ$.
+
+### 4.5. Tìm lỗi sai
+- **Đáp án:** Sai ở chỗ viết tỉ số: từ $\triangle ADB \sim \triangle AEC$ phải ghép đúng thứ tự đỉnh $A \to A$, $D \to E$, $B \to C$, nên $\dfrac{AD}{AE} = \dfrac{AB}{AC}$, **không** phải $\dfrac{AC}{AB}$. Lời giải đúng: $AE = \dfrac{AD \cdot AC}{AB} = \dfrac{5 \cdot 8}{10} = 4$ (cm). Kiểm tra lại bằng hệ thức $AD \cdot AC = AE \cdot AB$: $5 \cdot 8 = 40 = 4 \cdot 10$ đúng; còn $6{,}25 \cdot 10 = 62{,}5 \ne 40$.
+
+### 4.6. Phiếu ra khỏi lớp
+- **Đáp án:** Câu 1: **D** ($\widehat{BHC} = 180^\circ - 70^\circ = 110^\circ$). Câu 2: a) Đ (hai tam giác vuông $BDC$, $BEC$ chung cạnh huyền $BC$, $M$ là trung điểm); b) Đ (góc vuông và góc $A$ chung, g.g); c) S ($AD \cdot AB = 5 \cdot 10 = 50$, còn $AE \cdot AC = 4 \cdot 8 = 32$; đúng phải là $AD \cdot AC = AE \cdot AB = 40$); d) S (bán kính bằng $\dfrac{BC}{2}$). Câu 3: $AE = \dfrac{AD \cdot AC}{AB} = \dfrac{8 \cdot 15}{12} = 10$ cm.
+- **Lỗi dự kiến:** Câu 1 chọn B ($70^\circ$, cho $\widehat{BHC} = \widehat{A}$) hoặc C ($140^\circ$, nhân đôi); Câu 2c ghi Đ vì ghép nhầm cạnh; Câu 2d ghi Đ vì nhầm đường kính với bán kính; Câu 3 ghi $AE = \dfrac{8 \cdot 12}{15} = 6{,}4$ (đảo tỉ số) hoặc $AE = 12 - 8 = 4$.
+
+### 4.7. Suy ngẫm và về nhà
+- Đọc nhanh vài phiếu để biết em nào còn bỏ qua bước chứng minh lại hoặc ghi sai thứ tự đỉnh. Bài về nhà: Ví dụ 1: $R = 5$ cm; Ví dụ 3: $\widehat{BED} = 120^\circ$; Phần mở rộng: $\dfrac{AD}{AB} = \dfrac{5}{10} = \dfrac{1}{2}$ và từ $AD \cdot AC = AE \cdot AB$ suy ra $\dfrac{AD}{AB} = \dfrac{AE}{AC} = \dfrac{4}{8} = \dfrac{1}{2}$; hai tam giác $ADE$ và $ABC$ có góc $A$ chung và hai cạnh kề tỉ lệ nên đồng dạng (c.g.c) với tỉ số $\dfrac{1}{2}$.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm: trong Câu 2, chứng minh $\widehat{AED} = \widehat{ACB}$ khi biết $B$, $C$, $D$, $E$ cùng đường tròn |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại theo nhóm nhỏ: vẽ hình, tô màu hai tam giác vuông chung cạnh huyền; viết tương ứng đỉnh theo cột trước khi lập tỉ số |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng đúng câu sai nhiều |
+
+**Do Now gợi ý cho tiết sau (Hình học 7b. Hệ thức, thẳng hàng, đồng quy):** (1) tam giác $ABC$ có $\widehat{A} = 40^\circ$, hai đường cao cắt nhau tại $H$, tính $\widehat{BHC}$ (đáp số $140^\circ$); (2) $M$ là trung điểm $BC$ của tam giác vuông tại $A$ có $BC = 14$ cm, tính $AM$ (đáp số $7$ cm); (3) câu sai nhiều nhất trong Exit ticket.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** vẽ hình lớn, ghi sẵn tương ứng đỉnh $A \to A$, $D \to E$, $B \to C$; chỉ làm Câu 1–4.
+- **Học sinh khá giỏi:** làm Câu 5, 6, 7; câu mở: trong Câu 7, chứng minh $\triangle ADE \sim \triangle ABC$ và tính tỉ số diện tích hai tam giác (đáp số $\dfrac{1}{4}$, vì tỉ số đồng dạng là $\dfrac{AD}{AB} = \dfrac{1}{2}$).
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $5$ cm; $80^\circ$; $70^\circ$; $x = 4$ |
+| Bản lề A / B | B / B |
+| Luyện tập 1 | $R = 6$ cm; chu vi $12\pi$ cm |
+| Luyện tập 2 | $\widehat{ACB} = 45^\circ$; $\widehat{BCD} = 70^\circ$ |
+| Luyện tập 3 | $\widehat{BHC} = 115^\circ$ |
+| Luyện tập 4 | $AE = 5$ cm |
+| Luyện tập 5 | $\widehat{AED} = 55^\circ$; $\widehat{BED} = 125^\circ$ |
+| Luyện tập 6 | $62{,}8$ m |
+| Luyện tập 7 | $AD = 4$ cm; $AE = 5$ cm; $\widehat{BHC} = 120^\circ$ |
+| Tìm lỗi sai | $AE = 4$ cm |
+| Exit 1 / 2 / 3 | D / a) Đ, b) Đ, c) S, d) S / $10$ cm |
+`);

@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-01 – Phiếu học tập củng cố Hình học 7a (Chứng minh: bốn điểm cùng đường tròn, song song, vuông góc, hệ thức) – ôn thi vào 10
+
+- **Yêu cầu:** Phiếu thứ 5/8 trong loạt phiếu Hình học ôn thi vào 10 (Do Now, tình huống mở đầu, bản lề, 7 câu luyện tập ★/★★/★★★, tìm lỗi sai, phiếu ra khỏi lớp, suy ngẫm, vận dụng về nhà; Phần B gợi ý + đáp án).
+- **Kết quả:** `Lecture.addSheet('lop9', 'on-thi-hinh-hoc-chung-minh-1', …)` cuối `lop9-khoi-dong.js`; đáp số chọn trước rồi dựng đề, dựng tọa độ tính lại bằng sympy (AD = 4, AE = 5, ∠BHC = 115° và 120°, các bộ AB–AC–AD–AE); lời giải chứng minh lại bốn điểm cùng đường tròn bằng trung điểm cạnh huyền, không viện dẫn dấu hiệu tứ giác nội tiếp. Bám Ví dụ 1–5 của bài giảng. Phiếu kế tiếp: số 6 `on-thi-hinh-hoc-chung-minh-2`.
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop9-khoi-dong.js`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js 30 lop9` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (122/122, Phần A đúng 2 trang); `python3 tools/build.py` → xong
+- **Việc thủ công:** Không có
+
 ### 2026-10-30 – Phiếu học tập củng cố Hình học 4 (Hình không gian thực tế) – ôn thi vào 10
 
 - **Yêu cầu:** Phiếu thứ 4/8 trong loạt phiếu Hình học ôn thi vào 10 (Do Now, tình huống mở đầu, bản lề, 7 câu luyện tập ★/★★/★★★, tìm lỗi sai, phiếu ra khỏi lớp, suy ngẫm, vận dụng về nhà; Phần B gợi ý + đáp án).
