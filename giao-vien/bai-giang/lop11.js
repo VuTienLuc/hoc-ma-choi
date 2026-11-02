@@ -552,3 +552,124 @@ Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương III. Mẫu 
 ]},
 ]});
 })();
+
+/* =====================================================================
+   CHƯƠNG IV. QUAN HỆ SONG SONG TRONG KHÔNG GIAN – Bài 10 (thầy yêu cầu 02/11/2026, /tron-bo)
+   SGK KNTT Toán 11 tập 2, tr. 70–76: mặt phẳng và hình biểu diễn · 6 tính chất thừa nhận · ba cách xác định mặt phẳng ·
+   giao tuyến, giao điểm · hình chóp và tứ diện. 6 dạng bài, hình vẽ bằng spaceSVG (nét liền – nét đứt).
+   ===================================================================== */
+(() => {
+const m = tm, d = td;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const S = t => `<p>${t}</p>`;
+const TITLE = (name, pts) => ({kind:'title', tag:'Toán 11 · Kết nối tri thức · Chương IV', title:name, sub:'Mục tiêu bài học', points:pts});
+const mid = (p, q, t = .5) => [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])];
+const ix = (p, q, r, s) => { const dd = (q[0] - p[0]) * (s[1] - r[1]) - (q[1] - p[1]) * (s[0] - r[0]); const t = ((r[0] - p[0]) * (s[1] - r[1]) - (r[1] - p[1]) * (s[0] - r[0])) / dd; return [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])]; };
+const TET0 = [[160, 22], [48, 160], [168, 196], [288, 128]];
+const tetFig = (L, o = {}) => {
+  const [v, x, y, z] = L, pts = {[v]:TET0[0], [x]:TET0[1], [y]:TET0[2], [z]:TET0[3], ...(o.pts || {})};
+  return spaceSVG({pts, s:[[v, x], [v, y], [v, z], [x, y], [y, z], ...(o.s || [])], d:[[x, z], ...(o.d || [])], h:o.h, off:o.off, ht:218, aria:o.aria || 'Hình tứ diện'});
+};
+const PY0 = [[160, 16], [40, 142], [104, 186], [262, 186], [298, 142]];
+const pyFig = (o = {}) => spaceSVG({pts:{S:PY0[0], A:PY0[1], B:PY0[2], C:PY0[3], D:PY0[4], ...(o.pts || {})}, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['S', 'D'], ['A', 'B'], ['B', 'C'], ['C', 'D'], ...(o.s || [])], d:[['A', 'D'], ...(o.d || [])], h:o.h, off:o.off, ht:218, aria:o.aria || 'Hình chóp S.ABCD'});
+const planeFig = spaceSVG({pts:{A:[150, 138], B:[96, 48], d1:[70, 150], d2:[260, 120]}, planes:[{q:[[28, 172], [232, 172], [308, 98], [104, 98]], lab:'(P)', at:[250, 160]}], ht:190, off:{A:[-16, 0], B:[16, 0]}, nolabel:['d1', 'd2'], aria:'Mặt phẳng (P), điểm A thuộc (P), điểm B không thuộc (P)'});
+const O = ix(PY0[1], PY0[3], PY0[2], PY0[4]);
+const figE = (() => { const A = [60, 150], B = [150, 153], C = [260, 128], D = [200, 100], Sx = [150, 15], E = ix(A, B, D, C);
+  return spaceSVG({pts:{S:Sx, A, B, C, D, E}, w:360, ht:200, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['A', 'B'], ['B', 'C']], d:[['S', 'D'], ['A', 'D'], ['C', 'D'], ['B', 'E'], ['C', 'E']], off:{E:[15, 0], D:[10, -12]}, aria:'Hình chóp S.ABCD có AB cắt CD tại E'}); })();
+const Mp = mid(PY0[0], PY0[1], .9), Np = ix(Mp, O, PY0[0], PY0[3]);
+const figN = pyFig({pts:{M:Mp, O, N:Np}, d:[['A', 'C'], ['B', 'D'], ['M', 'B'], ['M', 'D'], ['M', 'O']], s:[['C', 'N']], off:{N:[14, 10]}});
+const Gp = [(TET0[1][0] + TET0[2][0] + TET0[3][0]) / 3, (TET0[1][1] + TET0[2][1] + TET0[3][1]) / 3];
+const figG = tetFig(['S', 'B', 'A', 'C'], {pts:{M:mid(TET0[1], TET0[2]), N:mid(TET0[2], TET0[3]), G:Gp}, d:[['B', 'N'], ['C', 'M']], off:{G:[0, 16], N:[16, 6], M:[-16, 6]}});
+
+Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương IV. Quan hệ song song trong không gian', lessons:[
+
+{ id:'bai-10', name:'Bài 10. Đường thẳng và mặt phẳng trong không gian', desc:'Mặt phẳng, hình biểu diễn; sáu tính chất thừa nhận; ba cách xác định mặt phẳng; giao tuyến, giao điểm; hình chóp và tứ diện.', slides:[
+  TITLE('Bài 10. Đường thẳng và mặt phẳng trong không gian', ['Biết kí hiệu điểm, đường thẳng, mặt phẳng và đọc hình biểu diễn (nét liền, nét đứt).', 'Nắm sáu tính chất thừa nhận và ba cách xác định một mặt phẳng.', 'Tìm giao tuyến của hai mặt phẳng và giao điểm của đường thẳng với mặt phẳng.', 'Nhận biết hình chóp, tứ diện; đếm mặt, cạnh, đỉnh.']),
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Mặt phẳng và hình biểu diễn',
+   body: box(`Mặt phẳng không có bề dày, không có giới hạn; ta vẽ nó bằng một <b>hình bình hành</b> và ghi tên ${m('(P)')}, ${m('(Q)')}, ${m('(\\alpha)')}…`) +
+     S(`Điểm ${m('A')} thuộc ${m('(P)')}: ${m('A \\in (P)')}. Điểm ${m('B')} không thuộc: ${m('B \\notin (P)')}. Đường thẳng ${m('d')} nằm trong ${m('(P)')}: ${m('d \\subset (P)')}.`) +
+     S(`Trong hình biểu diễn: cạnh nhìn thấy vẽ <b>nét liền</b>, cạnh bị che khuất vẽ <b>nét đứt</b>; hai đường thẳng song song được vẽ song song; giữ nguyên quan hệ điểm thuộc đường thẳng.`),
+   fig: planeFig},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Sáu tính chất thừa nhận',
+   body: `<ol><li>Qua hai điểm phân biệt có đúng một đường thẳng.</li><li>Qua ba điểm <b>không thẳng hàng</b> có đúng một mặt phẳng.</li><li>Nếu đường thẳng có hai điểm phân biệt thuộc mặt phẳng thì mọi điểm của nó thuộc mặt phẳng đó.</li><li>Tồn tại bốn điểm không cùng thuộc một mặt phẳng.</li><li>Hai mặt phẳng phân biệt có một điểm chung thì có chung đúng một đường thẳng, gọi là <b>giao tuyến</b>.</li><li>Trên mỗi mặt phẳng, các kết quả của hình học phẳng đều đúng.</li></ol>`},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Ba cách xác định một mặt phẳng',
+   body: box(`① Ba điểm không thẳng hàng: ${m('(ABC)')}.<br>② Một đường thẳng và một điểm không thuộc nó: ${m('(A,\\,d)')}.<br>③ Hai đường thẳng cắt nhau: ${m('(a,\\,b)')}.`) +
+     note(`Ba điểm thẳng hàng chưa xác định mặt phẳng: có vô số mặt phẳng chứa chúng.`),
+   fig: tetFig(['S', 'A', 'B', 'C'], {h:[['S', 'A'], ['S', 'B'], ['A', 'B']], aria:'Mặt phẳng (SAB) xác định bởi ba điểm S, A, B'})},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Giao tuyến và giao điểm',
+   body: box(`<b>Giao tuyến</b> của hai mặt phẳng là đường thẳng đi qua <b>hai điểm chung</b>.`) +
+     S(`Cách làm: (1) tìm điểm chung thứ nhất (thường là đỉnh chóp); (2) tìm điểm chung thứ hai bằng cách lấy giao của hai đường thẳng, mỗi đường nằm trong một mặt phẳng.`) +
+     S(`<b>Giao điểm</b> của đường thẳng ${m('d')} và mặt phẳng ${m('(P)')}: chọn mặt phẳng phụ ${m('(Q)')} chứa ${m('d')}, tìm giao tuyến ${m('a = (P) \\cap (Q)')}; khi đó ${m('d \\cap a')} chính là điểm cần tìm.`)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 5', title:'Hình chóp và tứ diện',
+   body: box(`Hình chóp ${m('S.A_1A_2\\dots A_n')}: đỉnh ${m('S')}, đáy là đa giác ${m('n')} cạnh; có ${m('n')} mặt bên, ${m('n')} cạnh bên.<br>Tổng cộng ${m('n+1')} mặt, ${m('2n')} cạnh, ${m('n+1')} đỉnh.`) +
+     S(`<b>Tứ diện</b> ${m('ABCD')}: 4 đỉnh, 6 cạnh, 4 mặt (mỗi mặt là một tam giác). Hai cạnh không có đỉnh chung gọi là hai cạnh đối diện.`),
+   fig: pyFig()},
+
+  /* ---- Dạng 1 ---- */
+  {kind:'method', tag:'Dạng 1', title:'Kí hiệu và đọc hình biểu diễn',
+   steps:[`Điểm với mặt phẳng: dùng ${m('\\in')}, ${m('\\notin')}; đường thẳng với mặt phẳng: dùng ${m('\\subset')}.`, `Điểm vẽ trong hình bình hành là thuộc mặt phẳng, điểm vẽ ngoài là không thuộc.`, `Nét liền – nét đứt cho biết cạnh nhìn thấy hay bị che khuất.`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Quan sát hình: điểm ${m('A')} nằm trong hình bình hành ${m('(P)')}, điểm ${m('B')} nằm ngoài. Viết kí hiệu quan hệ của ${m('A')}, ${m('B')} với ${m('(P)')}; nêu quan hệ của đường thẳng ${m('AB')} với ${m('(P)')}.`, fig: planeFig,
+   sol:[`${m('A')} vẽ trong hình bình hành nên ${m('A \\in (P)')}.`, `${m('B')} vẽ ngoài hình bình hành nên ${m('B \\notin (P)')}.`, `Nếu ${m('AB \\subset (P)')} thì mọi điểm của ${m('AB')}, kể cả ${m('B')}, thuộc ${m('(P)')} – trái giả thiết.`], ans:`${tb('A \\in (P)')}, ${tb('B \\notin (P)')}, ${tb('AB \\not\\subset (P)')}.`},
+
+  /* ---- Dạng 2 ---- */
+  {kind:'method', tag:'Dạng 2', title:'Vận dụng tính chất thừa nhận',
+   steps:[`Xác định hai điểm phân biệt của đường thẳng thuộc mặt phẳng ⇒ cả đường thẳng nằm trong mặt phẳng (tính chất 3).`, `Dùng đúng điều kiện “không thẳng hàng” khi nói mặt phẳng đi qua ba điểm (tính chất 2).`, `Nhận ra phát biểu sai: ba điểm thẳng hàng, hai mặt phẳng phân biệt có đúng một điểm chung…`]},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Cho ba điểm ${m('A, B, C')} không thẳng hàng, ${m('M')} là trung điểm của ${m('BC')}. Chứng minh ${m('AM \\subset (ABC)')}.`,
+   sol:[`${m('B, C \\in (ABC)')} nên ${m('BC \\subset (ABC)')} (tính chất 3).`, `${m('M')} thuộc ${m('BC')} nên ${m('M \\in (ABC)')}.`, `${m('A, M')} là hai điểm phân biệt của ${m('(ABC)')} nên đường thẳng ${m('AM')} nằm trong ${m('(ABC)')} (tính chất 3).`], ans:`${tb('AM \\subset (ABC)')}.`},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Hai đường thẳng ${m('a, b')} cắt nhau tại ${m('O')}; ${m('M \\in a')}, ${m('N \\in b')} (${m('M, N')} khác ${m('O')}). Chứng minh ${m('a, b, MN')} cùng nằm trong một mặt phẳng.`,
+   sol:[`Hai đường thẳng cắt nhau ${m('a, b')} xác định đúng một mặt phẳng ${m('(a,b)')}.`, `${m('M \\in a \\subset (a,b)')} và ${m('N \\in b \\subset (a,b)')}, hai điểm phân biệt.`, `Nên ${m('MN \\subset (a,b)')} (tính chất 3).`], ans:`${tb('a, b, MN')} đồng phẳng trong ${tb('(a,b)')}.`},
+
+  /* ---- Dạng 3 ---- */
+  {kind:'method', tag:'Dạng 3', title:'Đếm số mặt phẳng xác định bởi các điểm',
+   steps:[`Ba điểm không thẳng hàng xác định đúng một mặt phẳng: ban đầu có ${m('C_n^3')} bộ ba điểm.`, `Nếu có ${m('k')} điểm cùng thuộc một mặt phẳng (không ba điểm thẳng hàng): ${m('C_k^3')} bộ ba chỉ cho 1 mặt phẳng ⇒ lấy ${m('C_n^3 - C_k^3 + 1')}.`, `Có điểm thẳng hàng thì bỏ các bộ ba thẳng hàng.`]},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 3', label:'Ví dụ 4', de:`Cho 5 điểm phân biệt, không có bốn điểm nào cùng thuộc một mặt phẳng. Hỏi xác định được bao nhiêu mặt phẳng đi qua ba trong năm điểm đó?`,
+   sol:[`Ba điểm bất kì không thẳng hàng (vì không có 4 điểm đồng phẳng) nên mỗi bộ ba cho một mặt phẳng.`, `Các bộ ba khác nhau cho mặt phẳng khác nhau.`, `Số mặt phẳng: ${m('C_5^3 = 10')}.`], ans:`${tb('10')} mặt phẳng.`},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Cho 6 điểm phân biệt, trong đó có đúng 4 điểm cùng thuộc một mặt phẳng, không có ba điểm nào thẳng hàng. Hỏi có bao nhiêu mặt phẳng phân biệt đi qua ba trong sáu điểm?`,
+   sol:[`Số bộ ba điểm: ${m('C_6^3 = 20')}.`, `4 điểm đồng phẳng cho ${m('C_4^3 = 4')} bộ ba nhưng chỉ ứng với 1 mặt phẳng.`, `Số mặt phẳng: ${m('20 - 4 + 1 = 17')}.`], ans:`${tb('17')} mặt phẳng.`},
+
+  /* ---- Dạng 4 ---- */
+  {kind:'method', tag:'Dạng 4', title:'Tìm giao tuyến của hai mặt phẳng',
+   steps:[`Tìm điểm chung thứ nhất (thường nhìn thấy ngay: đỉnh chóp).`, `Tìm điểm chung thứ hai: giao của hai đường thẳng, mỗi đường nằm trong một mặt phẳng.`, `Nối hai điểm chung: đó là giao tuyến.`]},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 4', label:'Ví dụ 6', de:`Cho hình chóp ${m('S.ABCD')} có đáy là tứ giác lồi, hai đường chéo ${m('AC, BD')} cắt nhau tại ${m('O')}. Tìm giao tuyến của ${m('(SAC)')} và ${m('(SBD)')}.`, fig: pyFig({pts:{O}, d:[['A', 'C'], ['B', 'D'], ['S', 'O']]}),
+   sol:[`${m('S')} thuộc cả hai mặt phẳng.`, `${m('O \\in AC \\subset (SAC)')} và ${m('O \\in BD \\subset (SBD)')} nên ${m('O')} là điểm chung thứ hai.`, `Giao tuyến đi qua ${m('S')} và ${m('O')}.`], ans:`${tb('(SAC) \\cap (SBD) = SO')}.`},
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Cho tam giác ${m('ABC')} và điểm ${m('S')} không thuộc ${m('(ABC)')}. ${m('M, N')} lần lượt là trung điểm của ${m('AB, AC')}. Tìm giao tuyến của ${m('(SBN)')} và ${m('(SCM)')}.`, fig: figG,
+   sol:[`${m('BN, CM')} là hai trung tuyến của tam giác ${m('ABC')} nên cắt nhau tại trọng tâm ${m('G')}.`, `${m('G \\in BN \\subset (SBN)')}, ${m('G \\in CM \\subset (SCM)')}; ${m('S')} cũng là điểm chung.`, `Giao tuyến đi qua ${m('S, G')}.`], ans:`${tb('(SBN) \\cap (SCM) = SG')}.`},
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 4', label:'Ví dụ 8', de:`Cho hình chóp ${m('S.ABCD')} đáy là tứ giác lồi, ${m('AB')} cắt ${m('CD')} tại ${m('E')}. Tìm giao tuyến của ${m('(SAB)')} và ${m('(SCD)')}.`, fig: figE,
+   sol:[`${m('S')} thuộc cả hai mặt phẳng.`, `${m('E \\in AB \\subset (SAB)')} và ${m('E \\in CD \\subset (SCD)')}.`, `Hai điểm chung ${m('S, E')}.`], ans:`${tb('(SAB) \\cap (SCD) = SE')}.`},
+
+  /* ---- Dạng 5 ---- */
+  {kind:'method', tag:'Dạng 5', title:'Hình chóp và tứ diện: đếm mặt, cạnh, đỉnh',
+   steps:[`Gọi ${m('n')} là số cạnh đáy: ${m('n')} mặt bên, ${m('n+1')} mặt, ${m('2n')} cạnh, ${m('n+1')} đỉnh.`, `Đặt phương trình theo ${m('n')} từ dữ kiện (số mặt, tổng mặt và cạnh…).`, `Tứ diện: 4 đỉnh, 6 cạnh, 4 mặt; cạnh đối diện không chung đỉnh.`]},
+  {kind:'vd', tag:'Ví dụ 9 · Dạng 5', label:'Ví dụ 9', de:`Hình chóp có đáy là lục giác có bao nhiêu mặt, cạnh, đỉnh?`,
+   sol:[`Đáy lục giác: ${m('n = 6')}.`, `Số mặt ${m('n + 1 = 7')}; số cạnh ${m('2n = 12')}; số đỉnh ${m('n + 1 = 7')}.`], ans:`${tb('7 mặt, 12 cạnh, 7 đỉnh')}.`},
+  {kind:'vd', tag:'Ví dụ 10 · Dạng 5', label:'Ví dụ 10', de:`Một hình chóp có tổng số mặt và số cạnh bằng 31. Đáy của hình chóp là đa giác bao nhiêu cạnh?`,
+   sol:[`Gọi ${m('n')} là số cạnh đáy: số mặt ${m('n + 1')}, số cạnh ${m('2n')}.`, `${m('(n + 1) + 2n = 31 \\Rightarrow 3n = 30')}.`, `${m('n = 10')}.`], ans:`Đáy là ${tb('thập giác (10 cạnh)')}.`},
+
+  /* ---- Dạng 6 ---- */
+  {kind:'method', tag:'Dạng 6', title:'Giao điểm của đường thẳng và mặt phẳng',
+   steps:[`Nếu đường thẳng ${m('d')} cắt một đường thẳng ${m('a \\subset (P)')} tại ${m('M')} thì ${m('M = d \\cap (P)')}.`, `Không thấy ngay: chọn mặt phẳng phụ chứa ${m('d')}.`, `Tìm giao tuyến của mặt phẳng phụ với ${m('(P)')}; giao của ${m('d')} với giao tuyến đó là điểm cần tìm.`]},
+  {kind:'vd', tag:'Ví dụ 11 · Dạng 6', label:'Ví dụ 11', de:`Với ${m('S.ABCD')}, ${m('AB \\cap CD = E')} (hình ở Ví dụ 8). Tìm giao điểm của ${m('AB')} và ${m('(SCD)')}.`, fig: figE,
+   sol:[`${m('E \\in AB')}.`, `${m('E \\in CD \\subset (SCD)')} nên ${m('E \\in (SCD)')}.`, `${m('AB \\not\\subset (SCD)')} nên giao điểm duy nhất là ${m('E')}.`], ans:`${tb('E = AB \\cap (SCD)')}.`},
+  {kind:'vd', tag:'Ví dụ 12 · Dạng 6', label:'Ví dụ 12', de:`Hình chóp ${m('S.ABCD')}, đáy lồi, ${m('AC \\cap BD = O')}. ${m('M')} thuộc cạnh ${m('SA')} (khác ${m('S, A')}). Tìm giao điểm của ${m('SC')} và ${m('(MBD)')}.`, fig: figN,
+   sol:[`Chọn mặt phẳng phụ ${m('(SAC)')} chứa ${m('SC')}.`, `${m('M, O')} thuộc cả ${m('(SAC)')} và ${m('(MBD)')} (vì ${m('O \\in BD')}) nên giao tuyến là ${m('MO')}.`, `Trong ${m('(SAC)')}, ${m('MO')} cắt ${m('SC')} tại ${m('N')}.`], ans:`${tb('N = SC \\cap (MBD)')}.`},
+
+  /* ---- Luyện tập ---- */
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho 4 điểm ${m('A, B, C, D')} không đồng phẳng. Có bao nhiêu mặt phẳng đi qua ba trong bốn điểm đó?`,
+   sol:[`Không có ba điểm thẳng hàng (nếu có thì 4 điểm đồng phẳng).`, `Số mặt phẳng: ${m('C_4^3 = 4')}.`], ans:`${tb('4')} mặt phẳng.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho tứ diện ${m('ABCD')}, ${m('K')} là trung điểm của ${m('BC')}. Tìm giao tuyến của ${m('(AKD)')} và ${m('(ABC)')}.`, fig: tetFig(['A', 'B', 'D', 'C'], {pts:{K:mid(TET0[1], TET0[3])}, d:[['D', 'K']]}),
+   sol:[`${m('A')} thuộc cả hai mặt phẳng.`, `${m('K \\in (AKD)')} và ${m('K \\in BC \\subset (ABC)')}.`], ans:`${tb('AK')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Một hình chóp có tổng số mặt và số đỉnh bằng 16. Đáy là đa giác bao nhiêu cạnh và hình chóp có bao nhiêu cạnh?`,
+   sol:[`Gọi ${m('n')} là số cạnh đáy: số mặt ${m('n+1')}, số đỉnh ${m('n+1')}.`, `${m('(n+1) + (n+1) = 16 \\Rightarrow n = 7')}.`, `Số cạnh: ${m('2n = 14')}.`], ans:`Đáy ${tb('7')} cạnh; hình chóp có ${tb('14')} cạnh.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Cho hình chóp ${m('S.ABCD')} đáy là hình bình hành tâm ${m('O')}, ${m('M')} là trung điểm ${m('SC')}. Tìm giao điểm của ${m('SC')} và ${m('(MBD)')}.`,
+   sol:[`${m('M \\in SC')}.`, `${m('M \\in (MBD)')}.`, `${m('SC \\not\\subset (MBD)')} nên giao điểm là ${m('M')}.`], ans:`${tb('M')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>${m('\\in, \\notin')} cho điểm; ${m('\\subset')} cho đường thẳng – mặt phẳng.</li><li>Ba cách xác định mặt phẳng: 3 điểm không thẳng hàng · điểm + đường thẳng · hai đường cắt nhau.</li><li>Giao tuyến: hai điểm chung; giao điểm: dùng mặt phẳng phụ.</li><li>Hình chóp đáy ${m('n')}-giác: ${m('n+1')} mặt, ${m('2n')} cạnh, ${m('n+1')} đỉnh.</li></ul>` + note(`Ba điểm thẳng hàng không xác định mặt phẳng; giao điểm hai đường phải ở cùng một mặt phẳng.`)}
+]},
+]});
+})();

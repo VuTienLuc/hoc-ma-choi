@@ -1490,3 +1490,166 @@ Dữ kiện nào cho biết dùng cấp số cộng, dữ kiện nào cho biết
 | Exit | A · Đ S Đ S · $100$ |
 | Về nhà | $1\,470$ triệu; $\approx 1\,509{,}35$ triệu; B nhiều hơn |
 `);
+Lecture.addSheet('lop11', 'bai-10', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 10. Đường thẳng và mặt phẳng trong không gian
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Qua hai điểm phân biệt có bao nhiêu đường thẳng? Đáp án: ………………………
+
+**Câu 2.** Điểm $A$ nằm trên mặt phẳng $(P)$ được viết $A\ \ldots\ (P)$ (điền $\in$ hay $\notin$). Đáp án: ………………………
+
+**Câu 3.** Tứ diện $ABCD$ có bao nhiêu mặt? Đáp án: ………………………
+
+**Câu 4.** Tính $C_5^3$. Đáp án: ………………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** (a) Chiếc kiềng ba chân đặt lên nền đất gồ ghề vẫn đứng vững. (b) Chiếc ghế bốn chân đặt lên cùng nền đó có thể bị cập kênh.
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Vì sao ba điểm luôn xác định một mặt phẳng, còn bốn điểm thì chưa chắc? Làm thế nào để tìm giao tuyến của hai mặt phẳng?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Đường thẳng $d$ có hai điểm phân biệt thuộc mặt phẳng $(P)$. Khẳng định đúng là
+
+A. $d$ cắt $(P)$ tại đúng hai điểm
+
+B. $d\subset(P)$
+
+C. $d$ và $(P)$ không có điểm chung
+
+D. $d$ chỉ có một điểm chung với $(P)$
+
+**Câu B.** Cho $5$ điểm phân biệt, không có bốn điểm nào đồng phẳng. Số mặt phẳng đi qua ba trong năm điểm đó là
+
+A. $5$
+
+B. $20$
+
+C. $15$
+
+D. $10$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Cho tứ giác $ABCD$. Có bao nhiêu mặt phẳng đi qua ba trong bốn đỉnh? Đáp số: ………………………
+
+**Câu 2 ★.** Cho $6$ điểm phân biệt, không có bốn điểm nào đồng phẳng. Có bao nhiêu mặt phẳng đi qua ba trong sáu điểm? Đáp số: ………………………
+
+**Câu 3 ★.** Hình chóp $S.ABCD$ đáy là hình bình hành tâm $O$. Giao tuyến của $(SAC)$ và $(SBD)$ là đường thẳng nào? Đáp số: ………………………
+
+**Câu 4 ★★.** Một hình chóp có $24$ cạnh (kể cả cạnh đáy). Hình chóp đó có bao nhiêu mặt? Đáp số: ………………………
+
+**Câu 5 ★★.** Tứ diện $ABCD$, $M$ là trung điểm $BC$. Tìm giao tuyến của $(AMD)$ và $(ABC)$. Đáp số: ………………………
+
+**Câu 6 ★★.** Cho $6$ điểm phân biệt, trong đó có đúng $4$ điểm đồng phẳng, không có ba điểm thẳng hàng. Có bao nhiêu mặt phẳng đi qua ba trong sáu điểm? Đáp số: ………………………
+
+**Câu 7 ★★★.** Hình chóp $S.ABCD$ đáy là hình bình hành tâm $O$, $M$ thuộc cạnh $SA$ ($SM=\dfrac13SA$). Nêu mặt phẳng phụ và tìm giao điểm $N$ của $SC$ với $(MBD)$. *Gợi ý: tìm giao tuyến của $(SAC)$ và $(MBD)$.* ………………………
+
+## 5. Tìm lỗi sai
+
+Bạn Lan viết: *"Ba điểm $A,\ B,\ C$ thẳng hàng nên xác định đúng một mặt phẳng $(ABC)$."*
+
+**Lỗi ở:** ………………………………………… **Lời giải đúng:** ……………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1 (trắc nghiệm).** Hình chóp có đáy là lục giác có tất cả bao nhiêu cạnh (kể cả cạnh đáy)?
+
+A. $6$
+
+B. $7$
+
+C. $12$
+
+D. $14$
+
+**Câu 2 (đúng – sai).** Cho tứ diện $ABCD$, $M$ là trung điểm $AB$, $N$ là trung điểm $AC$:
+
+a) Bốn điểm $A,\ B,\ C,\ D$ cùng thuộc một mặt phẳng.  ☐ Đ ☐ S
+
+b) $M\in(ABC)$.  ☐ Đ ☐ S
+
+c) $MN\subset(ABC)$.  ☐ Đ ☐ S
+
+d) $(AMN)$ khác $(ABC)$.  ☐ Đ ☐ S
+
+**Câu 3 (trả lời ngắn).** Cho $8$ điểm phân biệt, không có bốn điểm nào đồng phẳng. Số mặt phẳng đi qua ba trong tám điểm là ………… 
+
+## 7. Một phút suy ngẫm
+
+Khi nào ba điểm xác định đúng một mặt phẳng? Hai đường thẳng như thế nào thì xác định một mặt phẳng? ……………………………………………………
+
+## 8. Vận dụng về nhà
+
+**[Minh họa]** Một chiếc bàn gỗ có bốn chân đặt trên nền đất không bằng phẳng bị cập kênh, còn giá ba chân thì không. Giải thích bằng tính chất ba điểm không thẳng hàng, rồi nêu cách thiết kế bàn để không bị cập kênh.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Bài 10. Đường thẳng và mặt phẳng trong không gian
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương IV. Quan hệ song song trong không gian · Bài 10. Đường thẳng và mặt phẳng trong không gian** (sách Kết nối tri thức với cuộc sống, tập 2, tr. 70–76).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà; chỉ có máy chiếu và giấy/bảng con.
+- Phiếu bám bài giảng: **Ví dụ 3, 4, 5** (đếm mặt phẳng) → Luyện tập 1, 2, 6; **Ví dụ 6, 7, 8** (giao tuyến) → Luyện tập 3, 5; **Ví dụ 9, 10** (hình chóp) → Luyện tập 4; **Ví dụ 12** (giao điểm với mặt phẳng phụ) → Luyện tập 7.
+- Tình huống **[Minh họa]** (kiềng ba chân, ghế bốn chân, bàn gỗ) do người soạn tự đặt, gần ý Vận dụng 1 (SGK tr. 72), không trích nguyên văn.
+
+## 2. Mục tiêu
+
+- Dùng đúng kí hiệu $\in,\ \notin,\ \subset$; vận dụng sáu tính chất thừa nhận; đếm mặt phẳng xác định bởi các điểm; tìm giao tuyến và giao điểm; nhận biết hình chóp, tứ diện và đếm mặt, cạnh, đỉnh.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Tự làm, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Ghi câu hỏi của bài học |
+| 7–22 | Hệ thống kiến thức | Giáo viên dạy theo bài giảng (sáu tính chất, ba cách xác định mặt phẳng, Ví dụ 4, 6); dừng làm Câu hỏi bản lề A, B |
+| 22–34 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 34–37 | Tìm lỗi sai (Mục 5) | |
+| 37–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm, dặn dò (Mục 7–8) | |
+
+## 4. Đáp án và lỗi dự kiến
+
+- **Do Now:** 1) $1$ (đúng một đường thẳng). 2) $\in$. 3) $4$ mặt. 4) $C_5^3=10$.
+- **Notice & Wonder:** ba chân (ba điểm không thẳng hàng) luôn cùng chạm một mặt phẳng nền; bốn chân (bốn điểm) có thể không đồng phẳng nên cập kênh. Câu hỏi của bài học dẫn tới tính chất “qua ba điểm không thẳng hàng có đúng một mặt phẳng” và cách tìm giao tuyến bằng hai điểm chung.
+- **Bản lề A – đáp án B:** tính chất 3 (hai điểm phân biệt của đường thẳng thuộc mặt phẳng thì cả đường thẳng nằm trong mặt phẳng). Nhiễu: A, D là nhầm “cắt” với “nằm trong”; C là nhầm với song song. **Bản lề B – đáp án D:** $C_5^3=10$. Nhiễu: A là số điểm, B là $A_5^3/3$, C là $C_6^2$.
+- **Luyện tập:**
+  1. $1$ mặt phẳng: tứ giác là hình phẳng nên bốn đỉnh đồng phẳng (không phải $C_4^3=4$).
+  2. $C_6^3=20$.
+  3. $SO$ ($S$ chung; $O\in AC$ và $O\in BD$).
+  4. $2n=24\Rightarrow n=12$; số mặt $n+1=13$.
+  5. $AM$ ($A$ chung; $M\in BC\subset(ABC)$ và $M\in(AMD)$).
+  6. $C_6^3-C_4^3+1=20-4+1=17$.
+  7. Mặt phẳng phụ $(SAC)$; $(SAC)\cap(MBD)=MO$; $N=MO\cap SC$. $N$ nằm trên đường thẳng $SC$, ngoài đoạn $SC$ (định lí Menelaus cho $\dfrac{NS}{NC}=\dfrac12$, $N$ ở phía $S$).
+- **Tìm lỗi sai:** ba điểm xác định mặt phẳng phải **không thẳng hàng**; ba điểm thẳng hàng nằm trong vô số mặt phẳng (mọi mặt phẳng chứa đường thẳng đó).
+- **Exit:** Câu 1: **C**, $2n=12$ (A là số cạnh đáy, B là số mặt, D là số cạnh khi đáy bảy cạnh). Câu 2: a) S (tứ diện có bốn điểm không đồng phẳng); b) Đ ($M\in AB\subset(ABC)$); c) Đ ($M,N\in(ABC)$ phân biệt); d) S ($A,M,N$ không thẳng hàng nên $(AMN)=(ABC)$). Câu 3: $C_8^3=56$.
+- **Về nhà:** ba chân xác định ba điểm không thẳng hàng nên luôn nằm trên đúng một mặt phẳng — đặt lên nền phẳng nào cũng chạm đủ ba chân. Bốn chân có thể không đồng phẳng nên cập kênh. Thiết kế đúng: chỉ cho tiếp xúc nền tại ba điểm, hoặc chân điều chỉnh được độ cao.
+
+## 5. Xử lý phiếu ra khỏi lớp và phân hóa
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao Câu 7 và bài về nhà mở rộng |
+| 2. Sai hết | 0–1 câu đúng | Làm lại Ví dụ 4 và Ví dụ 6 của bài giảng với số liệu khác |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh câu sai nhiều ở đầu tiết sau |
+
+- **Học sinh yếu:** chỉ làm Câu 1–5, được dùng bảng sáu tính chất. **Học sinh khá giỏi:** làm Câu 7 và bài về nhà.
+
+## 6. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $1;\ \in;\ 4;\ 10$ |
+| Bản lề A, B | B, D |
+| Luyện tập 1–7 | $1$ · $20$ · $SO$ · $13$ · $AM$ · $17$ · $N=MO\cap SC$ |
+| Tìm lỗi sai | ba điểm phải không thẳng hàng |
+| Exit | C · S Đ Đ S · $56$ |
+| Về nhà | ba điểm không thẳng hàng xác định một mặt phẳng |
+`);

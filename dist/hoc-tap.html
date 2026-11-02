@@ -1804,6 +1804,28 @@ function vecSVG(o={}){
   return s+'</svg>';
 }
 
+/* Hình không gian: điểm cho theo toạ độ màn hình (y hướng xuống như SVG); nét liền `s`, nét đứt `d`,
+   nét nổi bật `h` (liền) / `hd` (đứt), mặt phẳng là hình bình hành `planes`, tô `fill`, nhãn điểm tự đặt ra phía ngoài. */
+function spaceSVG(o={}){
+  const P=o.pts||{}, W=o.w||320, H=o.ht||220, f=n=>n.toFixed(1);
+  const names=Object.keys(P), cx=names.reduce((s,k)=>s+P[k][0],0)/Math.max(1,names.length), cy=names.reduce((s,k)=>s+P[k][1],0)/Math.max(1,names.length);
+  const hid=new Set(o.nolabel||[]);
+  const ln=(a,b,cls,extra='')=>`<line class="${cls}" ${extra} x1="${f(P[a][0])}" y1="${f(P[a][1])}" x2="${f(P[b][0])}" y2="${f(P[b][1])}"/>`;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.aria||'Hình không gian'}">`;
+  (o.planes||[]).forEach(p=>{s+=`<polygon class="sv-fill" points="${p.q.map(v=>f(v[0])+','+f(v[1])).join(' ')}"/><polygon class="sv-ink" stroke-width="2" stroke-linejoin="round" points="${p.q.map(v=>f(v[0])+','+f(v[1])).join(' ')}"/>`;
+    if(p.lab)s+=`<text class="sv-txt" x="${f(p.at[0])}" y="${f(p.at[1])}" font-size="17" font-style="italic">${p.lab}</text>`});
+  (o.fill||[]).forEach(poly=>{s+=`<polygon class="sv-fill" points="${poly.map(k=>f(P[k][0])+','+f(P[k][1])).join(' ')}"/>`});
+  (o.s||[]).forEach(([a,b])=>{s+=ln(a,b,'sv-ink','stroke-width="2.2" stroke-linecap="round"')});
+  (o.d||[]).forEach(([a,b])=>{s+=ln(a,b,'sv-ink','stroke-width="1.8" stroke-dasharray="6 5" stroke-opacity=".75"')});
+  (o.h||[]).forEach(([a,b])=>{s+=`<line x1="${f(P[a][0])}" y1="${f(P[a][1])}" x2="${f(P[b][0])}" y2="${f(P[b][1])}" stroke="var(--primary)" stroke-width="4" stroke-linecap="round"/>`});
+  (o.hd||[]).forEach(([a,b])=>{s+=`<line x1="${f(P[a][0])}" y1="${f(P[a][1])}" x2="${f(P[b][0])}" y2="${f(P[b][1])}" stroke="var(--primary)" stroke-width="3.6" stroke-dasharray="7 5" stroke-linecap="round"/>`});
+  names.forEach(k=>{if(hid.has(k))return;const q=P[k];let vx=q[0]-cx,vy=q[1]-cy;const L=Math.hypot(vx,vy)||1;vx/=L;vy/=L;
+    const off=(o.off&&o.off[k])||[vx*15,vy*15];
+    s+=`<circle class="sv-pt" cx="${f(q[0])}" cy="${f(q[1])}" r="3.2"/><text class="sv-txt" x="${f(q[0]+off[0])}" y="${f(q[1]+off[1]+1)}" font-size="17" font-style="italic" text-anchor="middle" dominant-baseline="middle">${k}</text>`});
+  (o.txt||[]).forEach(t=>{s+=`<text class="sv-txt" x="${t[0]}" y="${t[1]}" font-size="${t[3]||16}" font-style="italic" text-anchor="middle">${t[2]}</text>`});
+  return s+'</svg>';
+}
+
 </script>
 <script>/* assets/js/generators.js */
 /* ---------- Bộ sinh câu hỏi dùng chung ---------- */
@@ -18056,6 +18078,385 @@ const K9KT = [
   {t:'Mốt', b:`Nhóm chứa mốt là nhóm có tần số lớn nhất. ${tm('M_o = u_j + \\dfrac{m_j - m_{j-1}}{(m_j - m_{j-1}) + (m_j - m_{j+1})}\\cdot h')}, với ${tm('h')} là độ dài nhóm.`, warn:'Nhóm đầu không có nhóm trước và nhóm cuối không có nhóm sau: lúc đó coi tần số nhóm thiếu bằng 0.', ex:'Mốt luôn nằm trong nhóm có tần số lớn nhất, nên kết quả phải nằm giữa hai đầu mút nhóm đó.'}
 ];
 lesson(4, 'ghep-nhom-xu-the', 'Bài 9. Các số đặc trưng đo xu thế trung tâm', 'Số trung bình, trung vị, tứ phân vị và mốt của mẫu số liệu ghép nhóm; chọn số đặc trưng phù hợp; bài toán thực tế.', [g9a, g9b, g9c, g9d, g9e], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K9KT});
+}
+
+
+/* =====================================================================
+   CHƯƠNG IV. Quan hệ song song trong không gian
+   Bài 10. Đường thẳng và mặt phẳng trong không gian  (SGK KNTT Toán 11 tập 2, tr. 70–76)
+   Chủ đề 5 · bài `dt-mp-khong-gian` · 6 dạng × 3 mức, mỗi dạng bốc ngẫu nhiên từ nhiều mẫu câu khác nhau
+   ===================================================================== */
+{ const i4 = G.topics.findIndex(t => t.id === 4); G.topics.splice(i4 < 0 ? G.topics.length : i4 + 1, 0, {id:5, hk:2, name:'Quan hệ song song trong không gian', label:'Chương IV'}); }
+{
+const m = tm;
+const e10 = (c, msg) => { if(!c) throw new Error('b10: ' + msg); };
+const nm = k => shuffle(['A', 'B', 'C', 'D', 'E', 'F', 'M', 'N', 'H', 'K', 'I', 'J']).slice(0, k);
+const PL = [{t:'(P)', x:'(P)'}, {t:'(Q)', x:'(Q)'}, {t:'(R)', x:'(R)'}, {t:'(\\alpha)', x:'(α)'}, {t:'(\\beta)', x:'(β)'}];
+const Cn = (n, k) => { let r = 1; for(let i = 1; i <= k; i++) r = r * (n - k + i) / i; return Math.round(r); };
+const mc10 = (text, good, bads, hint, sol, fig) => {
+  e10(!bads.includes(good) && new Set(bads).size === bads.length && bads.length >= 2, 'phương án trùng/thiếu: ' + text);
+  return QC({text, opts:[good, ...bads], ans:good, hint, sol, ...(fig ? {fig} : {})});
+};
+const ix = (p, q, r, s) => { const d = (q[0] - p[0]) * (s[1] - r[1]) - (q[1] - p[1]) * (s[0] - r[0]); const t = ((r[0] - p[0]) * (s[1] - r[1]) - (r[1] - p[1]) * (s[0] - r[0])) / d; return [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])]; };
+const mid = (p, q, t = .5) => [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])];
+const SETS = [['A', 'B', 'C', 'D'], ['S', 'A', 'B', 'C'], ['M', 'N', 'P', 'Q'], ['E', 'F', 'G', 'H']];
+/* hình tứ diện: vai trò (đỉnh trên, trái, trước, phải-sau); cạnh khuất = trái–phải */
+const TET0 = [[160, 22], [48, 160], [168, 196], [288, 128]];
+const tetFig = (L, o = {}) => {
+  const [v, x, y, z] = L, pts = {[v]:TET0[0], [x]:TET0[1], [y]:TET0[2], [z]:TET0[3], ...(o.pts || {})};
+  return spaceSVG({pts, s:[[v, x], [v, y], [v, z], [x, y], [y, z], ...(o.s || [])], d:[[x, z], ...(o.d || [])], h:o.h, hd:o.hd, fill:o.fill, off:o.off, ht:218, aria:o.aria || 'Hình tứ diện'});
+};
+/* hình chóp tứ giác đáy hình bình hành */
+const PY0 = [[160, 16], [40, 142], [104, 186], [262, 186], [298, 142]];
+const pyFig = (L, o = {}) => {
+  const [s, a, b, c, d] = L, pts = {[s]:PY0[0], [a]:PY0[1], [b]:PY0[2], [c]:PY0[3], [d]:PY0[4], ...(o.pts || {})};
+  return spaceSVG({pts, s:[[s, a], [s, b], [s, c], [s, d], [a, b], [b, c], [c, d], ...(o.s || [])], d:[[a, d], ...(o.d || [])], h:o.h, hd:o.hd, off:o.off, ht:218, aria:o.aria || 'Hình chóp'});
+};
+/* mặt phẳng (hình bình hành) với hai điểm */
+const planeFig = (A, B, inA, inB, P) => {
+  const pts = {[A]:inA ? [150, 138] : [96, 48], [B]:inB ? [215, 124] : [225, 44]};
+  return spaceSVG({pts, planes:[{q:[[28, 172], [232, 172], [308, 98], [104, 98]], lab:P.x, at:[250, 160]}], ht:190, off:{[A]:[-16, 0], [B]:[16, 0]}, aria:'Mặt phẳng và hai điểm'});
+};
+
+/* ---------- Dạng 1. Mặt phẳng, kí hiệu, hình biểu diễn ---------- */
+const REAL = ['mặt bảng', 'màn hình máy tính', 'mặt nước hồ khi lặng gió', 'mặt bàn', 'mặt sân bóng', 'mặt sàn lớp học'];
+const NOTP = ['quả bóng bàn', 'chiếc nón lá', 'quả dưa hấu', 'thân cột hình trụ', 'mặt trong của chiếc bát', 'quả địa cầu'];
+const RULE = [
+  ['Trong hình biểu diễn của một hình không gian, đoạn thẳng bị che khuất được vẽ bằng', 'nét đứt', ['nét liền', 'nét đậm', 'nét chấm gạch'], 'Nét liền cho đường nhìn thấy, nét đứt cho đường bị che khuất.'],
+  ['Hình biểu diễn của hai đường thẳng song song là', 'hai đường thẳng song song', ['hai đường thẳng cắt nhau', 'hai đường thẳng vuông góc', 'hai đường cong'], 'Hình biểu diễn của hai đường thẳng song song là hai đường thẳng song song.'],
+  ['Hình biểu diễn của hai đường thẳng cắt nhau là', 'hai đường thẳng cắt nhau', ['hai đường thẳng song song', 'hai đường thẳng trùng nhau', 'hai đường cong'], 'Hình biểu diễn giữ nguyên quan hệ cắt nhau.'],
+  ['Để biểu diễn một mặt phẳng, người ta thường dùng hình nào?', 'hình bình hành', ['hình tròn', 'hình tam giác đều', 'hình ngũ giác đều'], 'SGK vẽ mặt phẳng bằng một hình bình hành (có ghi tên mặt phẳng ở một góc).'],
+  ['Hình biểu diễn của một hình không gian giữ nguyên quan hệ nào giữa điểm và đường thẳng?', 'quan hệ liên thuộc (điểm thuộc đường thẳng)', ['quan hệ vuông góc', 'độ dài các đoạn thẳng', 'số đo các góc'], 'Hình biểu diễn không giữ độ dài, góc; nó giữ quan hệ liên thuộc.']
+];
+const g10a = lv => {
+  const [A, B] = nm(2), P = pick(PL), d = pick(['d', 'a', 'b']);
+  if(lv === 1){
+    const t = R(0, 3);
+    if(t === 0) return mc10(`Điểm ${m(A)} thuộc mặt phẳng ${m(P.t)} được kí hiệu là`, m(`${A} \\in ${P.t}`), [m(`${A} \\notin ${P.t}`), m(`${A} \\subset ${P.t}`), m(`${P.t} \\in ${A}`)],
+      'Quan hệ “điểm thuộc mặt phẳng” dùng kí hiệu ∈.', `Điểm ${A} thuộc ${P.t}: ${tb(`${A} \\in ${P.t}`)}.`);
+    if(t === 1) return mc10(`Điểm ${m(B)} không thuộc mặt phẳng ${m(P.t)} được kí hiệu là`, m(`${B} \\notin ${P.t}`), [m(`${B} \\in ${P.t}`), m(`${B} \\not\\subset ${P.t}`), m(`${P.t} \\notin ${B}`)],
+      'Gạch chéo lên kí hiệu thuộc để chỉ “không thuộc”.', `Điểm ${B} không thuộc ${P.t}: ${tb(`${B} \\notin ${P.t}`)}.`);
+    if(t === 2) return mc10(`Đường thẳng ${m(d)} nằm trong mặt phẳng ${m(P.t)} (mọi điểm của ${m(d)} đều thuộc ${m(P.t)}) được kí hiệu là`, m(`${d} \\subset ${P.t}`), [m(`${d} \\in ${P.t}`), m(`${P.t} \\subset ${d}`), m(`${d} \\notin ${P.t}`)],
+      'Đường thẳng là tập hợp điểm, nằm trong mặt phẳng nên dùng kí hiệu ⊂.', `Đường thẳng nằm trong mặt phẳng: ${tb(`${d} \\subset ${P.t}`)} (hoặc ${m(`${P.t} \\supset ${d}`)}).`);
+    const g = pick(REAL), bs = shuffle(NOTP).slice(0, 3);
+    return mc10('Hình ảnh nào sau đây gợi ra một phần của mặt phẳng?', g, bs, 'Mặt phẳng “phẳng”, không có bề dày và không có giới hạn.', `${tb(g)} là hình ảnh của một phần mặt phẳng; các vật còn lại đều có mặt cong hoặc có khối.`);
+  }
+  if(lv === 2){
+    const t = R(0, 2);
+    if(t === 0){
+      const iA = pick([true, false]), iB = pick([true, false]);
+      const stm = (a, b) => `${m(`${A} ${a ? '\\in' : '\\notin'} ${P.t}`)} và ${m(`${B} ${b ? '\\in' : '\\notin'} ${P.t}`)}`;
+      const all = [[true, true], [true, false], [false, true], [false, false]];
+      return mc10(`Quan sát hình. Khẳng định nào đúng?`, stm(iA, iB), all.filter(x => !(x[0] === iA && x[1] === iB)).map(x => stm(x[0], x[1])),
+        'Điểm vẽ trong hình bình hành thì thuộc mặt phẳng; điểm vẽ ngoài hình bình hành thì không thuộc mặt phẳng.', `Điểm ${A} ${iA ? 'nằm trong' : 'nằm ngoài'} hình bình hành và điểm ${B} ${iB ? 'nằm trong' : 'nằm ngoài'} hình bình hành, nên ${tb(`${A} ${iA ? '\\in' : '\\notin'} ${P.t},\; ${B} ${iB ? '\\in' : '\\notin'} ${P.t}`)}.`, planeFig(A, B, iA, iB, P));
+    }
+    if(t === 1){ const r = pick(RULE); return mc10(r[0], r[1], r[2], r[3], `Đáp án: ${tb(r[1])}. ${r[3]}`); }
+    return mc10(`Điểm ${m(A)} thuộc mặt phẳng ${m(P.t)}. Phát biểu nào sau đây <b>không</b> đúng?`, `${m(P.t)} không đi qua điểm ${m(A)}`, [`${m(A)} nằm trên ${m(P.t)}`, `${m(P.t)} chứa điểm ${m(A)}`, `${m(P.t)} đi qua điểm ${m(A)}`],
+      'Ba cách nói “thuộc”, “nằm trên”, “chứa”, “đi qua” đều cùng một ý.', `${m(`${A} \\in ${P.t}`)} còn được nói là “${A} nằm trên ${P.t}”, “${P.t} chứa ${A}”, “${P.t} đi qua ${A}”. Phát biểu “${P.t} không đi qua ${A}” là ${tb('sai')}.`);
+  }
+  const t = R(0, 2);
+  if(t === 0) return mc10(`Cho điểm ${m(A)} thuộc mặt phẳng ${m(P.t)} và điểm ${m(B)} không thuộc ${m(P.t)}. Khẳng định nào sau đây đúng?`, `Đường thẳng ${m(A + B)} không nằm trong ${m(P.t)}`,
+    [`Đường thẳng ${m(A + B)} nằm trong ${m(P.t)}`, `Điểm ${m(B)} thuộc ${m(P.t)}`, `Mọi điểm của đường thẳng ${m(A + B)} đều thuộc ${m(P.t)}`],
+    'Nếu AB nằm trong mặt phẳng thì B phải thuộc mặt phẳng đó.', `Nếu ${m(A + B)} nằm trong ${m(P.t)} thì mọi điểm của nó, kể cả ${m(B)}, thuộc ${m(P.t)} – trái giả thiết. Vậy ${tb(`${A + B} \\not\\subset ${P.t}`)}.`);
+  if(t === 1) return mc10(`Cho đường thẳng ${m(d)} nằm trong mặt phẳng ${m(P.t)} và điểm ${m(A)} thuộc đường thẳng ${m(d)}. Khẳng định nào đúng?`, m(`${A} \\in ${P.t}`), [m(`${A} \\notin ${P.t}`), m(`${P.t} \\subset ${d}`), m(`${d} \\notin ${P.t}`)],
+    'Mọi điểm của đường thẳng nằm trong mặt phẳng đều thuộc mặt phẳng đó.', `${m(`${d} \\subset ${P.t}`)} nên mọi điểm của ${m(d)} đều thuộc ${m(P.t)}; mà ${m(A)} thuộc ${m(d)}, suy ra ${tb(`${A} \\in ${P.t}`)}.`);
+  const TR = ['Mặt phẳng không có bề dày và không có giới hạn.', `Nếu ${m(`${A} \\in ${P.t}`)} thì có thể nói “${m(P.t)} đi qua ${m(A)}”.`, `Nếu ${m(`${d} \\subset ${P.t}`)} thì có thể nói “${m(P.t)} chứa ${m(d)}”.`, 'Hình biểu diễn giữ nguyên quan hệ liên thuộc giữa điểm và đường thẳng.', 'Hình biểu diễn của hai đường thẳng song song là hai đường thẳng song song.'];
+  const FA = ['Mặt phẳng có bề dày rất nhỏ nhưng vẫn đo được.', 'Đoạn thẳng bị che khuất được vẽ bằng nét liền.', 'Hình biểu diễn của hai đường thẳng song song là hai đường thẳng cắt nhau.', 'Mặt phẳng chỉ là một phần giới hạn như tờ giấy.', `Điểm ${m(A)} không thuộc ${m(P.t)} khi ${m(A)} nằm bên trong hình bình hành biểu diễn ${m(P.t)}.`];
+  const k = R(1, 3), sel = shuffle([...shuffle(TR).slice(0, k), ...shuffle(FA).slice(0, 4 - k)]);
+  const dd = ['a)', 'b)', 'c)', 'd)'];
+  return QB({text:`Cho bốn phát biểu:<br>${sel.map((x, i) => `${dd[i]} ${x}`).join('<br>')}<br>Có bao nhiêu phát biểu <b>đúng</b>?`, tpl:'[_]', ans:[k],
+    hint:'Xét từng phát biểu: mặt phẳng không có bề dày, không có giới hạn; nét đứt là nét che khuất; hình biểu diễn giữ quan hệ liên thuộc và song song.', sol:`Có ${tb(k)} phát biểu đúng (các phát biểu đúng là những phát biểu nhắc lại đúng quy ước/kí hiệu trong SGK).`});
+};
+
+/* ---------- Dạng 2. Các tính chất thừa nhận ---------- */
+const T10 = [
+  ['Có một và chỉ một đường thẳng đi qua hai điểm phân biệt.', 'qua hai điểm phân biệt có đúng một đường thẳng'],
+  ['Có một và chỉ một mặt phẳng đi qua ba điểm không thẳng hàng.', 'qua ba điểm không thẳng hàng có đúng một mặt phẳng'],
+  ['Tồn tại bốn điểm không cùng thuộc một mặt phẳng.', 'tồn tại bốn điểm không đồng phẳng'],
+  ['Nếu một đường thẳng có hai điểm phân biệt thuộc một mặt phẳng thì mọi điểm của đường thẳng đều thuộc mặt phẳng đó.', 'đường thẳng có hai điểm thuộc mặt phẳng thì nằm trong mặt phẳng'],
+  ['Nếu hai mặt phẳng phân biệt có một điểm chung thì chúng có một đường thẳng chung đi qua điểm chung đó.', 'hai mặt phẳng phân biệt có điểm chung thì cắt nhau theo một đường thẳng'],
+  ['Trên mỗi mặt phẳng, mọi kết quả đã biết của hình học phẳng đều đúng.', 'trong mỗi mặt phẳng, các kết quả hình học phẳng đều đúng']
+];
+const REALPROP = [
+  ['Vì sao chiếc chân máy ảnh ba chân luôn đứng vững trên mặt đất phẳng?', 1, 'ba đầu chân không thẳng hàng nên xác định đúng một mặt phẳng, mặt phẳng đó trùng với mặt đất.'],
+  ['Vì sao giá treo nồi ba chân luôn đặt vững trên nền đất phẳng?', 1, 'ba chân chạm đất tại ba điểm không thẳng hàng, chúng xác định đúng một mặt phẳng (mặt đất).'],
+  ['Căng một sợi dây sao cho hai đầu dây nằm trên mặt bàn phẳng thì cả sợi dây nằm trên mặt bàn. Điều này giải thích bởi tính chất nào?', 3, 'đường thẳng có hai điểm phân biệt thuộc mặt phẳng thì nằm trọn trong mặt phẳng.'],
+  ['Chiếc xà ngang đặt tựa lên hai điểm cố định A, B của trụ nhảy; không thể đặt xà theo hai vị trí khác nhau cùng đi qua A và B. Điều này giải thích bởi tính chất nào?', 0, 'qua hai điểm phân biệt chỉ có một đường thẳng.'],
+  ['Mặt nước trong bể cá và thành bể cắt nhau theo một đoạn thẳng. Điều này giải thích bởi tính chất nào?', 4, 'hai mặt phẳng phân biệt có điểm chung thì giao nhau theo một đường thẳng.']
+];
+const F10 = ['Có đúng một mặt phẳng đi qua ba điểm thẳng hàng phân biệt.', 'Qua hai điểm phân biệt có đúng hai đường thẳng.', 'Bốn điểm bất kì luôn cùng thuộc một mặt phẳng.', 'Hai mặt phẳng phân biệt có đúng một điểm chung.', 'Nếu một đường thẳng có đúng một điểm thuộc mặt phẳng thì đường thẳng đó nằm trong mặt phẳng.'];
+const g10b = lv => {
+  const [A, B, C, D] = nm(4), [P, Q] = shuffle(PL).slice(0, 2);
+  if(lv === 1){
+    const t = R(0, 3);
+    if(t === 0) return mc10(`Có bao nhiêu đường thẳng đi qua hai điểm phân biệt ${m(A)}, ${m(B)}?`, 'Đúng một đường thẳng', ['Vô số đường thẳng', 'Hai đường thẳng', 'Không có đường thẳng nào'], 'Hai điểm phân biệt xác định một đường thẳng.', `Có một và chỉ một đường thẳng đi qua hai điểm phân biệt: ${tb('đúng một')}.`);
+    if(t === 1) return mc10(`Có bao nhiêu mặt phẳng đi qua ba điểm ${m(A)}, ${m(B)}, ${m(C)} không thẳng hàng?`, 'Đúng một mặt phẳng', ['Vô số mặt phẳng', 'Hai mặt phẳng', 'Không có mặt phẳng nào'], 'Ba điểm không thẳng hàng xác định một mặt phẳng.', `Có một và chỉ một mặt phẳng đi qua ba điểm không thẳng hàng: ${tb('đúng một')}, kí hiệu ${m(`(${A + B + C})`)}.`);
+    if(t === 2) return mc10(`Ba điểm ${m(A)}, ${m(B)}, ${m(C)} phân biệt và <b>thẳng hàng</b>. Có bao nhiêu mặt phẳng đi qua cả ba điểm đó?`, 'Vô số mặt phẳng', ['Đúng một mặt phẳng', 'Đúng hai mặt phẳng', 'Không có mặt phẳng nào'], 'Mọi mặt phẳng chứa đường thẳng đó đều đi qua ba điểm.', `Ba điểm thẳng hàng nằm trên một đường thẳng; có vô số mặt phẳng chứa một đường thẳng. Đáp án: ${tb('vô số')}.`);
+    const k = R(0, 5), good = T10[k][0], bs = shuffle(F10).slice(0, 3);
+    return mc10('Phát biểu nào sau đây là một tính chất thừa nhận (đúng) của hình học không gian?', good, bs, 'Loại các phát biểu sai: ba điểm thẳng hàng không xác định duy nhất mặt phẳng, hai điểm xác định một (không phải hai) đường thẳng…', `${tb(good)} Các phát biểu còn lại đều sai.`);
+  }
+  if(lv === 2){
+    const t = R(0, 3);
+    if(t === 0) return mc10(`Ba điểm phân biệt ${m(A)}, ${m(B)}, ${m(C)} cùng thuộc hai mặt phẳng phân biệt ${m(P.t)} và ${m(Q.t)}. Khẳng định nào đúng?`, `Ba điểm ${m(A)}, ${m(B)}, ${m(C)} thẳng hàng`, [`Ba điểm ${m(A)}, ${m(B)}, ${m(C)} không thẳng hàng`, `Hai mặt phẳng ${m(P.t)} và ${m(Q.t)} trùng nhau`, `Hai mặt phẳng ${m(P.t)} và ${m(Q.t)} không có điểm chung`],
+      'Các điểm chung của hai mặt phẳng phân biệt nằm trên một đường thẳng.', `Hai mặt phẳng phân biệt có điểm chung thì các điểm chung tạo thành một đường thẳng (giao tuyến). ${m(A)}, ${m(B)}, ${m(C)} đều là điểm chung nên ${tb('thẳng hàng')}.`);
+    if(t === 1){
+      const n = pick([4, 5]), res = Cn(n, 3);
+      return QB({text:`Cho ${n} điểm phân biệt ${n === 4 ? 'không đồng phẳng' : 'trong đó không có bốn điểm nào đồng phẳng'}. Có bao nhiêu mặt phẳng đi qua ba trong ${n} điểm đó?`, tpl:'[_]', ans:[res],
+        hint: n === 4 ? 'Mỗi bộ ba điểm không thẳng hàng xác định đúng một mặt phẳng; đếm số bộ ba.' : 'Không có bốn điểm nào đồng phẳng nên ba điểm bất kì không thẳng hàng và hai bộ ba khác nhau cho hai mặt phẳng khác nhau. Đếm tổ hợp chập 3.',
+        sol: n === 4 ? `Chọn 3 trong 4 điểm: ${m('C_4^3 = 4')}. Mỗi bộ ba cho một mặt phẳng, các mặt phẳng đó khác nhau (vì 4 điểm không đồng phẳng). Đáp số: ${tb(4)} (đúng như Ví dụ 1 SGK).` : `Mỗi bộ ba cho một mặt phẳng, hai bộ ba khác nhau cho hai mặt phẳng khác nhau: ${m(`C_${n}^3 = ${res}`)}. Đáp số: ${tb(res)}.`});
+    }
+    if(t === 2){
+      const rp = pick(REALPROP), props = T10.map(x => x[1]), good = props[rp[1]], bs = shuffle(props.filter(x => x !== good)).slice(0, 3);
+      return mc10(rp[0], good, bs, 'Xét xem hiện tượng nhắc đến “hai điểm”, “ba điểm” hay “hai mặt phẳng” rồi chọn tính chất tương ứng.', `Nguyên nhân: ${rp[2]} Tính chất cần dùng: ${tb(good)}.`);
+    }
+    return mc10(`Hai mặt phẳng phân biệt ${m(P.t)} và ${m(Q.t)} có hai điểm chung phân biệt ${m(A)}, ${m(B)}. Giao tuyến của hai mặt phẳng đó là`, `đường thẳng ${m(A + B)}`, [`đường thẳng đi qua ${m(A)} và vuông góc với ${m(P.t)}`, `đoạn thẳng ${m(A + B)} (không kéo dài)`, `điểm ${m(A)}`],
+      'Hai điểm chung phân biệt xác định một đường thẳng chung.', `Giao tuyến là đường thẳng chung của hai mặt phẳng, đi qua cả hai điểm chung ${m(A)}, ${m(B)}: ${tb(`đường thẳng ${A + B}`)}.`);
+  }
+  const t = R(0, 3);
+  if(t === 0){
+    const k = R(1, 3), tr = shuffle(T10.map(x => x[0])).slice(0, k), fa = shuffle(F10).slice(0, 4 - k), sel = shuffle([...tr, ...fa]), dd = ['a)', 'b)', 'c)', 'd)'];
+    return QB({text:`Cho bốn phát biểu:<br>${sel.map((x, i) => `${dd[i]} ${x}`).join('<br>')}<br>Có bao nhiêu phát biểu <b>đúng</b>?`, tpl:'[_]', ans:[k],
+      hint:'Đối chiếu từng phát biểu với sáu tính chất thừa nhận của SGK.', sol:`Các phát biểu đúng là những phát biểu trùng với tính chất thừa nhận trong SGK; các phát biểu còn lại sai (ba điểm thẳng hàng không xác định mặt phẳng duy nhất, hai điểm chỉ xác định một đường thẳng…). Có ${tb(k)} phát biểu đúng.`});
+  }
+  if(t === 1){
+    const n = pick([6, 7]), res = Cn(n, 3);
+    return QB({text:`Cho ${n} điểm phân biệt, trong đó không có bốn điểm nào đồng phẳng. Có bao nhiêu mặt phẳng đi qua ba trong ${n} điểm đó?`, tpl:'[_]', ans:[res],
+      hint:'Không có 4 điểm nào đồng phẳng nên mọi bộ ba đều không thẳng hàng và cho các mặt phẳng khác nhau.', sol:`${m(`C_${n}^3 = ${res}`)} bộ ba, mỗi bộ ba xác định đúng một mặt phẳng, các mặt phẳng khác nhau. Đáp số: ${tb(res)}.`});
+  }
+  if(t === 2){
+    const n = R(6, 9), res = Cn(n, 2);
+    return QB({text:`Cho ${n} điểm phân biệt, trong đó không có ba điểm nào thẳng hàng. Có bao nhiêu đường thẳng đi qua hai trong ${n} điểm đó?`, tpl:'[_]', ans:[res],
+      hint:'Mỗi cặp điểm phân biệt xác định đúng một đường thẳng; không có ba điểm thẳng hàng nên các đường thẳng đó khác nhau.', sol:`${m(`C_${n}^2 = ${res}`)}. Đáp số: ${tb(res)}.`});
+  }
+  const [n, k] = pick([[5, 4], [6, 4], [6, 5], [7, 4]]), res = Cn(n, 3) - Cn(k, 3) + 1;
+  return QB({text:`Cho ${n} điểm phân biệt, trong đó đúng ${k} điểm cùng thuộc một mặt phẳng, không có ba điểm nào thẳng hàng và không có bốn điểm nào khác đồng phẳng. Có bao nhiêu mặt phẳng đi qua ba trong ${n} điểm đó?`, tpl:'[_]', ans:[res],
+    hint:'Các bộ ba chọn từ k điểm đồng phẳng đều cho cùng một mặt phẳng, chỉ tính một lần.', sol:`Tất cả ${m(`C_${n}^3 = ${Cn(n, 3)}`)} bộ ba. Trong đó ${m(`C_${k}^3 = ${Cn(k, 3)}`)} bộ ba nằm trong ${k} điểm đồng phẳng chỉ cho <b>một</b> mặt phẳng. Vậy ${m(`${Cn(n, 3)} - ${Cn(k, 3)} + 1 = ${res}`)}. Đáp số: ${tb(res)}.`});
+};
+
+/* ---------- Dạng 3. Cách xác định một mặt phẳng ---------- */
+const mp10 = (...xs) => m(`\\mathrm{mp}(${xs.join(',')})`);
+const fc10 = (L, i) => L.filter((_, k) => k !== i).join('');
+const OK3 = [
+  ['ba điểm không thẳng hàng', 'ba điểm không thẳng hàng'],
+  ['một điểm và một đường thẳng không đi qua điểm đó', 'điểm và đường thẳng không chứa điểm đó'],
+  ['hai đường thẳng cắt nhau', 'hai đường thẳng cắt nhau']
+];
+const BAD3 = ['hai điểm phân biệt', 'ba điểm thẳng hàng phân biệt', 'một đường thẳng', 'một điểm và một đường thẳng đi qua điểm đó', 'hai điểm và một đường thẳng bất kì'];
+const g10c = lv => {
+  const [A, B, C, D] = nm(4), d = pick(['d', 'a']), b = d === 'a' ? 'b' : 'c';
+  const L = pick(SETS);
+  if(lv === 1){
+    const t = R(0, 3);
+    if(t === 0) return mc10('Một mặt phẳng được hoàn toàn xác định khi biết nó đi qua', 'ba điểm không thẳng hàng', ['hai điểm phân biệt', 'ba điểm thẳng hàng phân biệt', 'một điểm duy nhất'], 'Dùng tính chất: có một và chỉ một mặt phẳng đi qua ba điểm không thẳng hàng.', `Mặt phẳng xác định bởi ${tb('ba điểm không thẳng hàng')}.`);
+    if(t === 1) return mc10(`Mặt phẳng xác định bởi điểm ${m(A)} và đường thẳng ${m(d)} không đi qua ${m(A)} được kí hiệu là`, mp10(A, d), [m(`(${A} \\cap ${d})`), m(`${A}${d}`), m(`\\mathrm{mp}(${d})`)], 'SGK kí hiệu mp(A, d).', `Kí hiệu: ${tb(`\\mathrm{mp}(${A},${d})`)}.`);
+    if(t === 2) return mc10(`Mặt phẳng xác định bởi hai đường thẳng cắt nhau ${m(d)} và ${m(b)} được kí hiệu là`, mp10(d, b), [m(`(${d} \\cup ${b})`), m(`${d}${b}`), m(`\\mathrm{mp}(${d})`)], 'SGK kí hiệu mp(a, b).', `Kí hiệu: ${tb(`\\mathrm{mp}(${d},${b})`)}.`);
+    return mc10(`Mặt phẳng đi qua ba điểm ${m(A)}, ${m(B)}, ${m(C)} không thẳng hàng được kí hiệu là`, m(`(${A + B + C})`), [m(`(${A + B})`), m(`[${A + B + C}]`), m(`\\{${A},${B},${C}\\}`)], 'Viết ba chữ cái tên ba điểm trong dấu ngoặc tròn.', `Kí hiệu: ${tb(`(${A + B + C})`)}.`);
+  }
+  if(lv === 2){
+    const t = R(0, 3);
+    if(t === 0){ const g = pick(OK3)[0], bs = shuffle(BAD3).slice(0, 3); return mc10('Bộ yếu tố nào dưới đây xác định <b>đúng một</b> mặt phẳng?', g, bs, 'Có ba cách xác định mặt phẳng: ba điểm không thẳng hàng; điểm và đường thẳng không chứa điểm; hai đường thẳng cắt nhau.', `Chỉ ${tb(g)} xác định đúng một mặt phẳng; các bộ còn lại hoặc xác định vô số mặt phẳng hoặc không đủ điều kiện.`); }
+    if(t === 1) return mc10(`Cho hai đường thẳng ${m(d)}, ${m(b)} cắt nhau và điểm ${m('S')} không thuộc ${mp10(d, b)}. Mặt phẳng chứa điểm ${m('S')} và đường thẳng ${m(d)} là`, mp10('S', d), [mp10(d, b), mp10('S', b), 'không xác định được'],
+      'Điểm S không thuộc đường thẳng d nên S và d xác định một mặt phẳng.', `${m('S')} không nằm trên ${m(d)} (vì ${m('S')} không thuộc mặt phẳng chứa ${m(d)}), nên ${m('S')} và ${m(d)} xác định ${tb(`\\mathrm{mp}(S,${d})`)}.`);
+    if(t === 2) return mc10('Để tránh va đập, người ta dùng hít cửa nam châm: khi cánh cửa bị hút vào nam châm thì cánh cửa được giữ cố định. Giải thích đúng là', 'mặt phẳng cánh cửa được xác định bởi trục bản lề (một đường thẳng cố định) và vị trí nam châm (một điểm không thuộc trục)', ['hai điểm bất kì luôn xác định một mặt phẳng', 'hai đường thẳng bất kì luôn xác định một mặt phẳng', 'ba điểm thẳng hàng luôn xác định một mặt phẳng'],
+      'Trục bản lề là một đường thẳng; nam châm là một điểm không nằm trên trục.', `Đường thẳng (trục bản lề) và điểm không thuộc nó xác định đúng một mặt phẳng, nên cánh cửa không xoay được nữa. Đáp án: ${tb('đường thẳng và điểm không thuộc nó xác định một mặt phẳng')}.`);
+    const f = tetFig(L), [v, x, y, z] = L, pairs = [[v, x, y], [v, x, z], [v, y, z], [x, y, z]], [p, q, r] = pairs[R(0, 2)];
+    return mc10(`Cho tứ diện ${m(L.join(''))}. Mặt phẳng chứa điểm ${m(p)} và đường thẳng ${m(q + r)} là`, m(`(${p + q + r})`), pairs.filter(e => e.join('') !== [p, q, r].join('') ).slice(0, 3).map(e => m(`(${e.join('')})`)),
+      'Điểm và đường thẳng không chứa điểm đó xác định một mặt phẳng; viết tên ba điểm.', `${m(p)} không thuộc ${m(q + r)} nên mặt phẳng cần tìm là ${tb(`(${p + q + r})`)}.`, f);
+  }
+  const t = R(0, 3);
+  if(t === 0){
+    const [v, x, y, z] = L, f = tetFig(L, {pts:{K:mid(TET0[2], TET0[3])}});
+    return mc10(`Cho tứ diện ${m(L.join(''))}, gọi ${m('K')} là trung điểm của ${m(y + z)}. Mặt phẳng đi qua ba điểm ${m(v)}, ${m(x)}, ${m('K')} là`, m(`(${v + x}K)`), [m(`(${v + x + y})`), m(`(${v + x + z})`), m(`(${v + y + z})`)],
+      'Ba điểm V, X, K có thẳng hàng không? Điểm K nằm trên cạnh nào?', `${m(v)}, ${m(x)}, ${m('K')} không thẳng hàng (vì ${m('K')} nằm trên ${m(y + z)}, không nằm trên ${m(v + x)}) nên xác định đúng một mặt phẳng ${tb(`(${v + x}K)`)}. Mặt phẳng này không phải ${m(`(${v + x + y})`)} hay ${m(`(${v + x + z})`)} vì ${m('K')} không thuộc hai mặt phẳng đó.`, f);
+  }
+  if(t === 1){
+    const n = R(3, 5);
+    return QB({text:`Trên đường thẳng ${m(d)} lấy ${n} điểm phân biệt và lấy điểm ${m('S')} không thuộc ${m(d)}. Có bao nhiêu mặt phẳng đi qua ${m('S')} và hai trong ${n} điểm đó?`, tpl:'[_]', ans:[1],
+      hint:'Mọi bộ ba (S và hai điểm trên d) đều xác định mặt phẳng chứa S và đường thẳng d.', sol:`Hai điểm trên ${m(d)} cùng với ${m('S')} xác định mặt phẳng chứa ${m(d)} và ${m('S')}; mặt phẳng ${mp10('S', d)} là duy nhất. Đáp số: ${tb(1)}.`});
+  }
+  if(t === 2){
+    const [a, b2] = pick([['a', 'b'], ['d', 'd\'']]), S = 'S', M = pick(['M', 'O', 'I']);
+    return QS({text:`Cho hai đường thẳng ${m(a)}, ${m(b2)} cắt nhau tại ${m(M)} và điểm ${m(S)} không thuộc ${mp10(a, b2)}. Xác định giao tuyến của ${mp10(S, a)} và ${mp10(S, b2)}.`, direct:true,
+      hint:'Giao tuyến của hai mặt phẳng phân biệt là đường thẳng qua hai điểm chung.', sol:`${m(M)} thuộc ${m(a)} nên thuộc ${mp10(S, a)}; ${m(M)} thuộc ${m(b2)} nên thuộc ${mp10(S, b2)}. ${m(S)} cũng là điểm chung. Hai điểm chung phân biệt ${m(S)}, ${m(M)} nên giao tuyến là ${tb(`${S}${M}`)}.`,
+      steps:[
+        {tag:'Kế hoạch', ask:'Muốn tìm giao tuyến của hai mặt phẳng phân biệt, ta cần tìm', opts:['hai điểm chung phân biệt của chúng', 'hai đường thẳng song song nằm trong chúng', 'một điểm không thuộc mặt phẳng nào'], ans:'hai điểm chung phân biệt của chúng', hint:'Hai điểm chung xác định một đường thẳng chung.'},
+        {tag:'Giải', ask:`Điểm chung thứ nhất của ${mp10(S, a)} và ${mp10(S, b2)} là`, opts:[m(S), m(M) + ' (chỉ thuộc ' + m(a) + ')', 'không có'], ans:m(S), hint:'Điểm S có thuộc cả hai mặt phẳng?'},
+        {tag:'Giải', ask:`${m(M)} là giao điểm của ${m(a)} và ${m(b2)}. Điểm ${m(M)} thuộc mặt phẳng nào?`, opts:['cả hai mặt phẳng', `chỉ ${mp10(S, a)}`, `chỉ ${mp10(S, b2)}`], ans:'cả hai mặt phẳng', hint:`${m(M)} thuộc ${m(a)} và cũng thuộc ${m(b2)}.`},
+        {tag:'Đáp số', ask:'Giao tuyến của hai mặt phẳng là đường thẳng', opts:[m(`${S}${M}`), m(`${a}`), m(`${b2}`), m(`${S}${a}`)], ans:m(`${S}${M}`), hint:'Đường thẳng đi qua hai điểm chung S và M.'}]});
+  }
+  const k = pick([1, 2]), [v, x, y, z] = L;
+  if(k === 2) return QB({text:`Cho tứ diện ${m(L.join(''))}. Có bao nhiêu mặt phẳng chứa đường thẳng ${m(v + x)} và đi qua ít nhất một trong hai điểm ${m(y)}, ${m(z)}?`, tpl:'[_]', ans:[2], fig:tetFig(L),
+    hint:`Mặt phẳng chứa ${v + x} và điểm ${y} là một; mặt phẳng chứa ${v + x} và điểm ${z} là một; xem hai mặt phẳng đó có trùng không.`, sol:`Hai mặt phẳng ${m(`(${v + x + y})`)} và ${m(`(${v + x + z})`)} là hai mặt phẳng phân biệt (vì bốn điểm ${m(L.join(','))} không đồng phẳng). Đáp số: ${tb(2)}.`});
+  return QB({text:`Cho tứ diện ${m(L.join(''))} và điểm ${m('K')} thuộc cạnh ${m(y + z)} (${m('K')} khác ${m(y)}, ${m(z)}). Có bao nhiêu mặt phẳng chứa đường thẳng ${m(v + x)} và đi qua điểm ${m('K')}?`, tpl:'[_]', ans:[1], fig:tetFig(L, {pts:{K:mid(TET0[2], TET0[3])}}),
+    hint:`${m(v + x)} là đường thẳng, ${m('K')} là điểm không thuộc nó: một đường thẳng và một điểm ngoài xác định mấy mặt phẳng?`, sol:`${m('K')} không thuộc ${m(v + x)}, nên đường thẳng ${m(v + x)} và điểm ${m('K')} xác định đúng một mặt phẳng ${m(`(${v + x}K)`)}. Đáp số: ${tb(1)}.`});
+};
+
+/* ---------- Dạng 4. Giao tuyến của hai mặt phẳng ---------- */
+const PYL = [['S', 'A', 'B', 'C', 'D'], ['S', 'E', 'F', 'G', 'H'], ['S', 'M', 'N', 'P', 'Q']];
+const edgesOf = L => { const r = []; for(let i = 0; i < L.length; i++) for(let j = i + 1; j < L.length; j++) r.push(L[i] + L[j]); return r; };
+const g10d = lv => {
+  if(lv === 1){
+    const t = R(0, 2);
+    if(t === 0){
+      const L = pick(SETS), [i, j] = shuffle([0, 1, 2, 3]).slice(0, 2), rest = L.filter((_, k) => k !== i && k !== j), good = rest.join('');
+      const bads = shuffle(edgesOf(L).filter(e => e !== good)).slice(0, 3);
+      return mc10(`Cho tứ diện ${m(L.join(''))}. Giao tuyến của hai mặt phẳng ${m(`(${fc10(L, i)})`)} và ${m(`(${fc10(L, j)})`)} là đường thẳng`, m(good), bads.map(e => m(e)),
+        'Tìm hai đỉnh nằm trong cả hai mặt: hai điểm chung xác định giao tuyến.', `${m(`(${fc10(L, i)})`)} chứa các đỉnh ${m(fc10(L, i).split('').join(','))}; ${m(`(${fc10(L, j)})`)} chứa ${m(fc10(L, j).split('').join(','))}. Hai đỉnh chung là ${m(rest[0])}, ${m(rest[1])}, nên giao tuyến là ${tb(good)}.`, tetFig(L));
+    }
+    const L = pick(PYL), [s, a, b, c, d] = L;
+    if(t === 1){
+      const lat = [[a, b], [b, c], [c, d], [d, a]], i = R(0, 3), f1 = lat[i], f2 = lat[(i + 1) % 4], good = s + f1[1];
+      return mc10(`Cho hình chóp ${m(`${s}.${a + b + c + d}`)}. Giao tuyến của hai mặt phẳng ${m(`(${s + f1.join('')})`)} và ${m(`(${s + f2.join('')})`)} là đường thẳng`, m(good), [s + a, s + b, s + c, s + d].filter(e => e !== good).map(e => m(e)),
+        'Hai mặt bên kề nhau cùng chứa đỉnh S và cùng chứa một cạnh bên.', `Hai mặt bên có chung đỉnh ${m(s)} và chung đỉnh ${m(f1[1])}, nên giao tuyến là cạnh bên ${tb(good)}.`, pyFig(L));
+    }
+    const lat = [[a, b], [b, c], [c, d], [d, a]], i = R(0, 3), good = lat[i].join('');
+    return mc10(`Cho hình chóp ${m(`${s}.${a + b + c + d}`)}. Giao tuyến của mặt bên ${m(`(${s + good})`)} và mặt đáy ${m(`(${a + b + c + d})`)} là đường thẳng`, m(good), shuffle([...lat.map(x => x.join('')).filter(x => x !== good), a + c]).slice(0, 3).map(e => m(e)),
+      'Mặt bên và mặt đáy có chung hai đỉnh của đáy.', `Hai mặt phẳng có chung hai điểm ${m(lat[i][0])}, ${m(lat[i][1])} nên giao tuyến là cạnh đáy ${tb(good)}.`, pyFig(L));
+  }
+  if(lv === 2){
+    const t = R(0, 2);
+    if(t === 0 || t === 1){
+      if(t === 0){
+        const L = pick(SETS), i = R(0, 3), P = L[i], others = L.filter((_, k) => k !== i), z = pick(others), [x, y] = others.filter(c => c !== z);
+        const coord = c => TET0[L.indexOf(c)], K = 'K';
+        return mc10(`Cho tứ diện ${m(L.join(''))}, ${m(K)} là trung điểm của ${m(x + y)}. Giao tuyến của hai mặt phẳng ${m(`(${P + z}${K})`)} và ${m(`(${P + x + y})`)} là đường thẳng`, m(P + K), [m(P + z), m(z + K), m(x + y)],
+          'Tìm hai điểm chung của hai mặt phẳng: một đỉnh của tứ diện và điểm K.', `${m(P)} thuộc cả hai mặt phẳng. ${m(K)} thuộc ${m(`(${P + z}${K})`)} và ${m(K)} nằm trên ${m(x + y)} ⊂ ${m(`(${P + x + y})`)}. Hai điểm chung ${m(P)}, ${m(K)} nên giao tuyến là ${tb(P + K)}.`,
+          tetFig(L, {pts:{K:mid(coord(x), coord(y))}, d:[[z, K]]}));
+      }
+      const L = pick(PYL), [s, a, b, c, d] = L, O = ix(PY0[1], PY0[3], PY0[2], PY0[4]);
+      const cas = pick([[`(${s + a + c})`, `(${s + b + d})`, s + 'O', 'Hai mặt phẳng cùng chứa đỉnh S và điểm O (O là giao điểm hai đường chéo của đáy).'], [`(${s + a + c})`, `(${a + b + c + d})`, a + c, 'Hai mặt phẳng cùng chứa A và C.'], [`(${s + b + d})`, `(${a + b + c + d})`, b + d, 'Hai mặt phẳng cùng chứa B và D.']]);
+      const good = cas[2];
+      return mc10(`Cho hình chóp ${m(`${s}.${a + b + c + d}`)} có đáy là tứ giác lồi; hai đường chéo ${m(a + c)} và ${m(b + d)} cắt nhau tại ${m('O')}. Giao tuyến của hai mặt phẳng ${m(cas[0])} và ${m(cas[1])} là đường thẳng`, m(good), [s + 'O', a + c, b + d, s + a, s + c].filter(e => e !== good).slice(0, 3).map(e => m(e)),
+        'Tìm hai điểm chung phân biệt của hai mặt phẳng.', `${cas[3]} Vậy giao tuyến là ${tb(good)}.`, pyFig(L, {pts:{O}, d:[[a, c], [b, d]]}));
+    }
+    const L = pick(SETS), [v, x, y, z] = L, K = 'K', I = 'I';
+    return mc10(`Cho tứ diện ${m(L.join(''))}; ${m(K)} thuộc cạnh ${m(v + x)}, ${m(I)} thuộc cạnh ${m(v + y)}. Giao tuyến của hai mặt phẳng ${m(`(${z + K + I})`)} và ${m(`(${v + x + y})`)} là đường thẳng`, m(K + I), [m(z + K), m(x + y), m(v + z)],
+      'Tìm hai điểm vừa thuộc mặt phẳng thứ nhất vừa thuộc mặt phẳng thứ hai.',
+      `${m(K)}, ${m(I)} thuộc ${m(`(${z + K + I})`)}; đồng thời ${m(K)} nằm trên ${m(v + x)} và ${m(I)} nằm trên ${m(v + y)} nên cùng thuộc ${m(`(${v + x + y})`)}. Giao tuyến là ${tb(K + I)}.`,
+      tetFig(L, {pts:{K:mid(TET0[0], TET0[1], .45), I:mid(TET0[0], TET0[2], .45)}, d:[[z, K], [z, I]]}));
+  }
+  const t = R(0, 2);
+  if(t === 0){
+    const M = mid(TET0[1], TET0[2]), N = mid(TET0[2], TET0[3]), Gp = [(TET0[1][0] + TET0[2][0] + TET0[3][0]) / 3, (TET0[1][1] + TET0[2][1] + TET0[3][1]) / 3];
+    const f = tetFig(['S', 'B', 'A', 'C'], {pts:{M, N, G:Gp}, d:[['B', 'N'], ['C', 'M']], off:{G:[0, 16], N:[16, 6], M:[-16, 6]}});
+    return QS({text:`Cho tam giác ${m('ABC')} và điểm ${m('S')} không thuộc mặt phẳng ${m('(ABC)')}. Gọi ${m('M')}, ${m('N')} lần lượt là trung điểm của ${m('AB')}, ${m('AC')}. Xác định giao tuyến của hai mặt phẳng ${m('(SBN)')} và ${m('(SCM)')}; giao tuyến đó có đi qua trọng tâm của tam giác ${m('ABC')} không?`, fig:f, direct:true,
+      hint:'Hai trung tuyến BN và CM cắt nhau tại trọng tâm G của tam giác ABC.', sol:`${m('BN')} và ${m('CM')} là hai trung tuyến của tam giác ${m('ABC')} nên cắt nhau tại trọng tâm ${m('G')}. ${m('G')} thuộc ${m('BN')} ⊂ ${m('(SBN)')} và thuộc ${m('CM')} ⊂ ${m('(SCM)')}; ${m('S')} cũng là điểm chung. Giao tuyến là ${tb('SG')}, đi qua trọng tâm ${m('G')} của tam giác ${m('ABC')}.`,
+      steps:[
+        {tag:'Kế hoạch', ask:'Để tìm giao tuyến của hai mặt phẳng, ta tìm', opts:['hai điểm chung phân biệt', 'hai đường thẳng song song', 'hai mặt phẳng phụ'], ans:'hai điểm chung phân biệt', hint:'Giao tuyến đi qua mọi điểm chung.'},
+        {tag:'Giải', ask:`Điểm chung của hai mặt phẳng, ngoài ${m('S')}, là`, opts:[m('G') + ' (giao của BN và CM)', m('M'), m('N'), m('A')], ans:m('G') + ' (giao của BN và CM)', hint:'G thuộc BN và thuộc CM.'},
+        {tag:'Giải', ask:'Giao tuyến của hai mặt phẳng là đường thẳng', opts:[m('SG'), m('SM'), m('SN'), m('BC')], ans:m('SG'), hint:'Đường thẳng qua hai điểm chung S và G.'},
+        {tag:'Đáp số', ask:`Giao tuyến ${m('SG')} có đi qua trọng tâm tam giác ${m('ABC')} không?`, opts:[`Có, vì ${m('G')} chính là trọng tâm`, `Không, vì ${m('G')} khác trọng tâm`, 'Không kết luận được'], ans:`Có, vì ${m('G')} chính là trọng tâm`, hint:'Hai trung tuyến cắt nhau tại trọng tâm.'}]});
+  }
+  if(t === 1){
+    const A = [60, 150], B = [150, 153], C = [260, 128], D = [200, 100], S = [150, 15], E = ix(A, B, D, C);
+    e10(E[0] < 350 && E[1] < 205, 'E ngoài khung');
+    const f = spaceSVG({pts:{S, A, B, C, D, E}, w:360, ht:200, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['A', 'B'], ['B', 'C']], d:[['S', 'D'], ['A', 'D'], ['C', 'D'], ['B', 'E'], ['C', 'E']].map(e => e), aria:'Hình chóp có AB cắt CD tại E',
+      off:{E:[15, 0], D:[10, -12]}});
+    return mc10(`Cho hình chóp ${m('S.ABCD')} có đáy là tứ giác lồi; hai đường thẳng ${m('AB')} và ${m('CD')} cắt nhau tại ${m('E')}. Giao tuyến của hai mặt phẳng ${m('(SAB)')} và ${m('(SCD)')} là đường thẳng`, m('SE'), [m('SA'), m('SC'), m('AD')],
+      'E thuộc AB và thuộc CD: xem E nằm trong những mặt phẳng nào.', `${m('E')} thuộc ${m('AB')} ⊂ ${m('(SAB)')} và thuộc ${m('CD')} ⊂ ${m('(SCD)')}; ${m('S')} cũng thuộc cả hai mặt phẳng. Giao tuyến là ${tb('SE')}.`, f);
+  }
+  const L = pick(['ABCD', 'SABC'].map(s => s.split(''))), [v, x, y, z] = L, E = 'E', F = 'F', M = 'M', N = 'N';
+  const Ep = [.3 * TET0[1][0] + .35 * TET0[2][0] + .35 * TET0[3][0], .3 * TET0[1][1] + .35 * TET0[2][1] + .35 * TET0[3][1]];
+  const Mp = ix(TET0[1], Ep, TET0[2], TET0[3]), Fp = mid(TET0[0], Ep, .55), Np = ix(TET0[1], Fp, TET0[0], Mp);
+  const f = tetFig(L, {pts:{E:Ep, F:Fp, M:Mp, N:Np}, s:[[v, M]], d:[[x, M], [v, E], [x, N]], off:{E:[0, 15], F:[-12, 0], M:[14, 8], N:[14, -4]}});
+  return QS({text:`Cho tứ diện ${m(L.join(''))}, ${m(E)} là một điểm nằm trong tam giác ${m(x + y + z)}, ${m(F)} là một điểm nằm giữa ${m(v)} và ${m(E)}. Xác định giao điểm của đường thẳng ${m(x + F)} và mặt phẳng ${m(`(${v + y + z})`)}.`, fig:f, direct:true,
+    hint:`Đưa về giao điểm của ${x + F} với một đường thẳng nằm trong (${v + y + z}): dùng mặt phẳng phụ chứa ${x + F}.`, sol:`${m(x + E)} cắt ${m(y + z)} tại ${m(M)}. ${m(v)}, ${m(E)}, ${m(x)}, ${m(M)} cùng thuộc ${m(`(${v + x}${M})`)} nên ${m(F)} ∈ ${m(`(${v + x}${M})`)}. Trong ${m(`(${v + x}${M})`)}: ${m(x + F)} cắt ${m(v + M)} tại ${m(N)}. ${m(v + M)} ⊂ ${m(`(${v + y + z})`)} nên ${m(N)} ∈ ${m(`(${v + y + z})`)}. Vậy ${tb(`${N} = ${x}${F} \\cap (${v + y + z})`)}.`,
+    steps:[
+      {tag:'Kế hoạch', ask:`Gọi ${m(M)} là giao điểm của ${m(x + E)} và ${m(y + z)}. Đường thẳng ${m(x + F)} nằm trong mặt phẳng nào?`, opts:[m(`(${v + x}${M})`), m(`(${v + y + z})`), m(`(${x + y + z})`), m(`(${v + x + y})`)], ans:m(`(${v + x}${M})`), hint:`${F} thuộc ${v}${E}; ${v}, ${E} thuộc mặt phẳng nào chứa ${x} và ${M}?`},
+      {tag:'Giải', ask:`Trong ${m(`(${v + x}${M})`)}, ${m(x + F)} cắt ${m(v + M)} tại ${m(N)}. ${m(N)} thuộc đường thẳng nào nằm trong ${m(`(${v + y + z})`)}?`, opts:[m(v + M), m(x + M), m(v + x), m(x + F)], ans:m(v + M), hint:`${v + M} có hai điểm ${v} và ${M} cùng thuộc (${v + y + z}).`},
+      {tag:'Đáp số', ask:`Giao điểm của ${m(x + F)} và ${m(`(${v + y + z})`)} là`, opts:[m(N), m(M), m(E), m(F)], ans:m(N), hint:`Điểm vừa thuộc ${x + F} vừa thuộc ${v + M} ⊂ (${v + y + z}).`}]});
+};
+
+/* ---------- Dạng 5. Hình chóp và tứ diện ---------- */
+const NG = ['tam giác', 'tứ giác', 'ngũ giác', 'lục giác', 'thất giác', 'bát giác', 'cửu giác', 'thập giác'];
+const g10e = lv => {
+  if(lv === 1){
+    const t = R(0, 3), n = R(3, 8);
+    if(t === 0) return QB({text:`Một hình chóp có đáy là ${NG[n - 3]}. Hình chóp đó có tất cả bao nhiêu mặt (kể cả mặt đáy)?`, tpl:'[_] mặt', ans:[n + 1], hint:'Đếm các mặt bên rồi cộng thêm mặt đáy.', sol:`Có ${n} mặt bên và 1 mặt đáy, tổng cộng ${n} + 1 = ${tb(n + 1)} mặt.`});
+    if(t === 1) return QB({text:`Hình chóp ${m(`S.A_1A_2\\dots A_{${n}}`)} có đáy là đa giác ${n} cạnh. Hình chóp có bao nhiêu cạnh bên?`, tpl:'[_] cạnh bên', ans:[n], hint:'Mỗi đỉnh của đáy nối với đỉnh S bởi một cạnh bên.', sol:`Mỗi đỉnh của đa giác đáy nối với ${m('S')} bằng một cạnh bên, nên có ${tb(n)} cạnh bên.`});
+    if(t === 2) return QB({text:`Hình chóp có đáy là ${NG[n - 3]} có tất cả bao nhiêu cạnh (cạnh bên và cạnh đáy)?`, tpl:'[_] cạnh', ans:[2 * n], hint:'Đáy có n cạnh, mặt bên có n cạnh bên.', sol:`Đáy có ${n} cạnh, có thêm ${n} cạnh bên: ${n} + ${n} = ${tb(2 * n)} cạnh.`});
+    const L = pick(SETS);
+    return mc10(`Tứ diện ${m(L.join(''))} có bao nhiêu mặt, bao nhiêu cạnh, bao nhiêu đỉnh?`, '4 mặt, 6 cạnh, 4 đỉnh', ['4 mặt, 4 cạnh, 6 đỉnh', '6 mặt, 4 cạnh, 4 đỉnh', '4 mặt, 8 cạnh, 5 đỉnh'], 'Tứ diện có 4 đỉnh, mỗi hai đỉnh nối bởi một cạnh, mỗi bộ ba đỉnh tạo một mặt.', `Tứ diện có ${tb('4 đỉnh')}; số cạnh là ${m('C_4^2 = 6')}; số mặt là ${m('C_4^3 = 4')}. Chọn ${tb('4 mặt, 6 cạnh, 4 đỉnh')}.`, tetFig(L));
+  }
+  if(lv === 2){
+    const t = R(0, 3), n = R(4, 9);
+    if(t === 0) return QB({text:`Một hình chóp có ${n + 1} mặt (kể cả mặt đáy). Đáy của hình chóp là đa giác có bao nhiêu cạnh?`, tpl:'[_] cạnh', ans:[n], hint:'Số mặt = số cạnh đáy + 1.', sol:`Số mặt = số cạnh đáy + 1 nên số cạnh đáy là ${n + 1} − 1 = ${tb(n)}.`});
+    if(t === 1) return QB({text:`Một hình chóp có ${2 * n} cạnh (kể cả cạnh đáy). Hình chóp đó có bao nhiêu mặt bên?`, tpl:'[_] mặt bên', ans:[n], hint:'Số cạnh = 2 × số cạnh đáy; số mặt bên bằng số cạnh đáy.', sol:`Số cạnh = 2 × (số cạnh đáy) nên đáy có ${2 * n} : 2 = ${n} cạnh, do đó có ${tb(n)} mặt bên.`});
+    if(t === 2){
+      const L = pick(SETS), i = R(0, 3), j = (i + R(1, 3)) % 4, rest = L.filter((_, k) => k !== i && k !== j), e = L[i] + L[j], op = rest.join('');
+      return mc10(`Trong tứ diện ${m(L.join(''))}, cạnh đối diện với cạnh ${m(e)} là`, m(op), [m(L[i] + rest[0]), m(L[j] + rest[1]), m(e)],
+        'Hai cạnh đối diện không có đỉnh chung.', `Cạnh đối diện với ${m(e)} là cạnh không có đỉnh chung với nó, tức là ${tb(op)}.`, tetFig(L));
+    }
+    const L = pick(SETS), i = R(0, 3), v = L[i], f = fc10(L, i);
+    return mc10(`Trong tứ diện ${m(L.join(''))}, mặt phẳng đối diện với đỉnh ${m(v)} (không chứa ${m(v)}) là`, m(`(${f})`), [0, 1, 2, 3].filter(k => k !== i).map(k => m(`(${fc10(L, k)})`)),
+      'Mặt đối diện với một đỉnh là mặt tạo bởi ba đỉnh còn lại.', `Mặt đối diện với ${m(v)} là mặt tạo bởi ba đỉnh còn lại: ${tb(`(${f})`)}.`, tetFig(L));
+  }
+  const t = R(0, 2), n = R(4, 9);
+  if(t === 0){ const S = 3 * n + 1; return QB({text:`Một hình chóp có tổng số mặt và số cạnh (kể cả cạnh đáy) bằng ${S}. Hỏi đáy của hình chóp là đa giác có bao nhiêu cạnh?`, tpl:'[_] cạnh', ans:[n], hint:'Đặt n là số cạnh đáy: số mặt n + 1, số cạnh 2n.', sol:`Gọi ${m('n')} là số cạnh đáy: số mặt là ${m('n + 1')}, số cạnh là ${m('2n')}. Ta có ${m(`(n + 1) + 2n = ${S}`)} nên ${m(`3n = ${S - 1}`)}, ${tb(`n = ${n}`)}.`}); }
+  if(t === 1) return QB({text:`Cho hình chóp có đáy là ${NG[n - 3]} ${m(`A_1A_2\\dots A_{${n}}`)} và đỉnh ${m('S')}. Có bao nhiêu mặt phẳng phân biệt đi qua ${m('S')} và <b>hai đỉnh</b> bất kì của đáy?`, tpl:'[_] mặt phẳng', ans:[Cn(n, 2)],
+    hint:'Điểm S không thuộc mặt đáy nên S cùng hai đỉnh đáy xác định đúng một mặt phẳng; đếm số cách chọn hai đỉnh.', sol:`Mỗi cặp đỉnh đáy cùng với ${m('S')} (không thẳng hàng) xác định một mặt phẳng, các cặp khác nhau cho mặt phẳng khác nhau. Số cách chọn: ${m(`C_{${n}}^2 = ${Cn(n, 2)}`)}. Đáp số ${tb(Cn(n, 2))}.`});
+  return QB({text:`Một hình chóp có số cạnh bên cộng số mặt bên bằng ${2 * n}. Hình chóp đó có tất cả bao nhiêu đỉnh (kể cả đỉnh chóp)?`, tpl:'[_] đỉnh', ans:[n + 1], hint:'Số cạnh bên bằng số mặt bên bằng số cạnh đáy; số đỉnh = số đỉnh đáy + 1.', sol:`Số cạnh bên = số mặt bên = số cạnh đáy ${m('n')}, nên ${m(`2n = ${2 * n}`)}, ${m(`n = ${n}`)}. Số đỉnh là ${n} + 1 = ${tb(n + 1)}.`});
+};
+
+/* ---------- Dạng 6. Giao điểm của đường thẳng và mặt phẳng ---------- */
+const qfig = () => {
+  const A = [60, 150], B = [150, 153], C = [260, 128], D = [200, 100], S = [150, 15], E = ix(A, B, D, C);
+  return spaceSVG({pts:{S, A, B, C, D, E}, w:360, ht:200, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['A', 'B'], ['B', 'C']], d:[['S', 'D'], ['A', 'D'], ['C', 'D'], ['B', 'E'], ['C', 'E']], aria:'Hình chóp có AB cắt CD tại E', off:{E:[15, 0], D:[10, -12]}});
+};
+const g10f = lv => {
+  if(lv === 1){
+    const t = R(0, 2);
+    if(t === 0){
+      const L = pick(SETS), [v, x, y, z] = L, K = 'K';
+      return mc10(`Cho tứ diện ${m(L.join(''))}, điểm ${m(K)} thuộc cạnh ${m(x + y)} (${m(K)} khác ${m(x)}, ${m(y)}). Giao điểm của đường thẳng ${m(z + K)} và mặt phẳng ${m(`(${v + x + y})`)} là`, m(K), [m(z), m(v), m(x)],
+        `Đường thẳng ${z + K} có điểm nào thuộc mặt phẳng (${v + x + y})?`, `${m(K)} thuộc ${m(z + K)} và ${m(K)} thuộc ${m(x + y)} ⊂ ${m(`(${v + x + y})`)}. Vì ${m(z)} không thuộc ${m(`(${v + x + y})`)} nên ${m(z + K)} cắt mặt phẳng tại ${tb(K)}.`,
+        tetFig(L, {pts:{K:mid(TET0[1], TET0[2], .4)}, d:[[z, K]]}));
+    }
+    if(t === 1){
+      const L = pick(PYL), [s, a, b, c, d] = L, O = ix(PY0[1], PY0[3], PY0[2], PY0[4]);
+      return mc10(`Cho hình chóp ${m(`${s}.${a + b + c + d}`)} có đáy là tứ giác lồi, hai đường chéo ${m(a + c)} và ${m(b + d)} cắt nhau tại ${m('O')}. Giao điểm của ${m(s + 'O')} và mặt phẳng ${m(`(${a + b + c + d})`)} là`, m('O'), [m(a), m(s), m(b)],
+        `${s}O cắt mặt phẳng đáy ở điểm nào của đường thẳng đáy?`, `${m('O')} thuộc ${m(a + c)} ⊂ ${m(`(${a + b + c + d})`)} và ${m('O')} thuộc ${m(s + 'O')}. Vì ${m(s)} không thuộc mặt đáy nên giao điểm là ${tb('O')}.`, pyFig(L, {pts:{O}, d:[[a, c], [b, d], [s, 'O']]}));
+    }
+    const L = pick(SETS), [v, x, y, z] = L, I = 'I';
+    return mc10(`Cho tứ diện ${m(L.join(''))}, điểm ${m(I)} thuộc cạnh ${m(v + y)} (${m(I)} khác ${m(v)}, ${m(y)}). Giao điểm của đường thẳng ${m(x + I)} và mặt phẳng ${m(`(${v + y + z})`)} là`, m(I), [m(x), m(v), m(z)],
+      `Điểm ${I} nằm trên cạnh nào của mặt phẳng (${v + y + z})?`, `${m(I)} thuộc ${m(v + y)} ⊂ ${m(`(${v + y + z})`)} và ${m(I)} thuộc ${m(x + I)}. Vậy giao điểm là ${tb(I)}.`, tetFig(L, {pts:{I:mid(TET0[0], TET0[2], .45)}, d:[[x, I]]}));
+  }
+  if(lv === 2){
+    const t = R(0, 3), L = pick(PYL), [s, a, b, c, d] = L, O = ix(PY0[1], PY0[3], PY0[2], PY0[4]);
+    const cs = [[`đường thẳng ${m(a + c)} và mặt phẳng ${m(`(${s + b + d})`)}`, 'AC và (SBD)', 'O', [a, c, d].map(x => m(x))],
+      [`đường thẳng ${m(b + d)} và mặt phẳng ${m(`(${s + a + c})`)}`, 'BD và (SAC)', 'O', [b, d, s].map(x => m(x))]];
+    if(t < 2){
+      const k = cs[t];
+      return mc10(`Cho hình chóp ${m(`${s}.${a + b + c + d}`)} có đáy là tứ giác lồi, hai đường chéo ${m(a + c)} và ${m(b + d)} cắt nhau tại ${m('O')}. Giao điểm của ${k[0]} là`, m('O'), k[3],
+        'Hai đường chéo cắt nhau tại O; O thuộc cả hai đường chéo.', `${m('O')} thuộc ${t === 0 ? m(a + c) : m(b + d)}, và ${m('O')} thuộc ${t === 0 ? m(b + d) : m(a + c)} ⊂ ${t === 0 ? m(`(${s + b + d})`) : m(`(${s + a + c})`)}. Vậy giao điểm là ${tb('O')}.`, pyFig(L, {pts:{O}, d:[[a, c], [b, d]]}));
+    }
+    if(t === 2) return mc10(`Cho hình chóp ${m('S.ABCD')} có đáy là tứ giác lồi; hai đường thẳng ${m('AB')} và ${m('CD')} cắt nhau tại ${m('E')}. Giao điểm của đường thẳng ${m('AB')} và mặt phẳng ${m('(SCD)')} là`, m('E'), [m('S'), m('C'), m('D')],
+      'Tìm điểm của AB nằm trên một đường thẳng của mặt phẳng (SCD).', `${m('E')} thuộc ${m('AB')}; đồng thời ${m('E')} thuộc ${m('CD')} ⊂ ${m('(SCD)')}. Vậy ${tb('E')} là giao điểm của ${m('AB')} và ${m('(SCD)')}.`, qfig());
+    return mc10(`Cho hình chóp ${m('S.ABCD')} có đáy là tứ giác lồi; hai đường thẳng ${m('AB')} và ${m('CD')} cắt nhau tại ${m('E')}. Giao điểm của đường thẳng ${m('CD')} và mặt phẳng ${m('(SAB)')} là`, m('E'), [m('S'), m('A'), m('B')],
+      'Tìm điểm của CD nằm trên một đường thẳng của mặt phẳng (SAB).', `${m('E')} thuộc ${m('CD')}; đồng thời ${m('E')} thuộc ${m('AB')} ⊂ ${m('(SAB)')}. Vậy ${tb('E')} là giao điểm của ${m('CD')} và ${m('(SAB)')}.`, qfig());
+  }
+  /* mức 3: chóp S.ABCD, M thuộc SA, giao điểm của SC và (MBD) */
+  const L = pick(PYL), [s, a, b, c, d] = L, M = 'K', N = 'I', O = ix(PY0[1], PY0[3], PY0[2], PY0[4]);
+  const Mp = mid(PY0[0], PY0[1], .9), Np = ix(Mp, O, PY0[0], PY0[3]);
+  e10(Np[0] > 0 && Np[0] < 340 && Np[1] < 212 && Np[1] > -10, 'N ngoài khung: ' + Np);
+  const f = pyFig(L, {pts:{[M]:Mp, O, [N]:Np}, d:[[a, c], [b, d], [M, b], [M, d], [M, 'O']], s:[[c, N]], off:{[N]:[14, 10]}});
+  return QS({text:`Cho hình chóp ${m(`${s}.${a + b + c + d}`)} có đáy là tứ giác lồi, hai đường chéo ${m(a + c)} và ${m(b + d)} cắt nhau tại ${m('O')}. Điểm ${m(M)} thuộc cạnh ${m(s + a)} (${m(M)} khác ${m(s)}, ${m(a)}). Tìm giao điểm của đường thẳng ${m(s + c)} và mặt phẳng ${m(`(${M + b + d})`)}.`, fig:f, direct:true,
+    hint:`Dùng mặt phẳng phụ (${s + a + c}) chứa ${s + c}: tìm giao tuyến của nó với (${M + b + d}).`,
+    sol:`Chọn mặt phẳng phụ ${m(`(${s + a + c})`)} chứa ${m(s + c)}. ${m('O')} thuộc ${m(b + d)} ⊂ ${m(`(${M + b + d})`)} và ${m('O')} thuộc ${m(a + c)} ⊂ ${m(`(${s + a + c})`)}; ${m(M)} cũng thuộc hai mặt phẳng này. Do đó ${m(`(${M + b + d}) \\cap (${s + a + c}) = ${M}O`)}. Trong ${m(`(${s + a + c})`)}, ${m(M + 'O')} cắt ${m(s + c)} tại ${m(N)}. Vậy ${tb(`${N} = ${s + c} \\cap (${M + b + d})`)}.`,
+    steps:[
+      {tag:'Kế hoạch', ask:`Chọn mặt phẳng phụ chứa ${m(s + c)} là`, opts:[m(`(${s + a + c})`), m(`(${s + b + d})`), m(`(${a + b + c + d})`), m(`(${s + a + b})`)], ans:m(`(${s + a + c})`), hint:`Mặt phẳng chứa ${s}, ${c} và cắt (${M + b + d}) theo giao tuyến dễ tìm.`},
+      {tag:'Giải', ask:`Giao tuyến của ${m(`(${s + a + c})`)} và ${m(`(${M + b + d})`)} là đường thẳng`, opts:[m(M + 'O'), m(M + b), m(s + 'O'), m(b + d)], ans:m(M + 'O'), hint:`Hai điểm chung: ${M} và giao điểm hai đường chéo.`},
+      {tag:'Đáp số', ask:`Giao điểm của ${m(s + c)} và ${m(`(${M + b + d})`)} là giao điểm của ${m(s + c)} với`, opts:[m(M + 'O'), m(b + d), m(a + c), m(M + b)], ans:m(M + 'O'), hint:`Giao điểm nằm trên giao tuyến vừa tìm được.`}]});
+};
+
+const K10KT = [
+  {t:'Mặt phẳng và hình biểu diễn', b:`Mặt phẳng không có bề dày, không có giới hạn; vẽ bằng một hình bình hành và ghi tên ${tm('(P)')}, ${tm('(\\alpha)')}. Điểm ${tm('A')} thuộc ${tm('(P)')}: ${tm('A \\in (P)')}; không thuộc: ${tm('A \\notin (P)')}. Đường thẳng ${tm('d')} nằm trong ${tm('(P)')}: ${tm('d \\subset (P)')}. Nét liền là cạnh nhìn thấy, nét đứt là cạnh bị che khuất.`, warn:`Điểm dùng ∈ hoặc ∉; đường thẳng dùng ⊂. Không viết ${tm('d \\in (P)')}.`, ex:'Điểm vẽ trong hình bình hành là thuộc mặt phẳng, điểm vẽ ngoài là không thuộc.'},
+  {t:'Sáu tính chất thừa nhận và ba cách xác định mặt phẳng', b:`<ul><li>Qua hai điểm phân biệt có đúng một đường thẳng.</li><li>Qua ba điểm <b>không thẳng hàng</b> có đúng một mặt phẳng.</li><li>Đường thẳng có hai điểm phân biệt thuộc mặt phẳng thì nằm trọn trong mặt phẳng đó.</li><li>Tồn tại bốn điểm không cùng một mặt phẳng.</li><li>Hai mặt phẳng phân biệt có điểm chung thì có chung đúng một đường thẳng (giao tuyến).</li><li>Trong mỗi mặt phẳng, các kết quả của hình học phẳng đều đúng.</li></ul>Ba cách xác định mặt phẳng: ba điểm không thẳng hàng · một đường thẳng và một điểm không thuộc nó · hai đường thẳng cắt nhau.`, warn:'Ba điểm thẳng hàng không xác định mặt phẳng (có vô số mặt phẳng chứa chúng); ba điểm cần không thẳng hàng.', ex:`Bốn điểm bất kì không chắc cùng một mặt phẳng. Đếm mặt phẳng: ${tm('C_n^3')} rồi trừ phần trùng khi có điểm đồng phẳng.`},
+  {t:'Tìm giao tuyến và giao điểm', b:`Giao tuyến của hai mặt phẳng là đường thẳng đi qua <b>hai điểm chung</b>. Cách tìm: (1) tìm một điểm chung dễ thấy (đỉnh chóp); (2) tìm điểm chung thứ hai bằng cách lấy giao của hai đường thẳng, mỗi đường nằm trong một mặt phẳng. Giao điểm của đường thẳng ${tm('d')} và ${tm('(P)')}: chọn mặt phẳng phụ chứa ${tm('d')}, tìm giao tuyến ${tm('a')} của nó với ${tm('(P)')}, giao điểm của ${tm('d')} với ${tm('a')} chính là điểm cần tìm.`, warn:'Giao điểm hai đường thẳng phải ở trong cùng một mặt phẳng mới lấy được; kiểm tra điểm có thật sự thuộc cả hai mặt phẳng.', ex:'Mặt phẳng phụ nên chọn mặt phẳng chứa đường thẳng cần tìm giao điểm và có giao tuyến dễ xác định, thường là mặt phẳng qua đỉnh chóp và hai đường chéo.'},
+  {t:'Hình chóp và tứ diện', b:`Hình chóp ${tm('S.A_1A_2\\dots A_n')}: đỉnh ${tm('S')}, đáy là đa giác ${tm('n')} cạnh, có ${tm('n')} mặt bên, ${tm('n')} cạnh bên, ${tm('n+1')} mặt, ${tm('2n')} cạnh, ${tm('n+1')} đỉnh. Tứ diện ${tm('ABCD')}: 4 đỉnh, 6 cạnh, 4 mặt; hai cạnh không có đỉnh chung gọi là hai cạnh đối diện.`, warn:'Tứ diện cũng là hình chóp tam giác; chọn đỉnh nào làm đỉnh chóp cũng được.', ex:'Đếm hình: số mặt = số cạnh đáy + 1, số cạnh = 2 × số cạnh đáy.'}
+];
+
+lesson(5, 'dt-mp-khong-gian', 'Bài 10. Đường thẳng và mặt phẳng trong không gian', 'Mặt phẳng, tính chất thừa nhận, giao tuyến, giao điểm, hình chóp – tứ diện.', [g10a, g10b, g10c, g10d, g10e, g10f], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K10KT});
 }
 
 })();

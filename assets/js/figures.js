@@ -514,3 +514,25 @@ function vecSVG(o={}){
   if(o.cap)s+=`<text class="sv-muted" x="${W/2}" y="${H+10}" font-size="12" text-anchor="middle">${o.cap}</text>`;
   return s+'</svg>';
 }
+
+/* Hình không gian: điểm cho theo toạ độ màn hình (y hướng xuống như SVG); nét liền `s`, nét đứt `d`,
+   nét nổi bật `h` (liền) / `hd` (đứt), mặt phẳng là hình bình hành `planes`, tô `fill`, nhãn điểm tự đặt ra phía ngoài. */
+function spaceSVG(o={}){
+  const P=o.pts||{}, W=o.w||320, H=o.ht||220, f=n=>n.toFixed(1);
+  const names=Object.keys(P), cx=names.reduce((s,k)=>s+P[k][0],0)/Math.max(1,names.length), cy=names.reduce((s,k)=>s+P[k][1],0)/Math.max(1,names.length);
+  const hid=new Set(o.nolabel||[]);
+  const ln=(a,b,cls,extra='')=>`<line class="${cls}" ${extra} x1="${f(P[a][0])}" y1="${f(P[a][1])}" x2="${f(P[b][0])}" y2="${f(P[b][1])}"/>`;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.aria||'Hình không gian'}">`;
+  (o.planes||[]).forEach(p=>{s+=`<polygon class="sv-fill" points="${p.q.map(v=>f(v[0])+','+f(v[1])).join(' ')}"/><polygon class="sv-ink" stroke-width="2" stroke-linejoin="round" points="${p.q.map(v=>f(v[0])+','+f(v[1])).join(' ')}"/>`;
+    if(p.lab)s+=`<text class="sv-txt" x="${f(p.at[0])}" y="${f(p.at[1])}" font-size="17" font-style="italic">${p.lab}</text>`});
+  (o.fill||[]).forEach(poly=>{s+=`<polygon class="sv-fill" points="${poly.map(k=>f(P[k][0])+','+f(P[k][1])).join(' ')}"/>`});
+  (o.s||[]).forEach(([a,b])=>{s+=ln(a,b,'sv-ink','stroke-width="2.2" stroke-linecap="round"')});
+  (o.d||[]).forEach(([a,b])=>{s+=ln(a,b,'sv-ink','stroke-width="1.8" stroke-dasharray="6 5" stroke-opacity=".75"')});
+  (o.h||[]).forEach(([a,b])=>{s+=`<line x1="${f(P[a][0])}" y1="${f(P[a][1])}" x2="${f(P[b][0])}" y2="${f(P[b][1])}" stroke="var(--primary)" stroke-width="4" stroke-linecap="round"/>`});
+  (o.hd||[]).forEach(([a,b])=>{s+=`<line x1="${f(P[a][0])}" y1="${f(P[a][1])}" x2="${f(P[b][0])}" y2="${f(P[b][1])}" stroke="var(--primary)" stroke-width="3.6" stroke-dasharray="7 5" stroke-linecap="round"/>`});
+  names.forEach(k=>{if(hid.has(k))return;const q=P[k];let vx=q[0]-cx,vy=q[1]-cy;const L=Math.hypot(vx,vy)||1;vx/=L;vy/=L;
+    const off=(o.off&&o.off[k])||[vx*15,vy*15];
+    s+=`<circle class="sv-pt" cx="${f(q[0])}" cy="${f(q[1])}" r="3.2"/><text class="sv-txt" x="${f(q[0]+off[0])}" y="${f(q[1]+off[1]+1)}" font-size="17" font-style="italic" text-anchor="middle" dominant-baseline="middle">${k}</text>`});
+  (o.txt||[]).forEach(t=>{s+=`<text class="sv-txt" x="${t[0]}" y="${t[1]}" font-size="${t[3]||16}" font-style="italic" text-anchor="middle">${t[2]}</text>`});
+  return s+'</svg>';
+}

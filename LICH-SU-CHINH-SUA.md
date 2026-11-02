@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-02 – Toán 11 Chương IV · Bài 10. Đường thẳng và mặt phẳng trong không gian (trọn bộ)
+
+- **Yêu cầu:** Làm trọn bộ bài đầu tiên của chương IV (Toán 11, KNTT): phần học sinh bắt buộc các câu hỏi khác nhau, quét toàn bộ kiến thức bài (7 ảnh SGK tr. 70–76).
+- **Kết quả:** (1) Học sinh: chủ đề 5 “Chương IV”, bài `dt-mp-khong-gian`, 6 dạng × 3 mức, mỗi dạng bốc từ nhiều mẫu câu (kí hiệu, hình biểu diễn, 6 tính chất, ba cách xác định mặt phẳng, đếm mặt phẳng, giao tuyến, hình chóp – tứ diện, giao điểm bằng mặt phẳng phụ) + thẻ Kiến thức · Chỗ dễ sai · Mẹo; hình vẽ bằng hàm mới `spaceSVG`. (2) Bài giảng `bai-10` (12 ví dụ, 4 bài luyện tập, 5 trang kiến thức có hình). (3) Phiếu luyện tập 10 bài = 7 cơ bản + 3 ★. (4) Giải SGK: Luyện tập 1–6, Vận dụng 1–2 (đề đọc từ ảnh chụp). (5) Phiếu trên lớp: Phần A đúng 2 trang A4. Sửa lỗi trùng tên điểm (M với đỉnh hình chóp S.MNPQ) ở câu giao điểm mức 3.
+- **Tệp thay đổi:** `assets/js/figures.js`, `data/lop11.js`, `giao-vien/bai-giang/lop11.js`, `lop11-luyen-tap.js`, `lop11-giai-sgk.js`, `lop11-khoi-dong.js`, `CLAUDE.md`, `AGENTS.md`, `KE-HOACH-TRON-BO.md`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (127/127); `python3 tools/test.py` → ĐẠT (32010 câu); `python3 tools/build.py` → xong
+- **Việc thủ công:** Đối chiếu số trang 72–75 của các câu Luyện tập/Vận dụng với SGK bản in; câu Vận dụng 2 (hít cửa nam châm) là lời giải gợi ý, đối chiếu SGV; bài tập cuối bài (tr. 77) chưa làm; kế hoạch Bài 11–15 cần đánh số lại (SGK: Bài 11–14).
+
 ### 2026-11-01 – Phiếu học tập củng cố Hình học 7a (Chứng minh: bốn điểm cùng đường tròn, song song, vuông góc, hệ thức) – ôn thi vào 10
 
 - **Yêu cầu:** Phiếu thứ 5/8 trong loạt phiếu Hình học ôn thi vào 10 (Do Now, tình huống mở đầu, bản lề, 7 câu luyện tập ★/★★/★★★, tìm lỗi sai, phiếu ra khỏi lớp, suy ngẫm, vận dụng về nhà; Phần B gợi ý + đáp án).

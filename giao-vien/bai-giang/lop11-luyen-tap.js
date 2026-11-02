@@ -357,3 +357,43 @@ Lecture.addPractice('lop11', 'on-tap-c2', [
  ]},
 ]);
 })();
+
+/* =====================================================================  CHƯƠNG IV · BÀI 10 (02/11/2026)
+   Đường thẳng và mặt phẳng trong không gian – 10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 6 dạng của bài giảng. */
+(() => {
+const m = tm;
+Lecture.addPractice('lop11', 'bai-10', [
+ {dang:'Kí hiệu và hình biểu diễn', items:[
+  {de:`Cho điểm ${m('A')} thuộc mặt phẳng ${m('(P)')}, điểm ${m('B')} không thuộc ${m('(P)')} và đường thẳng ${m('a')} nằm trong ${m('(P)')}. Điền kí hiệu ${m('\\in,\\ \\notin,\\ \\subset')} thích hợp: ${m('A\\ ...\\ (P)')}; ${m('B\\ ...\\ (P)')}; ${m('a\\ ...\\ (P)')}.`,
+   sol:[`Điểm với mặt phẳng dùng ${m('\\in')} (thuộc), ${m('\\notin')} (không thuộc).`, `Đường thẳng với mặt phẳng dùng ${m('\\subset')} (nằm trong).`], ans:`${tb('A \\in (P)')}; ${tb('B \\notin (P)')}; ${tb('a \\subset (P)')}.`},
+ ]},
+ {dang:'Vận dụng tính chất thừa nhận', items:[
+  {de:`Cho tam giác ${m('ABC')} và điểm ${m('D')} không thuộc ${m('(ABC)')}. ${m('I')} là trung điểm của ${m('AD')}. Hỏi ${m('I')} có thuộc ${m('(ABC)')} không? Vì sao?`,
+   sol:[`Giả sử ${m('I \\in (ABC)')}. Khi đó ${m('A')} và ${m('I')} là hai điểm phân biệt của ${m('(ABC)')}.`, `Theo tính chất 3, đường thẳng ${m('AI')} nằm trong ${m('(ABC)')}; mà ${m('D \\in AI')} nên ${m('D \\in (ABC)')} – trái giả thiết.`, `Vậy giả sử sai.`], ans:`${tb('I \\notin (ABC)')}.`},
+ ]},
+ {dang:'Đếm số mặt phẳng', items:[
+  {de:`Cho 7 điểm phân biệt, không có bốn điểm nào cùng thuộc một mặt phẳng. Có bao nhiêu mặt phẳng đi qua ba trong bảy điểm đó?`,
+   sol:[`Không có ba điểm thẳng hàng nên mỗi bộ ba cho đúng một mặt phẳng.`, `Số mặt phẳng: ${m('C_7^3 = \\dfrac{7\\cdot 6\\cdot 5}{6} = 35')}.`], ans:`${tb('35')} mặt phẳng.`},
+  {hard:true, de:`Cho 8 điểm phân biệt, trong đó có đúng 5 điểm cùng thuộc một mặt phẳng, không có ba điểm nào thẳng hàng và không có bốn điểm nào khác (ngoài 5 điểm trên) cùng thuộc một mặt phẳng. Hỏi có bao nhiêu mặt phẳng phân biệt đi qua ba trong tám điểm?`,
+   sol:[`Số bộ ba điểm: ${m('C_8^3 = 56')}.`, `5 điểm đồng phẳng cho ${m('C_5^3 = 10')} bộ ba nhưng chỉ ứng với 1 mặt phẳng.`, `Số mặt phẳng: ${m('56 - 10 + 1 = 47')}.`], ans:`${tb('47')} mặt phẳng.`},
+ ]},
+ {dang:'Tìm giao tuyến', items:[
+  {de:`Cho tứ diện ${m('ABCD')}. Tìm giao tuyến của hai mặt phẳng ${m('(ABC)')} và ${m('(ABD)')}.`,
+   sol:[`${m('A')} và ${m('B')} thuộc cả hai mặt phẳng.`, `Hai điểm chung phân biệt xác định giao tuyến.`], ans:`${tb('(ABC) \\cap (ABD) = AB')}.`},
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành tâm ${m('O')}. Tìm giao tuyến của ${m('(SAC)')} và ${m('(SBD)')}.`,
+   sol:[`${m('S')} thuộc cả hai mặt phẳng.`, `${m('O')} là trung điểm của ${m('AC')} và ${m('BD')} nên ${m('O \\in AC \\subset (SAC)')}, ${m('O \\in BD \\subset (SBD)')}.`], ans:`${tb('SO')}.`},
+  {hard:true, de:`Cho tứ diện ${m('ABCD')}, ${m('M')} là trung điểm của ${m('AB')}, ${m('N')} thuộc cạnh ${m('AC')} sao cho ${m('AN = 2NC')}. Chứng minh ${m('MN')} cắt ${m('BC')} tại một điểm ${m('E')}, rồi tìm giao tuyến của ${m('(DMN)')} và ${m('(BCD)')}.`,
+   sol:[`Trong ${m('(ABC)')}: ${m('\\dfrac{AM}{AB} = \\dfrac{1}{2}')} và ${m('\\dfrac{AN}{AC} = \\dfrac{2}{3}')} khác nhau nên ${m('MN')} không song song với ${m('BC')}, hai đường thẳng cùng nằm trong ${m('(ABC)')} cắt nhau tại ${m('E')}.`, `${m('E \\in MN \\subset (DMN)')} và ${m('E \\in BC \\subset (BCD)')}.`, `${m('D')} thuộc cả hai mặt phẳng.`], ans:`${tb('(DMN) \\cap (BCD) = DE')}, với ${m('E = MN \\cap BC')}.`},
+ ]},
+ {dang:'Hình chóp và tứ diện', items:[
+  {de:`Một hình chóp có 20 cạnh (kể cả cạnh đáy). Hình chóp đó có bao nhiêu mặt (kể cả mặt đáy)?`,
+   sol:[`Hình chóp đáy ${m('n')}-giác có ${m('2n')} cạnh nên ${m('2n = 20 \\Rightarrow n = 10')}.`, `Số mặt: ${m('n + 1 = 11')}.`], ans:`${tb('11')} mặt.`},
+ ]},
+ {dang:'Giao điểm của đường thẳng và mặt phẳng', items:[
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành tâm ${m('O')}, ${m('M')} là trung điểm của ${m('SA')}. Tìm giao điểm của đường thẳng ${m('SO')} và mặt phẳng ${m('(MBD)')}.`,
+   sol:[`${m('O \\in BD \\subset (MBD)')} và ${m('O \\in SO')}.`, `${m('S \\notin (MBD)')} nên ${m('SO')} không nằm trong ${m('(MBD)')}: giao điểm duy nhất là ${m('O')}.`], ans:`${tb('O')}.`},
+  {hard:true, de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành tâm ${m('O')}. Lấy ${m('M')} thuộc cạnh ${m('SA')} sao cho ${m('SM = \\dfrac{1}{3}SA')}. Tìm giao điểm ${m('N')} của đường thẳng ${m('SC')} và mặt phẳng ${m('(MBD)')}.`,
+   sol:[`Chọn mặt phẳng phụ ${m('(SAC)')} chứa ${m('SC')}.`, `${m('M')} và ${m('O')} (vì ${m('O \\in BD')}) thuộc cả ${m('(SAC)')} và ${m('(MBD)')} nên ${m('(SAC) \\cap (MBD) = MO')}.`, `Trong ${m('(SAC)')}: ${m('MO')} không song song ${m('SC')} (theo định lí Menelaus ${m('\\dfrac{MA}{MS}\\cdot\\dfrac{NS}{NC}\\cdot\\dfrac{OC}{OA} = 1')} cho ${m('\\dfrac{SN}{NC} = \\dfrac{1}{2}')}), nên chúng cắt nhau tại ${m('N')}.`], ans:`${tb('N = MO \\cap SC')}.`},
+ ]},
+]);
+})();

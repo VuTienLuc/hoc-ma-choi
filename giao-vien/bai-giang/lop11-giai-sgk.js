@@ -284,3 +284,59 @@ Lecture.addSgk('lop11', 'bai-9', [
      box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Bài 9. Các số đặc trưng đo xu thế trung tâm.')},
 ]);
 })();
+
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – TOÁN 11 – CHƯƠNG IV · Bài 10. Đường thẳng và mặt phẳng trong không gian (SGK KNTT tập 2, tr. 70–76)
+   Các câu Luyện tập 1–6 và Vận dụng 1–2 (đề lấy từ ảnh chụp SGK; số trang 72–75 suy ra từ thứ tự trang, thầy đối chiếu).
+   ===================================================================== */
+(() => {
+const m = tm;
+const box = h => `<div class="lk-box">${h}</div>`, note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const mid = (p, q, t = .5) => [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])];
+const ix = (p, q, r, s) => { const dd = (q[0] - p[0]) * (s[1] - r[1]) - (q[1] - p[1]) * (s[0] - r[0]); const t = ((r[0] - p[0]) * (s[1] - r[1]) - (r[1] - p[1]) * (s[0] - r[0])) / dd; return [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])]; };
+const T = [[160, 22], [48, 160], [168, 196], [288, 128]];     // A, B, C, D
+const E = [.3 * T[1][0] + .35 * T[2][0] + .35 * T[3][0], .3 * T[1][1] + .35 * T[2][1] + .35 * T[3][1]];
+const P = ix(T[3], E, T[1], T[2]), F = mid(T[0], E, .55), Q = ix(T[3], F, T[0], P);
+const fig6 = spaceSVG({pts:{A:T[0], B:T[1], C:T[2], D:T[3], E, F, P, Q}, s:[['A', 'B'], ['A', 'C'], ['A', 'D'], ['B', 'C'], ['C', 'D'], ['A', 'P']], d:[['B', 'D'], ['D', 'P'], ['A', 'E'], ['D', 'Q']], ht:218, off:{E:[0, 15], F:[-14, 0], P:[0, 15], Q:[12, 8]}, aria:'Tứ diện ABCD, E trong tam giác BCD, F trên AE, P = DE ∩ BC, Q = DF ∩ AP'});
+const G = [(T[1][0] + T[2][0] + T[3][0]) / 3, (T[1][1] + T[2][1] + T[3][1]) / 3];
+const fig3 = spaceSVG({pts:{S:T[0], B:T[1], A:T[2], C:T[3], M:mid(T[1], T[2]), N:mid(T[2], T[3])}, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['A', 'B'], ['A', 'C']], d:[['B', 'C']], h:[['S', 'A']], ht:218, off:{M:[-14, 6], N:[14, 6]}, aria:'Tứ diện S.ABC với M, N là trung điểm AB, AC; giao tuyến SA tô đậm'});
+
+Lecture.addSgk('lop11', 'bai-10', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 10. Đường thẳng và mặt phẳng trong không gian', sub:'Luyện tập 1 – 6 và Vận dụng 1 – 2 – SGK tập 2, trang 72 – 76',
+   points:['Luyện tập 1 (tr. 72) · Vận dụng 1 (tr. 72) – đếm mặt phẳng, ba chân đỡ.', 'Luyện tập 2 (tr. 73) · Luyện tập 3 (tr. 74) – đường thẳng nằm trong mặt phẳng, giao tuyến.', 'Luyện tập 4 · Vận dụng 2 (tr. 75) · Luyện tập 5, 6 (tr. 76) – giao tuyến, hình chóp, giao điểm.', 'Đề ghi tóm tắt theo ảnh chụp SGK; số trang thầy đối chiếu bản in.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba kĩ năng dùng trong các câu này',
+   body:`<ol class="lk-steps"><li><b>Hai điểm phân biệt của đường thẳng thuộc mặt phẳng</b> ⇒ cả đường thẳng nằm trong mặt phẳng.</li><li><b>Giao tuyến:</b> tìm hai điểm chung (một điểm thấy ngay, điểm còn lại là giao của hai đường thẳng, mỗi đường nằm trong một mặt phẳng).</li><li><b>Giao điểm của ${m('d')} và ${m('(P)')}:</b> chọn mặt phẳng phụ chứa ${m('d')}, tìm giao tuyến của nó với ${m('(P)')}, rồi cắt ${m('d')} với giao tuyến.</li></ol>` + note(`Mặt phẳng chứa tứ giác ${m('ABCD')}: bốn đỉnh luôn đồng phẳng.`)},
+
+  {kind:'vd', tag:'SGK tr. 72 · Luyện tập 1', label:'Câu 1', de:`Cho tứ giác ${m('ABCD')}. Có bao nhiêu mặt phẳng đi qua ba trong số bốn đỉnh của tứ giác đó?`,
+   sol:[`Tứ giác ${m('ABCD')} là hình phẳng nên bốn đỉnh ${m('A, B, C, D')} cùng nằm trong một mặt phẳng.`, `Ba đỉnh bất kì của tứ giác không thẳng hàng nên xác định một mặt phẳng, mà mặt phẳng đó chính là mặt phẳng chứa tứ giác.`, `Cả bốn bộ ba đều cho cùng một mặt phẳng.`],
+   ans:`Chỉ có ${tb('1')} mặt phẳng (khác với tứ diện: 4 mặt phẳng).`},
+
+  {kind:'vd', tag:'SGK tr. 72 · Vận dụng 1', label:'Câu 2', de:`Giải thích vì sao nhiều đồ vật (chân đỡ máy ảnh, giá treo tranh, kiềng ba chân…) được thiết kế gồm ba chân.`,
+   sol:[`Ba điểm không thẳng hàng xác định đúng một mặt phẳng: ba đầu chân luôn nằm trên một mặt phẳng.`, `Vì vậy ba chân luôn chạm mặt phẳng nền (mặt đất, sàn) cùng lúc, vật đứng vững trên mọi nền phẳng.`, `Nếu có bốn chân thì bốn điểm có thể không đồng phẳng, vật dễ bị cập kênh.`],
+   ans:`${tb('Ba chân')} ứng với ba điểm không thẳng hàng nên xác định đúng một mặt phẳng ⇒ vật đứng vững.`},
+
+  {kind:'vd', tag:'SGK tr. 73 · Luyện tập 2', label:'Câu 3', de:`Trong Ví dụ 2 (tam giác ${m('ABC')}, ${m('M')} thuộc đường thẳng ${m('BC')}), lấy điểm ${m('N')} thuộc đường thẳng ${m('AB')} sao cho ${m('N')} khác ${m('M')}. Đường thẳng ${m('MN')} có thuộc mặt phẳng ${m('(ABC)')} hay không?`,
+   sol:[`${m('B, C \\in (ABC)')} nên ${m('BC \\subset (ABC)')}; ${m('M \\in BC')} nên ${m('M \\in (ABC)')}.`, `${m('A, B \\in (ABC)')} nên ${m('AB \\subset (ABC)')}; ${m('N \\in AB')} nên ${m('N \\in (ABC)')}.`, `${m('M, N')} là hai điểm phân biệt thuộc ${m('(ABC)')} nên ${m('MN \\subset (ABC)')}.`], ans:`${tb('Có')}: ${m('MN \\subset (ABC)')}.`},
+
+  {kind:'vd', tag:'SGK tr. 74 · Luyện tập 3', label:'Câu 4', de:`Trong Ví dụ 3 (hình chóp tam giác ${m('S.ABC')}, ${m('M, N')} là trung điểm ${m('AB, AC')}), xác định giao tuyến của hai mặt phẳng ${m('(SBM)')} và ${m('(SCN)')}.`, fig: fig3,
+   sol:[`${m('S')} là điểm chung.`, `${m('M \\in AB')} nên ${m('AB \\subset (SBM)')} (hai điểm ${m('B, M')} thuộc mặt phẳng), do đó ${m('A \\in (SBM)')}.`, `${m('N \\in AC')} nên ${m('AC \\subset (SCN)')}, do đó ${m('A \\in (SCN)')}.`, `${m('S')} và ${m('A')} là hai điểm chung phân biệt.`], ans:`${tb('(SBM) \\cap (SCN) = SA')}.`},
+
+  {kind:'vd', tag:'SGK tr. 75 · Luyện tập 4', label:'Câu 5', de:`Trong Ví dụ 4 (${m('a, b')} cắt nhau tại ${m('M')}, ${m('S')} không thuộc ${m('mp(a,b)')}), vẽ đường thẳng ${m('c')} cắt cả ${m('a')} và ${m('b')} (không đi qua ${m('M')}). Xác định giao tuyến của ${m('mp(S,a)')} và ${m('mp(S,c)')}; của ${m('mp(S,b)')} và ${m('mp(S,c)')}.`,
+   sol:[`Gọi ${m('P = c \\cap a')}, ${m('Q = c \\cap b')}; ${m('P \\ne Q')} vì ${m('c')} không qua ${m('M')}. Khi đó ${m('c \\subset mp(a,b)')} nên ${m('S \\notin c')} và ${m('mp(S,c)')} xác định được.`, `${m('mp(S,a)')} và ${m('mp(S,c)')}: ${m('S')} chung; ${m('P \\in a \\subset mp(S,a)')} và ${m('P \\in c \\subset mp(S,c)')}. Giao tuyến ${m('SP')}.`, `${m('mp(S,b)')} và ${m('mp(S,c)')}: ${m('S')} chung; ${m('Q \\in b')} và ${m('Q \\in c')}. Giao tuyến ${m('SQ')}.`],
+   ans:`${tb('mp(S,a) \\cap mp(S,c) = SP')}; ${tb('mp(S,b) \\cap mp(S,c) = SQ')}.`},
+
+  {kind:'vd', tag:'SGK tr. 75 · Vận dụng 2', label:'Câu 6', de:`Để cửa ra vào không bị va đập vào đồ dùng xung quanh, người ta dùng hít cửa nam châm. Giải thích vì sao khi cửa được hút tới vị trí của nam châm thì cánh cửa được giữ cố định.`,
+   sol:[`Cánh cửa là một phần của mặt phẳng; hai bản lề (hai điểm cố định) xác định một đường thẳng – cánh cửa chỉ quay quanh đường thẳng này.`, `Khi cánh cửa chạm nam châm, có thêm một điểm cố định của cánh cửa <b>không nằm trên đường thẳng nối hai bản lề</b>.`, `Ba điểm không thẳng hàng xác định đúng một mặt phẳng nên cánh cửa hoàn toàn xác định, không quay được nữa.`],
+   ans:`Hai bản lề + điểm hút nam châm = ${tb('ba điểm không thẳng hàng')} ⇒ vị trí cánh cửa cố định. <i>(Lời giải gợi ý – thầy đối chiếu SGV.)</i>`},
+
+  {kind:'vd', tag:'SGK tr. 76 · Luyện tập 5', label:'Câu 7', de:`Cho hình chóp ${m('S.ABCD')}. Gọi tên các mặt bên và mặt đáy của hình chóp đó.`,
+   sol:[`Hình chóp ${m('S.ABCD')} có đáy là tứ giác ${m('ABCD')}.`, `Các mặt bên là các tam giác ${m('SAB, SBC, SCD, SDA')}.`], ans:`Mặt đáy: ${tb('(ABCD)')}. Mặt bên: ${tb('(SAB), (SBC), (SCD), (SDA)')}.`},
+
+  {kind:'vd', tag:'SGK tr. 76 · Luyện tập 6', label:'Câu 8', de:`Trong Ví dụ 6 (tứ diện ${m('ABCD')}, ${m('E')} nằm trong tam giác ${m('BCD')}, ${m('F')} nằm giữa ${m('A')} và ${m('E')}), xác định giao điểm của đường thẳng ${m('DF')} và mặt phẳng ${m('(ABC)')}.`, fig: fig6,
+   sol:[`Chọn mặt phẳng phụ chứa ${m('DF')}: vì ${m('F \\in AE')} nên ${m('DF \\subset (ADE)')}.`, `${m('E')} nằm trong tam giác ${m('BCD')} nên ${m('DE')} cắt cạnh ${m('BC')} tại ${m('P')}. Khi đó ${m('(ADE) = (ADP)')}.`, `${m('(ADP) \\cap (ABC) = AP')} (hai điểm chung ${m('A, P')}; ${m('P \\in BC \\subset (ABC)')}).`, `Trong ${m('(ADP)')}: ${m('DF')} cắt ${m('AP')} tại ${m('Q')}; ${m('Q \\in AP \\subset (ABC)')}.`], ans:`${tb('Q = DF \\cap (ABC)')}, với ${m('P = DE \\cap BC')}, ${m('Q = DF \\cap AP')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Đếm mặt phẳng của <b>tứ giác</b> như của tứ diện (Luyện tập 1: đáp số là 1, không phải 4).</li><li>Quên chứng minh điểm chung thuộc <b>cả hai</b> mặt phẳng khi tìm giao tuyến.</li><li>Tìm giao điểm mà không chọn mặt phẳng phụ chứa đường thẳng.</li></ul>` + box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Chương IV, Bài 10. Đường thẳng và mặt phẳng trong không gian.')},
+]);
+})();

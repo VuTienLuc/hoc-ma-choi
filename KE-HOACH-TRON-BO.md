@@ -106,7 +106,7 @@ Thầy nhắn Claude: **“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”** (ho�
 | 7 | 10 | IV | Bài 10. Vectơ trong mặt phẳng toạ độ | `vecto-toa-do` | `bai-10` | ✅ | 21/10 · Claude làm trực tiếp; giải SGK ghi đề theo dạng, chưa tra số trang |
 | 8 | 11 | III | Ôn tập chương III | `on-tap-c3` | `on-tap-c3` | ⬜ | |
 | 9 | 10 | IV | Bài 11. Tích vô hướng của hai vectơ | `tich-vo-huong` | `bai-11` | ✅ | 21/10 · Claude làm trực tiếp; giải SGK ghi đề theo dạng, chưa tra số trang |
-| 10 | 11 | IV | Bài 11. Đường thẳng và mặt phẳng trong không gian | `dt-mp-khong-gian` | `bai-11` | ⬜ | |
+| 10 | 11 | IV | Bài 10. Đường thẳng và mặt phẳng trong không gian (SGK ghi Bài 10, không phải Bài 11) | `dt-mp-khong-gian` | `bai-10` | ✅ | 02/11 · Claude làm trực tiếp theo ảnh SGK tr. 70–76; giải SGK Luyện tập 1–6, Vận dụng 1–2; các hàng Bài 12–15 của lớp 11 cần đánh số lại (SGK: Bài 11–14) |
 | 11 | 10 | IV | Ôn tập chương IV | `on-tap-c4` | `on-tap-c4` | ✅ | 26/10 · Claude làm trực tiếp; giải SGK ghi đề theo dạng, chưa tra số trang |
 | 12 | 11 | IV | Bài 12. Hai đường thẳng song song | `hai-dt-song-song` | `bai-12` | ⬜ | |
 | 13 | 10 | V | Bài 12. Số gần đúng và sai số (đã có phần học sinh; chỉ làm các phần còn thiếu) | `so-gan-dung-sai-so` | `bai-12` | ⬜ | |
