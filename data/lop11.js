@@ -3130,6 +3130,254 @@ const K13KT = [
 
 lesson(5, 'hai-mp-song-song', 'Bài 13. Hai mặt phẳng song song', 'Vị trí tương đối của hai mặt phẳng, điều kiện và tính chất song song, định lí Thales trong không gian, hình chóp cắt bởi mặt phẳng song song với đáy.', [g13a, g13b, g13c, g13d, g13e, g13f], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K13KT});
 
+
+/* =====================================================================
+   Bài 14. Phép chiếu song song  (SGK KNTT Toán 11, Chương IV)
+   Chủ đề 5 · bài `phep-chieu-song-song` · 6 dạng × 3 mức; hình chiếu của điểm tính từ TỌA ĐỘ 3D thật
+   ===================================================================== */
+const projP = (S, X, F, l) => {
+  const p = F.slice(0, 3).map(k => S.co[k]), n = X3(V3(p[1], p[0]), V3(p[2], p[0])), den = D3(n, l);
+  if(den === 0) return null;
+  const x = S.co[X], t = D3(n, V3(p[0], x)) / den;
+  return [x[0] + t * l[0], x[1] + t * l[1], x[2] + t * l[2]];
+};
+const vname = (S, P) => (P && Object.keys(S.co).find(k => S.co[k].every((c, i) => Math.abs(c - P[i]) < 1e-9))) || null;
+const dirOf = (S, e) => V3(S.co[e[1]], S.co[e[0]]);
+const isEdge = (S, e) => S.ed.some(x => sameE(x, e) || (x[0] === e[1] && x[1] === e[0]));
+const pickProj = (S, edgeOnly, pts) => {
+  for(let i = 0; i < 400; i++){
+    const F = pick(facesOf(S)), e = edgeOnly ? pick(S.ed) : pick(segsOf(S.L));
+    const l = dirOf(S, e), xs = shuffle(S.L.filter(k => !F.includes(k))).slice(0, pts);
+    if(xs.length < pts) continue;
+    const ns = xs.map(x => vname(S, projP(S, x, F, l)));
+    if(ns.every(n => n && F.includes(n))) return {F, e, xs, ns};
+  }
+  throw new Error('b14: không tìm được phép chiếu có ảnh là đỉnh');
+};
+{
+  const C = solid('cube');
+  e10(vname(C, projP(C, "A'", ['A', 'B', 'C', 'D'], V3(C.co["A'"], C.co.A))) === 'A', 'chiếu A′ lên (ABCD) theo AA′');
+  e10(vname(C, projP(C, 'A', ['D', 'C', "C'", "D'"], V3(C.co.C, C.co.B))) === 'D', 'chiếu A lên (DCC′D′) theo BC');
+  e10(vname(C, projP(C, 'A', ['D', 'C', "C'", "D'"], V3(C.co["C'"], C.co.B))) === "D'", 'chiếu A lên (DCC′D′) theo BC′');
+}
+const ordName = (S, a, b) => S.L.indexOf(a) < S.L.indexOf(b) ? a + b : b + a;
+const projFig = f => { const A = [40, 30], Cc = [160, 50], dx = 30, dy = 100, B = [A[0] + f * (Cc[0] - A[0]), A[1] + f * (Cc[1] - A[1])];
+  const pj = X => { const t = (170 - X[1]) / dy; return [X[0] + t * dx, 170]; };
+  return spaceSVG({pts:{A, B, C:Cc, "A'":pj(A), "B'":pj(B), "C'":pj(Cc)}, planes:[{q:[[20, 178], [250, 178], [310, 150], [80, 150]], lab:'(P)', at:[286, 176]}], s:[['A', 'C']], d:[['A', "A'"], ['B', "B'"], ['C', "C'"]], h:[["A'", "C'"]], off:{"A'":[-14, 8], "B'":[0, 16], "C'":[14, 8]}, w:330, ht:200, aria:'Phép chiếu song song lên mặt phẳng (P) biến ba điểm thẳng hàng A, B, C thành A′, B′, C′'}); };
+
+/* ---------- Dạng 1. Hình chiếu của điểm, đoạn thẳng qua phép chiếu song song ---------- */
+const g14a = lv => {
+  if(lv === 1){
+    const S = mk(pick(['cube', 'prism', 'cube'])), {F, e, xs, ns} = pickProj(S, true, 1), X = xs[0], nm = ns[0];
+    const bads = shuffle(S.L.filter(k => k !== nm)).slice(0, 3);
+    return QC({text:`Cho ${S.title}. Hình chiếu song song của điểm ${m(X)} lên mặt phẳng ${m(fName(F))} theo phương ${m(eName(e))} là điểm`, opts:[nm, ...bads].map(x => m(x)), ans:m(nm), fig:figS(S, [e], {fill:[F]}),
+      hint:`Kẻ qua ${X} đường thẳng song song với ${eName(e)}, xem nó cắt mặt phẳng tại đâu.`, sol:`Đường thẳng qua ${m(X)} song song với ${m(eName(e))} là đường thẳng ${m(X + nm)}; nó cắt ${m(fName(F))} tại ${tb(nm)}. Vậy hình chiếu của ${m(X)} là ${tb(nm)}.`});
+  }
+  if(lv === 2){
+    const S = mk(pick(['cube', 'prism', 'tet', 'cube'])), {F, e, xs, ns} = pickProj(S, false, 1), X = xs[0], nm = ns[0];
+    const bads = shuffle(S.L.filter(k => k !== nm)).slice(0, 3);
+    return QC({text:`Cho ${S.title}. Hình chiếu song song của điểm ${m(X)} lên mặt phẳng ${m(fName(F))} theo phương ${m(eName(e))} là điểm`, opts:[nm, ...bads].map(x => m(x)), ans:m(nm), fig:figS(S, isEdge(S, e) ? [e] : [], {fill:[F]}),
+      hint:`Hình chiếu của ${X} là điểm của mặt phẳng nằm trên đường thẳng qua ${X} song song với ${eName(e)}.`, sol:`${m(X + nm)} song song với ${m(eName(e))} (hai cạnh hoặc hai đường chéo song song của một hình bình hành), và ${m(nm)} thuộc ${m(fName(F))}. Vậy hình chiếu của ${m(X)} là ${tb(nm)}.`});
+  }
+  const S = mk(pick(['cube', 'prism', 'cube'])), {F, e, xs, ns} = pickProj(S, pick([true, false]), 2), [X, Y] = xs, [n1, n2] = ns, pt = 'một điểm';
+  const ans = n1 === n2 ? pt : ordName(S, n1, n2), segs = [...new Set(segsOf(S.L).map(([p, q]) => ordName(S, p, q)))].filter(t => t !== ans && t !== ordName(S, X, Y));
+  const bads = n1 === n2 ? shuffle(segs).slice(0, 3) : [pt, ...shuffle(segs).slice(0, 2)];
+  return QC({text:`Cho ${S.title}. Hình chiếu song song của đoạn thẳng ${m(ordName(S, X, Y))} lên mặt phẳng ${m(fName(F))} theo phương ${m(eName(e))} là`, opts:[ans, ...bads].map(x => x === pt ? pt : m(x)), ans:ans === pt ? pt : m(ans), fig:figS(S, [], {fill:[F]}),
+    hint:'Tìm hình chiếu của từng đầu mút rồi nối lại (nếu hai hình chiếu trùng nhau thì ảnh là một điểm).', sol:`Hình chiếu của ${m(X)} là ${m(n1)}, của ${m(Y)} là ${m(n2)}. ${n1 === n2 ? `Hai ảnh trùng nhau nên hình chiếu của đoạn thẳng là ${tw('một điểm')}.` : `Vậy hình chiếu của đoạn ${m(ordName(S, X, Y))} là đoạn ${tb(ans)}.`}`});
+};
+
+/* ---------- Dạng 2. Tính chất của phép chiếu song song ---------- */
+const ST14 = [
+  [true, 'Phép chiếu song song biến ba điểm thẳng hàng thành ba điểm thẳng hàng và giữ nguyên thứ tự của chúng.', 'Đây là tính chất cơ bản (bảo toàn thẳng hàng và thứ tự).'],
+  [true, 'Hình chiếu song song của hai đường thẳng song song là hai đường thẳng song song hoặc trùng nhau.', 'Tính chất bảo toàn song song.'],
+  [true, 'Phép chiếu song song biến trung điểm của một đoạn thẳng thành trung điểm của đoạn thẳng hình chiếu.', 'Bảo toàn tỉ số độ dài trên cùng một đường thẳng.'],
+  [true, 'Hình chiếu song song của một đường thẳng là một đường thẳng hoặc một điểm.', 'Là điểm khi đường thẳng song song với phương chiếu.'],
+  [true, 'Phép chiếu song song giữ nguyên tỉ số độ dài của hai đoạn thẳng nằm trên cùng một đường thẳng.', 'Tính chất bảo toàn tỉ số.'],
+  [false, 'Phép chiếu song song luôn giữ nguyên độ dài đoạn thẳng.', 'Độ dài thường thay đổi; chỉ tỉ số các đoạn cùng đường thẳng (hoặc song song) được giữ.'],
+  [false, 'Phép chiếu song song luôn giữ nguyên số đo góc.', 'Góc thường thay đổi (hình vuông có thể thành hình bình hành).'],
+  [false, 'Hình chiếu song song của hai đường thẳng vuông góc luôn là hai đường thẳng vuông góc.', 'Tính vuông góc không được bảo toàn.'],
+  [false, 'Hình chiếu song song của hai đường thẳng chéo nhau luôn là hai đường thẳng chéo nhau.', 'Hình chiếu của hai đường thẳng chéo nhau có thể cắt nhau hoặc song song.'],
+  [false, 'Hình chiếu song song của một đường tròn luôn là một đường tròn.', 'Thường là hình elip (hoặc đoạn thẳng).']
+];
+const g14b = lv => {
+  if(lv === 1){
+    const t = R(0, 2);
+    if(t === 0) return mc10('Tính chất nào sau đây <b>được</b> bảo toàn qua phép chiếu song song?', 'quan hệ song song của hai đường thẳng', ['độ dài của đoạn thẳng', 'số đo của góc', 'quan hệ vuông góc của hai đường thẳng'], 'Nhớ: song song, thẳng hàng và tỉ số trên cùng đường thẳng được giữ.', `Phép chiếu song song giữ ${tw('quan hệ song song')}, tính thẳng hàng và tỉ số; không giữ độ dài, góc, vuông góc.`);
+    if(t === 1) return mc10('Tính chất nào sau đây <b>không</b> được bảo toàn qua phép chiếu song song?', 'số đo của góc', ['tính thẳng hàng của ba điểm', 'quan hệ song song của hai đường thẳng', 'tỉ số độ dài hai đoạn thẳng nằm trên cùng một đường thẳng'], 'Hình vuông có thể được chiếu thành hình bình hành.', `Góc (và độ dài, vuông góc) thay đổi qua phép chiếu: ${tw('số đo góc')} không được bảo toàn.`);
+    return mc10('Phép chiếu song song biến ba điểm thẳng hàng A, B, C (B nằm giữa A và C) thành ba điểm A′, B′, C′. Khi đó', 'A′, B′, C′ thẳng hàng và B′ nằm giữa A′ và C′', ['A′, B′, C′ không thẳng hàng', 'A′ nằm giữa B′ và C′', 'A′B′ = AB'], 'Thẳng hàng và thứ tự được bảo toàn.', `Phép chiếu song song giữ ${tw('tính thẳng hàng và thứ tự')} của ba điểm.`);
+  }
+  if(lv === 2){
+    const ask = pick([true, false]), T = shuffle(ST14), good = T.find(x => x[0] === ask), bads = T.filter(x => x[0] !== ask).slice(0, 3);
+    return mc10(ask ? 'Mệnh đề nào sau đây đúng?' : 'Mệnh đề nào sau đây sai?', good[1], bads.map(x => x[1]), 'Dùng các tính chất: thẳng hàng, song song, tỉ số; kiểm tra phản ví dụ (độ dài, góc, vuông góc).', `${good[1]} ${ask ? 'Đúng' : 'Sai'}. ${good[2]}`);
+  }
+  const t = R(0, 1);
+  if(t === 0){
+    const T = shuffle(ST14), nTrue = R(1, 3), tr = T.filter(x => x[0]).slice(0, nTrue), fl = T.filter(x => !x[0]).slice(0, 4 - nTrue), all = shuffle([...tr, ...fl]);
+    return QB({text:`Có bao nhiêu mệnh đề đúng trong bốn mệnh đề sau?<br>${all.map((x, i) => `(${i + 1}) ${x[1]}`).join('<br>')}`, tpl:'[_]', ans:[nTrue], hint:'Xét từng mệnh đề với các tính chất bảo toàn và không bảo toàn.', sol:`Mệnh đề đúng: ${all.map((x, i) => x[0] ? `(${i + 1})` : '').filter(Boolean).join(', ')}. Đáp số: ${tb(nTrue)}.`});
+  }
+  const pool = [
+    ['hình bình hành', 'hình bình hành', ['hình thang không là hình bình hành', 'tam giác', 'hình chữ nhật']],
+    ['hình thang', 'hình thang', ['hình bình hành', 'tam giác', 'hình chữ nhật']],
+    ['trung điểm của một đoạn thẳng', 'trung điểm của đoạn thẳng hình chiếu', ['một điểm bất kì trên đoạn thẳng hình chiếu', 'một đầu mút của đoạn thẳng hình chiếu', 'điểm chia đoạn thẳng hình chiếu theo tỉ số 1 : 2']],
+    ['trọng tâm của một tam giác', 'trọng tâm của tam giác hình chiếu', ['trực tâm của tam giác hình chiếu', 'một đỉnh của tam giác hình chiếu', 'tâm đường tròn ngoại tiếp tam giác hình chiếu']]];
+  const [a, g, bs] = pick(pool);
+  return mc10(`Phép chiếu song song (không suy biến) biến ${a} thành`, g, bs, 'Dùng tính chất bảo toàn song song và bảo toàn tỉ số.', `Phép chiếu song song bảo toàn song song và tỉ số, nên ${a} biến thành ${tb(g)}.`);
+};
+
+/* ---------- Dạng 3. Tính độ dài, tỉ số qua phép chiếu ---------- */
+const g14c = lv => {
+  if(lv === 1){
+    const p = R(1, 4), q = R(1, 4), tt = R(2, 4), u = R(1, 3);
+    return QB({text:`Phép chiếu song song lên mặt phẳng ${m('(P)')} biến ba điểm thẳng hàng ${m('A, B, C')} (${m('B')} nằm giữa ${m('A, C')}) thành ${m("A', B', C'")}. Biết ${m(`AB = ${p * tt}`)}, ${m(`BC = ${q * tt}`)}, ${m(`A'B' = ${p * u}`)}. Tính ${m("B'C'")}.`, tpl:`${m("B'C' =")} [_]`, ans:[q * u], fig:projFig(p / (p + q)),
+      hint:'Phép chiếu song song giữ tỉ số độ dài hai đoạn nằm trên cùng một đường thẳng.', sol:`${m("\\dfrac{A'B'}{B'C'} = \\dfrac{AB}{BC}")} nên ${m(`B'C' = \\dfrac{A'B' \\cdot BC}{AB} = \\dfrac{${p * u} \\cdot ${q * tt}}{${p * tt}}`)} = ${tb(q * u)}.`});
+  }
+  if(lv === 2){
+    const t = R(0, 2), k = R(2, 6);
+    if(t === 0) return QB({text:`Phép chiếu song song biến đoạn thẳng ${m('AB')} thành ${m("A'B'")} và trung điểm ${m('M')} của ${m('AB')} thành ${m("M'")}. Biết ${m(`A'B' = ${2 * k}`)}. Tính ${m("A'M'")}.`, tpl:`${m("A'M' =")} [_]`, ans:[k], hint:'Trung điểm được biến thành trung điểm.', sol:`${m("M'")} là trung điểm của ${m("A'B'")} nên ${m(`A'M' = \\dfrac{1}{2}A'B' = ${k}`)}, đáp số ${tb(k)}.`});
+    if(t === 1) return QB({text:`Phép chiếu song song biến tam giác ${m('ABC')} thành tam giác ${m("A'B'C'")}; ${m('M')} là trung điểm ${m('BC')}, ${m('G')} là trọng tâm tam giác ${m('ABC')}. Biết ${m(`A'M' = ${3 * k}`)}. Tính ${m("A'G'")}.`, tpl:`${m("A'G' =")} [_]`, ans:[2 * k], hint:'Trọng tâm G chia trung tuyến AM theo tỉ số 2 : 3 tính từ A; tỉ số này được bảo toàn.', sol:`${m('\\dfrac{AG}{AM} = \\dfrac{2}{3}')} nên ${m("\\dfrac{A'G'}{A'M'} = \\dfrac{2}{3}")}, ${m(`A'G' = \\dfrac{2}{3}\\cdot ${3 * k}`)} = ${tb(2 * k)}.`});
+    return QB({text:`Phép chiếu song song biến đoạn thẳng ${m('AB')} thành ${m("A'B'")} và điểm ${m('M')} thuộc ${m('AB')} với ${m('AM = \\dfrac{1}{3}AB')} thành ${m("M'")}. Biết ${m(`A'B' = ${3 * k}`)}. Tính ${m("M'B'")}.`, tpl:`${m("M'B' =")} [_]`, ans:[2 * k], hint:'Tỉ số AM : AB được bảo toàn.', sol:`${m("A'M' = \\dfrac{1}{3}A'B'")} = ${k}, ${m(`M'B' = ${3 * k} - ${k}`)} = ${tb(2 * k)}.`});
+  }
+  if(R(0, 1) === 0){
+    const n = R(2, 4), u = R(2, 5);
+    return QS({text:`Cho hình thang ${m('ABCD')} có ${m('AB \\parallel CD')} và ${m(`CD = ${n}\\,AB`)}. Phép chiếu song song biến ${m('ABCD')} thành tứ giác ${m("A'B'C'D'")} với ${m(`A'B' = ${u}`)}. Tính ${m("C'D'")} và tổng ${m("A'B' + C'D'")}.`, direct:true,
+      hint:'Hình chiếu của hình thang là hình thang; tỉ số hai đáy được bảo toàn.',
+      sol:`${m("AB \\parallel CD")} nên ${m("A'B' \\parallel C'D'")}. Tỉ số hai đoạn song song được bảo toàn: ${m(`\\dfrac{C'D'}{A'B'} = \\dfrac{CD}{AB} = ${n}`)}, suy ra ${m(`C'D' = ${n}\\cdot ${u} = ${n * u}`)}. Tổng ${m(`${u} + ${n * u}`)} = ${tb(u + n * u)}.`,
+      steps:[
+        {tag:'Kế hoạch', ask:`Hình chiếu của hình thang ${m('ABCD')} là`, opts:['một hình thang với hai đáy song song', 'một hình bình hành', 'một tam giác', 'một đoạn thẳng luôn'], ans:'một hình thang với hai đáy song song', keepOrder:true, hint:'Song song được bảo toàn.'},
+        {tag:'Giải', ask:`${m("C'D' =")}`, tpl:'[_]', ans:[n * u], hint:`Tỉ số ${n} giữa hai đáy được bảo toàn.`},
+        {tag:'Đáp số', ask:`${m("A'B' + C'D' =")}`, tpl:'[_]', ans:[u + n * u], hint:'Cộng hai độ dài.'}]});
+  }
+  let a, b; do { a = R(1, 3); b = R(2, 5); } while(gcd(a, a + b) !== 1);
+  const k = R(1, 4);
+  return QS({text:`Cho tam giác ${m('ABC')}, điểm ${m('M')} thuộc ${m('AB')}, ${m('N')} thuộc ${m('AC')} sao cho ${m('\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{' + a + '}{' + (a + b) + '}')}. Phép chiếu song song biến ${m('ABC')} thành ${m("A'B'C'")} với ${m(`B'C' = ${(a + b) * k}`)}. Tính ${m("M'N'")}.`, direct:true,
+    hint:'MN song song BC; tỉ số MN : BC được bảo toàn.',
+    sol:`${m('MN \\parallel BC')} và ${m(`\\dfrac{MN}{BC} = \\dfrac{${a}}{${a + b}}`)} (Thales). Phép chiếu giữ song song và tỉ số hai đoạn song song nên ${m(`\\dfrac{M'N'}{B'C'} = \\dfrac{${a}}{${a + b}}`)}, ${m(`M'N' = \\dfrac{${a}}{${a + b}}\\cdot ${(a + b) * k}`)} = ${tb(a * k)}.`,
+    steps:[
+      {tag:'Kế hoạch', ask:`Quan hệ giữa ${m('MN')} và ${m('BC')} là`, opts:['MN ∥ BC', 'MN ⊥ BC', 'MN cắt BC', 'MN chéo BC'], ans:'MN ∥ BC', keepOrder:true, hint:'Thales đảo trong tam giác ABC.'},
+      {tag:'Giải', ask:`Tỉ số ${m("\\dfrac{M'N'}{B'C'}")} bằng tỉ số ${m('\\dfrac{MN}{BC}')} =`, opts:[m(`\\dfrac{${a}}{${a + b}}`), m(`\\dfrac{${b}}{${a + b}}`), m(`\\dfrac{${a}}{${b}}`), m(`\\dfrac{${a + b}}{${a}}`)].filter((x, i, arr) => arr.indexOf(x) === i), ans:m(`\\dfrac{${a}}{${a + b}}`), hint:'Hai đoạn song song, tỉ số được bảo toàn.'},
+      {tag:'Đáp số', ask:`${m("M'N' =")}`, tpl:'[_]', ans:[a * k], hint:`Nhân ${a}/${a + b} với ${(a + b) * k}.`}]});
+};
+
+/* ---------- Dạng 4. Hình chiếu của một hình ---------- */
+const g14d = lv => {
+  if(lv === 1){
+    const P = [
+      ['tam giác', 'một tam giác', ['một đoạn thẳng', 'một hình thang', 'một đường tròn']],
+      ['hình bình hành', 'một hình bình hành', ['một hình thang không là hình bình hành', 'một tam giác', 'một hình vuông luôn']],
+      ['hình thang', 'một hình thang', ['một hình bình hành luôn', 'một tam giác', 'một hình chữ nhật luôn']],
+      ['đường tròn', 'một hình elip', ['một đường tròn luôn', 'một hình vuông', 'một tam giác']]];
+    const [a, g, bs] = pick(P);
+    return mc10(`Hình chiếu song song của ${a} (nằm trong mặt phẳng không song song với phương chiếu, không suy biến) là`, g, bs, 'Dùng tính chất bảo toàn song song, tỉ số và hình dạng cơ bản của hình.', `Phép chiếu song song biến ${a} thành ${tb(g)}.`);
+  }
+  if(lv === 2){
+    const P = [
+      ['hình vuông', 'hình bình hành', ['hình thang có hai cạnh bên không song song', 'tam giác', 'hình ngũ giác']],
+      ['hình chữ nhật', 'hình bình hành', ['hình thang có hai cạnh bên không song song', 'tam giác', 'tứ giác có các cạnh không song song']],
+      ['hình thoi', 'hình bình hành', ['hình thang có hai cạnh bên không song song', 'tam giác', 'tứ giác có các cạnh không song song']]];
+    const [a, g, bs] = pick(P);
+    return mc10(`Hình nào sau đây có thể là hình chiếu song song (không suy biến) của ${a}?`, g, bs, 'Hai cặp cạnh đối song song vẫn song song sau phép chiếu.', `${a[0].toUpperCase() + a.slice(1)} có hai cặp cạnh đối song song, hình chiếu cũng có hai cặp cạnh đối song song nên là ${tb(g)}.`);
+  }
+  const t = R(0, 2);
+  if(t === 0) return mc10('Phép chiếu song song biến tam giác đều ABC thành tam giác A′B′C′. Khẳng định nào sau đây đúng?', 'A′B′C′ là một tam giác (không nhất thiết là tam giác đều)', ['A′B′C′ chắc chắn là tam giác đều', 'A′B′C′ chắc chắn là tam giác cân', 'A′B′C′ chắc chắn là tam giác vuông'], 'Độ dài và góc không được bảo toàn.', `Độ dài và góc không bảo toàn nên ${tw('không thể suy ra A′B′C′ đều')}; chỉ chắc chắn nó là một tam giác.`);
+  if(t === 1) return mc10('Hình vuông ABCD được chiếu song song thành hình bình hành A′B′C′D′. Khẳng định nào sau đây đúng?', 'hai đường chéo A′C′ và B′D′ cắt nhau tại trung điểm của mỗi đường', ['A′C′ chắc chắn vuông góc với B′D′', 'A′C′ chắc chắn bằng B′D′', 'A′C′ song song với B′D′'], 'Trung điểm được bảo toàn; vuông góc và độ dài thì không.', `Giao điểm hai đường chéo là trung điểm của mỗi đường, tính chất này được bảo toàn: ${tw('hai đường chéo cắt nhau tại trung điểm')}. Vuông góc và bằng nhau không được bảo toàn.`);
+  return mc10('Phép chiếu song song biến tam giác ABC thành tam giác A′B′C′. Trung tuyến AM của tam giác ABC (M là trung điểm BC) được biến thành', 'trung tuyến A′M′ của tam giác A′B′C′', ['đường cao A′H′ của tam giác A′B′C′', 'phân giác A′D′ của tam giác A′B′C′', 'đường trung trực của B′C′'], 'M được biến thành trung điểm của B′C′.', `${tw('Trung điểm')} được bảo toàn nên ${m('M')} biến thành trung điểm của ${m("B'C'")}: trung tuyến biến thành trung tuyến. Đường cao, phân giác không được bảo toàn.`);
+};
+
+/* ---------- Dạng 5. Hình biểu diễn của hình không gian ---------- */
+const g14e = lv => {
+  if(lv === 1){
+    const R1 = [
+      ['Trong hình biểu diễn của một hình không gian, hai đường thẳng song song được vẽ', 'là hai đường thẳng song song', ['là hai đường thẳng cắt nhau', 'là hai đường vuông góc', 'luôn bằng nhau'], 'Song song được bảo toàn qua phép chiếu.'],
+      ['Trong hình biểu diễn, đoạn thẳng bị che khuất được vẽ bằng', 'nét đứt', ['nét liền', 'nét đậm', 'nét chấm gạch'], 'Quy ước nét đứt cho cạnh khuất.'],
+      ['Hình biểu diễn của một tam giác bất kì thường được vẽ là', 'một tam giác tuỳ ý (không nhất thiết đều, vuông)', ['luôn là tam giác đều', 'luôn là tam giác vuông', 'một hình tròn'], 'Hình chiếu của tam giác là tam giác (không còn các tính chất đều, vuông).'],
+      ['Hình biểu diễn của hình bình hành là', 'một hình bình hành', ['một hình thang không là hình bình hành', 'một hình chữ nhật luôn', 'một tam giác'], 'Song song được bảo toàn.'],
+      ['Hình biểu diễn của một hình lập phương thường vẽ mặt đáy ABCD thành', 'một hình bình hành', ['một hình vuông bắt buộc', 'một hình tròn', 'một tam giác'], 'Hình vuông biểu diễn thành hình bình hành.']];
+    const [q, g, bs, h] = pick(R1);
+    return mc10(q, g, bs, h, `Đáp án: ${tw(g)}. ${h}`);
+  }
+  if(lv === 2){
+    const t = R(0, 1);
+    if(t === 0){ const kinds = [['cube', 'hình lập phương'], ['prism', 'hình lăng trụ tam giác'], ['pyp', 'hình chóp tứ giác'], ['tet', 'tứ diện']], [k, nmk] = pick(kinds), S = mk(k), n = S.hid.length;
+      return QB({text:`Trong hình biểu diễn chuẩn của ${nmk} dưới đây, có bao nhiêu cạnh phải vẽ bằng nét đứt?`, tpl:'[_]', ans:[n], fig:figS(S, []), hint:'Đếm các cạnh bị che khuất trong hình vẽ.', sol:`Trong hình vẽ chuẩn có ${tb(n)} cạnh bị che khuất, vẽ bằng nét đứt.`}); }
+    const n = R(2, 4), u = R(1, 3);
+    return QB({text:`Hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình thang, ${m('AB \\parallel CD')}, ${m(`CD = ${n}\\,AB`)}. Trong hình biểu diễn, đáy là hình thang ${m("A'B'C'D'")} với ${m(`A'B' = ${u}`)} (cm). Tính ${m("C'D'")} (cm).`, tpl:`${m("C'D' =")} [_]`, ans:[n * u], hint:'Tỉ số hai đáy được bảo toàn trong hình biểu diễn.', sol:`${m(`\\dfrac{C'D'}{A'B'} = \\dfrac{CD}{AB} = ${n}`)} nên ${m(`C'D' = ${n}\\cdot ${u}`)} = ${tb(n * u)}.`});
+  }
+  const t = R(0, 1);
+  if(t === 0) return mc10('Trong hình biểu diễn của tam giác đều ABC với M là trung điểm BC, khẳng định nào sau đây đúng?', 'A′M′ là trung tuyến của tam giác A′B′C′', ['A′M′ vuông góc với B′C′ trên hình vẽ', 'tam giác A′B′C′ bắt buộc là tam giác đều', 'M′ không là trung điểm của B′C′'], 'Trung điểm được bảo toàn; vuông góc và hình đều thì không.', `${tw('Trung điểm được bảo toàn')} nên ${m("A'M'")} là trung tuyến. Vuông góc, độ dài, tam giác đều không được bảo toàn.`);
+  const n = R(2, 4), u = R(1, 3), v = R(1, 3);
+  return QS({text:`Hình thang ${m('ABCD')} (${m('AB \\parallel CD')}) có ${m(`AB = ${n}`)} cm và ${m(`CD = ${n * 3}`)} cm. Trong hình biểu diễn, hai đáy là ${m("A'B'")} và ${m("C'D'")} với ${m(`A'B' = ${u}`)} cm. Tính ${m("C'D'")}; sau đó tính hiệu ${m("C'D' - A'B'")}.`, direct:true,
+    hint:'Tỉ số CD : AB = 3 được bảo toàn.', sol:`${m(`\\dfrac{CD}{AB} = \\dfrac{${n * 3}}{${n}} = 3`)} nên ${m(`C'D' = 3\\cdot ${u} = ${3 * u}`)}; hiệu ${m(`${3 * u} - ${u}`)} = ${tb(2 * u)}.`,
+    steps:[
+      {tag:'Kế hoạch', ask:`Tỉ số ${m("\\dfrac{CD}{AB}")} bằng`, tpl:'[_]', ans:[3], hint:`${n * 3} chia ${n}.`},
+      {tag:'Giải', ask:`${m("C'D' =")}`, tpl:'[_]', ans:[3 * u], hint:`Nhân 3 với ${u}.`},
+      {tag:'Đáp số', ask:`${m("C'D' - A'B' =")}`, tpl:'[_]', ans:[2 * u], hint:'Trừ hai độ dài.'}]});
+};
+
+/* ---------- Dạng 6. Ứng dụng: bóng nắng (tia sáng song song) ---------- */
+const g14f = lv => {
+  if(lv === 1){
+    const a = R(1, 4), b = R(1, 4) + a, u = R(2, 4), w = R(2, 5);
+    return QB({text:`Ánh nắng coi là các tia song song. Cùng một thời điểm, cột cờ cao ${m(`${a * u}`)} m (thẳng đứng) có bóng trên mặt đất dài ${m(`${b * u}`)} m. Một cột đèn thẳng đứng có bóng dài ${m(`${b * w}`)} m. Cột đèn cao bao nhiêu mét?`, tpl:`${m('h =')} [_] m`, ans:[a * w], hint:'Bóng là hình chiếu song song; tỉ số chiều cao : bóng của hai cột (cùng phương, cùng mặt đất) bằng nhau.', sol:`Tỉ số chiều cao : bóng được bảo toàn: ${m(`\\dfrac{h}{${b * w}} = \\dfrac{${a * u}}{${b * u}}`)}, ${m(`h = ${b * w}\\cdot\\dfrac{${a}}{${b}}`)} = ${tb(a * w)} m.`});
+  }
+  if(lv === 2){
+    const a = R(1, 3), b = R(2, 4) + a, u = R(1, 2), w = u + R(1, 2), t = R(0, 1);
+    if(t === 0) return QB({text:`Vào lúc nắng, một thanh thẳng đứng cao ${m(`${a * u}`)} m có bóng dài ${m(`${b * u}`)} m. Cũng lúc đó, một cái cây thẳng đứng có bóng dài ${m(`${b * w}`)} m. Hỏi cây cao hơn thanh bao nhiêu mét?`, tpl:'[_] m', ans:[a * w - a * u], hint:'Tính chiều cao cây bằng tỉ số rồi trừ chiều cao thanh.', sol:`Chiều cao cây: ${m(`\\dfrac{${a}}{${b}}\\cdot ${b * w} = ${a * w}`)} m. Cây cao hơn thanh ${m(`${a * w} - ${a * u}`)} = ${tb(a * w - a * u)} m.`});
+    return QB({text:`Hai cột thẳng đứng cao ${m(`${a * u}`)} m và ${m(`${a * w}`)} m, cùng đặt trên mặt đất phẳng lúc nắng. Bóng của cột thấp dài ${m(`${b * u}`)} m. Tính tổng độ dài bóng của hai cột (m).`, tpl:'[_] m', ans:[b * u + b * w], hint:'Tỉ số chiều cao : bóng giữ nguyên cho hai cột.', sol:`Bóng cột cao: ${m(`${b * u}\\cdot\\dfrac{${a * w}}{${a * u}} = ${b * w}`)} m. Tổng ${m(`${b * u} + ${b * w}`)} = ${tb(b * u + b * w)} m.`});
+  }
+  const a = R(1, 3), b = R(2, 4) + a, u = R(1, 2), w = u + R(1, 3);
+  return QS({text:`Cùng lúc nắng, thanh thẳng đứng cao ${m(`${a * u}`)} m có bóng dài ${m(`${b * u}`)} m. Một toà nhà thẳng đứng có bóng dài ${m(`${b * w}`)} m. Tính chiều cao toà nhà và độ chênh lệch chiều cao giữa toà nhà và thanh (m).`, direct:true,
+    hint:'Bảo toàn tỉ số chiều cao : bóng.', sol:`Chiều cao toà nhà ${m(`h = \\dfrac{${a}}{${b}}\\cdot ${b * w} = ${a * w}`)} m. Chênh lệch ${m(`${a * w} - ${a * u}`)} = ${tb(a * w - a * u)} m.`,
+    steps:[
+      {tag:'Kế hoạch', ask:'Cách tính chiều cao toà nhà là dùng tính chất', opts:['bảo toàn tỉ số chiều cao : bóng', 'bảo toàn góc', 'bảo toàn độ dài', 'bảo toàn vuông góc'], ans:'bảo toàn tỉ số chiều cao : bóng', keepOrder:true, hint:'Hai vật cùng thời điểm, cùng phương nắng.'},
+      {tag:'Giải', ask:`Chiều cao toà nhà ${m('h')} (m) là`, tpl:'[_]', ans:[a * w], hint:`${a}/${b} của ${b * w}.`},
+      {tag:'Đáp số', ask:'Toà nhà cao hơn thanh (m) là', tpl:'[_]', ans:[a * w - a * u], hint:'Trừ chiều cao thanh.'}]});
+};
+
+const K14KT = [
+  {t:'Phép chiếu song song', b:`Cho mặt phẳng ${tm('(P)')} và đường thẳng ${tm('\\ell')} cắt ${tm('(P)')}. Với mỗi điểm ${tm('M')}, đường thẳng qua ${tm('M')} song song với ${tm('\\ell')} cắt ${tm('(P)')} tại ${tm("M'")}: ${tm("M'")} là <b>hình chiếu song song</b> của ${tm('M')} lên ${tm('(P)')} theo phương ${tm('\\ell')}. ${tm('(P)')} gọi là <b>mặt phẳng chiếu</b>, ${tm('\\ell')} là <b>phương chiếu</b>.`,
+    warn:'Điểm nằm trong mặt phẳng chiếu thì hình chiếu của nó là chính nó. Phương chiếu không được song song hoặc nằm trong mặt phẳng chiếu.', ex:'Muốn tìm hình chiếu của M: kẻ qua M đường thẳng song song phương chiếu, tìm giao điểm với mặt phẳng; trên hình hộp thường là một đỉnh nào đó.'},
+  {t:'Tính chất của phép chiếu song song', b:`<ul><li>Hình chiếu của đường thẳng là đường thẳng (hoặc một điểm nếu nó song song phương chiếu).</li><li>Giữ <b>thẳng hàng</b> và <b>thứ tự</b> của ba điểm thẳng hàng.</li><li>Hai đường thẳng song song → hai đường thẳng song song (hoặc trùng nhau).</li><li>Giữ <b>tỉ số</b> độ dài hai đoạn nằm trên một đường thẳng hoặc trên hai đường thẳng song song (trung điểm → trung điểm, trọng tâm → trọng tâm).</li></ul>`,
+    warn:'KHÔNG giữ độ dài, số đo góc, quan hệ vuông góc; hai đường thẳng chéo nhau có thể có hình chiếu cắt nhau hoặc song song.', ex:'Thấy “trung điểm”, “trọng tâm”, “tỉ số” thì dùng ngay tính chất bảo toàn tỉ số để suy ra độ dài trên hình chiếu.'},
+  {t:'Hình biểu diễn của hình không gian', b:`Hình biểu diễn của một hình là hình chiếu song song của nó lên một mặt phẳng. Quy ước: giữ quan hệ song song và tỉ số; cạnh nhìn thấy vẽ nét liền, cạnh khuất vẽ <b>nét đứt</b>. Tam giác → tam giác tuỳ ý, hình bình hành (hình chữ nhật, hình vuông, hình thoi) → hình bình hành, hình thang → hình thang (giữ tỉ số hai đáy), đường tròn → elip.`,
+    warn:'Trên hình biểu diễn không đo được góc vuông, tam giác đều, độ dài thực: chỉ tin vào quan hệ song song và tỉ số.', ex:'Khi vẽ hình chóp S.ABCD: vẽ đáy trước (hình bình hành hoặc hình thang theo đề), rồi nối đỉnh S; cạnh khuất vẽ nét đứt.'}
+];
+
+lesson(5, 'phep-chieu-song-song', 'Bài 14. Phép chiếu song song', 'Hình chiếu của điểm, đoạn thẳng; tính chất bảo toàn thẳng hàng, song song, tỉ số; hình chiếu của một hình; hình biểu diễn của hình không gian; bóng nắng.', [g14a, g14b, g14c, g14d, g14e, g14f], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K14KT});
+
+/* ===================== Ôn tập chương IV ===================== */
+const OC4 = [
+  [true, 'Hai mặt phẳng phân biệt có một điểm chung thì chúng cắt nhau theo một đường thẳng đi qua điểm đó.', 'Tính chất thừa nhận về giao tuyến.'],
+  [true, 'Hai đường thẳng cùng song song với một đường thẳng thứ ba thì song song với nhau.', 'Tính chất bắc cầu của quan hệ song song.'],
+  [true, 'Đường thẳng không nằm trong mặt phẳng (P) mà song song với một đường thẳng nằm trong (P) thì song song với (P).', 'Điều kiện để đường thẳng song song với mặt phẳng.'],
+  [true, 'Nếu (P) ∥ (Q) thì mọi đường thẳng nằm trong (P) đều song song với (Q).', 'Tính chất của hai mặt phẳng song song.'],
+  [true, 'Qua một điểm nằm ngoài mặt phẳng (P) có duy nhất một mặt phẳng song song với (P).', 'Tính chất của hai mặt phẳng song song.'],
+  [true, 'Phép chiếu song song biến hai đường thẳng song song thành hai đường thẳng song song hoặc trùng nhau.', 'Tính chất của phép chiếu song song.'],
+  [true, 'Hai đường thẳng chéo nhau thì không cùng nằm trong một mặt phẳng.', 'Định nghĩa hai đường thẳng chéo nhau.'],
+  [true, 'Nếu hai mặt phẳng cắt nhau lần lượt chứa hai đường thẳng song song thì giao tuyến song song với hai đường thẳng đó (hoặc trùng với một trong hai).', 'Định lí về giao tuyến của hai mặt phẳng chứa hai đường thẳng song song.'],
+  [false, 'Hai đường thẳng không có điểm chung thì song song.', 'Chúng có thể chéo nhau.'],
+  [false, 'Nếu mặt phẳng (P) chứa hai đường thẳng song song cùng song song với (Q) thì (P) ∥ (Q).', 'Hai đường thẳng phải cắt nhau.'],
+  [false, 'Hai đường thẳng cùng song song với một mặt phẳng thì song song với nhau.', 'Chúng có thể cắt nhau hoặc chéo nhau.'],
+  [false, 'Nếu đường thẳng a song song với mặt phẳng (P) thì a song song với mọi đường thẳng nằm trong (P).', 'Chỉ song song hoặc chéo nhau với các đường thẳng trong (P).'],
+  [false, 'Hai mặt phẳng cùng song song với một đường thẳng thì song song với nhau.', 'Chúng có thể cắt nhau.'],
+  [false, 'Hai mặt phẳng phân biệt có đúng một điểm chung.', 'Có điểm chung thì có cả đường thẳng chung (giao tuyến).'],
+  [false, 'Phép chiếu song song giữ nguyên độ dài đoạn thẳng.', 'Độ dài, góc, vuông góc không được bảo toàn.'],
+  [false, 'Hình chiếu song song của hai đường thẳng chéo nhau luôn là hai đường thẳng chéo nhau.', 'Hình chiếu có thể cắt nhau hoặc song song.']
+];
+const o4a = lv => {
+  const T = shuffle(OC4.filter(x => x[0])), F = shuffle(OC4.filter(x => !x[0]));
+  if(lv === 1) return mc10('Mệnh đề nào sau đây đúng?', T[0][1], F.slice(0, 3).map(x => x[1]), 'Loại các mệnh đề thiếu điều kiện (cắt nhau, không nằm trong…) hoặc nói quá.', `${T[0][1]} Đúng. ${T[0][2]}`);
+  if(lv === 2) return mc10('Mệnh đề nào sau đây sai?', F[0][1], T.slice(0, 3).map(x => x[1]), 'Tìm mệnh đề thiếu điều kiện hoặc có phản ví dụ.', `${F[0][1]} Sai. ${F[0][2]}`);
+  const n = R(1, 3), tr = T.slice(0, n), fl = F.slice(0, 4 - n), all = shuffle([...tr, ...fl]);
+  return QB({text:`Có bao nhiêu mệnh đề đúng trong bốn mệnh đề sau?<br>${all.map((x, i) => `(${i + 1}) ${x[1]}`).join('<br>')}`, tpl:'[_]', ans:[n], hint:'Xét từng mệnh đề: tìm điều kiện còn thiếu hoặc phản ví dụ.', sol:`Mệnh đề đúng: ${all.map((x, i) => x[0] ? `(${i + 1})` : '').filter(Boolean).join(', ')}. Đáp số: ${tb(n)}.`});
+};
+const KOC4 = [
+  {t:'Hệ thống kiến thức chương', b:`<ul><li><b>Bài 10:</b> mặt phẳng, ba cách xác định mặt phẳng, giao tuyến, hình chóp – tứ diện.</li><li><b>Bài 11:</b> hai đường thẳng song song (bắc cầu, giao tuyến song song, đường trung bình).</li><li><b>Bài 12:</b> đường thẳng song song mặt phẳng; thiết diện.</li><li><b>Bài 13:</b> hai mặt phẳng song song; Thales trong không gian.</li><li><b>Bài 14:</b> phép chiếu song song: giữ thẳng hàng, song song, tỉ số.</li></ul>`,
+    warn:'Ba lỗi hay gặp: thiếu “hai đường thẳng cắt nhau” khi chứng minh hai mặt phẳng song song; quên nói đường thẳng không nằm trong mặt phẳng; lập tỉ lệ Thales sai đoạn tương ứng.', ex:'Gặp bài giao tuyến: tìm hai điểm chung (hoặc một điểm chung + phương song song). Gặp bài song song mặt phẳng: tìm đường thẳng trong mặt phẳng song song với đường đã cho.'},
+  {t:'Cách giải các dạng chính', b:`<ul><li>Giao tuyến: hai điểm chung, hoặc điểm chung + đường thẳng song song.</li><li>${tm('d \\parallel (P)')}: ${tm('d')} song song một đường thẳng nằm trong ${tm('(P)')}, và ${tm('d \\not\\subset (P)')}.</li><li>${tm('(P) \\parallel (Q)')}: hai đường thẳng <b>cắt nhau</b> trong ${tm('(P)')} cùng song song ${tm('(Q)')}.</li><li>Tính độ dài: Thales, đường trung bình, bảo toàn tỉ số qua phép chiếu.</li></ul>`,
+    warn:'Phép chiếu song song không giữ độ dài hay góc; chỉ giữ tỉ số các đoạn trên cùng một đường thẳng hoặc trên hai đường thẳng song song.', ex:'Cuối bài hãy tự hỏi: mình đã nêu đủ điều kiện của định lí (cắt nhau, không nằm trong) chưa?'}
+];
+
+lesson(5, 'on-tap-c4', 'Ôn tập chương IV', 'Tổng hợp: giao tuyến, đường thẳng – mặt phẳng song song (thiết diện), hai mặt phẳng song song (Thales), phép chiếu song song và các mệnh đề đúng – sai của cả chương.', [g10d, g11f, g12e, g13e, g14c, o4a], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:KOC4});
 }
 
 })();

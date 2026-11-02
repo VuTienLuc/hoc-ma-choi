@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-02 – Toán 11 Chương IV · Bài 14. Phép chiếu song song và Ôn tập chương IV (trọn bộ)
+
+- **Yêu cầu:** /tron-bo các bài còn lại của Chương IV; hai bài cuối (Phép chiếu song song, Ôn tập chương IV).
+- **Kết quả:** Bài `phep-chieu-song-song` (6 dạng × 3 mức; hình chiếu điểm/đoạn tính từ tọa độ 3D `projP`), bài giảng `bai-14` (10 ví dụ, 4 luyện tập, hình `fgProj`, `fgTri`, `figShadow`), phiếu luyện tập 7 + 3 ★, Giải SGK (Luyện tập 1, 2; Bài 4.31, 4.33), phiếu trên lớp `bai-14`. Mục `on-tap-c4` lớp 11 (6 dạng × 3 mức, dạng mới `o4a` mệnh đề đúng/sai), bài giảng, phiếu luyện tập 7 + 3 ★, Giải SGK (Bài 4.36 tr. 102; Bài 4.41, 4.43 tr. 103), phiếu trên lớp. **ĐÃ XONG TOÀN BỘ Chương IV lớp 11 (Bài 10–14 và Ôn tập chương).**
+- **Tệp thay đổi:** `data/lop11.js`, `giao-vien/bai-giang/lop11.js`, `lop11-luyen-tap.js`, `lop11-giai-sgk.js`, `lop11-khoi-dong.js`, `CLAUDE.md`, `AGENTS.md`, `KE-HOACH-TRON-BO.md`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (157/157); `python3 tools/test_baigiang.py lop11` → ĐẠT (chiếu 614 trang, không tràn); `python3 tools/build.py` → đã tạo `dist/hoc-tap.html`; stress 7.200 câu sinh cho Bài 14 và Ôn tập chương IV → không lỗi.
+- **Việc thủ công:** Đối chiếu số trang SGK (Bài 14 tr. 95–100; cuối chương tr. 102–103); đề Luyện tập 1–2, Bài 4.31, 4.33 và Bài 4.36, 4.41, 4.43 ghi tóm tắt từ nguồn mạng – cần đối chiếu; Vận dụng, Bài 4.29, 4.30, 4.32, 4.34, 4.35, 4.37–4.40, 4.42 chưa đưa vào (cần ảnh SGK); tình huống [Minh họa].
+
 ### 2026-11-02 – Toán 11 Chương IV · Bài 13. Hai mặt phẳng song song (trọn bộ)
 
 - **Yêu cầu:** /tron-bo các bài còn lại của Chương IV; bài thứ ba.

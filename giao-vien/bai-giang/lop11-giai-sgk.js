@@ -475,3 +475,85 @@ Lecture.addSgk('lop11', 'bai-13', [
    body:`<ul><li>Chứng minh song song mà chỉ nêu <b>một</b> đường thẳng hoặc hai đường thẳng song song nhau: phải là hai đường thẳng <b>cắt nhau</b>.</li><li>Quên nói đường thẳng không nằm trong mặt phẳng kia khi dùng “đường thẳng song song mặt phẳng”.</li><li>Lập tỉ lệ Thales sai đoạn tương ứng (lấy ${m('SA_1')} với ${m('AA_1')}).</li><li>Tỉ số diện tích là ${m('k^2')}, không phải ${m('k')}.</li></ul>`},
 ]);
 })();
+
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+const note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+/* hình hộp ABCD.EFGH: E, F, G, H nằm trên A, B, C, D */
+const BX = {A:[80, 192], B:[190, 192], C:[250, 152], D:[140, 152], E:[80, 94], F:[190, 94], G:[250, 54], H:[140, 54]};
+const figBox = (h, fill) => spaceSVG({pts:BX, s:[['A', 'B'], ['B', 'C'], ['E', 'F'], ['F', 'G'], ['G', 'H'], ['H', 'E'], ['A', 'E'], ['B', 'F'], ['C', 'G']], d:[['A', 'D'], ['D', 'C'], ['D', 'H']], h, fill, ht:218, aria:'Hình hộp ABCD.EFGH'});
+const SK14 = [[60, 15], [170, 85], [300, 70]];
+const fgTriS = () => { const [A, B, C] = SK14, pj = X => { const t = (170 - X[1]) / 100; return [X[0] - 20 * t + 35, 170]; }, M = [(B[0] + C[0]) / 2, (B[1] + C[1]) / 2], G = [(A[0] + B[0] + C[0]) / 3, (A[1] + B[1] + C[1]) / 3];
+  return spaceSVG({pts:{A, B, C, M, G, "A'":pj(A), "B'":pj(B), "C'":pj(C), "M'":pj(M), "G'":pj(G)}, planes:[{q:[[10, 182], [320, 182], [350, 150], [40, 150]], lab:'(P)', at:[326, 176]}], s:[['A', 'B'], ['B', 'C'], ['C', 'A'], ['A', 'M']], d:[['A', "A'"], ['G', "G'"], ['B', "B'"], ['C', "C'"], ['M', "M'"]], off:{"A'":[-14, 8], "B'":[0, 16], "C'":[14, 8], "M'":[0, 16], "G'":[0, 16], G:[10, 8]}, w:360, ht:210, aria:"Phép chiếu song song biến tam giác ABC, trung điểm M của BC, trọng tâm G thành tam giác A′B′C′, M′, G′"}); };
+
+Lecture.addSgk('lop11', 'bai-14', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 14. Phép chiếu song song', sub:'Luyện tập 1, 2 (tr. 97–98); Bài 4.31, 4.33 (tr. 100) – SGK tập 1',
+   points:['Luyện tập 1 (tr. 97) – hình hộp ABCD.EFGH: hình chiếu của A lên (DCGH) theo hai phương BC và BG.', 'Luyện tập 2 (tr. 98) – hình chiếu của hình thang.', 'Bài 4.31 (tr. 100) – phép chiếu song song biến trọng tâm tam giác thành trọng tâm tam giác hình chiếu.', 'Bài 4.33 (tr. 100) – hình biểu diễn của hình chóp có đáy là hình thang, tính độ dài trên hình biểu diễn.', 'Đề các câu ghi tóm tắt theo nguồn mạng, thầy đối chiếu số trang/số bài với SGK; các câu còn lại của bài (Vận dụng, Bài 4.29, 4.30, 4.32, 4.34) chưa đưa vào vì chưa có đề chính xác – thầy gửi ảnh SGK thì bổ sung.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba công cụ dùng trong các câu này',
+   body:`<ul><li><b>Tìm hình chiếu của điểm:</b> kẻ qua điểm đó đường thẳng song song phương chiếu, lấy giao với mặt phẳng chiếu.</li><li><b>Bảo toàn:</b> thẳng hàng, thứ tự, song song, tỉ số độ dài (trung điểm, trọng tâm).</li><li><b>Không bảo toàn:</b> độ dài, góc, vuông góc, hình đều/tròn.</li></ul>` + note(`Hình chiếu của hình thang là hình thang chỉ khi mặt phẳng chứa hình không song song phương chiếu.`)},
+
+  {kind:'vd', tag:'SGK tr. 97 · Luyện tập 1', label:'Câu 1', de:`Cho hình hộp ${m('ABCD.EFGH')} (${m('E, F, G, H')} lần lượt nằm trên ${m('A, B, C, D')}). Tìm hình chiếu song song của điểm ${m('A')} lên mặt phẳng ${m('(DCGH)')} theo phương: a) ${m('BC')}; b) ${m('BG')}.`, fig: figBox([['A', 'D'], ['B', 'C']], [['D', 'C', 'G', 'H']]),
+   sol:[`a) ${m('ABCD')} là hình bình hành nên ${m('AD \\parallel BC')}; ${m('D \\in (DCGH)')}. Hình chiếu của ${m('A')} là ${m('D')}.`, `b) ${m('ABGH')} là hình bình hành (${m('AH \\parallel BG')}, vì ${m('AB \\parallel DC \\parallel HG')} và ${m('AB = DC = HG')}); ${m('H \\in (DCGH)')}. Hình chiếu của ${m('A')} là ${m('H')}.`],
+   ans:`a) ${tb('D')}; b) ${tb('H')}.`},
+
+  {kind:'vd', tag:'SGK tr. 98 · Luyện tập 2', label:'Câu 2', de:`Chứng minh hình chiếu song song của một hình thang (nằm trong mặt phẳng không song song với phương chiếu) là một hình thang.`,
+   sol:[`Hình thang ${m('ABCD')} có ${m('AB \\parallel CD')}, ${m('AB \\ne CD')}.`, `Phép chiếu giữ quan hệ song song: ${m("A'B' \\parallel C'D'")}.`, `Phép chiếu giữ tỉ số hai đoạn song song: ${m("\\dfrac{C'D'}{A'B'} = \\dfrac{CD}{AB} \\ne 1")}, nên ${m("A'B' \\ne C'D'")}.`, `Tứ giác ${m("A'B'C'D'")} có hai cạnh đối song song, hai cạnh kia không song song (cạnh bên ${m('AD, BC')} cắt nhau nên ${m("A'D', B'C'")} cắt nhau): đó là hình thang.`],
+   ans:`Hình chiếu của hình thang là ${tw('hình thang')} (tỉ số hai đáy được giữ nguyên).`},
+
+  {kind:'vd', tag:'SGK tr. 100 · Bài 4.31', label:'Câu 3', de:`Chứng minh phép chiếu song song biến trọng tâm của một tam giác thành trọng tâm của tam giác hình chiếu.`, fig: fgTriS(),
+   sol:[`Gọi ${m('M')} là trung điểm ${m('BC')}, ${m('G')} là trọng tâm tam giác ${m('ABC')}: ${m('G \\in AM')}, ${m('AG = \\dfrac{2}{3}AM')}.`, `Phép chiếu biến trung điểm thành trung điểm: ${m("M'")} là trung điểm ${m("B'C'")}, nên ${m("A'M'")} là trung tuyến của tam giác ${m("A'B'C'")}.`, `Giữ tỉ số trên đường thẳng ${m('AM')}: ${m("A'G' = \\dfrac{2}{3}A'M'")}; mà ${m("G' \\in A'M'")} nên ${m("G'")} là điểm chia trung tuyến ${m("A'M'")} theo tỉ số ${m('2:3')} tính từ ${m("A'")}.`, `Vậy ${m("G'")} là trọng tâm tam giác ${m("A'B'C'")}.`],
+   ans:`Hình chiếu của trọng tâm là ${tw('trọng tâm của tam giác hình chiếu')}.`},
+
+  {kind:'vd', tag:'SGK tr. 100 · Bài 4.33', label:'Câu 4', de:`Hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình thang, ${m('AB \\parallel CD')}, ${m('AB = 2')} cm, ${m('CD = 6')} cm. Trên hình biểu diễn đáy, ${m("A'B' = 3")} cm. Tính ${m("C'D'")} và nêu cách vẽ hình biểu diễn của hình chóp.`,
+   sol:[`${m("A'B' \\parallel C'D'")} và tỉ số hai đoạn song song được bảo toàn: ${m("\\dfrac{C'D'}{A'B'} = \\dfrac{CD}{AB} = \\dfrac{6}{2} = 3")}.`, `${m("C'D' = 3\\cdot 3 = 9")} cm.`, `Cách vẽ: vẽ hình thang ${m("A'B'C'D'")} (đáy ${m("A'B' = 3")} cm, ${m("C'D' = 9")} cm, song song nhau); chọn điểm ${m("S'")} ngoài mặt phẳng hình vẽ, nối ${m("S'A', S'B', S'C', S'D'")}; cạnh bị đáy che khuất vẽ nét đứt.`],
+   ans:`${tb("C'D' = 9")} cm.`},
+
+  {kind:'vd', tag:'Mở rộng · Bài 4.31', label:'Câu 5 (mở rộng)', de:`Với Bài 4.31, biết ${m("A'G' = 8")}. Tính ${m("G'M'")} và ${m("A'M'")}.`, fig: fgTriS(),
+   sol:[`${m("\\dfrac{A'G'}{A'M'} = \\dfrac{2}{3}")} nên ${m("A'M' = \\dfrac{3}{2}\\cdot 8 = 12")}.`, `${m("G'M' = A'M' - A'G' = 12 - 8 = 4")}.`], ans:`${tb("A'M' = 12")}, ${tb("G'M' = 4")}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Cho rằng phép chiếu giữ độ dài hoặc góc: chỉ giữ <b>tỉ số</b> (trên cùng đường thẳng hoặc hai đường song song).</li><li>So sánh tỉ số hai đoạn <b>không</b> song song cũng không cùng đường thẳng: không được bảo toàn.</li><li>Quên điều kiện mặt phẳng chứa hình không song song phương chiếu.</li><li>Vẽ cạnh khuất bằng nét liền: phải vẽ <b>nét đứt</b>.</li></ul>`},
+]);
+})();
+
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+const note = h => `<div class="lk-note">⚠️ ${h}</div>`;
+const mid = (p, q, t = .5) => [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])];
+/* hình chóp S.ABCD đáy hình bình hành (A trái, B dưới trái, C dưới phải, D phải) */
+const PG = {S:[150, 16], A:[40, 142], B:[104, 186], C:[262, 186], D:[198, 142]};
+const base = (pts, d, s2, fill) => spaceSVG({pts, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['S', 'D'], ['A', 'B'], ['B', 'C'], ['C', 'D'], ...(s2 || [])], d, fill, ht:218, aria:'Hình chóp S.ABCD'});
+const fig436 = (() => { const O = mid(PG.A, PG.C), M = mid(PG.S, PG.D);
+  return base({...PG, M, O}, [['A', 'D'], ['A', 'C'], ['B', 'D'], ['O', 'M']], [['A', 'M'], ['C', 'M']]); })();
+const fig443 = (() => { const M = mid(PG.S, PG.C, 1 / 3), K = mid(PG.S, PG.D, 1 / 3), N = mid(PG.A, PG.B, 1 / 3);
+  return base({...PG, M, K, N}, [['A', 'D'], ['K', 'M'], ['A', 'K']], [['N', 'M'], ['A', 'N']]); })();
+const PT = {S:[150, 16], A:[110, 142], B:[190, 142], C:[290, 186], D:[70, 186]};
+const fig441 = spaceSVG({pts:PT, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['S', 'D'], ['D', 'C'], ['A', 'D'], ['B', 'C']], d:[['A', 'B']], ht:218, aria:'Hình chóp S.ABCD có đáy là hình thang ABCD với AB song song CD, AB nhỏ hơn CD'});
+
+Lecture.addSgk('lop11', 'on-tap-c4', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài tập cuối chương IV', sub:'Bài 4.36 (tr. 102); Bài 4.41, 4.43 (tr. 103) – SGK tập 1',
+   points:['Bài 4.36 (tr. 102) – trắc nghiệm: đường thẳng SB song song với mặt phẳng nào.', 'Bài 4.41 (tr. 103) – giao tuyến của các cặp mặt phẳng trong hình chóp có đáy là hình thang.', 'Bài 4.43 (tr. 103) – giao điểm K của (ABM) với SD, tính SK/SD và chứng minh MN ∥ (SAD).', 'Đề lấy từ nguồn mạng (vietjack.com), thầy đối chiếu số trang/số bài với SGK; các bài còn lại của cuối chương (4.35, 4.37–4.40, 4.42) chưa đưa vào vì chưa có đề chính xác.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba công cụ dùng trong các câu này',
+   body:`<ul><li><b>Giao tuyến:</b> hai điểm chung; hoặc một điểm chung + phương song song (khi hai mặt phẳng chứa hai đường song song).</li><li><b>Đường thẳng ∥ mặt phẳng:</b> song song một đường nằm trong mặt phẳng và không nằm trong mặt phẳng.</li><li><b>Thales / đường trung bình:</b> đoạn thẳng song song đáy chia hai cạnh theo cùng tỉ số.</li></ul>` + note(`Đường thẳng không nằm trong mặt phẳng là điều kiện không được quên khi kết luận song song.`)},
+
+  {kind:'vd', tag:'SGK tr. 102 · Bài 4.36', label:'Câu 1', de:`Cho hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình bình hành. ${m('M')} là trung điểm của ${m('SD')}. Đường thẳng ${m('SB')} song song với mặt phẳng: A. ${m('(CDM)')}; B. ${m('(ACM)')}; C. ${m('(ADM)')}; D. ${m('(ACD)')}.`, fig: fig436,
+   sol:[`Gọi ${m('O = AC \\cap BD')}: ${m('O')} là trung điểm ${m('BD')} (hình bình hành).`, `Trong tam giác ${m('SBD')}, ${m('OM')} là đường trung bình nên ${m('OM \\parallel SB')}.`, `${m('OM \\subset (ACM)')} (vì ${m('O \\in AC')}) và ${m('SB \\not\\subset (ACM)')} nên ${m('SB \\parallel (ACM)')}.`, `Các mặt phẳng còn lại: ${m('(CDM)')}, ${m('(ADM)')} chứa ${m('D')}, ${m('M')} thuộc ${m('SD')} nên ${m('SB')} cắt chúng tại ${m('S')} hoặc ${m('B')}; ${m('(ACD)')} chứa ${m('B')}.`],
+   ans:`Đáp án ${tb('B. (ACM)')}.`},
+
+  {kind:'vd', tag:'SGK tr. 103 · Bài 4.41', label:'Câu 2', de:`Cho hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình thang, ${m('AB \\parallel CD')}, ${m('AB \\lt CD')}. Xác định giao tuyến của: a) ${m('(SAD)')} và ${m('(SBC)')}; b) ${m('(SAB)')} và ${m('(SCD)')}; c) ${m('(SAC)')} và ${m('(SBD)')}.`, fig: fig441,
+   sol:[`a) ${m('AB \\parallel CD')}, ${m('AB \\lt CD')} nên ${m('AD')} cắt ${m('BC')} tại ${m('F')}. ${m('S, F')} là hai điểm chung: giao tuyến ${m('SF')}.`, `b) ${m('S')} chung; ${m('AB \\subset (SAB)')}, ${m('CD \\subset (SCD)')}, ${m('AB \\parallel CD')}: giao tuyến là đường thẳng qua ${m('S')} song song với ${m('AB, CD')}.`, `c) Gọi ${m('O = AC \\cap BD')} (hai đường chéo của hình thang cắt nhau). ${m('S, O')} là hai điểm chung: giao tuyến ${m('SO')}.`],
+   ans:`a) ${tb('SF')} (${m('F = AD \\cap BC')}); b) ${tb('Sx \\parallel AB \\parallel CD')}; c) ${tb('SO')} (${m('O = AC \\cap BD')}).`},
+
+  {kind:'vd', tag:'SGK tr. 103 · Bài 4.43', label:'Câu 3', de:`Cho hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình bình hành. Trên cạnh ${m('SC')} và ${m('AB')} lần lượt lấy ${m('M')} và ${m('N')} sao cho ${m('CM = 2SM')} và ${m('BN = 2AN')}. a) Xác định giao điểm ${m('K')} của ${m('(ABM)')} với ${m('SD')}; tính ${m('\\dfrac{SK}{SD}')}. b) Chứng minh ${m('MN \\parallel (SAD)')}.`, fig: fig443,
+   sol:[`a) ${m('AB \\parallel CD')} nên ${m('(ABM)')} cắt ${m('(SCD)')} theo đường thẳng qua ${m('M')} song song ${m('CD')}; đường đó cắt ${m('SD')} tại ${m('K')}. Vậy ${m('K = SD \\cap (ABM)')}.`, `Thales trong ${m('\\triangle SCD')} với ${m('MK \\parallel CD')}: ${m('\\dfrac{SK}{SD} = \\dfrac{SM}{SC} = \\dfrac{1}{3}')} (vì ${m('CM = 2SM')} nên ${m('SC = 3SM')}).`, `b) ${m('\\dfrac{KM}{CD} = \\dfrac{SM}{SC} = \\dfrac{1}{3}')} nên ${m('KM = \\dfrac{1}{3}CD = \\dfrac{1}{3}AB')}; ${m('AN = \\dfrac{1}{3}AB')}. Do đó ${m('KM \\parallel AN')} và ${m('KM = AN')}: ${m('ANMK')} là hình bình hành.`, `Suy ra ${m('MN \\parallel AK')}, ${m('AK \\subset (SAD)')}, ${m('MN \\not\\subset (SAD)')} (vì ${m('N \\notin (SAD)')}). Vậy ${m('MN \\parallel (SAD)')}.`],
+   ans:`a) ${tb('SK/SD = 1/3')}; b) ${tb('MN \\parallel (SAD)')}.`},
+
+  {kind:'vd', tag:'Mở rộng · Bài 4.43', label:'Câu 4 (mở rộng)', de:`Với Bài 4.43, biết ${m('AB = 12')}, ${m('CD = 12')}. Tính độ dài ${m('KM')} và ${m('AN')}.`, fig: fig443,
+   sol:[`${m('KM = \\dfrac{1}{3}CD = 4')}.`, `${m('AN = \\dfrac{1}{3}AB = 4')}.`], ans:`${tb('KM = 4')}, ${tb('AN = 4')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Giao tuyến hình chóp đáy hình thang: không dùng “qua ${m('S')} song song ${m('AB')}” cho ${m('(SAD)')} và ${m('(SBC)')} (hai cạnh bên cắt nhau tại ${m('F')}).</li><li>Kết luận đường thẳng song song mặt phẳng mà không nói đường thẳng <b>không nằm trong</b> mặt phẳng.</li><li>Lập tỉ lệ Thales sai: ${m('\\dfrac{SK}{SD}')} chứ không phải ${m('\\dfrac{SK}{KD}')}.</li></ul>`},
+]);
+})();

@@ -517,3 +517,79 @@ Lecture.addPractice('lop11', 'bai-13', [
  ]},
 ]);
 })();
+
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+Lecture.addPractice('lop11', 'bai-14', [
+ {dang:'Tìm hình chiếu của điểm, đoạn thẳng', items:[
+  {de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Tìm hình chiếu song song của điểm ${m('C')} lên mặt phẳng ${m("(A'B'C'D')")} theo phương ${m("BA'")}.`,
+   sol:[`Đường thẳng qua ${m('C')} song song với ${m("BA'")} là ${m("CD'")} (vì ${m("BA'D'C")} là hình chữ nhật nên ${m("BA' \\parallel CD'")}).`, `${m("CD'")} cắt ${m("(A'B'C'D')")} tại ${m("D'")}.`], ans:`Hình chiếu của ${m('C')} là điểm ${tb("D'")}.`},
+  {de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Tìm hình chiếu song song của: a) đoạn ${m("AA'")} lên ${m('(ABCD)')} theo phương ${m("AA'")}; b) đoạn ${m("B'D'")} lên ${m('(ABCD)')} theo phương ${m("AA'")}.`,
+   sol:[`a) ${m("AA'")} song song với phương chiếu nên mọi điểm của nó có cùng hình chiếu ${m('A')} (${m('A \\in (ABCD)')}). Hình chiếu là một điểm.`, `b) Đường thẳng qua ${m("B'")} song song ${m("AA'")} là ${m("BB'")}, cắt ${m('(ABCD)')} tại ${m('B')}; tương tự hình chiếu của ${m("D'")} là ${m('D')}.`, `Hình chiếu của ${m("B'D'")} là đoạn ${m('BD')}.`], ans:`a) ${tw('điểm A')}; b) ${tw('đoạn BD')}.`},
+ ]},
+ {dang:'Nhận biết tính chất đúng – sai', items:[
+  {de:`Cho bốn mệnh đề về phép chiếu song song: (1) biến trọng tâm tam giác thành trọng tâm tam giác hình chiếu; (2) giữ nguyên số đo góc; (3) giữ nguyên thứ tự ba điểm thẳng hàng; (4) biến đường tròn thành đường tròn. Mệnh đề nào đúng?`,
+   sol:[`(1) Đúng: trọng tâm chia trung tuyến theo tỉ số ${m('2:1')}, tỉ số được bảo toàn.`, `(2) Sai: góc thay đổi (hình vuông thành hình bình hành).`, `(3) Đúng: tính chất bảo toàn thứ tự.`, `(4) Sai: đường tròn thường biến thành elip.`], ans:`Các mệnh đề đúng: ${tb('(1) và (3)')}.`},
+ ]},
+ {dang:'Tính độ dài, tỉ số bằng tính chất bảo toàn tỉ số', items:[
+  {de:`Phép chiếu song song biến ba điểm thẳng hàng ${m('A, B, C')} (${m('B')} giữa ${m('A, C')}) thành ${m("A', B', C'")}. Biết ${m('AB = 12')}, ${m('BC = 8')}, ${m("B'C' = 6")}. Tính ${m("A'B'")}.`,
+   sol:[`Tỉ số hai đoạn trên cùng một đường thẳng được bảo toàn: ${m("\\dfrac{A'B'}{B'C'} = \\dfrac{AB}{BC} = \\dfrac{12}{8}")}.`, `${m("A'B' = 6\\cdot\\dfrac{12}{8} = 9")}.`], ans:`${tb("A'B' = 9")}.`},
+  {de:`Phép chiếu song song biến tam giác ${m('ABC')} thành tam giác ${m("A'B'C'")}. Gọi ${m('M, N')} lần lượt là trung điểm của ${m('AB, AC')}. Biết ${m("B'C' = 14")}. Tính ${m("M'N'")}.`,
+   sol:[`${m('MN')} là đường trung bình nên ${m('MN \\parallel BC')} và ${m('MN = \\dfrac{1}{2}BC')}.`, `Phép chiếu giữ song song và tỉ số hai đoạn song song: ${m("\\dfrac{M'N'}{B'C'} = \\dfrac{MN}{BC} = \\dfrac{1}{2}")}.`, `${m("M'N' = 7")}.`], ans:`${tb("M'N' = 7")}.`},
+  {hard:true, de:`Hình thang ${m('ABCD')} có ${m('AB \\parallel CD')}, ${m('CD = 2AB')}, hai đường chéo cắt nhau tại ${m('I')}. Phép chiếu song song biến ${m('ABCD')} thành ${m("A'B'C'D'")} và ${m('I')} thành ${m("I'")}. Biết ${m("A'C' = 15")}. Tính ${m("A'I'")}.`,
+   sol:[`${m('AB \\parallel CD')} nên hai tam giác ${m('IAB')} và ${m('ICD')} đồng dạng: ${m('\\dfrac{IA}{IC} = \\dfrac{AB}{CD} = \\dfrac{1}{2}')}.`, `Suy ra ${m('IA = \\dfrac{1}{3}AC')}.`, `Phép chiếu giữ tỉ số trên cùng đường thẳng ${m('AC')}: ${m("A'I' = \\dfrac{1}{3}A'C' = 5")}.`], ans:`${tb("A'I' = 5")}.`},
+ ]},
+ {dang:'Hình chiếu của một hình', items:[
+  {de:`Hình chữ nhật ${m('ABCD')} có ${m('M, N')} lần lượt là trung điểm của ${m('AB, CD')}. Phép chiếu song song (không suy biến) biến ${m('ABCD')} thành tứ giác ${m("A'B'C'D'")}. Hỏi ${m("A'B'C'D'")} là hình gì? Nêu quan hệ giữa ${m("M'N'")} và ${m("A'D'")}.`,
+   sol:[`${m('AB \\parallel CD')} và ${m('AD \\parallel BC')} nên ${m("A'B'C'D'")} có hai cặp cạnh đối song song: hình bình hành.`, `${m('M, N')} là trung điểm nên ${m("M', N'")} là trung điểm của ${m("A'B', C'D'")}; ${m('AMND')} là hình bình hành nên ${m('MN \\parallel AD')}, ${m('MN = AD')}.`, `Tỉ số hai đoạn song song được bảo toàn nên ${m("M'N' \\parallel A'D'")} và ${m("M'N' = A'D'")}.`], ans:`${tw('Hình bình hành')}; ${tb("M'N' \\parallel A'D'")}, ${tb("M'N' = A'D'")}.`},
+ ]},
+ {dang:'Hình biểu diễn của hình không gian', items:[
+  {hard:true, de:`Hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình thang, ${m('AB \\parallel CD')}, ${m('AB = 4')} cm, ${m('CD = 12')} cm. Gọi ${m('M, N')} là trung điểm của ${m('AD, BC')}. Trong hình biểu diễn, ${m("A'B' = 5")} cm. Tính ${m("C'D'")} và ${m("M'N'")}.`,
+   sol:[`${m("\\dfrac{C'D'}{A'B'} = \\dfrac{CD}{AB} = 3")} nên ${m("C'D' = 15")} cm.`, `${m('MN')} là đường trung bình của hình thang: ${m('MN \\parallel AB')}, ${m('MN = \\dfrac{AB + CD}{2} = 8')} cm.`, `${m("\\dfrac{M'N'}{A'B'} = \\dfrac{MN}{AB} = 2")} nên ${m("M'N' = 10")} cm.`], ans:`${tb("C'D' = 15")} cm, ${tb("M'N' = 10")} cm.`},
+ ]},
+ {dang:'Bài toán bóng nắng', items:[
+  {de:`Cùng một lúc, cọc thẳng đứng cao ${m('3')} m có bóng dài ${m('2')} m. Một cây thẳng đứng có bóng dài ${m('10')} m. Tính chiều cao của cây.`,
+   sol:[`Tia nắng song song nên tỉ số chiều cao : bóng được bảo toàn: ${m("\\dfrac{h}{10} = \\dfrac{3}{2}")}.`, `${m("h = 10\\cdot\\dfrac{3}{2} = 15")}.`], ans:`Cây cao ${tb('15')} m.`},
+  {hard:true, de:`Cùng một lúc, cọc cao ${m('2')} m có bóng dài ${m('3')} m. Hai toà nhà ${m('A, B')} thẳng đứng; bóng của ${m('B')} dài ${m('15')} m và bóng của ${m('A')} dài hơn bóng của ${m('B')} là ${m('18')} m. Tính tổng chiều cao hai toà nhà.`,
+   sol:[`Bóng toà ${m('A')} dài ${m('15 + 18 = 33')} m.`, `Tỉ số chiều cao : bóng bằng ${m('\\dfrac{2}{3}')}: chiều cao ${m('B = \\dfrac{2}{3}\\cdot 15 = 10')} m, chiều cao ${m('A = \\dfrac{2}{3}\\cdot 33 = 22')} m.`, `Tổng ${m('10 + 22 = 32')} m.`], ans:`${tb('32')} m.`},
+ ]},
+]);
+})();
+
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+Lecture.addPractice('lop11', 'on-tap-c4', [
+ {dang:'Tìm giao tuyến của hai mặt phẳng', items:[
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành. Tìm giao tuyến của ${m('(SAB)')} và ${m('(SCD)')}.`,
+   sol:[`${m('S')} là điểm chung của hai mặt phẳng.`, `${m('AB \\subset (SAB)')}, ${m('CD \\subset (SCD)')}, ${m('AB \\parallel CD')} nên giao tuyến là đường thẳng ${m('Sx')} qua ${m('S')} song song với ${m('AB, CD')}.`], ans:`${tb('Sx \\parallel AB \\parallel CD')}.`},
+ ]},
+ {dang:'Đường thẳng song song mặt phẳng; thiết diện', items:[
+  {de:`Cho tứ diện ${m('ABCD')}; ${m('M, N')} là trung điểm của ${m('AB, AC')}. Chứng minh ${m('MN \\parallel (BCD)')}.`,
+   sol:[`${m('MN')} là đường trung bình của tam giác ${m('ABC')} nên ${m('MN \\parallel BC')}.`, `${m('BC \\subset (BCD)')} và ${m('MN \\not\\subset (BCD)')} (vì ${m('M \\notin (BCD)')}).`, `Vậy ${m('MN \\parallel (BCD)')}.`], ans:`${tb('MN \\parallel (BCD)')}.`},
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành. Chứng minh ${m('AD \\parallel (SBC)')}.`,
+   sol:[`${m('ABCD')} là hình bình hành nên ${m('AD \\parallel BC')}.`, `${m('BC \\subset (SBC)')} và ${m('AD \\not\\subset (SBC)')} (vì ${m('A \\notin (SBC)')}).`, `Vậy ${m('AD \\parallel (SBC)')}.`], ans:`${tb('AD \\parallel (SBC)')}.`},
+  {hard:true, de:`Cho tứ diện ${m('ABCD')} có ${m('AD = 12')}, ${m('BC = 8')}. Điểm ${m('M')} thuộc ${m('AB')} với ${m('AM = \\dfrac{1}{4}AB')}. Mặt phẳng qua ${m('M')} song song với ${m('BC')} và ${m('AD')} cắt ${m('AC, CD, BD')} lần lượt tại ${m('N, P, Q')}. Tính chu vi ${m('MNPQ')}.`,
+   sol:[`${m('MN \\parallel BC')} nên ${m('MN = \\dfrac{AM}{AB}\\cdot BC = \\dfrac{1}{4}\\cdot 8 = 2')}.`, `${m('MQ \\parallel AD')} nên ${m('MQ = \\dfrac{BM}{BA}\\cdot AD = \\dfrac{3}{4}\\cdot 12 = 9')}.`, `${m('MNPQ')} là hình bình hành (${m('NP \\parallel AD \\parallel MQ')}, ${m('PQ \\parallel BC \\parallel MN')}): chu vi ${m('2(2 + 9) = 22')}.`], ans:`${tb('22')}.`},
+ ]},
+ {dang:'Chứng minh hai mặt phẳng song song', items:[
+  {de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Chứng minh ${m("(A'BD) \\parallel (CB'D')")}.`,
+   sol:[`${m("A'BCD'")} là hình chữ nhật nên ${m("A'B \\parallel D'C")}; ${m("BDD'B'")} là hình chữ nhật nên ${m("BD \\parallel B'D'")}.`, `${m("A'B, BD")} cắt nhau tại ${m('B')} trong ${m("(A'BD)")} và không nằm trong ${m("(CB'D')")}; ${m("D'C, B'D' \\subset (CB'D')")}.`, `Theo điều kiện hai mặt phẳng song song: ${m("(A'BD) \\parallel (CB'D')")}.`], ans:`${tb("(A'BD) \\parallel (CB'D')")}.`},
+ ]},
+ {dang:'Định lí Thales; hình chóp cắt bởi mặt phẳng song song đáy', items:[
+  {de:`Ba mặt phẳng song song cắt hai đường thẳng tại ${m('A, B, C')} và ${m("A', B', C'")} (${m('B, B\'')} ở giữa). ${m('AB = 6')}, ${m('BC = 9')}, ${m("A'C' = 25")}. Tính ${m("A'B'")}.`,
+   sol:[`${m('AC = 6 + 9 = 15')}.`, `Thales: ${m("\\dfrac{A'B'}{A'C'} = \\dfrac{AB}{AC} = \\dfrac{6}{15}")} nên ${m("A'B' = 25\\cdot\\dfrac{6}{15} = 10")}.`], ans:`${tb("A'B' = 10")}.`},
+  {hard:true, de:`Hình chóp ${m('S.ABC')} có chu vi tam giác ${m('ABC')} bằng ${m('35')}, diện tích ${m('50')}. Mặt phẳng song song với ${m('(ABC)')} cắt ${m('SA, SB, SC')} tại ${m("A', B', C'")} với ${m("\\dfrac{SA'}{SA} = \\dfrac{2}{5}")}. Tính chu vi và diện tích tam giác ${m("A'B'C'")}.`,
+   sol:[`${m("A'B'C'")} đồng dạng ${m('ABC')} theo tỉ số ${m('k = \\dfrac{2}{5}')}.`, `Chu vi ${m('\\dfrac{2}{5}\\cdot 35 = 14')}.`, `Diện tích ${m('\\dfrac{4}{25}\\cdot 50 = 8')}.`], ans:`Chu vi ${tb('14')}, diện tích ${tb('8')}.`},
+ ]},
+ {dang:'Phép chiếu song song', items:[
+  {de:`Phép chiếu song song biến ba điểm thẳng hàng ${m('A, B, C')} (${m('B')} giữa ${m('A, C')}) thành ${m("A', B', C'")}. Biết ${m('AB = 6')}, ${m('BC = 10')}, ${m("A'C' = 24")}. Tính ${m("A'B'")}.`,
+   sol:[`${m('AC = 16')}; tỉ số trên cùng đường thẳng được bảo toàn: ${m("\\dfrac{A'B'}{A'C'} = \\dfrac{AB}{AC} = \\dfrac{6}{16}")}.`, `${m("A'B' = 24\\cdot\\dfrac{6}{16} = 9")}.`], ans:`${tb("A'B' = 9")}.`},
+  {hard:true, de:`Hình thang ${m('ABCD')} có ${m('AB \\parallel CD')}, ${m('AB = 3')}, ${m('CD = 9')}; hai đường chéo cắt nhau tại ${m('I')}. Phép chiếu song song biến ${m('ABCD')} thành ${m("A'B'C'D'")}, ${m('I')} thành ${m("I'")}. Biết ${m("B'D' = 16")}. Tính ${m("B'I'")}.`,
+   sol:[`${m('AB \\parallel CD')} nên ${m('\\dfrac{IB}{ID} = \\dfrac{AB}{CD} = \\dfrac{1}{3}')}, suy ra ${m('IB = \\dfrac{1}{4}BD')}.`, `Tỉ số trên cùng đường thẳng ${m('BD')} được bảo toàn: ${m("B'I' = \\dfrac{1}{4}B'D' = 4")}.`], ans:`${tb("B'I' = 4")}.`},
+ ]},
+ {dang:'Mệnh đề đúng – sai của cả chương', items:[
+  {de:`Mệnh đề nào đúng? (1) Hai đường thẳng không có điểm chung thì song song. (2) Nếu ${m('(P)')} chứa hai đường thẳng cắt nhau cùng song song với ${m('(Q)')} thì ${m('(P) \\parallel (Q)')}. (3) Phép chiếu song song giữ nguyên độ dài. (4) Hai mặt phẳng cùng song song với một đường thẳng thì song song nhau.`,
+   sol:[`(1) Sai: có thể chéo nhau.`, `(2) Đúng: điều kiện hai mặt phẳng song song.`, `(3) Sai: độ dài không được bảo toàn.`, `(4) Sai: hai mặt phẳng có thể cắt nhau.`], ans:`Chỉ mệnh đề ${tb('(2)')} đúng.`},
+ ]},
+]);
+})();

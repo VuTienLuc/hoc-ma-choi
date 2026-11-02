@@ -114,9 +114,9 @@ Thầy nhắn Claude: **“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”** (ho�
 | 15 | 10 | V | Bài 13. Các số đặc trưng đo xu thế trung tâm | `so-dac-trung-xu-the` | `bai-13` | ⬜ | |
 | 16 | 11 | IV | Bài 14. Hai mặt phẳng song song | `hai-mp-song-song` | `bai-13` | ✅ | Thực tế SGK là Bài 13 (id `bai-13`), làm 02/11/2026; giải SGK Luyện tập 6, Bài 4.21–4.24 (đề ghi tóm tắt) |
 | 17 | 10 | V | Bài 14. Các số đặc trưng đo độ phân tán | `so-dac-trung-phan-tan` | `bai-14` | ⬜ | |
-| 18 | 11 | IV | Bài 15. Phép chiếu song song | `phep-chieu-song-song` | `bai-15` | ⬜ | |
+| 18 | 11 | IV | Bài 15. Phép chiếu song song | `phep-chieu-song-song` | `bai-14` | ✅ | Thực tế SGK là Bài 14 (id `bai-14`), làm 02/11/2026; giải SGK Luyện tập 1–2, Bài 4.31, 4.33 (đề ghi tóm tắt, thầy đối chiếu) |
 | 19 | 10 | V | Ôn tập chương V | `on-tap-c5` | `on-tap-c5` | ⬜ | |
-| 20 | 11 | IV | Ôn tập chương IV | `on-tap-c4` | `on-tap-c4` | ⬜ | |
+| 20 | 11 | IV | Ôn tập chương IV | `on-tap-c4` | `on-tap-c4` | ✅ | 02/11/2026; giải SGK Bài 4.36 (tr. 102), 4.41, 4.43 (tr. 103) lấy từ vietjack, thầy đối chiếu |
 | 21 | 10 | VI | Bài 15. Hàm số | `ham-so` | `bai-15` | ⬜ | |
 | 22 | 11 | V | Bài 16. Giới hạn của dãy số | `gioi-han-day-so` | `bai-16` | ⬜ | |
 | 23 | 10 | VI | Bài 16. Hàm số bậc hai | `ham-so-bac-hai` | `bai-16` | ⬜ | |

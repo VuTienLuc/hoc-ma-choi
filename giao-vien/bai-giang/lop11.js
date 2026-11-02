@@ -634,6 +634,18 @@ const figPrismAB = prismFig({h:[["B'", "C'"]], fill:[['A', "B'", "C'"]], aria:"L
 const PRI_MID = {M:mid(PRI0.A, PRI0["A'"]), N:mid(PRI0.B, PRI0["B'"]), P:mid(PRI0.C, PRI0["C'"])};
 const figPrismMNP = prismFig({pts:PRI_MID, s:[['M', 'N'], ['N', 'P']], d:[['M', 'P']], fill:[['M', 'N', 'P']], aria:"Lăng trụ ABC.A'B'C' với mặt phẳng (MNP) song song đáy"});
 
+/* ---- Bài 14: phép chiếu song song ---- */
+const fgProj = (f, o = {}) => { const A = [40, 30], Cc = [160, 50], dx = 30, dy = 100, B = [A[0] + f * (Cc[0] - A[0]), A[1] + f * (Cc[1] - A[1])];
+  const pj = X => { const t = (170 - X[1]) / dy; return [X[0] + t * dx, 170]; };
+  return spaceSVG({pts:{A, B, C:Cc, "A'":pj(A), "B'":pj(B), "C'":pj(Cc)}, planes:[{q:[[20, 178], [250, 178], [310, 150], [80, 150]], lab:'(P)', at:[286, 176]}], s:[['A', 'C']], d:[['A', "A'"], ['B', "B'"], ['C', "C'"]], off:{"A'":[-14, 8], "B'":[0, 16], "C'":[14, 8]}, w:330, ht:200, aria:o.aria || 'Phép chiếu song song lên mặt phẳng (P) biến ba điểm thẳng hàng A, B, C thành A′, B′, C′'}); };
+const fgTri = () => { const A = [95, 15], B = [170, 85], C = [300, 70], pj = X => { const t = (170 - X[1]) / 100; return [X[0] - 20 * t, 170]; }, M = [(B[0] + C[0]) / 2, (B[1] + C[1]) / 2];
+  return spaceSVG({pts:{A, B, C, M, "A'":pj(A), "B'":pj(B), "C'":pj(C), "M'":pj(M)}, planes:[{q:[[10, 182], [320, 182], [350, 150], [40, 150]], lab:'(P)', at:[326, 176]}], s:[['A', 'B'], ['B', 'C'], ['C', 'A'], ['A', 'M']], d:[['A', "A'"], ['B', "B'"], ['C', "C'"], ['M', "M'"]], h:[["A'", "B'"], ["B'", "C'"], ["C'", "A'"], ["A'", "M'"]], off:{"A'":[-14, 8], "B'":[0, 16], "C'":[14, 8], "M'":[0, 16]}, w:360, ht:210, aria:"Phép chiếu song song lên (P) biến tam giác ABC thành tam giác A′B′C′, trung điểm M của BC thành trung điểm M′ của B′C′"}); };
+const figCubeP1 = cubeFig({h:[['A', 'D'], ['B', 'C']], fill:[['D', 'C', "C'", "D'"]], aria:"Hình lập phương: chiếu A lên (DCC'D') theo phương BC được D"});
+const figCubeP2 = cubeFig({h:[['A', "D'"], ['B', "C'"]], fill:[['D', 'C', "C'", "D'"]], aria:"Hình lập phương: chiếu AB lên (DCC'D') theo phương BC' được D'C'"});
+const figCubeP3 = cubeFig({h:[['A', "B'"], ['D', 'C']], fill:[['A', 'B', 'C', 'D']], aria:"Hình lập phương: chiếu C' lên (ABCD) theo phương AB' được D"});
+const SHY = 150;
+const figShadow = spaceSVG({pts:{A:[50, SHY - 60], B:[50, SHY], C:[120, SHY], D:[200, SHY - 90], E:[200, SHY], F:[305, SHY]}, planes:[{q:[[10, SHY + 12], [330, SHY + 12], [336, SHY - 8], [16, SHY - 8]], lab:'', at:[330, SHY + 10]}], s:[['A', 'B'], ['D', 'E'], ['B', 'C'], ['E', 'F']], d:[['A', 'C'], ['D', 'F']], off:{A:[-12, 0], D:[-12, 0], B:[-12, 4], E:[-12, 4], C:[0, 14], F:[0, 14]}, w:340, ht:180, aria:'Hai cột thẳng đứng AB và DE có bóng BC và EF trên mặt đất: các tia nắng AC và DF song song'});
+
 Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương IV. Quan hệ song song trong không gian', lessons:[
 
 { id:'bai-10', name:'Bài 10. Đường thẳng và mặt phẳng trong không gian', desc:'Mặt phẳng, hình biểu diễn; sáu tính chất thừa nhận; ba cách xác định mặt phẳng; giao tuyến, giao điểm; hình chóp và tứ diện.', slides:[
@@ -996,6 +1008,154 @@ Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương IV. Quan h�
 
   {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
    body:`<ul><li>Hai mặt phẳng phân biệt: <b>song song</b> (không điểm chung) hoặc <b>cắt nhau</b> (một giao tuyến).</li><li>${m('(P) \\parallel (Q)')} khi ${m('(P)')} chứa hai đường thẳng <b>cắt nhau</b> cùng song song với ${m('(Q)')}.</li><li>Mặt phẳng thứ ba cắt hai mặt phẳng song song theo hai giao tuyến <b>song song</b>.</li><li>Thales không gian: ${m("\\dfrac{AB}{BC} = \\dfrac{A'B'}{B'C'}")}; chóp cắt song song đáy: chu vi nhân ${m('k')}, diện tích nhân ${m('k^2')}.</li></ul>` + box('Về nhà: làm Luyện tập 1–4 và các bài trong phiếu luyện tập.')},
+]},
+{ id:'bai-14', name:'Bài 14. Phép chiếu song song', desc:'Phép chiếu song song và hình chiếu của điểm, đoạn thẳng; tính chất (thẳng hàng, song song, tỉ số); hình chiếu của một hình; hình biểu diễn của hình không gian; bài toán bóng nắng.', slides:[
+  TITLE('Bài 14. Phép chiếu song song', ['Nắm định nghĩa phép chiếu song song, mặt phẳng chiếu và phương chiếu.', 'Nhớ các tính chất được bảo toàn (thẳng hàng, song song, tỉ số) và không được bảo toàn (độ dài, góc, vuông góc).', 'Tìm hình chiếu của điểm, đoạn thẳng, hình; tính độ dài nhờ bảo toàn tỉ số.', 'Hiểu hình biểu diễn của hình không gian và giải các bài toán bóng nắng.']),
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Phép chiếu song song',
+   body: box(`Cho mặt phẳng ${m('(P)')} và đường thẳng ${m('\\ell')} cắt ${m('(P)')}. Với mỗi điểm ${m('M')}, đường thẳng qua ${m('M')} song song với ${m('\\ell')} cắt ${m('(P)')} tại ${m("M'")}. Điểm ${m("M'")} là <b>hình chiếu song song</b> của ${m('M')} lên ${m('(P)')} theo phương ${m('\\ell')}.`) +
+     S(`${m('(P)')} là <b>mặt phẳng chiếu</b>, ${m('\\ell')} là <b>phương chiếu</b>. Hình chiếu của một hình ${m('\\mathcal H')} là tập hợp các hình chiếu của mọi điểm của ${m('\\mathcal H')}.`) +
+     note(`Điểm nằm trong ${m('(P)')} có hình chiếu là chính nó. Phương chiếu <b>không</b> được song song hoặc nằm trong ${m('(P)')}.`),
+   fig: fgProj(.4)},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Tính chất của phép chiếu song song',
+   body: box(`<b>Được bảo toàn:</b><br>① Hình chiếu của đường thẳng là đường thẳng (hoặc một điểm nếu đường thẳng song song phương chiếu).<br>② Ba điểm thẳng hàng → ba điểm thẳng hàng, <b>giữ nguyên thứ tự</b>.<br>③ Hai đường thẳng song song → hai đường thẳng song song (hoặc trùng nhau).<br>④ <b>Tỉ số</b> độ dài hai đoạn thẳng nằm trên một đường thẳng, hoặc trên hai đường thẳng song song, được giữ nguyên.`) +
+     S(`Hệ quả: trung điểm → trung điểm; trọng tâm tam giác → trọng tâm tam giác hình chiếu; hình bình hành → hình bình hành; hình thang → hình thang (tỉ số hai đáy giữ nguyên).`) +
+     note(`<b>Không</b> được bảo toàn: độ dài, số đo góc, quan hệ vuông góc, tính chất “đều”, hình tròn. Hai đường thẳng chéo nhau có thể có hình chiếu cắt nhau hoặc song song.`),
+   fig: fgTri()},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Hình chiếu của một hình',
+   body: box(`Với mặt phẳng chứa hình không song song phương chiếu:<br>• tam giác → <b>tam giác</b> (bất kì, không còn đều, vuông, cân);<br>• hình bình hành (hình chữ nhật, hình thoi, hình vuông) → <b>hình bình hành</b>;<br>• hình thang → <b>hình thang</b>; • đường tròn → <b>elip</b>.`) +
+     S(`Muốn chứng minh hình chiếu là hình bình hành: chỉ ra hai cặp cạnh đối song song, rồi dùng tính chất bảo toàn song song.`) +
+     note(`Nếu mặt phẳng chứa hình <b>song song</b> với phương chiếu thì hình chiếu suy biến thành một đoạn thẳng (một đường thẳng).`),
+   fig: figCubeP1},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Hình biểu diễn của hình không gian',
+   body: box(`Hình biểu diễn của một hình không gian là <b>hình chiếu song song</b> của nó lên một mặt phẳng (tờ giấy).<br>Quy ước: cạnh nhìn thấy vẽ <b>nét liền</b>, cạnh bị che khuất vẽ <b>nét đứt</b>; giữ quan hệ song song và tỉ số độ dài.`) +
+     S(`Hình vuông, hình chữ nhật, hình thoi thường vẽ thành hình bình hành; tam giác vuông, đều vẽ thành tam giác tuỳ ý; hình chóp có đáy hình thang thì vẽ đáy là hình thang với tỉ số hai đáy đúng như thật.`) +
+     note(`Trên hình biểu diễn không đo được góc vuông hay độ dài thật: chỉ tin vào quan hệ song song và tỉ số.`),
+   fig: pgFig()},
+
+  /* ---- Dạng 1 ---- */
+  {kind:'method', tag:'Dạng 1', title:'Tìm hình chiếu của điểm, đoạn thẳng',
+   steps:[`Kẻ qua điểm cần chiếu đường thẳng <b>song song với phương chiếu</b>.`, `Tìm giao điểm của đường thẳng đó với mặt phẳng chiếu: đó là hình chiếu (trong hình hộp, thường là một đỉnh).`, `Hình chiếu của đoạn thẳng = đoạn nối hình chiếu của hai đầu mút (hai ảnh trùng nhau thì ảnh là một điểm).`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Tìm hình chiếu song song của điểm ${m('A')} lên mặt phẳng ${m("(DCC'D')")} theo phương ${m('BC')}.`, fig: figCubeP1,
+   sol:[`Đường thẳng qua ${m('A')} song song với ${m('BC')} là đường thẳng ${m('AD')} (vì ${m('ABCD')} là hình vuông, ${m('AD \\parallel BC')}).`, `${m('AD')} cắt ${m("(DCC'D')")} tại ${m('D')}.`], ans:`Hình chiếu của ${m('A')} là điểm ${tb('D')}.`},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Tìm hình chiếu song song của đoạn thẳng ${m('AB')} lên mặt phẳng ${m("(DCC'D')")} theo phương ${m("BC'")}.`, fig: figCubeP2,
+   sol:[`${m("AD' \\parallel BC'")} (hai cạnh đối của hình chữ nhật ${m("ABC'D'")}) và ${m("D' \\in (DCC'D')")} nên hình chiếu của ${m('A')} là ${m("D'")}.`, `${m("C'")} thuộc ${m("(DCC'D')")} và đường thẳng qua ${m('B')} song song ${m("BC'")} chính là ${m("BC'")}: hình chiếu của ${m('B')} là ${m("C'")}.`, `Vậy hình chiếu của đoạn ${m('AB')} là đoạn ${m("D'C'")}.`], ans:`Đoạn ${tb("D'C'")}.`},
+
+  /* ---- Dạng 2 ---- */
+  {kind:'method', tag:'Dạng 2', title:'Nhận biết tính chất đúng – sai',
+   steps:[`Nhớ: giữ <b>thẳng hàng, thứ tự, song song, tỉ số</b>; không giữ <b>độ dài, góc, vuông góc</b>.`, `Phát biểu về độ dài tuyệt đối, góc, vuông góc, “đều”, hình tròn: thường <b>sai</b>.`, `Phát biểu về trung điểm, trọng tâm, tỉ số, song song: thường <b>đúng</b>.`]},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Mệnh đề nào đúng? (1) Phép chiếu song song giữ nguyên độ dài đoạn thẳng. (2) Phép chiếu song song biến trung điểm thành trung điểm. (3) Hình chiếu của hai đường thẳng vuông góc luôn vuông góc. (4) Hình chiếu của hai đường thẳng song song là hai đường thẳng song song hoặc trùng nhau.`,
+   sol:[`(1) Sai: độ dài thay đổi (đoạn song song phương chiếu biến thành một điểm).`, `(2) Đúng: tỉ số độ dài trên một đường thẳng được bảo toàn (tỉ số 1 : 1).`, `(3) Sai: vuông góc không được bảo toàn.`, `(4) Đúng: tính chất bảo toàn song song.`], ans:`Các mệnh đề đúng: ${tb('(2) và (4)')}.`},
+
+  /* ---- Dạng 3 ---- */
+  {kind:'method', tag:'Dạng 3', title:'Tính độ dài, tỉ số bằng tính chất bảo toàn tỉ số',
+   steps:[`Chọn hai đoạn nằm trên cùng một đường thẳng (hoặc hai đường thẳng song song) cần so sánh.`, `Viết tỉ số các đoạn gốc bằng tỉ số các đoạn hình chiếu: ${m("\\dfrac{A'B'}{B'C'} = \\dfrac{AB}{BC}")}.`, `Giải tìm độ dài chưa biết; với trung điểm, trọng tâm dùng tỉ số ${m('1:2')}, ${m('2:3')}.`]},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 3', label:'Ví dụ 4', de:`Phép chiếu song song biến ba điểm thẳng hàng ${m('A, B, C')} (${m('B')} giữa ${m('A, C')}) thành ${m("A', B', C'")}. Biết ${m('AB = 6')}, ${m('BC = 9')}, ${m("A'B' = 4")}. Tính ${m("B'C'")}.`, fig: fgProj(.4),
+   sol:[`Tỉ số được bảo toàn: ${m("\\dfrac{B'C'}{A'B'} = \\dfrac{BC}{AB} = \\dfrac{9}{6}")}.`, `${m("B'C' = 4 \\cdot \\dfrac{9}{6} = 6")}.`], ans:`${tb("B'C' = 6")}.`},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Phép chiếu song song biến tam giác ${m('ABC')} thành tam giác ${m("A'B'C'")}; ${m('M')} là trung điểm ${m('BC')}, ${m('G')} là trọng tâm tam giác ${m('ABC')}. Biết ${m("A'M' = 9")}. Tính ${m("A'G'")}.`, fig: fgTri(),
+   sol:[`${m("M'")} là trung điểm ${m("B'C'")}, ${m("G'")} là trọng tâm tam giác ${m("A'B'C'")}.`, `${m("\\dfrac{A'G'}{A'M'} = \\dfrac{AG}{AM} = \\dfrac{2}{3}")}, nên ${m("A'G' = \\dfrac{2}{3}\\cdot 9 = 6")}.`], ans:`${tb("A'G' = 6")}.`},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Hình thang ${m('ABCD')} có ${m('AB \\parallel CD')}, ${m('CD = 3AB')}. Phép chiếu song song biến ${m('ABCD')} thành tứ giác ${m("A'B'C'D'")} với ${m("A'B' = 4")}. Tính ${m("C'D'")}.`,
+   sol:[`${m('AB \\parallel CD')} nên ${m("A'B' \\parallel C'D'")}; tỉ số hai đoạn song song được bảo toàn.`, `${m("\\dfrac{C'D'}{A'B'} = \\dfrac{CD}{AB} = 3")} nên ${m("C'D' = 3\\cdot 4 = 12")}.`], ans:`${tb("C'D' = 12")}.`},
+
+  /* ---- Dạng 4 ---- */
+  {kind:'method', tag:'Dạng 4', title:'Hình chiếu của một hình (tam giác, hình bình hành, hình thang)',
+   steps:[`Liệt kê các quan hệ song song của hình gốc (cạnh đối, đường chéo cắt tại trung điểm).`, `Các quan hệ đó được bảo toàn ⇒ suy ra hình chiếu là hình gì.`, `Nhớ các tính chất <b>mất đi</b>: vuông góc, bằng nhau, đều.`]},
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Hình vuông ${m('ABCD')} tâm ${m('O')} được chiếu song song thành tứ giác ${m("A'B'C'D'")} (không suy biến). Hỏi ${m("A'B'C'D'")} là hình gì? ${m("O")} biến thành điểm nào?`,
+   sol:[`${m('AB \\parallel CD')} và ${m('AD \\parallel BC')} nên ${m("A'B' \\parallel C'D'")} và ${m("A'D' \\parallel B'C'")}.`, `Vậy ${m("A'B'C'D'")} là hình bình hành.`, `${m('O')} là trung điểm ${m('AC')} nên ${m("O'")} là trung điểm ${m("A'C'")} (cũng là trung điểm ${m("B'D'")}).`], ans:`${tw('Hình bình hành')}; ${m("O'")} là ${tw('giao điểm hai đường chéo')} của ${m("A'B'C'D'")}.`},
+
+  /* ---- Dạng 5 ---- */
+  {kind:'method', tag:'Dạng 5', title:'Hình biểu diễn của hình không gian',
+   steps:[`Vẽ đáy trước theo đúng quan hệ song song và tỉ số (hình bình hành, hình thang).`, `Nối đỉnh với các đỉnh đáy: cạnh bị che vẽ <b>nét đứt</b>.`, `Từ độ dài trên hình biểu diễn và tỉ số trên hình thật, tính độ dài còn lại.`]},
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 5', label:'Ví dụ 8', de:`Hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình thang, ${m('AD \\parallel BC')}, ${m('BC = 2')} cm, ${m('AD = 6')} cm. Trong hình biểu diễn, ${m("B'C' = 3")} cm. Tính ${m("A'D'")} (cm) và nêu cách vẽ hình biểu diễn đáy.`, fig: pyFig({pts:{A:[60, 142], D:[240, 142], B:[135, 186], C:[195, 186]}}),
+   sol:[`${m("\\dfrac{A'D'}{B'C'} = \\dfrac{AD}{BC} = \\dfrac{6}{2} = 3")}.`, `${m("A'D' = 3\\cdot 3 = 9")} cm.`, `Vẽ ${m("A'D' \\parallel B'C'")} sao cho ${m("A'D'")} dài gấp ba lần ${m("B'C'")}.`], ans:`${tb("A'D' = 9")} cm.`},
+
+  /* ---- Dạng 6 ---- */
+  {kind:'method', tag:'Dạng 6', title:'Bài toán bóng nắng (tia sáng song song)',
+   steps:[`Tia nắng song song: bóng trên mặt đất là hình chiếu song song của vật; cột thẳng đứng đặt trên mặt đất.`, `Hai cột cùng thời điểm: ${m('\\dfrac{\\text{chiều cao}}{\\text{độ dài bóng}}')} bằng nhau.`, `Lập tỉ lệ và giải; cẩn thận đổi đơn vị.`]},
+  {kind:'vd', tag:'Ví dụ 9 · Dạng 6', label:'Ví dụ 9', de:`Cùng một lúc, thanh thẳng đứng cao ${m('2')} m có bóng dài ${m('3')} m. Cột cờ thẳng đứng có bóng dài ${m('12')} m. Tính chiều cao cột cờ.`, fig: figShadow,
+   sol:[`Ánh nắng là các tia song song: tỉ số chiều cao : bóng được bảo toàn.`, `${m("\\dfrac{h}{12} = \\dfrac{2}{3}")} nên ${m("h = 12\\cdot\\dfrac{2}{3} = 8")}.`], ans:`Cột cờ cao ${tb('8')} m.`},
+  {kind:'vd', tag:'Ví dụ 10 · Dạng 6', label:'Ví dụ 10', de:`Cùng một lúc, thanh cao ${m('2')} m có bóng dài ${m('3')} m. Hai cột thẳng đứng cao ${m('4')} m và ${m('6')} m. Tính tổng độ dài bóng của hai cột.`,
+   sol:[`Bóng cột ${m('4')} m: ${m("4\\cdot\\dfrac{3}{2} = 6")} m.`, `Bóng cột ${m('6')} m: ${m("6\\cdot\\dfrac{3}{2} = 9")} m.`, `Tổng ${m('6 + 9 = 15')} m.`], ans:`${tb('15')} m.`},
+
+  /* ---- Luyện tập ---- */
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Tìm hình chiếu song song của điểm ${m("C'")} lên mặt phẳng ${m('(ABCD)')} theo phương ${m("AB'")}.`, fig: figCubeP3,
+   sol:[`Đường thẳng qua ${m("C'")} song song với ${m("AB'")} là ${m("C'D")} (vì ${m("AB'C'D")} là hình chữ nhật).`, `${m("C'D")} cắt ${m('(ABCD)')} tại ${m('D')}.`], ans:`Hình chiếu của ${m("C'")} là ${tb('D')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Phép chiếu song song biến ba điểm thẳng hàng ${m('A, B, C')} (${m('B')} giữa ${m('A, C')}) thành ${m("A', B', C'")}. Biết ${m('AB = 10')}, ${m('BC = 15')}, ${m("A'C' = 20")}. Tính ${m("A'B'")} và ${m("B'C'")}.`, fig: fgProj(.4),
+   sol:[`${m('AC = 10 + 15 = 25')}, ${m("\\dfrac{A'B'}{A'C'} = \\dfrac{AB}{AC} = \\dfrac{10}{25}")}.`, `${m("A'B' = 20\\cdot\\dfrac{10}{25} = 8")}; ${m("B'C' = 20 - 8 = 12")}.`], ans:`${tb("A'B' = 8")}, ${tb("B'C' = 12")}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Phép chiếu song song biến tam giác ${m('ABC')} thành tam giác ${m("A'B'C'")}; ${m('M')} là trung điểm ${m('BC')}, ${m('G')} là trọng tâm tam giác ${m('ABC')}. Biết ${m("G'M' = 2")}. Tính ${m("A'M'")}.`, fig: fgTri(),
+   sol:[`${m('GM = \\dfrac{1}{3}AM')}, tỉ số được bảo toàn nên ${m("G'M' = \\dfrac{1}{3}A'M'")}.`, `${m("A'M' = 3\\cdot 2 = 6")}.`], ans:`${tb("A'M' = 6")}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Cùng một lúc, cọc thẳng đứng cao ${m('4')} m có bóng dài ${m('5')} m. Một cây có bóng dài ${m('15')} m và một toà nhà có bóng dài ${m('25')} m (cùng mặt đất phẳng). Tính tổng chiều cao của cây và toà nhà.`, fig: figShadow,
+   sol:[`Chiều cao cây: ${m("15\\cdot\\dfrac{4}{5} = 12")} m.`, `Chiều cao toà nhà: ${m("25\\cdot\\dfrac{4}{5} = 20")} m.`, `Tổng ${m('12 + 20 = 32')} m.`], ans:`${tb('32')} m.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>Hình chiếu song song của ${m('M')}: giao điểm của ${m('(P)')} với đường thẳng qua ${m('M')} song song phương chiếu.</li><li><b>Giữ:</b> thẳng hàng và thứ tự, song song, <b>tỉ số</b> (trung điểm, trọng tâm).</li><li><b>Không giữ:</b> độ dài, góc, vuông góc, “đều”, hình tròn.</li><li>Hình biểu diễn: nét liền – nét đứt; hình bình hành, hình thang giữ quan hệ song song và tỉ số.</li><li>Bóng nắng: tỉ số chiều cao : bóng bằng nhau cho mọi cột thẳng đứng cùng lúc.</li></ul>` + box('Về nhà: làm Luyện tập 1–4 và các bài trong phiếu luyện tập.')},
+]},
+{ id:'on-tap-c4', name:'Ôn tập chương IV', desc:'Hệ thống kiến thức chương IV (giao tuyến, đường thẳng – mặt phẳng song song, hai mặt phẳng song song, phép chiếu song song); ví dụ tổng hợp từng dạng.', slides:[
+  TITLE('Ôn tập chương IV. Quan hệ song song trong không gian', ['Hệ thống hoá kiến thức Bài 10–14.', 'Phân loại và giải 5 dạng bài tổng hợp: giao tuyến; đường thẳng – mặt phẳng song song và thiết diện; hai mặt phẳng song song; Thales và chóp cắt; phép chiếu song song.', 'Tự phát hiện các lỗi hay gặp (thiếu “cắt nhau”, thiếu “không nằm trong”).']),
+
+  {kind:'kt', tag:'Hệ thống kiến thức 1', title:'Hai đường thẳng – đường thẳng và mặt phẳng',
+   body: box(`<b>Hai đường thẳng song song:</b> cùng song song đường thứ ba thì song song nhau; hai mặt phẳng cắt nhau chứa hai đường song song thì giao tuyến song song với chúng.<br><b>Đường thẳng ∥ mặt phẳng:</b> ${m('d \\parallel a,\\ a \\subset (P),\\ d \\not\\subset (P) \\Rightarrow d \\parallel (P)')}.`) +
+     S(`Mặt phẳng ${m('(\\alpha)')} chứa ${m('d \\parallel (P)')} và cắt ${m('(P)')} thì giao tuyến song song với ${m('d')}.`) +
+     note(`Hai đường thẳng không có điểm chung có thể <b>chéo nhau</b>; hai đường thẳng cùng song song với một mặt phẳng có thể cắt nhau hoặc chéo nhau.`),
+   fig: figParMN},
+
+  {kind:'kt', tag:'Hệ thống kiến thức 2', title:'Hai mặt phẳng song song và phép chiếu song song',
+   body: box(`${m('(P) \\parallel (Q)')} khi ${m('(P)')} chứa hai đường thẳng <b>cắt nhau</b> cùng song song với ${m('(Q)')}. Mặt phẳng thứ ba cắt hai mặt phẳng song song theo hai giao tuyến song song. Thales trong không gian: các đoạn tương ứng tỉ lệ; chóp cắt bởi mặt phẳng song song đáy: chu vi nhân ${m('k')}, diện tích nhân ${m('k^2')}.`) +
+     S(`Phép chiếu song song giữ thẳng hàng, thứ tự, song song và <b>tỉ số</b> (trung điểm, trọng tâm); không giữ độ dài, góc, vuông góc.`) +
+     note(`Điều kiện “hai đường thẳng <b>cắt nhau</b>” không được bỏ khi chứng minh hai mặt phẳng song song.`),
+   fig: thalesFig},
+
+  /* ---- Dạng 1 ---- */
+  {kind:'method', tag:'Dạng 1', title:'Tìm giao tuyến của hai mặt phẳng',
+   steps:[`Tìm hai điểm chung của hai mặt phẳng (thường nối giao điểm của các đường thẳng cắt nhau).`, `Nếu hai mặt phẳng chứa hai đường thẳng <b>song song</b>: giao tuyến là đường thẳng qua điểm chung và song song với chúng.`, `Kiểm tra lại: giao tuyến thuộc cả hai mặt phẳng.`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành. Tìm giao tuyến của ${m('(SAD)')} và ${m('(SBC)')}.`, fig: figSx,
+   sol:[`${m('S')} là điểm chung.`, `${m('AD \\subset (SAD)')}, ${m('BC \\subset (SBC)')}, ${m('AD \\parallel BC')} nên giao tuyến là đường thẳng ${m('Sx')} qua ${m('S')} song song với ${m('AD, BC')}.`], ans:`${tb('Sx \\parallel AD \\parallel BC')}.`},
+
+  /* ---- Dạng 2 ---- */
+  {kind:'method', tag:'Dạng 2', title:'Đường thẳng song song mặt phẳng; thiết diện',
+   steps:[`Tìm trong mặt phẳng một đường thẳng song song với đường đã cho (đường trung bình, cạnh đối hình bình hành).`, `Nêu rõ đường thẳng đã cho <b>không nằm trong</b> mặt phẳng.`, `Thiết diện song song hai đường thẳng: vẽ lần lượt các đoạn giao tuyến, dùng Thales tính độ dài.`]},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 2', label:'Ví dụ 2', de:`Cho tứ diện ${m('ABCD')}, ${m('M, N')} lần lượt là trung điểm ${m('AB, AC')}. Chứng minh ${m('MN \\parallel (BCD)')}.`, fig: figParMN,
+   sol:[`${m('MN')} là đường trung bình của tam giác ${m('ABC')} nên ${m('MN \\parallel BC')}.`, `${m('BC \\subset (BCD)')} và ${m('MN \\not\\subset (BCD)')} (vì ${m('M \\notin (BCD)')}).`, `Vậy ${m('MN \\parallel (BCD)')}.`], ans:`${tb('MN \\parallel (BCD)')}.`},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Cho tứ diện ${m('ABCD')} có ${m('AD = 9')}, ${m('BC = 6')}. Điểm ${m('M')} thuộc ${m('AB')} với ${m('AM = \\dfrac{1}{3}AB')}. Mặt phẳng qua ${m('M')} song song với ${m('BC')} và ${m('AD')} cắt ${m('AC, CD, BD')} lần lượt tại ${m('N, P, Q')}. Tính chu vi ${m('MNPQ')}.`, fig: secFig(1 / 3),
+   sol:[`${m('MN \\parallel BC')} nên ${m('\\dfrac{MN}{BC} = \\dfrac{AM}{AB} = \\dfrac{1}{3}')}, ${m('MN = 2')}.`, `${m('MQ \\parallel AD')} nên ${m('\\dfrac{MQ}{AD} = \\dfrac{BM}{BA} = \\dfrac{2}{3}')}, ${m('MQ = 6')}.`, `${m('MNPQ')} là hình bình hành (${m('NP \\parallel AD \\parallel MQ')}, ${m('PQ \\parallel BC \\parallel MN')}): chu vi ${m('2(2 + 6) = 16')}.`], ans:`${tb('16')}.`},
+
+  /* ---- Dạng 3 ---- */
+  {kind:'method', tag:'Dạng 3', title:'Chứng minh hai mặt phẳng song song',
+   steps:[`Chọn hai đường thẳng <b>cắt nhau</b> trong mặt phẳng thứ nhất.`, `Chỉ ra mỗi đường song song với một đường thẳng nằm trong mặt phẳng thứ hai.`, `Kiểm tra hai đường thẳng đó không nằm trong mặt phẳng thứ hai, rồi kết luận.`]},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 3', label:'Ví dụ 4', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Chứng minh ${m("(AB'D') \\parallel (BC'D)")}.`, fig: figTri2,
+   sol:[`${m("AB' \\parallel DC'")} và ${m("AD' \\parallel BC'")} (cạnh đối của các hình chữ nhật ${m("AB'C'D")}, ${m("ABC'D'")}).`, `${m("AB', AD'")} cắt nhau tại ${m('A')} trong ${m("(AB'D')")} và không nằm trong ${m("(BC'D)")}.`, `Vậy ${m("(AB'D') \\parallel (BC'D)")}.`], ans:`${tb("(AB'D') \\parallel (BC'D)")}.`},
+
+  /* ---- Dạng 4 ---- */
+  {kind:'method', tag:'Dạng 4', title:'Định lí Thales và hình chóp cắt bởi mặt phẳng song song đáy',
+   steps:[`Ba mặt phẳng song song chắn trên hai cát tuyến các đoạn tương ứng tỉ lệ.`, `Mặt phẳng song song đáy cắt chóp theo đa giác đồng dạng đáy, tỉ số ${m('k = \\dfrac{SA\'}{SA}')}.`, `Chu vi nhân ${m('k')}, diện tích nhân ${m('k^2')}.`]},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 4', label:'Ví dụ 5', de:`Ba mặt phẳng song song cắt hai đường thẳng tại ${m('A, B, C')} và ${m("A', B', C'")} (${m('B, B\'')} ở giữa). ${m('AB = 6')}, ${m('BC = 9')}, ${m("A'C' = 25")}. Tính ${m("A'B'")}.`, fig: thalesFig,
+   sol:[`${m('AC = 6 + 9 = 15')}; Thales: ${m("\\dfrac{A'B'}{A'C'} = \\dfrac{AB}{AC} = \\dfrac{6}{15}")}.`, `${m("A'B' = 25\\cdot\\dfrac{6}{15} = 10")}.`], ans:`${tb("A'B' = 10")}.`},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 4', label:'Ví dụ 6', de:`Hình chóp ${m('S.ABC')}, mặt phẳng song song với ${m('(ABC)')} cắt ${m('SA, SB, SC')} tại ${m("A', B', C'")} với ${m("\\dfrac{SA'}{SA} = \\dfrac{2}{5}")}. Chu vi ${m('ABC')} bằng ${m('35')}, diện tích ${m('50')}. Tính chu vi và diện tích ${m("A'B'C'")}.`, fig: stFig(2 / 5),
+   sol:[`${m("A'B'C'")} đồng dạng ${m('ABC')} theo tỉ số ${m('k = \\dfrac{2}{5}')}.`, `Chu vi ${m('\\dfrac{2}{5}\\cdot 35 = 14')}; diện tích ${m('\\dfrac{4}{25}\\cdot 50 = 8')}.`], ans:`Chu vi ${tb('14')}, diện tích ${tb('8')}.`},
+
+  /* ---- Dạng 5 ---- */
+  {kind:'method', tag:'Dạng 5', title:'Phép chiếu song song và mệnh đề đúng – sai',
+   steps:[`Bảo toàn: thẳng hàng, thứ tự, song song, tỉ số. Không bảo toàn: độ dài, góc, vuông góc.`, `Mệnh đề thiếu điều kiện (“cắt nhau”, “không nằm trong”): thường sai; tìm phản ví dụ.`, `Tính độ dài trên hình chiếu bằng tỉ số của các đoạn trên cùng đường thẳng hoặc hai đường song song.`]},
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 5', label:'Ví dụ 7', de:`Phép chiếu song song biến ba điểm thẳng hàng ${m('A, B, C')} (${m('B')} giữa ${m('A, C')}) thành ${m("A', B', C'")}; ${m('AB = 10')}, ${m('BC = 15')}, ${m("B'C' = 6")}. Tính ${m("A'B'")}.`, fig: fgProj(.4),
+   sol:[`${m("\\dfrac{A'B'}{B'C'} = \\dfrac{AB}{BC} = \\dfrac{10}{15}")}.`, `${m("A'B' = 6\\cdot\\dfrac{10}{15} = 4")}.`], ans:`${tb("A'B' = 4")}.`},
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 5', label:'Ví dụ 8', de:`Mệnh đề nào đúng? (1) Hai đường thẳng không có điểm chung thì song song. (2) Nếu ${m('(P)')} chứa hai đường thẳng cắt nhau cùng song song với ${m('(Q)')} thì ${m('(P) \\parallel (Q)')}. (3) Phép chiếu song song giữ nguyên độ dài. (4) Hai mặt phẳng cùng song song với một đường thẳng thì song song nhau.`,
+   sol:[`(1) Sai: có thể chéo nhau.`, `(2) Đúng: điều kiện hai mặt phẳng song song.`, `(3) Sai: độ dài không được bảo toàn.`, `(4) Sai: hai mặt phẳng có thể cắt nhau (theo giao tuyến song song với đường thẳng đó).`], ans:`Chỉ mệnh đề ${tb('(2)')} đúng.`},
+
+  /* ---- Luyện tập ---- */
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành. Tìm giao tuyến của ${m('(SAB)')} và ${m('(SCD)')}.`, fig: figSxAB,
+   sol:[`${m('S')} là điểm chung; ${m('AB \\subset (SAB)')}, ${m('CD \\subset (SCD)')}, ${m('AB \\parallel CD')}.`, `Giao tuyến là đường thẳng ${m('Sx')} qua ${m('S')} song song ${m('AB, CD')}.`], ans:`${tb('Sx \\parallel AB \\parallel CD')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho tứ diện ${m('ABCD')} có ${m('AD = 12')}, ${m('BC = 8')}. Điểm ${m('M')} thuộc ${m('AB')} với ${m('AM = \\dfrac{1}{4}AB')}. Mặt phẳng qua ${m('M')} song song với ${m('BC')} và ${m('AD')} cắt các cạnh tại ${m('N, P, Q')}. Tính chu vi thiết diện.`, fig: secFig(1 / 4),
+   sol:[`${m('MN = \\dfrac{1}{4}BC = 2')}.`, `${m('MQ = \\dfrac{3}{4}AD = 9')}.`, `Thiết diện là hình bình hành, chu vi ${m('2(2 + 9) = 22')}.`], ans:`${tb('22')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Chứng minh ${m("(A'BD) \\parallel (CB'D')")}.`, fig: cubeFig({fill:[['A\'', 'B', 'D'], ['C', "B'", "D'"]], aria:"Hình lập phương: hai mặt phẳng (A'BD) và (CB'D') song song"}),
+   sol:[`${m("A'BCD'")} là hình chữ nhật nên ${m("A'B \\parallel D'C")}; ${m("BDD'B'")} là hình chữ nhật nên ${m("BD \\parallel B'D'")}.`, `${m("A'B, BD")} cắt nhau tại ${m('B')} trong ${m("(A'BD)")}, không nằm trong ${m("(CB'D')")}; ${m("D'C, B'D' \\subset (CB'D')")}.`, `Vậy ${m("(A'BD) \\parallel (CB'D')")}.`], ans:`${tb("(A'BD) \\parallel (CB'D')")}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Hình thang ${m('ABCD')} có ${m('AB \\parallel CD')}, ${m('AB = 3')}, ${m('CD = 9')}; hai đường chéo cắt nhau tại ${m('I')}. Phép chiếu song song biến ${m('ABCD')} thành ${m("A'B'C'D'")}, ${m('I')} thành ${m("I'")}. Biết ${m("B'D' = 16")}. Tính ${m("B'I'")}.`,
+   sol:[`${m('\\dfrac{IB}{ID} = \\dfrac{AB}{CD} = \\dfrac{1}{3}')} nên ${m('IB = \\dfrac{1}{4}BD')}.`, `Tỉ số trên cùng đường thẳng ${m('BD')} được bảo toàn: ${m("B'I' = \\dfrac{1}{4}B'D' = 4")}.`], ans:`${tb("B'I' = 4")}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>Giao tuyến: hai điểm chung, hoặc điểm chung + phương song song.</li><li>${m('d \\parallel (P)')}: song song một đường trong ${m('(P)')} và ${m('d \\not\\subset (P)')}.</li><li>${m('(P) \\parallel (Q)')}: hai đường thẳng <b>cắt nhau</b> trong ${m('(P)')} cùng song song ${m('(Q)')}.</li><li>Thales, chóp cắt song song đáy: chu vi × ${m('k')}, diện tích × ${m('k^2')}.</li><li>Phép chiếu song song giữ tỉ số, thẳng hàng, song song; không giữ độ dài, góc, vuông góc.</li></ul>` + box('Về nhà: làm Luyện tập 1–4 và các bài trong phiếu luyện tập.')},
 ]},
 ]});
 })();

@@ -2150,3 +2150,331 @@ d) Hình lăng trụ có $3$ cặp mặt song song.  ☐ Đ ☐ S
 | Exit | C · Đ S Đ S · $6$ |
 | Về nhà | các đoạn tương ứng tỉ lệ nên bằng nhau |
 `);
+
+Lecture.addSheet('lop11', 'bai-14', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 14. Phép chiếu song song
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tam giác $ABC$, $G$ là trọng tâm, $M$ là trung điểm $BC$. Khi đó $\dfrac{AG}{AM}=$ ………………………
+
+**Câu 2.** Tam giác $ABC$, $M$, $N$ là trung điểm $AB$, $AC$ và $BC=14$. Khi đó $MN=$ ………………………
+
+**Câu 3.** Hai tam giác đồng dạng theo tỉ số $k=2$ thì tỉ số hai cạnh tương ứng bằng ………………………
+
+**Câu 4.** Hình thang $ABCD$ có $AB\parallel CD$, $AB=3$, $CD=9$. Khi đó $\dfrac{CD}{AB}=$ ………………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Buổi chiều nắng, trên sân trường có một cột cờ cao và một cột bóng rổ thấp hơn, cả hai thẳng đứng. Bóng của chúng đổ xuống sân thành hai vệt dài ngắn khác nhau, nhưng cùng một hướng.
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Hai vệt bóng giữ lại những đặc điểm nào của hai cột, và làm thế nào tính chiều cao cột khi chỉ đo bóng?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Phát biểu nào sau đây đúng với phép chiếu song song?
+
+A. Giữ nguyên độ dài mọi đoạn thẳng
+
+B. Biến trung điểm của đoạn thẳng thành trung điểm của đoạn thẳng hình chiếu
+
+C. Giữ nguyên số đo mọi góc
+
+D. Biến hai đường thẳng vuông góc thành hai đường thẳng vuông góc
+
+**Câu B.** Cho hình lập phương $ABCD.A'B'C'D'$. Hình chiếu của $A$ lên $(DCC'D')$ theo phương $BC$ là điểm
+
+A. $B$
+
+B. $C$
+
+C. $D$
+
+D. $D'$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Hình lập phương $ABCD.A'B'C'D'$. Hình chiếu của $C$ lên $(A'B'C'D')$ theo phương $BA'$ là điểm nào? Đáp số: ………………………
+
+**Câu 2 ★.** Phép chiếu song song biến $A,B,C$ thẳng hàng ($B$ giữa) thành $A',B',C'$. $AB=10$, $BC=15$, $B'C'=6$. Tính $A'B'$. Đáp số: ………………………
+
+**Câu 3 ★.** Tam giác $ABC$, $M$, $N$ là trung điểm $AB$, $AC$; phép chiếu song song biến thành tam giác $A'B'C'$ có $B'C'=18$. Tính $M'N'$. Đáp số: ………………………
+
+**Câu 4 ★★.** Tam giác $ABC$, $M$ là trung điểm $BC$, $G$ là trọng tâm. Phép chiếu cho $A'M'=12$. Tính $A'G'$. Đáp số: ………………………
+
+**Câu 5 ★★.** Hình thang $ABCD$ ($AB\parallel CD$), $CD=2AB$, hai đường chéo cắt nhau tại $I$. Phép chiếu cho $A'C'=21$. Tính $A'I'$. Đáp số: ………………………
+
+**Câu 6 ★★.** Đáy hình thang $ABCD$ có $AB=3$, $CD=12$; hình biểu diễn có $A'B'=2$. Tính $C'D'$. Đáp số: ………………………
+
+**Câu 7 ★★★.** Hình thang $ABCD$ ($AB\parallel CD$), $AB=4$, $CD=12$; $M$, $N$ là trung điểm $AD$, $BC$. Hình biểu diễn có $A'B'=5$. Tính $M'N'$. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+Bạn Lan viết: *"Phép chiếu song song giữ nguyên độ dài và góc, nên hình chiếu của hình vuông $ABCD$ là hình vuông $A'B'C'D'$."*
+
+**Lỗi ở:** ………………………………………… **Lời giải đúng:** ……………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1 (trắc nghiệm).** Hình chiếu song song (không suy biến) của một hình thang là
+
+A. hình bình hành
+
+B. hình thang
+
+C. tam giác
+
+D. hình chữ nhật
+
+**Câu 2 (đúng – sai).** Với phép chiếu song song:
+
+a) Hình bình hành biến thành hình bình hành.  ☐ Đ ☐ S
+
+b) Hai đường thẳng vuông góc luôn biến thành hai đường thẳng vuông góc.  ☐ Đ ☐ S
+
+c) Trung điểm của đoạn thẳng biến thành trung điểm của đoạn thẳng hình chiếu.  ☐ Đ ☐ S
+
+d) Đường tròn luôn biến thành đường tròn.  ☐ Đ ☐ S
+
+**Câu 3 (trả lời ngắn).** Cùng lúc nắng, cọc thẳng đứng cao $2$ m có bóng dài $3$ m. Cột cờ có bóng dài $12$ m. Chiều cao cột cờ là ………… m.
+
+## 7. Một phút suy ngẫm
+
+Vì sao nói trên hình biểu diễn "chỉ tin vào quan hệ song song và tỉ số", không tin vào góc hay độ dài vẽ trên giấy? ……………………………………………………
+
+## 8. Vận dụng về nhà
+
+**[Minh họa]** Lúc trưa, bóng của một cột đèn dài $4$ m; cùng lúc đó, cây thước $1$ m thẳng đứng có bóng dài $0{,}8$ m. Lập tỉ lệ để tính chiều cao cột đèn và giải thích vì sao có thể dùng tỉ lệ này. ……………………………………………………
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Bài 14. Phép chiếu song song
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương IV. Quan hệ song song trong không gian · Bài 14. Phép chiếu song song** (sách Kết nối tri thức với cuộc sống, tập 1, tr. 95–100; số trang thầy đối chiếu).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà; chỉ có máy chiếu và giấy/bảng con.
+- Phiếu bám bài giảng: **Ví dụ 1, 2** (hình chiếu của điểm, đoạn thẳng) → Bản lề B, Luyện tập 1; **Ví dụ 3** (đúng – sai) → Bản lề A, Tìm lỗi sai, Exit 1–2; **Ví dụ 4–6** (bảo toàn tỉ số) → Do Now, Luyện tập 2–5; **Ví dụ 7** (hình chiếu của hình) → Exit 1–2; **Ví dụ 8** (hình biểu diễn) → Luyện tập 6, 7; **Ví dụ 9, 10** (bóng nắng) → Notice & Wonder, Exit 3, Về nhà.
+- Tình huống **[Minh họa]** (bóng cột cờ – cột bóng rổ, bóng cột đèn) do người soạn tự đặt, không trích nguyên văn SGK.
+
+## 2. Mục tiêu
+
+- Nắm định nghĩa phép chiếu song song; nhớ tính chất được bảo toàn (thẳng hàng, thứ tự, song song, tỉ số) và không được bảo toàn (độ dài, góc, vuông góc); tìm hình chiếu của điểm, đoạn thẳng; tính độ dài nhờ bảo toàn tỉ số; hiểu hình biểu diễn của hình không gian và giải bài toán bóng nắng.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Tự làm, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Ghi câu hỏi của bài học |
+| 7–22 | Hệ thống kiến thức | Giáo viên dạy theo bài giảng (định nghĩa, tính chất, hình chiếu của một hình, hình biểu diễn; Ví dụ 1, 3, 4); dừng làm Câu hỏi bản lề A, B |
+| 22–34 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 34–37 | Tìm lỗi sai (Mục 5) | |
+| 37–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm, dặn dò (Mục 7–8) | |
+
+## 4. Đáp án và lỗi dự kiến
+
+- **Do Now:** 1) $\dfrac23$. 2) $7$. 3) $2$. 4) $3$.
+- **Notice & Wonder:** hai vệt bóng song song nhau, cột cao hơn có bóng dài hơn (tỉ lệ); bóng giữ quan hệ song song và tỉ số chứ không giữ độ dài thật. Câu hỏi của bài: tìm các tính chất của phép chiếu song song và dùng nó để tính chiều cao từ bóng.
+- **Bản lề A – đáp án B:** trung điểm được bảo toàn. Nhiễu: A, C, D là các tính chất **không** được bảo toàn (độ dài, góc, vuông góc). **Bản lề B – đáp án C:** $AD\parallel BC$ và $D\in(DCC'D')$ nên hình chiếu của $A$ là $D$; chọn $B$ hoặc $C$ khi nhầm với đỉnh gần phương chiếu.
+- **Luyện tập:**
+  1. $D'$ (đường thẳng qua $C$ song song $BA'$ là $CD'$, cắt $(A'B'C'D')$ tại $D'$).
+  2. $\dfrac{A'B'}{B'C'}=\dfrac{AB}{BC}=\dfrac{10}{15}$ nên $A'B'=6\cdot\dfrac{10}{15}=4$.
+  3. $MN\parallel BC$, $MN=\dfrac12BC$ nên $M'N'=\dfrac12\cdot18=9$.
+  4. $\dfrac{A'G'}{A'M'}=\dfrac{AG}{AM}=\dfrac23$ nên $A'G'=\dfrac23\cdot12=8$.
+  5. $\dfrac{IA}{IC}=\dfrac{AB}{CD}=\dfrac12$ nên $IA=\dfrac13AC$, suy ra $A'I'=\dfrac13\cdot21=7$.
+  6. $\dfrac{C'D'}{A'B'}=\dfrac{CD}{AB}=4$ nên $C'D'=4\cdot2=8$.
+  7. $MN=\dfrac{AB+CD}{2}=8$, $MN\parallel AB$; $\dfrac{M'N'}{A'B'}=\dfrac{MN}{AB}=2$ nên $M'N'=10$.
+- **Tìm lỗi sai:** độ dài và góc **không** được bảo toàn; hình vuông biến thành **hình bình hành** (chỉ giữ song song và tỉ số).
+- **Exit:** Câu 1: **B** (giữ song song và tỉ số hai đáy). Câu 2: a) Đ; b) S (vuông góc không được bảo toàn); c) Đ; d) S (thường là elip). Câu 3: $\dfrac{h}{12}=\dfrac23$ nên $h=8$.
+- **Về nhà:** tỉ số chiều cao : bóng bằng $\dfrac{1}{0{,}8}$; cột đèn cao $4\cdot\dfrac{1}{0{,}8}=5$ m; dùng được vì tia nắng song song nên bóng là hình chiếu song song, bảo toàn tỉ số của hai đoạn thẳng đứng (song song nhau).
+
+## 5. Xử lý phiếu ra khỏi lớp và phân hóa
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao Câu 7 và bài về nhà mở rộng |
+| 2. Sai hết | 0–1 câu đúng | Làm lại Ví dụ 3 và Ví dụ 4 của bài giảng với số liệu khác |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh câu sai nhiều ở đầu tiết sau |
+
+- **Học sinh yếu:** chỉ làm Câu 1–5, được dùng bảng "giữ – không giữ". **Học sinh khá giỏi:** làm Câu 7 và bài về nhà.
+
+## 6. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $\dfrac23$; $7$; $2$; $3$ |
+| Bản lề A, B | B, C |
+| Luyện tập 1–7 | $D'$ · $4$ · $9$ · $8$ · $7$ · $8$ · $10$ |
+| Tìm lỗi sai | độ dài, góc không bảo toàn; hình bình hành |
+| Exit | B · Đ S Đ S · $8$ |
+| Về nhà | $5$ m |
+`);
+
+Lecture.addSheet('lop11', 'on-tap-c4', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Ôn tập chương IV
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Hai mặt phẳng phân biệt có một điểm chung thì chúng cắt nhau theo một ………………………
+
+**Câu 2.** Đường thẳng $d\parallel(P)$ thì $d$ và $(P)$ có bao nhiêu điểm chung? Đáp án: ………………………
+
+**Câu 3.** Ba mặt phẳng song song chắn trên hai cát tuyến các đoạn thẳng …………………… (tỉ lệ / bằng nhau).
+
+**Câu 4.** Phép chiếu song song giữ nguyên: độ dài / tỉ số hai đoạn trên một đường thẳng? Đáp án: ………………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Trong phòng học, các đường kẻ ô của sàn gạch, mép bảng và các cạnh của tủ đồ tạo nên nhiều cặp đường thẳng; sàn nhà và trần nhà là hai mặt phẳng.
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Với bốn kiểu quan hệ song song đã học (đường – đường, đường – mặt, mặt – mặt, phép chiếu), mỗi kiểu cần kiểm tra điều kiện gì?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Phát biểu nào sau đây đúng?
+
+A. Hai đường thẳng không có điểm chung thì song song
+
+B. Hai mặt phẳng cùng song song với một đường thẳng thì song song với nhau
+
+C. Nếu $(P)$ chứa hai đường thẳng cắt nhau cùng song song với $(Q)$ thì $(P)\parallel(Q)$
+
+D. Phép chiếu song song giữ nguyên độ dài đoạn thẳng
+
+**Câu B.** Hình chóp $S.ABCD$ có đáy là hình bình hành. Giao tuyến của $(SAD)$ và $(SBC)$ là đường thẳng qua $S$ và song song với
+
+A. $AB$
+
+B. $AD$
+
+C. $AC$
+
+D. $BD$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Hình chóp $S.ABCD$ đáy hình bình hành. Giao tuyến của $(SAB)$ và $(SCD)$ là đường thẳng qua $S$ song song với đường thẳng nào? Đáp số: ………………………
+
+**Câu 2 ★.** Tứ diện $ABCD$, $M$, $N$ là trung điểm $AB$, $AC$. Đường thẳng $MN$ song song với mặt phẳng nào? Đáp số: ………………………
+
+**Câu 3 ★.** Ba mặt phẳng song song cắt hai đường thẳng tại $A,B,C$ và $A',B',C'$ ($B$, $B'$ ở giữa). $AB=6$, $BC=9$, $A'C'=25$. Tính $A'B'$. Đáp số: ………………………
+
+**Câu 4 ★★.** Hình chóp $S.ABC$, mặt phẳng song song $(ABC)$ cắt $SA,SB,SC$ tại $A',B',C'$ với $\dfrac{SA'}{SA}=\dfrac25$. Chu vi $ABC$ bằng $35$. Tính chu vi $A'B'C'$. Đáp số: ………………………
+
+**Câu 5 ★★.** Phép chiếu song song biến $A,B,C$ thẳng hàng ($B$ giữa) thành $A',B',C'$. $AB=10$, $BC=15$, $B'C'=6$. Tính $A'B'$. Đáp số: ………………………
+
+**Câu 6 ★★.** Tứ diện $ABCD$, $AD=12$, $BC=8$, $M\in AB$ với $AM=\dfrac14AB$. Mặt phẳng qua $M$ song song $BC$ và $AD$ cắt tứ diện theo thiết diện $MNPQ$. Tính chu vi $MNPQ$. Đáp số: ………………………
+
+**Câu 7 ★★★.** Hình thang $ABCD$ ($AB\parallel CD$), $AB=3$, $CD=9$, hai đường chéo cắt nhau tại $I$. Phép chiếu cho $B'D'=16$. Tính $B'I'$. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+Bạn Minh viết: *"$(P)$ chứa hai đường thẳng $a$, $b$ cùng song song với $(Q)$ nên $(P)\parallel(Q)$."*
+
+**Lỗi ở:** ………………………………………… **Lời giải đúng:** ……………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1 (trắc nghiệm).** Tứ diện $ABCD$, $M$, $N$ là trung điểm $AB$, $AC$. Khẳng định nào đúng?
+
+A. $MN\parallel(BCD)$
+
+B. $MN\parallel(ACD)$
+
+C. $MN\parallel(ABD)$
+
+D. $MN\parallel(ABC)$
+
+**Câu 2 (đúng – sai).** Trong không gian:
+
+a) Hai đường thẳng cùng song song với đường thẳng thứ ba thì song song nhau.  ☐ Đ ☐ S
+
+b) Hai đường thẳng không có điểm chung thì song song.  ☐ Đ ☐ S
+
+c) Nếu $(P)\parallel(Q)$ thì mọi đường thẳng trong $(P)$ song song $(Q)$.  ☐ Đ ☐ S
+
+d) Phép chiếu song song giữ nguyên số đo góc.  ☐ Đ ☐ S
+
+**Câu 3 (trả lời ngắn).** Hình chóp $S.ABC$, mặt phẳng song song $(ABC)$ cắt $SA,SB,SC$ tại $A',B',C'$ với $\dfrac{SA'}{SA}=\dfrac13$, diện tích $ABC$ bằng $18$. Diện tích $A'B'C'$ bằng …………
+
+## 7. Một phút suy ngẫm
+
+Với mỗi kiểu quan hệ song song (đường – đường, đường – mặt, mặt – mặt), điều kiện nào dễ bị bỏ sót nhất khi chứng minh? ……………………………………………………
+
+## 8. Vận dụng về nhà
+
+**[Minh họa]** Các thanh ngang của một giàn giáo là các đường thẳng song song nằm trên hai mặt phẳng song song (sàn tầng trên và sàn tầng dưới). Giải thích vì sao các thanh chống chéo cắt hai sàn theo hai giao tuyến song song nhau. ……………………………………………………
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Ôn tập chương IV
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương IV. Quan hệ song song trong không gian · Ôn tập chương IV** (sách Kết nối tri thức với cuộc sống, tập 1; bài tập cuối chương tr. 102–103, thầy đối chiếu).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà; chỉ có máy chiếu và giấy/bảng con.
+- Phiếu bám bài giảng: **Ví dụ 1** (giao tuyến) → Bản lề B, Luyện tập 1; **Ví dụ 2, 3** (đường thẳng – mặt phẳng, thiết diện) → Luyện tập 2, 6, Exit 1; **Ví dụ 4** (hai mặt phẳng song song) → Bản lề A, Tìm lỗi sai; **Ví dụ 5, 6** (Thales, chóp cắt) → Luyện tập 3, 4, Exit 3; **Ví dụ 7, 8** (phép chiếu, đúng – sai) → Luyện tập 5, 7, Exit 2.
+- Tình huống **[Minh họa]** (phòng học, giàn giáo) do người soạn tự đặt, không trích nguyên văn SGK.
+
+## 2. Mục tiêu
+
+- Hệ thống hoá điều kiện song song của bốn kiểu quan hệ; tìm giao tuyến, chứng minh song song, tính độ dài bằng Thales và bảo toàn tỉ số; phát hiện các lỗi thiếu điều kiện.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Tự làm, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Ghi câu hỏi của bài học |
+| 7–22 | Hệ thống kiến thức | Giáo viên chiếu bài giảng (bảng hệ thống, Ví dụ 1, 3, 5); dừng làm Câu hỏi bản lề A, B |
+| 22–34 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 34–37 | Tìm lỗi sai (Mục 5) | |
+| 37–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm, dặn dò (Mục 7–8) | |
+
+## 4. Đáp án và lỗi dự kiến
+
+- **Do Now:** 1) giao tuyến (đường thẳng). 2) $0$. 3) tỉ lệ. 4) tỉ số.
+- **Notice & Wonder:** các đường kẻ ô song song nhau; sàn – trần song song; mép bảng và cạnh tủ có thể song song hoặc chéo nhau. Câu hỏi của bài: tổng kết điều kiện cho từng kiểu quan hệ.
+- **Bản lề A – đáp án C:** điều kiện hai mặt phẳng song song. Nhiễu: A (có thể chéo nhau), B (có thể cắt nhau), D (độ dài không được bảo toàn). **Bản lề B – đáp án B:** $AD\parallel BC$ nên giao tuyến song song $AD$ (và $BC$).
+- **Luyện tập:**
+  1. $AB$ (và $CD$).
+  2. $(BCD)$ ($MN\parallel BC$).
+  3. $AC=15$; $A'B'=25\cdot\dfrac{6}{15}=10$.
+  4. Tỉ số đồng dạng $\dfrac25$ nên chu vi $=\dfrac25\cdot35=14$.
+  5. $\dfrac{A'B'}{B'C'}=\dfrac{10}{15}$ nên $A'B'=6\cdot\dfrac{10}{15}=4$.
+  6. $MN=\dfrac14\cdot8=2$, $MQ=\dfrac34\cdot12=9$; chu vi $=2(2+9)=22$.
+  7. $\dfrac{IB}{ID}=\dfrac{AB}{CD}=\dfrac13$ nên $IB=\dfrac14BD$; $B'I'=\dfrac14\cdot16=4$.
+- **Tìm lỗi sai:** thiếu điều kiện hai đường thẳng $a$, $b$ phải **cắt nhau**.
+- **Exit:** Câu 1: **A** ($MN\parallel BC$, $BC\subset(BCD)$; $MN$ cắt hoặc nằm trong các mặt phẳng còn lại). Câu 2: a) Đ; b) S (có thể chéo nhau); c) Đ; d) S. Câu 3: tỉ số đồng dạng $\dfrac13$ nên diện tích $=\dfrac19\cdot18=2$.
+- **Về nhà:** mặt phẳng chứa thanh chống cắt hai mặt phẳng song song (sàn trên, sàn dưới) nên hai giao tuyến song song (tính chất 3 của hai mặt phẳng song song).
+
+## 5. Xử lý phiếu ra khỏi lớp và phân hóa
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao Câu 7 và bài về nhà mở rộng |
+| 2. Sai hết | 0–1 câu đúng | Làm lại Ví dụ 4 và Ví dụ 5 của bài giảng với số liệu khác |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh câu sai nhiều ở đầu tiết sau |
+
+- **Học sinh yếu:** chỉ làm Câu 1–5, được dùng bảng hệ thống điều kiện. **Học sinh khá giỏi:** làm Câu 7 và bài về nhà.
+
+## 6. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | giao tuyến; $0$; tỉ lệ; tỉ số |
+| Bản lề A, B | C, B |
+| Luyện tập 1–7 | $AB$ · $(BCD)$ · $10$ · $14$ · $4$ · $22$ · $4$ |
+| Tìm lỗi sai | thiếu "cắt nhau" |
+| Exit | A · Đ S Đ S · $2$ |
+| Về nhà | tính chất giao tuyến song song |
+`);
