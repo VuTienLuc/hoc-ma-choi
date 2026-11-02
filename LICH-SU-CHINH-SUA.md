@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-02 – Ôn thi vào 10: phiếu học tập củng cố Hình học 7b (Hệ thức, thẳng hàng, đồng quy)
+
+- **Yêu cầu:** Lịch tự động: soạn 1 phiếu trên lớp mỗi ngày cho phần hình học ôn thi vào 10; phiếu số 6/8.
+- **Kết quả:** Thêm `addSheet('lop9','on-thi-hinh-hoc-chung-minh-2')`: Phần A đúng 2 trang A4 (Do Now, tình huống [Minh họa], 2 câu bản lề, 7 câu luyện tập ★/★★/★★★, tìm lỗi sai, phiếu ra khỏi lớp, suy ngẫm, về nhà) và Phần B gợi ý + đáp án; bám Ví dụ 1–5 của bài giảng. Số liệu đã tính lại độc lập (kiểm tồn tại tam giác nhọn cho Câu 5, 6, 7).
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop9-khoi-dong.js`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js 30 lop9` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (132/132); `python3 tools/build.py` → ĐẠT
+- **Việc thủ công:** Không có. Phiếu kế tiếp: số 7 `on-thi-hinh-hoc-tinh-toan`.
+
 ### 2026-11-02 – Toán 11 Chương IV · Bài 10. Đường thẳng và mặt phẳng trong không gian (trọn bộ)
 
 - **Yêu cầu:** Làm trọn bộ bài đầu tiên của chương IV (Toán 11, KNTT): phần học sinh bắt buộc các câu hỏi khác nhau, quét toàn bộ kiến thức bài (7 ảnh SGK tr. 70–76).

@@ -1213,3 +1213,206 @@ Viết lại lời giải đầy đủ Ví dụ 1 và Ví dụ 3 của bài gi�
 | Tìm lỗi sai | $AE = 4$ cm |
 | Exit 1 / 2 / 3 | D / a) Đ, b) Đ, c) S, d) S / $10$ cm |
 `);
+
+Lecture.addSheet('lop9', 'on-thi-hinh-hoc-chung-minh-2', String.raw`# PHIẾU HỌC TẬP – Ôn thi vào 10 · Hình học 7b. Hệ thức, thẳng hàng, đồng quy
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tìm $x$ biết $\dfrac{x}{4} = \dfrac{9}{6}$. Đáp số: ………………
+
+**Câu 2.** Tam giác $ABD$ vuông tại $D$, $\widehat{A} = 50^\circ$. Tính $\widehat{ABD}$. Đáp số: ………………
+
+**Câu 3.** Tam giác $AHK$ có $O$, $M$ lần lượt là trung điểm $AK$, $HK$ và $OM = 4$ cm. Tính $AH$. Đáp số: ………………
+
+**Câu 4.** Tính $180^\circ - 2 \cdot 40^\circ$. Đáp số: ………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Bạn Nam vẽ tam giác nhọn $ABC$ có $BC = 10$ cm, $BA = 8$ cm, kẻ ba đường cao $AF$, $BD$, $CE$, đo $BF = 4$ cm rồi tính các tích:
+
+| Tích | $BE \cdot BA$ | $CD \cdot CA$ | Tổng hai tích | $BC^2$ |
+|---|---|---|---|---|
+| Giá trị ($\text{cm}^2$) | $40$ | $60$ | $100$ | $100$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Vì sao tổng $BE \cdot BA + CD \cdot CA$ luôn bằng $BC^2$? Muốn chứng minh ba điểm $H$, $M$, $K$ thẳng hàng thì cần dựng thêm gì?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Tam giác nhọn $ABC$ nội tiếp $(O)$, $AK$ là đường kính, hai đường cao $BD$, $CE$ cắt nhau tại $H$. Tứ giác $BHCK$ là hình bình hành vì
+
+A. $KB \parallel CH$ và $KC \parallel BH$
+
+B. $KB \perp CH$ và $KC \perp BH$
+
+C. $HB = HC$ và $KB = KC$
+
+D. $BC \perp HK$
+
+**Câu B.** Tam giác nhọn $ABC$ có $\widehat{BAC} = 50^\circ$, ba đường cao $AF$, $BD$, $CE$ cắt nhau tại $H$. Số đo $\widehat{DFE}$ là
+
+A. $40^\circ$
+
+B. $80^\circ$
+
+C. $100^\circ$
+
+D. $130^\circ$
+
+## 4. Luyện tập xen kẽ
+
+Cho tam giác nhọn $ABC$, ba đường cao $AF$, $BD$, $CE$ cắt nhau tại trực tâm $H$ (dùng cho mọi câu trừ Câu 7).
+
+**Câu 1 ★.** Chứng minh $BE \cdot BA + CD \cdot CA = BC^2$. Biết $BC = 12$ cm, $BF = 4$ cm, $BA = 8$ cm, tính $BE$ và $CD \cdot CA$. Đáp số: ………………
+
+**Câu 2 ★.** $AK$ là đường kính của $(O)$, $M$ là trung điểm $BC$. Chứng minh $H$, $M$, $K$ thẳng hàng. Biết $OM = 5$ cm, $HM = 6$ cm, tính $AH$ và $HK$. Đáp số: ………………
+
+**Câu 3 ★.** Biết $\widehat{ABC} = 65^\circ$, $\widehat{ACB} = 55^\circ$. Chứng minh $FA$ là phân giác của $\widehat{DFE}$ và tính $\widehat{DFE}$. Đáp số: ………………
+
+**Câu 4 ★★.** $N$, $M$ lần lượt là trung điểm $AH$, $BC$. Chứng minh $ME$ là tiếp tuyến của đường tròn đường kính $AH$. Biết $AH = 10$ cm, $BC = 24$ cm, tính $MN$. Đáp số: ………………
+
+**Câu 5 ★★.** Chứng minh $HA \cdot HF = HB \cdot HD$. Biết $HB = 6$ cm, $HD = 5$ cm, $HF = 3$ cm, tính $AF$. Đáp số: ………………
+
+**Câu 6 ★★★.** **[Minh họa]** Khu vườn hình tam giác nhọn $ABC$ có $BC = 20$ m, $AB = 18$ m. Hai lối đi $BD$, $CE$ vuông góc với $AC$, $AB$ ($D \in AC$, $E \in AB$). Bác Ba tính được $BE \cdot BA = 144$ $\text{m}^2$. Độ dài $BE$ là ……… m và $CD \cdot CA = $ ……… $\text{m}^2$.
+
+**Câu 7 ★★★.** Tam giác nhọn $ABC$ nội tiếp $(O)$, $AK$ là đường kính, $M$ là trung điểm $BC$, $BC = 16$ cm, $OM = 6$ cm. Tính $R$ và $AH$ (trực tâm $H$). Đáp số: ………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tam giác nhọn $ABC$ có đường cao $AF$, $CE$; $BC = 12$ cm, $BA = 9$ cm, $BF = 3$ cm. Tính $BE$.
+>
+> **Lời giải của bạn X:** $\triangle BEC \sim \triangle BFA$ (g.g) nên $\dfrac{BE}{BF} = \dfrac{BA}{BC}$. Suy ra $BE = \dfrac{BF \cdot BA}{BC} = \dfrac{3 \cdot 9}{12} = 2{,}25$ (cm).
+
+Lời giải sai ở bước nào? Em giải lại cho đúng: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Tam giác nhọn $ABC$ có $\widehat{BAC} = 48^\circ$, ba đường cao $AF$, $BD$, $CE$. Số đo $\widehat{DFE}$ là
+
+A. $42^\circ$
+
+B. $96^\circ$
+
+C. $84^\circ$
+
+D. $132^\circ$
+
+**Câu 2.** Tam giác nhọn $ABC$ nội tiếp $(O)$, $AK$ là đường kính, hai đường cao $BD$, $CE$ cắt nhau tại $H$, $M$ là trung điểm $BC$, $OM = 3$ cm, $BC = 8$ cm. Mỗi ý em ghi Đ hoặc S:
+
+a) $BHCK$ là hình bình hành. ……
+
+b) $H$, $M$, $K$ thẳng hàng. ……
+
+c) $AH = 3$ cm. ……
+
+d) $AK = 8$ cm. ……
+
+**Câu 3.** Tam giác nhọn $ABC$ có $BC = 10$ cm, hai đường cao $BD$, $CE$ và $BE \cdot BA = 36$ $\text{cm}^2$. Khi đó $CD \cdot CA = $ ………… $\text{cm}^2$.
+
+## 7. Một phút suy ngẫm
+
+*Khi chứng minh hệ thức, em tự hỏi: mình đã chọn đúng hai tam giác chứa các đoạn cần tìm chưa? Đỉnh viết đã đúng thứ tự chưa? Khi nói thẳng hàng hay đồng quy, mình đã nêu đủ lý do chưa?* ………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Viết lại lời giải đầy đủ Ví dụ 2 và Ví dụ 4 của bài giảng. Ở Ví dụ 5 ($HB = 6$ cm, $HD = 4$ cm, $HF = 3$ cm), chứng minh $\triangle HAD \sim \triangle HBF$ rồi tính $HA$ và $AF$: mỗi dòng ghi rõ căn cứ. Nhờ một bạn kiểm tra.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Ôn thi vào 10 · Hình học 7b. Hệ thức, thẳng hàng, đồng quy
+
+## 1. Thông tin bài
+
+- **Toán 9 · Ôn thi tuyển sinh vào lớp 10 (TP.HCM) · Hình học 7b.** Dạng bài thường gặp ở câu c, d của bài hình: hệ thức $BE \cdot BA + CD \cdot CA = BC^2$, ba điểm thẳng hàng, tia phân giác – đồng quy, tiếp tuyến $ME$, hệ thức $HA \cdot HF = HB \cdot HD$.
+- **Giả định:** 1 tiết 45 phút ôn tập; lớp đại trà; máy chiếu và giấy/bảng con.
+- Tình huống **[Minh họa]** (bảng tích của Nam, khu vườn của bác Ba) do người soạn tự đặt, không trích từ đề thi.
+- Phiếu bám **Ví dụ 1–5** của bài giảng on-thi-hinh-hoc-chung-minh-2: Ví dụ 1 (hệ thức, cộng vế) → Do Now 1, Tình huống mở đầu, Luyện tập 1, 6, Tìm lỗi sai, Exit 3; Ví dụ 2 (thẳng hàng, $AH = 2OM$) → Do Now 3, bản lề A, Luyện tập 2, 7, Exit 2; Ví dụ 3 (phân giác $FA$) → Do Now 2, 4, bản lề B, Luyện tập 3, Exit 1; Ví dụ 4 (tiếp tuyến $ME$) → Luyện tập 4; Ví dụ 5 ($HA \cdot HF = HB \cdot HD$) → Luyện tập 5, Vận dụng về nhà.
+- **Quy ước đề năm nay:** các kiến thức sau **phải chứng minh lại**, không viện dẫn trực tiếp: bốn điểm cùng đường tròn (hai tam giác vuông chung cạnh huyền, trung điểm cạnh huyền), $OM \perp BC$ (tam giác cân có trung tuyến là đường cao), đường kính vuông góc dây, hệ thức cạnh – đường cao. Được **dùng trực tiếp**: góc nội tiếp chắn nửa đường tròn bằng $90^\circ$, trung tuyến ứng với cạnh huyền bằng nửa cạnh huyền, hai góc nội tiếp cùng chắn một cung thì bằng nhau, tam giác đồng dạng (g.g), đường trung bình của tam giác, định lí Pythagore.
+
+## 2. Mục tiêu
+
+- **Mở đầu (7 phút):** ôn tỉ lệ thức, tổng ba góc; nhận ra tổng hai tích bằng $BC^2$ và đặt vấn đề chứng minh.
+- **Luyện tập (25 phút):** hệ thức cộng vế; thẳng hàng; phân giác; tiếp tuyến; $HA \cdot HF = HB \cdot HD$; bài thực tế; kết hợp.
+- **Củng cố (8 phút):** tìm lỗi sai (ghép nhầm tương ứng đỉnh), phiếu ra khỏi lớp.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Làm một mình, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Nêu câu hỏi của bài học |
+| 7–15 | Ôn nhanh kiến thức nền theo bài giảng | Vẽ hình ba đường cao, đường kính $AK$; nhấn mạnh phần phải chứng minh lại |
+| ~15 | Câu bản lề A, B | Giơ thẻ A/B/C/D |
+| 15–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi; mỗi câu vẽ hình trước |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm (Mục 7) và dặn dò (Mục 8) | |
+
+## 4. Hướng dẫn và đáp án từng hoạt động
+
+### 4.1. Do Now
+- **Đáp án:** 1) $6x = 36$ nên $x = 6$. 2) $\widehat{ABD} = 90^\circ - 50^\circ = 40^\circ$. 3) $OM$ là đường trung bình của tam giác $AHK$ nên $AH = 2OM = 8$ cm. 4) $180^\circ - 80^\circ = 100^\circ$.
+- **Lỗi dự kiến:** câu 1 ghi $x = 2{,}67$ (đảo tỉ số thành $\dfrac{4}{x} = \dfrac{9}{6}$); câu 2 ghi $50^\circ$ hoặc $130^\circ$; câu 3 ghi $AH = 4$ (quên nhân đôi) hoặc $2$; câu 4 ghi $140^\circ$ (chỉ lấy $180^\circ - 40^\circ$) hoặc $20^\circ$.
+
+### 4.2. Notice & Wonder
+- **Gợi ý nhận xét:** tổng hai tích bằng $100 = BC^2$. Chứng minh: $\triangle BEC \sim \triangle BFA$ (g.g, góc $B$ chung, $\widehat{BEC} = \widehat{BFA} = 90^\circ$) nên $BE \cdot BA = BF \cdot BC$; tương tự $CD \cdot CA = CF \cdot CB$. Cộng vế: $BC \cdot (BF + CF) = BC^2$ vì $F$ nằm giữa $B$ và $C$ (tam giác nhọn). Với số của Nam: $BE \cdot BA = 4 \cdot 10 = 40$, $CD \cdot CA = 6 \cdot 10 = 60$. Về ba điểm thẳng hàng: dựng đường kính $AK$ để dùng $KB \perp AB$, $KC \perp AC$.
+
+### 4.3. Câu hỏi bản lề
+- **Đáp án:** Câu A chọn **A**; Câu B chọn **B**.
+- **Câu A:** $AK$ là đường kính nên $KB \perp AB$; mà $CH \perp AB$ nên $KB \parallel CH$; tương tự $KC \parallel BH$. Hai cặp cạnh đối song song nên $BHCK$ là hình bình hành. **Nhiễu:** B (vuông góc thay cho song song); C (hai cạnh bằng nhau chưa đủ); D (tính chất chưa đủ để kết luận).
+- **Câu B:** $\widehat{EFH} = \widehat{DFH} = 90^\circ - 50^\circ = 40^\circ$ nên $\widehat{DFE} = 80^\circ$. **Nhiễu:** A ($40^\circ$, quên nhân đôi); C ($100^\circ$, lấy $2\widehat{A}$); D ($130^\circ$, lấy $180^\circ - \widehat{A}$).
+
+### 4.4. Luyện tập xen kẽ – đáp án và lời giải ngắn
+1. $\triangle BEC \sim \triangle BFA$ (g.g) nên $BE \cdot BA = BF \cdot BC$; $\triangle CDB \sim \triangle CFA$ (g.g) nên $CD \cdot CA = CF \cdot CB$. Cộng vế: $BE \cdot BA + CD \cdot CA = BC(BF + CF) = BC^2$. Số liệu: $BE = \dfrac{BF \cdot BC}{BA} = \dfrac{4 \cdot 12}{8} = 6$ (cm); $CF = 12 - 4 = 8$ nên $CD \cdot CA = 8 \cdot 12 = 96$. Kiểm tra: $48 + 96 = 144 = 12^2$.
+2. $KB \perp AB$ (góc nội tiếp chắn nửa đường tròn), $CH \perp AB$ nên $KB \parallel CH$; tương tự $KC \parallel BH$. $BHCK$ là hình bình hành nên $BC$ và $HK$ cắt nhau tại trung điểm $M$ của $BC$: $H$, $M$, $K$ thẳng hàng. $OM$ là đường trung bình của tam giác $AHK$: $AH = 2OM = 10$ cm; $HK = 2HM = 12$ cm.
+3. $\widehat{BAC} = 180^\circ - 65^\circ - 55^\circ = 60^\circ$. $BEHF$ có $\widehat{BEH} = \widehat{BFH} = 90^\circ$ nên $E$, $F$ thuộc đường tròn đường kính $BH$ (chứng minh bằng trung điểm $BH$): $\widehat{EFH} = \widehat{EBH} = 90^\circ - 60^\circ = 30^\circ$. Tương tự với đường kính $CH$: $\widehat{DFH} = \widehat{DCH} = 30^\circ$. Hai góc bằng nhau nên $FA$ là phân giác; $\widehat{DFE} = 60^\circ$.
+4. $NE = NA = \dfrac{AH}{2} = 5$ (trung tuyến ứng cạnh huyền tam giác vuông $AEH$), $ME = MB = \dfrac{BC}{2} = 12$. $\widehat{AEN} = \widehat{NAE} = 90^\circ - \widehat{B}$ và $\widehat{BEM} = \widehat{B}$ nên $\widehat{NEM} = 180^\circ - (90^\circ - \widehat{B}) - \widehat{B} = 90^\circ$. $ME \perp NE$ tại $E$ thuộc đường tròn đường kính $AH$ nên $ME$ là tiếp tuyến. $MN = \sqrt{5^2 + 12^2} = 13$ (cm).
+5. $\triangle HAD$ và $\triangle HBF$ có $\widehat{ADH} = \widehat{BFH} = 90^\circ$, $\widehat{AHD} = \widehat{BHF}$ (đối đỉnh) nên đồng dạng (g.g): $\dfrac{HA}{HB} = \dfrac{HD}{HF}$. $HA = \dfrac{HB \cdot HD}{HF} = \dfrac{6 \cdot 5}{3} = 10$ cm; $AF = HA + HF = 13$ cm.
+6. $BE = \dfrac{144}{18} = 8$ (m). $BE \cdot BA + CD \cdot CA = BC^2 = 400$ nên $CD \cdot CA = 400 - 144 = 256$ ($\text{m}^2$).
+7. $OB = OC$ nên tam giác $OBC$ cân, $OM$ là trung tuyến nên cũng là đường cao: $OM \perp BC$, $MB = 8$. Pythagore: $R = OB = \sqrt{6^2 + 8^2} = 10$ (cm). Như Câu 2: $AH = 2OM = 12$ cm.
+- **Lỗi dự kiến:** câu 1 đảo tỉ số $BE = \dfrac{8 \cdot 4}{12}$ hoặc quên $CF = BC - BF$; câu 2 ghi $AH = 5$ (quên nhân đôi) hoặc $HK = 6$; câu 3 ghi $DFE = 30^\circ$ (quên nhân đôi) hoặc $120^\circ$; câu 4 không chứng minh $NE = NA$ hoặc tính $MN = 5 + 12 = 17$; câu 5 ghi $AF = HA = 10$ hoặc $HA = \dfrac{6 \cdot 3}{5}$; câu 6 ghi $CD \cdot CA = 144$ (nhầm hệ thức); câu 7 ghi $R = 8$ hoặc $R = 6$, $AH = 6$.
+
+### 4.5. Tìm lỗi sai
+- **Đáp án:** Sai ở chỗ viết tỉ số: từ $\triangle BEC \sim \triangle BFA$ phải ghép đúng $B \to B$, $E \to F$, $C \to A$, nên $\dfrac{BE}{BF} = \dfrac{BC}{BA}$, **không** phải $\dfrac{BA}{BC}$. Lời giải đúng: $BE = \dfrac{BF \cdot BC}{BA} = \dfrac{3 \cdot 12}{9} = 4$ (cm). Kiểm tra: $BE \cdot BA = 36 = BF \cdot BC$; còn $2{,}25 \cdot 9 = 20{,}25 \ne 36$.
+
+### 4.6. Phiếu ra khỏi lớp
+- **Đáp án:** Câu 1: **C** ($\widehat{DFE} = 180^\circ - 2 \cdot 48^\circ = 84^\circ$). Câu 2: a) Đ ($KB \parallel CH$, $KC \parallel BH$); b) Đ ($M$ là trung điểm đường chéo $BC$ nên cũng là trung điểm $HK$); c) S ($AH = 2OM = 6$ cm); d) S ($OM \perp BC$, $MB = 4$ nên $R = \sqrt{3^2 + 4^2} = 5$, $AK = 10$ cm). Câu 3: $CD \cdot CA = 100 - 36 = 64$.
+- **Lỗi dự kiến:** Câu 1 chọn A ($42^\circ$, quên nhân đôi), B ($96^\circ$, lấy $2\widehat{A}$) hoặc D ($132^\circ$, lấy $180^\circ - \widehat{A}$); Câu 2c ghi Đ vì $AH = OM$; Câu 2d ghi Đ vì nhầm $AK = BC$; Câu 3 ghi $100$ hoặc $36$.
+
+### 4.7. Suy ngẫm và về nhà
+- Đọc nhanh vài phiếu để biết em nào còn viết sai thứ tự đỉnh hoặc bỏ lý do thẳng hàng. Bài về nhà: Ví dụ 2: $AH = 10$ cm, $HK = 12$ cm; Ví dụ 4: $MN = 5$ cm; Ví dụ 5 với số liệu mới: $\triangle HAD \sim \triangle HBF$ (g.g, hai góc vuông và hai góc đối đỉnh) nên $\dfrac{HA}{HB} = \dfrac{HD}{HF}$, $HA = \dfrac{6 \cdot 4}{3} = 8$ cm, $AF = 8 + 3 = 11$ cm.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm: chứng minh $AH = 2OM$ bằng hình bình hành $BHCK$ rồi tính $AH$ khi $R = 13$, $BC = 24$ (đáp số $10$) |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại theo nhóm nhỏ: vẽ hình ba đường cao, tô màu hai tam giác vuông đồng dạng, viết tương ứng đỉnh theo cột trước khi lập tỉ số |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng đúng câu sai nhiều |
+
+**Do Now gợi ý cho tiết sau (Hình học 7c. Tính độ dài, chu vi, diện tích, số đo góc):** (1) tam giác $FBH \sim FAC$, $FB = 3$, $FC = 8$, $FA = 6$, tính $FH$ (đáp số $4$ cm); (2) tam giác $ABC$ nội tiếp, $\widehat{BAC} = 60^\circ$, tính $\widehat{BOC}$ (đáp số $120^\circ$); (3) câu sai nhiều nhất trong Exit ticket.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** vẽ hình lớn, ghi sẵn tương ứng đỉnh $B \to B$, $E \to F$, $C \to A$; chỉ làm Câu 1–3.
+- **Học sinh khá giỏi:** làm Câu 4, 6, 7; câu mở: trong Câu 5, chứng minh $HA \cdot HF = HC \cdot HE$ bằng cách làm tương tự với $\triangle HAE$ và $\triangle HCF$ (cả ba tích $HA \cdot HF = HB \cdot HD = HC \cdot HE = 30$).
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $x = 6$; $40^\circ$; $8$ cm; $100^\circ$ |
+| Bản lề A / B | A / B |
+| Luyện tập 1 | $BE = 6$ cm; $CD \cdot CA = 96$ |
+| Luyện tập 2 | $AH = 10$ cm; $HK = 12$ cm |
+| Luyện tập 3 | $\widehat{DFE} = 60^\circ$ |
+| Luyện tập 4 | $MN = 13$ cm |
+| Luyện tập 5 | $AF = 13$ cm |
+| Luyện tập 6 | $BE = 8$ m; $CD \cdot CA = 256$ $\text{m}^2$ |
+| Luyện tập 7 | $R = 10$ cm; $AH = 12$ cm |
+| Tìm lỗi sai | $BE = 4$ cm |
+| Exit 1 / 2 / 3 | C / a) Đ, b) Đ, c) S, d) S / $64$ |
+`);
