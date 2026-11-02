@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-02 – Toán 11 Chương IV · Bài 12. Đường thẳng và mặt phẳng song song (trọn bộ)
+
+- **Yêu cầu:** /tron-bo các bài còn lại của Chương IV; bài thứ hai.
+- **Kết quả:** Bài `dt-mp-song-song` (6 dạng × 3 mức; quan hệ đường–mặt tính từ tọa độ 3D: `facesOf`, `lpRel`), bài giảng `bai-12`, phiếu luyện tập 7 + 3 ★, Giải SGK (Luyện tập tr. 86, Bài 4.19 tr. 87), phiếu trên lớp `bai-12` (Phần A đúng 2 trang A4).
+- **Tệp thay đổi:** `data/lop11.js`, `giao-vien/bai-giang/lop11.js`, `lop11-luyen-tap.js`, `lop11-giai-sgk.js`, `lop11-khoi-dong.js`, `CLAUDE.md`, `AGENTS.md`, `KE-HOACH-TRON-BO.md`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (142/142); `python3 tools/test_baigiang.py lop11` → ĐẠT; stress 7.200 câu sinh → không lỗi.
+- **Việc thủ công:** Đối chiếu số trang SGK; Hoạt động, Luyện tập tr. 85 và Bài 4.15–4.18 chưa đưa vào (cần ảnh SGK); kết luận “hình thang” ở Luyện tập là suy luận của Claude.
+
 ### 2026-11-02 – Toán 11 Chương IV · Bài 11. Hai đường thẳng song song (trọn bộ)
 
 - **Yêu cầu:** /tron-bo các bài còn lại của Chương IV, làm lần lượt từng bài; đây là bài đầu tiên.

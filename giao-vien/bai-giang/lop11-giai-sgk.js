@@ -382,3 +382,42 @@ Lecture.addSgk('lop11', 'bai-11', [
    body:`<ul><li>Cho rằng “không có điểm chung” là song song: còn có thể chéo nhau (cần kiểm tra đồng phẳng).</li><li>Dùng bắc cầu mà không chỉ ra rõ đường thẳng trung gian.</li><li>Dùng hệ quả giao tuyến khi hai mặt phẳng chưa chắc cắt nhau hoặc quên chỉ ra điểm chung.</li></ul>` + box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Chương IV, Bài 11. Hai đường thẳng song song.')},
 ]);
 })();
+
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – Toán 11 KNTT, tập 1, Bài 12. Đường thẳng và mặt phẳng song song (02/11/2026)
+   Luyện tập (tr. 86) và Bài 4.19 (tr. 87). Đề tra từ văn bản SGK trên mạng; các câu còn lại của bài (HĐ, Luyện tập tr. 85, Bài 4.15–4.18) chưa tra được –
+   thầy gửi ảnh SGK thì bổ sung. Thầy đối chiếu số trang, số thứ tự.
+   ===================================================================== */
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+const mid = (p, q, t = .5) => [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])];
+/* hình chóp S.ABCD có đáy hình thang AB ∥ CD (AB dài hơn, bị che khuất) */
+const T0 = {S:[160, 16], A:[298, 142], B:[40, 142], C:[104, 186], D:[262, 186]};
+const trap = (o = {}) => spaceSVG({pts:{...T0, ...(o.pts || {})}, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['S', 'D'], ['B', 'C'], ['C', 'D'], ['D', 'A'], ...(o.s || [])], d:[['A', 'B'], ...(o.d || [])], h:o.h, hd:o.hd, fill:o.fill, off:o.off, ht:218, aria:o.aria});
+const figLT = trap({h:[['S', 'D']], hd:[['A', 'B']], fill:[['S', 'C', 'D']], aria:'Hình chóp S.ABCD có đáy là hình thang AB song song CD; đường thẳng SD, AB và mặt phẳng (SCD)'});
+const E = mid(T0.S, T0.A), F = mid(T0.S, T0.B), H = mid(T0.S, T0.C), G = mid(T0.S, T0.D);
+const fig419 = trap({pts:{E, F, G, H}, s:[['F', 'H'], ['H', 'G'], ['G', 'E']], d:[['E', 'F']], aria:'Thiết diện EFHG của hình chóp S.ABCD cắt bởi mặt phẳng qua E song song với AB và AD'});
+
+Lecture.addSgk('lop11', 'bai-12', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 12. Đường thẳng và mặt phẳng song song', sub:'Luyện tập (tr. 86) và Bài 4.19 (tr. 87) – SGK tập 1',
+   points:['Luyện tập (tr. 86) – hình chóp có đáy hình thang: SD và AB có chéo nhau không? Mặt phẳng chứa SD và song song với AB.', 'Bài 4.19 (tr. 87) – mặt phẳng qua E song song với AB và AD: giao tuyến với các mặt bên và hình tạo thành.', 'Các câu còn lại của bài (HĐ, Luyện tập tr. 85, Bài 4.15 – 4.18): chưa tra được đề – thầy gửi ảnh SGK để bổ sung.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba kĩ năng dùng trong các câu này',
+   body:`<ol class="lk-steps"><li><b>Chéo nhau:</b> giả sử hai đường thẳng đồng phẳng rồi suy ra bốn điểm đồng phẳng – mâu thuẫn với hình chóp.</li><li><b>Đường thẳng song song mặt phẳng:</b> ${m("d \\not\\subset (P),\\ d \\parallel d' \\subset (P) \\Rightarrow d \\parallel (P)")}.</li><li><b>Giao tuyến:</b> mặt phẳng ${m('(P) \\parallel d')} cắt mặt phẳng chứa ${m('d')} theo giao tuyến song song ${m('d')}.</li></ol>`},
+
+  {kind:'vd', tag:'SGK tr. 86 · Luyện tập', label:'Câu 1', de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình thang với ${m('AB \\parallel CD')}. Hai đường thẳng ${m('SD')} và ${m('AB')} có chéo nhau không? Hãy chỉ ra mặt phẳng chứa ${m('SD')} và song song với ${m('AB')}.`, fig: figLT,
+   sol:[`Giả sử ${m('SD')} và ${m('AB')} đồng phẳng thì bốn điểm ${m('S, A, B, D')} cùng thuộc một mặt phẳng; mặt phẳng đó chính là ${m('(ABD)')} = ${m('(ABCD)')} nên ${m('S \\in (ABCD)')} – vô lí. Vậy ${m('SD')} và ${m('AB')} không đồng phẳng; chúng cũng không có điểm chung, nên chéo nhau.`, `${m('AB \\parallel CD')}, ${m('CD \\subset (SCD)')} và ${m('AB \\not\\subset (SCD)')} (vì ${m('A \\notin (SCD)')}) nên ${m('AB \\parallel (SCD)')}.`, `${m('(SCD)')} chứa ${m('SD')} nên đó là mặt phẳng cần tìm.`],
+   ans:`${tw('SD và AB chéo nhau')}; mặt phẳng chứa ${tw('SD')} và song song với ${tw('AB')} là ${tb('(SCD)')}.`},
+
+  {kind:'vd', tag:'SGK tr. 87 · Bài 4.19', label:'Câu 2', de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình thang với ${m('AB \\parallel CD')}. Lấy điểm ${m('E')} nằm giữa ${m('S')} và ${m('A')}. Mặt phẳng ${m('(P)')} đi qua ${m('E')} và song song với ${m('AB')}, ${m('AD')}. Xác định giao tuyến của ${m('(P)')} với các mặt bên của hình chóp và cho biết hình tạo bởi các giao tuyến đó là hình gì.`, fig: fig419,
+   sol:[`${m('AB \\parallel (P)')} và ${m('(SAB) \\supset AB')} nên ${m('(P) \\cap (SAB)')} đi qua ${m('E')} và song song ${m('AB')}: kẻ ${m('EF \\parallel AB')}, ${m('F \\in SB')}.`, `${m('AD \\parallel (P)')} và ${m('(SAD) \\supset AD')} nên giao tuyến với ${m('(SAD)')} là ${m('EG \\parallel AD')}, ${m('G \\in SD')}.`, `Trong ${m('(SCD)')}: giao tuyến đi qua ${m('G')} và song song ${m('CD')} (vì ${m('CD \\parallel AB \\parallel (P)')}): kẻ ${m('GH \\parallel CD')}, ${m('H \\in SC')}. Giao tuyến với ${m('(SBC)')} là ${m('FH')}.`, `Ta có ${m('EF \\parallel AB \\parallel CD \\parallel GH')} nên tứ giác ${m('EFHG')} có hai cạnh ${m('EF, GH')} song song. Hai cạnh này không bằng nhau (${m('EF = k\\cdot AB')}, ${m('GH = k\\cdot CD')} với ${m('AB \\neq CD')}), nên ${m('EFHG')} là hình thang.`],
+   ans:`Giao tuyến: ${tb('EF, FH, HG, GE')} (${tb('EF \\parallel AB')}, ${tb('EG \\parallel AD')}, ${tb('GH \\parallel CD')}); hình tạo thành là ${tw('hình thang EFHG')} (${m('EF \\parallel GH')}). <i>(Kết luận “hình thang” do em tự suy luận – thầy đối chiếu đáp án SGK.)</i>`},
+
+  {kind:'vd', tag:'Mở rộng · Bài 4.19', label:'Câu 2 (mở rộng)', de:`Với Bài 4.19, giả sử ${m('E')} là trung điểm của ${m('SA')}, ${m('AB = 6')}, ${m('CD = 10')}. Tính độ dài hai đáy của hình thang ${m('EFHG')}.`, fig: fig419,
+   sol:[`${m('E')} là trung điểm ${m('SA')} và ${m('EF \\parallel AB')} nên ${m('F')} là trung điểm ${m('SB')}, ${m('EF = \\dfrac{1}{2}AB = 3')}.`, `${m('EG \\parallel AD')} nên ${m('G')} là trung điểm ${m('SD')}; ${m('GH \\parallel CD')} nên ${m('H')} là trung điểm ${m('SC')} và ${m('GH = \\dfrac{1}{2}CD = 5')}.`],
+   ans:`${tb('EF = 3')}, ${tb('GH = 5')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Kết luận ${m('d \\parallel (P)')} mà quên chỉ ra ${m('d \\not\\subset (P)')}.</li><li>Cho rằng không có điểm chung nghĩa là chéo nhau: phải kiểm tra không đồng phẳng.</li><li>Khi vẽ thiết diện song song với mặt đáy, quên rằng mọi giao tuyến đều song song với cạnh đáy tương ứng.</li></ul><div class="lk-box">Đề tra từ văn bản SGK trên mạng – thầy đối chiếu số trang, số thứ tự.</div>`},
+]);
+})();

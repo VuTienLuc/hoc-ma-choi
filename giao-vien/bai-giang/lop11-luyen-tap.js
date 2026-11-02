@@ -437,3 +437,43 @@ Lecture.addPractice('lop11', 'bai-11', [
  ]},
 ]);
 })();
+
+/* =====================================================================  CHƯƠNG IV · BÀI 12 (02/11/2026)
+   Đường thẳng và mặt phẳng song song – 10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 6 dạng của bài giảng. */
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+Lecture.addPractice('lop11', 'bai-12', [
+ {dang:'Vị trí tương đối của đường thẳng và mặt phẳng', items:[
+  {de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Xét vị trí tương đối của: a) ${m("CC'")} và ${m("(ABB'A')")}; b) ${m('AC')} và ${m('(ABCD)')}; c) ${m("A'C")} và ${m('(ABCD)')}.`,
+   sol:[`a) ${m("CC' \\parallel BB'")}, ${m("BB' \\subset (ABB'A')")} và ${m("CC' \\not\\subset (ABB'A')")} nên ${m("CC' \\parallel (ABB'A')")}.`, `b) ${m('A, C')} đều thuộc ${m('(ABCD)')} nên ${m('AC \\subset (ABCD)')}.`, `c) ${m("A'C")} có điểm chung ${m('C')} với ${m('(ABCD)')} và ${m("A' \\notin (ABCD)")} nên cắt nhau tại ${m('C')}.`], ans:`a) ${tw('song song')}; b) ${tw('nằm trong')}; c) ${tw('cắt nhau tại C')}.`},
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình bình hành. Xét vị trí tương đối của: a) ${m('CD')} và ${m('(SAB)')}; b) ${m('SB')} và ${m('(SAD)')}; c) ${m('AD')} và ${m('(SBC)')}.`,
+   sol:[`a) ${m('CD \\parallel AB')}, ${m('AB \\subset (SAB)')}, ${m('CD \\not\\subset (SAB)')} nên ${m('CD \\parallel (SAB)')}.`, `b) ${m('SB')} có điểm chung ${m('S')} với ${m('(SAD)')} và ${m('B \\notin (SAD)')} nên cắt nhau tại ${m('S')}.`, `c) ${m('AD \\parallel BC')}, ${m('BC \\subset (SBC)')}, ${m('AD \\not\\subset (SBC)')} nên ${m('AD \\parallel (SBC)')}.`], ans:`a) ${tw('song song')}; b) ${tw('cắt nhau tại S')}; c) ${tw('song song')}.`},
+ ]},
+ {dang:'Điều kiện và tính chất', items:[
+  {de:`Các khẳng định sau đúng hay sai? a) Nếu ${m('d \\parallel d\'')} và ${m("d' \\subset (P)")} thì ${m('d \\parallel (P)')}. b) Nếu ${m('d \\parallel (P)')} thì ${m('d')} song song với mọi đường thẳng nằm trong ${m('(P)')}. c) Nếu ${m('a \\parallel (P)')}, ${m('(Q) \\supset a')} và ${m('(Q) \\cap (P) = b')} thì ${m('a \\parallel b')}. d) Hai đường thẳng cùng song song với một mặt phẳng thì song song với nhau.`,
+   sol:[`a) Sai: thiếu điều kiện ${m('d \\not\\subset (P)')}; ${m('d')} có thể nằm trong ${m('(P)')}.`, `b) Sai: có đường thẳng trong ${m('(P)')} chéo nhau với ${m('d')}.`, `c) Đúng: đó là Tính chất 2.`, `d) Sai: hai đường thẳng đó có thể cắt nhau hoặc chéo nhau (ví dụ hai cạnh ${m("AB, AD")} cùng song song ${m("(A'B'C'D')")} của hình lập phương).`], ans:`a) ${tw('Sai')}; b) ${tw('Sai')}; c) ${tw('Đúng')}; d) ${tw('Sai')}.`},
+  {hard:true, de:`Cho hình lăng trụ ${m("ABC.A'B'C'")} có ${m('BC = 7')}. Gọi ${m('M, N')} lần lượt là trung điểm của ${m("BB'")} và ${m("CC'")}. Chứng minh ${m('MN \\parallel (ABC)')} và ${m("MN \\parallel (A'B'C')")}, rồi tính ${m('MN')}.`,
+   sol:[`${m("BCC'B'")} là hình bình hành; ${m('M, N')} là trung điểm hai cạnh đối ${m("BB', CC'")} nên ${m('BMNC')} là hình bình hành (${m("BM \\parallel CN")}, ${m("BM = CN")}).`, `Suy ra ${m('MN \\parallel BC')} và ${m('MN = BC = 7')}.`, `${m('BC \\subset (ABC)')}, ${m('MN \\not\\subset (ABC)')} (vì ${m('M \\notin (ABC)')}) nên ${m('MN \\parallel (ABC)')}. Tương tự ${m("MN \\parallel B'C'")}, ${m("B'C' \\subset (A'B'C')")} nên ${m("MN \\parallel (A'B'C')")}.`], ans:`${tb('MN \\parallel (ABC)')}, ${tb("MN \\parallel (A'B'C')")}, ${tb('MN = 7')}.`},
+ ]},
+ {dang:'Đếm cạnh, đếm cặp (cạnh, mặt phẳng)', items:[
+  {de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Với mặt ${m('(ABCD)')}, hãy cho biết có bao nhiêu cạnh của hình: a) nằm trong mặt phẳng đó; b) song song với mặt phẳng đó; c) cắt mặt phẳng đó.`,
+   sol:[`a) Nằm trong ${m('(ABCD)')}: ${m('AB, BC, CD, DA')} – 4 cạnh.`, `b) Song song: bốn cạnh của mặt đối diện ${m("(A'B'C'D')")} – 4 cạnh.`, `c) Cắt: bốn cạnh bên ${m("AA', BB', CC', DD'")} – 4 cạnh. Kiểm tra ${m('4 + 4 + 4 = 12')}.`], ans:`a) ${tb('4')}; b) ${tb('4')}; c) ${tb('4')}.`},
+  {de:`Cho hình lăng trụ tam giác ${m("ABC.A'B'C'")} (9 cạnh, 5 mặt). Xét các cặp gồm một cạnh và một mặt của hình. Có bao nhiêu cặp mà cạnh song song với mặt?`,
+   sol:[`Mỗi cạnh đáy song song với mặt đáy còn lại: 6 cạnh đáy nên có 6 cặp.`, `Mỗi cạnh bên song song với mặt bên không chứa nó (mặt bên đối diện): 3 cặp.`, `Các cạnh bên không song song với mặt đáy (chúng cắt mặt đáy). Tổng ${m('6 + 3 = 9')}.`], ans:`${tb('9')} cặp.`},
+ ]},
+ {dang:'Giao tuyến liên quan đến đường thẳng song song mặt phẳng', items:[
+  {de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Biết ${m("CC'")} song song với cả hai mặt phẳng ${m("(ABB'A')")} và ${m("(ADD'A')")}. Xác định giao tuyến của hai mặt phẳng này và cho biết quan hệ của nó với ${m("CC'")}.`,
+   sol:[`${m("(ABB'A')")} và ${m("(ADD'A')")} có chung hai điểm ${m("A, A'")} nên giao tuyến là ${m("AA'")}.`, `${m("CC'")} song song với cả hai mặt phẳng cắt nhau nên song song với giao tuyến của chúng.`], ans:`${tb("(ABB'A') \\cap (ADD'A') = AA'")}, ${tb("AA' \\parallel CC'")}.`},
+  {hard:true, de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành, ${m('CD = 10')}. ${m('M')} là trung điểm của ${m('SC')}. Mặt phẳng ${m('(ABM)')} cắt ${m('SD')} tại ${m('N')}. Chứng minh ${m('MN \\parallel CD')}, ${m('N')} là trung điểm của ${m('SD')} và tính ${m('MN')}.`,
+   sol:[`${m('AB \\parallel CD')}, ${m('CD \\subset (SCD)')}, ${m('AB \\not\\subset (SCD)')} nên ${m('AB \\parallel (SCD)')}.`, `${m('(ABM)')} chứa ${m('AB')} và cắt ${m('(SCD)')} theo ${m('MN')} nên ${m('MN \\parallel AB \\parallel CD')}.`, `Trong tam giác ${m('SCD')}: ${m('M')} là trung điểm ${m('SC')} và ${m('MN \\parallel CD')} nên ${m('N')} là trung điểm ${m('SD')} và ${m('MN = \\dfrac{1}{2}CD = 5')}.`], ans:`${tb('MN \\parallel CD')}, ${tb('N')} là trung điểm ${tb('SD')}, ${tb('MN = 5')}.`},
+ ]},
+ {dang:'Chứng minh đường thẳng song song với mặt phẳng', items:[
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành, ${m('AD = 14')}. ${m('M, N')} lần lượt là trung điểm của ${m('SA, SD')}. Chứng minh ${m('MN \\parallel (ABCD)')} và ${m('MN \\parallel (SBC)')}; tính ${m('MN')}.`,
+   sol:[`${m('MN')} là đường trung bình của tam giác ${m('SAD')}: ${m('MN \\parallel AD')}, ${m('MN = \\dfrac{1}{2}AD = 7')}.`, `${m('AD \\parallel BC')} nên ${m('MN \\parallel BC')}.`, `${m('AD \\subset (ABCD)')}, ${m('BC \\subset (SBC)')}; ${m('MN')} không nằm trong hai mặt phẳng này (${m('M \\notin (ABCD)')}, ${m('M \\notin (SBC)')}). Vậy ${m('MN \\parallel (ABCD)')} và ${m('MN \\parallel (SBC)')}.`], ans:`${tb('MN \\parallel (ABCD)')}, ${tb('MN \\parallel (SBC)')}, ${tb('MN = 7')}.`},
+ ]},
+ {dang:'Thiết diện song song với hai đường thẳng chéo nhau', items:[
+  {hard:true, de:`Cho tứ diện ${m('ABCD')} có ${m('BC = 8')}, ${m('AD = 12')}. Điểm ${m('M')} thuộc ${m('AB')} sao cho ${m('AM = \\dfrac{1}{4}AB')}. Mặt phẳng ${m('(\\alpha)')} qua ${m('M')}, song song với ${m('BC')} và ${m('AD')}, cắt ${m('AC, CD, BD')} lần lượt tại ${m('N, P, Q')}. Chứng minh ${m('MNPQ')} là hình bình hành và tính chu vi.`,
+   sol:[`${m('BC \\parallel (\\alpha)')} nên ${m('MN \\parallel BC')} và ${m('PQ \\parallel BC')}; ${m('AD \\parallel (\\alpha)')} nên ${m('MQ \\parallel AD')} và ${m('NP \\parallel AD')}. Vậy ${m('MNPQ')} là hình bình hành.`, `${m('MN = \\dfrac{AM}{AB}\\cdot BC = \\dfrac{1}{4}\\cdot 8 = 2')}.`, `${m('MQ = \\dfrac{BM}{BA}\\cdot AD = \\dfrac{3}{4}\\cdot 12 = 9')}. Chu vi bằng ${m('2\\,(2 + 9) = 22')}.`], ans:`${tw('MNPQ là hình bình hành')}, chu vi ${tb('22')}.`},
+ ]},
+]);
+})();

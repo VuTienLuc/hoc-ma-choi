@@ -1820,3 +1820,169 @@ Hai đường thẳng như thế nào thì chéo nhau? Nêu hai cách chứng mi
 | Exit | C · Đ Đ S Đ · $14$ |
 | Về nhà | bắc cầu |
 `);
+
+/* =====================================================================  CHƯƠNG IV · BÀI 12 (02/11/2026)
+   Phiếu học tập trên lớp – Bài 12. Đường thẳng và mặt phẳng song song (Phần A in đúng 2 trang A4). */
+Lecture.addSheet('lop11', 'bai-12', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 12. Đường thẳng và mặt phẳng song song
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Đường thẳng và mặt phẳng có mấy vị trí tương đối? Đáp án: ………………………
+
+**Câu 2.** Đường thẳng $d$ có hai điểm chung phân biệt với $(P)$. Vị trí của $d$ và $(P)$ là: ………………………
+
+**Câu 3.** Nếu $d\parallel(P)$ thì $d$ và $(P)$ có bao nhiêu điểm chung? Đáp án: ………………………
+
+**Câu 4.** Tam giác $ABC$, $M$, $N$ là trung điểm $AB$, $AC$ và $BC=14$. Khi đó $MN=$ ………………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Đặt một cây bút chì lên bàn theo ba cách: (a) cắm thẳng đứng, đầu bút chạm mặt bàn; (b) nằm ngang, cách mặt bàn một gang tay; (c) nằm sát trên mặt bàn.
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Làm thế nào biết một đường thẳng song song với một mặt phẳng mà không phải kiểm tra từng điểm của nó?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Phát biểu nào sau đây đúng?
+
+A. Nếu $d\parallel d'$ và $d'\subset(P)$ thì $d\parallel(P)$
+
+B. Nếu $d\not\subset(P)$ và $d\parallel d'\subset(P)$ thì $d\parallel(P)$
+
+C. Nếu $d\parallel(P)$ thì $d$ song song với mọi đường thẳng nằm trong $(P)$
+
+D. Nếu $d\parallel(P)$ thì $d$ và $(P)$ có đúng một điểm chung
+
+**Câu B.** Tứ diện $ABCD$, $M$, $N$ là trung điểm $AB$, $AC$. Đường thẳng $MN$ song song với mặt phẳng
+
+A. $(ABC)$
+
+B. $(ABD)$
+
+C. $(BCD)$
+
+D. $(ACD)$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Hình lập phương $ABCD.A'B'C'D'$ có bao nhiêu cạnh song song với mặt phẳng $(ABCD)$? Đáp số: ………………………
+
+**Câu 2 ★.** Hình chóp $S.ABCD$ có đáy là hình bình hành. Có bao nhiêu cạnh của hình chóp song song với mặt phẳng $(SBC)$? Đáp số: ………………………
+
+**Câu 3 ★.** Tứ diện $ABCD$, $M$, $N$ là trung điểm $AB$, $AC$, $BC=16$. Chứng minh $MN\parallel(BCD)$ và tính $MN$. Đáp số: ………………………
+
+**Câu 4 ★★.** Hình lăng trụ tam giác $ABC.A'B'C'$. Xét các cặp (cạnh, mặt) của hình. Có bao nhiêu cặp mà cạnh song song với mặt? Đáp số: ………………………
+
+**Câu 5 ★★.** Hình lập phương $ABCD.A'B'C'D'$: $AA'$ song song với cả $(BCC'B')$ và $(CDD'C')$. Giao tuyến của hai mặt phẳng này là đường thẳng nào? Đáp số: ………………………
+
+**Câu 6 ★★.** Tứ diện $ABCD$, $I$, $J$ là trọng tâm tam giác $ABC$, $ABD$, $CD=15$. Chứng minh $IJ\parallel(BCD)$ và tính $IJ$. *Gợi ý: gọi $M$ là trung điểm $AB$.* Đáp số: ………………………
+
+**Câu 7 ★★★.** Tứ diện $ABCD$, $BC=12$, $AD=9$, $M\in AB$ với $AM=\dfrac13AB$. Mặt phẳng qua $M$ song song với $BC$, $AD$ cắt tứ diện theo thiết diện $MNPQ$. Chứng minh $MNPQ$ là hình bình hành và tính chu vi. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+Bạn Lan viết: *"$MN\parallel BC$ mà $BC\subset(BCD)$ nên $MN\parallel(BCD)$."*
+
+**Lỗi ở:** ………………………………………… **Lời giải đúng:** ……………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1 (trắc nghiệm).** Trong hình lập phương $ABCD.A'B'C'D'$, đường thẳng nào sau đây song song với mặt phẳng $(ABB'A')$?
+
+A. $AB$
+
+B. $A'D'$
+
+C. $CC'$
+
+D. $BC$
+
+**Câu 2 (đúng – sai).** $S.ABCD$ đáy là hình bình hành, $M$, $N$ là trung điểm $SA$, $SB$:
+
+a) $MN\parallel(ABCD)$.  ☐ Đ ☐ S
+
+b) $MN\parallel(SCD)$.  ☐ Đ ☐ S
+
+c) $MN\parallel(SAB)$.  ☐ Đ ☐ S
+
+d) $MN\parallel(SBC)$.  ☐ Đ ☐ S
+
+**Câu 3 (trả lời ngắn).** Tứ diện $ABCD$, $E$, $F$ là trung điểm $AB$, $AC$ và $EF=5$. Khi đó $BC=$ …………
+
+## 7. Một phút suy ngẫm
+
+Để chứng minh $d\parallel(P)$ cần hai điều kiện nào? Nêu một cách tìm đường thẳng nằm trong $(P)$ và song song với $d$. ……………………………………………………
+
+## 8. Vận dụng về nhà
+
+**[Minh họa]** Một thanh xà ngang đặt cách mặt sàn $2$ m, song song với mép chân tường nằm trên sàn. Giải thích vì sao thanh xà song song với mặt sàn; nếu buộc một sợi dây thẳng từ xà xuống sàn thì sợi dây đó có song song với mặt sàn không?
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Bài 12. Đường thẳng và mặt phẳng song song
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương IV. Quan hệ song song trong không gian · Bài 12. Đường thẳng và mặt phẳng song song** (sách Kết nối tri thức với cuộc sống, tập 1, tr. 84–88; số trang thầy đối chiếu).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà; chỉ có máy chiếu và giấy/bảng con.
+- Phiếu bám bài giảng: **Ví dụ 1, 2** (vị trí tương đối) → Do Now 1–3, Exit 1; **Ví dụ 3, 4** (điều kiện, tính chất) → Bản lề A, Tìm lỗi sai; **Ví dụ 5, 6** (đếm) → Luyện tập 1, 2, 4; **Ví dụ 7, 8** (giao tuyến, hệ quả) → Luyện tập 5; **Ví dụ 9, 10, 11** (chứng minh song song) → Do Now 4, Bản lề B, Luyện tập 3, 6, Exit 2, 3; **Ví dụ 12, 13** (thiết diện) → Luyện tập 7.
+- Tình huống **[Minh họa]** (cây bút chì trên bàn, thanh xà ngang) do người soạn tự đặt, không trích nguyên văn SGK.
+
+## 2. Mục tiêu
+
+- Phân biệt ba vị trí của đường thẳng và mặt phẳng; nắm điều kiện $d\not\subset(P)$ và $d\parallel d'\subset(P)$; dùng tính chất và hệ quả để tìm giao tuyến; chứng minh song song bằng đường trung bình, định lí Thales; tính độ dài trên thiết diện song song với hai đường thẳng chéo nhau.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Tự làm, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Ghi câu hỏi của bài học |
+| 7–22 | Hệ thống kiến thức | Giáo viên dạy theo bài giảng (ba vị trí, điều kiện song song, tính chất và hệ quả, Ví dụ 4, 7, 9); dừng làm Câu hỏi bản lề A, B |
+| 22–34 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 34–37 | Tìm lỗi sai (Mục 5) | |
+| 37–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm, dặn dò (Mục 7–8) | |
+
+## 4. Đáp án và lỗi dự kiến
+
+- **Do Now:** 1) $3$ (cắt nhau, song song, đường thẳng nằm trong mặt phẳng). 2) $d$ nằm trong $(P)$. 3) $0$. 4) $MN=7$.
+- **Notice & Wonder:** (a) bút cắm thẳng đứng cắt mặt bàn tại một điểm; (b) bút nằm ngang cách mặt bàn không có điểm chung với mặt bàn (song song); (c) bút nằm sát trên mặt bàn nằm trong mặt phẳng bàn. Câu hỏi của bài học dẫn tới điều kiện: song song với một đường thẳng nằm trong mặt phẳng và không nằm trong mặt phẳng đó.
+- **Bản lề A – đáp án B:** đây là điều kiện song song đầy đủ. Nhiễu: A thiếu $d\not\subset(P)$; C sai vì có đường thẳng trong $(P)$ chéo nhau với $d$; D sai vì song song nghĩa là không có điểm chung. **Bản lề B – đáp án C:** $MN\parallel BC\subset(BCD)$ và $MN\not\subset(BCD)$. Nhiễu: A, B, D là các mặt phẳng chứa $M$ hoặc $N$ nên $MN$ nằm trong hoặc cắt chúng ($MN\subset(ABC)$; $M\in(ABD)$; $N\in(ACD)$).
+- **Luyện tập:**
+  1. $4$ cạnh (các cạnh của đáy trên $A'B'$, $B'C'$, $C'D'$, $D'A'$).
+  2. $1$ cạnh ($AD\parallel BC\subset(SBC)$).
+  3. $MN=\dfrac12BC=8$; $MN\parallel BC\subset(BCD)$ và $MN\not\subset(BCD)$.
+  4. $9$ cặp ($6$ cạnh đáy song song mặt đáy còn lại, $3$ cạnh bên song song mặt bên đối diện).
+  5. Giao tuyến là $CC'$ (và $CC'\parallel AA'$).
+  6. $IJ\parallel CD$, $IJ=\dfrac13CD=5$; $IJ\parallel(BCD)$.
+  7. $MN\parallel BC$, $MQ\parallel AD$ nên $MNPQ$ là hình bình hành; $MN=\dfrac13\cdot12=4$, $MQ=\dfrac23\cdot9=6$; chu vi $=2(4+6)=20$.
+- **Tìm lỗi sai:** thiếu điều kiện $MN\not\subset(BCD)$ (khi đó $MN$ có thể nằm trong $(BCD)$); lời giải đúng nêu rõ $M\notin(BCD)$ vì $A\notin(BCD)$ rồi mới kết luận.
+- **Exit:** Câu 1: **C** ($CC'\parallel AA'\subset(ABB'A')$; $AB$ nằm trong mặt phẳng; $A'D'$ và $BC$ cắt mặt phẳng). Câu 2: a) Đ ($MN\parallel AB\subset(ABCD)$); b) Đ ($MN\parallel CD\subset(SCD)$); c) S ($MN$ nằm trong $(SAB)$); d) S ($MN$ cắt $(SBC)$ tại $N$). Câu 3: $EF=\dfrac12BC$ nên $BC=10$.
+- **Về nhà:** thanh xà song song với mép chân tường nằm trong mặt sàn và không nằm trong mặt sàn nên song song với mặt sàn. Sợi dây thẳng buộc từ xà xuống sàn có điểm chung với mặt sàn nên không song song với mặt sàn.
+
+## 5. Xử lý phiếu ra khỏi lớp và phân hóa
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao Câu 7 và bài về nhà mở rộng |
+| 2. Sai hết | 0–1 câu đúng | Làm lại Ví dụ 1 và Ví dụ 9 của bài giảng với số liệu khác |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh câu sai nhiều ở đầu tiết sau |
+
+- **Học sinh yếu:** chỉ làm Câu 1–5, được dùng bảng vị trí tương đối. **Học sinh khá giỏi:** làm Câu 7 và bài về nhà.
+
+## 6. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $3$; nằm trong $(P)$; $0$; $7$ |
+| Bản lề A, B | B, C |
+| Luyện tập 1–7 | $4$ · $1$ · $8$ · $9$ · $CC'$ · $5$ · $20$ |
+| Tìm lỗi sai | thiếu $MN\not\subset(BCD)$ |
+| Exit | C · Đ Đ S S · $10$ |
+| Về nhà | song song; sợi dây không song song |
+`);
