@@ -421,3 +421,57 @@ Lecture.addSgk('lop11', 'bai-12', [
    body:`<ul><li>Kết luận ${m('d \\parallel (P)')} mà quên chỉ ra ${m('d \\not\\subset (P)')}.</li><li>Cho rằng không có điểm chung nghĩa là chéo nhau: phải kiểm tra không đồng phẳng.</li><li>Khi vẽ thiết diện song song với mặt đáy, quên rằng mọi giao tuyến đều song song với cạnh đáy tương ứng.</li></ul><div class="lk-box">Đề tra từ văn bản SGK trên mạng – thầy đối chiếu số trang, số thứ tự.</div>`},
 ]);
 })();
+
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – Toán 11 KNTT, tập 1, Bài 13. Hai mặt phẳng song song (02/11/2026)
+   Luyện tập 6 (tr. 93), Bài 4.21 (tr. 93), Bài 4.22, 4.23, 4.24 (tr. 94). Đề tra từ văn bản SGK/lời giải trên mạng, nhiều chỗ ghi tóm tắt (nhất là 4.21, 4.22, 4.23):
+   thầy đối chiếu số trang, số thứ tự và nội dung. Chưa làm: Hoạt động, Luyện tập 1–5, Vận dụng 1–2, Bài 4.20 và bài tập cuối chương (tr. 95) – thầy gửi ảnh SGK thì bổ sung.
+   ===================================================================== */
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+const mid = (p, q, t = .5) => [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])];
+const CUBE0 = {A:[80, 192], B:[190, 192], C:[250, 152], D:[140, 152], "A'":[80, 94], "B'":[190, 94], "C'":[250, 54], "D'":[140, 54]};
+const figLT6 = spaceSVG({pts:CUBE0, s:[['A', 'B'], ['B', 'C'], ["A'", "B'"], ["B'", "C'"], ["C'", "D'"], ["D'", "A'"], ['A', "A'"], ['B', "B'"], ['C', "C'"]], d:[['A', 'D'], ['D', 'C'], ['D', "D'"]], fill:[['A', 'D', "D'", "A'"], ['B', 'C', "C'", "B'"]], ht:218, aria:"Hình hộp ABCD.A'B'C'D' với hai mặt (ADD'A') và (BCC'B') được tô"});
+const PRI0 = {A:[50, 172], B:[130, 198], C:[270, 172], "A'":[50, 60], "B'":[130, 86], "C'":[270, 60]};
+const fig422 = spaceSVG({pts:{...PRI0, M:mid(PRI0.A, PRI0["A'"]), N:mid(PRI0.B, PRI0["B'"]), P:mid(PRI0.C, PRI0["C'"])},
+  s:[['A', 'B'], ['B', 'C'], ["A'", "B'"], ["B'", "C'"], ["C'", "A'"], ['A', "A'"], ['B', "B'"], ['C', "C'"], ['M', 'N'], ['N', 'P']], d:[['A', 'C'], ['M', 'P']], fill:[['M', 'N', 'P']], ht:218, aria:"Lăng trụ ABC.A'B'C' với M, N, P là trung điểm AA', BB', CC'"});
+const fig423 = spaceSVG({pts:{A:[40, 172], B:[190, 172], C:[150, 132], D:[80, 132], x:[100, 60], y:[140, 20]}, nolabel:['x', 'y'], s:[['A', 'B'], ['B', 'C'], ['C', 'D'], ['D', 'A'], ['A', 'x'], ['D', 'y']], fill:[['B', 'A', 'x'], ['C', 'D', 'y']], txt:[[112, 62, 'm'], [152, 24, 'n']], w:260, ht:200, aria:'Hình thang ABCD (AB song song CD) và hai tia Am, Dn song song với nhau; hai mặt phẳng (B, m) và (C, n)'});
+const T0 = [[160, 22], [48, 160], [168, 196], [288, 128]];
+const fig424 = spaceSVG({pts:{S:T0[0], A:T0[1], B:T0[2], C:T0[3], 'A₁':mid(T0[0], T0[1], 2 / 3), 'A₂':mid(T0[0], T0[1], 1 / 3), 'B₁':mid(T0[0], T0[2], 2 / 3), 'B₂':mid(T0[0], T0[2], 1 / 3), 'C₁':mid(T0[0], T0[3], 2 / 3), 'C₂':mid(T0[0], T0[3], 1 / 3)},
+  s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['A', 'B'], ['B', 'C'], ['A₁', 'B₁'], ['B₁', 'C₁'], ['A₂', 'B₂'], ['B₂', 'C₂']], d:[['A', 'C'], ['A₁', 'C₁'], ['A₂', 'C₂']], fill:[['A₁', 'B₁', 'C₁'], ['A₂', 'B₂', 'C₂']], ht:218, aria:'Hình chóp S.ABC; hai mặt phẳng (P), (Q) song song với (ABC) đi qua A₁, A₂'});
+
+Lecture.addSgk('lop11', 'bai-13', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 13. Hai mặt phẳng song song', sub:'Luyện tập 6, Bài 4.21 (tr. 93); Bài 4.22, 4.23, 4.24 (tr. 94) – SGK tập 1',
+   points:['Luyện tập 6 (tr. 93) – hình hộp: hai mặt bên đối diện song song.', 'Bài 4.21 (tr. 93) – mệnh đề đúng về ba mặt phẳng phân biệt.', 'Bài 4.22 (tr. 94) – lăng trụ, các trung điểm của ba cạnh bên: (MNP) ∥ (ABC).', 'Bài 4.23 (tr. 94) – hình thang và hai tia song song: hai mặt phẳng song song.', 'Bài 4.24 (tr. 94) – chia đều cạnh SA, suy ra chia đều SB, SC (Thales không gian).', 'Các câu còn lại của bài (Hoạt động, Luyện tập 1–5, Vận dụng, Bài 4.20, bài tập cuối chương) chưa có đề – thầy gửi ảnh SGK thì bổ sung.']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Bốn công cụ dùng trong các câu này',
+   body:`<ol class="lk-steps"><li><b>Điều kiện song song:</b> mặt phẳng chứa hai đường thẳng <b>cắt nhau</b> cùng song song với mặt phẳng kia.</li><li><b>Bắc cầu:</b> hai mặt phẳng phân biệt cùng song song với mặt phẳng thứ ba thì song song với nhau.</li><li><b>Giao tuyến:</b> mặt phẳng thứ ba cắt hai mặt phẳng song song theo hai giao tuyến song song.</li><li><b>Thales không gian:</b> ba mặt phẳng song song chắn trên hai cát tuyến những đoạn tương ứng tỉ lệ.</li></ol>`},
+
+  {kind:'vd', tag:'SGK tr. 93 · Luyện tập 6', label:'Câu 1', de:`Cho hình hộp ${m("ABCD.A'B'C'D'")}. Chứng minh ${m("(ADD'A') \\parallel (BCC'B')")}.`, fig: figLT6,
+   sol:[`${m('ABCD')} là hình bình hành nên ${m('AD \\parallel BC')}; ${m("BC \\subset (BCC'B')")} và ${m("AD \\not\\subset (BCC'B')")} nên ${m("AD \\parallel (BCC'B')")}.`, `${m("ABB'A'")} là hình bình hành nên ${m("AA' \\parallel BB'")}; ${m("BB' \\subset (BCC'B')")} và ${m("AA' \\not\\subset (BCC'B')")} nên ${m("AA' \\parallel (BCC'B')")}.`, `${m("AD, AA'")} cắt nhau tại ${m('A')} và cùng nằm trong ${m("(ADD'A')")}. Theo điều kiện song song: ${m("(ADD'A') \\parallel (BCC'B')")}.`],
+   ans:`${tb("(ADD'A') \\parallel (BCC'B')")}. <i>Mở rộng:</i> hai cặp mặt đối diện còn lại chứng minh tương tự; hình hộp có đúng 3 cặp mặt song song.`},
+
+  {kind:'vd', tag:'SGK tr. 93 · Bài 4.21', label:'Câu 2', de:`Trong không gian cho ba mặt phẳng phân biệt ${m('(P), (Q), (R)')}. Trong các mệnh đề a)–d) của SGK, mệnh đề nào đúng? <i>(Đề ghi tóm tắt: em chỉ nắm chắc mệnh đề đúng c) – thầy đối chiếu nội dung a), b), d) trong SGK.)</i>`,
+   sol:[`Mệnh đề c): nếu ${m('(P) \\parallel (R)')} và ${m('(Q) \\parallel (R)')} thì ${m('(P) \\parallel (Q)')} – <b>đúng</b> (tính chất bắc cầu).`, `Các mệnh đề còn lại sai vì có phản ví dụ: hai mặt phẳng cùng cắt ${m('(R)')}, hoặc cùng song song với một đường thẳng, vẫn có thể cắt nhau (ví dụ hai mặt bên kề nhau của hình lập phương cùng song song với một cạnh bên, hoặc cùng cắt mặt đáy).`],
+   ans:`Chỉ mệnh đề ${tw('c)')} đúng.`},
+
+  {kind:'vd', tag:'SGK tr. 94 · Bài 4.22', label:'Câu 3', de:`Cho hình lăng trụ ${m("ABC.A'B'C'")}. Gọi ${m('M, N, P')} lần lượt là trung điểm của ${m("AA', BB', CC'")}. Chứng minh ${m('(MNP) \\parallel (ABC)')}. <i>(Đề ghi tóm tắt – thầy đối chiếu.)</i>`, fig: fig422,
+   sol:[`${m("ABB'A'")} là hình bình hành (hình thang), ${m('M, N')} là trung điểm hai cạnh đối ${m("AA', BB'")} nên ${m('MN')} là đường trung bình: ${m('MN \\parallel AB')}.`, `Tương tự ${m("BCC'B'")}: ${m('NP \\parallel BC')}.`, `${m('MN, NP')} cắt nhau tại ${m('N')} trong ${m('(MNP)')} và không nằm trong ${m('(ABC)')}, lần lượt song song với ${m('AB, BC \\subset (ABC)')}. Theo điều kiện song song: ${m('(MNP) \\parallel (ABC)')}.`],
+   ans:`${tb('(MNP) \\parallel (ABC)')}. <i>Mở rộng:</i> ${m('MN = AB')}, ${m('NP = BC')}, ${m('PM = CA')} nên tam giác ${m('MNP')} bằng tam giác ${m('ABC')} (cùng chu vi, cùng diện tích).`},
+
+  {kind:'vd', tag:'SGK tr. 94 · Bài 4.23', label:'Câu 4', de:`Cho hình thang ${m('ABCD')} có hai đáy ${m('AB, CD')}. Qua ${m('A')} và ${m('D')} lần lượt kẻ hai tia ${m('Am, Dn')} song song với nhau, cùng chiều và không nằm trong mặt phẳng ${m('(ABCD)')}. Chứng minh hai mặt phẳng ${m('(B, Am)')} và ${m('(C, Dn)')} song song. <i>(Đề ghi tóm tắt từ lời giải – thầy đối chiếu.)</i>`, fig: fig423,
+   sol:[`${m('Am \\parallel Dn')} và ${m('Dn \\subset (C, Dn)')}; ${m('Am \\not\\subset (C, Dn)')} (nếu có thì ${m('A \\in (C, Dn)')}, mặt phẳng này chứa ${m('A, C, D')} nên là ${m('(ABCD)')} và chứa ${m('Dn')} – trái giả thiết). Vậy ${m('Am \\parallel (C, Dn)')}.`, `${m('AB \\parallel CD')}, ${m('CD \\subset (C, Dn)')} và ${m('AB \\not\\subset (C, Dn)')} (cùng lí do) nên ${m('AB \\parallel (C, Dn)')}.`, `${m('Am, AB')} cắt nhau tại ${m('A')} và nằm trong ${m('(B, Am)')}. Theo điều kiện song song: ${m('(B, Am) \\parallel (C, Dn)')}.`],
+   ans:`${tb('(B, Am) \\parallel (C, Dn)')}.`},
+
+  {kind:'vd', tag:'SGK tr. 94 · Bài 4.24', label:'Câu 5', de:`Cho hình chóp ${m('S.ABC')}. Trên cạnh ${m('SA')} lấy ${m('A_1, A_2')} sao cho ${m('AA_1 = A_1A_2 = A_2S')}. Qua ${m('A_1, A_2')} dựng hai mặt phẳng ${m('(P), (Q)')} cùng song song với ${m('(ABC)')}; ${m('(P)')} cắt ${m('SB, SC')} tại ${m('B_1, C_1')}, ${m('(Q)')} cắt ${m('SB, SC')} tại ${m('B_2, C_2')}. Chứng minh ${m('BB_1 = B_1B_2 = B_2S')} và ${m('CC_1 = C_1C_2 = C_2S')}.`, fig: fig424,
+   sol:[`${m('(ABC), (P), (Q)')} đôi một song song và cắt hai cát tuyến ${m('SA, SB')} lần lượt tại ${m('A, A_1, A_2')} và ${m('B, B_1, B_2')}.`, `Theo định lí Thales trong không gian: ${m('\\dfrac{BB_1}{AA_1} = \\dfrac{B_1B_2}{A_1A_2} = \\dfrac{B_2S}{A_2S}')}.`, `Vì ${m('AA_1 = A_1A_2 = A_2S')} nên ${m('BB_1 = B_1B_2 = B_2S')}. Làm tương tự với cát tuyến ${m('SA, SC')} ta được ${m('CC_1 = C_1C_2 = C_2S')}.`],
+   ans:`${tb('BB_1 = B_1B_2 = B_2S')} và ${tb('CC_1 = C_1C_2 = C_2S')}.`},
+
+  {kind:'vd', tag:'Mở rộng · Bài 4.24', label:'Câu 5 (mở rộng)', de:`Với Bài 4.24, biết diện tích tam giác ${m('ABC')} bằng ${m('18')}. Tính diện tích các tam giác ${m('A_1B_1C_1')} và ${m('A_2B_2C_2')}.`, fig: fig424,
+   sol:[`${m('SA_1 = \\dfrac{2}{3}SA')} nên tam giác ${m('A_1B_1C_1')} đồng dạng ${m('ABC')} theo tỉ số ${m('\\dfrac{2}{3}')}: diện tích ${m('\\dfrac{4}{9}\\cdot 18 = 8')}.`, `${m('SA_2 = \\dfrac{1}{3}SA')} nên tỉ số đồng dạng ${m('\\dfrac{1}{3}')}: diện tích ${m('\\dfrac{1}{9}\\cdot 18 = 2')}.`],
+   ans:`${tb('8')} và ${tb('2')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Chứng minh song song mà chỉ nêu <b>một</b> đường thẳng hoặc hai đường thẳng song song nhau: phải là hai đường thẳng <b>cắt nhau</b>.</li><li>Quên nói đường thẳng không nằm trong mặt phẳng kia khi dùng “đường thẳng song song mặt phẳng”.</li><li>Lập tỉ lệ Thales sai đoạn tương ứng (lấy ${m('SA_1')} với ${m('AA_1')}).</li><li>Tỉ số diện tích là ${m('k^2')}, không phải ${m('k')}.</li></ul>`},
+]);
+})();

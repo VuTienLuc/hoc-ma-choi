@@ -1986,3 +1986,167 @@ d) $MN\parallel(SBC)$.  ☐ Đ ☐ S
 | Exit | C · Đ Đ S S · $10$ |
 | Về nhà | song song; sợi dây không song song |
 `);
+
+Lecture.addSheet('lop11', 'bai-13', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 13. Hai mặt phẳng song song
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Hai mặt phẳng phân biệt có mấy vị trí tương đối? Đáp án: ………………………
+
+**Câu 2.** Hai mặt phẳng phân biệt có một điểm chung thì chúng ………………………
+
+**Câu 3.** Nếu $d\parallel(P)$ thì $d$ và $(P)$ có bao nhiêu điểm chung? Đáp án: ………………………
+
+**Câu 4.** Tam giác $ABC$, $M$, $N$ là trung điểm $AB$, $AC$ và $BC=14$. Khi đó $MN=$ ………………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Quan sát ba cặp "mặt phẳng": (a) sàn nhà và trần nhà của lớp học; (b) hai trang giấy của một quyển vở đang mở, dính nhau ở gáy; (c) mặt bảng và mặt tường bên cạnh.
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Làm thế nào biết hai mặt phẳng song song mà không phải kiểm tra từng điểm của chúng?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Phát biểu nào sau đây đúng?
+
+A. Nếu $(P)$ chứa hai đường thẳng song song cùng song song với $(Q)$ thì $(P)\parallel(Q)$
+
+B. Nếu $(P)$ chứa hai đường thẳng cắt nhau cùng song song với $(Q)$ thì $(P)\parallel(Q)$
+
+C. Nếu $(P)$ chứa một đường thẳng song song với $(Q)$ thì $(P)\parallel(Q)$
+
+D. Nếu $(P)$ và $(Q)$ cùng song song với một đường thẳng thì $(P)\parallel(Q)$
+
+**Câu B.** Trong hình lập phương $ABCD.A'B'C'D'$, mặt phẳng nào sau đây song song với $(ABB'A')$?
+
+A. $(ADD'A')$
+
+B. $(BCC'B')$
+
+C. $(CDD'C')$
+
+D. $(A'B'C'D')$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Hình lập phương có bao nhiêu cặp mặt song song với nhau? Đáp số: ………………………
+
+**Câu 2 ★.** Hình lăng trụ tam giác có bao nhiêu cặp mặt song song với nhau? Đáp số: ………………………
+
+**Câu 3 ★.** Ba mặt phẳng song song cắt hai đường thẳng tại $A,B,C$ và $A',B',C'$ ($B$, $B'$ nằm giữa). $AB=4$, $BC=6$, $A'B'=2$. Tính $B'C'$. Đáp số: ………………………
+
+**Câu 4 ★★.** Lăng trụ $ABC.A'B'C'$. Giao tuyến của $(A'BC)$ và $(A'B'C')$ là đường thẳng qua $A'$ song song với đường thẳng nào? Đáp số: ………………………
+
+**Câu 5 ★★.** Cùng cách đặt như Câu 3, biết $AB=6$, $AC=15$, $A'C'=20$. Tính $A'B'$. Đáp số: ………………………
+
+**Câu 6 ★★.** Hình chóp $S.ABC$ có chu vi tam giác $ABC$ bằng $30$. Mặt phẳng song song với $(ABC)$ cắt $SA,SB,SC$ tại $A',B',C'$ với $\dfrac{SA'}{SA}=\dfrac23$. Tính chu vi tam giác $A'B'C'$. Đáp số: ………………………
+
+**Câu 7 ★★★.** Lăng trụ $ABC.A'B'C'$, $AB=5$, $BC=7$, $CA=8$; $M,N,P$ là trung điểm $AA',BB',CC'$. Chứng minh $(MNP)\parallel(ABC)$ và tính chu vi tam giác $MNP$. Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+Bạn Nam viết: *"$(P)$ chứa hai đường thẳng $a$, $b$ song song với nhau và cùng song song với $(Q)$ nên $(P)\parallel(Q)$."*
+
+**Lỗi ở:** ………………………………………… **Lời giải đúng:** ……………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1 (trắc nghiệm).** Trong hình lập phương $ABCD.A'B'C'D'$, mặt phẳng nào sau đây song song với $(ABCD)$?
+
+A. $(ABB'A')$
+
+B. $(BCC'B')$
+
+C. $(A'B'C'D')$
+
+D. $(ADD'A')$
+
+**Câu 2 (đúng – sai).** Hình lăng trụ $ABC.A'B'C'$:
+
+a) $(ABC)\parallel(A'B'C')$.  ☐ Đ ☐ S
+
+b) $(ABB'A')\parallel(BCC'B')$.  ☐ Đ ☐ S
+
+c) $(ABB'A')\cap(ACC'A')=AA'$.  ☐ Đ ☐ S
+
+d) Hình lăng trụ có $3$ cặp mặt song song.  ☐ Đ ☐ S
+
+**Câu 3 (trả lời ngắn).** Ba mặt phẳng song song cắt hai đường thẳng tại $A,B,C$ và $A',B',C'$. $AB=3$, $BC=9$, $A'B'=2$. Khi đó $B'C'=$ …………
+
+## 7. Một phút suy ngẫm
+
+Để chứng minh $(P)\parallel(Q)$ cần chỉ ra điều gì? Vì sao hai đường thẳng đó phải cắt nhau? ……………………………………………………
+
+## 8. Vận dụng về nhà
+
+**[Minh họa]** Các sàn tầng $1,2,3,4$ của một toà nhà là các mặt phẳng song song, cách đều nhau. Một sợi cáp thẳng nối sàn tầng $1$ với sàn tầng $4$. Giải thích vì sao sàn tầng $2$ và tầng $3$ chia sợi cáp thành ba đoạn bằng nhau. ……………………………………………………
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Bài 13. Hai mặt phẳng song song
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương IV. Quan hệ song song trong không gian · Bài 13. Hai mặt phẳng song song** (sách Kết nối tri thức với cuộc sống, tập 1, tr. 88–94; số trang thầy đối chiếu).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà; chỉ có máy chiếu và giấy/bảng con.
+- Phiếu bám bài giảng: **Ví dụ 1, 2** (vị trí tương đối) → Do Now 1–2, Bản lề B; **Ví dụ 3–5** (chứng minh song song) → Bản lề A, Tìm lỗi sai, Exit 1; **Ví dụ 6, 7** (đếm cặp) → Luyện tập 1, 2, Exit 2; **Ví dụ 8, 9** (giao tuyến) → Luyện tập 4; **Ví dụ 10, 11** (Thales) → Luyện tập 3, 5, Exit 3, Về nhà; **Ví dụ 12, 13** (chóp, lăng trụ cắt) → Luyện tập 6, 7.
+- Tình huống **[Minh họa]** (sàn – trần nhà, quyển vở mở, sàn các tầng toà nhà) do người soạn tự đặt, không trích nguyên văn SGK.
+
+## 2. Mục tiêu
+
+- Phân biệt hai vị trí của hai mặt phẳng; nắm điều kiện song song (hai đường thẳng **cắt nhau**) và ba tính chất; tìm giao tuyến khi có hai mặt phẳng song song; vận dụng định lí Thales trong không gian và tính chất hình chóp, lăng trụ cắt bởi mặt phẳng song song với đáy.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Tự làm, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Ghi câu hỏi của bài học |
+| 7–22 | Hệ thống kiến thức | Giáo viên dạy theo bài giảng (hai vị trí, điều kiện song song, ba tính chất, Thales, hình chóp cắt; Ví dụ 3, 8, 10); dừng làm Câu hỏi bản lề A, B |
+| 22–34 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 34–37 | Tìm lỗi sai (Mục 5) | |
+| 37–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm, dặn dò (Mục 7–8) | |
+
+## 4. Đáp án và lỗi dự kiến
+
+- **Do Now:** 1) $2$ (song song, cắt nhau). 2) cắt nhau theo một đường thẳng (giao tuyến) đi qua điểm đó. 3) $0$. 4) $MN=7$.
+- **Notice & Wonder:** (a) sàn và trần không có điểm chung (song song); (b) hai trang giấy của quyển vở mở cắt nhau theo gáy sách; (c) mặt bảng và mặt tường kề nhau cắt nhau theo đường giao. Câu hỏi của bài: tìm điều kiện để kết luận hai mặt phẳng song song.
+- **Bản lề A – đáp án B:** đây là điều kiện song song đầy đủ. Nhiễu: A thiếu "cắt nhau" (hai đường thẳng song song thì $(P)$ vẫn có thể cắt $(Q)$); C, D quá yếu. **Bản lề B – đáp án C:** $(CDD'C')$ là mặt đối diện của $(ABB'A')$; $(ADD'A')$, $(BCC'B')$ cắt $(ABB'A')$ theo $AA'$, $BB'$; $(A'B'C'D')$ cắt theo $A'B'$.
+- **Luyện tập:**
+  1. $3$ cặp (các cặp mặt đối diện).
+  2. $1$ cặp (hai đáy).
+  3. $\dfrac{AB}{BC}=\dfrac{A'B'}{B'C'}$ nên $B'C'=\dfrac{2\cdot6}{4}=3$.
+  4. $BC$ (giao tuyến với đáy dưới là $BC$, hai đáy song song nên giao tuyến song song $BC$, cũng song song $B'C'$).
+  5. $\dfrac{A'B'}{A'C'}=\dfrac{AB}{AC}$ nên $A'B'=20\cdot\dfrac{6}{15}=8$.
+  6. Tỉ số đồng dạng $\dfrac23$ nên chu vi $=\dfrac23\cdot30=20$.
+  7. $AMNB$ là hình bình hành nên $MN=AB=5$; tương tự $NP=7$, $PM=8$; chu vi $=5+7+8=20$; $MN\parallel AB$, $NP\parallel BC$ nên $(MNP)\parallel(ABC)$.
+- **Tìm lỗi sai:** thiếu điều kiện hai đường thẳng $a$, $b$ phải **cắt nhau**; hai đường thẳng song song thì $(P)$ vẫn có thể cắt $(Q)$ (ví dụ hai mặt phẳng cắt nhau theo giao tuyến song song với $a$ và $b$).
+- **Exit:** Câu 1: **C** ($(A'B'C'D')$ là mặt đối diện của $(ABCD)$; các mặt còn lại cắt $(ABCD)$ theo một cạnh đáy). Câu 2: a) Đ (hai đáy song song); b) S (hai mặt bên cắt nhau theo $BB'$); c) Đ (giao tuyến là cạnh bên $AA'$); d) S (lăng trụ tam giác chỉ có $1$ cặp mặt song song). Câu 3: $\dfrac{A'B'}{B'C'}=\dfrac{AB}{BC}$ nên $B'C'=\dfrac{2\cdot9}{3}=6$.
+- **Về nhà:** cáp cắt bốn mặt phẳng song song cách đều nhau tại bốn điểm; vẽ thêm một đường thẳng đứng nối tầng $1$ với tầng $4$ (cát tuyến thứ hai) bị chia ba đoạn bằng nhau; theo định lí Thales trong không gian các đoạn tương ứng trên sợi cáp tỉ lệ với ba đoạn đó nên cũng bằng nhau.
+
+## 5. Xử lý phiếu ra khỏi lớp và phân hóa
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao Câu 7 và bài về nhà mở rộng |
+| 2. Sai hết | 0–1 câu đúng | Làm lại Ví dụ 3 và Ví dụ 10 của bài giảng với số liệu khác |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh câu sai nhiều ở đầu tiết sau |
+
+- **Học sinh yếu:** chỉ làm Câu 1–5, được dùng bảng vị trí tương đối và công thức Thales. **Học sinh khá giỏi:** làm Câu 7 và bài về nhà.
+
+## 6. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $2$; cắt nhau; $0$; $7$ |
+| Bản lề A, B | B, C |
+| Luyện tập 1–7 | $3$ · $1$ · $3$ · $BC$ · $8$ · $20$ · $20$ |
+| Tìm lỗi sai | thiếu "cắt nhau" |
+| Exit | C · Đ S Đ S · $6$ |
+| Về nhà | các đoạn tương ứng tỉ lệ nên bằng nhau |
+`);

@@ -112,7 +112,7 @@ Thầy nhắn Claude: **“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”** (ho�
 | 13 | 10 | V | Bài 12. Số gần đúng và sai số (đã có phần học sinh; chỉ làm các phần còn thiếu) | `so-gan-dung-sai-so` | `bai-12` | ⬜ | |
 | 14 | 11 | IV | Bài 13. Đường thẳng và mặt phẳng song song | `dt-mp-song-song` | `bai-12` | ✅ | Thực tế SGK là Bài 12 (id `bai-12`), làm 02/11/2026; giải SGK mới có Luyện tập tr. 86 và Bài 4.19 tr. 87 |
 | 15 | 10 | V | Bài 13. Các số đặc trưng đo xu thế trung tâm | `so-dac-trung-xu-the` | `bai-13` | ⬜ | |
-| 16 | 11 | IV | Bài 14. Hai mặt phẳng song song | `hai-mp-song-song` | `bai-14` | ⬜ | |
+| 16 | 11 | IV | Bài 14. Hai mặt phẳng song song | `hai-mp-song-song` | `bai-13` | ✅ | Thực tế SGK là Bài 13 (id `bai-13`), làm 02/11/2026; giải SGK Luyện tập 6, Bài 4.21–4.24 (đề ghi tóm tắt) |
 | 17 | 10 | V | Bài 14. Các số đặc trưng đo độ phân tán | `so-dac-trung-phan-tan` | `bai-14` | ⬜ | |
 | 18 | 11 | IV | Bài 15. Phép chiếu song song | `phep-chieu-song-song` | `bai-15` | ⬜ | |
 | 19 | 10 | V | Ôn tập chương V | `on-tap-c5` | `on-tap-c5` | ⬜ | |

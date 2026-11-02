@@ -477,3 +477,43 @@ Lecture.addPractice('lop11', 'bai-12', [
  ]},
 ]);
 })();
+
+/* =====================================================================  CHƯƠNG IV · BÀI 13 (02/11/2026)
+   Hai mặt phẳng song song – 10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 6 dạng của bài giảng. */
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+Lecture.addPractice('lop11', 'bai-13', [
+ {dang:'Vị trí tương đối của hai mặt phẳng; giao tuyến', items:[
+  {de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Xét vị trí tương đối của: a) ${m("(ABB'A')")} và ${m("(CDD'C')")}; b) ${m("(ABCD)")} và ${m("(ADD'A')")}; c) ${m("(BCC'B')")} và ${m("(A'B'C'D')")}.`,
+   sol:[`a) Hai mặt đối diện của hình lập phương không có điểm chung nên song song.`, `b) Hai mặt có chung hai điểm ${m('A, D')} nên cắt nhau theo giao tuyến ${m('AD')}.`, `c) Hai mặt có chung hai điểm ${m("B', C'")} nên cắt nhau theo giao tuyến ${m("B'C'")}.`], ans:`a) ${tw('song song')}; b) ${tw('cắt nhau theo AD')}; c) ${tw("cắt nhau theo B'C'")}.`},
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành. Tìm giao tuyến của ${m('(SAD)')} và ${m('(SBC)')}; của ${m('(SAB)')} và ${m('(ABCD)')}.`,
+   sol:[`${m('(SAD)')} và ${m('(SBC)')} có điểm chung ${m('S')}; ${m('AD \\parallel BC')} nên giao tuyến là đường thẳng qua ${m('S')} song song với ${m('AD, BC')}.`, `${m('(SAB)')} và ${m('(ABCD)')} có chung hai điểm ${m('A, B')} nên giao tuyến là ${m('AB')}.`], ans:`${tb('Sy \\parallel AD \\parallel BC')} (qua ${tb('S')}); ${tb('AB')}.`},
+ ]},
+ {dang:'Chứng minh hai mặt phẳng song song', items:[
+  {de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Chứng minh ${m("(ACB') \\parallel (A'C'D)")}.`,
+   sol:[`${m("ACC'A'")} là hình chữ nhật nên ${m("AC \\parallel A'C'")}; ${m("AB'C'D")} là hình chữ nhật nên ${m("AB' \\parallel DC'")}.`, `${m("AC, AB'")} cắt nhau tại ${m('A')}, nằm trong ${m("(ACB')")}.`, `${m("A'C'")} và ${m("DC'")} cắt nhau tại ${m("C'")}, nằm trong ${m("(A'C'D)")}; ${m("AB', AC")} không nằm trong ${m("(A'C'D)")}.`, `Theo điều kiện song song: ${m("(ACB') \\parallel (A'C'D)")}.`], ans:`${tb("(ACB') \\parallel (A'C'D)")}.`},
+  {de:`Các khẳng định sau đúng hay sai? a) Hai mặt phẳng cùng song song với một đường thẳng thì song song với nhau. b) Hai mặt phẳng cùng song song với một mặt phẳng thứ ba thì song song với nhau. c) Nếu ${m('(P) \\parallel (Q)')} thì mọi đường thẳng nằm trong ${m('(P)')} song song với ${m('(Q)')}. d) Nếu ${m('(P)')} chứa hai đường thẳng song song cùng song song với ${m('(Q)')} thì ${m('(P) \\parallel (Q)')}.`,
+   sol:[`a) Sai: hai mặt phẳng cắt nhau theo giao tuyến song song với đường thẳng đó vẫn thoả.`, `b) Đúng: tính chất bắc cầu của hai mặt phẳng song song.`, `c) Đúng: đường thẳng trong ${m('(P)')} không có điểm chung với ${m('(Q)')}.`, `d) Sai: hai đường thẳng phải <b>cắt nhau</b>; nếu song song thì ${m('(P)')} vẫn có thể cắt ${m('(Q)')}.`], ans:`a) ${tw('Sai')}; b) ${tw('Đúng')}; c) ${tw('Đúng')}; d) ${tw('Sai')}.`},
+ ]},
+ {dang:'Đếm cặp mặt phẳng', items:[
+  {de:`Cho hình chóp tứ giác ${m('S.ABCD')} (5 mặt). Có bao nhiêu cặp mặt song song? Bao nhiêu cặp mặt bên cắt nhau theo một cạnh bên?`,
+   sol:[`Hai mặt bất kì của hình chóp đều có điểm chung (đỉnh ${m('S')} hoặc một cạnh) nên không có cặp nào song song.`, `Bốn mặt bên xếp vòng quanh, hai mặt kề nhau chung một cạnh bên: 4 cặp. Hai cặp mặt đối nhau chỉ chung đỉnh ${m('S')}.`], ans:`${tb('0')} cặp song song; ${tb('4')} cặp cắt nhau theo cạnh bên.`},
+ ]},
+ {dang:'Giao tuyến khi có hai mặt phẳng song song', items:[
+  {de:`Cho hình lăng trụ ${m("ABC.A'B'C'")}. Tìm giao tuyến của hai mặt phẳng ${m("(A'BC)")} và ${m("(A'B'C')")}.`,
+   sol:[`${m("A'")} là điểm chung của hai mặt phẳng.`, `${m('(A\'BC)')} cắt hai đáy song song theo ${m('BC')} (đáy dưới) và giao tuyến cần tìm (đáy trên), hai giao tuyến song song.`, `Vậy giao tuyến là đường thẳng qua ${m("A'")} song song với ${m('BC')} (cũng song song với ${m("B'C'")}).`], ans:`Đường thẳng ${tb("qua A', song song với BC")}.`},
+ ]},
+ {dang:'Định lí Thales trong không gian', items:[
+  {de:`Ba mặt phẳng song song cắt hai đường thẳng tại ${m('A, B, C')} và ${m("A', B', C'")} (${m('B')} giữa ${m('A, C')}; ${m("B'")} giữa ${m("A', C'")}). Biết ${m('AB = 8')}, ${m('BC = 12')}, ${m("A'C' = 30")}. Tính ${m("A'B'")} và ${m("B'C'")}.`,
+   sol:[`${m('AC = 8 + 12 = 20')}.`, `${m("\\dfrac{A'B'}{A'C'} = \\dfrac{AB}{AC}")} nên ${m("A'B' = 30\\cdot \\dfrac{8}{20} = 12")}.`, `${m("B'C' = 30 - 12 = 18")}.`], ans:`${tb("A'B' = 12")}, ${tb("B'C' = 18")}.`},
+  {hard:true, de:`Ba mặt phẳng song song cắt hai đường thẳng tại ${m('A, B, C')} và ${m("A', B', C'")} (${m('B')} giữa ${m('A, C')}; ${m("B'")} giữa ${m("A', C'")}). Biết ${m('BC = AB + 4')}, ${m("A'B' = 6")}, ${m("B'C' = 10")}. Tính ${m('AB')} và ${m('BC')}.`,
+   sol:[`Đặt ${m('AB = x')}, ${m('BC = x + 4')}. Theo Thales trong không gian: ${m("\\dfrac{AB}{BC} = \\dfrac{A'B'}{B'C'}")}, tức ${m('\\dfrac{x}{x + 4} = \\dfrac{6}{10}')}.`, `${m('10x = 6(x + 4)')} nên ${m('4x = 24')}, ${m('x = 6')}.`, `Vậy ${m('AB = 6')}, ${m('BC = 10')} (kiểm tra: ${m("\\dfrac{6}{10} = \\dfrac{6}{10}")}).`], ans:`${tb('AB = 6')}, ${tb('BC = 10')}.`},
+ ]},
+ {dang:'Hình chóp, lăng trụ cắt bởi mặt phẳng song song với đáy', items:[
+  {hard:true, de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành, chu vi ${m('36')}, diện tích ${m('90')}. Điểm ${m('M')} thuộc ${m('SA')} sao cho ${m('SM = \\dfrac{1}{3}SA')}. Mặt phẳng qua ${m('M')} song song với ${m('(ABCD)')} cắt ${m('SB, SC, SD')} lần lượt tại ${m('N, P, Q')}. Chứng minh ${m('MNPQ')} là hình bình hành và tính chu vi, diện tích của nó.`,
+   sol:[`${m('MN \\parallel AB')}, ${m('NP \\parallel BC')}, ${m('PQ \\parallel CD')}, ${m('QM \\parallel DA')} (mặt phẳng song song đáy cắt các mặt bên theo giao tuyến song song với cạnh đáy). Vì ${m('AB \\parallel CD')} nên ${m('MN \\parallel PQ')}; vì ${m('BC \\parallel DA')} nên ${m('NP \\parallel QM')}. Vậy ${m('MNPQ')} là hình bình hành.`, `Các cạnh của ${m('MNPQ')} bằng ${m('\\dfrac{1}{3}')} các cạnh tương ứng của ${m('ABCD')} (Thales), nên ${m('MNPQ')} đồng dạng ${m('ABCD')} theo tỉ số ${m('k = \\dfrac{1}{3}')}.`, `Chu vi ${m('\\dfrac{1}{3}\\cdot 36 = 12')}; diện tích ${m('\\dfrac{1}{9}\\cdot 90 = 10')}.`], ans:`Chu vi ${tb('12')}, diện tích ${tb('10')}.`},
+  {hard:true, de:`Cho hình lăng trụ ${m("ABC.A'B'C'")} có ${m('AB = 13')}, ${m('BC = 14')}, ${m('CA = 15')}. Điểm ${m('M')} thuộc ${m("AA'")} sao cho ${m("AM = \\dfrac{1}{3}AA'")}. Mặt phẳng qua ${m('M')} song song với ${m('(ABC)')} cắt ${m("BB', CC'")} lần lượt tại ${m('N, P')}. Chứng minh ${m('MNP')} bằng ${m('ABC')} và tính chu vi, diện tích tam giác ${m('MNP')}.`,
+   sol:[`Mặt phẳng ${m('(MNP) \\parallel (ABC)')} cắt các mặt bên (hình bình hành) theo các giao tuyến song song với cạnh đáy: ${m('MN \\parallel AB')}, ${m('NP \\parallel BC')}, ${m('PM \\parallel CA')}.`, `${m('AMNB')} có ${m('AM \\parallel BN')} (cạnh bên) và ${m('AB \\parallel MN')} nên là hình bình hành: ${m('MN = AB = 13')}. Tương tự ${m('NP = 14')}, ${m('PM = 15')}. Vậy tam giác ${m('MNP')} bằng tam giác ${m('ABC')}.`, `Chu vi ${m('13 + 14 + 15 = 42')}. Diện tích theo Heron, ${m('p = 21')}: ${m('\\sqrt{21\\cdot 8\\cdot 7\\cdot 6} = 84')}.`], ans:`Chu vi ${tb('42')}, diện tích ${tb('84')}.`},
+ ]},
+]);
+})();
