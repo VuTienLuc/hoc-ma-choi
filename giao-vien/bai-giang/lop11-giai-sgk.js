@@ -286,7 +286,7 @@ Lecture.addSgk('lop11', 'bai-9', [
 })();
 
 /* =====================================================================
-   GIẢI BÀI TẬP SGK – TOÁN 11 – CHƯƠNG IV · Bài 10. Đường thẳng và mặt phẳng trong không gian (SGK KNTT tập 2, tr. 70–76)
+   GIẢI BÀI TẬP SGK – TOÁN 11 – CHƯƠNG IV · Bài 10. Đường thẳng và mặt phẳng trong không gian (SGK KNTT tập 1, tr. 70–76)
    Các câu Luyện tập 1–6 và Vận dụng 1–2 (đề lấy từ ảnh chụp SGK; số trang 72–75 suy ra từ thứ tự trang, thầy đối chiếu).
    ===================================================================== */
 (() => {
@@ -302,7 +302,7 @@ const G = [(T[1][0] + T[2][0] + T[3][0]) / 3, (T[1][1] + T[2][1] + T[3][1]) / 3]
 const fig3 = spaceSVG({pts:{S:T[0], B:T[1], A:T[2], C:T[3], M:mid(T[1], T[2]), N:mid(T[2], T[3])}, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['A', 'B'], ['A', 'C']], d:[['B', 'C']], h:[['S', 'A']], ht:218, off:{M:[-14, 6], N:[14, 6]}, aria:'Tứ diện S.ABC với M, N là trung điểm AB, AC; giao tuyến SA tô đậm'});
 
 Lecture.addSgk('lop11', 'bai-10', [
-  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 10. Đường thẳng và mặt phẳng trong không gian', sub:'Luyện tập 1 – 6 và Vận dụng 1 – 2 – SGK tập 2, trang 72 – 76',
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 10. Đường thẳng và mặt phẳng trong không gian', sub:'Luyện tập 1 – 6 và Vận dụng 1 – 2 – SGK tập 1, trang 72 – 76',
    points:['Luyện tập 1 (tr. 72) · Vận dụng 1 (tr. 72) – đếm mặt phẳng, ba chân đỡ.', 'Luyện tập 2 (tr. 73) · Luyện tập 3 (tr. 74) – đường thẳng nằm trong mặt phẳng, giao tuyến.', 'Luyện tập 4 · Vận dụng 2 (tr. 75) · Luyện tập 5, 6 (tr. 76) – giao tuyến, hình chóp, giao điểm.', 'Đề ghi tóm tắt theo ảnh chụp SGK; số trang thầy đối chiếu bản in.']},
 
   {kind:'kt', tag:'Nhắc nhanh', title:'Ba kĩ năng dùng trong các câu này',
@@ -338,5 +338,47 @@ Lecture.addSgk('lop11', 'bai-10', [
 
   {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
    body:`<ul><li>Đếm mặt phẳng của <b>tứ giác</b> như của tứ diện (Luyện tập 1: đáp số là 1, không phải 4).</li><li>Quên chứng minh điểm chung thuộc <b>cả hai</b> mặt phẳng khi tìm giao tuyến.</li><li>Tìm giao điểm mà không chọn mặt phẳng phụ chứa đường thẳng.</li></ul>` + box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Chương IV, Bài 10. Đường thẳng và mặt phẳng trong không gian.')},
+]);
+})();
+
+/* =====================================================================
+   GIẢI BÀI TẬP SGK – Toán 11 KNTT, tập 1, Bài 11. Hai đường thẳng song song (02/11/2026)
+   Luyện tập 1 (tr. 79), Luyện tập 3 (tr. 81), Luyện tập 4 (tr. 82), Đố vui (tr. 82–83). Đề đối chiếu từ văn bản SGK trên mạng; thầy đối chiếu số trang.
+   ===================================================================== */
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+const box = h => `<div class="lk-box">${h}</div>`;
+const mid = (p, q, t = .5) => [p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])];
+const PG0 = [[150, 16], [40, 142], [104, 186], [262, 186], [198, 142]];
+const pgFig = (o = {}) => spaceSVG({pts:{S:PG0[0], A:PG0[1], B:PG0[2], C:PG0[3], D:PG0[4], ...(o.pts || {})}, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['S', 'D'], ['A', 'B'], ['B', 'C'], ['C', 'D'], ...(o.s || [])], d:[['A', 'D'], ...(o.d || [])], h:o.h, nolabel:o.nolabel, ht:218, aria:o.aria});
+const figLT1 = pgFig({pts:{M:mid(PG0[0], PG0[1], .6), N:mid(PG0[0], PG0[2], .6)}, s:[['M', 'N']], aria:'Hình chóp S.ABCD, M thuộc SA, N thuộc SB'});
+const figLT4 = pgFig({pts:{u:[60, 16], x:[262, 16]}, nolabel:['u'], h:[['u', 'x']], aria:'Giao tuyến của (SAD) và (SBC) là đường thẳng qua S song song AD và BC'});
+const figLT3 = spaceSVG({pts:{A:[50, 176], B:[170, 176], C:[250, 126], D:[130, 126], F:[60, 70], E:[180, 70]}, s:[['A', 'B'], ['B', 'C'], ['C', 'D'], ['A', 'F'], ['B', 'E'], ['E', 'F'], ['C', 'E'], ['D', 'F']], d:[['A', 'D']], ht:218, aria:'Hai hình bình hành ABCD và ABEF có chung cạnh AB'});
+
+Lecture.addSgk('lop11', 'bai-11', [
+  {kind:'title', tag:'Toán 11 · Kết nối tri thức · Giải bài tập SGK', title:'Bài 11. Hai đường thẳng song song', sub:'Luyện tập 1, 3, 4 và Đố vui – SGK tập 1, trang 79 – 83',
+   points:['Luyện tập 1 (tr. 79) – vị trí tương đối của các cạnh trên hình chóp có đáy hình bình hành.', 'Luyện tập 3 (tr. 81) – bốn điểm đồng phẳng, hình bình hành CDFE.', 'Luyện tập 4 (tr. 82) – giao tuyến của (SAD) và (SBC).', 'Đố vui (tr. 82–83) – hai mép ngoài của hai cánh cửa sổ.', 'Đề ghi tóm tắt theo văn bản SGK trên mạng; số trang và các bài tập cuối bài 4.9 – 4.14 thầy đối chiếu SGK (chưa đưa vào bộ này).']},
+
+  {kind:'kt', tag:'Nhắc nhanh', title:'Ba kĩ năng dùng trong các câu này',
+   body:`<ol class="lk-steps"><li><b>Vị trí tương đối:</b> chung đỉnh ⇒ cắt nhau; cạnh đối của hình bình hành ⇒ song song; cùng nằm trong một mặt phẳng ⇒ không thể chéo nhau.</li><li><b>Bắc cầu:</b> hai đường cùng song song với đường thứ ba thì song song với nhau.</li><li><b>Hệ quả giao tuyến:</b> hai mặt phẳng chứa hai đường thẳng song song ⇒ giao tuyến song song với chúng.</li></ol>`},
+
+  {kind:'vd', tag:'SGK tr. 79 · Luyện tập 1', label:'Câu 1', de:`Cho hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình bình hành. a) Trong ba đường thẳng ${m('AB, AC, CD')}, cặp nào song song, cặp nào cắt nhau? b) ${m('M, N')} lần lượt thuộc cạnh ${m('SA, SB')}. Trong ba đường thẳng ${m('SA, MN, AB')}, có cặp nào chéo nhau không?`, fig: figLT1,
+   sol:[`a) ${m('AB')} và ${m('AC')} có chung điểm ${m('A')}; ${m('AC')} và ${m('CD')} có chung điểm ${m('C')}: các cặp này cắt nhau. ${m('AB \\parallel CD')} vì ${m('ABCD')} là hình bình hành.`, `b) ${m('S, A, B, M, N')} đều thuộc mặt phẳng ${m('(SAB)')} nên ${m('SA, MN, AB')} cùng nằm trong ${m('(SAB)')}.`, `Ba đường thẳng đồng phẳng thì không có cặp nào chéo nhau.`],
+   ans:`a) ${tw('AB ∥ CD')}; ${tw('AB cắt AC')}; ${tw('AC cắt CD')}. b) ${tw('Không có cặp nào chéo nhau')}.`},
+
+  {kind:'vd', tag:'SGK tr. 81 · Luyện tập 3', label:'Câu 2', de:`Trong Ví dụ 1 (hai hình bình hành ${m('ABCD')} và ${m('ABEF')} không cùng nằm trong một mặt phẳng), chứng minh bốn điểm ${m('C, D, E, F')} cùng thuộc một mặt phẳng và tứ giác ${m('CDFE')} là hình bình hành.`, fig: figLT3,
+   sol:[`${m('ABEF')} là hình bình hành nên ${m('EF \\parallel AB')} và ${m('EF = AB')}.`, `${m('ABCD')} là hình bình hành nên ${m('CD \\parallel AB')} và ${m('CD = AB')}.`, `Suy ra ${m('CD \\parallel EF')} (bắc cầu) nên ${m('C, D, E, F')} đồng phẳng.`, `Tứ giác ${m('CDFE')} có ${m('CD \\parallel EF')} và ${m('CD = EF')} nên là hình bình hành.`],
+   ans:`${tw('C, D, E, F đồng phẳng')} và ${tw('CDFE là hình bình hành')}. <i>(Đề tóm tắt theo văn bản SGK – thầy đối chiếu hình vẽ của Ví dụ 1.)</i>`},
+
+  {kind:'vd', tag:'SGK tr. 82 · Luyện tập 4', label:'Câu 3', de:`Trong Ví dụ 4 (hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình bình hành hoặc hình thang với ${m('AD \\parallel BC')}), xác định giao tuyến của hai mặt phẳng ${m('(SAD)')} và ${m('(SBC)')}.`, fig: figLT4,
+   sol:[`${m('S')} là điểm chung của ${m('(SAD)')} và ${m('(SBC)')}.`, `${m('AD \\subset (SAD)')}, ${m('BC \\subset (SBC)')} và ${m('AD \\parallel BC')}.`, `Theo hệ quả của định lí về giao tuyến của ba mặt phẳng, giao tuyến là đường thẳng ${m('Sx')} qua ${m('S')}, song song với ${m('AD')} và ${m('BC')}.`],
+   ans:`${tb('(SAD) \\cap (SBC) = Sx,\\ Sx \\parallel AD \\parallel BC')}.`},
+
+  {kind:'vd', tag:'SGK tr. 82–83 · Đố vui', label:'Câu 4', de:`(Đố vui) Khi hai cánh cửa sổ hình chữ nhật được mở, dù ở vị trí nào, hai mép ngoài của chúng luôn song song với nhau. Hãy giải thích.`,
+   sol:[`Mỗi cánh cửa quay quanh bản lề là cạnh thẳng đứng của khung cửa; hai bản lề đều thẳng đứng nên song song với nhau.`, `Mép ngoài của mỗi cánh là cạnh đối diện của cạnh bản lề trong hình chữ nhật, nên song song với bản lề của cánh đó, ở vị trí mở bất kì.`, `Hai mép ngoài cùng song song với các bản lề, mà hai bản lề song song với nhau; theo tính chất bắc cầu, hai mép ngoài song song với nhau.`],
+   ans:`Hai mép ngoài cùng song song với hai bản lề thẳng đứng ⇒ ${tw('song song (bắc cầu)')}. <i>(Đề đọc từ bản tóm tắt bị cắt – thầy đối chiếu SGK.)</i>`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Lỗi hay gặp',
+   body:`<ul><li>Cho rằng “không có điểm chung” là song song: còn có thể chéo nhau (cần kiểm tra đồng phẳng).</li><li>Dùng bắc cầu mà không chỉ ra rõ đường thẳng trung gian.</li><li>Dùng hệ quả giao tuyến khi hai mặt phẳng chưa chắc cắt nhau hoặc quên chỉ ra điểm chung.</li></ul>` + box('Luyện thêm: web <b>Học mà chơi</b> – Toán 11, Chương IV, Bài 11. Hai đường thẳng song song.')},
 ]);
 })();

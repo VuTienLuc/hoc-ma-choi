@@ -397,3 +397,43 @@ Lecture.addPractice('lop11', 'bai-10', [
  ]},
 ]);
 })();
+
+/* =====================================================================  CHƯƠNG IV · BÀI 11 (02/11/2026)
+   Hai đường thẳng song song – 10 bài = 7 cơ bản + 3 vận dụng ★, xếp theo 6 dạng của bài giảng. */
+(() => {
+const m = tm, tw = t => `<b class="ans">${t}</b>`;
+Lecture.addPractice('lop11', 'bai-11', [
+ {dang:'Vị trí tương đối của hai đường thẳng', items:[
+  {de:`Cho tứ diện ${m('ABCD')}, ${m('M')} là trung điểm của ${m('BC')}. Xét vị trí tương đối của hai đường thẳng ${m('AM')} và ${m('CD')}.`,
+   sol:[`${m('AM')} và ${m('CD')} không có điểm chung (${m('M')} khác ${m('C')}, ${m('A \\notin CD')}).`, `Nếu hai đường thẳng đồng phẳng thì mặt phẳng chứa chúng chứa ${m('A, M, C, D')}, mà ${m('M, C')} thuộc ${m('BC')} nên chứa cả ${m('B')}: bốn điểm ${m('A, B, C, D')} đồng phẳng – vô lí.`, `Vậy hai đường thẳng không đồng phẳng.`], ans:`${tw('chéo nhau')}.`},
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình bình hành. Xét vị trí tương đối của: a) ${m('AD')} và ${m('BC')}; b) ${m('SB')} và ${m('CD')}; c) ${m('SA')} và ${m('SC')}.`,
+   sol:[`a) ${m('ABCD')} là hình bình hành nên ${m('AD \\parallel BC')}.`, `b) ${m('SB')} và ${m('CD')} không có điểm chung; bốn điểm ${m('S, B, C, D')} không đồng phẳng (${m('S \\notin (ABCD)')}), nên chéo nhau.`, `c) ${m('SA')} và ${m('SC')} có chung điểm ${m('S')} nên cắt nhau.`], ans:`a) ${tw('song song')}; b) ${tw('chéo nhau')}; c) ${tw('cắt nhau')}.`},
+ ]},
+ {dang:'Tính chất của hai đường thẳng song song', items:[
+  {de:`Cho hình hộp ${m("ABCD.A'B'C'D'")}. Chứng minh ${m("AA' \\parallel CC'")}.`,
+   sol:[`${m("ABB'A'")} là hình bình hành nên ${m("AA' \\parallel BB'")}.`, `${m("BCC'B'")} là hình bình hành nên ${m("BB' \\parallel CC'")}.`, `${m("AA'")} và ${m("CC'")} phân biệt, cùng song song với ${m("BB'")} nên theo tính chất bắc cầu ${m("AA' \\parallel CC'")}.`], ans:`${tb("AA' \\parallel CC'")}.`},
+  {hard:true, de:`Cho hai đường thẳng ${m('a')} và ${m('b')} chéo nhau, đường thẳng ${m('c')} song song với ${m('a')}. Chứng minh ${m('c')} và ${m('b')} không thể song song. Hỏi ${m('c')} và ${m('b')} có thể có những vị trí tương đối nào?`,
+   sol:[`Giả sử ${m('c \\parallel b')}. Vì ${m('a \\parallel c')} nên ${m('a \\parallel b')} (bắc cầu) – mâu thuẫn với ${m('a, b')} chéo nhau.`, `${m('c')} cũng không trùng ${m('b')} (nếu trùng thì ${m('b \\parallel a')}).`, `Vậy ${m('c, b')} không song song, không trùng: có thể cắt nhau hoặc chéo nhau.`], ans:`${tw('cắt nhau hoặc chéo nhau')}; không thể song song.`},
+ ]},
+ {dang:'Đếm cặp đường thẳng', items:[
+  {de:`Cho hình lăng trụ tam giác ${m("ABC.A'B'C'")} (9 cạnh). Có bao nhiêu cặp cạnh chéo nhau?`,
+   sol:[`Tổng số cặp cạnh: ${m('C_9^2 = 36')}.`, `Cặp cắt nhau (chung đỉnh): 6 đỉnh, mỗi đỉnh có 3 cạnh nên ${m('6\\cdot C_3^2 = 18')} cặp.`, `Cặp song song: 3 cặp cạnh bên và 3 cặp cạnh đáy tương ứng, tổng ${m('3 + 3 = 6')} cặp.`, `Số cặp chéo nhau: ${m('36 - 18 - 6 = 12')}.`], ans:`${tb('12')} cặp.`},
+ ]},
+ {dang:'Giao tuyến của hai mặt phẳng chứa hai đường thẳng song song', items:[
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình thang với đáy ${m('AD \\parallel BC')}. Tìm giao tuyến của hai mặt phẳng ${m('(SAD)')} và ${m('(SBC)')}.`,
+   sol:[`${m('S')} là điểm chung của hai mặt phẳng.`, `${m('AD \\subset (SAD)')}, ${m('BC \\subset (SBC)')}, ${m('AD \\parallel BC')}.`, `Theo hệ quả của định lí giao tuyến, giao tuyến là đường thẳng qua ${m('S')} song song với ${m('AD')} và ${m('BC')}.`], ans:`${tb('Sx \\parallel AD \\parallel BC')}.`},
+  {hard:true, de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành, ${m('AD = 12')}. Điểm ${m('M')} thuộc cạnh ${m('SA')} sao cho ${m('SM = \\dfrac{1}{3}SA')}. Mặt phẳng ${m('(MBC)')} cắt ${m('SD')} tại ${m('N')}. Chứng minh ${m('MN \\parallel BC')} và tính ${m('MN')}.`,
+   sol:[`${m('M')} là điểm chung của ${m('(MBC)')} và ${m('(SAD)')}; ${m('BC \\subset (MBC)')}, ${m('AD \\subset (SAD)')}, ${m('BC \\parallel AD')}.`, `Nên giao tuyến ${m('MN')} song song với ${m('AD')} và ${m('BC')}.`, `Trong tam giác ${m('SAD')}: ${m('MN \\parallel AD')} nên ${m('\\dfrac{MN}{AD} = \\dfrac{SM}{SA} = \\dfrac{1}{3}')}.`, `${m('MN = \\dfrac{1}{3}\\cdot 12 = 4')}.`], ans:`${tb('MN = 4')}.`},
+ ]},
+ {dang:'Đường trung bình và định lí Thales', items:[
+  {de:`Cho tứ diện ${m('ABCD')} có ${m('BC = 6')}, ${m('CD = 8')}, ${m('BD = 10')}. Gọi ${m('M, N, P')} lần lượt là trung điểm của ${m('AB, AC, AD')}. Tính chu vi tam giác ${m('MNP')}.`,
+   sol:[`${m('MN')} là đường trung bình của tam giác ${m('ABC')}: ${m('MN = \\dfrac{BC}{2} = 3')}.`, `${m('NP')} là đường trung bình của tam giác ${m('ACD')}: ${m('NP = \\dfrac{CD}{2} = 4')}.`, `${m('MP')} là đường trung bình của tam giác ${m('ABD')}: ${m('MP = \\dfrac{BD}{2} = 5')}.`, `Chu vi: ${m('3 + 4 + 5 = 12')}.`], ans:`${tb('12')}.`},
+ ]},
+ {dang:'Chứng minh song song, đồng phẳng trong hình chóp', items:[
+  {de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành, ${m('AB = 10')}. ${m('M, N')} lần lượt là trung điểm của ${m('SA, SB')}. Chứng minh ${m('MN \\parallel CD')} và tính ${m('MN')}.`,
+   sol:[`${m('MN')} là đường trung bình của tam giác ${m('SAB')}: ${m('MN \\parallel AB')}, ${m('MN = \\dfrac{1}{2}AB = 5')}.`, `${m('AB \\parallel CD')} nên ${m('MN \\parallel CD')} (bắc cầu).`], ans:`${tb('MN \\parallel CD')}, ${tb('MN = 5')}.`},
+  {hard:true, de:`Với giả thiết ở bài trên (${m('M, N')} là trung điểm của ${m('SA, SB')}), gọi ${m('I')} là giao điểm của ${m('MD')} và ${m('NC')}. Chứng minh ${m('SI \\parallel AD')} và ${m('SI = AD')}. Tính ${m('SI')} khi ${m('AD = 7')}.`,
+   sol:[`${m('MNCD')} là hình thang với ${m('MN \\parallel CD')}, ${m('MN = \\dfrac{1}{2}CD')}; ${m('ID')} và ${m('IC')} cắt nhau tại ${m('I')} nên ${m('MN')} là đường trung bình của tam giác ${m('ICD')}: ${m('M')} là trung điểm ${m('ID')}.`, `${m('M')} cũng là trung điểm ${m('SA')}: tứ giác ${m('SDAI')} có hai đường chéo ${m('SA, ID')} cắt nhau tại trung điểm mỗi đường nên là hình bình hành.`, `Suy ra ${m('SI \\parallel AD')} và ${m('SI = AD = 7')}.`], ans:`${tb('SI \\parallel AD')}, ${tb('SI = 7')}.`},
+ ]},
+]);
+})();

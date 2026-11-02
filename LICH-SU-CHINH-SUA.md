@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-02 – Toán 11 Chương IV · Bài 11. Hai đường thẳng song song (trọn bộ)
+
+- **Yêu cầu:** /tron-bo các bài còn lại của Chương IV, làm lần lượt từng bài; đây là bài đầu tiên.
+- **Kết quả:** Bài `hai-dt-song-song` (6 dạng × 3 mức, vị trí tương đối tính từ tọa độ 3D), bài giảng `bai-11` (13 ví dụ có hình), phiếu luyện tập 7 + 3 ★, Giải SGK (Luyện tập 1, 3, 4, Đố vui), phiếu trên lớp. Sửa chú thích: SGK Bài 10, 11 ở tập 1.
+- **Tệp thay đổi:** `data/lop11.js`, `giao-vien/bai-giang/lop11.js`, `lop11-luyen-tap.js`, `lop11-giai-sgk.js`, `lop11-khoi-dong.js`, `CLAUDE.md`, `AGENTS.md`, `KE-HOACH-TRON-BO.md`
+- **Kiểm thử:** `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test.py` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (137/137); stress 7.200 câu sinh → không lỗi.
+- **Việc thủ công:** Đối chiếu số trang SGK; bài tập cuối bài 4.9–4.14 chưa đưa vào (cần ảnh SGK); tình huống [Minh họa].
+
 ### 2026-11-02 – Ôn thi vào 10: phiếu học tập củng cố Hình học 7b (Hệ thức, thẳng hàng, đồng quy)
 
 - **Yêu cầu:** Lịch tự động: soạn 1 phiếu trên lớp mỗi ngày cho phần hình học ôn thi vào 10; phiếu số 6/8.

@@ -18083,7 +18083,7 @@ lesson(4, 'ghep-nhom-xu-the', 'Bài 9. Các số đặc trưng đo xu thế trun
 
 /* =====================================================================
    CHƯƠNG IV. Quan hệ song song trong không gian
-   Bài 10. Đường thẳng và mặt phẳng trong không gian  (SGK KNTT Toán 11 tập 2, tr. 70–76)
+   Bài 10. Đường thẳng và mặt phẳng trong không gian  (SGK KNTT Toán 11 tập 1, tr. 70–76)
    Chủ đề 5 · bài `dt-mp-khong-gian` · 6 dạng × 3 mức, mỗi dạng bốc ngẫu nhiên từ nhiều mẫu câu khác nhau
    ===================================================================== */
 { const i4 = G.topics.findIndex(t => t.id === 4); G.topics.splice(i4 < 0 ? G.topics.length : i4 + 1, 0, {id:5, hk:2, name:'Quan hệ song song trong không gian', label:'Chương IV'}); }
@@ -18457,6 +18457,422 @@ const K10KT = [
 ];
 
 lesson(5, 'dt-mp-khong-gian', 'Bài 10. Đường thẳng và mặt phẳng trong không gian', 'Mặt phẳng, tính chất thừa nhận, giao tuyến, giao điểm, hình chóp – tứ diện.', [g10a, g10b, g10c, g10d, g10e, g10f], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K10KT});
+
+/* =====================================================================
+   Bài 11. Hai đường thẳng song song  (SGK KNTT Toán 11, Chương IV)
+   Chủ đề 5 · bài `hai-dt-song-song` · 6 dạng × 3 mức; vị trí tương đối tính từ TỌA ĐỘ 3D thật
+   ===================================================================== */
+const tw = s => `<b class="ans">${s}</b>`;
+const V3 = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const X3 = (u, v) => [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+const D3 = (u, v) => u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
+const Z3 = u => u[0] === 0 && u[1] === 0 && u[2] === 0;
+const relL = (a1, a2, b1, b2) => {
+  const u = V3(a2, a1), v = V3(b2, b1), cr = X3(u, v), w = V3(b1, a1);
+  if(Z3(cr)) return Z3(X3(w, u)) ? 'same' : 'par';
+  return D3(w, cr) === 0 ? 'cut' : 'skew';
+};
+const RELT = {cut:'cắt nhau', par:'song song', skew:'chéo nhau', same:'trùng nhau'};
+const RELO = [RELT.cut, RELT.par, RELT.skew, RELT.same];
+
+const PG0 = [[150, 16], [40, 142], [104, 186], [262, 186], [198, 142]];
+const pgFig = (L, o = {}) => {
+  const [s, a, b, c, d] = L, pts = {[s]:PG0[0], [a]:PG0[1], [b]:PG0[2], [c]:PG0[3], [d]:PG0[4], ...(o.pts || {})};
+  return spaceSVG({pts, s:[[s, a], [s, b], [s, c], [s, d], [a, b], [b, c], [c, d], ...(o.s || [])], d:[[a, d], ...(o.d || [])], h:o.h, hd:o.hd, off:o.off, ht:218, aria:o.aria || 'Hình chóp đáy hình bình hành'});
+};
+const CUBE0 = {A:[80, 192], B:[190, 192], C:[250, 152], D:[140, 152], "A'":[80, 94], "B'":[190, 94], "C'":[250, 54], "D'":[140, 54]};
+const cubeFig = (o = {}) => spaceSVG({pts:{...CUBE0, ...(o.pts || {})},
+  s:[['A', 'B'], ['B', 'C'], ["A'", "B'"], ["B'", "C'"], ["C'", "D'"], ["D'", "A'"], ['A', "A'"], ['B', "B'"], ['C', "C'"], ...(o.s || [])],
+  d:[['A', 'D'], ['D', 'C'], ['D', "D'"], ...(o.d || [])], h:o.h, hd:o.hd, off:o.off, ht:218, aria:o.aria || 'Hình lập phương'});
+const PRI0 = {A:[50, 172], B:[130, 198], C:[270, 172], "A'":[50, 60], "B'":[130, 86], "C'":[270, 60]};
+const prismFig = (o = {}) => spaceSVG({pts:{...PRI0, ...(o.pts || {})},
+  s:[['A', 'B'], ['B', 'C'], ["A'", "B'"], ["B'", "C'"], ["C'", "A'"], ['A', "A'"], ['B', "B'"], ['C', "C'"], ...(o.s || [])],
+  d:[['A', 'C'], ...(o.d || [])], h:o.h, hd:o.hd, off:o.off, ht:218, aria:o.aria || 'Hình lăng trụ tam giác'});
+
+/* khối đa diện: tên, tọa độ 3D, danh sách cạnh, cạnh bị khuất */
+const solid = (kind, L) => {
+  let co, ed, hid, title;
+  if(kind === 'tet'){
+    co = [[0, 0, 0], [4, 0, 0], [1, 3, 0], [1, 1, 3]]; ed = [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]; hid = [[1, 3]];
+    title = `tứ diện ${m(L.join(''))}`;
+  } else if(kind === 'pyp' || kind === 'pyt'){
+    co = kind === 'pyp' ? [[2, 1, 4], [0, 0, 0], [4, 0, 0], [5, 3, 0], [1, 3, 0]] : [[3, 1, 4], [0, 0, 0], [1, 3, 0], [4, 3, 0], [6, 0, 0]];
+    ed = [[0, 1], [0, 2], [0, 3], [0, 4], [1, 2], [2, 3], [3, 4], [4, 1]]; hid = [[4, 1]];
+    title = kind === 'pyp' ? `hình chóp ${m(`${L[0]}.${L.slice(1).join('')}`)} có đáy ${m(L.slice(1).join(''))} là hình bình hành`
+      : `hình chóp ${m(`${L[0]}.${L.slice(1).join('')}`)} có đáy ${m(L.slice(1).join(''))} là hình thang với ${m(`${L[1]}${L[4]} \\parallel ${L[2]}${L[3]}`)}`;
+  } else if(kind === 'cube'){
+    L = ['A', 'B', 'C', 'D', "A'", "B'", "C'", "D'"];
+    co = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]];
+    ed = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]]; hid = [[0, 3], [3, 2], [3, 7]];
+    title = `hình lập phương ${m("ABCD.A'B'C'D'")}`;
+  } else {
+    L = ['A', 'B', 'C', "A'", "B'", "C'"];
+    co = [[0, 0, 0], [4, 0, 0], [1, 3, 0], [1, 1, 5], [5, 1, 5], [2, 4, 5]];
+    ed = [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 3], [0, 3], [1, 4], [2, 5]]; hid = [[0, 2]];
+    title = `hình lăng trụ tam giác ${m("ABC.A'B'C'")}`;
+  }
+  const map = {}; L.forEach((n, i) => { map[n] = co[i]; });
+  return {kind, L, co:map, ed:ed.map(([i, j]) => [L[i], L[j]]), hid:hid.map(([i, j]) => [L[i], L[j]]), title};
+};
+const mk = kind => kind === 'tet' ? solid('tet', pick(SETS)) : (kind === 'pyp' || kind === 'pyt') ? solid(kind, pick(PYL.slice(0, 2))) : solid(kind);
+const eName = e => e.join('');
+const sameE = (e, f) => e[0] === f[0] && e[1] === f[1];
+const relE = (S, e, f) => relL(S.co[e[0]], S.co[e[1]], S.co[f[0]], S.co[f[1]]);
+const pairsOf = S => { const r = []; for(let i = 0; i < S.ed.length; i++) for(let j = i + 1; j < S.ed.length; j++) r.push([S.ed[i], S.ed[j]]); return r; };
+const countRel = (S, k) => pairsOf(S).filter(([e, f]) => relE(S, e, f) === k).length;
+const edgesRel = (S, e, k) => S.ed.filter(f => !sameE(e, f) && relE(S, e, f) === k);
+const isHid = (S, e) => S.hid.some(h => sameE(h, e) || (h[0] === e[1] && h[1] === e[0]));
+const figS = (S, es = [], o = {}) => {
+  const h = es.filter(e => !isHid(S, e)), hd = es.filter(e => isHid(S, e));
+  const base = {h:[...(o.h || []), ...h], hd:[...(o.hd || []), ...hd], pts:o.pts, s:o.s, d:o.d, off:o.off};
+  return S.kind === 'tet' ? tetFig(S.L, base) : S.kind === 'pyt' ? pyFig(S.L, base) : S.kind === 'pyp' ? pgFig(S.L, base) : S.kind === 'cube' ? cubeFig(base) : prismFig(base);
+};
+/* kiểm tra số liệu đếm của các khối ngay khi nạp */
+{
+  const T = solid('tet', ['A', 'B', 'C', 'D']), P = solid('pyp', ['S', 'A', 'B', 'C', 'D']), C = solid('cube'), R3 = solid('prism');
+  e10(countRel(T, 'skew') === 3 && countRel(T, 'cut') === 12 && countRel(T, 'par') === 0, 'đếm tứ diện');
+  e10(countRel(P, 'par') === 2 && countRel(P, 'skew') === 8 && countRel(P, 'cut') === 18, 'đếm chóp đáy hbh');
+  e10(countRel(C, 'par') === 18 && countRel(C, 'skew') === 24 && countRel(C, 'cut') === 24, 'đếm lập phương');
+  e10(countRel(R3, 'par') === 6 && countRel(R3, 'skew') === 12 && countRel(R3, 'cut') === 18, 'đếm lăng trụ');
+}
+const whyRel = (S, e, f, k) => {
+  const common = e.find(p => f.includes(p));
+  if(k === 'cut') return common ? `Hai cạnh có chung đỉnh ${m(common)} nên ${tw('cắt nhau')} tại ${m(common)}.`
+    : `Hai đường thẳng cùng nằm trong mặt đáy và không song song nên ${tw('cắt nhau')} (tại điểm nằm ngoài các đoạn thẳng).`;
+  if(k === 'par') return S.kind === 'pyp' ? `${m(eName(e))} và ${m(eName(f))} là hai cạnh đối của hình bình hành đáy nên ${tw('song song')}.`
+    : S.kind === 'pyt' ? `${m(eName(e))} và ${m(eName(f))} là hai đáy của hình thang nên ${tw('song song')}.`
+    : `${m(eName(e))} và ${m(eName(f))} là hai cạnh đối của một mặt (hình vuông, hình bình hành) hoặc cùng song song với một cạnh thứ ba, nên ${tw('song song')}.`;
+  return `Bốn điểm ${m([...e, ...f].join(','))} không cùng thuộc một mặt phẳng, hai đường thẳng không đồng phẳng và không có điểm chung nên ${tw('chéo nhau')}.`;
+};
+const clsQ = (S, e, f, hint) => {
+  const k = relE(S, e, f);
+  return QC({text:`Cho ${S.title}. Vị trí tương đối của hai đường thẳng ${m(eName(e))} và ${m(eName(f))} là`, opts:RELO, ans:RELT[k], keepOrder:true,
+    fig:figS(S, [e, f]), hint, sol:whyRel(S, e, f, k)});
+};
+const pickPair = (S, k) => pick(pairsOf(S).filter(([e, f]) => relE(S, e, f) === k));
+
+/* ---------- Dạng 1. Vị trí tương đối của hai đường thẳng ---------- */
+const g11a = lv => {
+  if(lv === 1){
+    const t = R(0, 3);
+    if(t === 0) return mc10('Hai đường thẳng phân biệt không có điểm chung thì chúng', 'song song hoặc chéo nhau', ['chỉ có thể song song', 'chỉ có thể chéo nhau', 'cắt nhau'],
+      'Nhớ: trong không gian, hai đường thẳng không cắt nhau chưa chắc đã song song.', `Nếu cùng nằm trong một mặt phẳng thì chúng song song; nếu không thì chúng chéo nhau. Đáp án: ${tw('song song hoặc chéo nhau')}.`);
+    if(t === 1) return mc10('Hai đường thẳng chéo nhau là hai đường thẳng', 'không cùng nằm trong một mặt phẳng', ['không có điểm chung', 'không song song với nhau', 'cùng nằm trong một mặt phẳng và không có điểm chung'],
+      'Chéo nhau nghĩa là không tồn tại mặt phẳng nào chứa cả hai đường thẳng.', `Theo định nghĩa: hai đường thẳng chéo nhau là hai đường thẳng ${tw('không cùng nằm trong một mặt phẳng')}. “Không có điểm chung” chưa đủ vì hai đường thẳng song song cũng không có điểm chung.`);
+    if(t === 2){
+      const [x, y] = [pick(['a', 'd']), pick(['b', 'c'])];
+      return mc10(`Hai đường thẳng ${m(x)} và ${m(y)} cắt nhau. Số mặt phẳng chứa cả ${m(x)} và ${m(y)} là`, 'đúng một', ['hai', 'vô số', 'không có'],
+        'Hai đường thẳng cắt nhau xác định một mặt phẳng.', `Hai đường thẳng cắt nhau cùng nằm trong ${tw('đúng một')} mặt phẳng.`);
+    }
+    const S = mk('tet'), [e, f] = pickPair(S, pick(['cut', 'skew']));
+    return clsQ(S, e, f, 'Hai cạnh có chung một đỉnh thì cắt nhau; hai cạnh không có đỉnh chung thì kiểm tra xem bốn đỉnh có đồng phẳng không.');
+  }
+  if(lv === 2){
+    const S = mk(pick(['pyp', 'pyt'])), k = S.kind === 'pyt' ? pick(['cut', 'skew', 'skew', 'par']) : pick(['par', 'cut', 'skew']);
+    const [e, f] = pickPair(S, k);
+    return clsQ(S, e, f, 'Xét xem hai đường thẳng có cùng nằm trong một mặt phẳng (mặt bên, mặt đáy) hay không.');
+  }
+  const t = R(0, 2);
+  if(t === 0){
+    const S = mk(pick(['cube', 'prism'])), [e, f] = pickPair(S, pick(['cut', 'skew', 'skew', 'par']));
+    return clsQ(S, e, f, 'Tìm một mặt (hình vuông, hình bình hành) chứa cả hai cạnh, hoặc kiểm tra bốn đỉnh có đồng phẳng không.');
+  }
+  if(t === 1){
+    const S = mk(pick(['cube', 'prism'])), e = pick(S.ed), good = pick(edgesRel(S, e, 'skew'));
+    const bad = shuffle(S.ed.filter(f => !sameE(e, f) && relE(S, e, f) !== 'skew')).slice(0, 3);
+    return QC({text:`Cho ${S.title}. Đường thẳng nào sau đây chéo nhau với đường thẳng ${m(eName(e))}?`, opts:[good, ...bad].map(x => m(eName(x))), ans:m(eName(good)),
+      fig:figS(S, [e]), hint:`Loại các cạnh có chung đỉnh với ${eName(e)} và các cạnh song song với ${eName(e)}.`,
+      sol:`${whyRel(S, e, good, 'skew')} Các phương án còn lại đều cắt hoặc song song với ${m(eName(e))}. Đáp án: ${tb(eName(good))}.`});
+  }
+  const S = mk('cube'), ds = [];
+  for(let i = 0; i < 8; i++) for(let j = i + 1; j < 8; j++){ const d = V3(S.co[S.L[i]], S.co[S.L[j]]); if(d[0] * d[0] + d[1] * d[1] + d[2] * d[2] === 2) ds.push([S.L[i], S.L[j]]); }
+  e10(ds.length === 12, 'đường chéo mặt');
+  const e = pick(ds), f = pick(ds.filter(x => !sameE(e, x))), k = relL(S.co[e[0]], S.co[e[1]], S.co[f[0]], S.co[f[1]]);
+  const common = e.find(p => f.includes(p));
+  return QC({text:`Cho ${S.title}. Vị trí tương đối của hai đường thẳng ${m(eName(e))} và ${m(eName(f))} (đường chéo của hai mặt) là`, opts:RELO, ans:RELT[k], keepOrder:true,
+    fig:cubeFig({h:[e, f]}),
+    hint:'Xét xem hai đường chéo có cùng nằm trong một mặt phẳng hay không; thử tìm đỉnh chung hoặc một hình chữ nhật chứa chúng.',
+    sol:k === 'skew' ? `Bốn điểm ${m([...e, ...f].join(','))} không đồng phẳng nên hai đường thẳng ${tw('chéo nhau')}.`
+      : k === 'cut' ? (common ? `Hai đường chéo có chung đỉnh ${m(common)} nên ${tw('cắt nhau')}.` : `Hai đường chéo của cùng một hình vuông cắt nhau tại tâm hình vuông: ${tw('cắt nhau')}.`)
+      : `Hai đường chéo này là hai cạnh đối của một hình chữ nhật (mặt cắt chéo của hình lập phương) nên ${tw('song song')}.`});
+};
+
+/* ---------- Dạng 2. Tính chất của hai đường thẳng song song ---------- */
+const STM = [
+  [true, 'Hai đường thẳng phân biệt cùng song song với một đường thẳng thứ ba thì song song với nhau', 'Đây là tính chất bắc cầu.'],
+  [true, 'Qua một điểm nằm ngoài đường thẳng d có đúng một đường thẳng song song với d', 'Đây là tính chất tồn tại duy nhất.'],
+  [true, 'Hai đường thẳng chéo nhau thì không có điểm chung và không song song', 'Chéo nhau là không đồng phẳng.'],
+  [true, 'Hai đường thẳng cắt nhau thì không chéo nhau', 'Cắt nhau thì đồng phẳng.'],
+  [false, 'Hai đường thẳng cùng vuông góc với một đường thẳng thứ ba thì song song với nhau', 'Trong không gian chúng có thể cắt nhau hoặc chéo nhau.'],
+  [false, 'Hai đường thẳng không có điểm chung thì song song với nhau', 'Chúng có thể chéo nhau.'],
+  [false, 'Hai đường thẳng không cắt nhau thì chéo nhau', 'Chúng có thể song song.'],
+  [false, 'Hai đường thẳng cùng nằm trong một mặt phẳng thì song song với nhau', 'Chúng có thể cắt nhau.']
+];
+const g11b = lv => {
+  if(lv === 1){
+    const t = R(0, 3);
+    if(t === 0){
+      const d = pick(['d', 'a', 'b']), A = pick(['A', 'M', 'K']);
+      return QB({text:`Cho đường thẳng ${m(d)} và điểm ${m(A)} không thuộc ${m(d)}. Số đường thẳng đi qua ${m(A)} và song song với ${m(d)} là`, tpl:'[_]', ans:[1],
+        hint:'Tính chất: qua một điểm nằm ngoài đường thẳng cho trước, có một và chỉ một đường thẳng song song với đường thẳng đó.', sol:`Có ${tb(1)} đường thẳng.`});
+    }
+    if(t === 1){
+      const [a, b, c] = shuffle(['a', 'b', 'c', 'x', 'y', 'z']).slice(0, 3);
+      return mc10(`Cho ba đường thẳng phân biệt ${m(a)}, ${m(b)}, ${m(c)} thỏa mãn ${m(`${a} \\parallel ${b}`)} và ${m(`${b} \\parallel ${c}`)}. Khi đó`, m(`${a} \\parallel ${c}`), [m(`${a} \\text{ cắt } ${c}`), m(`${a} \\text{ chéo } ${c}`), m(`${a} \\equiv ${c}`)],
+        'Tính chất bắc cầu của quan hệ song song.', `Hai đường thẳng phân biệt cùng song song với ${m(b)} nên song song với nhau: ${tb(`${a} \\parallel ${c}`)}.`);
+    }
+    if(t === 2){
+      const [a, b, c] = shuffle(['a', 'b', 'c', 'd', 'p', 'q']).slice(0, 3);
+      return mc10(`Cho ${m(`${a} \\parallel ${b}`)} và đường thẳng ${m(c)} cắt ${m(a)}. Vị trí tương đối của ${m(c)} và ${m(b)} là`, 'cắt nhau hoặc chéo nhau', ['chỉ có thể cắt nhau', 'chỉ có thể chéo nhau', 'song song'],
+        `Nếu ${c} ∥ ${b} thì vì ${a} ∥ ${b} nên ${a} ∥ ${c}, mâu thuẫn.`, `${m(c)} không thể song song với ${m(b)} (nếu có thì ${m(c)} ∥ ${m(a)}, trái giả thiết). Vậy ${m(c)} và ${m(b)} ${tw('cắt nhau hoặc chéo nhau')}.`);
+    }
+    const [a, b] = shuffle(['a', 'b', 'c', 'd']).slice(0, 2);
+    return QB({text:`Số mặt phẳng chứa hai đường thẳng song song ${m(a)} và ${m(b)} là`, tpl:'[_]', ans:[1], hint:'Hai đường thẳng song song xác định một mặt phẳng.', sol:`Hai đường thẳng song song cùng nằm trong ${tb(1)} mặt phẳng.`});
+  }
+  if(lv === 2){
+    const t = R(0, 3);
+    if(t === 0){
+      const S = mk('cube'), e = pick(S.ed), n = edgesRel(S, e, 'par').length;
+      return QB({text:`Cho ${S.title}. Có bao nhiêu cạnh của hình lập phương (khác ${m(eName(e))}) song song với cạnh ${m(eName(e))}?`, tpl:'[_]', ans:[n], fig:figS(S, [e]),
+        hint:'Các cạnh song song với một cạnh là các cạnh cùng phương với nó.', sol:`Mỗi phương có 4 cạnh song song với nhau. Trừ chính ${m(eName(e))}, còn ${tb(n)} cạnh: ${edgesRel(S, e, 'par').map(x => m(eName(x))).join(', ')}.`});
+    }
+    if(t === 1){
+      const S = mk('prism'), e = pick(S.ed), n = edgesRel(S, e, 'par').length;
+      return QB({text:`Cho ${S.title}. Có bao nhiêu cạnh của hình lăng trụ (khác ${m(eName(e))}) song song với cạnh ${m(eName(e))}?`, tpl:'[_]', ans:[n], fig:figS(S, [e]),
+        hint:'Cạnh bên song song với các cạnh bên; cạnh đáy song song với cạnh tương ứng của đáy kia.', sol:`Các cạnh song song với ${m(eName(e))}: ${edgesRel(S, e, 'par').map(x => m(eName(x))).join(', ')}. Có ${tb(n)} cạnh.`});
+    }
+    const S = mk(t === 2 ? 'pyp' : 'cube'), e = S.kind === 'pyp' ? pick(S.ed.filter(x => edgesRel(S, x, 'par').length)) : pick(S.ed), good = edgesRel(S, e, 'par')[0];
+    const bad = shuffle(S.ed.filter(f => !sameE(e, f) && relE(S, e, f) !== 'par')).slice(0, 3);
+    return QC({text:`Cho ${S.title}. Cạnh nào sau đây song song với cạnh ${m(eName(e))}?`, opts:[good, ...bad].map(x => m(eName(x))), ans:m(eName(good)), fig:figS(S, [e]),
+      hint:S.kind === 'pyp' ? 'Hai cạnh đối của hình bình hành đáy thì song song.' : 'Tìm cạnh cùng phương với nó (đối diện trong cùng một mặt hoặc cùng song song một cạnh thứ ba).',
+      sol:`${whyRel(S, e, good, 'par')} Các phương án khác cắt hoặc chéo nhau với ${m(eName(e))}.`});
+  }
+  const t = R(0, 2);
+  if(t === 0){
+    const T = shuffle(STM), ask = pick([true, false]);
+    const pool = T.filter(x => x[0] === ask), other = T.filter(x => x[0] !== ask);
+    const good = pool[0], bads = other.slice(0, 3);
+    return mc10(ask ? 'Mệnh đề nào sau đây đúng?' : 'Mệnh đề nào sau đây sai?', good[1], bads.map(x => x[1]), 'Thử vẽ hình (cắt nhau, chéo nhau) để tìm phản ví dụ cho từng phương án.',
+      `${good[1]}: ${ask ? 'đúng' : 'sai'}. ${good[2]} ${tw(good[1])}.`);
+  }
+  if(t === 1){
+    const S = mk('cube'), vs = [['A', "A'"], ['B', "B'"], ['C', "C'"], ['D', "D'"]], [p, q, r] = shuffle(vs).slice(0, 3);
+    const e = p, f = q, mdl = r;
+    return QS({text:`Cho ${S.title}. Chứng minh ${m(eName(e))} song song với ${m(eName(f))} bằng cách dùng đường thẳng trung gian.`, fig:figS(S, [e, f]), direct:true,
+      hint:'Tìm một cạnh cùng song song với cả hai cạnh cần chứng minh.',
+      sol:`${m(eName(mdl))} ∥ ${m(eName(e))} và ${m(eName(mdl))} ∥ ${m(eName(f))} (các cạnh bên của hình lập phương song song với nhau). Theo tính chất bắc cầu, ${tb(`${eName(e)} \\parallel ${eName(f)}`)}.`,
+      steps:[
+        {tag:'Kế hoạch', ask:`Chọn đường thẳng trung gian cùng song song với ${m(eName(e))} và ${m(eName(f))}:`, opts:[m(eName(mdl)), m('AB'), m("A'B'"), m('BC')], ans:m(eName(mdl)), hint:'Đường trung gian cũng là một cạnh bên.'},
+        {tag:'Giải', ask:`Vì ${m(`${eName(mdl)} \\parallel ${eName(e)}`)} và ${m(`${eName(mdl)} \\parallel ${eName(f)}`)}, theo tính chất bắc cầu:`, opts:[m(`${eName(e)} \\parallel ${eName(f)}`), m(`${eName(e)} \\text{ cắt } ${eName(f)}`), m(`${eName(e)} \\text{ chéo } ${eName(f)}`), m(`${eName(e)} \\perp ${eName(f)}`)], ans:m(`${eName(e)} \\parallel ${eName(f)}`), hint:'Hai đường thẳng phân biệt cùng song song với đường thứ ba.'},
+        {tag:'Đáp số', ask:`Có tất cả bao nhiêu cạnh của hình lập phương song song hoặc trùng với ${m(eName(e))}?`, tpl:'[_]', ans:[4], hint:'Mỗi phương có 4 cạnh.'}]});
+  }
+  const S = mk('prism'), [e, f] = [['A', "A'"], ['B', "B'"]];
+  return QC({text:`Cho ${S.title}. Biết ${m("AA'")} ∥ ${m("BB'")} ∥ ${m("CC'")}. Phát biểu nào sau đây đúng?`,
+    opts:[m("BB' \\parallel CC'"), m("BB' \\text{ cắt } CC'"), m("AA' \\text{ chéo } BB'"), m("BB' \\text{ chéo } CC'")], ans:m("BB' \\parallel CC'"), keepOrder:true, fig:figS(S, [e, f]),
+    hint:'Ba cạnh bên đôi một song song.', sol:`Hai cạnh bên bất kì của lăng trụ song song với nhau: ${tb("BB' \\parallel CC'")}.`});
+};
+
+/* ---------- Dạng 3. Đếm cặp và đếm cạnh theo vị trí tương đối ---------- */
+const g11c = lv => {
+  const NAMEK = {cut:'cắt nhau', par:'song song', skew:'chéo nhau'};
+  if(lv === 1){
+    const S = mk('tet'), t = R(0, 2);
+    if(t === 0) return QB({text:`Cho ${S.title}. Có bao nhiêu cặp cạnh chéo nhau? (Hai cạnh của một cặp không có đỉnh chung.)`, tpl:'[_]', ans:[3], fig:figS(S, []),
+      hint:'Mỗi cạnh có đúng một cạnh đối diện.', sol:`Tứ diện có 3 cặp cạnh đối: ${tb(3)} cặp chéo nhau.`});
+    if(t === 1){ const e = pick(S.ed), f = edgesRel(S, e, 'skew')[0];
+      return QC({text:`Cho ${S.title}. Cạnh nào chéo nhau với cạnh ${m(eName(e))}?`, opts:S.ed.filter(x => !sameE(x, e)).map(x => m(eName(x))), ans:m(eName(f)), fig:figS(S, [e]),
+        hint:'Cạnh chéo nhau với một cạnh là cạnh không có đỉnh chung với nó.', sol:`Cạnh đối diện của ${m(eName(e))} là ${tb(eName(f))}.`}); }
+    const e = pick(S.ed), n = edgesRel(S, e, 'cut').length;
+    return QB({text:`Cho ${S.title}. Có bao nhiêu cạnh cắt cạnh ${m(eName(e))}?`, tpl:'[_]', ans:[n], fig:figS(S, [e]),
+      hint:'Cạnh cắt nhau là cạnh có chung một đầu mút với nó.', sol:`Mỗi đầu mút của ${m(eName(e))} có 2 cạnh khác đi qua, tất cả khác nhau: ${tb(n)} cạnh.`});
+  }
+  if(lv === 2){
+    const t = R(0, 2);
+    if(t === 0){ const S = mk('pyp'), k = pick(['par', 'skew']), n = countRel(S, k);
+      return QB({text:`Cho ${S.title}. Có bao nhiêu cặp cạnh (trong 8 cạnh) ${NAMEK[k]}?`, tpl:'[_]', ans:[n], fig:figS(S, []),
+        hint:k === 'par' ? 'Chỉ có các cặp cạnh đối của đáy.' : 'Cạnh bên chéo cạnh đáy không chứa đầu mút của nó; có 4 cạnh bên.', sol:k === 'par' ? `Chỉ có ${tb(2)} cặp: hai cặp cạnh đối của hình bình hành đáy.`
+          : `Mỗi cạnh bên chéo nhau với 2 cạnh đáy không đi qua đầu mút của nó (4 × 2 = 8). Hai cạnh bên không chéo nhau, hai cạnh đáy cùng mặt phẳng. Có ${tb(n)} cặp.`}); }
+    if(t === 1){ const S = mk('pyp'), e = pick(S.ed.filter(x => x[0] === S.L[0])), n = edgesRel(S, e, 'skew').length;
+      return QB({text:`Cho ${S.title}. Có bao nhiêu cạnh chéo nhau với cạnh bên ${m(eName(e))}?`, tpl:'[_]', ans:[n], fig:figS(S, [e]),
+        hint:'Loại các cạnh có chung đỉnh với cạnh đó; các cạnh còn lại đều nằm ở đáy.', sol:`Các cạnh đáy không qua ${m(e[1])}: ${edgesRel(S, e, 'skew').map(x => m(eName(x))).join(', ')}. Có ${tb(n)} cạnh.`}); }
+    const S = mk('pyp'), e = pick(S.ed.filter(x => x[0] !== S.L[0])), k = pick(['skew', 'cut', 'par']), n = edgesRel(S, e, k).length;
+    return QB({text:`Cho ${S.title}. Có bao nhiêu cạnh ${NAMEK[k]} với cạnh đáy ${m(eName(e))}?`, tpl:'[_]', ans:[n], fig:figS(S, [e]),
+      hint:'Phân loại 7 cạnh còn lại: có chung đỉnh, song song, hoặc chéo nhau.', sol:`Trong 7 cạnh còn lại: ${edgesRel(S, e, k).map(x => m(eName(x))).join(', ')} là ${NAMEK[k]} với ${m(eName(e))}. Có ${tb(n)} cạnh.`});
+  }
+  const t = R(0, 3);
+  if(t === 0){ const S = mk('cube'), k = pick(['par', 'skew', 'cut']), n = countRel(S, k);
+    return QB({text:`Cho ${S.title}. Có bao nhiêu cặp cạnh (trong 12 cạnh) ${NAMEK[k]}?`, tpl:'[_]', ans:[n], fig:figS(S, []),
+      hint:k === 'par' ? '12 cạnh chia thành 3 nhóm 4 cạnh song song.' : k === 'cut' ? 'Mỗi đỉnh là đầu mút của 3 cạnh.' : 'Lấy tổng số cặp trừ số cặp cắt nhau và số cặp song song.',
+      sol:k === 'par' ? `3 nhóm, mỗi nhóm có ${m('\\mathrm{C}_4^2 = 6')} cặp: ${tb(n)}.` : k === 'cut' ? `Mỗi đỉnh cho ${m('\\mathrm{C}_3^2 = 3')} cặp cắt nhau, 8 đỉnh: ${tb(n)}.`
+        : `Tổng ${m('\\mathrm{C}_{12}^2 = 66')} cặp, trừ 24 cặp cắt nhau và 18 cặp song song: ${tb(n)}.`}); }
+  if(t === 1){ const S = mk('prism'), k = pick(['par', 'skew', 'cut']), n = countRel(S, k);
+    return QB({text:`Cho ${S.title}. Có bao nhiêu cặp cạnh (trong 9 cạnh) ${NAMEK[k]}?`, tpl:'[_]', ans:[n], fig:figS(S, []),
+      hint:k === 'cut' ? 'Mỗi đỉnh là đầu mút của 3 cạnh, mỗi đỉnh cho 3 cặp cắt nhau.' : 'Tổng cặp là C(9,2) = 36; cắt nhau 18; song song 6.',
+      sol:k === 'cut' ? `6 đỉnh × 3 cặp = ${tb(n)}.` : k === 'par' ? `Cạnh bên: 3 cặp; mỗi cạnh đáy song song cạnh tương ứng của đáy kia: 3 cặp. Có ${tb(n)} cặp.` : `${m('36 - 18 - 6')} = ${tb(n)}.`}); }
+  if(t === 2){ const S = mk(pick(['cube', 'prism'])), e = pick(S.ed), k = pick(['skew', 'par', 'cut']), n = edgesRel(S, e, k).length;
+    return QB({text:`Cho ${S.title}. Có bao nhiêu cạnh ${NAMEK[k]} với cạnh ${m(eName(e))}?`, tpl:'[_]', ans:[n], fig:figS(S, [e]),
+      hint:'Phân loại từng cạnh còn lại: có chung đỉnh, song song hay chéo nhau.', sol:`Các cạnh ${NAMEK[k]} với ${m(eName(e))}: ${edgesRel(S, e, k).map(x => m(eName(x))).join(', ')}. Có ${tb(n)} cạnh.`}); }
+  const S = mk('cube'), e = pick(S.ed), a = edgesRel(S, e, 'par').length, b = edgesRel(S, e, 'cut').length, c = edgesRel(S, e, 'skew').length;
+  e10(a + b + c === 11, 'tổng 11 cạnh');
+  return QB({text:`Cho ${S.title}. Với cạnh ${m(eName(e))}, gọi ${m('a')}, ${m('b')}, ${m('c')} lần lượt là số cạnh song song, số cạnh cắt và số cạnh chéo nhau với nó. Tính ${m('a + b + c')}.`, tpl:'[_]', ans:[a + b + c], fig:figS(S, [e]),
+    hint:'Mọi cạnh khác đều thuộc đúng một loại.', sol:`${m(`a = ${a},\\ b = ${b},\\ c = ${c}`)} nên ${m(`a + b + c = ${a + b + c}`)}; đó là ${tb(a + b + c)} cạnh còn lại của hình.`});
+};
+
+/* ---------- Dạng 4. Giao tuyến của hai mặt phẳng chứa hai đường thẳng song song ---------- */
+const g11d = lv => {
+  if(lv === 1){
+    const t = R(0, 2);
+    if(t === 0) return mc10('Ba mặt phẳng phân biệt đôi một cắt nhau theo ba giao tuyến phân biệt. Ba giao tuyến đó', 'đồng quy hoặc đôi một song song', ['luôn đồng quy', 'luôn đôi một song song', 'luôn cùng nằm trong một mặt phẳng'],
+      'Định lí về giao tuyến của ba mặt phẳng.', `Theo định lí: ba giao tuyến ${tw('đồng quy hoặc đôi một song song')}.`);
+    const S = mk(t === 1 ? 'pyp' : 'pyt'), [s, a, b, c, d] = S.L;
+    const pr = S.kind === 'pyp' ? pick([[[a, b], [c, d]], [[a, d], [b, c]]]) : [[a, d], [b, c]];
+    const [e1, e2] = pr, goodE = e1, bads = [[a, c], [b, d], ...[[a, b], [c, d], [a, d], [b, c]].filter(x => !(x[0] === e1[0] && x[1] === e1[1]) && !(x[0] === e2[0] && x[1] === e2[1]))];
+    const pl1 = `(${s + e1.join('')})`, pl2 = `(${s + e2.join('')})`;
+    return QC({text:`Cho ${S.title}. Giao tuyến của hai mặt phẳng ${m(pl1)} và ${m(pl2)} là đường thẳng đi qua ${m(s)} và song song với`, opts:[goodE, ...shuffle(bads).slice(0, 3)].map(x => m(eName(x))), ans:m(eName(goodE)),
+      fig:figS(S, []), hint:`${eName(e1)} ⊂ ${pl1}, ${eName(e2)} ⊂ ${pl2} và hai đường thẳng này song song: dùng hệ quả của định lí giao tuyến.`,
+      sol:`${m(pl1)} ∩ ${m(pl2)} chứa điểm chung ${m(s)}; hai mặt phẳng lần lượt chứa ${m(eName(e1))} và ${m(eName(e2))} mà ${m(`${eName(e1)} \\parallel ${eName(e2)}`)}, nên giao tuyến đi qua ${m(s)} và song song với ${tb(eName(e1))}.`});
+  }
+  if(lv === 2){
+    const t = R(0, 2);
+    const S = mk('pyp'), [s, a, b, c, d] = S.L, M = 'M', N = 'N';
+    const Mt = pick([.5, .5, .4, .6]), Mp = mid(PG0[0], PG0[1], Mt), Np = mid(PG0[0], PG0[4], Mt);
+    const f = pgFig(S.L, {pts:{[M]:Mp, [N]:Np}, s:[[M, b], [N, c]], d:[[M, N]]});
+    const AD = pick([6, 8, 10, 12]);
+    const ratio = Mt === .5 ? [1, 2] : Mt === .4 ? [2, 5] : [3, 5];
+    const AD2 = AD % ratio[1] ? ratio[1] * R(2, 4) : AD;
+    const mn = AD2 * ratio[0] / ratio[1];
+    const side = `${m(`${s}${M}`)} : ${m(`${s}${a}`)}`;
+    if(t === 0) return mc10(`Cho ${S.title}. Điểm ${m(M)} thuộc cạnh ${m(s + a)}. Mặt phẳng ${m(`(${M + b + c})`)} cắt ${m(`(${s + a + d})`)} theo giao tuyến ${m(M + N)} (${m(N)} thuộc ${m(s + d)}). Khi đó ${m(M + N)} song song với`, m(`${a + d}`), [m(`${a + b}`), m(`${s + b}`), m(`${c + d}`)],
+      'BC nằm trong (MBC), AD nằm trong (SAD), và BC ∥ AD.', `${m(b + c)} ⊂ ${m(`(${M + b + c})`)}, ${m(a + d)} ⊂ ${m(`(${s + a + d})`)}, ${m(`${b + c} \\parallel ${a + d}`)}. Nên ${m(M + N)} ∥ ${tb(a + d)} (và ∥ ${m(b + c)}).`, f);
+    if(t === 1) return QB({text:`Cho ${S.title}. Điểm ${m(M)} thuộc cạnh ${m(s + a)} sao cho ${m(`${s}${M} = \\dfrac{${ratio[0]}}{${ratio[1]}}${s}${a}`)}. Mặt phẳng ${m(`(${M + b + c})`)} cắt ${m(s + d)} tại ${m(N)}. Biết ${m(`${a}${d} = ${AD2}`)}. Tính ${m(M + N)}.`,
+      tpl:`${m(`${M}${N} =`)} [_]`, ans:[mn], fig:f, hint:`MN ∥ AD, dùng định lí Thales (hoặc tam giác đồng dạng) trong tam giác ${s}${a}${d}.`,
+      sol:`${m(`${M}${N} \\parallel ${a}${d}`)} nên ${m(`\\dfrac{${M}${N}}{${a}${d}} = \\dfrac{${s}${M}}{${s}${a}} = \\dfrac{${ratio[0]}}{${ratio[1]}}`)}. Do đó ${m(`${M}${N} = \\dfrac{${ratio[0]}}{${ratio[1]}}\\cdot ${AD2}`)} = ${tb(mn)}.`});
+    return QC({text:`Cho ${S.title}. Điểm ${m(M)} thuộc cạnh ${m(s + a)}, mặt phẳng ${m(`(${M + b + c})`)} cắt ${m(s + d)} tại ${m(N)}. Tứ giác ${m(M + b + c + N)} là hình gì?`, opts:['hình thang', 'hình bình hành', 'hình chữ nhật', 'hình thoi'], ans:'hình thang', keepOrder:true, fig:f,
+      hint:`MN ∥ BC. Hai cạnh MB và NC có song song không?`, sol:`${m(`${M}${N} \\parallel ${b}${c}`)}, mà ${m(`${M}${N} < ${a}${d} = ${b}${c}`.replace('<', '\\lt'))} (vì ${m(M)} nằm trong cạnh ${m(s + a)}), hai đáy không bằng nhau nên ${m(M + b + c + N)} không phải hình bình hành. Vậy ${m(M + b + c + N)} là ${tw('hình thang')} (đáy ${m(M + N)}, ${m(b + c)}).`});
+  }
+  const S = mk('pyp'), [s, a, b, c, d] = S.L, M = 'M', N = 'N', K = pick([2, 3, 4, 5]);
+  const Mp = mid(PG0[0], PG0[1], .5), Np = mid(PG0[0], PG0[4], .5);
+  const f = pgFig(S.L, {pts:{[M]:Mp, [N]:Np}, s:[[M, b], [N, c]], d:[[M, N]]});
+  return QS({text:`Cho ${S.title}. Gọi ${m(M)} là trung điểm ${m(s + a)}. Mặt phẳng ${m(`(${M + b + c})`)} cắt ${m(s + d)} tại ${m(N)}. Biết ${m(`${a}${d} = ${2 * K}`)}. Tính ${m(M + N)}.`, fig:f, direct:true,
+    hint:'Hai mặt phẳng chứa hai đường thẳng song song (BC và AD) nên giao tuyến song song với chúng.',
+    sol:`${m(b + c)} ⊂ ${m(`(${M + b + c})`)}, ${m(a + d)} ⊂ ${m(`(${s + a + d})`)}, ${m(`${b + c} \\parallel ${a + d}`)} nên giao tuyến ${m(M + N)} ∥ ${m(a + d)}. ${m(M)} là trung điểm ${m(s + a)} nên ${m(N)} là trung điểm ${m(s + d)}, ${m(M + N)} là đường trung bình của tam giác ${m(s + a + d)}: ${m(`${M}${N} = \\dfrac{1}{2}${a}${d} = ${K}`)}. Đáp số: ${tb(K)}.`,
+    steps:[
+      {tag:'Kế hoạch', ask:`Giao tuyến của ${m(`(${M + b + c})`)} và ${m(`(${s + a + d})`)} đi qua ${m(M)} và song song với`, opts:[m(a + d), m(s + a), m(a + b), m(s + d)], ans:m(a + d), hint:'BC nằm trong (MBC), AD nằm trong (SAD), BC ∥ AD.'},
+      {tag:'Giải', ask:`Đường thẳng đó cắt ${m(s + d)} tại ${m(N)}. ${m(N)} là`, opts:['trung điểm của SD'.replace('SD', s + d), `trung điểm của ${a + d}`, `trọng tâm tam giác ${s + a + d}`, `điểm ${d}`], ans:`trung điểm của ${s + d}`, hint:'M là trung điểm SA và MN ∥ AD.'},
+      {tag:'Đáp số', ask:`${m(M + N)} là đường trung bình của tam giác ${m(s + a + d)} nên ${m(`${M}${N} =`)}`, tpl:'[_]', ans:[K], hint:`MN = AD/2 với AD = ${2 * K}.`}]});
+};
+
+/* ---------- Dạng 5. Đường trung bình, định lí Thales trong tứ diện ---------- */
+const TETS = [['A', 'B', 'C', 'D'], ['S', 'A', 'B', 'C'], ['E', 'F', 'G', 'H']];
+const tp = (L, c) => TET0[L.indexOf(c)];
+const tetHidTri = (L, a, b, c) => { const s = [a, b, c].map(k => L.indexOf(k)).sort().join(''); return s === '013' || s === '123'; };
+const g11e = lv => {
+  const L = pick(TETS), [v, x, y, z] = L;
+  if(lv === 1){
+    const t = R(0, 2);
+    if(t < 2){
+      const [p, q, r, s2] = t === 0 ? [v, x, y, z] : shuffle(L);
+      const hid = tetHidTri(L, p, q, r), seg = hid ? {d:[['M', 'N']]} : {s:[['M', 'N']]};
+      const f = tetFig(L, {pts:{M:mid(tp(L, p), tp(L, q)), N:mid(tp(L, p), tp(L, r))}, ...seg});
+      const good = q + r, bads = [q + s2, r + s2, p + s2];
+      return mc10(`Cho tứ diện ${m(L.join(''))}. Gọi ${m('M')}, ${m('N')} lần lượt là trung điểm của ${m(p + q)} và ${m(p + r)}. Đường thẳng ${m('MN')} song song với đường thẳng`, m(good), bads.map(e => m(e)),
+        `MN là đường trung bình của tam giác ${p}${q}${r}.`, `${m('MN')} là đường trung bình của tam giác ${m(p + q + r)} nên ${m(`MN \\parallel ${q}${r}`)} và ${m(`MN = \\dfrac{1}{2}${q}${r}`)}. Đáp án: ${tb(good)}.`, f);
+    }
+    const [p, q, r, s2] = L, f = tetFig(L, {pts:{M:mid(tp(L, p), tp(L, q)), N:mid(tp(L, p), tp(L, r)), P:mid(tp(L, p), tp(L, s2))}, s:[['M', 'N'], ['N', 'P']], d:[['M', 'P']]});
+    const a = R(2, 6) * 2, b = R(2, 6) * 2, c = R(2, 6) * 2;
+    return QB({text:`Cho tứ diện ${m(L.join(''))} có ${m(`${q}${r} = ${a}`)}, ${m(`${r}${s2} = ${b}`)}, ${m(`${q}${s2} = ${c}`)}. Gọi ${m('M')}, ${m('N')}, ${m('P')} lần lượt là trung điểm của ${m(p + q)}, ${m(p + r)}, ${m(p + s2)}. Tính chu vi tam giác ${m('MNP')}.`,
+      tpl:'[_]', ans:[(a + b + c) / 2], fig:f, hint:'Mỗi cạnh của tam giác MNP là đường trung bình của một mặt bên.',
+      sol:`${m(`MN = \\dfrac{${q}${r}}{2} = ${a / 2}`)}, ${m(`NP = \\dfrac{${r}${s2}}{2} = ${b / 2}`)}, ${m(`MP = \\dfrac{${q}${s2}}{2} = ${c / 2}`)}. Chu vi bằng ${m(`${a / 2} + ${b / 2} + ${c / 2}`)} = ${tb((a + b + c) / 2)}.`});
+  }
+  if(lv === 2){
+    const t = R(0, 2), K = pick([[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [2, 5], [3, 5]]), den = K[1], num = K[0], BC = den * R(2, 5), ans = BC * num / den;
+    const [p, q, r] = [v, x, y], f = tetFig(L, {pts:{M:mid(tp(L, p), tp(L, q), num / den), N:mid(tp(L, p), tp(L, r), num / den)}, s:[['M', 'N']]});
+    if(t === 0) return QB({text:`Cho tứ diện ${m(L.join(''))}. Các điểm ${m('M')}, ${m('N')} lần lượt thuộc ${m(p + q)}, ${m(p + r)} sao cho ${m(`\\dfrac{${p}M}{${p}${q}} = \\dfrac{${p}N}{${p}${r}} = \\dfrac{${num}}{${den}}`)}. Biết ${m(`${q}${r} = ${BC}`)}. Tính ${m('MN')}.`, tpl:`${m('MN =')} [_]`, ans:[ans], fig:f,
+      hint:'Hai tỉ số bằng nhau suy ra MN song song với cạnh nào? Rồi dùng định lí Thales.', sol:`Theo định lí Thales đảo, ${m(`MN \\parallel ${q}${r}`)}. Do đó ${m(`\\dfrac{MN}{${q}${r}} = \\dfrac{${num}}{${den}}`)}, suy ra ${m(`MN = \\dfrac{${num}}{${den}}\\cdot ${BC}`)} = ${tb(ans)}.`});
+    if(t === 1){ const mn = R(2, 9); return QB({text:`Cho tứ diện ${m(L.join(''))}. Gọi ${m('M')}, ${m('N')} lần lượt là trung điểm của ${m(p + q)} và ${m(p + r)}. Biết ${m(`MN = ${mn}`)}. Tính ${m(q + r)}.`, tpl:`${m(`${q}${r} =`)} [_]`, ans:[2 * mn],
+      fig:tetFig(L, {pts:{M:mid(tp(L, p), tp(L, q)), N:mid(tp(L, p), tp(L, r))}, s:[['M', 'N']]}), hint:'MN là đường trung bình: MN bằng nửa cạnh đáy tương ứng.', sol:`${m(`MN = \\dfrac{1}{2}${q}${r}`)} nên ${m(`${q}${r} = 2\\cdot ${mn}`)} = ${tb(2 * mn)}.`}); }
+    const good = `${m(`MN \\parallel ${q}${r}`)}`;
+    return mc10(`Cho tứ diện ${m(L.join(''))}. Các điểm ${m('M')}, ${m('N')} lần lượt thuộc ${m(p + q)}, ${m(p + r)} sao cho ${m(`\\dfrac{${p}M}{${p}${q}} = \\dfrac{${p}N}{${p}${r}} = \\dfrac{${num}}{${den}}`)}. Khẳng định nào sau đây đúng?`, good, [m(`MN \\parallel ${p}${z}`), m(`MN \\parallel ${q}${z}`), m(`MN \\text{ chéo } ${q}${r}`)],
+      'Định lí Thales đảo trong tam giác.', `Hai tỉ số bằng nhau nên ${tb(`MN \\parallel ${q}${r}`)} (định lí Thales đảo trong tam giác ${m(p + q + r)}).`, f);
+  }
+  const t = R(0, 2), [a, b, c, d] = L, MP = {M:mid(TET0[0], TET0[1]), N:mid(TET0[1], TET0[2]), P:mid(TET0[2], TET0[3]), Q:mid(TET0[3], TET0[0])};
+  const f = tetFig(L, {pts:MP, s:[['M', 'N'], ['P', 'Q']], d:[['N', 'P'], ['Q', 'M']]});
+  const base = `Cho tứ diện ${m(L.join(''))}. Gọi ${m('M')}, ${m('N')}, ${m('P')}, ${m('Q')} lần lượt là trung điểm của ${m(a + b)}, ${m(b + c)}, ${m(c + d)}, ${m(d + a)}.`;
+  if(t === 0){
+    const cond = pick([['', 'hình bình hành'], [`Biết ${m(`${a}${c} \\perp ${b}${d}`)}.`, 'hình chữ nhật'], [`Biết ${m(`${a}${c} = ${b}${d}`)}.`, 'hình thoi'], [`Biết ${m(`${a}${c} \\perp ${b}${d}`)} và ${m(`${a}${c} = ${b}${d}`)}.`, 'hình vuông']]);
+    return QC({text:`${base} ${cond[0] ? cond[0] + ' ' : ''}Tứ giác ${m('MNPQ')} là`, opts:['hình bình hành', 'hình chữ nhật', 'hình thoi', 'hình vuông'], ans:cond[1], keepOrder:true, fig:f,
+      hint:`${'MN ∥ PQ ∥ ' + a + c}; ${'NP ∥ MQ ∥ ' + b + d}. Xét thêm quan hệ giữa ${a + c} và ${b + d}.`,
+      sol:`${m(`MN \\parallel ${a}${c}`)}, ${m(`QP \\parallel ${a}${c}`)} nên ${m('MN \\parallel QP')} và ${m(`MN = QP = \\dfrac{${a}${c}}{2}`)}; do đó ${m('MNPQ')} là hình bình hành. Hai cạnh kề ${m('MN')}, ${m('NP')} lần lượt song song và bằng nửa ${m(a + c)}, ${m(b + d)}. Kết luận: ${tw(cond[1])}.`});
+  }
+  if(t === 1){
+    const x1 = R(3, 9) * 2, y1 = R(3, 9) * 2;
+    return QB({text:`${base} Biết ${m(`${a}${c} = ${x1}`)} và ${m(`${b}${d} = ${y1}`)}. Tính chu vi tứ giác ${m('MNPQ')}.`, tpl:'[_]', ans:[x1 + y1], fig:f,
+      hint:'MNPQ là hình bình hành; mỗi cạnh là đường trung bình của một mặt.', sol:`${m(`MN = PQ = \\dfrac{${a}${c}}{2} = ${x1 / 2}`)}, ${m(`NP = MQ = \\dfrac{${b}${d}}{2} = ${y1 / 2}`)}. Chu vi bằng ${m(`2\\,(${x1 / 2} + ${y1 / 2})`)} = ${tb(x1 + y1)}.`});
+  }
+  return QS({text:`${base} Chứng minh ${m('MNPQ')} là hình bình hành.`, fig:f, direct:true,
+    hint:'Dùng đường trung bình của hai tam giác chung cạnh AC.', sol:`${m('MN')} là đường trung bình của tam giác ${m(a + b + c)} nên ${m(`MN \\parallel ${a}${c}`)}, ${m(`MN = \\dfrac{1}{2}${a}${c}`)}. ${m('QP')} là đường trung bình của tam giác ${m(a + c + d)} nên ${m(`QP \\parallel ${a}${c}`)}, ${m(`QP = \\dfrac{1}{2}${a}${c}`)}. Suy ra ${m('MN \\parallel QP')} và ${m('MN = QP')}, vậy ${tw('MNPQ là hình bình hành')}.`,
+    steps:[
+      {tag:'Kế hoạch', ask:`${m('MN')} là đường trung bình của tam giác ${m(a + b + c)}, nên`, opts:[m(`MN \\parallel ${a}${c}`), m(`MN \\parallel ${b}${d}`), m(`MN \\parallel ${a}${b}`), m(`MN \\parallel ${b}${c}`)], ans:m(`MN \\parallel ${a}${c}`), hint:'MN nối trung điểm AB và BC; cạnh còn lại của tam giác là AC.'},
+      {tag:'Giải', ask:`${m('QP')} là đường trung bình của tam giác ${m(a + c + d)}. So sánh ${m('MN')} và ${m('QP')}:`, opts:[m('MN \\parallel QP,\\ MN = QP'), m('MN \\perp QP'), m('MN \\text{ cắt } QP'), m('MN = 2QP')], ans:m('MN \\parallel QP,\\ MN = QP'), hint:`Cả hai cùng song song và bằng nửa ${a + c}.`},
+      {tag:'Đáp số', ask:`Tứ giác ${m('MNPQ')} có hai cạnh đối song song và bằng nhau nên là`, opts:['hình bình hành', 'hình thang cân', 'hình chữ nhật', 'hình thoi'], ans:'hình bình hành', hint:'Dấu hiệu nhận biết hình bình hành.'}]});
+};
+
+/* ---------- Dạng 6. Chứng minh song song, đồng phẳng trong hình chóp ---------- */
+const g11f = lv => {
+  const L = pick([PYL[0], PYL[1]]), [s, a, b, c, d] = L, M = 'M', N = 'N';
+  const Mp = mid(PG0[0], PG0[1]), Np = mid(PG0[0], PG0[2]);
+  const f1 = pgFig(L, {pts:{M:Mp, N:Np}, s:[['M', 'N']]});
+  const f2 = pgFig(L, {pts:{M:Mp, N:Np}, s:[['M', 'N'], ['N', c]], d:[['M', d]]});
+  const base = `Cho hình chóp ${m(`${s}.${a}${b}${c}${d}`)} có đáy ${m(`${a}${b}${c}${d}`)} là hình bình hành. Gọi ${m(M)}, ${m(N)} lần lượt là trung điểm của ${m(s + a)} và ${m(s + b)}.`;
+  if(lv === 1){
+    const t = R(0, 2);
+    if(t === 0){ const good = pick([a + b, c + d]);
+      return mc10(`${base} Đường thẳng ${m('MN')} song song với đường thẳng`, m(good), [a + d, b + c, a + c].map(e => m(e)), `MN là đường trung bình của tam giác ${s}${a}${b}; ${a}${b}${c}${d} là hình bình hành.`,
+        `${m('MN')} là đường trung bình của tam giác ${m(s + a + b)} nên ${m(`MN \\parallel ${a}${b}`)}; mà ${m(`${a}${b} \\parallel ${c}${d}`)}. Do đó ${m('MN')} song song với ${tb(good)}.`, f1); }
+    if(t === 1) return QC({text:`${base} Tứ giác ${m(`${M}${N}${c}${d}`)} là hình gì?`, opts:['hình thang', 'hình bình hành', 'hình chữ nhật', 'hình thoi'], ans:'hình thang', keepOrder:true, fig:f2,
+      hint:`MN ∥ CD. Hai đáy có bằng nhau không?`, sol:`${m(`MN \\parallel ${a}${b} \\parallel ${c}${d}`)} và ${m(`MN = \\dfrac{1}{2}${a}${b} = \\dfrac{1}{2}${c}${d}`)}, khác ${m(c + d)}. Tứ giác có hai cạnh song song nhưng không bằng nhau: ${tw('hình thang')}.`});
+    return mc10(`${base} Bốn điểm ${m(`${M},\\ ${N},\\ ${c},\\ ${d}`)}`, 'cùng thuộc một mặt phẳng', ['không cùng thuộc một mặt phẳng', 'thẳng hàng', 'là bốn đỉnh của một tứ diện'], `MN và CD song song thì xác định mấy mặt phẳng?`,
+      `${m(`MN \\parallel ${c}${d}`)} nên hai đường thẳng này xác định một mặt phẳng: bốn điểm ${tw('cùng thuộc một mặt phẳng')}.`, f2);
+  }
+  if(lv === 2){
+    const t = R(0, 2);
+    if(t === 0){ const k = R(3, 10), ab = 2 * k; return QB({text:`${base} Biết ${m(`${a}${b} = ${ab}`)}. Tính ${m('MN')}.`, tpl:`${m('MN =')} [_]`, ans:[k], fig:f1, hint:'MN là đường trung bình của tam giác SAB.', sol:`${m(`MN = \\dfrac{1}{2}${a}${b} = ${k}`)} = ${tb(k)}.`}); }
+    if(t === 1){ const pk = pick([[`(${M}${N}${c}${d})`, `(${s}${a}${d})`, M + d], [`(${M}${N}${c}${d})`, `(${s}${b}${c})`, N + c]]);
+      return mc10(`${base} Giao tuyến của hai mặt phẳng ${m(pk[0])} và ${m(pk[1])} là đường thẳng`, m(pk[2]), [m(M + N), m(c + d), m(s + a)], `Tìm hai điểm chung của hai mặt phẳng.`,
+        `${m(pk[0])} và ${m(pk[1])} có hai điểm chung ${m(pk[2].split('').join(','))}, nên giao tuyến là ${tb(pk[2])}.`, f2); }
+    return mc10(`${base} Gọi ${m('I')} là giao điểm của ${m(M + d)} và ${m(N + c)}. Khi đó ${m('I')} thuộc giao tuyến của hai mặt phẳng ${m(`(${s}${a}${d})`)} và ${m(`(${s}${b}${c})`)}, giao tuyến này song song với`, m(a + d), [m(a + b), m(s + a), m(a + c)],
+      `${a + d} ⊂ (${s}${a}${d}), ${b + c} ⊂ (${s}${b}${c}) và hai đường này song song.`, `${m(`${a}${d} \\parallel ${b}${c}`)}, nên giao tuyến của hai mặt phẳng chứa chúng (đi qua ${m(s)} và ${m('I')}) song song với ${tb(a + d)}.`, f2);
+  }
+  const t = R(0, 1);
+  if(t === 0) return QS({text:`${base} Gọi ${m('I')} là giao điểm của ${m(M + d)} và ${m(N + c)}. Chứng minh ${m(`${s}I \\parallel ${a}${d}`)}.`, fig:f2, direct:true,
+    hint:'Dùng định lí về giao tuyến của ba mặt phẳng (SAD), (SBC), (MNCD).',
+    sol:`${m(`MN \\parallel ${a}${b} \\parallel ${c}${d}`)} nên ${m(`${M}${N}${c}${d}`)} là hình thang; ${m(M + d)} và ${m(N + c)} cắt nhau tại ${m('I')}. ${m('I')} ∈ ${m(M + d)} ⊂ ${m(`(${s}${a}${d})`)} và ${m('I')} ∈ ${m(N + c)} ⊂ ${m(`(${s}${b}${c})`)}, nên ${m('I')} thuộc giao tuyến của hai mặt phẳng này. ${m(s)} cũng là điểm chung, giao tuyến là ${m(s + 'I')}. Vì ${m(`${a}${d} \\parallel ${b}${c}`)} nên ${tb(`${s}I \\parallel ${a}${d}`)}.`,
+    steps:[
+      {tag:'Kế hoạch', ask:`Xét ba mặt phẳng ${m(`(${s}${a}${d})`)}, ${m(`(${s}${b}${c})`)} và`, opts:[m(`(${M}${N}${c}${d})`), m(`(${a}${b}${c}${d})`), m(`(${s}${a}${b})`), m(`(${s}${c}${d})`)], ans:m(`(${M}${N}${c}${d})`), hint:`Mặt phẳng chứa M, N, C, D (MN ∥ CD).`},
+      {tag:'Giải', ask:`Giao tuyến của ${m(`(${s}${a}${d})`)} và ${m(`(${M}${N}${c}${d})`)} là`, opts:[m(M + d), m(N + c), m(s + d), m(M + N)], ans:m(M + d), hint:`Hai điểm chung của hai mặt phẳng là M và D.`},
+      {tag:'Đáp số', ask:`Giao tuyến ${m(s + 'I')} của ${m(`(${s}${a}${d})`)} và ${m(`(${s}${b}${c})`)} song song với`, opts:[m(a + d), m(a + b), m(s + a), m(a + c)], ans:m(a + d), hint:`AD và BC nằm trong hai mặt phẳng và song song nhau.`}]});
+  return QS({text:`${base} Chứng minh bốn điểm ${m(`${M},\\ ${N},\\ ${c},\\ ${d}`)} cùng thuộc một mặt phẳng và ${m(`${M}${N}${c}${d}`)} là hình thang.`, fig:f2, direct:true,
+    hint:'Chứng minh MN song song với CD bằng đường trung bình và bắc cầu.',
+    sol:`${m('MN')} là đường trung bình của tam giác ${m(s + a + b)} nên ${m(`MN \\parallel ${a}${b}`)}. Mà ${m(`${a}${b} \\parallel ${c}${d}`)} (hình bình hành). Theo tính chất bắc cầu ${m(`MN \\parallel ${c}${d}`)}, nên ${m(M)}, ${m(N)}, ${m(c)}, ${m(d)} cùng thuộc một mặt phẳng. Tứ giác ${m(`${M}${N}${c}${d}`)} có ${m(`MN \\parallel ${c}${d}`)}, ${m(`MN = \\dfrac{1}{2}${c}${d}`)} nên là ${tw('hình thang')}.`,
+    steps:[
+      {tag:'Kế hoạch', ask:`${m('MN')} là đường trung bình của tam giác ${m(s + a + b)}, nên`, opts:[m(`MN \\parallel ${a}${b}`), m(`MN \\parallel ${a}${d}`), m(`MN \\parallel ${s}${c}`), m(`MN \\parallel ${b}${c}`)], ans:m(`MN \\parallel ${a}${b}`), hint:'MN nối trung điểm SA và SB.'},
+      {tag:'Giải', ask:`Vì ${m(`${a}${b} \\parallel ${c}${d}`)}, theo tính chất bắc cầu:`, opts:[m(`MN \\parallel ${c}${d}`), m(`MN \\perp ${c}${d}`), m(`MN \\text{ cắt } ${c}${d}`), m(`MN \\text{ chéo } ${c}${d}`)], ans:m(`MN \\parallel ${c}${d}`), hint:'Hai đường cùng song song với AB.'},
+      {tag:'Đáp số', ask:`Tứ giác ${m(`${M}${N}${c}${d}`)} có hai cạnh song song nhưng không bằng nhau, nên là`, opts:['hình thang', 'hình bình hành', 'hình thoi', 'hình chữ nhật'], ans:'hình thang', keepOrder:true, hint:`MN = AB/2 = CD/2.`}]});
+};
+
+const K11KT = [
+  {t:'Vị trí tương đối của hai đường thẳng trong không gian', b:`Hai đường thẳng phân biệt có đúng một trong ba vị trí: <ul><li><b>cắt nhau</b>: có đúng một điểm chung (đồng phẳng);</li><li><b>song song</b>: đồng phẳng và không có điểm chung;</li><li><b>chéo nhau</b>: <b>không</b> cùng nằm trong một mặt phẳng (không có điểm chung và không song song).</li></ul>Hai đường thẳng song song hoặc cắt nhau xác định một mặt phẳng; hai đường thẳng chéo nhau thì không có mặt phẳng nào chứa cả hai.`,
+    warn:'Không có điểm chung chưa chắc là song song: còn có thể chéo nhau. Hai đường thẳng cùng vuông góc với đường thứ ba cũng không suy ra song song.', ex:'Muốn chứng minh chéo nhau: chỉ ra bốn điểm (hai điểm trên mỗi đường) không đồng phẳng.'},
+  {t:'Tính chất của hai đường thẳng song song', b:`<ul><li>Qua một điểm nằm ngoài đường thẳng ${tm('d')} có <b>duy nhất</b> một đường thẳng song song với ${tm('d')}.</li><li>Hai đường thẳng phân biệt cùng song song với đường thẳng thứ ba thì song song với nhau (<b>bắc cầu</b>): ${tm('a \\parallel c,\\ b \\parallel c \\Rightarrow a \\parallel b')}.</li></ul>`,
+    warn:'Tính chất bắc cầu cần ba đường thẳng phân biệt; hai đường song song với cùng đường thứ ba có thể trùng nhau.', ex:'Trong hình hộp, hình lăng trụ: các cạnh bên đôi một song song; cạnh đáy song song cạnh tương ứng của đáy kia.'},
+  {t:'Định lí về giao tuyến của ba mặt phẳng', b:`Nếu ba mặt phẳng phân biệt đôi một cắt nhau theo ba giao tuyến phân biệt thì ba giao tuyến đó hoặc <b>đồng quy</b>, hoặc <b>đôi một song song</b>.<br><b>Hệ quả:</b> hai mặt phẳng phân biệt lần lượt chứa hai đường thẳng song song thì giao tuyến của chúng (nếu có) song song với hai đường thẳng đó hoặc trùng với một trong hai.`,
+    warn:'Hệ quả chỉ dùng khi hai mặt phẳng cắt nhau và mỗi mặt phẳng chứa một trong hai đường song song.', ex:`Ví dụ ${tm('S.ABCD')} có ${tm('AB \\parallel CD')}: giao tuyến của ${tm('(SAB)')} và ${tm('(SCD)')} là đường thẳng qua ${tm('S')} song song với ${tm('AB')}.`},
+  {t:'Cách chứng minh hai đường thẳng song song', b:`<ul><li>Dùng <b>đường trung bình</b> của tam giác: ${tm('MN \\parallel BC,\\ MN = \\dfrac{1}{2}BC')}.</li><li>Dùng <b>định lí Thales đảo</b>: ${tm('\\dfrac{AM}{AB} = \\dfrac{AN}{AC} \\Rightarrow MN \\parallel BC')}.</li><li>Dùng <b>hình bình hành</b>, hình thang, tính chất bắc cầu.</li><li>Dùng <b>hệ quả</b> của định lí giao tuyến.</li></ul>`,
+    warn:'Đường trung bình của tam giác nằm trong mặt phẳng của tam giác; đừng nhầm MN song song với cạnh của tam giác khác.', ex:'Gặp “trung điểm” trong tứ diện, hình chóp: nghĩ ngay đến đường trung bình, rồi bắc cầu qua các cạnh song song của đáy.'}
+];
+
+lesson(5, 'hai-dt-song-song', 'Bài 11. Hai đường thẳng song song', 'Vị trí tương đối, tính chất song song, định lí giao tuyến, đường trung bình trong không gian.', [g11a, g11b, g11c, g11d, g11e, g11f], {introTitle:'Kiến thức cần nhớ · Chỗ dễ sai · Mẹo', intro:K11KT});
+
 }
 
 })();

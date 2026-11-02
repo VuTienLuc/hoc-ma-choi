@@ -555,7 +555,7 @@ Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương III. Mẫu 
 
 /* =====================================================================
    CHƯƠNG IV. QUAN HỆ SONG SONG TRONG KHÔNG GIAN – Bài 10 (thầy yêu cầu 02/11/2026, /tron-bo)
-   SGK KNTT Toán 11 tập 2, tr. 70–76: mặt phẳng và hình biểu diễn · 6 tính chất thừa nhận · ba cách xác định mặt phẳng ·
+   SGK KNTT Toán 11 tập 1, tr. 70–76: mặt phẳng và hình biểu diễn · 6 tính chất thừa nhận · ba cách xác định mặt phẳng ·
    giao tuyến, giao điểm · hình chóp và tứ diện. 6 dạng bài, hình vẽ bằng spaceSVG (nét liền – nét đứt).
    ===================================================================== */
 (() => {
@@ -568,7 +568,7 @@ const ix = (p, q, r, s) => { const dd = (q[0] - p[0]) * (s[1] - r[1]) - (q[1] - 
 const TET0 = [[160, 22], [48, 160], [168, 196], [288, 128]];
 const tetFig = (L, o = {}) => {
   const [v, x, y, z] = L, pts = {[v]:TET0[0], [x]:TET0[1], [y]:TET0[2], [z]:TET0[3], ...(o.pts || {})};
-  return spaceSVG({pts, s:[[v, x], [v, y], [v, z], [x, y], [y, z], ...(o.s || [])], d:[[x, z], ...(o.d || [])], h:o.h, off:o.off, ht:218, aria:o.aria || 'Hình tứ diện'});
+  return spaceSVG({pts, s:[[v, x], [v, y], [v, z], [x, y], [y, z], ...(o.s || [])], d:[[x, z], ...(o.d || [])], h:o.h, hd:o.hd, off:o.off, ht:218, aria:o.aria || 'Hình tứ diện'});
 };
 const PY0 = [[160, 16], [40, 142], [104, 186], [262, 186], [298, 142]];
 const pyFig = (o = {}) => spaceSVG({pts:{S:PY0[0], A:PY0[1], B:PY0[2], C:PY0[3], D:PY0[4], ...(o.pts || {})}, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['S', 'D'], ['A', 'B'], ['B', 'C'], ['C', 'D'], ...(o.s || [])], d:[['A', 'D'], ...(o.d || [])], h:o.h, off:o.off, ht:218, aria:o.aria || 'Hình chóp S.ABCD'});
@@ -580,6 +580,23 @@ const Mp = mid(PY0[0], PY0[1], .9), Np = ix(Mp, O, PY0[0], PY0[3]);
 const figN = pyFig({pts:{M:Mp, O, N:Np}, d:[['A', 'C'], ['B', 'D'], ['M', 'B'], ['M', 'D'], ['M', 'O']], s:[['C', 'N']], off:{N:[14, 10]}});
 const Gp = [(TET0[1][0] + TET0[2][0] + TET0[3][0]) / 3, (TET0[1][1] + TET0[2][1] + TET0[3][1]) / 3];
 const figG = tetFig(['S', 'B', 'A', 'C'], {pts:{M:mid(TET0[1], TET0[2]), N:mid(TET0[2], TET0[3]), G:Gp}, d:[['B', 'N'], ['C', 'M']], off:{G:[0, 16], N:[16, 6], M:[-16, 6]}});
+
+const tw = t => `<b class="ans">${t}</b>`;
+/* ---- Bài 11: hình bổ sung (hình chóp đáy hình bình hành, hình lập phương, lăng trụ) ---- */
+const PG0 = [[150, 16], [40, 142], [104, 186], [262, 186], [198, 142]];
+const pgFig = (o = {}) => spaceSVG({pts:{S:PG0[0], A:PG0[1], B:PG0[2], C:PG0[3], D:PG0[4], ...(o.pts || {})}, s:[['S', 'A'], ['S', 'B'], ['S', 'C'], ['S', 'D'], ['A', 'B'], ['B', 'C'], ['C', 'D'], ...(o.s || [])], d:[['A', 'D'], ...(o.d || [])], h:o.h, hd:o.hd, off:o.off, nolabel:o.nolabel, ht:218, aria:o.aria || 'Hình chóp S.ABCD có đáy là hình bình hành'});
+const CUBE0 = {A:[80, 192], B:[190, 192], C:[250, 152], D:[140, 152], "A'":[80, 94], "B'":[190, 94], "C'":[250, 54], "D'":[140, 54]};
+const cubeFig = (o = {}) => spaceSVG({pts:{...CUBE0, ...(o.pts || {})},
+  s:[['A', 'B'], ['B', 'C'], ["A'", "B'"], ["B'", "C'"], ["C'", "D'"], ["D'", "A'"], ['A', "A'"], ['B', "B'"], ['C', "C'"], ...(o.s || [])],
+  d:[['A', 'D'], ['D', 'C'], ['D', "D'"], ...(o.d || [])], h:o.h, hd:o.hd, off:o.off, ht:218, aria:o.aria || "Hình lập phương ABCD.A'B'C'D'"});
+const tet4 = ['A', 'B', 'C', 'D'];
+const midsMNPQ = {M:mid(TET0[0], TET0[1]), N:mid(TET0[1], TET0[2]), P:mid(TET0[2], TET0[3]), Q:mid(TET0[3], TET0[0])};
+const figMNPQ = tetFig(tet4, {pts:midsMNPQ, s:[['M', 'N'], ['P', 'Q']], d:[['N', 'P'], ['Q', 'M']], aria:'Tứ diện ABCD với trung điểm M, N, P, Q của AB, BC, CD, DA'});
+const figSkew = tetFig(tet4, {h:[['A', 'C']], hd:[['B', 'D']], aria:'Hai cạnh đối AC và BD của tứ diện chéo nhau'});
+const figMN = tetFig(tet4, {pts:{M:mid(TET0[0], TET0[1]), N:mid(TET0[0], TET0[2])}, s:[['M', 'N']], aria:'Tứ diện ABCD, M, N là trung điểm AB, AC'});
+const figMid = pgFig({pts:{M:mid(PG0[0], PG0[1]), N:mid(PG0[0], PG0[4])}, s:[['M', 'B'], ['N', 'C']], d:[['M', 'N']], aria:'Hình chóp S.ABCD, M trung điểm SA, mặt phẳng (MBC) cắt SD tại N'});
+const figSx = pgFig({pts:{u:[60, 16], x:[262, 16]}, nolabel:['u'], h:[['u', 'x']], aria:'Giao tuyến Sx của (SAD) và (SBC) song song với AD và BC'});
+const figMNCD = pgFig({pts:{M:mid(PG0[0], PG0[1]), N:mid(PG0[0], PG0[2])}, s:[['M', 'N'], ['N', 'C']], d:[['M', 'D']], aria:'Hình chóp S.ABCD, M, N trung điểm SA, SB; hình thang MNCD'});
 
 Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương IV. Quan hệ song song trong không gian', lessons:[
 
@@ -670,6 +687,94 @@ Lecture.add({ grade:'lop11', gradeName:'Toán 11', chapter:'Chương IV. Quan h�
 
   {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
    body:`<ul><li>${m('\\in, \\notin')} cho điểm; ${m('\\subset')} cho đường thẳng – mặt phẳng.</li><li>Ba cách xác định mặt phẳng: 3 điểm không thẳng hàng · điểm + đường thẳng · hai đường cắt nhau.</li><li>Giao tuyến: hai điểm chung; giao điểm: dùng mặt phẳng phụ.</li><li>Hình chóp đáy ${m('n')}-giác: ${m('n+1')} mặt, ${m('2n')} cạnh, ${m('n+1')} đỉnh.</li></ul>` + note(`Ba điểm thẳng hàng không xác định mặt phẳng; giao điểm hai đường phải ở cùng một mặt phẳng.`)}
+]},
+
+{ id:'bai-11', name:'Bài 11. Hai đường thẳng song song', desc:'Vị trí tương đối của hai đường thẳng; tính chất hai đường thẳng song song; định lí giao tuyến của ba mặt phẳng; đường trung bình và định lí Thales trong tứ diện, hình chóp.', slides:[
+  TITLE('Bài 11. Hai đường thẳng song song', ['Phân biệt ba vị trí: cắt nhau, song song, chéo nhau; nhận biết trên tứ diện, hình chóp, hình lập phương.', 'Vận dụng tính chất bắc cầu và tính chất tồn tại duy nhất của đường thẳng song song.', 'Dùng định lí về giao tuyến của ba mặt phẳng và hệ quả để tìm giao tuyến.', 'Chứng minh hai đường thẳng song song bằng đường trung bình, định lí Thales, hình bình hành.']),
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 1', title:'Vị trí tương đối của hai đường thẳng',
+   body: box(`Hai đường thẳng phân biệt có đúng một trong ba vị trí:<br>① <b>cắt nhau</b> – có đúng một điểm chung;<br>② <b>song song</b> – cùng nằm trong một mặt phẳng và không có điểm chung;<br>③ <b>chéo nhau</b> – <b>không</b> cùng nằm trong một mặt phẳng.`) +
+     S(`Hai đường thẳng cắt nhau hoặc song song thì xác định một mặt phẳng; hai đường thẳng chéo nhau thì không có mặt phẳng nào chứa cả hai.`) +
+     note(`“Không có điểm chung” chưa đủ để kết luận song song: hai đường thẳng chéo nhau cũng không có điểm chung.`),
+   fig: figSkew},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 2', title:'Tính chất của hai đường thẳng song song',
+   body: box(`<b>Tồn tại duy nhất:</b> qua một điểm nằm ngoài đường thẳng ${m('d')} có <b>duy nhất</b> một đường thẳng song song với ${m('d')}.`) +
+     box(`<b>Bắc cầu:</b> hai đường thẳng phân biệt cùng song song với một đường thẳng thứ ba thì song song với nhau.<br>${m('a \\parallel c,\\ b \\parallel c \\Rightarrow a \\parallel b')}`) +
+     S(`Trong hình lập phương (hình hộp, lăng trụ): các cạnh bên đôi một song song.`),
+   fig: cubeFig({h:[['A', "A'"], ['B', "B'"], ['C', "C'"]], hd:[], aria:"Ba cạnh AA', BB', CC' đôi một song song"})},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 3', title:'Định lí về giao tuyến của ba mặt phẳng',
+   body: box(`<b>Định lí.</b> Nếu ba mặt phẳng phân biệt đôi một cắt nhau theo ba giao tuyến phân biệt thì ba giao tuyến đó hoặc <b>đồng quy</b>, hoặc <b>đôi một song song</b>.`) +
+     box(`<b>Hệ quả.</b> Hai mặt phẳng phân biệt lần lượt chứa hai đường thẳng song song thì giao tuyến của chúng (nếu có) song song với hai đường thẳng đó hoặc trùng với một trong hai đường thẳng đó.`) +
+     S(`Ví dụ: ${m('S.ABCD')} có ${m('AD \\parallel BC')} thì ${m('(SAD) \\cap (SBC)')} là đường thẳng ${m('Sx')} qua ${m('S')}, ${m('Sx \\parallel AD \\parallel BC')}.`),
+   fig: figSx},
+
+  {kind:'kt', tag:'Kiến thức trọng tâm 4', title:'Các cách chứng minh hai đường thẳng song song',
+   body: `<ul><li><b>Đường trung bình</b> của tam giác: ${m('MN \\parallel BC,\\ MN = \\dfrac{1}{2}BC')}.</li><li><b>Định lí Thales đảo</b>: ${m('\\dfrac{AM}{AB} = \\dfrac{AN}{AC} \\Rightarrow MN \\parallel BC')}.</li><li>Hình bình hành, hình thang (cạnh đối song song).</li><li><b>Bắc cầu</b> qua đường thẳng thứ ba.</li><li><b>Hệ quả</b> của định lí giao tuyến.</li></ul>`,
+   fig: figMN},
+
+  /* ---- Dạng 1 ---- */
+  {kind:'method', tag:'Dạng 1', title:'Xác định vị trí tương đối của hai đường thẳng',
+   steps:[`Hai cạnh có chung một đỉnh ⇒ <b>cắt nhau</b>.`, `Hai cạnh đối của một mặt (hình bình hành, hình vuông) hoặc cùng song song một cạnh thứ ba ⇒ <b>song song</b>.`, `Hai đường thẳng không có điểm chung và bốn đầu mút không đồng phẳng ⇒ <b>chéo nhau</b>.`]},
+  {kind:'vd', tag:'Ví dụ 1 · Dạng 1', label:'Ví dụ 1', de:`Cho tứ diện ${m('ABCD')}. Xét vị trí tương đối của các cặp đường thẳng: a) ${m('AB')} và ${m('AC')}; b) ${m('AB')} và ${m('CD')}.`, fig: tetFig(tet4, {h:[['A', 'B'], ['C', 'D']], aria:'Tứ diện ABCD, hai cạnh AB và CD'}),
+   sol:[`a) ${m('AB')} và ${m('AC')} có chung đỉnh ${m('A')} nên cắt nhau.`, `b) Nếu ${m('AB')} và ${m('CD')} cùng nằm trong một mặt phẳng thì bốn điểm ${m('A, B, C, D')} đồng phẳng – vô lí vì ${m('ABCD')} là tứ diện.`, `Hai đường thẳng này cũng không có điểm chung (không cắt nhau) nên chúng chéo nhau.`], ans:`a) ${tw('cắt nhau')}; b) ${tw('chéo nhau')}.`},
+  {kind:'vd', tag:'Ví dụ 2 · Dạng 1', label:'Ví dụ 2', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Xét vị trí tương đối của: a) ${m('AB')} và ${m('CD')}; b) ${m('BC')} và ${m("AA'")}; c) ${m('AC')} và ${m("A'C'")}.`, fig: cubeFig({h:[['B', 'C'], ['A', "A'"]], aria:"Hình lập phương, hai cạnh BC và AA'"}),
+   sol:[`a) ${m('AB')} và ${m('CD')} là hai cạnh đối của hình vuông ${m('ABCD')} nên song song.`, `b) ${m('BC')} nằm trong mặt đáy, ${m("AA'")} cắt mặt đáy tại ${m('A')} (${m('A \\notin BC')}); hai đường thẳng không có điểm chung và không đồng phẳng nên chéo nhau.`, `c) ${m("AA'C'C")} là hình chữ nhật nên ${m("AC \\parallel A'C'")}.`], ans:`a) ${tw('song song')}; b) ${tw('chéo nhau')}; c) ${tw('song song')}.`},
+
+  /* ---- Dạng 2 ---- */
+  {kind:'method', tag:'Dạng 2', title:'Vận dụng tính chất của hai đường thẳng song song',
+   steps:[`Muốn chứng minh ${m('a \\parallel b')}: tìm đường thẳng thứ ba ${m('c')} cùng song song với ${m('a')} và ${m('b')}.`, `Muốn chỉ ra hai đường không song song: giả sử chúng song song rồi dùng bắc cầu để dẫn tới mâu thuẫn.`, `Nhớ điều kiện: ba đường thẳng phải phân biệt.`]},
+  {kind:'vd', tag:'Ví dụ 3 · Dạng 2', label:'Ví dụ 3', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Chứng minh ${m("BB' \\parallel DD'")}.`, fig: cubeFig({h:[['B', "B'"]], hd:[['D', "D'"]], aria:"Hai cạnh BB' và DD' của hình lập phương"}),
+   sol:[`${m("ABB'A'")} là hình vuông nên ${m("AA' \\parallel BB'")}.`, `${m("ADD'A'")} là hình vuông nên ${m("AA' \\parallel DD'")}.`, `${m("BB'")} và ${m("DD'")} phân biệt, cùng song song với ${m("AA'")} nên theo tính chất bắc cầu ${m("BB' \\parallel DD'")}.`], ans:`${tb("BB' \\parallel DD'")}.`},
+  {kind:'vd', tag:'Ví dụ 4 · Dạng 2', label:'Ví dụ 4', de:`Cho ${m('a \\parallel b')} và đường thẳng ${m('c')} cắt ${m('a')}. Chứng minh ${m('c')} và ${m('b')} hoặc cắt nhau hoặc chéo nhau.`,
+   sol:[`${m('c')} không trùng ${m('b')}: nếu trùng thì ${m('c \\parallel a')}, trái với giả thiết ${m('c')} cắt ${m('a')}.`, `${m('c')} không song song ${m('b')}: nếu ${m('c \\parallel b')} thì ${m('a \\parallel b')} và ${m('b \\parallel c')} suy ra ${m('a \\parallel c')} (bắc cầu), mâu thuẫn.`, `Vậy ${m('c')} và ${m('b')} không trùng, không song song: chúng cắt nhau hoặc chéo nhau.`], ans:`${tw('c cắt b hoặc c chéo b')}.`},
+
+  /* ---- Dạng 3 ---- */
+  {kind:'method', tag:'Dạng 3', title:'Đếm cặp đường thẳng theo vị trí tương đối',
+   steps:[`Tổng số cặp cạnh: ${m('C_n^2')} với ${m('n')} là số cạnh.`, `Cặp cắt nhau (chung đỉnh): mỗi đỉnh có ${m('k')} cạnh cho ${m('C_k^2')} cặp.`, `Cặp song song: gom cạnh theo nhóm song song. Cặp chéo nhau = tổng − cắt − song song.`]},
+  {kind:'vd', tag:'Ví dụ 5 · Dạng 3', label:'Ví dụ 5', de:`Cho tứ diện ${m('ABCD')}. Có bao nhiêu cặp cạnh chéo nhau?`, fig: figSkew,
+   sol:[`Tứ diện có 6 cạnh, tổng ${m('C_6^2 = 15')} cặp.`, `Mỗi đỉnh có 3 cạnh, cho ${m('C_3^2 = 3')} cặp cắt nhau; 4 đỉnh cho ${m('4 \\cdot 3 = 12')} cặp.`, `Tứ diện không có cạnh song song nên số cặp chéo nhau là ${m('15 - 12 = 3')} (ba cặp cạnh đối).`], ans:`${tb('3')} cặp.`},
+  {kind:'vd', tag:'Ví dụ 6 · Dạng 3', label:'Ví dụ 6', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Có bao nhiêu cạnh chéo nhau với cạnh ${m('AB')}?`, fig: cubeFig({h:[['A', 'B']], aria:'Cạnh AB của hình lập phương'}),
+   sol:[`Loại các cạnh có chung đỉnh với ${m('AB')}: ${m("AD, AA', BC, BB'")}.`, `Loại các cạnh song song với ${m('AB')}: ${m("CD, A'B', C'D'")}.`, `Còn lại ${m("CC', DD', B'C', A'D'")}: đều chéo nhau với ${m('AB')}.`], ans:`${tb('4')} cạnh.`},
+
+  /* ---- Dạng 4 ---- */
+  {kind:'method', tag:'Dạng 4', title:'Giao tuyến của hai mặt phẳng chứa hai đường thẳng song song',
+   steps:[`Chỉ ra điểm chung thứ nhất (thường là đỉnh chóp ${m('S')}).`, `Tìm hai đường thẳng song song, mỗi đường nằm trong một mặt phẳng.`, `Kết luận: giao tuyến là đường thẳng qua điểm chung và song song với hai đường thẳng đó.`]},
+  {kind:'vd', tag:'Ví dụ 7 · Dạng 4', label:'Ví dụ 7', de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành. Tìm giao tuyến của hai mặt phẳng ${m('(SAD)')} và ${m('(SBC)')}.`, fig: figSx,
+   sol:[`${m('S')} là điểm chung của hai mặt phẳng.`, `${m('AD \\subset (SAD)')}, ${m('BC \\subset (SBC)')} và ${m('AD \\parallel BC')} (đáy là hình bình hành).`, `Theo hệ quả của định lí giao tuyến, giao tuyến là đường thẳng ${m('Sx')} qua ${m('S')}, song song với ${m('AD')} và ${m('BC')}.`], ans:`${tb('Sx \\parallel AD \\parallel BC')}.`},
+  {kind:'vd', tag:'Ví dụ 8 · Dạng 4', label:'Ví dụ 8', de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành. ${m('M')} là trung điểm của ${m('SA')}. Tìm giao tuyến của ${m('(MBC)')} và ${m('(SAD)')}. Giao tuyến cắt ${m('SD')} tại ${m('N')}: tính ${m('MN')} khi ${m('AD = 8')}.`, fig: figMid,
+   sol:[`${m('M')} là điểm chung của ${m('(MBC)')} và ${m('(SAD)')}.`, `${m('BC \\subset (MBC)')}, ${m('AD \\subset (SAD)')}, ${m('BC \\parallel AD')} nên giao tuyến là đường thẳng qua ${m('M')} song song ${m('AD')}; nó cắt ${m('SD')} tại ${m('N')}.`, `${m('M')} là trung điểm ${m('SA')} và ${m('MN \\parallel AD')} nên ${m('N')} là trung điểm ${m('SD')}; ${m('MN')} là đường trung bình của tam giác ${m('SAD')}: ${m('MN = \\dfrac{1}{2}AD = 4')}.`], ans:`Giao tuyến ${tb('MN \\parallel AD')}; ${tb('MN = 4')}.`},
+
+  /* ---- Dạng 5 ---- */
+  {kind:'method', tag:'Dạng 5', title:'Đường trung bình và định lí Thales trong tứ diện',
+   steps:[`Nhìn ra tam giác chứa hai trung điểm (hoặc hai điểm chia cùng tỉ số).`, `Đường nối hai trung điểm là đường trung bình: song song cạnh thứ ba và bằng một nửa.`, `Hai điểm chia cạnh theo cùng tỉ số ${m('k')}: song song cạnh thứ ba và bằng ${m('k')} lần (Thales).`]},
+  {kind:'vd', tag:'Ví dụ 9 · Dạng 5', label:'Ví dụ 9', de:`Cho tứ diện ${m('ABCD')}. ${m('M, N')} lần lượt là trung điểm của ${m('AB, AC')}. Chứng minh ${m('MN \\parallel BC')} và tính ${m('MN')} khi ${m('BC = 8')}.`, fig: figMN,
+   sol:[`Trong tam giác ${m('ABC')}, ${m('MN')} nối trung điểm của ${m('AB')} và ${m('AC')}.`, `Nên ${m('MN')} là đường trung bình: ${m('MN \\parallel BC')}.`, `${m('MN = \\dfrac{1}{2}BC = 4')}.`], ans:`${tb('MN \\parallel BC')}, ${tb('MN = 4')}.`},
+  {kind:'vd', tag:'Ví dụ 10 · Dạng 5', label:'Ví dụ 10', de:`Cho tứ diện ${m('ABCD')}. Gọi ${m('M, N, P, Q')} lần lượt là trung điểm của ${m('AB, BC, CD, DA')}. Chứng minh ${m('MNPQ')} là hình bình hành.`, fig: figMNPQ,
+   sol:[`${m('MN')} là đường trung bình của tam giác ${m('ABC')}: ${m('MN \\parallel AC')}, ${m('MN = \\dfrac{1}{2}AC')}.`, `${m('QP')} là đường trung bình của tam giác ${m('ACD')}: ${m('QP \\parallel AC')}, ${m('QP = \\dfrac{1}{2}AC')}.`, `Suy ra ${m('MN \\parallel QP')} và ${m('MN = QP')}. Tứ giác ${m('MNPQ')} có hai cạnh đối song song và bằng nhau.`], ans:`${tb('MNPQ')} là hình bình hành; chu vi bằng ${m('AC + BD')}.`},
+  {kind:'vd', tag:'Ví dụ 11 · Dạng 5', label:'Ví dụ 11', de:`Cho tứ diện ${m('ABCD')}. ${m('M \\in AB')}, ${m('N \\in AC')} sao cho ${m('\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{2}{3}')}. Chứng minh ${m('MN \\parallel BC')} và tính ${m('MN')} khi ${m('BC = 9')}.`, fig: tetFig(tet4, {pts:{M:mid(TET0[0], TET0[1], 2 / 3), N:mid(TET0[0], TET0[2], 2 / 3)}, s:[['M', 'N']], aria:'Tứ diện ABCD, AM/AB = AN/AC = 2/3'}),
+   sol:[`Trong tam giác ${m('ABC')}: ${m('\\dfrac{AM}{AB} = \\dfrac{AN}{AC}')}.`, `Theo định lí Thales đảo, ${m('MN \\parallel BC')}.`, `Tỉ số đồng dạng ${m('\\dfrac{2}{3}')} nên ${m('MN = \\dfrac{2}{3} \\cdot 9 = 6')}.`], ans:`${tb('MN \\parallel BC')}, ${tb('MN = 6')}.`},
+
+  /* ---- Dạng 6 ---- */
+  {kind:'method', tag:'Dạng 6', title:'Chứng minh song song và đồng phẳng trong hình chóp',
+   steps:[`Dùng đường trung bình để có một cặp đường song song trong mặt bên.`, `Bắc cầu qua cạnh đáy song song để chứng minh bốn điểm đồng phẳng (hình thang).`, `Muốn chứng minh một đường song song với cạnh đáy: dùng giao tuyến của ba mặt phẳng.`]},
+  {kind:'vd', tag:'Ví dụ 12 · Dạng 6', label:'Ví dụ 12', de:`Cho hình chóp ${m('S.ABCD')} có đáy là hình bình hành. ${m('M, N')} lần lượt là trung điểm của ${m('SA, SB')}. Chứng minh bốn điểm ${m('M, N, C, D')} cùng thuộc một mặt phẳng và ${m('MNCD')} là hình thang.`, fig: figMNCD,
+   sol:[`${m('MN')} là đường trung bình của tam giác ${m('SAB')}: ${m('MN \\parallel AB')} và ${m('MN = \\dfrac{1}{2}AB')}.`, `${m('AB \\parallel CD')} (hình bình hành) nên ${m('MN \\parallel CD')} (bắc cầu).`, `Hai đường thẳng song song ${m('MN, CD')} xác định một mặt phẳng nên ${m('M, N, C, D')} đồng phẳng. Vì ${m('MN = \\dfrac{1}{2}CD \\neq CD')} nên ${m('MNCD')} là hình thang.`], ans:`${tb('MNCD')} là hình thang (đáy ${m('MN, CD')}).`},
+  {kind:'vd', tag:'Ví dụ 13 · Dạng 6', label:'Ví dụ 13', de:`Với giả thiết của Ví dụ 12, gọi ${m('I')} là giao điểm của ${m('MD')} và ${m('NC')}. Chứng minh ${m('SI \\parallel AD')}.`, fig: figMNCD,
+   sol:[`${m('I \\in MD \\subset (SAD)')} và ${m('I \\in NC \\subset (SBC)')}, nên ${m('I')} thuộc giao tuyến của ${m('(SAD)')} và ${m('(SBC)')}.`, `${m('S')} cũng là điểm chung, vậy giao tuyến của hai mặt phẳng này là ${m('SI')}.`, `${m('AD \\parallel BC')}, ${m('AD \\subset (SAD)')}, ${m('BC \\subset (SBC)')} nên giao tuyến ${m('SI')} song song với ${m('AD')}.`], ans:`${tb('SI \\parallel AD')}.`},
+
+  {kind:'lt', tag:'Luyện tập', label:'Bài 1', de:`Cho hình chóp ${m('S.ABCD')} có đáy ${m('ABCD')} là hình thang với ${m('AB \\parallel CD')}, ${m('AB \\neq CD')}. a) Tìm giao tuyến của ${m('(SAB)')} và ${m('(SCD)')}. b) Gọi ${m('E = AD \\cap BC')}. Tìm giao tuyến của ${m('(SAD)')} và ${m('(SBC)')}.`,
+   sol:[`a) ${m('S')} chung, ${m('AB \\subset (SAB)')}, ${m('CD \\subset (SCD)')}, ${m('AB \\parallel CD')} nên giao tuyến là đường thẳng qua ${m('S')} song song với ${m('AB')} và ${m('CD')}.`, `b) ${m('E \\in AD \\subset (SAD)')} và ${m('E \\in BC \\subset (SBC)')}; ${m('S')} cũng là điểm chung.`, `Vậy giao tuyến của ${m('(SAD)')} và ${m('(SBC)')} là ${m('SE')}.`], ans:`a) ${tb('Sx \\parallel AB \\parallel CD')}; b) ${tb('SE')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 2', de:`Cho tứ diện ${m('ABCD')}. Các điểm ${m('M, N, P')} lần lượt thuộc ${m('AB, AC, AD')} sao cho ${m('\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{AP}{AD} = \\dfrac{1}{3}')}. Chứng minh ${m('MN \\parallel BC')}, ${m('NP \\parallel CD')} và tính tỉ số chu vi hai tam giác ${m('MNP')} và ${m('BCD')}.`,
+   sol:[`Thales đảo: ${m('MN \\parallel BC')}, ${m('NP \\parallel CD')}, ${m('MP \\parallel BD')}.`, `${m('MN = \\dfrac{1}{3}BC')}, ${m('NP = \\dfrac{1}{3}CD')}, ${m('MP = \\dfrac{1}{3}BD')}.`, `Chu vi ${m('MNP')} bằng ${m('\\dfrac{1}{3}')} chu vi ${m('BCD')}.`], ans:`Tỉ số chu vi ${tb('\\dfrac{1}{3}')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 3', de:`Cho hình lập phương ${m("ABCD.A'B'C'D'")}. Xét vị trí tương đối của ${m('AC')} và ${m("B'D'")}.`, fig: cubeFig({h:[['A', 'C'], ["B'", "D'"]], aria:"Hai đường chéo AC và B'D' của hai mặt đối diện"}),
+   sol:[`${m('AC \\subset (ABCD)')}, ${m("B'D' \\subset (A'B'C'D')")}; hai mặt phẳng này song song nên hai đường không có điểm chung.`, `${m("AC \\parallel A'C'")} mà ${m("A'C'")} cắt ${m("B'D'")} nên ${m("AC")} không song song ${m("B'D'")} (nếu song song thì ${m("A'C' \\parallel B'D'")}, vô lí).`, `Không có điểm chung và không song song ⇒ chéo nhau.`], ans:`${tw('chéo nhau')}.`},
+  {kind:'lt', tag:'Luyện tập', label:'Bài 4', de:`Cho tứ diện ${m('ABCD')} có ${m('AC \\perp BD')}. ${m('M, N, P, Q')} là trung điểm của ${m('AB, BC, CD, DA')}. Chứng minh ${m('MNPQ')} là hình chữ nhật.`, fig: figMNPQ,
+   sol:[`${m('MNPQ')} là hình bình hành (Ví dụ 10).`, `${m('MN \\parallel AC')} và ${m('NP \\parallel BD')}; mà ${m('AC \\perp BD')} nên ${m('MN \\perp NP')}.`, `Hình bình hành có một góc vuông là hình chữ nhật.`], ans:`${tw('MNPQ là hình chữ nhật')}.`},
+
+  {kind:'sum', tag:'Tổng kết', title:'Ghi nhớ',
+   body:`<ul><li>Hai đường thẳng phân biệt: <b>cắt nhau</b>, <b>song song</b> (đồng phẳng, không điểm chung) hoặc <b>chéo nhau</b> (không đồng phẳng).</li><li>Qua một điểm ngoài ${m('d')} có duy nhất một đường thẳng song song ${m('d')}; hai đường cùng song song đường thứ ba thì song song với nhau.</li><li>Ba mặt phẳng đôi một cắt nhau: ba giao tuyến đồng quy hoặc đôi một song song; hệ quả cho giao tuyến của hai mặt phẳng chứa hai đường song song.</li><li>Công cụ chứng minh song song: đường trung bình, Thales đảo, bắc cầu, hình bình hành.</li></ul>` + note(`Không có điểm chung chưa chắc song song – còn có thể chéo nhau.`)},
 ]},
 ]});
 })();

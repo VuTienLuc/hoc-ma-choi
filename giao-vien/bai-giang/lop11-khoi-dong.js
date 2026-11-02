@@ -1594,7 +1594,7 @@ Khi nào ba điểm xác định đúng một mặt phẳng? Hai đường thẳ
 
 ## 1. Thông tin bài
 
-- **Lớp 11 · Chương IV. Quan hệ song song trong không gian · Bài 10. Đường thẳng và mặt phẳng trong không gian** (sách Kết nối tri thức với cuộc sống, tập 2, tr. 70–76).
+- **Lớp 11 · Chương IV. Quan hệ song song trong không gian · Bài 10. Đường thẳng và mặt phẳng trong không gian** (sách Kết nối tri thức với cuộc sống, tập 1, tr. 70–76).
 - **Giả định:** 1 tiết 45 phút; lớp đại trà; chỉ có máy chiếu và giấy/bảng con.
 - Phiếu bám bài giảng: **Ví dụ 3, 4, 5** (đếm mặt phẳng) → Luyện tập 1, 2, 6; **Ví dụ 6, 7, 8** (giao tuyến) → Luyện tập 3, 5; **Ví dụ 9, 10** (hình chóp) → Luyện tập 4; **Ví dụ 12** (giao điểm với mặt phẳng phụ) → Luyện tập 7.
 - Tình huống **[Minh họa]** (kiềng ba chân, ghế bốn chân, bàn gỗ) do người soạn tự đặt, gần ý Vận dụng 1 (SGK tr. 72), không trích nguyên văn.
@@ -1652,4 +1652,171 @@ Khi nào ba điểm xác định đúng một mặt phẳng? Hai đường thẳ
 | Tìm lỗi sai | ba điểm phải không thẳng hàng |
 | Exit | C · S Đ Đ S · $56$ |
 | Về nhà | ba điểm không thẳng hàng xác định một mặt phẳng |
+`);
+
+/* =====================================================================
+   Toán 11 · Chương IV · Bài 11. Hai đường thẳng song song (02/11/2026, /tron-bo)
+   ===================================================================== */
+Lecture.addSheet('lop11', 'bai-11', String.raw`# PHIẾU HỌC TẬP – Toán 11 · Bài 11. Hai đường thẳng song song
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Hai đường thẳng phân biệt trong không gian có mấy vị trí tương đối? Đáp án: ………………………
+
+**Câu 2.** Qua một điểm nằm ngoài đường thẳng $d$ có bao nhiêu đường thẳng song song với $d$? Đáp án: ………………………
+
+**Câu 3.** Tam giác $ABC$, $M$, $N$ là trung điểm $AB$, $AC$. $MN$ song song với đường thẳng nào? Đáp án: ………………………
+
+**Câu 4.** Với tam giác ở Câu 3, $BC=10$ thì $MN=$ ………………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** (a) Hai thanh ray của một đường tàu nằm trên cùng mặt đường, kéo dài mãi không gặp nhau. (b) Một cầu vượt đi chéo qua đường tàu ở bên dưới: đường cầu và đường ray cũng không gặp nhau, nhưng trông không “song song”.
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ………………………………………………
+
+> **Câu hỏi của bài học:** Hai đường thẳng không có điểm chung có phải lúc nào cũng song song? Làm thế nào để tìm giao tuyến của hai mặt phẳng chứa hai đường thẳng song song?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Hai đường thẳng $a$, $b$ không có điểm chung. Khẳng định đúng là
+
+A. $a\parallel b$
+
+B. $a$, $b$ chéo nhau
+
+C. $a\parallel b$ hoặc $a$, $b$ chéo nhau
+
+D. $a$, $b$ cắt nhau
+
+**Câu B.** Hình chóp $S.ABCD$ có đáy là hình bình hành. Giao tuyến của $(SAB)$ và $(SCD)$ là đường thẳng đi qua $S$ và song song với
+
+A. $AD$
+
+B. $AB$
+
+C. $AC$
+
+D. $BC$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Tứ diện $ABCD$ có bao nhiêu cặp cạnh chéo nhau? Đáp số: ………………………
+
+**Câu 2 ★.** Hình lập phương $ABCD.A'B'C'D'$ có bao nhiêu cạnh chéo nhau với cạnh $AB$? Đáp số: ………………………
+
+**Câu 3 ★.** Tứ diện $ABCD$, $M$, $N$ là trung điểm $AB$, $AC$, $BC=12$. Tính $MN$. Đáp số: ………………………
+
+**Câu 4 ★★.** Hình lăng trụ tam giác $ABC.A'B'C'$ có bao nhiêu cặp cạnh chéo nhau? Đáp số: ………………………
+
+**Câu 5 ★★.** $S.ABCD$ đáy là hình bình hành, $M$ là trung điểm $SA$, $(MBC)$ cắt $SD$ tại $N$, $AD=8$. Tính $MN$. Đáp số: ………………………
+
+**Câu 6 ★★.** Tứ diện $ABCD$, $M$, $N$, $P$, $Q$ là trung điểm $AB$, $BC$, $CD$, $DA$; $AC=6$, $BD=8$. Tính chu vi tứ giác $MNPQ$. Đáp số: ………………………
+
+**Câu 7 ★★★.** $S.ABCD$ đáy là hình bình hành, $M$, $N$ là trung điểm $SA$, $SB$, $I=MD\cap NC$, $AD=9$. Chứng minh $SI\parallel AD$ và tính $SI$. *Gợi ý: $M$ là trung điểm của hai đoạn nào?* Đáp số: ………………………
+
+## 5. Tìm lỗi sai
+
+Bạn Nam viết: *"Hai đường thẳng $a$ và $b$ không có điểm chung nên $a\parallel b$."*
+
+**Lỗi ở:** ………………………………………… **Lời giải đúng:** ……………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1 (trắc nghiệm).** Trong hình lập phương $ABCD.A'B'C'D'$, cặp cạnh nào sau đây chéo nhau?
+
+A. $AB$ và $A'B'$
+
+B. $AA'$ và $CC'$
+
+C. $BC$ và $AA'$
+
+D. $AB$ và $CD$
+
+**Câu 2 (đúng – sai).** $S.ABCD$ đáy là hình bình hành, $M$, $N$ là trung điểm $SA$, $SB$:
+
+a) $MN\parallel AB$.  ☐ Đ ☐ S
+
+b) $MN\parallel CD$.  ☐ Đ ☐ S
+
+c) $MNCD$ là hình bình hành.  ☐ Đ ☐ S
+
+d) $SA$ và $CD$ chéo nhau.  ☐ Đ ☐ S
+
+**Câu 3 (trả lời ngắn).** Tứ diện $ABCD$, $M$, $N$ là trung điểm $AB$, $AC$ và $MN=7$. Khi đó $BC=$ …………
+
+## 7. Một phút suy ngẫm
+
+Hai đường thẳng như thế nào thì chéo nhau? Nêu hai cách chứng minh hai đường thẳng song song. ……………………………………………………
+
+## 8. Vận dụng về nhà
+
+**[Minh họa]** Một giá để đồ có ba cột đứng: cột trái song song cột giữa, cột giữa song song cột phải. Giải thích vì sao cột trái song song cột phải; sau đó nói vì sao các thanh nối đỉnh các cột đứng không thể song song với cột.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Toán 11 · Bài 11. Hai đường thẳng song song
+
+## 1. Thông tin bài
+
+- **Lớp 11 · Chương IV. Quan hệ song song trong không gian · Bài 11. Hai đường thẳng song song** (sách Kết nối tri thức với cuộc sống, tập 1, tr. 78–83; số trang thầy đối chiếu).
+- **Giả định:** 1 tiết 45 phút; lớp đại trà; chỉ có máy chiếu và giấy/bảng con.
+- Phiếu bám bài giảng: **Ví dụ 1, 2** (vị trí tương đối) → Câu hỏi bản lề A, Exit 1; **Ví dụ 3, 4** (tính chất song song) → Tìm lỗi sai; **Ví dụ 5, 6** (đếm cặp) → Luyện tập 1, 2, 4; **Ví dụ 7, 8** (giao tuyến) → Bản lề B, Luyện tập 5; **Ví dụ 9, 10, 11** (đường trung bình, Thales) → Luyện tập 3, 6; **Ví dụ 12, 13** (hình chóp) → Luyện tập 7, Exit 2.
+- Tình huống **[Minh họa]** (đường ray – cầu vượt, giá để đồ) do người soạn tự đặt, không trích nguyên văn SGK.
+
+## 2. Mục tiêu
+
+- Phân biệt cắt nhau, song song, chéo nhau; vận dụng tính chất bắc cầu; dùng định lí giao tuyến của ba mặt phẳng và hệ quả để tìm giao tuyến; chứng minh song song bằng đường trung bình và định lí Thales.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Tự làm, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Ghi câu hỏi của bài học |
+| 7–22 | Hệ thống kiến thức | Giáo viên dạy theo bài giảng (ba vị trí tương đối, bắc cầu, định lí giao tuyến, Ví dụ 2, 7, 12); dừng làm Câu hỏi bản lề A, B |
+| 22–34 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi |
+| 34–37 | Tìm lỗi sai (Mục 5) | |
+| 37–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm, dặn dò (Mục 7–8) | |
+
+## 4. Đáp án và lỗi dự kiến
+
+- **Do Now:** 1) $3$ (cắt nhau, song song, chéo nhau). 2) $1$. 3) $BC$. 4) $MN=5$.
+- **Notice & Wonder:** hai ray cùng nằm trong một mặt phẳng và không gặp nhau (song song); cầu vượt và ray không gặp nhau nhưng không đồng phẳng (chéo nhau). Câu hỏi của bài học dẫn tới: không có điểm chung chưa đủ để kết luận song song, cần thêm điều kiện đồng phẳng.
+- **Bản lề A – đáp án C:** hai đường thẳng không có điểm chung có thể song song hoặc chéo nhau. Nhiễu: A, B là chỉ chọn một khả năng; D mâu thuẫn với “không có điểm chung”. **Bản lề B – đáp án B:** $AB\subset(SAB)$, $CD\subset(SCD)$, $AB\parallel CD$ nên giao tuyến qua $S$ song song $AB$ (và $CD$). Nhiễu: A, D là cạnh không nằm trong hai mặt phẳng đó; C là đường chéo.
+- **Luyện tập:**
+  1. $3$ cặp (ba cặp cạnh đối).
+  2. $4$ cạnh: $CC'$, $DD'$, $B'C'$, $A'D'$.
+  3. $MN=\dfrac12BC=6$.
+  4. $36-18-6=12$ cặp ($36$ cặp, $18$ cặp cắt nhau, $6$ cặp song song).
+  5. $MN\parallel AD$, $N$ là trung điểm $SD$ nên $MN=\dfrac12AD=4$.
+  6. $MN=PQ=\dfrac12AC=3$, $NP=MQ=\dfrac12BD=4$; chu vi $=2(3+4)=14$.
+  7. $MNCD$ là hình thang có $MN\parallel CD$, $MN=\dfrac12CD$ nên $M$ là trung điểm $ID$ (đường trung bình của tam giác $ICD$); $M$ cũng là trung điểm $SA$ nên $SDAI$ là hình bình hành, suy ra $SI\parallel AD$ và $SI=AD=9$.
+- **Tìm lỗi sai:** hai đường thẳng không có điểm chung có thể chéo nhau; chỉ kết luận song song khi hai đường thẳng đồng phẳng (hoặc chứng minh được bằng bắc cầu, đường trung bình, hình bình hành…).
+- **Exit:** Câu 1: **C** ($BC$ và $AA'$ chéo nhau; $AB\parallel A'B'$, $AA'\parallel CC'$, $AB\parallel CD$). Câu 2: a) Đ (đường trung bình tam giác $SAB$); b) Đ ($AB\parallel CD$ nên $MN\parallel CD$); c) S ($MN=\dfrac12CD\neq CD$, chỉ là hình thang); d) Đ ($SA$ và $CD$ không đồng phẳng). Câu 3: $MN=\dfrac12BC$ nên $BC=14$.
+- **Về nhà:** cột trái và cột phải cùng song song với cột giữa nên song song với nhau (bắc cầu). Thanh nối đỉnh các cột cắt cột tại đỉnh nên không thể song song với cột.
+
+## 5. Xử lý phiếu ra khỏi lớp và phân hóa
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao Câu 7 và bài về nhà mở rộng |
+| 2. Sai hết | 0–1 câu đúng | Làm lại Ví dụ 2 và Ví dụ 10 của bài giảng với số liệu khác |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn nhanh câu sai nhiều ở đầu tiết sau |
+
+- **Học sinh yếu:** chỉ làm Câu 1–5, được dùng bảng vị trí tương đối. **Học sinh khá giỏi:** làm Câu 7 và bài về nhà.
+
+## 6. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $3;\ 1;\ BC;\ 5$ |
+| Bản lề A, B | C, B |
+| Luyện tập 1–7 | $3$ · $4$ · $6$ · $12$ · $4$ · $14$ · $SI\parallel AD$, $SI=9$ |
+| Tìm lỗi sai | còn có thể chéo nhau |
+| Exit | C · Đ Đ S Đ · $14$ |
+| Về nhà | bắc cầu |
 `);

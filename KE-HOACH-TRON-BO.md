@@ -108,7 +108,7 @@ Thầy nhắn Claude: **“Kiểm bài hôm nay trong KE-HOACH-TRON-BO”** (ho�
 | 9 | 10 | IV | Bài 11. Tích vô hướng của hai vectơ | `tich-vo-huong` | `bai-11` | ✅ | 21/10 · Claude làm trực tiếp; giải SGK ghi đề theo dạng, chưa tra số trang |
 | 10 | 11 | IV | Bài 10. Đường thẳng và mặt phẳng trong không gian (SGK ghi Bài 10, không phải Bài 11) | `dt-mp-khong-gian` | `bai-10` | ✅ | 02/11 · Claude làm trực tiếp theo ảnh SGK tr. 70–76; giải SGK Luyện tập 1–6, Vận dụng 1–2; các hàng Bài 12–15 của lớp 11 cần đánh số lại (SGK: Bài 11–14) |
 | 11 | 10 | IV | Ôn tập chương IV | `on-tap-c4` | `on-tap-c4` | ✅ | 26/10 · Claude làm trực tiếp; giải SGK ghi đề theo dạng, chưa tra số trang |
-| 12 | 11 | IV | Bài 12. Hai đường thẳng song song | `hai-dt-song-song` | `bai-12` | ⬜ | |
+| 12 | 11 | IV | Bài 12. Hai đường thẳng song song | `hai-dt-song-song` | `bai-12` | ✅ | Thực tế SGK là Bài 11 (id `bai-11`), làm 02/11/2026 |
 | 13 | 10 | V | Bài 12. Số gần đúng và sai số (đã có phần học sinh; chỉ làm các phần còn thiếu) | `so-gan-dung-sai-so` | `bai-12` | ⬜ | |
 | 14 | 11 | IV | Bài 13. Đường thẳng và mặt phẳng song song | `dt-mp-song-song` | `bai-13` | ⬜ | |
 | 15 | 10 | V | Bài 13. Các số đặc trưng đo xu thế trung tâm | `so-dac-trung-xu-the` | `bai-13` | ⬜ | |
