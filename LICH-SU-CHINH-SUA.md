@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-03 – Phiếu trên lớp 7/8 ôn thi vào 10: Hình học 7c. Tính độ dài, chu vi, diện tích, số đo góc
+
+- **Yêu cầu:** (lịch tự động) soạn 1 phiếu học tập củng cố hình học ôn thi vào 10, phiếu nhỏ nhất còn thiếu.
+- **Kết quả:** Thêm phiếu `on-thi-hinh-hoc-tinh-toan` (Phần A đúng 2 trang A4: Do Now 4 câu, tình huống mở đầu, 2 câu bản lề, 7 câu luyện tập ★/★★/★★★ có 1 câu thực tế [Minh họa], tìm lỗi sai, phiếu ra khỏi lớp, suy ngẫm, vận dụng; Phần B gợi ý + đáp án). Đáp số đã tính lại độc lập bằng tọa độ (trực tâm, góc OAH, chu vi BCDE). Còn lại phiếu 8 (kiến thức thống nhất).
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop9-khoi-dong.js`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js 30 lop9` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (162/162); `python3 tools/build.py` → xong
+- **Việc thủ công:** Không có
+
 ### 2026-11-02 – Toán 11 Chương IV · Bài 14. Phép chiếu song song và Ôn tập chương IV (trọn bộ)
 
 - **Yêu cầu:** /tron-bo các bài còn lại của Chương IV; hai bài cuối (Phép chiếu song song, Ôn tập chương IV).

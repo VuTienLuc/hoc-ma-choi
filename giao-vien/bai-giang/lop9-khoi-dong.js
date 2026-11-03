@@ -1416,3 +1416,207 @@ Viết lại lời giải đầy đủ Ví dụ 2 và Ví dụ 4 của bài gi�
 | Tìm lỗi sai | $BE = 4$ cm |
 | Exit 1 / 2 / 3 | C / a) Đ, b) Đ, c) S, d) S / $64$ |
 `);
+
+Lecture.addSheet('lop9', 'on-thi-hinh-hoc-tinh-toan', String.raw`# PHIẾU HỌC TẬP – Ôn thi vào 10 · Hình học 7c. Tính độ dài, chu vi, diện tích, số đo góc
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tìm $x$ biết $\dfrac{3}{x} = \dfrac{6}{8}$. Đáp số: ………………
+
+**Câu 2.** Tam giác $ABC$ có $\widehat{B} = 65^\circ$, $\widehat{C} = 45^\circ$. Tính $\widehat{A}$. Đáp số: ………………
+
+**Câu 3.** Tam giác $OMB$ vuông tại $M$, $\widehat{BOM} = 60^\circ$, $OB = 8$ cm. Tính $OM$. Đáp số: ………………
+
+**Câu 4.** Hình quạt tròn bán kính $6$ cm, góc ở tâm $60^\circ$. Tính diện tích (giữ $\pi$). Đáp số: ………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Bạn Nam vẽ tam giác nhọn $ABC$ có $\widehat{BAC} = 60^\circ$ nội tiếp đường tròn $(O;R)$, gọi $M$ là trung điểm $BC$, $H$ là trực tâm. Nam đo rồi ghi lại:
+
+| $R$ (cm) | $4$ | $6$ | $10$ |
+|---|---|---|---|
+| $OM$ (cm) | $2$ | $3$ | $5$ |
+| $AH$ (cm) | $4$ | $6$ | $10$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Vì sao với góc $60^\circ$ thì luôn có $OM = \dfrac{R}{2}$ và $AH = R$? Muốn tính $\widehat{OAH}$ hay diện tích viên phân thì cần tìm thêm những góc nào?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Tam giác nhọn $ABC$ nội tiếp $(O)$ có $\widehat{BAC} = 60^\circ$. Số đo $\widehat{BOC}$ là
+
+A. $30^\circ$
+
+B. $60^\circ$
+
+C. $120^\circ$
+
+D. $240^\circ$
+
+**Câu B.** Tam giác nhọn $ABC$ nội tiếp $(O)$, đường cao $AF$, $\widehat{ABC} = 70^\circ$, $\widehat{ACB} = 40^\circ$. Số đo $\widehat{OAH}$ là
+
+A. $20^\circ$
+
+B. $30^\circ$
+
+C. $50^\circ$
+
+D. $110^\circ$
+
+## 4. Luyện tập xen kẽ
+
+Tam giác $ABC$ nhọn, đường cao $AF$, $BD$, $CE$, trực tâm $H$ (dùng cho Câu 1, 4, 5, 6).
+
+**Câu 1 ★.** Biết $FB = 4$ cm, $FC = 6$ cm, $FA = 8$ cm. Chứng minh $FH \cdot FA = FB \cdot FC$ rồi tính $HF$, $AH$, $S_{ABC}$. Đáp số: ………………
+
+**Câu 2 ★.** Tam giác nhọn $ABC$ nội tiếp $(O;R)$, $\widehat{BAC} = 60^\circ$, $BC = 4\sqrt{3}$ cm. Tính $R$, $OM$, $AH$ ($M$ là trung điểm $BC$). Đáp số: ………………
+
+**Câu 3 ★.** Tam giác nhọn $ABC$ nội tiếp $(O)$, $\widehat{ABC} = 75^\circ$, $\widehat{ACB} = 45^\circ$. Tính $\widehat{BOC}$ và $\widehat{OAH}$. Đáp số: ………………
+
+**Câu 4 ★★.** Biết $AB = 9$ cm, $AC = 12$ cm, $BC = 9$ cm, $AD = 6$ cm ($D \in AC$). Chứng minh $\triangle ADE \sim \triangle ABC$ rồi tính chu vi tứ giác $BCDE$. Đáp số: ………………
+
+**Câu 5 ★★.** $\widehat{BAC} = 45^\circ$, $BC = 12$ cm, $M$ là trung điểm $BC$. Tính $\widehat{EMD}$, độ dài cung nhỏ $ED$ của $(M)$ và diện tích viên phân giới hạn bởi dây $ED$ và cung đó. Đáp số: ………………
+
+**Câu 6 ★★★.** **[Minh họa]** Khu vườn tam giác nhọn $ABC$, lối đi $AF \perp BC$ dài $12$ m, $FB = 6$ m, $FC = 8$ m. Bác Tư trồng hoa trong tam giác $BHC$ ($H$ là trực tâm). $HF = $ ……… m và $S_{BHC} = $ ……… $\text{m}^2$.
+
+**Câu 7 ★★★.** Tam giác nhọn $ABC$ nội tiếp $(O;R)$, $\widehat{BAC} = 60^\circ$, trực tâm $H$, $AH = 9$ cm. Tính $R$ và $BC$. Đáp số: ………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tam giác nhọn $ABC$ nội tiếp $(O;R)$, $\widehat{BAC} = 60^\circ$, $BC = 6$ cm. Tính $R$.
+>
+> **Lời giải của bạn X:** $\widehat{BOC} = 2 \cdot 60^\circ = 120^\circ$, $OM \perp BC$ nên $\widehat{BOM} = 60^\circ$. Trong tam giác $OMB$ vuông tại $M$: $BC = R \sin 60^\circ$, suy ra $R = \dfrac{6}{\sqrt{3}/2} = 4\sqrt{3}$ (cm).
+
+Lời giải sai ở bước nào? Em giải lại cho đúng: ………………………………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Tam giác nhọn $ABC$ nội tiếp $(O)$, đường cao $AF$, $\widehat{ABC} = 70^\circ$, $\widehat{ACB} = 50^\circ$. Số đo $\widehat{OAH}$ là
+
+A. $10^\circ$
+
+B. $40^\circ$
+
+C. $20^\circ$
+
+D. $120^\circ$
+
+**Câu 2.** Tam giác nhọn $ABC$ nội tiếp $(O;8\text{ cm})$, $\widehat{BAC} = 60^\circ$, $M$ là trung điểm $BC$, $H$ là trực tâm. Mỗi ý em ghi Đ hoặc S:
+
+a) $\widehat{BOC} = 120^\circ$. ……
+
+b) $OM = 4\sqrt{3}$ cm. ……
+
+c) $AH = 8$ cm. ……
+
+d) $BC = 8$ cm. ……
+
+**Câu 3.** Tam giác nhọn $ABC$, đường cao $AF$, trực tâm $H$, $FB = 2$ cm, $FC = 9$ cm, $FA = 6$ cm. Khi đó $HF = $ ………… cm.
+
+## 7. Một phút suy ngẫm
+
+*Khi gặp câu tính toán cuối bài hình, em tự hỏi: mình đã tìm đúng cặp tam giác đồng dạng chưa? Đã nhớ chia đôi $BC$ trước khi dùng $\sin$, $\cos$ trong tam giác $OMB$ chưa? Đáp số còn $\pi$ hay $\sqrt{3}$ thì mình đã giữ nguyên chưa?* ………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Viết lại lời giải đầy đủ Ví dụ 2 và Ví dụ 5 của bài giảng, mỗi dòng ghi rõ căn cứ. Làm thêm: tam giác nhọn $ABC$ nội tiếp $(O)$ có $\widehat{ABC} = 65^\circ$, $\widehat{ACB} = 35^\circ$, tính $\widehat{BOC}$ và $\widehat{OAH}$. Nhờ một bạn kiểm tra.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Ôn thi vào 10 · Hình học 7c. Tính độ dài, chu vi, diện tích, số đo góc
+
+## 1. Thông tin bài
+
+- **Toán 9 · Ôn thi tuyển sinh vào lớp 10 (TP.HCM) · Hình học 7c.** Câu vận dụng cao của bài hình: độ dài từ tam giác đồng dạng, tam giác nội tiếp có góc $60^\circ$, số đo $\widehat{OAH}$, chu vi – diện tích tam giác đồng dạng, cung – quạt – viên phân.
+- **Giả định:** 1 tiết 45 phút ôn tập; lớp đại trà; máy chiếu và giấy/bảng con.
+- Tình huống **[Minh họa]** (bảng đo của Nam, khu vườn của bác Tư) do người soạn tự đặt, không trích từ đề thi.
+- Phiếu bám **Ví dụ 1–5** của bài giảng on-thi-hinh-hoc-tinh-toan: Ví dụ 1 ($FH \cdot FA = FB \cdot FC$) → Do Now 1, Luyện tập 1, 6, Exit 3; Ví dụ 2 (góc $60^\circ$) → Do Now 3, Tình huống mở đầu, bản lề A, Luyện tập 2, 7, Tìm lỗi sai, Exit 2; Ví dụ 3 ($\widehat{OAH}$) → Do Now 2, bản lề B, Luyện tập 3, Exit 1, Vận dụng về nhà; Ví dụ 4 (đồng dạng c.g.c) → Luyện tập 4; Ví dụ 5 (cung, viên phân) → Do Now 4, Luyện tập 5.
+- **Quy ước đề năm nay:** các kiến thức sau **phải chứng minh lại**, không viện dẫn trực tiếp: $FH \cdot FA = FB \cdot FC$ (hai tam giác vuông có góc cùng phụ), $OM \perp BC$ (tam giác cân có trung tuyến là đường cao), $AH = 2OM$ (hình bình hành $BHCK$ với $AK$ là đường kính), $\widehat{OAH} = |\widehat{B} - \widehat{C}|$, $AD \cdot AC = AE \cdot AB$. Được **dùng trực tiếp**: góc nội tiếp bằng nửa số đo cung bị chắn (góc ở tâm gấp đôi góc nội tiếp cùng chắn một cung), tam giác đồng dạng (g.g, c.g.c), định lí Pythagore, tỉ số lượng giác trong tam giác vuông, công thức độ dài cung và diện tích hình quạt.
+
+## 2. Mục tiêu
+
+- **Mở đầu (7 phút):** ôn tỉ lệ thức, tổng ba góc, $\cos 60^\circ$ và công thức quạt; nhận ra $OM = \dfrac{R}{2}$, $AH = R$ khi $\widehat{A} = 60^\circ$.
+- **Luyện tập (25 phút):** $HF$, $AH$, diện tích; $R$, $OM$, $AH$; $\widehat{OAH}$; chu vi tứ giác $BCDE$; cung và viên phân; bài thực tế; kết hợp.
+- **Củng cố (8 phút):** tìm lỗi sai (dùng $BC$ thay cho $BM$), phiếu ra khỏi lớp.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Làm một mình, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Nêu câu hỏi của bài học |
+| 7–15 | Ôn nhanh kiến thức nền theo bài giảng | Vẽ hình ba đường cao và hình tam giác nội tiếp; nhấn mạnh phần phải chứng minh lại |
+| ~15 | Câu bản lề A, B | Giơ thẻ A/B/C/D |
+| 15–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi; mỗi câu vẽ hình trước |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm (Mục 7) và dặn dò (Mục 8) | |
+
+## 4. Hướng dẫn và đáp án từng hoạt động
+
+### 4.1. Do Now
+- **Đáp án:** 1) $6x = 24$ nên $x = 4$. 2) $\widehat{A} = 180^\circ - 65^\circ - 45^\circ = 70^\circ$. 3) $OM = OB \cos 60^\circ = 8 \cdot \dfrac{1}{2} = 4$ cm. 4) $S = \dfrac{\pi \cdot 6^2 \cdot 60}{360} = 6\pi$ $\text{cm}^2$.
+- **Lỗi dự kiến:** câu 1 ghi $x = 2$ hoặc $x = 2{,}25$ (nhân chéo sai, đảo tỉ số); câu 2 ghi $110^\circ$ (chỉ trừ một góc); câu 3 ghi $OM = 8\sin 60^\circ$ hoặc $4\sqrt{3}$ (nhầm sin với cos); câu 4 ghi $36\pi$ hoặc $12\pi$ (quên chia $360$ hoặc nhầm $\dfrac{n}{180}$).
+
+### 4.2. Notice & Wonder
+- **Gợi ý nhận xét:** $OM = \dfrac{R}{2}$ và $AH = R$ ở cả ba cột. Giải thích: $\widehat{BOC} = 2\widehat{BAC} = 120^\circ$, $OM$ là phân giác của tam giác cân $OBC$ nên $\widehat{BOM} = 60^\circ$, suy ra $OM = R\cos 60^\circ = \dfrac{R}{2}$. Dựng đường kính $AK$, $BHCK$ là hình bình hành nên $AH = 2OM = R$. Câu hỏi mở: muốn tính $\widehat{OAH}$ thì cần $\widehat{BAF}$ và $\widehat{OAB}$ (hai góc cùng phụ với $\widehat{B}$, $\widehat{C}$); muốn tính viên phân thì cần $\widehat{EMD}$.
+
+### 4.3. Câu hỏi bản lề
+- **Đáp án:** Câu A chọn **C**; Câu B chọn **B**.
+- **Câu A:** góc ở tâm gấp đôi góc nội tiếp cùng chắn cung $BC$: $\widehat{BOC} = 2 \cdot 60^\circ = 120^\circ$. **Nhiễu:** A ($30^\circ$, lấy một nửa); B ($60^\circ$, lấy bằng góc nội tiếp); D ($240^\circ$, nhân bốn).
+- **Câu B:** $\widehat{BAF} = 90^\circ - 70^\circ = 20^\circ$; $\widehat{OAB} = 90^\circ - \widehat{ACB} = 50^\circ$ (tam giác $OAB$ cân, $\widehat{AOB} = 2\widehat{C} = 80^\circ$); $\widehat{OAH} = 50^\circ - 20^\circ = 30^\circ$. **Nhiễu:** A ($20^\circ$, chỉ lấy $\widehat{BAF}$); C ($50^\circ$, chỉ lấy $\widehat{OAB}$); D ($110^\circ$, lấy $70^\circ + 40^\circ$).
+
+### 4.4. Luyện tập xen kẽ – đáp án và lời giải ngắn
+1. $\widehat{HBF} = 90^\circ - \widehat{C} = \widehat{FAC}$ nên $\triangle FBH \sim \triangle FAC$ (g.g): $\dfrac{FB}{FA} = \dfrac{FH}{FC}$ nên $FH \cdot FA = FB \cdot FC$. $HF = \dfrac{4 \cdot 6}{8} = 3$ (cm); $AH = 8 - 3 = 5$ (cm); $S_{ABC} = \dfrac{1}{2} \cdot (4 + 6) \cdot 8 = 40$ ($\text{cm}^2$).
+2. $\widehat{BOC} = 120^\circ$, $OM \perp BC$ (tam giác $OBC$ cân) nên $\widehat{BOM} = 60^\circ$, $BM = 2\sqrt{3}$. $BM = R\sin 60^\circ = \dfrac{R\sqrt{3}}{2}$ nên $R = 4$ cm; $OM = R\cos 60^\circ = 2$ cm; $AH = 2OM = 4$ cm (hình bình hành $BHCK$).
+3. $\widehat{BAC} = 180^\circ - 75^\circ - 45^\circ = 60^\circ$ nên $\widehat{BOC} = 120^\circ$. $\widehat{BAF} = 90^\circ - 75^\circ = 15^\circ$; $\widehat{OAB} = 90^\circ - 45^\circ = 45^\circ$; $\widehat{OAH} = 45^\circ - 15^\circ = 30^\circ$.
+4. $\triangle ADB$ và $\triangle AEC$ vuông, góc $A$ chung nên đồng dạng (g.g): $AD \cdot AC = AE \cdot AB$, suy ra $\dfrac{AD}{AB} = \dfrac{AE}{AC}$; cùng góc $A$ chung nên $\triangle ADE \sim \triangle ABC$ (c.g.c) với tỉ số $k = \dfrac{AD}{AB} = \dfrac{6}{9} = \dfrac{2}{3}$. $AE = \dfrac{6 \cdot 12}{9} = 8$ cm, $DE = \dfrac{2}{3} \cdot 9 = 6$ cm, $CD = 12 - 6 = 6$ cm, $EB = 9 - 8 = 1$ cm. Chu vi $= 9 + 6 + 6 + 1 = 22$ (cm).
+5. $\widehat{EBD} = 90^\circ - 45^\circ = 45^\circ$ nên $\widehat{EMD} = 2 \cdot 45^\circ = 90^\circ$; $R = 6$ cm. Độ dài cung $= \dfrac{\pi \cdot 6 \cdot 90}{180} = 3\pi$ (cm). $S_{quạt} = \dfrac{\pi \cdot 36 \cdot 90}{360} = 9\pi$; tam giác $MED$ vuông cân tại $M$: $S = \dfrac{1}{2} \cdot 6 \cdot 6 = 18$. Viên phân: $9\pi - 18$ ($\text{cm}^2$).
+6. $\triangle FBH \sim \triangle FAC$ (g.g) nên $HF = \dfrac{FB \cdot FC}{FA} = \dfrac{6 \cdot 8}{12} = 4$ (m). $S_{BHC} = \dfrac{1}{2} \cdot BC \cdot HF = \dfrac{1}{2} \cdot 14 \cdot 4 = 28$ ($\text{m}^2$).
+7. Như Câu 2: $AH = 2OM$ và $OM = \dfrac{R}{2}$ nên $AH = R = 9$ cm. $BM = R\sin 60^\circ = \dfrac{9\sqrt{3}}{2}$ nên $BC = 2BM = 9\sqrt{3}$ cm.
+- **Lỗi dự kiến:** câu 1 quên $AH = AF - HF$ (ghi $AH = 3$) hoặc tính diện tích bằng $\dfrac{1}{2} \cdot 8 \cdot 4$; câu 2 dùng $BC$ thay $BM$ (ghi $R = 4\sqrt{3}$) hoặc ghi $AH = 2$; câu 3 ghi $\widehat{OAH} = 120^\circ$ hoặc $60^\circ$; câu 4 dùng $k^2$ cho chu vi hoặc quên $CD$, $EB$; câu 5 ghi $\widehat{EMD} = 45^\circ$ hoặc viên phân $= 9\pi$; câu 6 ghi $S = \dfrac{1}{2} \cdot 14 \cdot 12$; câu 7 ghi $R = 4{,}5$ hoặc $BC = 9$.
+
+### 4.5. Tìm lỗi sai
+- **Đáp án:** Sai ở dòng cuối: trong tam giác $OMB$ vuông tại $M$ thì cạnh đối diện góc $60^\circ$ là $BM = \dfrac{BC}{2}$, **không** phải $BC$. Lời giải đúng: $BM = 3$ cm, $3 = R\sin 60^\circ = \dfrac{R\sqrt{3}}{2}$ nên $R = \dfrac{6}{\sqrt{3}} = 2\sqrt{3}$ (cm). Kiểm tra: $BC = R\sqrt{3} = 2\sqrt{3} \cdot \sqrt{3} = 6$; còn $4\sqrt{3} \cdot \sqrt{3} = 12 \ne 6$.
+
+### 4.6. Phiếu ra khỏi lớp
+- **Đáp án:** Câu 1: **C** ($\widehat{BAF} = 20^\circ$, $\widehat{OAB} = 40^\circ$, $\widehat{OAH} = 40^\circ - 20^\circ = 20^\circ$, cũng bằng $|70^\circ - 50^\circ|$). Câu 2: a) Đ ($2 \cdot 60^\circ$); b) S ($OM = \dfrac{R}{2} = 4$ cm); c) Đ ($AH = 2OM = 8$ cm); d) S ($BC = R\sqrt{3} = 8\sqrt{3}$ cm). Câu 3: $HF = \dfrac{2 \cdot 9}{6} = 3$ cm.
+- **Lỗi dự kiến:** Câu 1 chọn A ($10^\circ$, lấy một nửa), B ($40^\circ$, chỉ lấy $\widehat{OAB}$) hoặc D ($120^\circ$, lấy $70^\circ + 50^\circ$); Câu 2b ghi Đ vì nhầm $OM = R\cos 60^\circ$ thành $R\sin 60^\circ$; Câu 2d ghi Đ vì nhầm $BC = R$; Câu 3 ghi $HF = 12$ hoặc $27$.
+
+### 4.7. Suy ngẫm và về nhà
+- Đọc nhanh vài phiếu để biết em nào còn quên chia đôi $BC$ hoặc nhầm sin – cos. Bài về nhà: $\widehat{BAC} = 180^\circ - 65^\circ - 35^\circ = 80^\circ$ nên $\widehat{BOC} = 160^\circ$; $\widehat{OAH} = |65^\circ - 35^\circ| = 30^\circ$ (kiểm tra: $\widehat{BAF} = 25^\circ$, $\widehat{OAB} = 55^\circ$). Ví dụ 2: $R = 6$ cm, $OM = 3$ cm, $AH = 6$ cm; Ví dụ 5: viên phân $4\pi - 8$ $\text{cm}^2$.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm: tam giác nhọn $ABC$ nội tiếp $(O)$, $\widehat{BAC} = 60^\circ$, $BC = 6\sqrt{3}$ cm, tính diện tích hình quạt $BOC$ ứng với góc $120^\circ$ (đáp số $12\pi$ $\text{cm}^2$) |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại theo nhóm nhỏ: vẽ hình, tô màu góc cùng phụ với $\widehat{B}$ và $\widehat{C}$; tính $\widehat{BAF}$, $\widehat{OAB}$ từng bước rồi mới trừ |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng đúng câu sai nhiều |
+
+**Do Now gợi ý cho tiết sau (Kiến thức thống nhất):** (1) tam giác đều cạnh $4$ cm, tính diện tích (đáp số $4\sqrt{3}$ $\text{cm}^2$); (2) tam giác $ABC$ có trung tuyến $AM = 5$ cm, $BC = 10$ cm, tính $\widehat{BAC}$ (đáp số $90^\circ$); (3) câu sai nhiều nhất trong Exit ticket.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** vẽ hình lớn, ghi sẵn $\widehat{BAF} = 90^\circ - \widehat{B}$ và $\widehat{OAB} = 90^\circ - \widehat{C}$; chỉ làm Câu 1–3.
+- **Học sinh khá giỏi:** làm Câu 4, 5, 6, 7; câu mở: trong Câu 1, tính $S_{BHC}$ rồi so sánh với $S_{ABC}$ (đáp số $S_{BHC} = 15$ $\text{cm}^2$, bằng $\dfrac{3}{8}$ diện tích $ABC$).
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $x = 4$; $70^\circ$; $4$ cm; $6\pi$ $\text{cm}^2$ |
+| Bản lề A / B | C / B |
+| Luyện tập 1 | $HF = 3$ cm; $AH = 5$ cm; $S = 40$ $\text{cm}^2$ |
+| Luyện tập 2 | $R = 4$ cm; $OM = 2$ cm; $AH = 4$ cm |
+| Luyện tập 3 | $\widehat{BOC} = 120^\circ$; $\widehat{OAH} = 30^\circ$ |
+| Luyện tập 4 | $22$ cm |
+| Luyện tập 5 | $\widehat{EMD} = 90^\circ$; cung $3\pi$ cm; viên phân $9\pi - 18$ $\text{cm}^2$ |
+| Luyện tập 6 | $HF = 4$ m; $S_{BHC} = 28$ $\text{m}^2$ |
+| Luyện tập 7 | $R = 9$ cm; $BC = 9\sqrt{3}$ cm |
+| Tìm lỗi sai | $R = 2\sqrt{3}$ cm |
+| Exit 1 / 2 / 3 | C / a) Đ, b) S, c) Đ, d) S / $3$ |
+`);
