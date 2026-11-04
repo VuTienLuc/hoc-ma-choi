@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-04 – Phiếu trên lớp Hình học 8: Kiến thức thống nhất (phiếu hình học thứ 8/8)
+
+- **Yêu cầu:** soạn và đăng 1 phiếu học tập củng cố phần hình học ôn thi vào 10 (phiếu nhỏ nhất chưa có).
+- **Kết quả:** thêm `addSheet('lop9','on-thi-kien-thuc-thong-nhat')`: Phần A đúng 2 trang A4 (Do Now 4 câu, tình huống R = 2r, 2 câu bản lề, 7 câu luyện tập, tìm lỗi sai “viện dẫn hệ thức chưa chứng minh”, phiếu ra khỏi lớp, suy ngẫm, về nhà) và Phần B đáp án. Đã đủ 8 phiếu hình học.
+- **Tệp thay đổi:** `giao-vien/bai-giang/lop9-khoi-dong.js`, `LICH-SU-CHINH-SUA.md`
+- **Kiểm thử:** `node tools/kiem-tra.js 30 lop9` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (167/167); `python3 tools/build.py`
+- **Việc thủ công:** Không có.
+
 ### 2026-11-04 – Biểu mẫu “🎯 Lệnh ôn thi vào 10” trên trang giáo viên
 
 - **Yêu cầu:** thầy báo chưa có lệnh/form tạo phiếu mô tả đúng dạng ôn thi vào 10; chọn làm nút tạo form trên web, sinh lệnh (prompt) dán cho AI.

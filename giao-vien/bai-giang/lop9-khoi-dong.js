@@ -1620,3 +1620,205 @@ Viết lại lời giải đầy đủ Ví dụ 2 và Ví dụ 5 của bài gi�
 | Tìm lỗi sai | $R = 2\sqrt{3}$ cm |
 | Exit 1 / 2 / 3 | C / a) Đ, b) S, c) Đ, d) S / $3$ |
 `);
+
+Lecture.addSheet('lop9', 'on-thi-kien-thuc-thong-nhat', String.raw`# PHIẾU HỌC TẬP – Ôn thi vào 10 · Hình học 8. Kiến thức thống nhất: được dùng ngay hay phải chứng minh lại
+
+**Họ tên:** ……………………………………… **Lớp:** …………… **Ngày:** ……………………
+
+## 1. Vào lớp làm ngay
+
+**Câu 1.** Tam giác $ABC$ vuông tại $A$, $AB = 6$ cm, $AC = 8$ cm. Tính $BC$. Đáp số: ………………
+
+**Câu 2.** Tam giác đều cạnh $4$ cm. Tính diện tích (giữ $\sqrt{3}$). Đáp số: ………………
+
+**Câu 3.** Tam giác vuông cân có cạnh góc vuông $5$ cm. Tính cạnh huyền. Đáp số: ………………
+
+**Câu 4.** Đường tròn $(O;5)$ có dây $AB$ cách tâm $3$ cm. Tính $AB$. Đáp số: ………………
+
+## 2. Tình huống mở đầu
+
+**[Minh họa]** Bạn Nam tính bán kính đường tròn ngoại tiếp ($R$) và nội tiếp ($r$) của tam giác đều cạnh $a$ rồi ghi lại:
+
+| $a$ (cm) | $6$ | $12$ | $18$ |
+|---|---|---|---|
+| $R$ (cm) | $2\sqrt{3}$ | $4\sqrt{3}$ | $6\sqrt{3}$ |
+| $r$ (cm) | $\sqrt{3}$ | $2\sqrt{3}$ | $3\sqrt{3}$ |
+
+**Em nhận thấy:** ………………………………………………… **Em thắc mắc:** ……………………………………………
+
+> **Câu hỏi của bài học:** Vì sao luôn có $R = 2r$? Trong bài hình, khẳng định nào em được viết thẳng vào bài làm, khẳng định nào phải chứng minh lại trước khi dùng?
+
+## 3. Câu hỏi bản lề
+
+**Câu A.** Khẳng định nào sau đây **phải chứng minh lại** trước khi dùng trong bài thi?
+
+A. Tam giác đều cạnh $a$ có diện tích $\dfrac{a^2\sqrt{3}}{4}$
+
+B. Tam giác $ABC$ vuông tại $A$, đường cao $AH$ thì $AB^2 = BH \cdot BC$
+
+C. Góc nội tiếp chắn nửa đường tròn là góc vuông
+
+D. Tam giác có trung tuyến bằng nửa cạnh tương ứng là tam giác vuông
+
+**Câu B.** Cho góc nhọn $\alpha$ có $\tan\alpha = \dfrac{3}{4}$. Khi đó $\sin\alpha$ bằng
+
+A. $\dfrac{3}{4}$
+
+B. $\dfrac{4}{5}$
+
+C. $\dfrac{3}{5}$
+
+D. $\dfrac{5}{3}$
+
+## 4. Luyện tập xen kẽ
+
+**Câu 1 ★.** Khẳng định nào được dùng ngay? (1) $AH^2 = BH \cdot CH$; (2) tam giác đều cạnh $a$ có $r = \dfrac{a\sqrt{3}}{6}$; (3) $\tan\alpha = \dfrac{\sin\alpha}{\cos\alpha}$; (4) trung tuyến $AM = \dfrac{BC}{2}$ thì $\widehat{BAC} = 90^\circ$. Đáp số: ………………
+
+**Câu 2 ★.** Tam giác đều ngoại tiếp đường tròn bán kính $2$ cm. Tính cạnh và diện tích (giữ $\sqrt{3}$). Đáp số: ………………
+
+**Câu 3 ★.** Tam giác $ABC$ có $M$ là trung điểm $BC$, $AM = 13$ cm, $AB = 24$ cm, $BC = 26$ cm. Tính $AC$ và $S_{ABM}$. Đáp số: ………………
+
+**Câu 4 ★★.** Góc nhọn $\alpha$ có $\tan\alpha = \dfrac{5}{12}$. Tính $P = \dfrac{3\sin\alpha + \cos\alpha}{3\sin\alpha - \cos\alpha}$. Đáp số: ………………
+
+**Câu 5 ★★.** Đường tròn $(O;10)$ có hai dây song song $AB = 16$ cm, $CD = 12$ cm. Tính khoảng cách giữa hai dây khi chúng nằm cùng phía và khi nằm khác phía so với $O$. Đáp số: ………………
+
+**Câu 6 ★★★.** **[Minh họa]** Mặt cắt một cổng vòm là cung tròn của đường tròn $(O;5\text{ m})$, nền rộng $AB = 8$ m. Khoảng cách từ $O$ đến nền $AB$ là ……… m và chiều cao cổng (tại điểm giữa nền) là ……… m.
+
+**Câu 7 ★★★.** Tam giác $ABC$ vuông tại $A$ có $\tan B = \dfrac{3}{4}$, $BC = 20$ cm, đường cao $AH$. Tính $AB$, $AC$, $AH$. Đáp số: ………………
+
+## 5. Tìm lỗi sai
+
+> **Bài toán.** Tam giác $ABC$ vuông tại $A$, $AB = 6$ cm, $AC = 8$ cm, đường cao $AH$. Tính $AH$.
+>
+> **Lời giải của bạn X:** $BC = \sqrt{6^2 + 8^2} = 10$ cm. Theo hệ thức cạnh và đường cao, $AH = \dfrac{AB \cdot AC}{BC} = \dfrac{6 \cdot 8}{10} = 4{,}8$ cm.
+
+Đáp số đúng nhưng bài làm bị trừ điểm. Vì sao? Em viết lại cho đủ căn cứ: ………………………………………………………
+
+## 6. Phiếu ra khỏi lớp
+
+**Câu 1.** Tam giác đều cạnh $6$ cm có bán kính đường tròn nội tiếp là
+
+A. $\sqrt{3}$ cm
+
+B. $2\sqrt{3}$ cm
+
+C. $3\sqrt{3}$ cm
+
+D. $6\sqrt{3}$ cm
+
+**Câu 2.** Tam giác $ABC$ có $M$ là trung điểm $BC$, $AM = 5$ cm, $BC = 10$ cm, $AB = 6$ cm. Mỗi ý em ghi Đ hoặc S:
+
+a) $\widehat{BAC} = 90^\circ$. ……
+
+b) $AC = 8$ cm. ……
+
+c) $S_{ABC} = 30$ $\text{cm}^2$. ……
+
+d) $S_{ABM} = 24$ $\text{cm}^2$. ……
+
+**Câu 3.** Góc nhọn $\alpha$ có $\tan\alpha = \dfrac{7}{24}$. Khi đó $\sin\alpha = $ …………
+
+## 7. Một phút suy ngẫm
+
+*Trước khi viết một khẳng định vào bài hình, em tự hỏi: nó có nằm trong danh sách “được dùng ngay” không? Nếu không, mình đã nêu cách chứng minh lại (đồng dạng, diện tích, Pythagore, tam giác cân) chưa? Cho tỉ số lượng giác, mình đã dựng tam giác vuông chưa?* ………………………………………………………
+
+## 8. Vận dụng về nhà
+
+Viết lại lời giải đầy đủ Ví dụ 4 và Ví dụ 5 của bài giảng, mỗi dòng ghi rõ căn cứ. Làm thêm: tam giác đều nội tiếp đường tròn $(O;2\sqrt{3}\text{ cm})$, tính cạnh và diện tích. Nhờ một bạn kiểm tra.
+
+<div style="page-break-after: always;"></div>
+
+# PHẦN B. GỢI Ý SƯ PHẠM CHO GIÁO VIÊN – Ôn thi vào 10 · Hình học 8. Kiến thức thống nhất
+
+## 1. Thông tin bài
+
+- **Toán 9 · Ôn thi tuyển sinh vào lớp 10 (TP.HCM) · Hình học 8.** Phân biệt kiến thức được viện dẫn trực tiếp và kiến thức phải chứng minh lại; công thức tam giác đều, vuông cân; trung tuyến bằng nửa cạnh; sin – cos – tan bằng cách dựng tam giác vuông; đường kính – dây.
+- **Giả định:** 1 tiết 45 phút ôn tập; lớp đại trà; máy chiếu và giấy/bảng con.
+- Tình huống **[Minh họa]** (bảng đo của Nam, cổng vòm) do người soạn tự đặt, không trích từ đề thi.
+- Phiếu bám **Ví dụ 1–5** của bài giảng on-thi-kien-thuc-thong-nhat: Ví dụ 1 (phân loại) → bản lề A, Luyện tập 1, Tìm lỗi sai; Ví dụ 2 (tam giác đều) → Do Now 2, Tình huống mở đầu, Luyện tập 2, Exit 1, Vận dụng về nhà; Ví dụ 3 (trung tuyến) → Do Now 1, Luyện tập 3, Exit 2; Ví dụ 4 (sin – cos – tan) → bản lề B, Luyện tập 4, 7, Exit 3; Ví dụ 5 (đường kính – dây) → Do Now 4, Luyện tập 5, 6.
+- **Quy ước đề năm nay:** các kiến thức sau **phải chứng minh lại**: phân giác ngoài của tam giác, hệ thức cạnh – đường cao trong tam giác vuông ($AB^2 = BH \cdot BC$, $AH^2 = BH \cdot CH$, $AH \cdot BC = AB \cdot AC$), $\tan\alpha = \dfrac{\sin\alpha}{\cos\alpha}$, $\sin^2\alpha + \cos^2\alpha = 1$, đường kính vuông góc dây thì chia đôi dây (tam giác cân), dấu hiệu tứ giác nội tiếp. Được **dùng trực tiếp**: tam giác cân, vuông cân, đều và công thức cạnh – bán kính – diện tích của chúng, trung tuyến bằng nửa cạnh thì tam giác vuông, góc nội tiếp chắn nửa đường tròn, định lí Pythagore, tam giác đồng dạng (g.g, c.g.c), tỉ số lượng giác trong tam giác vuông.
+
+## 2. Mục tiêu
+
+- **Mở đầu (7 phút):** ôn Pythagore, công thức tam giác đều, vuông cân; nhận ra $R = 2r$ ở tam giác đều.
+- **Luyện tập (25 phút):** phân loại kiến thức; tam giác đều; trung tuyến bằng nửa cạnh; dựng tam giác vuông từ $\tan\alpha$; đường kính – dây; bài thực tế; kết hợp.
+- **Củng cố (8 phút):** tìm lỗi sai (viện dẫn hệ thức chưa chứng minh), phiếu ra khỏi lớp.
+
+## 3. Tiến trình 45 phút
+
+| Phút | Hoạt động | Ghi chú |
+|---|---|---|
+| 0–4 | Do Now (Mục 1) | Làm một mình, tự chấm |
+| 4–7 | Notice & Wonder (Mục 2) | Nêu câu hỏi của bài học |
+| 7–15 | Ôn nhanh hai danh sách theo bài giảng | Viết lên bảng hai cột “dùng ngay” và “chứng minh lại” |
+| ~15 | Câu bản lề A, B | Giơ thẻ A/B/C/D |
+| 15–35 | Luyện tập xen kẽ (Mục 4) | Cá nhân rồi cặp đôi; câu nào phải chứng minh lại thì viết căn cứ từng dòng |
+| 35–38 | Tìm lỗi sai (Mục 5) | Chiếu không ghi tên |
+| 38–42 | Phiếu ra khỏi lớp (Mục 6) | Thu phiếu |
+| 42–45 | Suy ngẫm (Mục 7) và dặn dò (Mục 8) | |
+
+## 4. Hướng dẫn và đáp án từng hoạt động
+
+### 4.1. Do Now
+- **Đáp án:** 1) $BC = \sqrt{36 + 64} = 10$ cm. 2) $S = \dfrac{4^2\sqrt{3}}{4} = 4\sqrt{3}$ $\text{cm}^2$. 3) Cạnh huyền $5\sqrt{2}$ cm. 4) Gọi $H$ là chân đường vuông góc từ $O$; $AH = \sqrt{25 - 9} = 4$ nên $AB = 8$ cm.
+- **Lỗi dự kiến:** câu 1 ghi $14$ (cộng hai cạnh); câu 2 ghi $16\sqrt{3}$ hoặc $4$ (quên chia $4$ hoặc bỏ $\sqrt{3}$); câu 3 ghi $10$ hoặc $5$; câu 4 ghi $AB = 4$ (quên nhân đôi).
+
+### 4.2. Notice & Wonder
+- **Gợi ý nhận xét:** $R = 2r$ ở cả ba cột. Giải thích: tam giác đều có trọng tâm cũng là tâm hai đường tròn; $R = \dfrac{a\sqrt{3}}{3}$ và $r = \dfrac{a\sqrt{3}}{6}$ là công thức được dùng ngay. Câu hỏi mở: khẳng định nào cũng “hiển nhiên” nhưng vẫn bị trừ điểm nếu chưa chứng minh (hệ thức cạnh – đường cao, $\tan = \dfrac{\sin}{\cos}$)? Trả lời bằng hai danh sách ở Mục 1.
+
+### 4.3. Câu hỏi bản lề
+- **Đáp án:** Câu A chọn **B**; Câu B chọn **C**.
+- **Câu A:** A (công thức tam giác đều), C (góc nội tiếp chắn nửa đường tròn), D (trung tuyến bằng nửa cạnh) đều được dùng ngay; B là hệ thức cạnh – đường cao, phải chứng minh lại bằng $\triangle HBA \sim \triangle ABC$ (g.g).
+- **Câu B:** dựng tam giác vuông có cạnh đối $3$, cạnh kề $4$, huyền $\sqrt{9 + 16} = 5$ nên $\sin\alpha = \dfrac{3}{5}$. **Nhiễu:** A ($\dfrac{3}{4}$, lấy luôn $\tan\alpha$); B ($\dfrac{4}{5}$, đó là $\cos\alpha$); D ($\dfrac{5}{3}$, đảo huyền – đối).
+
+### 4.4. Luyện tập xen kẽ – đáp án và lời giải ngắn
+1. (2) và (4) được dùng ngay (công thức tam giác đều; trung tuyến bằng nửa cạnh). (1) phải chứng minh lại bằng $\triangle HBA \sim \triangle CHA$; (3) phải chứng minh lại bằng cách viết $\sin$, $\cos$ qua các cạnh rồi chia.
+2. $r = \dfrac{a\sqrt{3}}{6} = 2$ nên $a = \dfrac{12}{\sqrt{3}} = 4\sqrt{3}$ cm; $S = \dfrac{(4\sqrt{3})^2\sqrt{3}}{4} = \dfrac{48\sqrt{3}}{4} = 12\sqrt{3}$ ($\text{cm}^2$).
+3. $AM = 13 = \dfrac{BC}{2}$ nên $\widehat{BAC} = 90^\circ$. $AC^2 = 26^2 - 24^2 = 100$ nên $AC = 10$ cm. $S_{ABC} = \dfrac{1}{2} \cdot 24 \cdot 10 = 120$; $ABM$, $ACM$ chung đường cao từ $A$, đáy $BM = MC$ nên $S_{ABM} = 60$ ($\text{cm}^2$).
+4. Dựng tam giác vuông cạnh đối $5$, cạnh kề $12$, huyền $\sqrt{25 + 144} = 13$: $\sin\alpha = \dfrac{5}{13}$, $\cos\alpha = \dfrac{12}{13}$. $P = \dfrac{\frac{15}{13} + \frac{12}{13}}{\frac{15}{13} - \frac{12}{13}} = \dfrac{27}{3} = 9$.
+5. $OH \perp AB$, $OH$ cũng là trung tuyến của tam giác cân $OAB$ nên $HA = 8$, $OH = \sqrt{100 - 64} = 6$. Tương tự $OK \perp CD$, $KC = 6$, $OK = \sqrt{100 - 36} = 8$. Hai dây song song nên $O$, $H$, $K$ thẳng hàng. Cùng phía: $HK = 8 - 6 = 2$ cm; khác phía: $HK = 8 + 6 = 14$ cm.
+6. $H$ là trung điểm $AB$ (tam giác $OAB$ cân) nên $HA = 4$, $OH = \sqrt{25 - 16} = 3$ m. Chiều cao cổng tại giữa nền $= R - OH = 5 - 3 = 2$ m.
+7. $\tan B = \dfrac{AC}{AB} = \dfrac{3}{4}$, đặt $AC = 3k$, $AB = 4k$; Pythagore: $25k^2 = 400$ nên $k = 4$: $AB = 16$ cm, $AC = 12$ cm. Diện tích hai cách: $\dfrac{1}{2} AH \cdot BC = \dfrac{1}{2} AB \cdot AC$ nên $AH = \dfrac{16 \cdot 12}{20} = 9{,}6$ cm.
+- **Lỗi dự kiến:** câu 1 chọn (1) hoặc (3) vì “quen dùng”; câu 2 ghi $a = 2\sqrt{3}$ (nhầm $r$ với $R$); câu 3 quên đổi nửa cạnh, ghi $S_{ABM} = 120$; câu 4 ghi $P = 27$ hoặc quên mẫu số; câu 5 chỉ tính một trường hợp; câu 6 ghi chiều cao $3$ m (lấy $OH$) hoặc $5$ m (lấy $R$); câu 7 ghi $AH = 12$ hoặc dùng $AH^2 = BH \cdot CH$ mà không chứng minh.
+
+### 4.5. Tìm lỗi sai
+- **Đáp án:** Hệ thức $AH = \dfrac{AB \cdot AC}{BC}$ chưa được chứng minh, mà đề năm nay bắt chứng minh lại. Lời giải đủ căn cứ: $S_{ABC} = \dfrac{1}{2} AB \cdot AC$ (tam giác vuông tại $A$) và $S_{ABC} = \dfrac{1}{2} AH \cdot BC$ (đường cao $AH$), nên $AH \cdot BC = AB \cdot AC$, suy ra $AH = \dfrac{6 \cdot 8}{10} = 4{,}8$ cm. Cách khác: $\triangle HBA \sim \triangle ABC$ (g.g).
+
+### 4.6. Phiếu ra khỏi lớp
+- **Đáp án:** Câu 1: **A** ($r = \dfrac{6\sqrt{3}}{6} = \sqrt{3}$). Câu 2: a) Đ ($AM = \dfrac{BC}{2}$); b) Đ ($AC^2 = 100 - 36 = 64$); c) S ($S_{ABC} = \dfrac{1}{2} \cdot 6 \cdot 8 = 24$); d) S ($S_{ABM} = 12$). Câu 3: dựng tam giác vuông cạnh $7$, $24$, huyền $25$ nên $\sin\alpha = \dfrac{7}{25}$.
+- **Lỗi dự kiến:** Câu 1 chọn B (nhầm $R$ và $r$), C hoặc D; Câu 2c ghi Đ (nhân nhầm hoặc lấy $AB \cdot AC \cdot \dfrac{1}{2}$ với $AC = 10$), 2d ghi Đ (quên chia đôi); Câu 3 ghi $\dfrac{7}{24}$ hoặc $\dfrac{24}{25}$.
+
+### 4.7. Suy ngẫm và về nhà
+- Đọc nhanh vài phiếu để biết em nào còn viện dẫn hệ thức chưa chứng minh. Bài về nhà: $R = \dfrac{a\sqrt{3}}{3} = 2\sqrt{3}$ nên $a = 6$ cm; $S = \dfrac{36\sqrt{3}}{4} = 9\sqrt{3}$ $\text{cm}^2$. Ví dụ 4: $P = 2$; Ví dụ 5: $OH = 5$ cm.
+
+## 5. Xử lý phiếu ra khỏi lớp
+
+| Chồng | Dấu hiệu | Việc làm |
+|---|---|---|
+| 1. Đúng hết | 3/3 câu đúng | Giao thêm: tam giác đều cạnh $6$ cm, tính bán kính hai đường tròn ngoại tiếp và nội tiếp (đáp số $2\sqrt{3}$ cm và $\sqrt{3}$ cm) |
+| 2. Sai hết | 0–1 câu đúng | Dạy lại theo nhóm nhỏ: lập bảng hai cột “dùng ngay” và “chứng minh lại”; dựng tam giác vuông từng bước |
+| 3. Nửa đúng nửa sai | 2 câu đúng | Ôn 5 phút đầu tiết sau bằng đúng câu sai nhiều |
+
+**Gợi ý tiết sau:** làm đề tổng hợp hình học cả loạt (Hình học 1–8), nhắc lại hai danh sách kiến thức thống nhất trước khi làm.
+
+## 6. Phân hóa
+
+- **Học sinh yếu:** ghi sẵn hai danh sách ở góc bảng; chỉ làm Câu 1–3.
+- **Học sinh khá giỏi:** làm Câu 4, 5, 6, 7; câu mở: ở Câu 7, tính $BH$ và $CH$ rồi kiểm tra $AH^2 = BH \cdot CH$ (đáp số $BH = 12{,}8$ cm, $CH = 7{,}2$ cm, $AH^2 = 92{,}16$).
+
+## 7. Đáp án toàn bộ Phần A (chấm nhanh)
+
+| Mục | Đáp án |
+|---|---|
+| Do Now | $10$ cm; $4\sqrt{3}$ $\text{cm}^2$; $5\sqrt{2}$ cm; $8$ cm |
+| Bản lề A / B | B / C |
+| Luyện tập 1 | (2) và (4) |
+| Luyện tập 2 | $a = 4\sqrt{3}$ cm; $S = 12\sqrt{3}$ $\text{cm}^2$ |
+| Luyện tập 3 | $AC = 10$ cm; $S_{ABM} = 60$ $\text{cm}^2$ |
+| Luyện tập 4 | $P = 9$ |
+| Luyện tập 5 | $2$ cm (cùng phía); $14$ cm (khác phía) |
+| Luyện tập 6 | $OH = 3$ m; chiều cao $2$ m |
+| Luyện tập 7 | $AB = 16$ cm; $AC = 12$ cm; $AH = 9{,}6$ cm |
+| Tìm lỗi sai | Phải chứng minh lại hệ thức bằng diện tích hoặc đồng dạng |
+| Exit 1 / 2 / 3 | A / a) Đ, b) Đ, c) S, d) S / $\dfrac{7}{25}$ |
+`);
