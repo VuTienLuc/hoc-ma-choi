@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-04 – Biểu mẫu “🎯 Lệnh ôn thi vào 10” trên trang giáo viên
+
+- **Yêu cầu:** thầy báo chưa có lệnh/form tạo phiếu mô tả đúng dạng ôn thi vào 10; chọn làm nút tạo form trên web, sinh lệnh (prompt) dán cho AI.
+- **Kết quả:** Trang `#/lenh-on-thi`: chọn sản phẩm (phiếu trên lớp, bài học sinh, bài giảng, phiếu luyện tập, trọn bộ), chủ đề (14 chủ đề `on-thi-…` hoặc tự nhập), mức độ, ghi chú → lệnh có sẵn cấu trúc phiếu, quy ước “phải chứng minh lại / được dùng trực tiếp” và lệnh kiểm tra; sao chép hoặc tải .txt. Cấu trúc điểm từng bài của đề thật chỉ ghi phần đã có trong dự án (Bài 1, 2, 7); phần chưa rõ lệnh yêu cầu AI ghi “chưa rõ”.
+- **Tệp thay đổi:** `assets/js/lenh-on-thi.js` (mới), `assets/js/lecture.js`, `giao-vien/index.html`, `tools/test_lenh_on_thi.py` (mới), `CLAUDE.md`, `AGENTS.md`
+- **Kiểm thử:** `python3 tools/test_lenh_on_thi.py` → ĐẠT (7/7); `node tools/kiem-tra.js 5 lop9` → ĐẠT; `python3 tools/build.py`
+- **Việc thủ công:** Thầy xem phần mô tả cấu trúc đề trong lệnh (hằng `ruleOnThi` ở đầu `lenh-on-thi.js`) và nhắn em chỉnh nếu cấu trúc đề năm nay khác.
+
 ### 2026-11-04 – Menu Markdown ⇄ Word (nhập/tải .md, xuất Word có Equation theo chuẩn /word-equation)
 
 - **Yêu cầu:** thêm menu nhập hoặc tải file .md và xuất Word theo chuẩn /word-equation.
