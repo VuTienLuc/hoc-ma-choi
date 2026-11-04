@@ -24,6 +24,14 @@ Tệp này giúp Claude, ChatGPT/Codex và người bảo trì hiểu các thay 
 
 ## Các lần thay đổi
 
+### 2026-11-04 – Menu Markdown ⇄ Word (nhập/tải .md, xuất Word có Equation theo chuẩn /word-equation)
+
+- **Yêu cầu:** thêm menu nhập hoặc tải file .md và xuất Word theo chuẩn /word-equation.
+- **Kết quả:** Trang giáo viên có menu **📄 Markdown ⇄ Word** (`#/md-word`): nhập file .md/dán, xem trước có công thức, tải .md, xuất .docx với Equation chỉnh sửa được (hệ phương trình tự chuẩn hóa, ngoặc co giãn). Trang Phiếu trên lớp có thêm nút **📄 Xuất Word**. Chạy hoàn toàn offline (MathJax và mathml2omml đặt sẵn trong `assets/vendor`). Đã xem thử bằng LibreOffice: ngoặc `{`/`[` cao đủ hệ, không còn `¿` hay mã LaTeX.
+- **Tệp thay đổi:** `assets/js/md-word.js` (mới), `assets/vendor/word-equation/word-equation.js` (mới, nguyên văn từ skill), `assets/vendor/mathml2omml/mathml2omml.js` (mới, LGPL-3.0), `tools/test_md_word.py` (mới), `assets/js/lecture.js`, `giao-vien/index.html`, `assets/css/style.css`, `CLAUDE.md`, `AGENTS.md`
+- **Kiểm thử:** `python3 tools/test_md_word.py` → ĐẠT (14/14); `node tools/kiem-tra.js` → ĐẠT; `python3 tools/test_phieu_tren_lop.py` → ĐẠT (162/162); `python3 tools/test_baigiang.py lop8` → CHƯA ĐẠT, lỗi tràn khung ở trang chiếu Toán 8 (1280, fs 44) **đã có từ trước, trùng kết quả khi gỡ thay đổi này** – cần xử lý riêng
+- **Việc thủ công:** Mở file .docx bằng Microsoft Word thật để xem căn trái các dòng trong hệ (LibreOffice bỏ qua căn trái). Xử lý lỗi tràn trang chiếu Toán 8.
+
 ### 2026-11-03 – Phiếu trên lớp 7/8 ôn thi vào 10: Hình học 7c. Tính độ dài, chu vi, diện tích, số đo góc
 
 - **Yêu cầu:** (lịch tự động) soạn 1 phiếu học tập củng cố hình học ôn thi vào 10, phiếu nhỏ nhất còn thiếu.

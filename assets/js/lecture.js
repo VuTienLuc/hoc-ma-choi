@@ -62,17 +62,18 @@ const Lecture = (() => {
   function home(){
     if(!routed){ routed = true; addEventListener('hashchange', () => { if(!el) home(); }); }
     if(typeof Hub !== 'undefined' && Hub.route()) return;                   // #/goc-chung – Góc chung (xếp hạng, sticker) dùng chung với học sinh
+    if(typeof MdWord !== 'undefined' && MdWord.route()) return;            // #/md-word – nhập/tải .md, xuất Word có Equation
     if(typeof KiemTra !== 'undefined' && KiemTra.route()) return;          // #/lop11/kiem-tra/<mã>/de|da – đề kiểm tra in A4
     const app = $('#app'), gs = grades().sort((a,b) => gradeNum(a) - gradeNum(b)), m = location.hash.match(/^#\/(lop\d+)/), g = m && gs.find(x => x.id === m[1]);
     const bar = (typeof Account !== 'undefined' ? Account.userBar() : '');
     if(!g){
-      app.innerHTML = bar + `<div class="toolbar"><a class="back" href="../">← Trang học sinh</a><span class="pill">Chỉ dành cho giáo viên</span></div>
+      app.innerHTML = bar + `<div class="toolbar"><a class="back" href="../">← Trang học sinh</a><span class="pill">Chỉ dành cho giáo viên</span><a class="btn small" href="#/md-word" title="Nhập/tải file .md, xuất Word có Equation">📄 Markdown ⇄ Word</a></div>
         <h1>Bài giảng trình chiếu</h1><p class="lead">Chọn lớp để xem các bài giảng: kiến thức trọng tâm, dạng bài, ví dụ có lời giải từng bước, kèm phiếu học tập in được.</p>
         <div class="grid lk-grades">${gs.map(x => { const ls = x.books.flatMap(([b]) => b.lessons);
           return `<a class="tile grade" href="#/${x.id}"><b class="gname">${x.name}</b><span>${x.books.map(([b]) => b.chapter.replace(/\..*/, '')).join(' · ')}</span><span class="meta"><span>${ls.length} bài giảng</span><span>${ls.reduce((t, l) => t + l.slides.length, 0)} trang chiếu</span></span></a>`; }).join('')}</div>
         <p class="foot">${CONFIG.author}</p>`;
     } else {
-      app.innerHTML = bar + `<div class="toolbar"><a class="back" href="#/">← Chọn lớp</a><span class="pill">${g.name} · Bài giảng</span></div>
+      app.innerHTML = bar + `<div class="toolbar"><a class="back" href="#/">← Chọn lớp</a><span class="pill">${g.name} · Bài giảng</span><a class="btn small" href="#/md-word" title="Nhập/tải file .md, xuất Word có Equation">📄 Markdown ⇄ Word</a></div>
         <div class="lk-2col"><div class="lk-lessons"><h1>${g.name}</h1>` + g.books.map(([b, bi]) => `<section class="topic"><h2><small>${b.chapter.split('.')[0]}</small>${b.chapter.split('.').slice(1).join('.').trim()}</h2>
           <div class="lk-ch-acts"><button class="btn small" data-cs="${bi}" title="Một file in tiết kiệm giấy cho học sinh: kiến thức, ví dụ, bài luyện tập của mọi bài trong chương">📘 Phiếu cả chương (học sinh)</button></div>
           <ol class="lk-list">${b.lessons.map((l, li) => `<li><div class="lk-li"><b>${l.name}</b><small>${l.desc || ''} · ${l.slides.length} trang · ${l.slides.filter(s => s.kind === 'vd').length} ví dụ${l.practice ? ` · ${l.practice.reduce((t, g) => t + g.items.length, 0)} bài luyện tập` : ''}${l.sgk ? ` · giải ${l.sgk.filter(x => x.kind === 'vd').length} câu SGK` : ''}</small></div>
@@ -500,12 +501,15 @@ const Lecture = (() => {
     const A = `<section class="kd-a">${ttl(secs(mdToHtml(a)))}</section>`, B = `<section class="kd-b">${mdToHtml(bb)}</section>`;
     $('#app').innerHTML = `<div class="toolbar ws-bar"><button class="back linkbtn" id="kdBack">← Danh sách bài</button><div class="row">
         <label class="ws-toggle">Hiển thị <select id="kdPart"><option value="all">Cả hai phần</option><option value="A">Phần A – phiếu học sinh (2 trang)</option><option value="B">Phần B – gợi ý giáo viên</option></select></label>
-        <button class="btn small" id="kdDl">⬇️ Tải Markdown</button><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
+        <button class="btn small" id="kdDl">⬇️ Tải Markdown</button><button class="btn small" id="kdWord" title="Xuất Word có Equation chỉnh sửa được">📄 Xuất Word</button><button class="btn primary small" onclick="print()">🖨️ In / Lưu PDF</button></div></div>
       <article class="ws kd">${part === 'B' ? '' : A}${part === 'A' ? '' : B}</article>`;
     $('#kdPart').value = part; $('#kdPart').onchange = e => classSheet(b, l, e.target.value);
     $('#kdBack').onclick = home;
     $('#kdDl').onclick = () => { const url = URL.createObjectURL(new Blob(['﻿' + l.sheet], {type:'text/markdown;charset=utf-8'})), a2 = document.createElement('a');
       a2.href = url; a2.download = sheetFile(b, l); document.body.appendChild(a2); a2.click(); a2.remove(); setTimeout(() => URL.revokeObjectURL(url), 1500); };
+    $('#kdWord').onclick = async e => { const x = e.currentTarget, old = x.textContent; x.disabled = true; x.textContent = 'Đang tạo Word…';
+      try{ const r = await MdWord.exportDocx(l.sheet, sheetFile(b, l).replace(/\.md$/, '')); x.textContent = '✓ ' + r.stats.equations + ' Equation'; setTimeout(() => { x.textContent = old; x.disabled = false; }, 2500); }
+      catch(err){ alert('Chưa xuất được Word: ' + err.message); x.textContent = old; x.disabled = false; } };
     document.title = `Phiếu trên lớp – ${l.name}`; scrollTo(0, 0);
     const fit = () => kdFit($('.kd-a'));
     if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([$('#app')]).then(fit, fit); else fit();
