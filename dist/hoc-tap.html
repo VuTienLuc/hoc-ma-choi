@@ -3980,18 +3980,19 @@ const Lecture = (() => {
   function home(){
     if(!routed){ routed = true; addEventListener('hashchange', () => { if(!el) home(); }); }
     if(typeof Hub !== 'undefined' && Hub.route()) return;                   // #/goc-chung – Góc chung (xếp hạng, sticker) dùng chung với học sinh
+    if(typeof LenhOnThi !== 'undefined' && LenhOnThi.route()) return;      // #/lenh-on-thi – biểu mẫu tạo lệnh ôn thi vào 10
     if(typeof MdWord !== 'undefined' && MdWord.route()) return;            // #/md-word – nhập/tải .md, xuất Word có Equation
     if(typeof KiemTra !== 'undefined' && KiemTra.route()) return;          // #/lop11/kiem-tra/<mã>/de|da – đề kiểm tra in A4
     const app = $('#app'), gs = grades().sort((a,b) => gradeNum(a) - gradeNum(b)), m = location.hash.match(/^#\/(lop\d+)/), g = m && gs.find(x => x.id === m[1]);
     const bar = (typeof Account !== 'undefined' ? Account.userBar() : '');
     if(!g){
-      app.innerHTML = bar + `<div class="toolbar"><a class="back" href="../">← Trang học sinh</a><span class="pill">Chỉ dành cho giáo viên</span><a class="btn small" href="#/md-word" title="Nhập/tải file .md, xuất Word có Equation">📄 Markdown ⇄ Word</a></div>
+      app.innerHTML = bar + `<div class="toolbar"><a class="back" href="../">← Trang học sinh</a><span class="pill">Chỉ dành cho giáo viên</span><a class="btn small" href="#/md-word" title="Nhập/tải file .md, xuất Word có Equation">📄 Markdown ⇄ Word</a><a class="btn small" href="#/lenh-on-thi" title="Tạo lệnh mô tả đúng dạng đề ôn thi vào 10">🎯 Lệnh ôn thi vào 10</a></div>
         <h1>Bài giảng trình chiếu</h1><p class="lead">Chọn lớp để xem các bài giảng: kiến thức trọng tâm, dạng bài, ví dụ có lời giải từng bước, kèm phiếu học tập in được.</p>
         <div class="grid lk-grades">${gs.map(x => { const ls = x.books.flatMap(([b]) => b.lessons);
           return `<a class="tile grade" href="#/${x.id}"><b class="gname">${x.name}</b><span>${x.books.map(([b]) => b.chapter.replace(/\..*/, '')).join(' · ')}</span><span class="meta"><span>${ls.length} bài giảng</span><span>${ls.reduce((t, l) => t + l.slides.length, 0)} trang chiếu</span></span></a>`; }).join('')}</div>
         <p class="foot">${CONFIG.author}</p>`;
     } else {
-      app.innerHTML = bar + `<div class="toolbar"><a class="back" href="#/">← Chọn lớp</a><span class="pill">${g.name} · Bài giảng</span><a class="btn small" href="#/md-word" title="Nhập/tải file .md, xuất Word có Equation">📄 Markdown ⇄ Word</a></div>
+      app.innerHTML = bar + `<div class="toolbar"><a class="back" href="#/">← Chọn lớp</a><span class="pill">${g.name} · Bài giảng</span><a class="btn small" href="#/md-word" title="Nhập/tải file .md, xuất Word có Equation">📄 Markdown ⇄ Word</a><a class="btn small" href="#/lenh-on-thi" title="Tạo lệnh mô tả đúng dạng đề ôn thi vào 10">🎯 Lệnh ôn thi vào 10</a></div>
         <div class="lk-2col"><div class="lk-lessons"><h1>${g.name}</h1>` + g.books.map(([b, bi]) => `<section class="topic"><h2><small>${b.chapter.split('.')[0]}</small>${b.chapter.split('.').slice(1).join('.').trim()}</h2>
           <div class="lk-ch-acts"><button class="btn small" data-cs="${bi}" title="Một file in tiết kiệm giấy cho học sinh: kiến thức, ví dụ, bài luyện tập của mọi bài trong chương">📘 Phiếu cả chương (học sinh)</button></div>
           <ol class="lk-list">${b.lessons.map((l, li) => `<li><div class="lk-li"><b>${l.name}</b><small>${l.desc || ''} · ${l.slides.length} trang · ${l.slides.filter(s => s.kind === 'vd').length} ví dụ${l.practice ? ` · ${l.practice.reduce((t, g) => t + g.items.length, 0)} bài luyện tập` : ''}${l.sgk ? ` · giải ${l.sgk.filter(x => x.kind === 'vd').length} câu SGK` : ''}</small></div>
